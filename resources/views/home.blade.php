@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    {{ trans('account.LoggedIn') }}
                 </div>
             </div>
         </div>
