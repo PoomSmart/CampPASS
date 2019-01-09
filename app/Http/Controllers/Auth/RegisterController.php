@@ -41,6 +41,36 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the registration landing page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function landing()
+    {
+        return view('auth.register-landing');
+    }
+
+    /**
+     * Show the registration page for campers
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function camper()
+    {
+        return view('auth.register', ['type' => 'camper']);
+    }
+
+    /**
+     * Show the registration page for camp makers
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function campmaker()
+    {
+        return view('auth.register', ['type' => 'campmaker']);
+    }
+
+    /**
      * Register new account.
      *
      * @param Request $request
