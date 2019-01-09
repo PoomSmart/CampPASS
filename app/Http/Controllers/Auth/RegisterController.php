@@ -80,9 +80,22 @@ class RegisterController extends Controller
     {
         /** @var User $user */
         $validatedData = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'username'      => 'required|string|max:255',
+            'nameen'        => 'required|string|max:255',
+            'surnameen'     => 'required|string|max:255',
+            'nicknameen'    => 'required|string|max:255',
+            'nameth'        => 'nullable|string|max:255',
+            'surnameth'     => 'nullable|string|max:255',
+            'nicknameth'    => 'nullable|string|max:255',
+            'nationality'   => 'required|integer|min:0|max:1',
+            'gender'        => 'required|integer|min:0|max:2',
+            'citizenid'     => 'required|integer|digits:13|unique:users',
+            'dob'           => 'required|date',
+            'address'       => 'required|string|max:300',
+            'allergy'       => 'nullable|string|max:255',
+            'zipcode'       => 'required|integer',
+            'email'         => 'required|string|email|max:255|unique:users',
+            'password'      => 'required|string|min:6|confirmed',
         ]);
         try {
             $validatedData['password']        = bcrypt(array_get($validatedData, 'password'));
