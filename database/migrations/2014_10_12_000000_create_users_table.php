@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('nationality');
             $table->string('citizenid');
             $table->tinyInteger('gender');
+            $table->tinyInteger('type');
             $table->date('dob');
             $table->string('address');
             $table->string('zipcode');
