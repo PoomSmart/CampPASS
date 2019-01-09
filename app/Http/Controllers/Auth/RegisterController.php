@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -22,6 +23,9 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
+    const CAMPER = 1;
+    const CAMPMAKER = 2;
 
     /**
      * Where to redirect users after registration.
@@ -57,7 +61,7 @@ class RegisterController extends Controller
      */
     public function camper()
     {
-        return view('auth.register', ['type' => 'camper']);
+        return view('auth.register', ['type' => RegisterController::CAMPER]);
     }
 
     /**
@@ -67,7 +71,7 @@ class RegisterController extends Controller
      */
     public function campmaker()
     {
-        return view('auth.register', ['type' => 'campmaker']);
+        return view('auth.register', ['type' => RegisterController::CAMPMAKER]);
     }
 
     /**
@@ -79,7 +83,11 @@ class RegisterController extends Controller
     protected function register(Request $request)
     {
         /** @var User $user */
+        $type = $request->input('type');
+        if ($type != RegisterController::CAMPER && $type != RegisterController::CAMPMAKER)
+            return redirect()->back()->with('message', 'User type is not specified.');
         $validatedData = $request->validate([
+            'type'          => 'required',
             'username'      => 'required|string|max:255',
             'nameen'        => 'required|string|max:255',
             'surnameen'     => 'required|string|max:255',
@@ -89,11 +97,11 @@ class RegisterController extends Controller
             'nicknameth'    => 'nullable|string|max:255',
             'nationality'   => 'required|integer|min:0|max:1',
             'gender'        => 'required|integer|min:0|max:2',
-            'citizenid'     => 'required|integer|digits:13|unique:users',
-            'dob'           => 'required|date',
+            'citizenid'     => 'required|string|digits:13|unique:users',
+            'dob'           => 'required|date_format:Y-m-d',
             'address'       => 'required|string|max:300',
             'allergy'       => 'nullable|string|max:255',
-            'zipcode'       => 'required|integer',
+            'zipcode'       => 'required|string:max:20',
             'email'         => 'required|string|email|max:255|unique:users',
             'password'      => 'required|string|min:6|confirmed',
         ]);

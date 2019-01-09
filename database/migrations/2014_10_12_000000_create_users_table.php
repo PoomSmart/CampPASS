@@ -22,16 +22,15 @@ class CreateUsersTable extends Migration
             $table->string('nicknameen');
             $table->string('nicknameth')->nullable();
             $table->tinyInteger('nationality');
-            $table->integer('citizenid');
+            $table->string('citizenid');
             $table->tinyInteger('gender');
             $table->date('dob');
             $table->string('address');
-            $table->int('zipcode');
+            $table->string('zipcode');
             $table->string('mobileno');
             $table->string('allergy')->nullable();
             $table->string('email')->unique();
             $table->string('username')->unique();
-            $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('activation_code')->nullable();

@@ -16,6 +16,8 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+                        <input name="type" type="hidden" value="{{ $type }}">
+
                         @yield('basic-fields')
 
                         <div class="form-group row mb-0">

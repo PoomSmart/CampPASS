@@ -112,7 +112,7 @@
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'password-confirm',
+    'name' => 'password_confirm',
     'label' => trans('account.ConfirmPassword'),
     'type' => 'password',
     'attributes' => 'required',
