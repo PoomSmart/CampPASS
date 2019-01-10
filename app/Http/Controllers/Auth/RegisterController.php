@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -75,19 +77,15 @@ class RegisterController extends Controller
     }
 
     /**
-     * Register new account.
+     * Get a validator for an incoming registration request.
      *
-     * @param Request $request
-     * @return User
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function register(Request $request)
+    protected function validator(array $data)
     {
-        /** @var User $user */
-        $type = $request->input('type');
-        if ($type != RegisterController::CAMPER && $type != RegisterController::CAMPMAKER)
-            return redirect()->back()->with('message', 'User type is not specified.');
-        $validatedData = $request->validate([
-            'type'          => 'required',
+        return Validator::make($data, [
+            'type'          => 'required|min:'.RegisterController::CAMPER.'|max:'.RegisterController::CAMPMAKER,
             'username'      => 'required|string|max:255',
             'nameen'        => 'required|string|max:255',
             'surnameen'     => 'required|string|max:255',
@@ -105,17 +103,46 @@ class RegisterController extends Controller
             'email'         => 'required|string|email|max:255|unique:users',
             'password'      => 'required|string|min:6|confirmed',
         ]);
+    }
+
+    /* Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\User
+     */
+    protected function create(array $data)
+    {
         try {
-            $validatedData['password']        = bcrypt(array_get($validatedData, 'password'));
-            $validatedData['activation_code'] = str_random(30).time();
-            $user                             = app(User::class)->create($validatedData);
+            $data['password']        = bcrypt(array_get($data, 'password'));
+            $data['activation_code'] = str_random(30).time();
+            $user                    = app(User::class)->create($data);
+            $user->notify(new UserRegisteredSuccessfully($user));
+            return $user;
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('message', 'Unable to create new user.');
         }
-        $user->notify(new UserRegisteredSuccessfully($user));
+    }
+
+    /**
+     * Register new account.
+     *
+     * @param Request $request
+     * @return User
+     */
+    protected function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        try {
+            $user = $this->create($request->all());
+            event(new Registered($user));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect()->to('/home');
+        }
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
     }
+
     /**
      * Activate the user with given activation code.
      * @param string $activationCode
