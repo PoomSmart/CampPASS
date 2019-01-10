@@ -36,7 +36,6 @@
 @component('components.input', [
     'name' => 'citizenid',
     'label' => trans('account.CitizenID'),
-    'type' => 'number',
     'attributes' => 'required',
 ])@endcomponent
 
@@ -112,7 +111,7 @@
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'password_confirm',
+    'name' => 'password_confirmation',
     'label' => trans('account.ConfirmPassword'),
     'type' => 'password',
     'attributes' => 'required',
