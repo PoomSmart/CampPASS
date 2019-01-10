@@ -1,17 +1,37 @@
 @section('camper-fields')
 
-    <div class="form-group row">
-        <label for="name" class="col-md-4 col-form-label text-md-right">{{ trans('account.GuardianName') }}</label>
+@component('components.input', [
+    'name' => 'bloodgroup',
+    'label' => trans('account.BloodGroup'),
+    'attributes' => 'required',
+])
+@slot('override')
+<fieldset>
+    @component('components.radio', ['name' => 'bloodgroup', 'labels' => ['A', 'O', 'B', 'AB']])@endcomponent
+</fieldset> 
+@endslot
+@endcomponent
 
-        <div class="col-md-6">
-            <input id="guardianname" type="text" class="form-control{{ $errors->has('guardianname') ? ' is-invalid' : '' }}" name="guardianname" value="{{ old('guardianname') }}" required autofocus>
+@component('components.input', [
+    'name' => 'guardianname',
+    'label' => trans('account.GuardianName'),
+])@endcomponent
 
-            @if ($errors->has('guardianname'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('guardianname') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
+@component('components.input', [
+    'name' => 'guardianrole',
+    'label' => trans('account.GuardianRole'),
+])
+@slot('override')
+<fieldset>
+    @component('components.radio', ['name' => 'guardianrole', 'labels' => [trans('account.Father'), trans('account.Mother'), trans('account.Other')]])@endcomponent
+</fieldset> 
+@endslot
+@endcomponent
+
+@component('components.input', [
+    'name' => 'guardianmobileno',
+    'label' => trans('account.GuardianMobileNo'),
+    'type' => 'tel',
+])@endcomponent
 
 @stop

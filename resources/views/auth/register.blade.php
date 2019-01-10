@@ -19,6 +19,10 @@
                         <input name="type" type="hidden" value="{{ $type }}">
 
                         @yield('basic-fields')
+                        @if ($type == 1)
+                            @include('auth.register-camper')
+                            @yield('camper-fields')
+                        @endif
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

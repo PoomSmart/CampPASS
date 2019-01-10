@@ -84,15 +84,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        error_log(print_r($data));
         return Validator::make($data, [
+            // common
             'type'          => 'required|min:'.RegisterController::CAMPER.'|max:'.RegisterController::CAMPMAKER,
             'username'      => 'required|string|max:255',
-            'nameen'        => 'required|string|max:255',
-            'surnameen'     => 'required|string|max:255',
-            'nicknameen'    => 'required|string|max:255',
-            'nameth'        => 'nullable|string|max:255',
-            'surnameth'     => 'nullable|string|max:255',
-            'nicknameth'    => 'nullable|string|max:255',
+            'nameen'        => 'nullable|string|max:255|required_without:nameth',
+            'surnameen'     => 'nullable|string|max:255|required_without:surnameth',
+            'nicknameen'    => 'nullable|string|max:255|required_without:nicknameth',
+            'nameth'        => 'nullable|string|max:255|required_without:nameen',
+            'surnameth'     => 'nullable|string|max:255|required_without:surnameen',
+            'nicknameth'    => 'nullable|string|max:255|required_without:nicknameen',
             'nationality'   => 'required|integer|min:0|max:1',
             'gender'        => 'required|integer|min:0|max:2',
             'citizenid'     => 'required|string|digits:13|unique:users',
@@ -102,6 +104,13 @@ class RegisterController extends Controller
             'zipcode'       => 'required|string:max:20',
             'email'         => 'required|string|email|max:255|unique:users',
             'password'      => 'required|string|min:6|confirmed',
+            // camper
+            'shortbiography'    => 'nullable|string|max:500',
+            'mattayom'          => 'nullable|integer|min:1|max:6',
+            'bloodgroup'        => 'nullable|integer|required_if:type,'.RegisterController::CAMPER,
+            'guardianname'      => 'nullable|string',
+            'guardianrole'      => 'nullable|integer|min:0|max:2|required_with:guardianname',
+            'guardianmobileno'  => 'nullable|string|required_with:guardianname',
         ]);
     }
 

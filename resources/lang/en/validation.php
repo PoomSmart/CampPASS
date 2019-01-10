@@ -95,7 +95,7 @@ return [
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
     'required' => 'The :attribute field is required.',
-    'required_if' => 'The :attribute field is required when :other is :value.',
+    'required_if' => 'The :attribute field is required.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
     'required_with_all' => 'The :attribute field is required when :values are present.',
@@ -144,6 +144,29 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'nameen' => trans('account.EnglishName'),
+        'surnameen' => trans('account.EnglishSurname'),
+        'nicknameen' => trans('account.EnglishNickname'),
+        'nameth' => trans('account.ThaiName'),
+        'surnameth' => trans('account.ThaiSurname'),
+        'nicknameth' => trans('account.ThaiNickname'),
+        'citizenid' => trans('account.CitizenID'),
+        'nationality' => trans('account.Nationality'),
+        'gender' => trans('account.Gender'),
+        'mobileno' => trans('account.MobileNo'),
+        'dob' => trans('account.DOB'),
+        'allergy' => trans('account.Allergy'),
+        'address' => trans('account.Address'),
+        'zipcode' => trans('account.ZipCode'),
+        'username' => trans('account.Username'),
+        'email' => trans('account.Email'),
+        'password' => trans('account.Password'),
+        'password_confirmation' => trans('account.ConfirmPassword'),
+        'bloodgroup' => trans('account.BloodGroup'),
+        'guardianname' => trans('account.GuardianName'),
+        'guardianrole' => trans('account.GuardianRole'),
+        'guardianmobileno' => trans('account.GuardianMobileNo'),
+    ],
 
 ];

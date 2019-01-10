@@ -15,16 +15,15 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nameen');
+            $table->string('nameen')->nullable();
             $table->string('nameth')->nullable();
-            $table->string('surnameen');
+            $table->string('surnameen')->nullable();
             $table->string('surnameth')->nullable();
-            $table->string('nicknameen');
+            $table->string('nicknameen')->nullable();
             $table->string('nicknameth')->nullable();
             $table->tinyInteger('nationality');
             $table->string('citizenid');
             $table->tinyInteger('gender');
-            $table->tinyInteger('type');
             $table->date('dob');
             $table->string('address');
             $table->string('zipcode');
@@ -38,6 +37,15 @@ class CreateUsersTable extends Migration
             $table->boolean('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
+            $table->tinyInteger('type');
+
+            // camper
+            $table->string('shortbiography')->nullable();
+            $table->tinyInteger('mattayom')->nullable();
+            $table->tinyInteger('bloodgroup')->nullable();
+            $table->string('guardianname')->nullable();
+            $table->tinyInteger('guardianrole')->nullable();
+            $table->string('guardianmobileno')->nullable();
         });
     }
 

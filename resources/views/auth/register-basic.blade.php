@@ -3,19 +3,16 @@
 @component('components.input', [
     'name' => 'nameen',
     'label' => trans('account.EnglishName'),
-    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [
     'name' => 'surnameen',
     'label' => trans('account.EnglishSurname'),
-    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [
     'name' => 'nicknameen',
     'label' => trans('account.EnglishNickname'),
-    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [
