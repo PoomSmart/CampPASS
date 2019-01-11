@@ -2,6 +2,12 @@
 
 namespace App;
 
+use App\Answer;
+use App\Badge;
+use App\Program;
+use App\Religion;
+use App\Registration;
+use App\School;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,4 +43,49 @@ class User extends Authenticatable
     protected $hidden = [
         'type', 'password', 'remember_token',
     ];
+
+    public function isCamper()
+    {
+        return $this->type == config('const.account.camper');
+    }
+
+    public function isCampMaker()
+    {
+        return $this->type == config('const.account.campmaker');
+    }
+
+    public function answers()
+    {
+        return isCamper() ? $this->hasMany(Answer::class) : null;
+    }
+
+    public function badges()
+    {
+        return isCamper() ? $this->hasMany(Badge::class) : null;
+    }
+
+    public function registrations()
+    {
+        return isCamper() ? $this->hasMany(Registration::class) : null;
+    }
+
+    public function approvals()
+    {
+        return isCampMaker() ? $this->hasMany(Registration::class) : null;
+    }
+
+    public function program()
+    {
+        return isCamper() ? $this->belongsTo(Program::class) : null;
+    }
+
+    public function religion()
+    {
+        return isCamper() ? $this->belongsTo(Religion::class) : null;
+    }
+
+    public function school()
+    {
+        return isCamper() ? $this->belongsTo(School::class) : null;
+    }
 }

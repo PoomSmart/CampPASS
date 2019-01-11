@@ -26,8 +26,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    const CAMPER = 1;
-    const CAMPMAKER = 2;
+    protected $CAMPER;
+    protected $CAMPMAKER;
 
     /**
      * Where to redirect users after registration.
@@ -43,6 +43,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        $this->CAMPER = config('const.account.camper');
+        $this->CAMPMAKER = config('const.account.campmaker');
         $this->middleware('guest');
     }
 
@@ -63,7 +65,7 @@ class RegisterController extends Controller
      */
     public function camper()
     {
-        return view('auth.register', ['type' => RegisterController::CAMPER]);
+        return view('auth.register', ['type' => $this->CAMPER]);
     }
 
     /**
@@ -73,7 +75,7 @@ class RegisterController extends Controller
      */
     public function campmaker()
     {
-        return view('auth.register', ['type' => RegisterController::CAMPMAKER]);
+        return view('auth.register', ['type' => $this->CAMPMAKER]);
     }
 
     /**
@@ -86,7 +88,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             // common
-            'type'          => 'required|min:'.RegisterController::CAMPER.'|max:'.RegisterController::CAMPMAKER,
+            'type'          => "required|min:{$this->CAMPER}|max:{$this->CAMPMAKER}",
             'username'      => 'required|string|max:50',
             'name_en'        => 'nullable|string|max:50|required_without:name_th',
             'surname_en'     => 'nullable|string|max:50|required_without:surname_th',
@@ -106,7 +108,7 @@ class RegisterController extends Controller
             // camper
             'short_biography'    => 'nullable|string|max:500',
             'mattayom'          => 'nullable|integer|min:1|max:6',
-            'blood_group'        => 'nullable|integer|required_if:type,'.RegisterController::CAMPER,
+            'blood_group'        => "nullable|integer|required_if:type,{$this->CAMPER}",
             'guardian_name'      => 'nullable|string',
             'guardian_role'      => 'nullable|integer|min:0|max:2|required_with:guardian_name',
             'guardian_mobile_no'  => 'nullable|string|required_with:guardian_name',
