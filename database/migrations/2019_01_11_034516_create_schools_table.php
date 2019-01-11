@@ -19,7 +19,7 @@ class CreateSchoolsTable extends Migration
             $table->string('name_th');
             $table->string('address');
             $table->string('zipcode');
-            $table->tinyInteger('type');
+            $table->tinyInteger('type')->unsigned();
             $table->timestamps();
         });
     }

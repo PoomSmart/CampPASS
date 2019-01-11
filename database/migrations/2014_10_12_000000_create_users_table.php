@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('surname_th', 50)->nullable();
             $table->string('nickname_en', 50)->nullable();
             $table->string('nickname_th', 50)->nullable();
-            $table->tinyInteger('nationality');
+            $table->tinyInteger('nationality')->unsigned();
             $table->string('citizen_id');
-            $table->tinyInteger('gender');
+            $table->tinyInteger('gender')->unsigned();
             $table->date('dob');
             $table->string('address', 300);
             $table->string('zipcode');

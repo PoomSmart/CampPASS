@@ -15,6 +15,7 @@ class CreateCertificateTemplatesTable extends Migration
     {
         Schema::create('certificate_templates', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('camp_id')->unsigned();
             $table->foreign('camp_id')->references('id')->on('camps');
             $table->timestamps();
         });

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCandidatesTable extends Migration
+class CreatePaymentSlipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCandidatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidates', function (Blueprint $table) {
+        Schema::create('payment_slips', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('reg_id')->unsigned();
             $table->foreign('reg_id')->references('id')->on('registrations');
-            $table->smallInteger('total_score')->default(0);
-            $table->enum('status', ['chosen', 'confirmed', 'refused', 'substitute'])->default('chosen');
+            $table->string('account_no');
+            $table->boolean('rejected')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCandidatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('candidates');
+        Schema::dropIfExists('payment_slips');
     }
 }

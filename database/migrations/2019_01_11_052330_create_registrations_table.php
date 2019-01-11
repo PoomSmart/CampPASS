@@ -15,11 +15,15 @@ class CreateRegistrationsTable extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('camp_id')->unsigned();
             $table->foreign('camp_id')->references('id')->on('camps');
-            $table->foreign('camper_id')->references('id')->on('campers');
-            $table->foreign('approved_by')->references('id')->on('campmakers');
+            $table->integer('camper_id')->unsigned();
+            $table->foreign('camper_id')->references('id')->on('users');
+            $table->integer('approved_by')->unsigned();
+            $table->foreign('approved_by')->references('id')->on('users');
             $table->enum('status', ['draft', 'applied', 'returned', 'approved', 'rejected'])->default('draft');
-            $table->timestamps('submission_time');
+            $table->timestamp('submission_time');
+            $table->timestamps();
         });
     }
 

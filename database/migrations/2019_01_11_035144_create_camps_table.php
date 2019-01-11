@@ -15,14 +15,17 @@ class CreateCampsTable extends Migration
     {
         Schema::create('camps', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('campcat_id')->unsigned();
             $table->foreign('campcat_id')->references('id')->on('camp_categories');
+            $table->integer('org_id')->unsigned();
             $table->foreign('org_id')->references('id')->on('organizations');
+            $table->integer('cp_id')->unsigned();
             $table->foreign('cp_id')->references('id')->on('camp_procedures');
             $table->string('name_en')->nullable();
             $table->string('name_th')->nullable();
             $table->string('short_description');
             $table->tinyInteger('requiredprograms')->unsigned()->nullable();
-            $table->double('min_gpa', 1, 2)->default(0.0);
+            $table->double('min_gpa', 3, 2)->default(0.0);
             $table->string('other_conditions')->nullable();
             $table->integer('application_fee')->unsigned()->nullable(); // some camps don't cost campers
             $table->string('url')->nullable();
@@ -35,7 +38,7 @@ class CreateCampsTable extends Migration
             $table->date('event_enddate')->nullable(); // same as above
             $table->double('event_location_lat')->nullable(); // event place may be undecided
             $table->double('event_location_long')->nullable(); // same as above
-            $table->smallInteger('quota')->default(0);
+            $table->smallInteger('quota')->unsigned()->default(0);
             $table->boolean('approved')->default(false); // every camp needs approval
             $table->timestamps();
         });

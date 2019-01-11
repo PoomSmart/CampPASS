@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrganizationsTable extends Migration
+class CreateQuestionSetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateOrganizationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('question_sets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name_en');
-            $table->string('name_th');
-            $table->string('address');
-            $table->string('zipcode');
-            $table->tinyInteger('type')->unsigned();
-            $table->tinyInteger('subtype')->unsigned()->nullable();
+            $table->integer('camp_id')->unsigned();
+            $table->foreign('camp_id')->references('id')->on('camps');
+            $table->double('score_threshold')->default(0.0);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateOrganizationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('question_sets');
     }
 }
