@@ -4,6 +4,7 @@ namespace App;
 
 use App\Answer;
 use App\Badge;
+use App\Organization;
 use App\Program;
 use App\Religion;
 use App\Registration;
@@ -74,6 +75,11 @@ class User extends Authenticatable
         return isCampMaker() ? $this->hasMany(Registration::class) : null;
     }
 
+    public function organization()
+    {
+        return isCampMaker() ? $this->belongsTo(Organization::class) : null;
+    }
+
     public function program()
     {
         return isCamper() ? $this->belongsTo(Program::class) : null;
@@ -81,7 +87,7 @@ class User extends Authenticatable
 
     public function religion()
     {
-        return isCamper() ? $this->belongsTo(Religion::class) : null;
+        return $this->belongsTo(Religion::class);
     }
 
     public function school()
