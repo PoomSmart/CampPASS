@@ -29,7 +29,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'type' => $faker->numberBetween($min = 1, $max = 2),
+        'type' => rand() % 2 ? config('const.account.camper') : config('const.account.campmaker'),
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
     ];

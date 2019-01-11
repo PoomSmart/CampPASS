@@ -5,15 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ trans('account.Login') }}</div>
+                <div class="card-header">{{ trans('app.Login') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         @component('components.input', [
-                            'name' => 'email',
-                            'type' => 'text',
+                            'name' => 'identity',
+                            'type' => 'identity',
                             'label' => trans('account.Username').' / '.trans('account.Email'),
                             'attributes' => 'required autofocus',
                         ])@endcomponent
@@ -40,7 +40,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ trans('account.Login') }}
+                                    {{ trans('app.Login') }}
                                 </button>
 
                                 @if (Route::has('password.request'))

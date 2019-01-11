@@ -18,7 +18,6 @@ return [
     'ForgotYourPassword' => 'Forgot your password?',
 
     'Register' => 'Register',
-    'Login' => 'Login',
     'LoggedIn' => 'You are now logged in',
     'RememberMe' => "Remember me",
 

@@ -88,7 +88,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             // common
-            'type'          => "required|min:{$this->CAMPER}|max:{$this->CAMPMAKER}",
+            'type'          => "required|in:{$this->CAMPER},{$this->CAMPMAKER}",
             'username'      => 'required|string|max:50',
             'name_en'        => 'nullable|string|max:50|required_without:name_th',
             'surname_en'     => 'nullable|string|max:50|required_without:surname_th',
