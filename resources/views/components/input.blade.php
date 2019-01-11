@@ -7,15 +7,27 @@
         @if (isset($override))
             {{ $override }}
         @else
-            <input id="{{ $name }}" 
-                type="{{ isset($type) ? $type : 'text' }}"
+            @if (isset($textarea))
+                <textarea
+            @else
+                <input type="{{ isset($type) ? $type : 'text' }}"
+                    value="{{
+                        old($name) ?: (isset($object) ? $object->{$name} : '')
+                    }}"
+            @endif
+                id="{{ $name }}" 
                 class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}"
                 name="{{ $name }}"
                 placeholder="{{ isset($placeholder) ? $placeholder : '' }}"
-                value="{{
-                    old($name) ?: (isset($object) ? $object->{$name} : '')
-                }}"
-                {{ isset($attributes) ? $attributes : '' }}>
+            @if (isset($desc))
+                aria-describedby="{{ $name }}-desc-inline"
+            @endif
+                {{ isset($attributes) ? $attributes : '' }}
+            @if (isset($textarea))
+                >{{ old($name) ?: (isset($object) ? $object->{$name} : '') }}</textarea>
+            @else
+                >
+            @endif
             @if ($errors->has($name))
                 <span class="invalid-feedback">
                     <strong>{{ $errors->first($name) }}</strong>

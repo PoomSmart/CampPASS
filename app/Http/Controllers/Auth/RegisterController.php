@@ -84,7 +84,6 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        error_log(print_r($data));
         return Validator::make($data, [
             // common
             'type'          => 'required|min:'.RegisterController::CAMPER.'|max:'.RegisterController::CAMPMAKER,

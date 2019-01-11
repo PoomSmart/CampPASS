@@ -75,6 +75,7 @@
 @component('components.input', [
     'name' => 'allergy',
     'label' => trans('account.Allergy'),
+    'placeholder' => trans('account.LeaveBlank'),
 ])@endcomponent
 
 @component('components.input', [
