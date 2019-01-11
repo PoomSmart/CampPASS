@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Answer;
 use App\Camp;
 use App\Certificate;
 use App\PaymentSlip;
@@ -22,5 +23,10 @@ class Registration extends Model
     public function payments()
     {
         return $this->hasMany(PaymentSlip::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 }
