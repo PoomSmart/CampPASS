@@ -1,37 +1,37 @@
 @section('basic-fields')
 
 @component('components.input', [
-    'name' => 'nameen',
+    'name' => 'name_en',
     'label' => trans('account.EnglishName'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'surnameen',
+    'name' => 'surname_en',
     'label' => trans('account.EnglishSurname'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'nicknameen',
+    'name' => 'nickname_en',
     'label' => trans('account.EnglishNickname'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'nameth',
+    'name' => 'name_th',
     'label' => trans('account.ThaiName'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'surnameth',
+    'name' => 'surname_th',
     'label' => trans('account.ThaiSurname'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'nicknameth',
+    'name' => 'nickname_th',
     'label' => trans('account.ThaiNickname'),
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'citizenid',
+    'name' => 'citizen_id',
     'label' => trans('account.CitizenID'),
     'attributes' => 'required',
 ])@endcomponent
@@ -59,7 +59,7 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'mobileno',
+    'name' => 'mobile_no',
     'label' => trans('account.MobileNo'),
     'type' => 'tel',
     'attributes' => 'required',

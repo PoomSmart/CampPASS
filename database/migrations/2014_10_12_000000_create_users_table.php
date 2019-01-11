@@ -15,21 +15,21 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nameen')->nullable();
-            $table->string('nameth')->nullable();
-            $table->string('surnameen')->nullable();
-            $table->string('surnameth')->nullable();
-            $table->string('nicknameen')->nullable();
-            $table->string('nicknameth')->nullable();
+            $table->string('name_en', 50)->nullable();
+            $table->string('name_th', 50)->nullable();
+            $table->string('surname_en', 50)->nullable();
+            $table->string('surname_th', 50)->nullable();
+            $table->string('nickname_en', 50)->nullable();
+            $table->string('nickname_th', 50)->nullable();
             $table->tinyInteger('nationality');
-            $table->string('citizenid');
+            $table->string('citizen_id');
             $table->tinyInteger('gender');
             $table->date('dob');
-            $table->string('address');
+            $table->string('address', 300);
             $table->string('zipcode');
-            $table->string('mobileno');
-            $table->string('allergy')->nullable();
-            $table->string('email')->unique();
+            $table->string('mobile_no');
+            $table->string('allergy', 200)->nullable();
+            $table->string('email', 100)->unique();
             $table->string('username')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -40,12 +40,12 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('type');
 
             // camper
-            $table->string('shortbiography')->nullable();
+            $table->string('short_biography', 500)->nullable();
             $table->tinyInteger('mattayom')->nullable();
-            $table->tinyInteger('bloodgroup')->nullable();
-            $table->string('guardianname')->nullable();
-            $table->tinyInteger('guardianrole')->nullable();
-            $table->string('guardianmobileno')->nullable();
+            $table->tinyInteger('blood_group')->nullable();
+            $table->string('guardian_name')->nullable();
+            $table->tinyInteger('guardian_role')->nullable();
+            $table->string('guardian_mobile_no')->nullable();
         });
     }
 

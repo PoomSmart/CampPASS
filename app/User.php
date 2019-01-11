@@ -17,16 +17,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         // common
-        'nameen', 'nameth', 'surnameen', 'surnameth', 'nicknameen', 'nicknameth',
-        'nationality', 'citizenid', 'gender', 'dob', 'address', 'zipcode', 'mobileno',
+        'name_en', 'name_th', 'surname_en', 'surname_th', 'nickname_en', 'nickname_th',
+        'nationality', 'citizen_id', 'gender', 'dob', 'address', 'zipcode', 'mobile_no',
         'allergy', 'email', 'username', 'password', 'status', 'activation_code', 'type',
         // camper
-        'shortbiography',
+        'short_biography',
         'mattayom',
-        'bloodgroup',
-        'guardianname',
-        'guardianrole',
-        'guardianmobileno',
+        'blood_group',
+        'guardian_name',
+        'guardian_role',
+        'guardian_mobile_no',
     ];
 
     /**
