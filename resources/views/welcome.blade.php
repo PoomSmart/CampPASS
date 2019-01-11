@@ -5,18 +5,30 @@
 @stop
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="links">
-                    <a href="">Camps</a>
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="links">
+            <a href="">Camps</a>
+            @guest
+
+            @else
+                @if (Auth::user()->isCamper())
                     <a href="">Applications</a>
                     <a href="">Profile</a>
-                    <a href="">Statistics</a>
-                    <a href="">Feedback</a>
-                    <a href="">About Us</a>
-                </div>
-            </div>
+                @elseif (Auth::user()->isCampMaker())
+                    <a href="">Qualification</a>
+                    <a href="">Certificates</a>
+                    <a href="{{ route('users.index') }}">Manage Users</a>
+                    <a href="{{ route('roles.index') }}">Manage Roles</a>
+                    <a href="{{ route('camps.index') }}">Manage Camps</a>
+                @else
+
+                @endif
+                <a href="">Statistics</a>
+                <a href="">Feedback</a>
+            @endguest
+            <a href="">About Us</a>
         </div>
     </div>
+</div>
 @stop

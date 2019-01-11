@@ -17,6 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+    Route::resource('camps','CampController');
+});
+
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
 Route::get('/register-camper', 'Auth\RegisterController@camper')->name('register-camper');
 Route::get('/register-campmaker', 'Auth\RegisterController@campmaker')->name('register-campmaker');
