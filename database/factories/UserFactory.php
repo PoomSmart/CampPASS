@@ -2,17 +2,6 @@
 
 use Faker\Generator as Faker;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-
 $factory->define(App\User::class, function (Faker $faker) {
     $name = $faker->unique()->firstName;
     return [
@@ -27,6 +16,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'address' => $faker->address,
         'zipcode' => $faker->postcode,
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
+        'rel_id' => DB::table('religions')->inRandomOrder()->pluck('id')->first(),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => rand() % 2 ? config('const.account.camper') : config('const.account.campmaker'),

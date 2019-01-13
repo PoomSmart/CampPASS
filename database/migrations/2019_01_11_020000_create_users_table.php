@@ -38,6 +38,12 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->tinyInteger('type');
+            $table->integer('rel_id')->unsigned()->nullable();
+            $table->foreign('rel_id')->references('id')->on('religions');
+
+            // camp maker
+            $table->integer('org_id')->unsigned()->nullable();
+            $table->foreign('org_id')->references('id')->on('organizations');
 
             // camper
             $table->string('short_biography', 500)->nullable();
@@ -46,6 +52,10 @@ class CreateUsersTable extends Migration
             $table->string('guardian_name')->nullable();
             $table->tinyInteger('guardian_role')->nullable();
             $table->string('guardian_mobile_no')->nullable();
+            $table->integer('school_id')->unsigned()->nullable();
+            $table->foreign('school_id')->references('id')->on('schools');
+            $table->integer('program_id')->unsigned()->nullable();
+            $table->foreign('program_id')->references('id')->on('programs');
         });
     }
 
