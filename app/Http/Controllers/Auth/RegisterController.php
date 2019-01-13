@@ -99,7 +99,7 @@ class RegisterController extends Controller
             'nationality'   => 'required|integer|min:0|max:1',
             'gender'        => 'required|integer|min:0|max:2',
             'citizen_id'     => 'required|string|digits:13|unique:users',
-            'dob'           => 'required|date_format:Y-m-d',
+            'dob'           => 'required|date_format:Y-m-d|before:today',
             'address'       => 'required|string|max:300',
             'allergy'       => 'nullable|string|max:200',
             'zipcode'       => 'required|string:max:20',

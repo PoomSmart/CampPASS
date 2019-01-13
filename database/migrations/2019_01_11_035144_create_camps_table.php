@@ -24,15 +24,15 @@ class CreateCampsTable extends Migration
             $table->string('name_en')->nullable();
             $table->string('name_th')->nullable();
             $table->string('short_description');
-            $table->tinyInteger('requiredprograms')->unsigned()->nullable();
+            $table->tinyInteger('required_programs')->unsigned()->nullable();
             $table->double('min_gpa', 3, 2)->default(0.0);
-            $table->string('other_conditions')->nullable();
+            $table->string('other_conditions', 200)->nullable();
             $table->integer('application_fee')->unsigned()->nullable(); // some camps don't cost campers
-            $table->string('url')->nullable();
-            $table->string('fburl')->nullable();
+            $table->string('url', 150)->nullable();
+            $table->string('fburl', 150)->nullable();
             $table->date('app_opendate')->nullable(); // some camps don't require application
             $table->date('app_closedate')->nullable(); // same as above
-            $table->date('reg_opendate');
+            $table->date('reg_opendate')->nullable(); // registration date may depend on applications
             $table->date('reg_closedate')->nullable(); // registration deadline may be undecided
             $table->date('event_startdate')->nullable(); // event start date may be undecided
             $table->date('event_enddate')->nullable(); // same as above

@@ -1,15 +1,17 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Camp;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class CampController extends Controller
-{ 
+{
+    protected $programs;
+    protected $categories;
+    protected $organizations;
+
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +23,9 @@ class CampController extends Controller
          $this->middleware('permission:camp-create', ['only' => ['create','store']]);
          $this->middleware('permission:camp-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
+         $this->programs = DB::table('programs')->pluck('name_en'); // TODO: Localization
+         $this->categories = DB::table('camp_categories')->pluck('name'); // TODO: Localization
+         $this->organizations = DB::table('organizations')->pluck('name_en'); // TODO: Localization
     }
     /**
      * Display a listing of the resource.
@@ -30,10 +35,8 @@ class CampController extends Controller
     public function index()
     {
         $camps = Camp::latest()->paginate(5);
-        return view('camps.index',compact('camps'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -42,9 +45,11 @@ class CampController extends Controller
      */
     public function create()
     {
-        return view('camps.create');
+        $programs = $this->programs;
+        $categories = $this->categories;
+        $organizations = $this->organizations;
+        return view('camps.create', compact('programs', 'categories', 'organizations'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -55,19 +60,32 @@ class CampController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'name_en' => 'required',
-            'name_th' => 'required',
+            'campcat_id' => 'required|exists:camp_categories,id',
+            'org_id' => 'required|exists:organizations,id',
+            'cp_id' => 'required|exists:camp_procedures,id',
+            'name_en' => 'required_without:name_th',
+            'name_th' => 'required_without:name_en',
             'short_description' => 'required',
+            'required_programs' => 'nullable|integer',
+            'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
+            'other_conditions' => 'nullable|string|max:200',
+            'application_fee' => 'nullable|integer|min:0',
+            'url' => 'nullable|url|max:150',
+            'fburl' => 'nullable|url|max:150',
+            'app_opendate' => 'nullable|date_format:Y-m-d|after_or_equal:today',
+            'app_closedate' => 'nullable|date_format:Y-m-d|after:app_opendate',
+            'reg_opendate' => 'nullable|date_format:Y-m-d|after_or_equal:today',
+            'reg_closedate' => 'nullable|date_format:Y-m-d|after:reg_opendate',
+            'event_startdate' => 'nullable|date_format:Y-m-d|after:tomorrow',
+            'event_enddate' => 'nullable|date_format:Y-m-d|after_or_equal:event_startdate',
+            'event_location_lat' => 'nullable|numeric|min:-90|max:90',
+            'event_location_long' => 'nullable|numeric|min:-180|max:180',
+            'quota' => 'integer|min:0',
+            'approved' => 'boolean|false', // we prevent camps that try to approve themselves
         ]);
-
-
         Camp::create($request->all());
-
-
-        return redirect()->route('camps.index')
-                        ->with('success','Camp created successfully.');
+        return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
     }
-
 
     /**
      * Display the specified resource.
@@ -77,9 +95,8 @@ class CampController extends Controller
      */
     public function show(Camp $camp)
     {
-        return view('camps.show',compact('camp'));
+        return view('camps.show', compact('camp'));
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -89,9 +106,11 @@ class CampController extends Controller
      */
     public function edit(Camp $camp)
     {
-        return view('camps.edit',compact('camp'));
+        $programs = $this->programs;
+        $categories = $this->categories;
+        $organizations = $this->organizations;
+        return view('camps.edit', compact('camp', 'programs', 'categories', 'organizations'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -107,15 +126,9 @@ class CampController extends Controller
             'name_th' => 'required',
             'short_description' => 'required',
         ]);
-
-
         $camp->update($request->all());
-
-
-        return redirect()->route('camps.index')
-                        ->with('success','Camp updated successfully');
+        return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -126,9 +139,6 @@ class CampController extends Controller
     public function destroy(Camp $camp)
     {
         $camp->delete();
-
-
-        return redirect()->route('camps.index')
-                        ->with('success','Camp deleted successfully');
+        return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }
 }
