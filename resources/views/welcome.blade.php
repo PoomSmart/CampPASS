@@ -12,17 +12,16 @@
             @guest
 
             @else
-                @if (Auth::user()->isCamper())
+                @if (Auth::user()->isCamper() || Auth::user()->hasRole('admin'))
                     <a href="">Applications</a>
                     <a href="">Profile</a>
-                @elseif (Auth::user()->isCampMaker())
+                @endif
+                @if (Auth::user()->isCampMaker() || Auth::user()->hasRole('admin'))
                     <a href="">Qualification</a>
                     <a href="">Certificates</a>
                     <a href="{{ route('users.index') }}">Manage Users</a>
                     <a href="{{ route('roles.index') }}">Manage Roles</a>
                     <a href="{{ route('camps.index') }}">Manage Camps</a>
-                @else
-
                 @endif
                 <a href="">Statistics</a>
                 <a href="">Feedback</a>

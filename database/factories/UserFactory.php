@@ -20,7 +20,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => rand() % 2 ? config('const.account.camper') : config('const.account.campmaker'),
-        'password' => '123456', // secret
+        'password' => bcrypt('123456'), // secret
         'remember_token' => str_random(10),
     ];
 });

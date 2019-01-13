@@ -55,6 +55,9 @@ class DatabaseSeeder extends Seeder
         $admin->name_en = 'Administrator';
         $admin->surname_en = '001';
         $admin->nickname_en = 'Admin';
+        $admin->org_id = null;
+        $admin->status = 1;
+        $admin->activation_code = null;
         $admin->save();
     }
 
