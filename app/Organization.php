@@ -17,4 +17,11 @@ class Organization extends Model
     {
         return $this->hasMany(Camp::class);
     }
+
+    public function getName()
+    {
+        if (config('app.locale') == 'th')
+            return $this->name_th;
+        return $this->name_en;
+    }
 }

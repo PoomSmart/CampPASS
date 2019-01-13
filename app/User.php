@@ -96,4 +96,11 @@ class User extends Authenticatable
     {
         return isCamper() ? $this->belongsTo(School::class) : null;
     }
+
+    public function getFullName()
+    {
+        if (config('app.locale') == 'th')
+            return $this->name_th .' '. $this->surname_th;
+        return $this->name_en .' '. $this->surname_en;
+    }
 }

@@ -23,7 +23,7 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'campcat_id', 'labels' => $categories])
+    @component('components.radio', ['name' => 'campcat_id', 'db' => '1', 'objects' => $categories])
     @endcomponent
 </fieldset> 
 @endslot
@@ -50,7 +50,7 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'required_programs', 'type' => 'checkbox', 'labels' => $programs])
+    @component('components.radio', ['name' => 'required_programs', 'db' => '1', 'type' => 'checkbox', 'objects' => $programs])
     @endcomponent
 </fieldset> 
 @endslot
@@ -117,7 +117,7 @@
 
 @component('components.input', [
     'name' => 'event_enddate',
-    'label' => trans('camp.EventStopDate'),
+    'label' => trans('camp.EventEndDate'),
     'type' => 'date',
 ])@endcomponent
 

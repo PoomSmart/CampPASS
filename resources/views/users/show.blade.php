@@ -18,7 +18,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
-                {{ $user->nameen }}
+                {{ $user->name_en }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -27,7 +27,7 @@
                 {{ $user->email }}
             </div>
         </div>
-        <!--<div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Roles:</strong>
                 @if(!empty($user->getRoleNames()))
@@ -36,6 +36,6 @@
                     @endforeach
                 @endif
             </div>
-        </div>-->
+        </div>
     </div>
 @endsection

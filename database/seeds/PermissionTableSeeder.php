@@ -24,6 +24,12 @@ class PermissionTableSeeder extends Seeder
             'role-edit',
             'role-delete',
 
+            // general user management
+            'user-list',
+            'user-create',
+            'user-edit',
+            'user-delete',
+
             // camp management
             'camp-list',
             'camp-create',
@@ -91,20 +97,98 @@ class PermissionTableSeeder extends Seeder
 
             // payment slip management
             'pay-list',
+            'pay-create',
             'pay-edit',
             'pay-delete',
+            'pay-status',
         ];
  
  
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
+        $this->setAdmin();
+        $this->setCamper();
+        $this->setCampMaker();
+    }
 
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo(Permission::all());
-        
+    public function setAdmin()
+    {
+        $role = Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());
         $admin = User::where('type', config('const.account.admin'))->limit(1)->first();
         $admin->assignRole('admin');
         $admin->save();
+    }
+
+    public function setCamper()
+    {
+        $role = Role::create(['name' => 'camper']);
+        $role->givePermissionTo([
+            // campers can view all camps
+            'camp-list',
+            // campers can edit their profile
+            'camper-edit',
+            'camper-delete',
+            // campers can see questions
+            'question-list',
+            // campers can manage their answers
+            'ans-list',
+            'ans-create',
+            'ans-edit',
+            'ans-delete',
+            // campers can view their badges
+            'badge-list',
+            // campers can view their certificates
+            'cert-list',
+            // campers can manage their payment slips
+            'pay-create',
+            'pay-edit',
+            'pay-delete',
+        ]);
+        foreach (User::where('type', config('const.account.camper'))->cursor() as $camper) {
+            $camper->assignRole('camper');
+            $camper->save();
+        }
+    }
+
+    public function setCampMaker()
+    {
+        $role = Role::create(['name' => 'campmaker']);
+        $role->givePermissionTo([
+            // camp makers can manage camps
+            'camp-list',
+            'camp-create',
+            'camp-edit',
+            'camp-delete',
+            // camp makers can see the list of campers
+            'camper-list',
+            // camp makers can manage their account
+            'campmaker-list',
+            'campmaker-create',
+            'campmaker-edit',
+            'campmaker-delete',
+            // camp makers can manage their candidate list
+            'candidate-list',
+            'candidate-edit',
+            'candidate-delete',
+            // camp makers can manage their questions
+            'question-list',
+            'question-create',
+            'question-edit',
+            'question-delete',
+            // camp makers can view answers from campers
+            'ans-list',
+            // camp makers can see badges of campers
+            'badge-list',
+            // camp makers can see certificates of campers
+            'cert-list',
+            // camp makers can view and set status of payment slips
+            'pay-list',
+            'pay-status',
+        ]);
+        foreach (User::where('type', config('const.account.campmaker'))->cursor() as $campmaker) {
+            $campmaker->assignRole('campmaker');
+            $campmaker->save();
+        }
     }
 }

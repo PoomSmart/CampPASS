@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Camp;
+use App\CampCategory;
+use App\Program;
+use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,20 +15,15 @@ class CampController extends Controller
     protected $categories;
     protected $organizations;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
-         $this->middleware('permission:camp-list');
-         $this->middleware('permission:camp-create', ['only' => ['create','store']]);
-         $this->middleware('permission:camp-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
-         $this->programs = DB::table('programs')->pluck('name_en'); // TODO: Localization
-         $this->categories = DB::table('camp_categories')->pluck('name'); // TODO: Localization
-         $this->organizations = DB::table('organizations')->pluck('name_en'); // TODO: Localization
+        $this->middleware('permission:camp-list');
+        $this->middleware('permission:camp-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
+        $this->programs = Program::all(['id', 'name_en']); // TODO: Localization
+        $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
+        $this->organizations = Organization::pluck('name_en'); // TODO: Localization
     }
     /**
      * Display a listing of the resource.
@@ -65,7 +63,7 @@ class CampController extends Controller
             'cp_id' => 'required|exists:camp_procedures,id',
             'name_en' => 'required_without:name_th',
             'name_th' => 'required_without:name_en',
-            'short_description' => 'required',
+            'short_description' => 'required|max:200',
             'required_programs' => 'nullable|integer',
             'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
             'other_conditions' => 'nullable|string|max:200',

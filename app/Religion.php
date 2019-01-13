@@ -11,4 +11,9 @@ class Religion extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

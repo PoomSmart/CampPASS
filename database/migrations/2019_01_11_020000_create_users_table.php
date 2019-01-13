@@ -38,7 +38,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->tinyInteger('type');
-            $table->integer('rel_id')->unsigned()->nullable();
+            $table->integer('rel_id')->unsigned();
             $table->foreign('rel_id')->references('id')->on('religions');
 
             // camp maker

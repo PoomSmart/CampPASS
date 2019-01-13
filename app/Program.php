@@ -11,4 +11,11 @@ class Program extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function getName()
+    {
+        if (config('app.locale') == 'th')
+            return $this->name_th;
+        return $this->name_en;
+    }
 }

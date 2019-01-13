@@ -1,21 +1,37 @@
 @extends('layouts.app')
 
+@section('style')
+<link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
+@stop
+
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">Dashboard</div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="links">
+                <a href="">Camps</a>
+                @guest
 
-            <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                {{ trans('account.LoggedIn') }}
+                @else
+                    @if (Auth::user()->hasRole('admin'))
+                        <a href="{{ route('users.index') }}">Manage Users</a>
+                        <a href="{{ route('roles.index') }}">Manage Roles</a>
+                        <a href="{{ route('camps.index') }}">Manage Camps</a>
+                    @else
+                        @if (Auth::user()->isCamper())
+                            <a href="">Applications</a>
+                            <a href="">Profile</a>
+                        @elseif (Auth::user()->isCampMaker())
+                            <a href="{{ route('users.index') }}">My Campers</a>
+                            <a href="{{ route('camps.index') }}">My Camps</a>
+                            <a href="">Qualification</a>
+                            <a href="">Certificates</a>
+                        @endif
+                    @endif
+                    <a href="">Statistics</a>
+                    <a href="">Feedback</a>
+                @endguest
+                <a href="">About Us</a>
             </div>
         </div>
     </div>
-</div>
-@endsection
+@stop

@@ -14,4 +14,5 @@ return [
 
     'Login' => 'Log in',
     'Logout' => 'Log out',
+    'Back' => 'Back',
 ];

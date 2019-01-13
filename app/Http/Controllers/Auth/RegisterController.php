@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Program;
 use App\Http\Controllers\Controller;
 use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Http\Request;
@@ -29,6 +30,8 @@ class RegisterController extends Controller
     protected $CAMPER;
     protected $CAMPMAKER;
 
+    protected $religions;
+
     /**
      * Where to redirect users after registration.
      *
@@ -46,6 +49,7 @@ class RegisterController extends Controller
         $this->CAMPER = config('const.account.camper');
         $this->CAMPMAKER = config('const.account.campmaker');
         $this->middleware('guest');
+        $this->religions = Program::pluck('name_en', 'id')->all(); // TODO: Localization
     }
 
     /**
@@ -65,7 +69,7 @@ class RegisterController extends Controller
      */
     public function camper()
     {
-        return view('auth.register', ['type' => $this->CAMPER]);
+        return view('auth.register', [ 'type' => $this->CAMPER, 'religions' => $this->religions ]);
     }
 
     /**
@@ -75,7 +79,7 @@ class RegisterController extends Controller
      */
     public function campmaker()
     {
-        return view('auth.register', ['type' => $this->CAMPMAKER]);
+        return view('auth.register', [ 'type' => $this->CAMPMAKER, 'religions' => $this->religions ]);
     }
 
     /**
@@ -89,6 +93,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             // common
             'type'          => "required|in:{$this->CAMPER},{$this->CAMPMAKER}",
+            'rel_id'        => 'required|exists:religions,id',
             'username'      => 'required|string|max:50',
             'name_en'        => 'nullable|string|max:50|required_without:name_th',
             'surname_en'     => 'nullable|string|max:50|required_without:surname_th',
@@ -106,12 +111,15 @@ class RegisterController extends Controller
             'email'         => 'required|string|email|max:100|unique:users',
             'password'      => 'required|string|min:6|confirmed',
             // camper
+            'school_id' => "required_if:type,${$this->CAMPER}|exists:schools,id",
             'short_biography'    => 'nullable|string|max:500',
             'mattayom'          => 'nullable|integer|min:1|max:6',
             'blood_group'        => "nullable|integer|required_if:type,{$this->CAMPER}",
             'guardian_name'      => 'nullable|string',
             'guardian_role'      => 'nullable|integer|min:0|max:2|required_with:guardian_name',
             'guardian_mobile_no'  => 'nullable|string|required_with:guardian_name',
+            // camp maker
+            'org_id' => "required_if:type,${$this->CAMPMAKER}|exists:organizations,id",
         ]);
     }
 
