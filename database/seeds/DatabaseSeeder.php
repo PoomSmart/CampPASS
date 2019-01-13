@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +42,17 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
+    private function createAdmin()
+    {
+        $admin = User::where('type', config('const.account.campmaker'))->limit(1)->first();
+        $admin->type = config('const.account.admin');
+        $admin->username = 'admin';
+        $admin->name_en = 'Administrator';
+        $admin->surname_en = '001';
+        $admin->nickname_en = 'Admin';
+        $admin->save();
+    }
+
     /**
      * Seed the application's database.
      *
@@ -54,6 +67,10 @@ class DatabaseSeeder extends Seeder
         factory(App\User::class, 50)->create();
         $this->alterCampers();
         $this->alterCampMakers();
+        $this->createAdmin();
+        $this->call([
+            PermissionTableSeeder::class
+        ]);
         Model::reguard();
     }
 }
