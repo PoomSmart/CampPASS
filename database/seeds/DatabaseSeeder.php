@@ -1,6 +1,9 @@
 <?php
 
 use App\User;
+use App\Program;
+use App\School;
+use App\Organization;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -27,19 +30,21 @@ class DatabaseSeeder extends Seeder
 
     private function alterCampers()
     {
-        DB::table('users')->where('type', config('const.account.camper'))->update([
-            'mattayom' => rand(1, 6),
-            'blood_group' => rand(0, 3),
-            'school_id' => DB::table('schools')->inRandomOrder()->pluck('id')->first(),
-            'program_id' => DB::table('programs')->inRandomOrder()->pluck('id')->first(),
-        ]);
+        foreach (User::where('type', config('const.account.camper'))->cursor() as $camper) {
+            $camper->mattayom = rand(1, 6);
+            $camper->blood_group = rand(0, 3);
+            $camper->school_id = School::inRandomOrder()->first()->id;
+            $camper->program_id = Program::inRandomOrder()->first()->id;
+            $camper->save();
+        }
     }
 
     private function alterCampMakers()
     {
-        DB::table('users')->where('type', config('const.account.campmaker'))->update([
-            'org_id' => DB::table('organizations')->inRandomOrder()->pluck('id')->first(),
-        ]);
+        foreach (User::where('type', config('const.account.campmaker'))->cursor() as $campmaker) {
+            $campmaker->org_id = Organization::inRandomOrder()->first()->id;
+            $campmaker->save();
+        }
     }
 
     private function createAdmin()
@@ -63,8 +68,9 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->religions();
         $this->programs();
-        factory(App\School::class, 5)->create();
-        factory(App\User::class, 50)->create();
+        factory(School::class, 5)->create();
+        factory(Organization::class, 5)->create();
+        factory(User::class, 50)->create();
         $this->alterCampers();
         $this->alterCampMakers();
         $this->createAdmin();
