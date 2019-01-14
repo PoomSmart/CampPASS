@@ -40,7 +40,7 @@
         <table class="table table-bordered">
             <tr>
                 <th>ID</th>
-                <th>{{ trans('aap.LocalizedName') }}</th>
+                <th>{{ trans('app.LocalizedName') }}</th>
             </tr>
             @foreach ($data as $key => $camp)
                 <tr>
