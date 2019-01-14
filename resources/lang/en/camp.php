@@ -30,5 +30,6 @@ return [
     'EventStartDate' => 'Event Start Date',
     'EventEndDate' => 'Event End Date',
     'Quota' => 'Quota',
+    'Approved' => 'Approved',
     'CreateCamp' => 'Create New Camp',
 ];

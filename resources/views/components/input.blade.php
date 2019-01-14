@@ -2,7 +2,6 @@
     @if (isset($label))
         <label for="{{ $name }}" class="col-md-4 col-form-label text-md-right">{{ $label }}</label>
     @endif
-
     <div class="col-md-6 my-auto">
         @if (isset($override))
             {{ $override }}
@@ -10,9 +9,10 @@
             @if (isset($textarea))
                 <textarea
             @else
+                <?php $object->{$name} ?>
                 <input type="{{ isset($type) ? $type : 'text' }}"
                     value="{{
-                        old($name) ?: (isset($object) ? $object->{$name} : '')
+                        old($name, isset($object) ? $object->{$name} : '')
                     }}"
             @endif
                 id="{{ $name }}" 
@@ -24,7 +24,7 @@
             @endif
                 {{ isset($attributes) ? $attributes : '' }}
             @if (isset($textarea))
-                >{{ old($name) ?: (isset($object) ? $object->{$name} : '') }}</textarea>
+                >{{ old($name, isset($object) ? $object->{$name} : '') }}</textarea>
             @else
                 >
             @endif

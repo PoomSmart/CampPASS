@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header">{{ trans('camp.EditCamp') }}</div>
                 <div class="card-body">
-                    <form action="{{ route('camps.update', $camp->id) }}" method="POST">
+                    <form action="{{ route('camps.update', $object->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         @yield('camp-fields')

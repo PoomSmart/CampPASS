@@ -14,32 +14,32 @@
         </div>
     </div>
 
-
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
 
-
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
             <th>Localized Name</th>
             <th>{{ trans('camp.ShortDescription') }}</th>
+            <th>{{ trans('camp.Approved') }}</th>
+            <th>{{ trans('app.Actions' ) }}</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $camp->getName() }}</td>
-	        <td>{{ $camp->short_description }}</td>
+            <td>{{ $camp->short_description }}</td>
+            <td>{{ $camp->approved }}</td>
 	        <td>
-                <form action="{{ route('camps.destroy',$camp->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('camps.show',$camp->id) }}">{{ trans('app.Show') }}</a>
+                <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
+                    <a class="btn btn-info" href="{{ route('camps.show', $camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')
-                    <a class="btn btn-primary" href="{{ route('camps.edit',$camp->id) }}">{{ trans('app.Edit') }}</a>
+                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
                     @endcan
-
 
                     @csrf
                     @method('DELETE')
@@ -47,7 +47,7 @@
                     <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
                     @endcan
                 </form>
-	        </td>
+            </td>
 	    </tr>
 	    @endforeach
     </table>

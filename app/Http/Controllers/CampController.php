@@ -8,6 +8,7 @@ use App\Program;
 use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class CampController extends Controller
 {
@@ -93,7 +94,8 @@ class CampController extends Controller
      */
     public function show(Camp $camp)
     {
-        return view('camps.show', compact('camp'));
+        View::share('object', $camp);
+        return view('camps.show');
     }
 
     /**
@@ -104,10 +106,11 @@ class CampController extends Controller
      */
     public function edit(Camp $camp)
     {
+        View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
         $organizations = $this->organizations;
-        return view('camps.edit', compact('camp', 'programs', 'categories', 'organizations'));
+        return view('camps.edit', compact('programs', 'categories', 'organizations'));
     }
 
     /**

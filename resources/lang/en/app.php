@@ -18,4 +18,5 @@ return [
     'Back' => 'Back',
     'Show' => 'Show',
     'Edit' => 'Edit',
+    'Actions' => 'Actions',
 ];

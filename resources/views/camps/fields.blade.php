@@ -23,7 +23,7 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'campcat_id', 'db' => '1', 'objects' => $categories])
+    @component('components.radio', ['name' => 'campcat_id', 'objects' => $categories])
     @endcomponent
 </fieldset> 
 @endslot
@@ -36,7 +36,7 @@
 ])
 @slot('override')
     <select id="org_id" class="form-control">
-        @foreach($organizations as $index => $org)
+        @foreach ($organizations as $index => $org)
             <option>{{ $org }}</option>
         @endforeach
     </select>
@@ -50,7 +50,7 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'required_programs', 'db' => '1', 'type' => 'checkbox', 'objects' => $programs])
+    @component('components.radio', ['name' => 'required_programs', 'bit' => 1, 'type' => 'checkbox', 'objects' => $programs])
     @endcomponent
 </fieldset> 
 @endslot

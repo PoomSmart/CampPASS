@@ -1,6 +1,8 @@
 <?php
 
+use App\Camp;
 use App\CampCategory;
+use App\CampProcedure;
 use App\User;
 use App\Program;
 use App\Religion;
@@ -32,6 +34,16 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Musical' ],
             [ 'name' => 'Pilot' ],
             [ 'name' => 'Argicultural' ],
+        ]);
+    }
+
+    private function campProcedures()
+    {
+        // dummy TODO: make them real
+        CampProcedure::insert([
+            [ 'title' => 'Proc 1', 'description' => 'Description 1', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'Proc 2', 'description' => 'Description 2', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'Proc 3', 'description' => 'Description 3', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => true ],
         ]);
     }
 
@@ -99,8 +111,10 @@ class DatabaseSeeder extends Seeder
         $this->religions();
         $this->programs();
         $this->campCategories();
+        $this->campProcedures();
         factory(School::class, 5)->create();
         factory(Organization::class, 5)->create();
+        factory(Camp::class, 10)->create();
         factory(User::class, 50)->create();
         $this->alterCampers();
         $this->alterCampMakers();
