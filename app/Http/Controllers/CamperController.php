@@ -18,7 +18,8 @@ class CamperController extends UserController
     public function campersForCamp(Camp $camp)
     {
         // TODO: make it correct
-        $registrations = $camp->registrations()->select('id')->get();
+        $registrations = $camp->registrations()->select('camper_id')->get();
+        $campers = User::campers()->whereIn('id', $registrations);
     }
 
     public function create() {}

@@ -21,7 +21,6 @@
                             <a href="">Applications</a>
                             <a href="">Profile</a>
                         @elseif (Auth::user()->isCampMaker())
-                            <a href="{{ route('campers.index') }}">My Campers</a>
                             <a href="{{ route('camps.index') }}">My Camps</a>
                             <a href="">Qualification</a>
                             <a href="">Certificates</a>

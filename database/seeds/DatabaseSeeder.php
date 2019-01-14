@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             $camper->program_id = Program::inRandomOrder()->first()->id;
             $camper->save();
         }
-        $candidate = User::inRandomOrder()->where('type', config('const.account.camper'))->limit(1)->first();
+        $candidate = User::_campers(true)->limit(1)->first();
         $candidate->username = 'camper';
         $candidate->status = 1;
         $candidate->activation_code = null;
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             $campmaker->org_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
         }
-        $candidate = User::inRandomOrder()->where('type', config('const.account.campmaker'))->limit(1)->first();
+        $candidate = User::campMakers()->whereIn('org_id', Camp::distinct('org_id')->select('org_id')->groupBy('org_id')->get())->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->status = 1;
         $candidate->activation_code = null;
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
 
     private function createAdmin()
     {
-        $admin = User::inRandomOrder()->where('type', config('const.account.campmaker'))->limit(1)->first();
+        $admin = User::_campMakers(true)->limit(1)->first();
         $admin->type = config('const.account.admin');
         $admin->username = 'admin';
         $admin->name_en = 'Administrator';
