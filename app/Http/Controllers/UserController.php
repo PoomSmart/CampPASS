@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 use DB;
 use Hash;
 
@@ -36,6 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        // TODO: User creation page for admin
         $roles = Role::pluck('name', 'name')->all();
         return view('users.create', compact('roles'));
     }
@@ -43,22 +45,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\StoreUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $this->validate($request, [
-            'username' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        try {
+            $user = $this->create($request->all());
+            $user->assignRole($request->input('roles'));
+            event(new Registered($user));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect()->route('users.index');
+        }
+        return redirect()->route('users.index')->with('message', 'User created successfully. Activation awaits.');
     }
 
     /**

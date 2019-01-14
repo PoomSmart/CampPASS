@@ -83,19 +83,6 @@ class RegisterController extends Controller
         return view('auth.register', [ 'type' => $this->CAMPMAKER, 'religions' => $this->religions ]);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            
-        ]);
-    }
-
     /* Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -118,8 +105,8 @@ class RegisterController extends Controller
     /**
      * Register new account.
      *
-     * @param Request $request
-     * @return User
+     * @param \App\StoreUserRequest $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreUserRequest $request)
     {
