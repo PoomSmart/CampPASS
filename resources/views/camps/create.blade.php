@@ -8,7 +8,7 @@
                 <h2>{{ trans('camp.CreateCamp') }}</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('camps.index') }}"> {{ trans('app.Back') }}</a>
+                <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
             </div>
         </div>
         <div class="col-md-8">

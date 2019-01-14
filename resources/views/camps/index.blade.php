@@ -26,7 +26,7 @@
             <th>Localized Name</th>
             <th>{{ trans('camp.ShortDescription') }}</th>
             <th>{{ trans('camp.Approved') }}</th>
-            <th>{{ trans('app.Actions' ) }}</th>
+            <th width="280px">{{ trans('app.Actions' ) }}</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>

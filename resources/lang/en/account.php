@@ -22,6 +22,7 @@ return [
     'RememberMe' => "Remember me",
 
     'Account' => 'Account',
+    'CreateUser' => 'Create New User',
 
     'VerifyEmail' => 'Verify your E-mail Address',
     'VerifyCheckEmailBeforeProceed' => 'Before proceeding, please check your email for a verification link.',
