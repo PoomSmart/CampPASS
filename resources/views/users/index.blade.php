@@ -11,15 +11,11 @@
             </div>
         </div>
     </div>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_' ) }}</th>
             <th>{{ trans('account.Username') }}</th>
+            <th>{{ trans('account.FullName') }}</th>
             <th>{{ trans('account.Email') }}</th>
             <th>Roles</th>
             <th width="280px">{{ trans('app.Actions' ) }}</th>
@@ -28,6 +24,7 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $user->username }}</td>
+                <td>{{ $user->getFullName() }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
                     @if (!empty($user->getRoleNames()))

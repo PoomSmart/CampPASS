@@ -23,13 +23,7 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
-
-            // general user management
-            'user-list',
-            'user-create',
-            'user-edit',
-            'user-delete',
-
+            
             // camp management
             'camp-list',
             'camp-create',

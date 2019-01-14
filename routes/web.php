@@ -17,10 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth']], function() {
-    Route::resource('roles','RoleController');
-    Route::resource('users','UserController');
-    Route::resource('camps','CampController');
+Route::group(['middleware' => ['permission:user-list']], function() {
+    Route::resource('users', 'UserController');
+});
+
+Route::group(['middleware' => ['permission:role-list']], function() {
+    Route::resource('roles', 'RoleController');
+});
+
+Route::group(['middleware' => ['permission:camp-list']], function() {
+    Route::resource('camps', 'CampController');
 });
 
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
