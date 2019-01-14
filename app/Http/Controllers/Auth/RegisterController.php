@@ -50,7 +50,7 @@ class RegisterController extends Controller
         $this->CAMPER = config('const.account.camper');
         $this->CAMPMAKER = config('const.account.campmaker');
         $this->middleware('guest');
-        $this->religions = Religion::pluck('name', 'id')->all();
+        $this->religions = Religion::all(['id', 'name']);
     }
 
     /**

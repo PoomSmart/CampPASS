@@ -9,7 +9,6 @@
             @if (isset($textarea))
                 <textarea
             @else
-                <?php $object->{$name} ?>
                 <input type="{{ isset($type) ? $type : 'text' }}"
                     value="{{
                         old($name, isset($object) ? $object->{$name} : '')

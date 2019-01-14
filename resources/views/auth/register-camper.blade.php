@@ -7,7 +7,8 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'blood_group', 'labels' => ['A', 'O', 'B', 'AB'], 'required' => '1'])@endcomponent
+    @component('components.radio', ['name' => 'blood_group', 'idx' => 1, 'objects' => ['A', 'O', 'B', 'AB'], 'required' => '1'])
+    @endcomponent
 </fieldset> 
 @endslot
 @endcomponent
@@ -23,7 +24,8 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'guardian_role', 'labels' => [trans('account.Father'), trans('account.Mother'), trans('account.Other')]])@endcomponent
+    @component('components.radio', ['name' => 'guardian_role', 'idx' => 1, 'objects' => [trans('account.Father'), trans('account.Mother'), trans('account.Other')]])
+    @endcomponent
 </fieldset> 
 @endslot
 @endcomponent
@@ -38,7 +40,7 @@
     'name' => 'short_biography',
     'label' => trans('account.ShortBiography'),
     'placeholder' => trans('account.YouCanWriteItLater'),
-    'textarea' => '1',
+    'textarea' => 1,
     'attributes' => 'rows=3',
 ])@endcomponent
 
