@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Camp;
+use App\User;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 
 class CamperController extends UserController
