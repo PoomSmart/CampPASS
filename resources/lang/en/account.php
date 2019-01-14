@@ -50,6 +50,7 @@ return [
     'CitizenID' => 'Citizen ID',
     'Nationality' => 'Nationality',
     'BloodGroup' => 'Blood Group',
+    'Religion' => 'Religion',
     'Thai' => 'Thai',
     'Gender' => 'Gender',
     'Male' => 'Male',

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Program;
+use App\Religion;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
@@ -49,7 +50,7 @@ class RegisterController extends Controller
         $this->CAMPER = config('const.account.camper');
         $this->CAMPMAKER = config('const.account.campmaker');
         $this->middleware('guest');
-        $this->religions = Program::pluck('name_en', 'id')->all(); // TODO: Localization
+        $this->religions = Religion::pluck('name', 'id')->all();
     }
 
     /**
@@ -91,35 +92,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            // common
-            'type'          => "required|in:{$this->CAMPER},{$this->CAMPMAKER}",
-            'rel_id'        => 'required|exists:religions,id',
-            'username'      => 'required|string|max:50',
-            'name_en'        => 'nullable|string|max:50|required_without:name_th',
-            'surname_en'     => 'nullable|string|max:50|required_without:surname_th',
-            'nickname_en'    => 'nullable|string|max:50|required_without:nickname_th',
-            'name_th'        => 'nullable|string|max:50|required_without:name_en',
-            'surname_th'     => 'nullable|string|max:50|required_without:surname_en',
-            'nickname_th'    => 'nullable|string|max:50|required_without:nickname_en',
-            'nationality'   => 'required|integer|min:0|max:1',
-            'gender'        => 'required|integer|min:0|max:2',
-            'citizen_id'     => 'required|string|digits:13|unique:users',
-            'dob'           => 'required|date_format:Y-m-d|before:today',
-            'address'       => 'required|string|max:300',
-            'allergy'       => 'nullable|string|max:200',
-            'zipcode'       => 'required|string:max:20',
-            'email'         => 'required|string|email|max:100|unique:users',
-            'password'      => 'required|string|min:6|confirmed',
-            // camper
-            'school_id' => "required_if:type,${$this->CAMPER}|exists:schools,id",
-            'short_biography'    => 'nullable|string|max:500',
-            'mattayom'          => 'nullable|integer|min:1|max:6',
-            'blood_group'        => "nullable|integer|required_if:type,{$this->CAMPER}",
-            'guardian_name'      => 'nullable|string',
-            'guardian_role'      => 'nullable|integer|min:0|max:2|required_with:guardian_name',
-            'guardian_mobile_no'  => 'nullable|string|required_with:guardian_name',
-            // camp maker
-            'org_id' => "required_if:type,${$this->CAMPMAKER}|exists:organizations,id",
+            
         ]);
     }
 
@@ -131,9 +104,9 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         try {
-            $data['password']        = bcrypt(array_get($data, 'password'));
+            $data['password'] = bcrypt(array_get($data, 'password'));
             $data['activation_code'] = str_random(30).time();
-            $user                    = app(User::class)->create($data);
+            $user = app(User::class)->create($data);
             $user->notify(new UserRegisteredSuccessfully($user));
             return $user;
         } catch (\Exception $exception) {
@@ -148,9 +121,8 @@ class RegisterController extends Controller
      * @param Request $request
      * @return User
      */
-    protected function register(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $this->validator($request->all())->validate();
         try {
             $user = $this->create($request->all());
             event(new Registered($user));
@@ -173,7 +145,7 @@ class RegisterController extends Controller
             if (!$user) {
                 return "The code does not exist for any user in our system.";
             }
-            $user->status          = 1;
+            $user->status = 1;
             $user->activation_code = null;
             $user->save();
             auth()->login($user);
