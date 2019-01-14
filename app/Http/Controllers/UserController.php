@@ -60,11 +60,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $user = User::find($id);
-        $data = $user->belongingCamps()->orderBy('id')->paginate(10);
-        return view('users.show', compact('user', 'data'))->with('i', ($request->input('page', 1) - 1) * 10);
+        $data = $user->belongingCamps()->orderBy('id')->get();
+        return view('users.show', compact('user', 'data'));
     }
 
     /**

@@ -13,6 +13,7 @@ return [
     */
 
     'No_' => 'No.',
+    'Name' => 'Name',
     'Login' => 'Log in',
     'Logout' => 'Log out',
     'Back' => 'Back',

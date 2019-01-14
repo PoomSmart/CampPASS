@@ -28,7 +28,7 @@
             <div class="form-group">
                 <strong>Roles:</strong>
                 @if (!empty($user->getRoleNames()))
-                    @foreach($user->getRoleNames() as $v)
+                    @foreach ($user->getRoleNames() as $v)
                         <label class="badge badge-success">{{ $v }}</label>
                     @endforeach
                 @endif
@@ -49,6 +49,5 @@
                 </tr>
             @endforeach
         </table>
-        {!! $data->render() !!}
     </div>
 @endsection

@@ -23,6 +23,9 @@ return [
 
     'Account' => 'Account',
     'CreateUser' => 'Create New User',
+    'CreateRole' => 'Create New Role',
+    'EditRole' => 'Edit Role',
+    'ShowRole' => 'Show Role',
 
     'VerifyEmail' => 'Verify your E-mail Address',
     'VerifyCheckEmailBeforeProceed' => 'Before proceeding, please check your email for a verification link.',
