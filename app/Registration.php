@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use App\Answer;
 use App\Camp;
 use App\Certificate;
@@ -13,6 +14,11 @@ class Registration extends Model
     public function camp()
     {
         return $this->belongsTo(Camp::class);
+    }
+
+    public function camper()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function certificate()

@@ -14,8 +14,8 @@
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
-                {{ $user->name_en }}
+                <strong>Full Name:</strong>
+                {{ $user->getFullName() }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -34,5 +34,21 @@
                 @endif
             </div>
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <strong>{{ trans('camp.BelongingCamps') }}</strong>
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>{{ trans('aap.LocalizedName') }}</th>
+            </tr>
+            @foreach ($data as $key => $camp)
+                <tr>
+                    <td>{{ $camp->id }}</td>
+                    <td>{{ $camp->getName() }}</td>
+                </tr>
+            @endforeach
+        </table>
+        {!! $data->render() !!}
     </div>
 @endsection

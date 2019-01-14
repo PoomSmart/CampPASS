@@ -59,32 +59,32 @@ class User extends Authenticatable
 
     public function answers()
     {
-        return isCamper() ? $this->hasMany(Answer::class) : null;
+        return $this->isCamper() ? $this->hasMany(Answer::class) : null;
     }
 
     public function badges()
     {
-        return isCamper() ? $this->hasMany(Badge::class) : null;
+        return $this->isCamper() ? $this->hasMany(Badge::class) : null;
     }
 
     public function registrations()
     {
-        return isCamper() ? $this->hasMany(Registration::class) : null;
+        return $this->isCamper() ? $this->hasMany(Registration::class) : null;
     }
 
     public function approvals()
     {
-        return isCampMaker() ? $this->hasMany(Registration::class) : null;
+        return $this->isCampMaker() ? $this->hasMany(Registration::class) : null;
     }
 
     public function organization()
     {
-        return isCampMaker() ? $this->belongsTo(Organization::class) : null;
+        return $this->isCampMaker() ? $this->belongsTo(Organization::class) : null;
     }
 
     public function program()
     {
-        return isCamper() ? $this->belongsTo(Program::class) : null;
+        return $this->isCamper() ? $this->belongsTo(Program::class) : null;
     }
 
     public function religion()
@@ -94,7 +94,17 @@ class User extends Authenticatable
 
     public function school()
     {
-        return isCamper() ? $this->belongsTo(School::class) : null;
+        return $this->isCamper() ? $this->belongsTo(School::class) : null;
+    }
+
+    public static function campers()
+    {
+        return User::where('type', config('const.account.camper'));
+    }
+
+    public static function campMakers()
+    {
+        return User::where('type', config('const.account.campmaker'));
     }
 
     public function getFullName()
@@ -102,5 +112,15 @@ class User extends Authenticatable
         if (config('app.locale') == 'th')
             return $this->name_th .' '. $this->surname_th;
         return $this->name_en .' '. $this->surname_en;
+    }
+
+    public function belongingCamps()
+    {
+        // TODO: wrong
+        if ($this->isCamper())
+            return Camp::whereIn('id', Registration::where('camper_id', $this->id)->get(['camp_id']));
+        if ($this->isCampMaker())
+            return Camp::where('org_id', $this->org_id);
+        return null;
     }
 }

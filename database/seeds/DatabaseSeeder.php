@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
 
     private function alterCampers()
     {
-        foreach (User::where('type', config('const.account.camper'))->cursor() as $camper) {
+        foreach (User::campers()->cursor() as $camper) {
             $camper->mattayom = rand(1, 6);
             $camper->blood_group = rand(0, 3);
             $camper->school_id = School::inRandomOrder()->first()->id;
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
 
     private function alterCampMakers()
     {
-        foreach (User::where('type', config('const.account.campmaker'))->cursor() as $campmaker) {
+        foreach (User::campMakers()->cursor() as $campmaker) {
             $campmaker->org_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
         }

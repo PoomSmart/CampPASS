@@ -32,4 +32,5 @@ return [
     'Quota' => 'Quota',
     'Approved' => 'Approved',
     'CreateCamp' => 'Create New Camp',
+    'BelongingCamps' => 'Belonging Camps',
 ];

@@ -30,6 +30,12 @@ class PermissionTableSeeder extends Seeder
             'camp-edit',
             'camp-delete',
 
+            // general user management
+            'user-list',
+            'user-create',
+            'user-edit',
+            'user-delete',
+
             // camper management
             'camper-list',
             'camper-create',
@@ -139,7 +145,7 @@ class PermissionTableSeeder extends Seeder
             'pay-edit',
             'pay-delete',
         ]);
-        foreach (User::where('type', config('const.account.camper'))->cursor() as $camper) {
+        foreach (User::campers()->cursor() as $camper) {
             $camper->assignRole('camper');
             $camper->save();
         }
@@ -180,7 +186,7 @@ class PermissionTableSeeder extends Seeder
             'pay-list',
             'pay-status',
         ]);
-        foreach (User::where('type', config('const.account.campmaker'))->cursor() as $campmaker) {
+        foreach (User::campMakers()->cursor() as $campmaker) {
             $campmaker->assignRole('campmaker');
             $campmaker->save();
         }

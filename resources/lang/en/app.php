@@ -19,4 +19,5 @@ return [
     'Show' => 'Show',
     'Edit' => 'Edit',
     'Actions' => 'Actions',
+    'LocalizedName' => 'Localized Name',
 ];
