@@ -13,6 +13,7 @@
 @component('components.input', [
     'name' => 'short_description',
     'label' => trans('camp.ShortDescription'),
+    'textarea' => 1,
     'attributes' => 'required',
 ])@endcomponent
 
