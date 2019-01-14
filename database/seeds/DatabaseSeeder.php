@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     private function programs()
     {
         Program::insert([
-            [ 'name_en' => 'Science', 'name_th' => 'วิทย์' ],
-            [ 'name_en' => 'Art', 'name_th' => 'ศิลป์' ],
+            [ 'name' => 'Science' ],
+            [ 'name' => 'Art' ],
         ]);
     }
 

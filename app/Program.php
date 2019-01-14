@@ -14,8 +14,6 @@ class Program extends Model
 
     public function getName()
     {
-        if (config('app.locale') == 'th')
-            return $this->name_th;
-        return $this->name_en;
+        return $this->name; // TODO: Localization
     }
 }

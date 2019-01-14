@@ -22,7 +22,7 @@ class CampController extends Controller
         $this->middleware('permission:camp-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
-        $this->programs = Program::all(['id', 'name_en']); // TODO: Localization
+        $this->programs = Program::all(['id', 'name']);
         $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
         $this->organizations = Organization::pluck('name_en'); // TODO: Localization
     }
