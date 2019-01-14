@@ -30,5 +30,5 @@ return [
     'EventStartDate' => 'Event Start Date',
     'EventEndDate' => 'Event End Date',
     'Quota' => 'Quota',
-    'AddCamp' => 'Add Camp',
+    'CreateCamp' => 'Create New Camp',
 ];

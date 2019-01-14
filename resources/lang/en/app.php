@@ -12,7 +12,10 @@ return [
     |
     */
 
+    'No_' => 'No.',
     'Login' => 'Log in',
     'Logout' => 'Log out',
     'Back' => 'Back',
+    'Show' => 'Show',
+    'Edit' => 'Edit',
 ];

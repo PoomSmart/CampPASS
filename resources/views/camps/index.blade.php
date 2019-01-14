@@ -8,7 +8,7 @@
             </div>
             <div class="pull-right">
                 @can('camp-create')
-                <a class="btn btn-success" href="{{ route('camps.create') }}">Create New Camp</a>
+                <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
                 @endcan
             </div>
         </div>
@@ -24,28 +24,27 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Details</th>
-            <th width="280px">Action</th>
+            <th>{{ trans('app.No_') }}</th>
+            <th>Localized Name</th>
+            <th>{{ trans('camp.ShortDescription') }}</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $camp->nameen }}</td>
-	        <td>{{ $camp->shortdescription }}</td>
+	        <td>{{ $camp->getName() }}</td>
+	        <td>{{ $camp->short_description }}</td>
 	        <td>
                 <form action="{{ route('camps.destroy',$camp->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('camps.show',$camp->id) }}">Show</a>
+                    <a class="btn btn-info" href="{{ route('camps.show',$camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')
-                    <a class="btn btn-primary" href="{{ route('camps.edit',$camp->id) }}">Edit</a>
+                    <a class="btn btn-primary" href="{{ route('camps.edit',$camp->id) }}">{{ trans('app.Edit') }}</a>
                     @endcan
 
 
                     @csrf
                     @method('DELETE')
                     @can('camp-delete')
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
                     @endcan
                 </form>
 	        </td>

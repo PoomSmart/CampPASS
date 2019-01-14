@@ -1,7 +1,9 @@
 <?php
 
+use App\CampCategory;
 use App\User;
 use App\Program;
+use App\Religion;
 use App\School;
 use App\Organization;
 use Spatie\Permission\Models\Role;
@@ -13,15 +15,29 @@ class DatabaseSeeder extends Seeder
 {
     private function programs()
     {
-        DB::table('programs')->insert([
-            [ 'name_en' => 'Math-Science', 'name_th' => 'วิทย์-คณิต' ],
-            [ 'name_en' => 'Art', 'name_th' => 'ศิลป์-คำนวณ' ],
+        Program::insert([
+            [ 'name_en' => 'Science', 'name_th' => 'วิทย์' ],
+            [ 'name_en' => 'Art', 'name_th' => 'ศิลป์' ],
+        ]);
+    }
+
+    private function campCategories()
+    {
+        CampCategory::insert([
+            [ 'name' => 'Engineering' ],
+            [ 'name' => 'Architectural' ],
+            [ 'name' => 'Economic' ],
+            [ 'name' => 'Political' ],
+            [ 'name' => 'Artistic' ],
+            [ 'name' => 'Musical' ],
+            [ 'name' => 'Pilot' ],
+            [ 'name' => 'Argicultural' ],
         ]);
     }
 
     private function religions()
     {
-        DB::table('religions')->insert([
+        Religion::insert([
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],
             [ 'name' => 'Islamic' ],
@@ -82,6 +98,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->religions();
         $this->programs();
+        $this->campCategories();
         factory(School::class, 5)->create();
         factory(Organization::class, 5)->create();
         factory(User::class, 50)->create();
