@@ -11,4 +11,9 @@ class CampCategory extends Model
     {
         return $this->hasMany(Camp::class);
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }
