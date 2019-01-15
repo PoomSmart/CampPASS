@@ -5,10 +5,13 @@ use App\CampCategory;
 use App\CampProcedure;
 use App\User;
 use App\Program;
+use App\Registration;
 use App\Religion;
 use App\School;
 use App\Organization;
+
 use Spatie\Permission\Models\Role;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -119,6 +122,7 @@ class DatabaseSeeder extends Seeder
         $this->alterCampers();
         $this->alterCampMakers();
         $this->createAdmin();
+        factory(Registration::class, 50)->create();
         $this->call([
             PermissionTableSeeder::class
         ]);

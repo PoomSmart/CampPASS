@@ -7,19 +7,18 @@ use App\User;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 
-class CamperController extends UserController
+class CamperController extends Controller
 {
+    function __construct()
+    {
+        // TODO: refine
+        $this->middleware('permission:camper-list');
+        $this->middleware('permission:camper-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
         $data = User::campers()->orderBy('id', 'DESC')->paginate(10);
         return view('campers.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * 10);
-    }
-
-    public function campersForCamp(Camp $camp)
-    {
-        // TODO: make it correct
-        $registrations = $camp->registrations()->select('camper_id')->get();
-        $campers = User::campers()->whereIn('id', $registrations);
     }
 
     public function create() {}

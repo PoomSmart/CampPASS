@@ -6,6 +6,7 @@ use App\Camp;
 use App\CampCategory;
 use App\Program;
 use App\Organization;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -96,7 +97,20 @@ class CampController extends Controller
     public function show(Camp $camp)
     {
         View::share('object', $camp);
-        return view('camps.show');
+        $data = $this->campersForCamp($camp);
+        return view('camps.show', compact('camp', 'data'));
+    }
+
+    /**
+     * Return the campers that belong to the given camp.
+     * 
+     */
+    public function campersForCamp(Camp $camp)
+    {
+        // TODO: make it correct
+        $registrations = $camp->registrations()->select('camper_id')->get();
+        $campers = User::campers()->whereIn('id', $registrations)->get();
+        return $campers;
     }
 
     /**

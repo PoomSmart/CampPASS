@@ -69,4 +69,7 @@ return [
     'GuardianName' => 'Guardian Name',
     'GuardianMobileNo' => 'Guardian Mobile No.',
     'GuardianRole' => 'Guardian Role',
+
+    'School' => 'School',
+    'Program' => 'Program',
 ];

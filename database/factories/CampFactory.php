@@ -4,6 +4,7 @@ use App\Program;
 use App\CampCategory;
 use App\CampProcedure;
 use App\Organization;
+
 use Faker\Generator as Faker;
 
 class Randomizer

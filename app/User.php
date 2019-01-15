@@ -79,22 +79,22 @@ class User extends Authenticatable
 
     public function organization()
     {
-        return $this->isCampMaker() ? $this->belongsTo(Organization::class) : null;
+        return $this->isCampMaker() ? $this->belongsTo(Organization::class)->limit(1)->get()->first() : null;
     }
 
     public function program()
     {
-        return $this->isCamper() ? $this->belongsTo(Program::class) : null;
+        return $this->isCamper() ? $this->belongsTo(Program::class)->limit(1)->get()->first() : null;
     }
 
     public function religion()
     {
-        return $this->belongsTo(Religion::class);
+        return $this->belongsTo(Religion::class)->limit(1)->get()->first();
     }
 
     public function school()
     {
-        return $this->isCamper() ? $this->belongsTo(School::class) : null;
+        return $this->isCamper() ? $this->belongsTo(School::class)->limit(1)->get()->first() : null;
     }
 
     public static function _campers(bool $randomOrder)
@@ -126,7 +126,6 @@ class User extends Authenticatable
 
     public function belongingCamps()
     {
-        // TODO: wrong
         if ($this->isCamper())
             return Camp::whereIn('id', Registration::where('camper_id', $this->id)->get(['camp_id']));
         if ($this->isCampMaker())
