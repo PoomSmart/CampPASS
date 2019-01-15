@@ -120,6 +120,10 @@ class RegisterController extends Controller
     {
         try {
             $user = $this->create($request->all());
+            if ($request->input('type') == $this->CAMPER)
+                $user->assignRole('camper');
+            else if ($request->input('type') == $this->CAMPMAKER)
+                $user->assignRole('campmaker');
             event(new Registered($user));
         } catch (\Exception $exception) {
             Log::channel('stderr')->error($exception);
