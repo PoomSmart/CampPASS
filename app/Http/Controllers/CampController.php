@@ -80,8 +80,8 @@ class CampController extends Controller
             'campcat_id' => 'required|exists:camp_categories,id',
             'org_id' => 'required|exists:organizations,id',
             'cp_id' => 'required|exists:camp_procedures,id',
-            'name_en' => 'required_without:name_th',
-            'name_th' => 'required_without:name_en',
+            'name_en' => 'nullable|required_without:name_th|string',
+            'name_th' => 'nullable|required_without:name_en|string',
             'short_description_en' => 'nullable|required_without:short_description_th|string|max:200',
             'short_description_th' => 'nullable|required_without:short_description_en|string|max:200',
             'required_programs' => 'nullable|integer',
@@ -96,7 +96,7 @@ class CampController extends Controller
             'reg_closedate' => 'nullable|date_format:Y-m-d|after:reg_opendate',
             'event_startdate' => 'nullable|date_format:Y-m-d|after:tomorrow',
             'event_enddate' => 'nullable|date_format:Y-m-d|after_or_equal:event_startdate',
-            'event_location_lat' => 'nullable|numeric|min:-90|max:90',
+            'event_location_lat' => 'nullable|numeric|min:-90|max:90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|min:-180|max:180',
             'quota' => 'nullable|integer|min:0',
             'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves

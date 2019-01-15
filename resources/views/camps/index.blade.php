@@ -36,7 +36,7 @@
 
                     @csrf
                     @method('DELETE')
-                    @can('camp-delete')
+                    @can('camp-delete') <!-- TODO: Add confirmation dialog -->
                         <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
                     @endcan
                 </form>
