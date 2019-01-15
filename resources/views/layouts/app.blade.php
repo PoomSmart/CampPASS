@@ -65,7 +65,7 @@
         </nav>
         <main class="py-4">
             <div class="container">
-                @if ($message = Session::has('message'))
+                @if ($message = Session::get('message'))
                     <div class="alert alert-info">
                         <p>{{ $message }}</p>
                     </div>

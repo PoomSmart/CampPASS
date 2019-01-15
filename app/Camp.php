@@ -12,6 +12,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Camp extends Model
 {
+    protected $fillable = [
+        'campcat_id', 'org_id', 'cp_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'required_programs',
+        'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_opendate', 'app_closedate',
+        'reg_opendate', 'reg_closedate', 'event_startdate', 'event_enddate', 'event_location_lat', 'event_location_long',
+        'quota', 'approved',
+    ];
+
     public function registrations()
     {
         return $this->hasMany(Registration::class);

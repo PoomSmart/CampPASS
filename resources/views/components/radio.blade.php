@@ -7,6 +7,8 @@
             id="{{ $name }}_{{ (isset($idx) ? $i : $j) }}"
             @if (isset($idx))
                 value="{{ $i }}"
+            @else
+                value="{{ $obj->id }}"
             @endif
             @if (isset($required))
                 required

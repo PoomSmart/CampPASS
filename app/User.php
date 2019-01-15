@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name_en', 'name_th', 'surname_en', 'surname_th', 'nickname_en', 'nickname_th',
         'nationality', 'citizen_id', 'gender', 'dob', 'address', 'zipcode', 'mobile_no',
         'allergy', 'email', 'username', 'password', 'status', 'activation_code', 'type',
+        'rel_id',
         // camper
         'short_biography',
         'mattayom',
@@ -36,6 +37,8 @@ class User extends Authenticatable
         'guardian_name',
         'guardian_role',
         'guardian_mobile_no',
+        // camp maker
+        'org_id',
     ];
 
     /**

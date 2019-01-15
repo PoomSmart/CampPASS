@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Religion;
+use App\Organization;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Notifications\UserRegisteredSuccessfully;
+
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -51,6 +55,7 @@ class RegisterController extends Controller
         $this->CAMPMAKER = config('const.account.campmaker');
         $this->middleware('guest');
         $this->religions = Religion::all(['id', 'name']);
+        $this->organizations = null;
     }
 
     /**
@@ -80,7 +85,9 @@ class RegisterController extends Controller
      */
     public function campmaker()
     {
-        return view('auth.register', [ 'type' => $this->CAMPMAKER, 'religions' => $this->religions ]);
+        if (is_null($this->organizations))
+            $this->organizations = Organization::all();
+        return view('auth.register', [ 'type' => $this->CAMPMAKER, 'religions' => $this->religions, 'organizations' => $this->organizations ]);
     }
 
     /* Create a new user instance after a valid registration.
@@ -94,10 +101,11 @@ class RegisterController extends Controller
             $data['password'] = bcrypt(array_get($data, 'password'));
             $data['activation_code'] = str_random(30).time();
             $user = app(User::class)->create($data);
-            $user->notify(new UserRegisteredSuccessfully($user));
+            // TODO: Reenable when we should test it
+            // $user->notify(new UserRegisteredSuccessfully($user));
             return $user;
         } catch (\Exception $exception) {
-            logger()->error($exception);
+            Log::channel('stderr')->error($exception);
             return redirect()->back()->with('message', 'Unable to create new user.');
         }
     }
@@ -108,13 +116,13 @@ class RegisterController extends Controller
      * @param \App\StoreUserRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function register(StoreUserRequest $request)
     {
         try {
             $user = $this->create($request->all());
             event(new Registered($user));
         } catch (\Exception $exception) {
-            logger()->error($exception);
+            Log::channel('stderr')->error($exception);
             return redirect()->to('/home');
         }
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
