@@ -13,13 +13,6 @@
             </div>
         </div>
     </div>
-
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
@@ -32,7 +25,7 @@
 	    <tr>
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $camp->getName() }}</td>
-            <td>{{ $camp->short_description }}</td>
+            <td>{{ $camp->getShortDescription() }}</td>
             <td>{{ $camp->approved }}</td>
 	        <td>
                 <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">

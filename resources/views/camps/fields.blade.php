@@ -36,18 +36,37 @@
 @endcomponent
 
 @component('components.input', [
+    'name' => 'cp_id',
+    'label' => trans('camp.CampProcedure'),
+    'attributes' => 'required',
+])
+@slot('override')
+    <select name="cp_id", id="cp_id" class="form-control">
+        @foreach ($camp_procedures as $cp)
+            <option value="{{ $cp->id }}">{{ $cp->getTitle() }}</option>
+        @endforeach
+    </select>
+@endslot
+@endcomponent
+
+@component('components.input', [
     'name' => 'org_id',
     'label' => trans('camp.Organization'),
     'attributes' => Auth::user()->hasPermissionTo('org-list') ? 'required' : '',
 ])
 @slot('override')
-    <select id="org_id" class="form-control"
+    <select name="org_id", id="org_id" class="form-control"
         @if (!Auth::user()->hasPermissionTo('org-list'))
             disabled
         @endif
     >
-        @foreach ($organizations as $org)
-            <option value="{{ $org->id }}">{{ $org->getName() }}</option>
+        @foreach ($organizations as $index => $org)
+            <option
+                @if ($index == 0)
+                    selected
+                @endif
+                value="{{ $org->id }}">{{ $org->getName() }}
+            </option>
         @endforeach
     </select>
 @endslot

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Camp;
 use App\CampCategory;
+use App\CampProcedure;
 use App\Program;
 use App\Organization;
 use App\User;
@@ -18,6 +19,7 @@ class CampController extends Controller
     protected $programs;
     protected $categories;
     protected $organizations;
+    protected $camp_procedures;
 
     function __construct()
     {
@@ -28,6 +30,7 @@ class CampController extends Controller
         $this->programs = Program::all(['id', 'name']);
         $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
         $this->organizations = null;
+        $this->camp_procedures = CampProcedure::all(['id', 'title']); // TODO: Localization
     }
 
     /**
@@ -58,7 +61,8 @@ class CampController extends Controller
                 $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
         }
         $organizations = $this->organizations;
-        return view('camps.create', compact('programs', 'categories', 'organizations'));
+        $camp_procedures = $this->camp_procedures;
+        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures'));
     }
 
     /**
@@ -75,7 +79,7 @@ class CampController extends Controller
         Log::channel('stderr')->error($request->all());
         request()->validate([
             'campcat_id' => 'required|exists:camp_categories,id',
-            'org_id' => $canList ? 'required|exists:organizations,id' : 'required|in:{$org_id}',
+            'org_id' => 'required|exists:organizations,id',
             'cp_id' => 'required|exists:camp_procedures,id',
             'name_en' => 'required_without:name_th',
             'name_th' => 'required_without:name_en',
@@ -95,8 +99,8 @@ class CampController extends Controller
             'event_enddate' => 'nullable|date_format:Y-m-d|after_or_equal:event_startdate',
             'event_location_lat' => 'nullable|numeric|min:-90|max:90',
             'event_location_long' => 'nullable|numeric|min:-180|max:180',
-            'quota' => 'integer|min:0',
-            'approved' => 'boolean|false', // we prevent camps that try to approve themselves
+            'quota' => 'nullable|integer|min:0',
+            'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves
         ]);
         Camp::create($request->all());
         return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
@@ -139,7 +143,8 @@ class CampController extends Controller
         $programs = $this->programs;
         $categories = $this->categories;
         $organizations = $this->organizations;
-        return view('camps.edit', compact('programs', 'categories', 'organizations'));
+        $camp_procedures = $this->camp_procedures;
+        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures'));
     }
 
     /**

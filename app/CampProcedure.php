@@ -11,4 +11,14 @@ class CampProcedure extends Model
     {
         return $this->hasMany(Camp::class);
     }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getName()
+    {
+        return $this->getTitle();
+    }
 }

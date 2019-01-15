@@ -34,4 +34,5 @@ return [
     'Approved' => 'Approved',
     'CreateCamp' => 'Create New Camp',
     'BelongingCamps' => 'Belonging Camps',
+    'CampProcedure' => 'Registration Type',
 ];
