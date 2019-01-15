@@ -63,7 +63,7 @@ class StoreUserRequest extends FormRequest
             $id = $user->id;
             $citizen_id = $user->citizen_id;
             $rules += [
-                'citizen_id' => "required|string|digits:13|unique:users,citizen_id,{$citizen_id}",
+                'citizen_id' => "required|string|digits:13|unique:users,citizen_id,{$citizen_id}", // TODO: Citizen ID validator
                 'email' => "required|string|email|max:100|unique:users,email,{$id}",
             ];
         } else if ($method =='POST') {

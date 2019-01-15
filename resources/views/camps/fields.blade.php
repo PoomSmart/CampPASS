@@ -89,6 +89,7 @@
     'name' => 'min_gpa',
     'label' => trans('camp.MinGPA'),
     'type' => 'number',
+    'attributes' => 'step=any',
 ])@endcomponent
 
 @component('components.input', [
