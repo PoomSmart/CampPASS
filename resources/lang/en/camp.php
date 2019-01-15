@@ -16,6 +16,7 @@ return [
     'ThaiName' => 'Name in Thai',
     'EnglishShortDescription' => 'Short Description in English',
     'ThaiShortDescription' => 'Short Description in Thai',
+    'ShortDescription' => 'Short Description',
     'RequiredPrograms' => 'Required Programs',
     'Organization' => 'Organization',
     'Category' => 'Category',
