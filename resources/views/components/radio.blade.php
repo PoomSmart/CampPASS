@@ -5,15 +5,18 @@
             type="{{ isset($type) ? $type : 'radio' }}"
             name="{{ $name }}"
             id="{{ $name }}_{{ (isset($idx) ? $i : $j) }}"
-            @if (isset($idx))
-                value="{{ $i }}"
-            @else
-                value="{{ $obj->id }}"
-            @endif
+            value="{{ isset($idx) ? $i : $obj->id }}"
             @if (isset($required))
                 required
             @endif
-            @if (isset($object) && (isset($bit) ? ($object->{$name} & (1 << $j)) : ($object->{$name} == $j) ?: old($name)))
+            <?php
+                $checked = false;
+                if (isset($object))
+                    $checked = isset($bit) ? $object->{$name} & (1 << $j) : ($object->{$name} == $j);
+                else
+                    $checked = old($name) == (isset($idx) ? $i : $j);
+            ?>
+            @if ($checked)
                 checked
             @endif
         />
