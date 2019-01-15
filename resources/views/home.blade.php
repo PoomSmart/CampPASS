@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('style')
-<link rel="stylesheet" href="{{URL::asset('css/welcome.css')}}">
+    <link rel="stylesheet" href="{{ URL::asset('css/welcome.css') }}">
 @stop
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="links">
-                <a href="">Camps</a>
+                <a href="">Camps Browser</a>
                 @guest
 
                 @else
