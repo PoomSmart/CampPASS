@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
     private function programs()
     {
         Program::insert([
-            // TODO: add more
             [ 'name' => 'Science' ],
             [ 'name' => 'Art' ],
         ]);
@@ -29,7 +28,6 @@ class DatabaseSeeder extends Seeder
 
     private function campCategories()
     {
-        // TODO: add more
         CampCategory::insert([
             [ 'name' => 'Engineering' ],
             [ 'name' => 'Architectural' ],
@@ -46,15 +44,19 @@ class DatabaseSeeder extends Seeder
     {
         // dummy TODO: make them real
         CampProcedure::insert([
-            [ 'title' => 'Proc 1', 'description' => 'Description 1', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => true ],
-            [ 'title' => 'Proc 2', 'description' => 'Description 2', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
-            [ 'title' => 'Proc 3', 'description' => 'Description 3', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => true ],
+            [ 'title' => 'Walk-in', 'description' => 'Walk-in', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => false ],
+            [ 'title' => 'QA Only', 'description' => 'QA Only', 'interview_required' => false, 'deposit_required' => true, 'candidate_required' => false ],
+            [ 'title' => 'Interview Only', 'description' => 'Interview Only', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => false ],
+            [ 'title' => 'Pass QA then Interview', 'description' => 'Pass QA then deposit', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => false ],
+            [ 'title' => 'Deposit Only', 'description' => 'Deposit Only', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'Pass QA then deposit', 'description' => 'Pass QA then deposit', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => false ],
+            [ 'title' => 'Interview then Deposit', 'description' => 'Interview then Deposit', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'Pass QA then interview then deposit', 'description' => 'Pass QA then interview then deposit', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => true ],
         ]);
     }
 
     private function religions()
     {
-        // TODO: recheck
         Religion::insert([
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],
