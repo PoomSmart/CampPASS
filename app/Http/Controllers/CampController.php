@@ -67,7 +67,8 @@ class CampController extends Controller
      */
     public function store(Request $request)
     {
-        $org_id=\Auth::user()->org_id;
+        $org_id = \Auth::user()->org_id;
+        error_log(print_r($request));
         request()->validate([
             'campcat_id' => 'required|exists:camp_categories,id',
             'org_id' => \Auth::user()->hasPermissionTo('org-list') ? 'required|exists:organizations,id' : 'required|in:{$org_id}',

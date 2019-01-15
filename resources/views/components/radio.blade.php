@@ -11,7 +11,7 @@
             @if (isset($required))
                 required
             @endif
-            @if (isset($object) && (isset($bit) ? ($object->{$name} & (1 << $j)) : ($object->{$name} == $j)))
+            @if (isset($object) && (isset($bit) ? ($object->{$name} & (1 << $j)) : ($object->{$name} == $j) ?: old($name)))
                 checked
             @endif
         />
