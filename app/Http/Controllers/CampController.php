@@ -76,7 +76,6 @@ class CampController extends Controller
         $canList = \Auth::user()->hasPermissionTo('org-list');
         if (!$canList)
             $request->merge(['org_id' => \Auth::user()->org_id]);
-        Log::channel('stderr')->error($request->all());
         request()->validate([
             'campcat_id' => 'required|exists:camp_categories,id',
             'org_id' => 'required|exists:organizations,id',
