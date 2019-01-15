@@ -29,7 +29,7 @@
         <strong>Campers</strong>
         <table class="table table-bordered">
             <tr>
-                <th>ID</th>
+                <th>{{ trans('app.ID') }}</th>
                 <th>{{ trans('app.LocalizedName') }}</th>
                 <th>{{ trans('account.School') }}</th>
                 <th>{{ trans('account.Program') }}</th>

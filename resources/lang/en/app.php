@@ -12,6 +12,7 @@ return [
     |
     */
 
+    'ID' => 'ID',
     'No_' => 'No.',
     'Name' => 'Name',
     'Login' => 'Log in',
