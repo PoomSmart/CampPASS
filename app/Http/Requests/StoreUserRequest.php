@@ -52,9 +52,9 @@ class StoreUserRequest extends FormRequest
             'short_biography'    => 'nullable|string|max:500',
             'mattayom'          => 'nullable|integer|min:1|max:6',
             'blood_group'        => "nullable|integer|required_if:type,{$CAMPER}",
-            'guardian_name'      => 'nullable|string',
-            'guardian_role'      => 'nullable|integer|min:0|max:2|required_with:guardian_name',
-            'guardian_mobile_no'  => 'nullable|string|required_with:guardian_name',
+            'guardian_name'      => "nullable|required_if:type,{$CAMPER}|string",
+            'guardian_role'      => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
+            'guardian_mobile_no'  => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker
             'org_id' => "required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
