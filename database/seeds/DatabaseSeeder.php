@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
     private function programs()
     {
         Program::insert([
+            // TODO: add more
             [ 'name' => 'Science' ],
             [ 'name' => 'Art' ],
         ]);
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
     private function campCategories()
     {
+        // TODO: add more
         CampCategory::insert([
             [ 'name' => 'Engineering' ],
             [ 'name' => 'Architectural' ],
@@ -52,6 +54,7 @@ class DatabaseSeeder extends Seeder
 
     private function religions()
     {
+        // TODO: recheck
         Religion::insert([
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],

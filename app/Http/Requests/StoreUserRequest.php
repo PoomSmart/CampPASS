@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -24,7 +23,6 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        Log::channel('stderr')->error($this->all());
         $method = $this->method();
         if ($method == 'GET' || $method == 'DELETE') {
             return [];

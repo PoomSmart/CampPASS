@@ -7,8 +7,10 @@ use App\CampCategory;
 use App\Program;
 use App\Organization;
 use App\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class CampController extends Controller
@@ -67,16 +69,18 @@ class CampController extends Controller
      */
     public function store(Request $request)
     {
-        $org_id = \Auth::user()->org_id;
-        error_log(print_r($request));
+        $canList = \Auth::user()->hasPermissionTo('org-list');
+        if (!$canList)
+            $request->merge(['org_id' => \Auth::user()->org_id]);
+        Log::channel('stderr')->error($request->all());
         request()->validate([
             'campcat_id' => 'required|exists:camp_categories,id',
-            'org_id' => \Auth::user()->hasPermissionTo('org-list') ? 'required|exists:organizations,id' : 'required|in:{$org_id}',
+            'org_id' => $canList ? 'required|exists:organizations,id' : 'required|in:{$org_id}',
             'cp_id' => 'required|exists:camp_procedures,id',
             'name_en' => 'required_without:name_th',
             'name_th' => 'required_without:name_en',
-            'short_description_en' => 'required_without:short_description_th|string|max:200',
-            'short_description_th' => 'required_without:short_description_en|string|max:200',
+            'short_description_en' => 'nullable|required_without:short_description_th|string|max:200',
+            'short_description_th' => 'nullable|required_without:short_description_en|string|max:200',
             'required_programs' => 'nullable|integer',
             'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
             'other_conditions' => 'nullable|string|max:200',
