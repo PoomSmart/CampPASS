@@ -67,11 +67,11 @@
             <div class="container">
                 @if ($message = Session::get('message'))
                     <div class="alert alert-info">
-                        <p>{{ $message }}</p>
+                        {{ $message }}
                     </div>
                 @elseif ($message = Session::get('success'))
                     <div class="alert alert-success">
-                        <p>{{ $message }}</p>
+                        {{ $message }}
                     </div>
                 @endif
                 @if ($errors->any())
