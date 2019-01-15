@@ -12,21 +12,21 @@ class Answer extends Model
 {
     public function camper()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->limit(1)->get()->first();
     }
 
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class)->limit(1)->get()->first();
     }
 
     public function questionSet()
     {
-        return $this->belongsTo(QuestionSet::class);
+        return $this->belongsTo(QuestionSet::class)->limit(1)->get()->first();
     }
 
     public function registration()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(Registration::class)->limit(1)->get()->first();
     }
 }

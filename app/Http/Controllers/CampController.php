@@ -25,8 +25,9 @@ class CampController extends Controller
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->programs = Program::all(['id', 'name']);
         $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
-        $this->organizations = Organization::pluck('name_en'); // TODO: Localization
+        $this->organizations = null;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +49,14 @@ class CampController extends Controller
     {
         $programs = $this->programs;
         $categories = $this->categories;
+        if (is_null($this->organizations)) {
+            if (\Auth::user()->hasPermissionTo('org-list'))
+                $this->organizations = Organization::all();
+            else
+                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
+        }
         $organizations = $this->organizations;
+        error_log(\Auth::user()->org_id);
         return view('camps.create', compact('programs', 'categories', 'organizations'));
     }
 
@@ -60,13 +68,15 @@ class CampController extends Controller
      */
     public function store(Request $request)
     {
+        $org_id=\Auth::user()->org_id;
         request()->validate([
             'campcat_id' => 'required|exists:camp_categories,id',
-            'org_id' => 'required|exists:organizations,id',
+            'org_id' => \Auth::user()->hasPermissionTo('org-list') ? 'required|exists:organizations,id' : 'required|in:{$org_id}',
             'cp_id' => 'required|exists:camp_procedures,id',
             'name_en' => 'required_without:name_th',
             'name_th' => 'required_without:name_en',
-            'short_description' => 'required|max:200',
+            'short_description_en' => 'required_without:short_description_th|string|max:200',
+            'short_description_th' => 'required_without:short_description_en|string|max:200',
             'required_programs' => 'nullable|integer',
             'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
             'other_conditions' => 'nullable|string|max:200',
@@ -138,9 +148,10 @@ class CampController extends Controller
     public function update(Request $request, Camp $camp)
     {
          request()->validate([
-            'name_en' => 'required',
-            'name_th' => 'required',
-            'short_description' => 'required',
+            'name_en' => 'required_without:name_th|string|max:100',
+            'name_th' => 'required_without:name_en|string|max:100',
+            'short_description_en' => 'nullable|string|max:200',
+            'short_description_th' => 'nullable|string|max:200',
         ]);
         $camp->update($request->all());
         return redirect()->route('camps.index')->with('success', 'Camp updated successfully');

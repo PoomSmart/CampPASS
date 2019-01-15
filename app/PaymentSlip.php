@@ -9,6 +9,6 @@ class PaymentSlip extends Model
 {
     public function registration()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(Registration::class)->limit(1)->get()->first();
     }
 }

@@ -15,6 +15,6 @@ class Question extends Model
 
     public function pair()
     {
-        return $this->belongsTo(QuestionSetQuestionPair::class);
+        return $this->belongsTo(QuestionSetQuestionPair::class)->limit(1)->get()->first();
     }
 }

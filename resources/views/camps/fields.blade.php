@@ -11,10 +11,15 @@
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'short_description',
-    'label' => trans('camp.ShortDescription'),
+    'name' => 'short_description_en',
+    'label' => trans('camp.EnglishShortDescription'),
     'textarea' => 1,
-    'attributes' => 'required',
+])@endcomponent
+
+@component('components.input', [
+    'name' => 'short_description_th',
+    'label' => trans('camp.ThaiShortDescription'),
+    'textarea' => 1,
 ])@endcomponent
 
 @component('components.input', [
@@ -33,12 +38,16 @@
 @component('components.input', [
     'name' => 'org_id',
     'label' => trans('camp.Organization'),
-    'attributes' => 'required',
+    'attributes' => Auth::user()->hasPermissionTo('org-list') ? 'required' : '',
 ])
 @slot('override')
-    <select id="org_id" class="form-control">
-        @foreach ($organizations as $index => $org)
-            <option>{{ $org }}</option>
+    <select id="org_id" class="form-control"
+        @if (!Auth::user()->hasPermissionTo('org-list'))
+            disabled
+        @endif
+    >
+        @foreach ($organizations as $org)
+            <option value="{{ $org->id }}">{{ $org->getName() }}</option>
         @endforeach
     </select>
 @endslot

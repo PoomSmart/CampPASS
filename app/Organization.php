@@ -20,7 +20,7 @@ class Organization extends Model
 
     public function getName()
     {
-        if (config('app.locale') == 'th')
+        if (config('app.locale') == 'th' && !is_null($this->name_th))
             return $this->name_th;
         return $this->name_en;
     }

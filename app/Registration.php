@@ -13,17 +13,17 @@ class Registration extends Model
 {
     public function camp()
     {
-        return $this->belongsTo(Camp::class);
+        return $this->belongsTo(Camp::class)->limit(1)->get()->first();
     }
 
     public function camper()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->limit(1)->get()->first();
     }
 
     public function certificate()
     {
-        return $this->hasOne(Certificate::class);
+        return $this->hasOne(Certificate::class)->limit(1)->get()->first();
     }
 
     public function payments()

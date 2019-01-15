@@ -21,9 +21,10 @@ class CreateCampsTable extends Migration
             $table->foreign('org_id')->references('id')->on('organizations');
             $table->integer('cp_id')->unsigned();
             $table->foreign('cp_id')->references('id')->on('camp_procedures');
-            $table->string('name_en')->nullable();
-            $table->string('name_th')->nullable();
-            $table->string('short_description', 200);
+            $table->string('name_en', 100)->nullable();
+            $table->string('name_th', 100)->nullable();
+            $table->string('short_description_en', 200)->nullable();
+            $table->string('short_description_th', 200)->nullable();
             $table->smallInteger('required_programs')->unsigned()->nullable();
             $table->double('min_gpa', 3, 2)->default(0.0);
             $table->string('other_conditions', 200)->nullable();

@@ -29,7 +29,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'campcat_id' => CampCategory::inRandomOrder()->first()->id,
         'cp_id' => CampProcedure::inRandomOrder()->first()->id,
         'org_id' => Organization::inRandomOrder()->first()->id,
-        'short_description' => $faker->sentence($nbWords = 10, $variableNbWords = true),
+        'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'required_programs' => rand() % 2 ? null : Randomizer::programs(),
         'min_gpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 4.0),
         'other_conditions' => rand() % 2 ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
