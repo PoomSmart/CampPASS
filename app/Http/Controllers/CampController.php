@@ -142,6 +142,12 @@ class CampController extends Controller
         View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
+        if (is_null($this->organizations)) {
+            if (\Auth::user()->hasPermissionTo('org-list'))
+                $this->organizations = Organization::all();
+            else
+                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
+        }
         $organizations = $this->organizations;
         $camp_procedures = $this->camp_procedures;
         return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures'));
