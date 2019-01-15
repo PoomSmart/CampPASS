@@ -56,7 +56,6 @@ class CampController extends Controller
                 $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
         }
         $organizations = $this->organizations;
-        error_log(\Auth::user()->org_id);
         return view('camps.create', compact('programs', 'categories', 'organizations'));
     }
 
