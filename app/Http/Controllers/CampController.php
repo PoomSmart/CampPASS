@@ -109,6 +109,8 @@ class CampController extends Controller
      */
     public function edit(Camp $camp)
     {
+        if (!\Auth::user()->canManageCamp($camp))
+            return redirect()->back()->with('error', trans('app.NoPermissionError'));
         View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
@@ -134,6 +136,8 @@ class CampController extends Controller
      */
     public function update(StoreCampRequest $request, Camp $camp)
     {
+        if (!\Auth::user()->canManageCamp($camp))
+            return redirect()->back()->with('error', trans('app.NoPermissionError'));
         $camp->update($request->all());
         return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
     }
@@ -146,6 +150,8 @@ class CampController extends Controller
      */
     public function destroy(Camp $camp)
     {
+        if (!\Auth::user()->canManageCamp($camp))
+            return redirect()->back()->with('error', trans('app.NoPermissionError'));
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

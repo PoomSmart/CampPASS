@@ -4,14 +4,17 @@ namespace App;
 
 use App\Answer;
 use App\Badge;
+use App\Camp;
 use App\Organization;
 use App\Program;
 use App\Religion;
 use App\Registration;
 use App\School;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -58,6 +61,11 @@ class User extends Authenticatable
     public function isCampMaker()
     {
         return $this->type == config('const.account.campmaker');
+    }
+
+    public function isAdmin()
+    {
+        return $this->type == config('const.account.admin') && $this->hasRole('admin');
     }
 
     public function answers()
@@ -140,5 +148,10 @@ class User extends Authenticatable
         if ($this->isCampMaker())
             return Camp::where('org_id', $this->org_id);
         return null;
+    }
+
+    public function canManageCamp(Camp $camp)
+    {
+        return $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
     }
 }
