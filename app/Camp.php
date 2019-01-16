@@ -68,11 +68,13 @@ class Camp extends Model
 
     public function getRequiredProgramsAttribute($value)
     {
-        return json_decode($value);
+        if (is_null($value)) return [];
+        return json_decode("[{$value}]", true)[0];
     }
 
     public function setRequiredProgramsAttribute($value)
     {
-        $this->attributes['required_programs'] = json_encode($value);
+        if (is_null($value)) $value = [];
+        $this->attributes['required_programs'] = json_encode(array_map('intval', $value));
     }
 }

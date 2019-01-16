@@ -79,7 +79,7 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'required_programs', 'bit' => 1, 'type' => 'checkbox', 'objects' => $programs])
+    @component('components.radio', ['name' => 'required_programs', 'type' => 'checkbox', 'objects' => $programs])
     @endcomponent
 </fieldset> 
 @endslot
@@ -95,6 +95,7 @@
 @component('components.input', [
     'name' => 'other_conditions',
     'label' => trans('camp.OtherConditions'),
+    'textarea' => 1,
 ])@endcomponent
 
 @component('components.input', [
