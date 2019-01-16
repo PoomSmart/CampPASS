@@ -6,6 +6,7 @@ use App\CampProcedure;
 use App\User;
 use App\Program;
 use App\Registration;
+use App\Region;
 use App\Religion;
 use App\School;
 use App\Organization;
@@ -21,8 +22,21 @@ class DatabaseSeeder extends Seeder
     private function programs()
     {
         Program::insert([
-            [ 'name' => 'Science' ],
-            [ 'name' => 'Art' ],
+            [ 'name' => 'Sci-Math' ],
+            [ 'name' => 'Arts-Math' ],
+            [ 'name' => 'ปวช/ปวส' ], // TODO: Proper localization
+        ]);
+    }
+
+    private function regions()
+    {
+        Region::insert([
+            [ 'name' => 'Northen Thailand', 'short_name' => 'N' ],
+            [ 'name' => 'Northeastern Thailand', 'short_name' => 'NE' ],
+            [ 'name' => 'Western Thailand', 'short_name' => 'W' ],
+            [ 'name' => 'Central Thailand', 'short_name' => 'C' ],
+            [ 'name' => 'Eastern Thailand', 'short_name' => 'E' ],
+            [ 'name' => 'Southern Thailand', 'short_name' => 'S' ],
         ]);
     }
 
@@ -86,6 +100,7 @@ class DatabaseSeeder extends Seeder
             $campmaker->org_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
         }
+        // TODO: Sometimes this will return nothing
         $candidate = User::campMakers()->whereIn('org_id', Camp::distinct('org_id')->select('org_id')->groupBy('org_id')->get())->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->status = 1;
@@ -116,6 +131,7 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->religions();
+        $this->regions();
         $this->programs();
         $this->campCategories();
         $this->campProcedures();

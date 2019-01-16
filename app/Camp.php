@@ -14,13 +14,13 @@ use Illuminate\Database\Eloquent\Model;
 class Camp extends Model
 {
     protected $fillable = [
-        'campcat_id', 'org_id', 'cp_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'required_programs',
+        'campcat_id', 'org_id', 'cp_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
         'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_opendate', 'app_closedate',
         'reg_opendate', 'reg_closedate', 'event_startdate', 'event_enddate', 'event_location_lat', 'event_location_long',
         'quota', 'approved',
     ];
 
-    protected $appends = ['required_programs'];
+    protected $appends = ['acceptable_regions', 'acceptable_programs'];
 
     public function registrations()
     {
@@ -66,15 +66,25 @@ class Camp extends Model
         return $this->short_description_en;
     }
 
-    public function getRequiredProgramsAttribute($value)
+    public function getAcceptableProgramsAttribute($value)
     {
-        if (is_null($value)) return [];
-        return json_decode("[{$value}]", true)[0];
+        $data = json_decode("[{$value}]", true);
+        return count($data) ? $data[0] : $data;
     }
 
-    public function setRequiredProgramsAttribute($value)
+    public function setAcceptableProgramsAttribute($value)
     {
-        if (is_null($value)) $value = [];
-        $this->attributes['required_programs'] = json_encode(array_map('intval', $value));
+        $this->attributes['acceptable_programs'] = json_encode(array_map('intval', $value));
+    }
+
+    public function getAcceptableRegionsAttribute($value)
+    {
+        $data = json_decode("[{$value}]", true);
+        return count($data) ? $data[0] : $data;
+    }
+
+    public function setAcceptableRegionsAttribute($value)
+    {
+        $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
     }
 }

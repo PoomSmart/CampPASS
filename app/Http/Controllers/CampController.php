@@ -7,6 +7,7 @@ use App\CampCategory;
 use App\CampProcedure;
 use App\Program;
 use App\Organization;
+use App\Region;
 use App\User;
 
 use App\Http\Requests\StoreCampRequest;
@@ -18,11 +19,6 @@ use Illuminate\Support\Facades\View;
 
 class CampController extends Controller
 {
-    protected $programs;
-    protected $categories;
-    protected $organizations;
-    protected $camp_procedures;
-
     function __construct()
     {
         $this->middleware('permission:camp-list');
@@ -33,6 +29,7 @@ class CampController extends Controller
         $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
         $this->organizations = null;
         $this->camp_procedures = CampProcedure::all(['id', 'title']); // TODO: Localization
+        $this->regions = Region::all(['id', 'name']); // TODO: Localization
     }
 
     private function getOrganizationsIfNeeded()
@@ -69,7 +66,8 @@ class CampController extends Controller
         $categories = $this->categories;
         $organizations = $this-getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
-        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures'));
+        $regions = $this->regions;
+        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
     }
 
     /**
@@ -126,7 +124,8 @@ class CampController extends Controller
         $categories = $this->categories;
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
-        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures'));
+        $regions = $this->regions;
+        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
     }
 
     /**

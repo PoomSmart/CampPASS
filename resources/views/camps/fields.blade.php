@@ -73,15 +73,28 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'required_programs',
-    'label' => trans('camp.RequiredPrograms'),
+    'name' => 'acceptable_regions',
+    'label' => trans('camp.AcceptableRegions'),
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
-    @component('components.radio', ['name' => 'required_programs', 'type' => 'checkbox', 'objects' => $programs])
-    @endcomponent
-</fieldset> 
+    <fieldset>
+        @component('components.radio', ['name' => 'acceptable_regions', 'type' => 'checkbox', 'objects' => $regions])
+        @endcomponent
+    </fieldset> 
+@endslot
+@endcomponent
+
+@component('components.input', [
+    'name' => 'acceptable_programs',
+    'label' => trans('camp.AcceptablePrograms'),
+    'attributes' => 'required',
+])
+@slot('override')
+    <fieldset>
+        @component('components.radio', ['name' => 'acceptable_programs', 'type' => 'checkbox', 'objects' => $programs])
+        @endcomponent
+    </fieldset> 
 @endslot
 @endcomponent
 

@@ -21,11 +21,12 @@ class CreateCampsTable extends Migration
             $table->foreign('org_id')->references('id')->on('organizations');
             $table->integer('cp_id')->unsigned();
             $table->foreign('cp_id')->references('id')->on('camp_procedures');
+            $table->json('acceptable_regions');
             $table->string('name_en', 100)->nullable();
             $table->string('name_th', 100)->nullable();
             $table->string('short_description_en', 200)->nullable();
             $table->string('short_description_th', 200)->nullable();
-            $table->json('required_programs')->nullable();
+            $table->json('acceptable_programs')->nullable();
             $table->double('min_gpa', 3, 2)->nullable();
             $table->string('other_conditions', 200)->nullable();
             $table->integer('application_fee')->unsigned()->nullable(); // some camps don't cost campers
