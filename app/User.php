@@ -127,6 +127,12 @@ class User extends Authenticatable
         return $this->name_en .' '. $this->surname_en;
     }
 
+    // TODO: proper value store initially?
+    public function getMattayom()
+    {
+        return $this->isCamper() ? $this->mattayom + 1 : null;
+    }
+
     public function belongingCamps()
     {
         if ($this->isCamper())

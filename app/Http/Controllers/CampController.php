@@ -9,6 +9,8 @@ use App\Program;
 use App\Organization;
 use App\User;
 
+use App\Http\Requests\StoreCampRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +35,17 @@ class CampController extends Controller
         $this->camp_procedures = CampProcedure::all(['id', 'title']); // TODO: Localization
     }
 
+    private function getOrganizationsIfNeeded()
+    {
+        if (is_null($this->organizations)) {
+            if (\Auth::user()->hasPermissionTo('org-list'))
+                $this->organizations = Organization::all();
+            else
+                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
+        }
+        return $this->organizations;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,13 +67,7 @@ class CampController extends Controller
     {
         $programs = $this->programs;
         $categories = $this->categories;
-        if (is_null($this->organizations)) {
-            if (\Auth::user()->hasPermissionTo('org-list'))
-                $this->organizations = Organization::all();
-            else
-                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
-        }
-        $organizations = $this->organizations;
+        $organizations = $this-getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures'));
     }
@@ -68,40 +75,17 @@ class CampController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCampRequest $request)
     {
-        $canList = \Auth::user()->hasPermissionTo('org-list');
-        if (!$canList)
-            $request->merge(['org_id' => \Auth::user()->org_id]);
-        request()->validate([
-            'campcat_id' => 'required|exists:camp_categories,id',
-            'org_id' => 'required|exists:organizations,id',
-            'cp_id' => 'required|exists:camp_procedures,id',
-            'name_en' => 'nullable|required_without:name_th|string',
-            'name_th' => 'nullable|required_without:name_en|string',
-            'short_description_en' => 'nullable|required_without:short_description_th|string|max:200',
-            'short_description_th' => 'nullable|required_without:short_description_en|string|max:200',
-            'required_programs' => 'nullable|integer',
-            'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
-            'other_conditions' => 'nullable|string|max:200',
-            'application_fee' => 'nullable|integer|min:0',
-            'url' => 'nullable|url|max:150',
-            'fburl' => 'nullable|url|max:150',
-            'app_opendate' => 'nullable|date_format:Y-m-d|after_or_equal:today',
-            'app_closedate' => 'nullable|date_format:Y-m-d|after:app_opendate',
-            'reg_opendate' => 'nullable|date_format:Y-m-d|after_or_equal:today',
-            'reg_closedate' => 'nullable|date_format:Y-m-d|after:reg_opendate',
-            'event_startdate' => 'nullable|date_format:Y-m-d|after:tomorrow',
-            'event_enddate' => 'nullable|date_format:Y-m-d|after_or_equal:event_startdate',
-            'event_location_lat' => 'nullable|numeric|min:-90|max:90', // TODO: Figure out how can they input
-            'event_location_long' => 'nullable|numeric|min:-180|max:180',
-            'quota' => 'nullable|integer|min:0',
-            'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves
-        ]);
-        Camp::create($request->all());
+        try {
+            Camp::create($request->all());
+        } catch (\Exception $exception) {
+            Log::channel('stderr')->error($exception);
+            return redirect()->route('camps.index');
+        }
         return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
     }
 
@@ -124,7 +108,6 @@ class CampController extends Controller
      */
     public function campersForCamp(Camp $camp)
     {
-        // TODO: make it correct
         $registrations = $camp->registrations()->select('camper_id')->get();
         $campers = User::campers()->whereIn('id', $registrations)->get();
         return $campers;
@@ -141,13 +124,7 @@ class CampController extends Controller
         View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
-        if (is_null($this->organizations)) {
-            if (\Auth::user()->hasPermissionTo('org-list'))
-                $this->organizations = Organization::all();
-            else
-                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
-        }
-        $organizations = $this->organizations;
+        $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures'));
     }
@@ -155,18 +132,12 @@ class CampController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreUserRequest  $request
      * @param  \App\Camp  $camp
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Camp $camp)
+    public function update(StoreCampRequest $request, Camp $camp)
     {
-         request()->validate([
-            'name_en' => 'required_without:name_th|string|max:100',
-            'name_th' => 'required_without:name_en|string|max:100',
-            'short_description_en' => 'nullable|string|max:200',
-            'short_description_th' => 'nullable|string|max:200',
-        ]);
         $camp->update($request->all());
         return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
     }

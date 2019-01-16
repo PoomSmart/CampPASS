@@ -48,15 +48,15 @@ class StoreUserRequest extends FormRequest
             'zipcode'       => 'required|string:max:20',
             'password'      => 'required|string|min:6|confirmed',
             // camper
-            'school_id' => "required_if:type,{$CAMPER}|exists:schools,id",
+            'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'short_biography'    => 'nullable|string|max:500',
-            'mattayom'          => 'nullable|integer|min:1|max:6',
+            'mattayom'          => 'nullable|integer|min:0|max:5',
             'blood_group'        => "nullable|integer|required_if:type,{$CAMPER}",
             'guardian_name'      => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_role'      => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
             'guardian_mobile_no'  => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker
-            'org_id' => "required_if:type,{$CAMPMAKER}|exists:organizations,id",
+            'org_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         if ($method == 'PUT' || $method == 'PATCH') {
             $user = User::find($this->users);

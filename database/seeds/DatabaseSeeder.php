@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
     private function alterCampers()
     {
         foreach (User::campers()->cursor() as $camper) {
-            $camper->mattayom = rand(1, 6);
+            $camper->mattayom = rand(0, 5);
             $camper->blood_group = rand(0, 3);
             $camper->school_id = School::inRandomOrder()->first()->id;
             $camper->program_id = Program::inRandomOrder()->first()->id;

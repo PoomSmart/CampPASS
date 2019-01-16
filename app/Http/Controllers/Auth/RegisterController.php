@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Religion;
+use App\School;
 use App\Organization;
 
 use App\Http\Controllers\Controller;
@@ -13,7 +14,6 @@ use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -35,8 +35,6 @@ class RegisterController extends Controller
     protected $CAMPER;
     protected $CAMPMAKER;
 
-    protected $religions;
-
     /**
      * Where to redirect users after registration.
      *
@@ -56,6 +54,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
         $this->religions = Religion::all(['id', 'name']);
         $this->organizations = null;
+        $this->schools = School::all(['id', 'name_en']); // TODO: Localization
     }
 
     /**
@@ -75,7 +74,10 @@ class RegisterController extends Controller
      */
     public function camper()
     {
-        return view('auth.register', [ 'type' => $this->CAMPER, 'religions' => $this->religions ]);
+        $type = $this->CAMPER;
+        $religions = $this->religions;
+        $schools = $this->schools;
+        return view('auth.register', compact('type', 'religions', 'schools'));
     }
 
     /**

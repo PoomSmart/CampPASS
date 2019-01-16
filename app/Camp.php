@@ -8,6 +8,7 @@ use App\CertificateTemplate;
 use App\Organization;
 use App\QuestionSet;
 use App\Registration;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Camp extends Model
@@ -18,6 +19,8 @@ class Camp extends Model
         'reg_opendate', 'reg_closedate', 'event_startdate', 'event_enddate', 'event_location_lat', 'event_location_long',
         'quota', 'approved',
     ];
+
+    protected $appends = ['required_programs'];
 
     public function registrations()
     {
@@ -61,5 +64,15 @@ class Camp extends Model
         if (config('app.locale') == 'th' && !is_null($this->short_description_th))
             return $this->short_description_th;
         return $this->short_description_en;
+    }
+
+    public function getRequiredProgramsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setRequiredProgramsAttribute($value)
+    {
+        $this->attributes['required_programs'] = json_encode($value);
     }
 }

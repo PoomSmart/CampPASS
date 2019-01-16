@@ -72,4 +72,5 @@ return [
 
     'School' => 'School',
     'Program' => 'Program',
+    'Mattayom' => 'Mattayom',
 ];

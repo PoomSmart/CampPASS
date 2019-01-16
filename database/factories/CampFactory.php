@@ -11,15 +11,9 @@ class Randomizer
 {
     public static function programs()
     {
-        $value = 0;
-        $programs = Program::inRandomOrder()->pluck('id'); // TODO: Optimize away
-        foreach ($programs as $program) {
-            if (rand() % 2)
-                $value |= 1 << $program;
-        }
-        if ($value == 0)
-            $value |= 1 << $programs->first();
-        return $value;
+        $programs = Program::inRandomOrder();
+        $programs = $programs->limit(rand(1, $programs->count()))->pluck('id'); // TODO: Optimize away
+        return $programs->toArray();
     }
 }
 
