@@ -29,6 +29,7 @@ class PermissionTableSeeder extends Seeder
             'camp-create',
             'camp-edit',
             'camp-delete',
+            'camp-approve',
 
             // general user management
             'user-list',

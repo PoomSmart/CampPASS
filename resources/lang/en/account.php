@@ -66,7 +66,7 @@ return [
     'ShortBiography' => 'Short Biography',
     'LeaveBlank' => 'May be blank.',
     'YouCanWriteItLater' => 'Write about yourself briefly. You may complete this field later.',
-    'GuardianName' => 'Guardian Name',
+    'GuardianName' => 'Guardian Full Name',
     'GuardianMobileNo' => 'Guardian Mobile No.',
     'GuardianRole' => 'Guardian Role',
 

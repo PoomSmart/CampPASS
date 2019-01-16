@@ -22,4 +22,5 @@ return [
     'Edit' => 'Edit',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',
+    'Approve' => 'Approve',
 ];

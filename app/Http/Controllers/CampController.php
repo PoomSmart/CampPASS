@@ -25,6 +25,7 @@ class CampController extends Controller
         $this->middleware('permission:camp-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:camp-approve', ['only' => ['approve']]);
         $this->programs = Program::all(['id', 'name']);
         $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
         $this->organizations = null;
@@ -96,19 +97,8 @@ class CampController extends Controller
     public function show(Camp $camp)
     {
         View::share('object', $camp);
-        $data = $this->campersForCamp($camp);
+        $data = $camp->campers();
         return view('camps.show', compact('camp', 'data'));
-    }
-
-    /**
-     * Return the campers that belong to the given camp.
-     * 
-     */
-    public function campersForCamp(Camp $camp)
-    {
-        $registrations = $camp->registrations()->select('camper_id')->get();
-        $campers = User::campers()->whereIn('id', $registrations)->get();
-        return $campers;
     }
 
     /**
@@ -126,6 +116,13 @@ class CampController extends Controller
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
         return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
+    }
+
+    public function approve(Camp $camp)
+    {
+        $camp->approved = true;
+        $camp->save();
+        return redirect()->route('camps.index')->with('success', "Camp {$camp->getName()} has been approved");
     }
 
     /**

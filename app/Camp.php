@@ -8,6 +8,7 @@ use App\CertificateTemplate;
 use App\Organization;
 use App\QuestionSet;
 use App\Registration;
+use App\User;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -86,5 +87,16 @@ class Camp extends Model
     public function setAcceptableRegionsAttribute($value)
     {
         $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
+    }
+
+    /**
+     * Return the campers that belong to the given camp.
+     * 
+     */
+    public function campers()
+    {
+        $registrations = $this->registrations()->select('camper_id')->get();
+        $campers = User::campers()->whereIn('id', $registrations)->get();
+        return $campers;
     }
 }

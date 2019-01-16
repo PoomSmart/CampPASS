@@ -18,7 +18,8 @@
             <th>{{ trans('app.No_') }}</th>
             <th>Localized Name</th>
             <th>{{ trans('camp.ShortDescription') }}</th>
-            <th>{{ trans('camp.Approved') }}</th>
+            <th>Registered Campers</th>
+            <th>{{ trans('camp.Status') }}</th>
             <th width="280px">{{ trans('app.Actions' ) }}</th>
         </tr>
 	    @foreach ($camps as $camp)
@@ -26,17 +27,24 @@
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $camp->getName() }}</td>
             <td>{{ $camp->getShortDescription() }}</td>
-            <td>{{ $camp->approved }}</td>
+            <td>{{ $camp->approved ? $camp->campers()->count() : 0 }}</td>
+            <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
 	        <td>
+                @if (!$camp->approved)
+                    @can('camp-approve')
+                        <form action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
+                            <button type="submit" class="btn btn-warning">{{ trans('app.Approve') }}</button>
+                        </form>
+                    @endcan
+                @endif
                 <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('camps.show', $camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')
                         <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
                     @endcan
-
                     @csrf
                     @method('DELETE')
-                    @can('camp-delete') <!-- TODO: Add confirmation dialog -->
+                    @can('camp-delete') <!-- TODO: Add confirmation dialog + Grant from admin -->
                         <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
                     @endcan
                 </form>
