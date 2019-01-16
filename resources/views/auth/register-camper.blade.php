@@ -47,6 +47,7 @@
 @component('components.input', [
     'name' => 'guardian_name',
     'label' => trans('account.GuardianName'),
+    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [
@@ -64,6 +65,7 @@
 @component('components.input', [
     'name' => 'guardian_mobile_no',
     'label' => trans('account.GuardianMobileNo'),
+    'attributes' => 'required',
     'type' => 'tel',
 ])@endcomponent
 

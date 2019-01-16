@@ -17,7 +17,7 @@ return [
     'EnglishShortDescription' => 'Short Description in English',
     'ThaiShortDescription' => 'Short Description in Thai',
     'ShortDescription' => 'Short Description',
-    'AcceptablePrograms' => 'Acceptable Programs',
+    'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',
     'Organization' => 'Organization',
     'Category' => 'Category',

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         Program::insert([
             [ 'name' => 'Sci-Math' ],
             [ 'name' => 'Arts-Math' ],
-            [ 'name' => 'ปวช/ปวส' ], // TODO: Proper localization
+            [ 'name' => 'Vocational/Diploma Cert.' ], // TODO: Localization
         ]);
     }
 
