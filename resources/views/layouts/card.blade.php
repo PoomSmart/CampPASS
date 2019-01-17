@@ -2,7 +2,7 @@
 
 @section('outer_content')
     <div class="col-lg-12 margin-tb">
-        <div class="pull-right">
+        <div class="float-right">
             @yield('button')
         </div>
     </div>
