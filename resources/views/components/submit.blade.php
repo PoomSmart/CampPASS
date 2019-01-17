@@ -4,7 +4,7 @@
             {{ trans($label) }}
         </button>
         @if (isset($postcontent))
-            {{ $isset }}
+            {{ $postcontent }}
         @endif
     </div>
 </div>

@@ -44,11 +44,10 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <select name="cp_id", id="cp_id" class="form-control">
-        @foreach ($camp_procedures as $cp)
-            <option value="{{ $cp->id }}">{{ $cp->getTitle() }}</option>
-        @endforeach
-    </select>
+    @component('components.select', [
+        'name' => 'cp_id',
+    ])
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -58,20 +57,11 @@
     'attributes' => Auth::user()->hasPermissionTo('org-list') ? 'required' : '',
 ])
 @slot('override')
-    <select name="org_id", id="org_id" class="form-control"
-        @if (!Auth::user()->hasPermissionTo('org-list'))
-            disabled
-        @endif
-    >
-        @foreach ($organizations as $org)
-            <option
-                @if ($org->id == old('org_id'))
-                    selected
-                @endif
-                value="{{ $org->id }}">{{ $org->getName() }}
-            </option>
-        @endforeach
-    </select>
+    @component('components.select', [
+        'name' => 'org_id',
+        'disabled' => !Auth::user()->hasPermissionTo('org-list'),
+    ])
+    @endcomponent
 @endslot
 @endcomponent
 
