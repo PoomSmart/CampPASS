@@ -8,7 +8,7 @@
             </div>
             <div class="pull-right">
                 @can('camp-create')
-                <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
+                    <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
                 @endcan
             </div>
         </div>
@@ -16,7 +16,7 @@
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
-            <th>Localized Name</th>
+            <th>{{ trans('app.LocalizedName') }}</th>
             <th>{{ trans('camp.ShortDescription') }}</th>
             <th>Registered Campers</th>
             <th>{{ trans('camp.Status') }}</th>
@@ -33,18 +33,22 @@
                 @if (!$camp->approved)
                     @can('camp-approve')
                         <form action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
+                            @csrf
                             <button type="submit" class="btn btn-warning">{{ trans('app.Approve') }}</button>
                         </form>
                     @endcan
                 @endif
+                @can('question-list')
+                    <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('Question') }}</a>
+                @endcan
                 <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('camps.show', $camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')
                         <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
                     @endcan
-                    @csrf
-                    @method('DELETE')
                     @can('camp-delete') <!-- TODO: Add confirmation dialog + Grant from admin -->
+                        @csrf
+                        @method('DELETE')
                         <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
                     @endcan
                 </form>

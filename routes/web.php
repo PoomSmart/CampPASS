@@ -30,6 +30,10 @@ Route::group(['middleware' => ['permission:camp-list']], function() {
     Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
 });
 
+Route::group(['middleware' => ['permission:question-list']], function() {
+    Route::resource('questions', 'QuestionController');
+});
+
 Route::group(['middleware' => ['role:campmaker']], function() {
     Route::resource('campers', 'CamperController');
 });

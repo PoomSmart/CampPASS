@@ -15,6 +15,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Additional Styles -->
     @yield('style')
+    <!-- Additional Scripts -->
+    @yield('script')
 </head>
 <body>
     <div id="app">
@@ -72,6 +74,10 @@
                     </div>
                 @elseif ($message = Session::get('success'))
                     <div class="alert alert-success">
+                        {{ $message }}
+                    </div>
+                @elseif ($message = Session::get('error'))
+                    <div class="alert alert-danger">
                         {{ $message }}
                     </div>
                 @endif

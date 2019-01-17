@@ -29,8 +29,11 @@
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'campcat_id', 'objects' => $categories])
-    @endcomponent
+    @component('components.radio', [
+        'name' => 'campcat_id',
+        'objects' => $categories,
+        'required' => 1
+    ])@endcomponent
 </fieldset> 
 @endslot
 @endcomponent
@@ -60,9 +63,9 @@
             disabled
         @endif
     >
-        @foreach ($organizations as $index => $org)
+        @foreach ($organizations as $org)
             <option
-                @if ($index == 0)
+                @if ($org->id == old('org_id'))
                     selected
                 @endif
                 value="{{ $org->id }}">{{ $org->getName() }}
@@ -79,8 +82,11 @@
 ])
 @slot('override')
     <fieldset>
-        @component('components.radio', ['name' => 'acceptable_regions', 'type' => 'checkbox', 'objects' => $regions])
-        @endcomponent
+        @component('components.radio', [
+            'name' => 'acceptable_regions',
+            'type' => 'checkbox',
+            'objects' => $regions
+        ])@endcomponent
     </fieldset> 
 @endslot
 @endcomponent
@@ -92,8 +98,11 @@
 ])
 @slot('override')
     <fieldset>
-        @component('components.radio', ['name' => 'acceptable_programs', 'type' => 'checkbox', 'objects' => $programs])
-        @endcomponent
+        @component('components.radio', [
+            'name' => 'acceptable_programs',
+            'type' => 'checkbox',
+            'objects' => $programs
+        ])@endcomponent
     </fieldset> 
 @endslot
 @endcomponent

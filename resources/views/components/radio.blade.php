@@ -6,7 +6,7 @@
     <div class="form-check form-check-inline">
         <input class="form-check-input"
             type="{{ isset($type) ? $type : 'radio' }}"
-            name="{{ $name }}{{ (isset($type) && $checkbox ? "[]" : "") }}"
+            name="{{ $name }}{{ ($checkbox ? "[]" : "") }}"
             id="{{ $name }}_{{ (isset($idx) ? $i : $j) }}"
             value="{{ isset($idx) ? $i : $obj->id }}"
             @if (isset($required))

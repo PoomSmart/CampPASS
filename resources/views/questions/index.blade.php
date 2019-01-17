@@ -1,27 +1,18 @@
 @extends('layouts.app')
-@include('camps.fields')
 
 @section('script')
-
+<script src="{{ asset('js/question.js') }}" defer></script>
 @endsection
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>{{ trans('camp.CreateCamp') }}</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
-            </div>
-        </div>
-        <div class="col-md-8">
+        <div class="col-sm-12 col-md-10">
             <div class="card">
-                <div class="card-header">{{ trans('camp.CreateCamp') }}</div>
+                <div class="card-header">{{ trans('CreateQuestion') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('camps.store') }}">
+                    <form method="POST" action="{{ route('questions.store') }}">
                         @csrf
-                        @yield('camp-fields')
+                        <div id="questions"></div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -32,6 +23,11 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 form-group">
+            <button class="btn btn-info" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
         </div>
     </div>
 @endsection

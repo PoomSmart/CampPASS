@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Common;
+use App\Organization;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCampRequest extends FormRequest
@@ -28,14 +31,17 @@ class StoreCampRequest extends FormRequest
             return [];
         }
         $rules = [
-            'campcat_id' => 'required|exists:camp_categories,id',
-            'cp_id' => 'required|exists:camp_procedures,id',
+            'campcat_id' => 'required',
+            'campcat_id.*' => 'integer|exists:camp_categories,id',
+            'cp_id' => 'required|integer|exists:camp_procedures,id',
             'name_en' => 'nullable|string|required_without:name_th',
             'name_th' => 'nullable|string|required_without:name_en',
             'short_description_en' => 'nullable|string|max:200|required_without:short_description_th',
             'short_description_th' => 'nullable|string|max:200|required_without:short_description_en',
-            'acceptable_regions' => 'nullable|array',
-            'acceptable_programs' => 'nullable|array',
+            'acceptable_regions' => 'nullable|min:1',
+            'acceptable_regions.*' => 'integer',
+            'acceptable_programs' => 'nullable|min:1',
+            'acceptable_programs.*' => 'integer',
             'min_gpa' => 'nullable|numeric|min:1.0|max:4.0',
             'other_conditions' => 'nullable|string|max:200',
             'application_fee' => 'nullable|integer|min:0',

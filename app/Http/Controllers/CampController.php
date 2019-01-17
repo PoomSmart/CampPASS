@@ -80,10 +80,12 @@ class CampController extends Controller
     public function store(StoreCampRequest $request)
     {
         try {
+            if (\Auth::user()->isCampMaker())
+                $request->merge(['org_id' => \Auth::user()->org_id]);
             Camp::create($request->all());
         } catch (\Exception $exception) {
             Log::channel('stderr')->error($exception);
-            return redirect()->route('camps.index');
+            return redirect()->back()->with('error', 'Camp failed to create.');
         }
         return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
     }
@@ -98,7 +100,7 @@ class CampController extends Controller
     {
         View::share('object', $camp);
         $data = $camp->campers();
-        return view('camps.show', compact('camp', 'data'));
+        return view('camps.show', compact('data'));
     }
 
     /**
@@ -139,7 +141,7 @@ class CampController extends Controller
         if (!\Auth::user()->canManageCamp($camp))
             return redirect()->back()->with('error', trans('app.NoPermissionError'));
         $camp->update($request->all());
-        return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
+        return redirect()->back()->with('success', 'Camp updated successfully');
     }
 
     /**
