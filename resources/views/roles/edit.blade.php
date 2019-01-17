@@ -1,16 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.card')
+
+@section('header')
+    {{ trans('account.EditRole') }}
+@endsection
+
+@section('button')
+    <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
+@endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>{{ trans('account.EditRole') }}</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
-            </div>
-        </div>
-    </div>
     {!! Form::model($role, ['method' => 'PATCH', 'route' => ['roles.update', $role->id]]) !!}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">

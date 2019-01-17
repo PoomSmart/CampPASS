@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/welcome.css') }}">
 @stop
 
-@section('content')
+@section('outer_content')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="links">

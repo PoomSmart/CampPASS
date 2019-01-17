@@ -1,16 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.table')
+
+@section('header')
+    {{ $camp->getName() }}
+@endsection
+
+@section('button')
+    <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
+@endsection
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>{{ $camp->getName() }}</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
-            </div>
-        </div>
-    </div>
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">

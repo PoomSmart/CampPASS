@@ -1,18 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.table')
+
+@section('header')
+    Camps
+@endsection
+
+@can('camp-create')
+    @section('button')
+        <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
+    @endsection
+@endcan
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Camps</h2>
-            </div>
-            <div class="pull-right">
-                @can('camp-create')
-                    <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
-                @endcan
-            </div>
-        </div>
-    </div>
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
@@ -56,6 +54,5 @@
 	    </tr>
 	    @endforeach
     </table>
-
     {!! $camps->links() !!}
 @endsection

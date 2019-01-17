@@ -92,7 +92,7 @@
                 @endif
             </div>
             <div class="container">
-                @yield('content')
+                @yield('outer_content')
             </div>
         </main>
     </div>

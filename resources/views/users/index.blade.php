@@ -1,16 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.table')
+
+@section('header')
+    {{ trans('UsersManagement') }}
+@endsection
+
+@section('button')
+    <a class="btn btn-success" href="{{ route('users.create') }}">{{ trans('account.CreateUser') }}</a>
+@endsection
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Users Management</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}">{{ trans('account.CreateUser') }}</a>
-            </div>
-        </div>
-    </div>
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
