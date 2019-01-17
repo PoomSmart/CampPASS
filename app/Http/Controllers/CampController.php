@@ -65,7 +65,7 @@ class CampController extends Controller
     {
         $programs = $this->programs;
         $categories = $this->categories;
-        $organizations = $this-getOrganizationsIfNeeded();
+        $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
         return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
