@@ -52,7 +52,7 @@ class StoreCampRequest extends FormRequest
             'quota' => 'nullable|integer|min:0',
             'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves
         ];
-        if ($method == 'POST')
+        if (\Auth::user()->isAdmin() && $method == 'POST')
             $rules += [ 'org_id' => 'required|exists:organizations,id', ];
         return $rules;
     }
