@@ -14,12 +14,7 @@
         @csrf
         @method('PUT')
         @yield('camp-fields')
-        <div class="form-group row mb-0">
-            <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-primary">
-                    {{ trans('Update') }}
-                </button>
-            </div>
-        </div>
+        @component('components.submit', ['label' => 'Update'])
+        @endcomponent
     </form>
 @endsection

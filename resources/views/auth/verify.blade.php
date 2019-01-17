@@ -10,7 +10,6 @@
             {{ trans('account.VerificationLinkSent') }}
         </div>
     @endif
-
     {{ trans('account.VerifyCheckEmailBeforeProceed') }}
     {{ trans('account.IfNotReceiveEmail') }}, <a href="{{ route('verification.resend') }}">{{ trans('account.RequestVerifyLink') }}</a>.
 @endsection

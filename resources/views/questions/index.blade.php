@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('script')
-<script src="{{ asset('js/question.js') }}" defer></script>
+    <script src="{{ asset('js/question.js') }}" defer></script>
 @endsection
 
 @section('header')
