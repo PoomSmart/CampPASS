@@ -7,11 +7,27 @@ use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 
+use App\Enums\QuestionType;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class QuestionController extends Controller
 {
     protected $camp;
+
+    function __construct()
+    {
+        $this->middleware('permission:question-list');
+        $this->middleware('permission:question-create', ['only' => ['create', 'show', 'store']]);
+        $this->middleware('permission:question-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:question-delete', ['only' => ['destroy']]);
+        $types = QuestionType::getConstants();
+        $this->question_types = [];
+        foreach($types as $text => $number) {
+            array_push($this->question_types, (object)[ 'value' => $number, 'name' => trans("question.${text}") ]);
+        }
+    }
 
     /**
      * Display a listing of the resource.
@@ -60,6 +76,7 @@ class QuestionController extends Controller
         $questionSet = QuestionSet::where('camp_id', $this->camp->id)->first();
         $pairs = $questionSet ? QuestionSetQuestionPair::where('queset_id', $questionSet->id)->get(['que_id']) : [];
         $questions = Question::whereIn('id', $pairs);
+        View::share('question_types', $this->question_types);
         return view('questions.index', compact('questions'));
     }
 

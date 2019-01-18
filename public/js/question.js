@@ -10,6 +10,20 @@ function addQuestion() {
 function deleteQuestion(button) {
     if (jQuery("[id^=question-block]").length <= 1)
         return;
-    $(button).closest("[id^=question-block]").remove();
+    jQuery(button).closest("[id^=question-block]").remove();
     return false;
+}
+
+function selectionChanged(select) {
+    var value = parseInt(select.value);
+    var block = jQuery(select).closest("[id^=question-block]");
+    var input = block.find("#question");
+    if (value == 1 && block.find("input[type=text]").length == 0) {
+
+    }
+    /*if (value == 2 && block.find("textarea").length == 0) {
+        var clazz = input.attr("class");
+        var textbox = jQuery(document.createElement("textarea")).attr("class", clazz);
+        input.replaceWith(textbox);
+    }*/
 }

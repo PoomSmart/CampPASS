@@ -5,10 +5,10 @@
 @endsection
 
 @section('header')
-    {{ trans('CreateQuestion') }}
+    {{ trans('question.CreateQuestions') }}
 @endsection
 
-@section('content')
+@section('card_content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
         <div id="questions">

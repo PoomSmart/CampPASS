@@ -2,13 +2,20 @@
     @if (isset($disabled) && $disabled == true)
         disabled
     @endif
+    @if (isset($attributes))
+        {{ $attributes }}
+    @endif
 >
     @foreach ($objects as $obj)
         <option
-            @if ($obj->id == old("{{ $name }}"))
-                selected
+            @if (isset($isform) && $isform == 0)
+                value="{{ $obj->value }}">{{ $obj->name }}
+            @else
+                @if ($obj->id == old("{{ $name }}"))
+                    selected
+                @endif
+                value="{{ $obj->id }}">{{ $obj->getName() }}
             @endif
-            value="{{ $obj->id }}">{{ $obj->getName() }}
         </option>
     @endforeach
 </select>

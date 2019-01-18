@@ -9,7 +9,7 @@
     {{ trans('account.Register') }}
 @endsection
 
-@section('content')
+@section('card_content')
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <input name="type" type="hidden" value="{{ $type }}">

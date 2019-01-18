@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-{{ trans('account.VerifyEmail') }}
+    {{ trans('account.VerifyEmail') }}
 @endsection
 
 @section('content')

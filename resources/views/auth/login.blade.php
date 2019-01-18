@@ -4,7 +4,7 @@
     {{ trans('app.Login') }}
 @endsection
 
-@section('content')
+@section('card_content')
     <form method="POST" action="{{ route('login') }}">
         @csrf
         @component('components.input', [

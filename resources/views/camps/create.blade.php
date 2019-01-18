@@ -9,7 +9,7 @@
     <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
 @endsection
 
-@section('content')
+@section('card_content')
     <form method="POST" action="{{ route('camps.store') }}">
         @csrf
         @yield('camp-fields')
