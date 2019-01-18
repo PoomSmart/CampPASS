@@ -1,10 +1,11 @@
-i = 2;
-
 function addQuestion() {
-    var block = jQuery("#question-block-1").first().clone().attr("id", `question-block-${i}`);
-    block.find("#question-title-1").val("Title").attr("id", `question-title-${i}`);
-    block.find("label").val("Question").attr("for", `question_${i}`);
-    block.find("input").attr("id", `question_${i}`);
-    ++i;
+    var block = jQuery("#question-block").first().clone().attr("id", `question-block`);
+    block.find("#question-title").val("Title").attr("id", `question-title`);
+    block.find("label").val("Question").attr("for", `question`);
+    block.find("input").attr("id", `question`);
     jQuery("#questions").append(block);
+}
+
+function deleteQuestion(button) {
+    $(button).closest("#question-block").remove();
 }
