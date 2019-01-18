@@ -1,4 +1,4 @@
-<div id="question-block">
+<div id="question-block-1">
     <div class="row">
         <div class="col-sm-12 col-md-3">
             <h2 id="question-title">{{ $title }}</h2>
@@ -17,7 +17,7 @@
                             @endcomponent
                         </div>
                         <div class="col-3 col-sm-3 col-md-4">
-                            <button type="submit" class="btn btn-danger float-right" onclick="deleteQuestion(this);">Delete</button>
+                            <a href="#" class="btn btn-danger float-right" onclick="return deleteQuestion(this);">Delete</a>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,7 @@ return [
     'Back' => 'Back',
     'Show' => 'Show',
     'Edit' => 'Edit',
+    'Delete' => 'Delete',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',
     'Approve' => 'Approve',
