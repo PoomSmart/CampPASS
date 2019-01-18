@@ -11,11 +11,13 @@
 @section('content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
-        <div id="questions"></div>
-        @component('components.submit', ['label' => 'Submit'])
-        @slot('postcontent')
-            <button class="btn btn-info" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
-        @endslot
-        @endcomponent
+        <div id="questions">
+            @component('questions.question', [
+                'title' => 'Title',
+                'label' => 'Question',
+            ]);
+            @endcomponent
+        </div>
+        <button class="btn btn-info" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
     </form>
 @endsection

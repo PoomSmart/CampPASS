@@ -35,10 +35,11 @@
                             <button type="submit" class="btn btn-warning">{{ trans('app.Approve') }}</button>
                         </form>
                     @endcan
+                @else
+                    @can('question-list')
+                        <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('Question') }}</a>
+                    @endcan
                 @endif
-                @can('question-list')
-                    <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('Question') }}</a>
-                @endcan
                 <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('camps.show', $camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')

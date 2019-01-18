@@ -53,6 +53,8 @@ class QuestionController extends Controller
     public function show($id)
     {
         $this->camp = Camp::find($id);
+        if (!$this->camp->approved)
+            return redirect()->back()->with('error', trans('camp.ApproveFirst'));
         if (!\Auth::user()->canManageCamp($this->camp))
             return redirect()->back()->with('error', trans('app.NoPermissionError'));
         $questionSet = QuestionSet::where('camp_id', $this->camp->id)->first();

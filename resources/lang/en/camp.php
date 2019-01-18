@@ -48,4 +48,5 @@ return [
     'InterviewAndDepositDescription' => 'Campers need to be interviewed to be qualified. Deposit is required',
     'QAAndInterviewDescription' => 'Campers need to answer the questions provided by camp makers and be ranked to determine candidates. Those candidates will further be filtered by an interview. No deposit is required',
     'QAAndInterviewAndDepositDescription' => 'Campers need to answer the questions provided by camp makers and be ranked to determine candidates. Those candidates will further be filtered by an interview. The final candidates will pay a deposit to be qualified for the camp.',
+    'ApproveFirst', 'This camp must be approved first.',
 ];
