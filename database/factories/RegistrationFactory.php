@@ -11,7 +11,6 @@ $factory->define(App\Registration::class, function (Faker $faker) {
         'camp_id' => Camp::inRandomOrder()->first()->id,
         'camper_id' => User::_campers(true)->first()->id,
         'approved_by' => User::_campMakers(true)->first()->id,
-        'status' => $faker->randomElement($array = array('draft', 'applied', 'returned', 'approved', 'rejected')),
         'submission_time' => $faker->date(),
     ];
 });

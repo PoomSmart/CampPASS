@@ -1,17 +1,6 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Account Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used across all account-related words
-    | that we need to display to the user.
-    |
-    */
-
     'Password' => 'Password',
     'ConfirmPassword' => 'Confirm Password',
     'ResetPassword' => 'Reset Password',

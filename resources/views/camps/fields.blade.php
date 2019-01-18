@@ -46,6 +46,7 @@
 @slot('override')
     @component('components.select', [
         'name' => 'cp_id',
+        'objects' => $camp_procedures,
     ])
     @endcomponent
 @endslot
@@ -59,6 +60,7 @@
 @slot('override')
     @component('components.select', [
         'name' => 'org_id',
+        'objects' => $organizations,
         'disabled' => !Auth::user()->hasPermissionTo('org-list'),
     ])
     @endcomponent

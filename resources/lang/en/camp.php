@@ -1,17 +1,6 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Camp Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used across all camp-related words
-    | that we need to display to the user.
-    |
-    */
-
     'EnglishName' => 'Name in English',
     'ThaiName' => 'Name in Thai',
     'EnglishShortDescription' => 'Short Description in English',

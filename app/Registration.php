@@ -7,10 +7,17 @@ use App\Answer;
 use App\Camp;
 use App\Certificate;
 use App\PaymentSlip;
+
+use App\Enums\RegistrationStatus;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Registration extends Model
 {
+    protected $fillable = [
+        'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time',
+    ];
+
     public function camp()
     {
         return $this->belongsTo(Camp::class)->limit(1)->get()->first();
