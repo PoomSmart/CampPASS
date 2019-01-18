@@ -2,12 +2,12 @@
 
 @section('outer_content')
     <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-8 margin-tb">
+        <div class="col-sm-12 col-md-10 margin-tb">
             @yield('button')
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-8">
+        <div class="col-sm-12 col-md-10">
             @yield('content')
         </div>
     </div>

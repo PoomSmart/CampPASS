@@ -20,7 +20,7 @@
         </div>
         @component('components.submit', ['label' => 'Save'])
         @slot('postcontent')
-            <button class="btn btn-info" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
+            <button class="btn btn-success" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
         @endslot
         @endcomponent
     </form>

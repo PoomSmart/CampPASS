@@ -18,7 +18,7 @@
             <th>{{ trans('camp.ShortDescription') }}</th>
             <th>Registered Campers</th>
             <th>{{ trans('camp.Status') }}</th>
-            <th width="280px">{{ trans('app.Actions' ) }}</th>
+            <th width="280px">{{ trans('app.Actions') }}</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>
