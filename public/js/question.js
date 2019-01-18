@@ -42,7 +42,7 @@ function generateContent(name, label, i, type) {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="${name}[]" id="${name}_${i}" value="${i}"/>
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="${name}_label_${i}" name="${name}_label[]" placeholder="${label}">
+                        <input type="text" class="form-control" id="${name}_label_${i}" name="${name}_label[]" placeholder="${label ? label : "Enter choice"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoice(this);">Delete</a>
                         </div>
@@ -57,6 +57,10 @@ function generateContent(name, label, i, type) {
     return obj;
 }
 
+function addChoice(target, name, type, i) {
+    target.append(generateContent(name, null, i, type));
+}
+
 function selectionChanged(select) {
     var value = parseInt(select.value);
     var block = jQuery(select).closest("[id^=question-block]");
@@ -64,11 +68,19 @@ function selectionChanged(select) {
     // remove the old additional content of the question block
     var add = block.find("#additional-content");
     add.empty();
-    var i = 1;
+    var i = 2;
     if (value == QuestionType.CHOICES) {
+        var add_choice_button = jQuery(jQuery.parseHTML(`
+            <button class="btn btn-success mb-3" type="button"><span>Add More Choice</span></button>
+        `));
         var name = "radio";
-        add.append(generateContent("radio", "Test 1", 0, value));
-        add.append(generateContent("radio", "Test 2", 1, value));
+        add_choice_button.on('click', function (e) {
+            e.preventDefault();
+            addChoice(add, name, value, randId());
+        });
+        add.append(add_choice_button);
+        addChoice(add, name, value, randId());
+        addChoice(add, name, value, randId());
     }
     /*if (value == QuestionType.PARAGRAPH && block.find("textarea").length == 0) {
         var clazz = input.attr("class");
