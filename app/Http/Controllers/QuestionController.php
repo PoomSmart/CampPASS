@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
 use App\Camp;
 use App\Question;
 use App\QuestionSet;
@@ -9,8 +10,10 @@ use App\QuestionSetQuestionPair;
 
 use App\Enums\QuestionType;
 
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionController extends Controller
 {
@@ -30,6 +33,21 @@ class QuestionController extends Controller
     }
 
     /**
+     * Check whether the given camp can be manipulated by the current user.
+     * The function returns the camp object if the user can.
+     * 
+     */
+    private function authenticate($id)
+    {
+        $camp = Camp::find($id);
+        if (!$camp->approved)
+            return redirect()->back()->with('error', trans('camp.ApproveFirst'));
+        if (!\Auth::user()->canManageCamp($camp))
+            return redirect()->back()->with('error', trans('app.NoPermissionError'));
+        return $camp;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -46,7 +64,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return null;
     }
 
     /**
@@ -57,7 +75,14 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $camp = $this->authenticate($request->input('camp_id'));
+        if (!get_class($camp) == 'Camp') return $camp;
+        $content = $request->all();
+        $content = array_splice($content, 1);
+        $json = json_encode($content);
+        $directory = Common::questionSetDirectory($camp->id);
+        Storage::disk('local')->put($directory.'/questions.json', $json);
+        return redirect()->back()->with('success', 'Questions saved successfully.');
     }
 
     /**
@@ -68,16 +93,14 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $this->camp = Camp::find($id);
-        if (!$this->camp->approved)
-            return redirect()->back()->with('error', trans('camp.ApproveFirst'));
-        if (!\Auth::user()->canManageCamp($this->camp))
-            return redirect()->back()->with('error', trans('app.NoPermissionError'));
-        $questionSet = QuestionSet::where('camp_id', $this->camp->id)->first();
+        $camp = $this->authenticate($id);
+        if (!get_class($camp) == 'Camp') return $camp;
+        $camp_id = $camp->id;
+        $questionSet = QuestionSet::where('camp_id', $camp_id)->first();
         $pairs = $questionSet ? QuestionSetQuestionPair::where('queset_id', $questionSet->id)->get(['que_id']) : [];
         $questions = Question::whereIn('id', $pairs);
         View::share('question_types', $this->question_types);
-        return view('questions.index', compact('questions'));
+        return view('questions.index', compact('questions', 'camp_id'));
     }
 
     /**
@@ -88,7 +111,7 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        return null;
     }
 
     /**
@@ -100,7 +123,7 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return null;
     }
 
     /**
@@ -111,6 +134,6 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return null;
     }
 }

@@ -11,6 +11,7 @@
 @section('card_content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
+        <input name="camp_id" type="hidden" value="{{ $camp_id }}">
         <div id="questions">
             @component('questions.question', [
                 'title' => 'Title',
