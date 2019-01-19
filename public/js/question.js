@@ -43,7 +43,7 @@ function generateContent(name, label, parent, i, type) {
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
-                                <input type="radio" required name="${name}[${parent}][${i}][]" id="${name}_${i}" value="${i}"/>
+                                <input type="radio" name="${name}[${parent}][${i}][]" id="${name}_${i}" value="${i}"/>
                             </div>
                         </div>
                         <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter choice"}">
@@ -58,7 +58,7 @@ function generateContent(name, label, parent, i, type) {
             obj = jQuery.parseHTML(`
                 <div class="entry">
                     <div class="input-group mb-2">
-                        <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter checkbox label"}">
+                        <input type="text" class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter checkbox label"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">Delete</a>
                         </div>
@@ -92,6 +92,7 @@ function selectionChanged(select) {
         });
         add.append(add_choice_button);
         addRadioOrCheckbox(add, "radio", value, parentId, randId());
+        add.find("input[type=radio]").attr("required", true);
         addRadioOrCheckbox(add, "radio", value, parentId, randId());
     } else if (value == QuestionType.CHECKBOXES) {
         var add_checkbox_button = jQuery(jQuery.parseHTML(`
@@ -103,5 +104,6 @@ function selectionChanged(select) {
         });
         add.append(add_checkbox_button);
         addRadioOrCheckbox(add, "checkbox", value, parentId, randId());
+        add.find("input[type=checkbox]").attr("required", true);
     }
 }
