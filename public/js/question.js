@@ -12,10 +12,11 @@ function randId() {
 }
 
 function addQuestion() {
-    var block = jQuery("#question-block-1").first().clone().attr("id", `question-block-${randId()}`);
-    block.find("#question-title").val("Title").attr("id", `question-title`);
-    block.find("label").val("Question").attr("for", `question`);
-    block.find("input").attr("id", `question`);
+    var id = randId();
+    var block = jQuery("#question-block-1").first().clone().attr("id", `question-block-${id}`);
+    block.find("#question-type").attr("name", `type[${id}]`);
+    block.find("#question").attr("name", `question[${id}]`);
+    block.find("#additional-content").empty();
     jQuery("#questions").append(block);
 }
 
@@ -34,15 +35,15 @@ function deleteChoice(choice) {
     return false;
 }
 
-function generateContent(name, label, i, type) {
+function generateContent(name, label, parent, i, type) {
     var obj = null;
     switch (type) {
         case QuestionType.CHOICES:
            obj = jQuery.parseHTML(`
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="${name}[]" id="${name}_${i}" value="${i}"/>
+                    <input class="form-check-input" type="radio" name="${name}[${parent}][${i}][]" id="${name}_${i}" value="${i}"/>
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="${name}_label_${i}" name="${name}_label[]" placeholder="${label ? label : "Enter choice"}">
+                        <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter choice"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoice(this);">Delete</a>
                         </div>
@@ -57,13 +58,14 @@ function generateContent(name, label, i, type) {
     return obj;
 }
 
-function addChoice(target, name, type, i) {
-    target.append(generateContent(name, null, i, type));
+function addChoice(target, name, type, parent, i) {
+    target.append(generateContent(name, null, parent, i, type));
 }
 
 function selectionChanged(select) {
     var value = parseInt(select.value);
     var block = jQuery(select).closest("[id^=question-block]");
+    var parentId = block.attr("id").substr(15);
     var input = block.find("#question");
     // remove the old additional content of the question block
     var add = block.find("#additional-content");
@@ -76,11 +78,11 @@ function selectionChanged(select) {
         var name = "radio";
         add_choice_button.on('click', function (e) {
             e.preventDefault();
-            addChoice(add, name, value, randId());
+            addChoice(add, name, value, parentId, randId());
         });
         add.append(add_choice_button);
-        addChoice(add, name, value, randId());
-        addChoice(add, name, value, randId());
+        addChoice(add, name, value, parentId, randId());
+        addChoice(add, name, value, parentId, randId());
     }
     /*if (value == QuestionType.PARAGRAPH && block.find("textarea").length == 0) {
         var clazz = input.attr("class");

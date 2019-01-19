@@ -11,7 +11,7 @@
                         <div class="input-group">
                             @component('components.select', [
                                 'id' => 'question-type',
-                                'name' => 'type[]',
+                                'name' => 'type[1]',
                                 'isform' => 0,
                                 'objects' => $question_types,
                                 'attributes' => 'onchange=selectionChanged(this);',
@@ -29,7 +29,7 @@
         <div class="form-group row">
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
-                <input type="text" class="form-control" id="question" name="question[]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
+                <input type="text" class="form-control" id="question" name="question[1]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
             </div>
         </div>
         <div id="additional-content"></div>
