@@ -27,10 +27,10 @@ function deleteQuestion(button) {
 }
 
 function deleteChoiceOrCheckbox(item, minimum) {
-    var block = jQuery(item).closest("[id^=question-block]").find(".form-check");
+    var block = jQuery(item).closest("[id^=question-block]").find(".entry");
     if (block.length <= minimum)
         return;
-    jQuery(item).closest(".form-check").remove();
+    jQuery(item).closest(".entry").remove();
     return false;
 }
 
@@ -39,25 +39,29 @@ function generateContent(name, label, parent, i, type) {
     switch (type) {
         case QuestionType.CHOICES:
            obj = jQuery.parseHTML(`
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <input type="radio" required name="${name}[${parent}][${i}][]" id="${name}_${i}" value="${i}"/>
+                <div class="entry">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="radio" required name="${name}[${parent}][${i}][]" id="${name}_${i}" value="${i}"/>
+                            </div>
                         </div>
-                    </div>
-                    <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter choice"}">
-                    <div class="input-group-append">
-                        <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">Delete</a>
+                        <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter choice"}">
+                        <div class="input-group-append">
+                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">Delete</a>
+                        </div>
                     </div>
                 </div>
             `);
             break;
         case QuestionType.CHECKBOXES:
             obj = jQuery.parseHTML(`
-                <div class="input-group mb-2">
-                    <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter checkbox label"}">
-                    <div class="input-group-append">
-                        <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">Delete</a>
+                <div class="entry">
+                    <div class="input-group mb-2">
+                        <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parent}][${i}][]" placeholder="${label ? label : "Enter checkbox label"}">
+                        <div class="input-group-append">
+                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">Delete</a>
+                        </div>
                     </div>
                 </div>
             `);
