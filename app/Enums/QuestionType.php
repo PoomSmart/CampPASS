@@ -11,7 +11,6 @@ final class QuestionType extends BasicEnum
     	PARAGRAPH = 2,
     	CHOICES = 3,
     	CHECKBOXES = 4,
-    	LIST = 5,
-        FILE = 6
+        FILE = 5
     ;
 }
