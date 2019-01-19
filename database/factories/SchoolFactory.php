@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\SchoolType;
+
 use Faker\Generator as Faker;
 
 $factory->define(App\School::class, function (Faker $faker) {
@@ -7,6 +9,6 @@ $factory->define(App\School::class, function (Faker $faker) {
         'name_en' => $faker->unique()->company,
         'address' => $faker->unique()->address,
         'zipcode' => $faker->postcode,
-        'type' => $faker->numberBetween($min = 0, $max = 5), // TODO: discuss
+        'type' => SchoolType::any(),
     ];
 });

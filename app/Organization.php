@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
+    protected $fillable = [
+        'name_en', 'name_th', 'address', 'zipcode', 'type', 'subtype',
+    ];
+
     public function campMakers()
     {
         return $this->hasMany(User::class);
