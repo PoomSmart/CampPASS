@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Storage;
 
 class QuestionController extends Controller
 {
-    protected $camp;
-
     function __construct()
     {
         $this->middleware('permission:question-list');
@@ -27,7 +25,7 @@ class QuestionController extends Controller
         $this->middleware('permission:question-delete', ['only' => ['destroy']]);
         $types = QuestionType::getConstants();
         $this->question_types = [];
-        foreach($types as $text => $number) {
+        foreach ($types as $text => $number) {
             array_push($this->question_types, (object)[ 'value' => $number, 'name' => trans("question.${text}") ]);
         }
     }
@@ -78,7 +76,18 @@ class QuestionController extends Controller
         $camp = $this->authenticate($request->input('camp_id'));
         if (!get_class($camp) == 'Camp') return $camp;
         $content = $request->all();
-        $content = array_splice($content, 1);
+        dd($content);
+        $queset = QuestionSet::where('camp_id', $camp->id);
+        $queset_id = -1;
+        if ($queset->empty()) {
+            $queset_id = QuestionSet::create([
+                'camp_id' => $camp->id,
+                'score_threshold' => 1.0,
+            ])->id;
+        } else
+            $queset_id = $queset->get()->id;
+        unset($content['_token']);
+
         $json = json_encode($content);
         $directory = Common::questionSetDirectory($camp->id);
         Storage::disk('local')->put($directory.'/questions.json', $json);
@@ -100,7 +109,8 @@ class QuestionController extends Controller
         $pairs = $questionSet ? QuestionSetQuestionPair::where('queset_id', $questionSet->id)->get(['que_id']) : [];
         $questions = Question::whereIn('id', $pairs);
         View::share('question_types', $this->question_types);
-        return view('questions.index', compact('questions', 'camp_id'));
+        View::share('camp_id', $camp_id);
+        return view('questions.index', compact('questions'));
     }
 
     /**

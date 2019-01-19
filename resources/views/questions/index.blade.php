@@ -1,7 +1,10 @@
 @extends('layouts.card')
 
 @section('script')
-    <script src="{{ asset('js/question.js') }}" defer></script>
+    <script src="{{ asset('js/question.js') }}" async></script>
+    <script>
+        getCampId({{ $camp_id }});
+    </script>
 @endsection
 
 @section('header')

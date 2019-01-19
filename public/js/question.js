@@ -6,13 +6,21 @@ var QuestionType = {
     FILE: 5,
 };
 
+var question_block_selector = "[id^=question-block]";
+
+var campId = -1;
+
+function getCampId(id) {
+    campId = id;
+}
+
 function randId() {
-    return Math.random().toString(36).substr(2, 5);
+    return `${campId}-${Math.random().toString(36).substr(2, 5)}`;
 }
 
 function addQuestion() {
     var id = randId();
-    var block = jQuery("[id^=question-block]").first().clone().attr("id", `question-block-${id}`);
+    var block = jQuery(question_block_selector).first().clone().attr("id", `question-block-${id}`);
     block.find("#question-type").attr("name", `type[${id}]`);
     block.find("#question").attr("name", `question[${id}]`);
     block.find("#additional-content").empty();
@@ -21,14 +29,14 @@ function addQuestion() {
 }
 
 function deleteQuestion(button) {
-    if (jQuery("[id^=question-block]").length <= 1)
+    if (jQuery(question_block_selector).length <= 1)
         return;
-    jQuery(button).closest("[id^=question-block]").remove();
+    jQuery(button).closest(question_block_selector).remove();
     return false;
 }
 
 function deleteChoiceOrCheckbox(item, minimum) {
-    var block = jQuery(item).closest("[id^=question-block]").find(".entry");
+    var block = jQuery(item).closest(question_block_selector).find(".entry");
     if (block.length <= minimum)
         return;
     jQuery(item).closest(".entry").remove();
@@ -77,7 +85,7 @@ function addRadioOrCheckbox(target, name, type, parent, i) {
 
 function selectionChanged(select) {
     var value = parseInt(select.value);
-    var block = jQuery(select).closest("[id^=question-block]");
+    var block = jQuery(select).closest(question_block_selector);
     var parentId = block.attr("id").substr(15);
     var input = block.find("#question");
     // remove the old content of the question block

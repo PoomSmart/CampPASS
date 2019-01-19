@@ -1,4 +1,4 @@
-<div class="card mb-4" id="question-block-00000">
+<div class="card mb-4" id="question-block-{{ $camp_id }}-00000">
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-sm-12 col-md-3">
@@ -11,7 +11,7 @@
                         <div class="input-group">
                             @component('components.select', [
                                 'id' => 'question-type',
-                                'name' => 'type[00000]',
+                                'name' => "type[{$camp_id}-00000]",
                                 'isform' => 0,
                                 'objects' => $question_types,
                                 'attributes' => 'required onchange=selectionChanged(this);',
@@ -29,7 +29,7 @@
         <div class="form-group row">
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
-                <input type="text" class="form-control" id="question" name="question[00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
+                <input type="text" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
             </div>
         </div>
         <div id="additional-content"></div>
