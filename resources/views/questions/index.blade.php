@@ -19,11 +19,13 @@
             ]);
             @endcomponent
         </div>
-        <script>
-            getCampId({!! $camp_id !!});
-            var client_json = JSON.parse({!! $json !!});
-            readJSON(client_json);
-        </script>
+        @if (!empty($json))
+            <script>
+                getCampId({!! $camp_id !!});
+                var client_json = JSON.parse({!! $json !!});
+                readJSON(client_json);
+            </script>
+        @endif
         @component('components.submit', ['label' => trans('app.Save')])
         @slot('postcontent')
             <button class="btn btn-success" type="button" onclick="addQuestion();"><span>{{ trans('question.AddMoreQuestion') }}</span></button>
