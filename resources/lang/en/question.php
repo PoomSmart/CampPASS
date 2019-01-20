@@ -10,4 +10,5 @@ return [
     'Question' => 'Question',
     'CreateQuestions' => 'Create Questions',
     'EnterQuestionPlaceholder' => 'Enter question here',
+    'AddMoreQuestion' => 'Add More Question',
 ];

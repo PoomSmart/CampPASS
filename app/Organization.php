@@ -4,6 +4,7 @@ namespace App;
 
 use App\Camp;
 use App\User;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model

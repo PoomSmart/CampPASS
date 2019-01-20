@@ -10,6 +10,7 @@ return [
     'Show' => 'Show',
     'Edit' => 'Edit',
     'Delete' => 'Delete',
+    'Save' => 'Save',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',
     'Approve' => 'Approve',

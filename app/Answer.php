@@ -6,6 +6,7 @@ use App\User;
 use App\Question;
 use App\QuestionSet;
 use App\Registration;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model

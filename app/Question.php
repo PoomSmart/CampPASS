@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'title', 'field_type', 'required', 'full_score',
+        'json_id', 'full_score',
     ];
 
     public function answers()

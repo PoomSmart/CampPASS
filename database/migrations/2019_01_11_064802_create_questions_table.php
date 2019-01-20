@@ -15,9 +15,7 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 100)->default('Untitled');
-            $table->tinyInteger('field_type')->unsigned()->default(0); // 0 : text
-            $table->boolean('required')->default(false);
+            $table->string('json_id')->unique();
             $table->double('full_score')->default(1.0);
             $table->timestamps();
         });

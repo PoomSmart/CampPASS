@@ -4,6 +4,7 @@ namespace App;
 
 use App\Camp;
 use App\Certificate;
+
 use Illuminate\Database\Eloquent\Model;
 
 class CertificateTemplate extends Model

@@ -76,18 +76,28 @@ class QuestionController extends Controller
         $camp = $this->authenticate($request->input('camp_id'));
         if (!get_class($camp) == 'Camp') return $camp;
         $content = $request->all();
-        dd($content);
         $queset = QuestionSet::where('camp_id', $camp->id);
         $queset_id = -1;
-        if ($queset->empty()) {
+        if (!$queset->exists()) {
             $queset_id = QuestionSet::create([
                 'camp_id' => $camp->id,
                 'score_threshold' => 1.0,
             ])->id;
         } else
-            $queset_id = $queset->get()->id;
+            $queset_id = $queset->first()->id;
         unset($content['_token']);
-
+        $questions = array_keys($content['type']);
+        foreach ($questions as $json_id) {
+            $que_id = Question::updateOrCreate([
+                'json_id' => $json_id,
+            ], [
+                'full_score' => 1, // TODO: set the value
+            ])->id;
+            QuestionSetQuestionPair::updateOrCreate([
+                'queset_id' => $queset_id,
+                'que_id' => $que_id,
+            ]);
+        }
         $json = json_encode($content);
         $directory = Common::questionSetDirectory($camp->id);
         Storage::disk('local')->put($directory.'/questions.json', $json);
@@ -106,11 +116,15 @@ class QuestionController extends Controller
         if (!get_class($camp) == 'Camp') return $camp;
         $camp_id = $camp->id;
         $questionSet = QuestionSet::where('camp_id', $camp_id)->first();
-        $pairs = $questionSet ? QuestionSetQuestionPair::where('queset_id', $questionSet->id)->get(['que_id']) : [];
-        $questions = Question::whereIn('id', $pairs);
+        if ($questionSet) {
+            // questions for this camp exist
+            $json_path = Common::questionSetDirectory($camp_id).'/questions.json';
+            $json = json_encode(Storage::disk('local')->get($json_path));
+        } else
+            $json = [];
         View::share('question_types', $this->question_types);
         View::share('camp_id', $camp_id);
-        return view('questions.index', compact('questions'));
+        return view('questions.index', compact('json'));
     }
 
     /**

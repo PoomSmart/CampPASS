@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Badge;
+
 use Illuminate\Database\Eloquent\Model;
 
 class BadgeCategory extends Model

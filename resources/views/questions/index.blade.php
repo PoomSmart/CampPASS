@@ -1,10 +1,7 @@
 @extends('layouts.card')
 
 @section('script')
-    <script src="{{ asset('js/question.js') }}" async></script>
-    <script>
-        getCampId({{ $camp_id }});
-    </script>
+    <script src="{{ asset('js/question.js') }}"></script>
 @endsection
 
 @section('header')
@@ -22,9 +19,14 @@
             ]);
             @endcomponent
         </div>
-        @component('components.submit', ['label' => 'Save'])
+        <script>
+            getCampId({!! $camp_id !!});
+            var client_json = JSON.parse({!! $json !!});
+            readJSON(client_json);
+        </script>
+        @component('components.submit', ['label' => trans('app.Save')])
         @slot('postcontent')
-            <button class="btn btn-success" type="button" onclick="addQuestion();"><span>Add More Question</span></button>
+            <button class="btn btn-success" type="button" onclick="addQuestion();"><span>{{ trans('question.AddMoreQuestion') }}</span></button>
         @endslot
         @endcomponent
     </form>
