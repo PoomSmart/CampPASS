@@ -12,13 +12,6 @@
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>{{ trans('app.Name') }}:</strong>
-                {{ $camp->getName() }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>{{ trans('camp.ShortDescription') }}:</strong>
                 {{ $camp->getShortDescription() }}
             </div>
         </div>
