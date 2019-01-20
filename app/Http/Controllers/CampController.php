@@ -99,7 +99,7 @@ class CampController extends Controller
     public function show(Camp $camp)
     {
         View::share('object', $camp);
-        $data = $camp->campers();
+        $data = $camp->registrations()->get();
         return view('camps.show', compact('camp', 'data'));
     }
 

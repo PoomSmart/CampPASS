@@ -62,4 +62,7 @@ return [
     'School' => 'School',
     'Program' => 'Program',
     'Mattayom' => 'Mattayom',
+
+    'Status' => 'Status',
+    'ID' => 'Account ID',
 ];

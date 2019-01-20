@@ -42,4 +42,9 @@ class Registration extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function getStatus()
+    {
+        return trans('registration.'.array_search($this->status, RegistrationStatus::getConstants()));
+    }
 }

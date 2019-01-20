@@ -1,3 +1,5 @@
+// TODO: Add a warning for when the user tries to quit without saving
+
 var QuestionType = {
     TEXT: 1,
     PARAGRAPH: 2,

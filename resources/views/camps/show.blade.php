@@ -27,17 +27,22 @@
         <strong>Campers</strong>
         <table class="table table-bordered">
             <tr>
-                <th>{{ trans('app.ID') }}</th>
+                <th>{{ trans('registration.ID') }}</th>
+                <th>{{ trans('account.ID') }}</th>
                 <th>{{ trans('app.LocalizedName') }}</th>
                 <th>{{ trans('account.School') }}</th>
                 <th>{{ trans('account.Program') }}</th>
+                <th>{{ trans('account.Status') }}</th>
             </tr>
-            @foreach ($data as $key => $camper)
+            @foreach ($data as $key => $registration)
+                <?php $camper = $registration->camper(); ?>
                 <tr>
+                    <td>{{ $registration->id }}</td>
                     <td>{{ $camper->id }}</td>
                     <td>{{ $camper->getFullName() }}</td>
                     <td>{{ $camper->school()->getName() }}</td>
                     <td>{{ $camper->program()->getName() }}</td>
+                    <td>{{ $registration->getStatus() }}</td>
                 </tr>
             @endforeach
         </table>
