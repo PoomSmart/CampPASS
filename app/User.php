@@ -156,4 +156,12 @@ class User extends Authenticatable
     {
         return $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
     }
+
+    public function isEligibleForCamp(Camp $camp)
+    {
+        // TODO: map zipcodes to regions
+        if (!in_array($this->program_id, $camp->acceptable_programs))
+            return false;
+        return true;
+    }
 }
