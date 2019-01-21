@@ -12,11 +12,8 @@ class Randomizer
 {
     public static function programs()
     {
-        $count = rand(1, Program::count());
-        if ($count == 0)
-            return [];
         $programs = Program::inRandomOrder();
-        $programs = $programs->limit($count)->pluck('id'); // TODO: Optimize away
+        $programs = $programs->limit(rand(1, $programs->count()))->pluck('id'); // TODO: Optimize away
         return $programs->toArray();
     }
 
