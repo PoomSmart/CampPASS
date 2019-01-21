@@ -38,6 +38,8 @@ Route::group(['middleware' => ['role:campmaker']], function() {
     Route::resource('campers', 'CamperController');
 });
 
+Route::resource('camp_browser', 'CampBrowserController');
+
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
 Route::get('/register-camper', 'Auth\RegisterController@camper')->name('register-camper');
 Route::get('/register-campmaker', 'Auth\RegisterController@campmaker')->name('register-campmaker');

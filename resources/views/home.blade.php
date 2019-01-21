@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="links">
-                <a href="">Camps Browser</a>
+                <a href="{{ route('camp_browser.index') }}">Camps Browser</a>
                 @guest
 
                 @else
