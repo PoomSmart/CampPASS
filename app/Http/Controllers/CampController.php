@@ -52,8 +52,9 @@ class CampController extends Controller
     public function index()
     {
         $camps = \Auth::user()->hasRole('admin') ? Camp::latest() : \Auth::user()->belongingCamps()->latest();
-        $camps = $camps->paginate(5);
-        return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * 5);
+        $max = config('const.app.max_paginate');
+        $camps = $camps->paginate($max);
+        return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
     /**
