@@ -101,7 +101,7 @@ function generateContent(name, value, parentId, i, type) {
                                 <input type="radio" name="${name}[${parentId}]" id="${name}_${i}" value="${i}"/>
                             </div>
                         </div>
-                        <input type="text" required class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter choice" value="${value ? value : ""}"}">
+                        <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter choice" value="${value ? value : ""}"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">Delete</a>
                         </div>
@@ -113,7 +113,7 @@ function generateContent(name, value, parentId, i, type) {
             obj = jQuery.parseHTML(`
                 <div class="entry">
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter checkbox label" value="${value ? value : ""}"}">
+                        <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter checkbox label" value="${value ? value : ""}"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">Delete</a>
                         </div>

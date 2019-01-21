@@ -29,7 +29,7 @@
         <div class="form-group row">
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
-                <input type="text" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
+                <input type="text" required autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
             </div>
         </div>
         <div id="additional-content"></div>
