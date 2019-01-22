@@ -15,8 +15,8 @@ class CreatePaymentSlipsTable extends Migration
     {
         Schema::create('payment_slips', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('reg_id')->unsigned();
-            $table->foreign('reg_id')->references('id')->on('registrations');
+            $table->integer('registration_id')->unsigned();
+            $table->foreign('registration_id')->references('id')->on('registrations');
             $table->string('account_no');
             $table->boolean('rejected')->default(false);
             $table->timestamps();

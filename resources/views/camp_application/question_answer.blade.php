@@ -14,6 +14,7 @@
     @elseif (!empty($json))
         <form method="POST" action="{{ route('camp_application.store') }}">
             @csrf
+            <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
             @foreach ($json['question'] as $key => $text)
                 <div class="row">
                     <div class="col-12">

@@ -34,7 +34,7 @@ class User extends Authenticatable
         'name_en', 'name_th', 'surname_en', 'surname_th', 'nickname_en', 'nickname_th',
         'nationality', 'citizen_id', 'gender', 'dob', 'address', 'zipcode', 'mobile_no',
         'allergy', 'email', 'username', 'password', 'status', 'activation_code', 'type',
-        'rel_id',
+        'religion_id',
         // camper
         'short_biography',
         'mattayom',
@@ -43,7 +43,7 @@ class User extends Authenticatable
         'guardian_role',
         'guardian_mobile_no',
         // camp maker
-        'org_id',
+        'organization_id',
     ];
 
     /**
@@ -148,7 +148,7 @@ class User extends Authenticatable
         if ($this->isCamper())
             return Camp::whereIn('id', Registration::where('camper_id', $this->id)->get(['camp_id']));
         if ($this->isCampMaker())
-            return Camp::where('org_id', $this->org_id);
+            return Camp::where('organization_id', $this->organization_id);
         return null;
     }
 

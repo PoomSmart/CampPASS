@@ -28,9 +28,9 @@ class Randomizer
 $factory->define(App\Camp::class, function (Faker $faker) {
     return [
         'name_en' => "Camp {$faker->unique()->company}",
-        'campcat_id' => CampCategory::inRandomOrder()->first()->id,
-        'cp_id' => CampProcedure::inRandomOrder()->first()->id,
-        'org_id' => Organization::inRandomOrder()->first()->id,
+        'camp_category_id' => CampCategory::inRandomOrder()->first()->id,
+        'camp_procedure_id' => CampProcedure::inRandomOrder()->first()->id,
+        'organization_id' => Organization::inRandomOrder()->first()->id,
         'acceptable_regions' => Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'acceptable_programs' => Randomizer::programs(),

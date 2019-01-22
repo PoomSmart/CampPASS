@@ -15,8 +15,8 @@ class CreateBadgesTable extends Migration
     {
         Schema::create('badges', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('badcat_id')->unsigned();
-            $table->foreign('badcat_id')->references('id')->on('badge_categories');
+            $table->integer('badge_category_id')->unsigned();
+            $table->foreign('badge_category_id')->references('id')->on('badge_categories');
             $table->integer('camper_id')->unsigned();
             $table->foreign('camper_id')->references('id')->on('users');
             $table->date('earned_date');

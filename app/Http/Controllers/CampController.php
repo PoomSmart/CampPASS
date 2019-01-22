@@ -39,7 +39,7 @@ class CampController extends Controller
             if (\Auth::user()->hasPermissionTo('org-list'))
                 $this->organizations = Organization::all();
             else
-                $this->organizations = array(Organization::find($id=\Auth::user()->org_id));
+                $this->organizations = array(Organization::find($id=\Auth::user()->organization_id));
         }
         return $this->organizations;
     }
@@ -82,7 +82,7 @@ class CampController extends Controller
     {
         try {
             if (\Auth::user()->isCampMaker())
-                $request->merge(['org_id' => \Auth::user()->org_id]);
+                $request->merge(['organization_id' => \Auth::user()->organization_id]);
             Camp::create($request->all());
         } catch (\Exception $exception) {
             Log::channel('stderr')->error($exception);

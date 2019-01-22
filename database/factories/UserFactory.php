@@ -18,7 +18,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'address' => $faker->address,
         'zipcode' => $faker->postcode,
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
-        'rel_id' => Religion::inRandomOrder()->first()->id,
+        'religion_id' => Religion::inRandomOrder()->first()->id,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => rand() % 2 ? config('const.account.camper') : config('const.account.campmaker'),

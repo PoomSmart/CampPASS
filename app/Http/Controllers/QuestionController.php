@@ -35,7 +35,7 @@ class QuestionController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    private function authenticate($id)
+    public static function authenticate($id)
     {
         $camp = Camp::find($id);
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))

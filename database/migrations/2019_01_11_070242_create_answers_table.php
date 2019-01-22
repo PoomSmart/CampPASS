@@ -15,14 +15,14 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('queset_id')->unsigned();
-            $table->foreign('queset_id')->references('id')->on('question_sets')->onDelete('cascade');
-            $table->integer('que_id')->unsigned();
-            $table->foreign('que_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->integer('question_set_id')->unsigned();
+            $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
+            $table->integer('question_id')->unsigned();
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->integer('camper_id')->unsigned();
             $table->foreign('camper_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('reg_id')->unsigned();
-            $table->foreign('reg_id')->references('id')->on('registrations');
+            $table->integer('registration_id')->unsigned();
+            $table->foreign('registration_id')->references('id')->on('registrations');
             $table->string('answer');
             $table->double('score')->default(0.0);
             $table->timestamps();

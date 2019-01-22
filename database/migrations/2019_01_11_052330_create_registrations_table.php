@@ -21,10 +21,10 @@ class CreateRegistrationsTable extends Migration
             $table->foreign('camp_id')->references('id')->on('camps');
             $table->integer('camper_id')->unsigned();
             $table->foreign('camper_id')->references('id')->on('users');
-            $table->integer('approved_by')->unsigned();
+            $table->integer('approved_by')->unsigned()->nullable();
             $table->foreign('approved_by')->references('id')->on('users');
             $table->tinyInteger('status')->default(RegistrationStatus::DRAFT);
-            $table->timestamp('submission_time');
+            $table->timestamp('submission_time')->nullable();
             $table->timestamps();
         });
     }

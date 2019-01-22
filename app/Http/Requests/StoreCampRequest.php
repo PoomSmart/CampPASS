@@ -31,9 +31,9 @@ class StoreCampRequest extends FormRequest
             return [];
         }
         $rules = [
-            'campcat_id' => 'required',
-            'campcat_id.*' => 'integer|exists:camp_categories,id',
-            'cp_id' => 'required|integer|exists:camp_procedures,id',
+            'camp_category_id' => 'required',
+            'camp_category_id.*' => 'integer|exists:camp_categories,id',
+            'camp_procedure_id' => 'required|integer|exists:camp_procedures,id',
             'name_en' => 'nullable|string|required_without:name_th',
             'name_th' => 'nullable|string|required_without:name_en',
             'short_description_en' => 'nullable|string|max:200|required_without:short_description_th',
@@ -59,7 +59,7 @@ class StoreCampRequest extends FormRequest
             'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves
         ];
         if (\Auth::user()->isAdmin() && $method == 'POST')
-            $rules += [ 'org_id' => 'required|exists:organizations,id', ];
+            $rules += [ 'organization_id' => 'required|exists:organizations,id', ];
         return $rules;
     }
 }

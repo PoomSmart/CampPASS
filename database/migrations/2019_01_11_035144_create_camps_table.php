@@ -15,12 +15,12 @@ class CreateCampsTable extends Migration
     {
         Schema::create('camps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('campcat_id')->unsigned();
-            $table->foreign('campcat_id')->references('id')->on('camp_categories');
-            $table->integer('org_id')->unsigned();
-            $table->foreign('org_id')->references('id')->on('organizations');
-            $table->integer('cp_id')->unsigned();
-            $table->foreign('cp_id')->references('id')->on('camp_procedures');
+            $table->integer('camp_category_id')->unsigned();
+            $table->foreign('camp_category_id')->references('id')->on('camp_categories');
+            $table->integer('organization_id')->unsigned();
+            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->integer('camp_procedure_id')->unsigned();
+            $table->foreign('camp_procedure_id')->references('id')->on('camp_procedures');
             $table->json('acceptable_regions');
             $table->string('name_en', 100)->nullable();
             $table->string('name_th', 100)->nullable();

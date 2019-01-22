@@ -17,8 +17,8 @@ class CreateCandidatesTable extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('reg_id')->unsigned();
-            $table->foreign('reg_id')->references('id')->on('registrations');
+            $table->integer('registration_id')->unsigned();
+            $table->foreign('registration_id')->references('id')->on('registrations');
             $table->smallInteger('total_score')->default(0);
             $table->tinyInteger('status')->default(CandidateStatus::CHOSEN);
             $table->timestamps();

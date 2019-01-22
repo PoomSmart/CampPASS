@@ -19,12 +19,12 @@
             @yield('camper-fields')
         @elseif ($type == config('const.account.campmaker'))
             @component('components.input', [
-                'name' => 'org_id',
+                'name' => 'organization_id',
                 'label' => trans('campmaker.Organization'),
                 'attributes' => 'required',
             ])
             @slot('override')
-                <select name="org_id" id="org_id" class="form-control">
+                <select name="organization_id" id="organization_id" class="form-control">
                     @foreach ($organizations as $index => $org)
                         <option
                             @if ($index == 0)

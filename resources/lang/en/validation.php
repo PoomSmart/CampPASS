@@ -167,9 +167,9 @@ return [
         'guardian_name' => trans('account.GuardianName'),
         'guardian_role' => trans('account.GuardianRole'),
         'guardian_mobile_no' => trans('account.GuardianMobileNo'),
-        'rel_id' => trans('account.Religion'),
+        'religion_id' => trans('account.Religion'),
         'school_id' => trans('account.School'),
-        'org_id' => trans('account.Organization'),
+        'organization_id' => trans('account.Organization'),
         'mattayom' => trans('account.Mattayom'),
     ],
 

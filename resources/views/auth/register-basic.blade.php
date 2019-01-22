@@ -61,13 +61,13 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'rel_id',
+    'name' => 'religion_id',
     'label' => trans('account.Religion'),
     'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'rel_id', 'objects' => $religions, 'required' => 1])
+    @component('components.radio', ['name' => 'religion_id', 'objects' => $religions, 'required' => 1])
     @endcomponent
 </fieldset> 
 @endslot

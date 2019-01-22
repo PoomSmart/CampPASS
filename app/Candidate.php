@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Candidate extends Model
 {
     protected $fillable = [
-        'reg_id', 'total_score', 'status',
+        'registration_id', 'total_score', 'status',
     ];
 }

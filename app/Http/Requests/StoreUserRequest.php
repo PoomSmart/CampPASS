@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
         $rules = [
             // common
             'type'          => "required|in:{$CAMPER},{$CAMPMAKER}",
-            'rel_id'        => 'required|exists:religions,id',
+            'religion_id'        => 'required|exists:religions,id',
             'username'      => 'required|string|max:50',
             'name_en'        => 'nullable|string|max:50|required_without:name_th',
             'surname_en'     => 'nullable|string|max:50|required_without:surname_th',
@@ -56,7 +56,7 @@ class StoreUserRequest extends FormRequest
             'guardian_role'      => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
             'guardian_mobile_no'  => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker
-            'org_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
+            'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         if ($method == 'PUT' || $method == 'PATCH') {
             $user = User::find($this->users);

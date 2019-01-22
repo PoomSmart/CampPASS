@@ -15,10 +15,10 @@ class CreateCertificatesTable extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('reg_id')->unsigned();
-            $table->foreign('reg_id')->references('id')->on('registrations');
-            $table->integer('certem_id')->unsigned();
-            $table->foreign('certem_id')->references('id')->on('certificate_templates');
+            $table->integer('registration_id')->unsigned();
+            $table->foreign('registration_id')->references('id')->on('registrations');
+            $table->integer('certificate_template_id')->unsigned();
+            $table->foreign('certificate_template_id')->references('id')->on('certificate_templates');
             $table->string('ref_no');
             $table->date('issue_date');
             $table->timestamps();

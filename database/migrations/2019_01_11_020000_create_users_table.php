@@ -38,12 +38,12 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->tinyInteger('type');
-            $table->integer('rel_id')->unsigned();
-            $table->foreign('rel_id')->references('id')->on('religions');
+            $table->integer('religion_id')->unsigned();
+            $table->foreign('religion_id')->references('id')->on('religions');
 
             // camp maker
-            $table->integer('org_id')->unsigned()->nullable();
-            $table->foreign('org_id')->references('id')->on('organizations');
+            $table->integer('organization_id')->unsigned()->nullable();
+            $table->foreign('organization_id')->references('id')->on('organizations');
 
             // camper
             $table->string('short_biography', 500)->nullable();

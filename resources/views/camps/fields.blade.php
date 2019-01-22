@@ -23,14 +23,14 @@
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'campcat_id',
+    'name' => 'camp_category_id',
     'label' => trans('camp.Category'),
     'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>
     @component('components.radio', [
-        'name' => 'campcat_id',
+        'name' => 'camp_category_id',
         'objects' => $categories,
         'required' => 1
     ])@endcomponent
@@ -39,13 +39,13 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'cp_id',
+    'name' => 'camp_procedure_id',
     'label' => trans('camp.CampProcedure'),
     'attributes' => 'required',
 ])
 @slot('override')
     @component('components.select', [
-        'name' => 'cp_id',
+        'name' => 'camp_procedure_id',
         'objects' => $camp_procedures,
     ])
     @endcomponent
@@ -53,13 +53,13 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'org_id',
+    'name' => 'organization_id',
     'label' => trans('camp.Organization'),
     'attributes' => Auth::user()->hasPermissionTo('org-list') ? 'required' : '',
 ])
 @slot('override')
     @component('components.select', [
-        'name' => 'org_id',
+        'name' => 'organization_id',
         'objects' => $organizations,
         'disabled' => !Auth::user()->hasPermissionTo('org-list'),
     ])
