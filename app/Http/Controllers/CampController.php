@@ -101,7 +101,8 @@ class CampController extends Controller
     {
         View::share('object', $camp);
         $data = $camp->registrations()->get();
-        return view('camps.show', compact('camp', 'data'));
+        $category = CampCategory::find($camp->camp_category_id)->getName();
+        return view('camps.show', compact('camp', 'category', 'data'));
     }
 
     /**

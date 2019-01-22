@@ -74,7 +74,7 @@ class CampApplicationController extends Controller
         if ($operate && $eligible && !$quota_exceed && !empty($questions)) {
             $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
             $json = json_decode(Storage::disk('local')->get($json_path), true);
-            // Remove solutions from the questions
+            // Remove solutions from the questions before responding back to campers
             unset($json['radio']);
             unset($json['checkbox']);
             $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
@@ -109,6 +109,7 @@ class CampApplicationController extends Controller
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             return redirect('/')->with('error', 'Unable to save the answers.');
         $user = \Auth::user();
+        // A registration record will be created if not already
         $registration_id = -1;
         $registration = $this->getLatestRegistration($camp, $user->id);
         if ($registration)
@@ -119,6 +120,7 @@ class CampApplicationController extends Controller
                 'camper_id' => $user->id,
             ])->id;
         }
+        // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = QuestionSet::where('camp_id', $camp->id)->first();
         $question_ids = $question_set->pairs()->get(['question_id']);
         $questions = Question::whereIn('id', $question_ids)->get();
