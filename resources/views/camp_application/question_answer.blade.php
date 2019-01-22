@@ -25,26 +25,36 @@
                     <div class="col-12">
                         <div class="mb-4">
                             <?php $type = (int)$json['type'][$key] ?>
+                            <!-- ? TODO: Simplify radio and checkbox -->
                             @if ($type == 1)
-                                <input type="text" class="form-control" name="{{ $key }}">
+                                <input type="text" class="form-control" name="{{ $key }}" value="{{ $answers[$key] }}">
                             @elseif ($type == 2)
-                                <textarea class="form-control" name="{{ $key }}"></textarea>
+                                <textarea class="form-control" name="{{ $key }}">{{ $answers[$key] }}</textarea>
                             @elseif ($type == 3)
+                                <?php $set_required = false; ?>
                                 @foreach ($json['radio_label'][$key] as $id => $label)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="{{ $key }}" id="{{ $id }}" value="{{ $id }}">
-                                        <label class="form-check-label" for="{{ $id }}">
-                                            {{ $label }}
-                                        </label>
+                                        <input class="form-check-input" type="radio" name="{{ $key }}" id="{{ $id }}" value="{{ $id }}"
+                                            @if (!$set_required)
+                                                <?php $set_required = true; ?>
+                                                required
+                                            @endif
+                                            @if ($id == $answers[$key])
+                                                checked
+                                            @endif
+                                        >
+                                        <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
                                     </div>
                                 @endforeach
                             @elseif ($type == 4)
                                 @foreach ($json['checkbox_label'][$key] as $id => $label)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}">
-                                        <label class="form-check-label" for="{{ $id }}">
-                                            {{ $label }}
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
+                                            @if (in_array($id, $answers[$key], true))
+                                                checked
+                                            @endif
+                                        >
+                                        <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
                                     </div>
                                 @endforeach
                             @elseif ($type == 5)

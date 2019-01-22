@@ -35,9 +35,9 @@ class QuestionController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($id)
+    private function authenticate($camp_id)
     {
-        $camp = Camp::find($id);
+        $camp = Camp::find($camp_id);
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             return redirect('/')->with('error', trans('camp.ApproveFirst'));
         if (!\Auth::user()->canManageCamp($camp))
@@ -76,27 +76,27 @@ class QuestionController extends Controller
         $camp = $this->authenticate($request->input('camp_id'));
         if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $content = $request->all();
-        $queset = QuestionSet::where('camp_id', $camp->id);
-        $queset_id = -1;
-        if (!$queset->exists()) {
-            $queset_id = QuestionSet::create([
+        $question_set = QuestionSet::where('camp_id', $camp->id);
+        $question_set_id = -1;
+        if (!$question_set->exists()) {
+            $question_set_id = QuestionSet::create([
                 'camp_id' => $camp->id,
                 'score_threshold' => 1.0,
             ])->id;
         } else
-            $queset_id = $queset->first()->id;
+            $question_set_id = $question_set->first()->id;
         unset($content['_token']);
         $questions = $content['type'];
         foreach ($questions as $json_id => $type) {
-            $que_id = Question::updateOrCreate([
+            $question_id = Question::updateOrCreate([
                 'json_id' => $json_id,
             ], [
                 'type' => (int)$type,
                 'full_score' => 1, // TODO: set the value
             ])->id;
             QuestionSetQuestionPair::updateOrCreate([
-                'question_set_id' => $queset_id,
-                'question_id' => $que_id,
+                'question_set_id' => $question_set_id,
+                'question_id' => $question_id,
             ]);
         }
         $json = json_encode($content);
@@ -116,8 +116,8 @@ class QuestionController extends Controller
         $camp = $this->authenticate($id);
         if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $camp_id = $camp->id;
-        $questionSet = QuestionSet::where('camp_id', $camp_id)->first();
-        if ($questionSet) {
+        $question_set = QuestionSet::where('camp_id', $camp_id)->first();
+        if ($question_set) {
             // questions for this camp exist
             $json_path = Common::questionSetDirectory($camp_id).'/questions.json';
             $json = json_encode(Storage::disk('local')->get($json_path));
