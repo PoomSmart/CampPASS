@@ -36,7 +36,7 @@
                         </form>
                     @endcan
                 @else
-                    @can('question-list')
+                    @can('question-edit')
                         <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('question.Question') }}</a>
                     @endcan
                 @endif
