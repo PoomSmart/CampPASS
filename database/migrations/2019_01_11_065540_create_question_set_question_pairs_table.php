@@ -15,10 +15,10 @@ class CreateQuestionSetQuestionPairsTable extends Migration
     {
         Schema::create('question_set_question_pairs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('queset_id')->unsigned();
-            $table->foreign('queset_id')->references('id')->on('question_sets')->onDelete('cascade');
-            $table->integer('que_id')->unsigned();
-            $table->foreign('que_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->integer('question_set_id')->unsigned();
+            $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
+            $table->integer('question_id')->unsigned();
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->timestamps();
         });
     }

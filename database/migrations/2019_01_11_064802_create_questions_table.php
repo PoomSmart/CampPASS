@@ -16,6 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('json_id')->unique();
+            $table->smallInteger('type')->unsigned();
             $table->double('full_score')->default(1.0);
             $table->timestamps();
         });

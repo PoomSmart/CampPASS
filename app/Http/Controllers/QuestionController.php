@@ -39,9 +39,9 @@ class QuestionController extends Controller
     {
         $camp = Camp::find($id);
         if (!$camp->approved)
-            return redirect()->back()->with('error', trans('camp.ApproveFirst'));
+            return redirect('/')->with('error', trans('camp.ApproveFirst'));
         if (!\Auth::user()->canManageCamp($camp))
-            return redirect()->back()->with('error', trans('app.NoPermissionError'));
+            return redirect('/')->with('error', trans('app.NoPermissionError'));
         return $camp;
     }
 
@@ -74,7 +74,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $camp = $this->authenticate($request->input('camp_id'));
-        if (!get_class($camp) == 'Camp') return $camp;
+        if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $content = $request->all();
         $queset = QuestionSet::where('camp_id', $camp->id);
         $queset_id = -1;
@@ -86,16 +86,17 @@ class QuestionController extends Controller
         } else
             $queset_id = $queset->first()->id;
         unset($content['_token']);
-        $questions = array_keys($content['type']);
-        foreach ($questions as $json_id) {
+        $questions = $content['type'];
+        foreach ($questions as $json_id => $type) {
             $que_id = Question::updateOrCreate([
                 'json_id' => $json_id,
             ], [
+                'type' => (int)$type,
                 'full_score' => 1, // TODO: set the value
             ])->id;
             QuestionSetQuestionPair::updateOrCreate([
-                'queset_id' => $queset_id,
-                'que_id' => $que_id,
+                'question_set_id' => $queset_id,
+                'question_id' => $que_id,
             ]);
         }
         $json = json_encode($content);
@@ -113,7 +114,7 @@ class QuestionController extends Controller
     public function show($id)
     {
         $camp = $this->authenticate($id);
-        if (!get_class($camp) == 'Camp') return $camp;
+        if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $camp_id = $camp->id;
         $questionSet = QuestionSet::where('camp_id', $camp_id)->first();
         if ($questionSet) {

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionSetQuestionPair extends Model
 {
     protected $fillable = [
-        'queset_id', 'que_id',
+        'question_set_id', 'question_id',
     ];
 
     public function question()
