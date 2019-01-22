@@ -25,16 +25,16 @@ Route::group(['middleware' => ['permission:role-list']], function() {
     Route::resource('roles', 'RoleController');
 });
 
-Route::group(['middleware' => ['permission:camp-list']], function() {
+Route::group(['middleware' => ['permission:camp-edit']], function() {
     Route::resource('camps', 'CampController');
     Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
 });
 
-Route::group(['middleware' => ['permission:question-list']], function() {
+Route::group(['middleware' => ['permission:question-edit']], function() {
     Route::resource('questions', 'QuestionController');
 });
 
-Route::group(['middleware' => ['role:campmaker']], function() {
+Route::group(['middleware' => ['permission:campmaker-edit']], function() {
     Route::resource('campers', 'CamperController');
 });
 
