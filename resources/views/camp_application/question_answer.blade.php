@@ -31,7 +31,7 @@
                             @elseif ($type == 3)
                                 @foreach ($json['radio_label'][$key] as $id => $label)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}">
+                                        <input class="form-check-input" type="radio" name="{{ $key }}" id="{{ $id }}" value="{{ $id }}">
                                         <label class="form-check-label" for="{{ $id }}">
                                             {{ $label }}
                                         </label>
@@ -53,6 +53,11 @@
                     </div>
                 </div>
             @endforeach
+            @component('components.submit', ['label' => trans('app.Save')])
+            @slot('postcontent')
+                <a href="" class="btn btn-success">Next</a>
+            @endslot
+            @endcomponent
         </form>
     @endif
 @endsection
