@@ -16,10 +16,10 @@ var add_checkbox_HTML = `
     <button class="btn btn-success mb-3" type="button"><span>Add More Checkbox</span></button>
 `;
 
-var campId = -1;
-
-function getCampId(id) {
-    campId = id;
+var campId = -1
+function getCampId() {
+    campId = jQuery("#camp_id").val();
+    console.log(`Get camp ID: ${campId}`);
 }
 
 function randId() {
@@ -30,7 +30,7 @@ function readJSON(json) {
     if (!json) {
         console.log("Info: JSON is null");
         return
-    };
+    }
     if (json.camp_id != campId) {
         console.log("Error: Camp ID mismatched");
         return;

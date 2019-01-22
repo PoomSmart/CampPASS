@@ -38,7 +38,7 @@ class QuestionController extends Controller
     private function authenticate($id)
     {
         $camp = Camp::find($id);
-        if (!$camp->approved)
+        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             return redirect('/')->with('error', trans('camp.ApproveFirst'));
         if (!\Auth::user()->canManageCamp($camp))
             return redirect('/')->with('error', trans('app.NoPermissionError'));

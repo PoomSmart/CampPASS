@@ -11,7 +11,7 @@
 @section('card_content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
-        <input name="camp_id" type="hidden" value="{{ $camp_id }}">
+        <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp_id }}">
         <div id="questions">
             @component('questions.question', [
                 'title' => 'Title',
@@ -19,9 +19,9 @@
             ]);
             @endcomponent
         </div>
+        <script>getCampId();</script>
         @if (!empty($json))
             <script>
-                getCampId({!! $camp_id !!});
                 var client_json = JSON.parse({!! $json !!});
                 readJSON(client_json);
             </script>

@@ -1,10 +1,14 @@
 @extends('layouts.card')
 
-@section('header')
-    Camp Application
+@section('script')
+    <script src="{{ asset('js/answer.js') }}"></script>
 @endsection
 
-@section('content')
+@section('header')
+    Camp Application Form
+@endsection
+
+@section('card_content')
     @if (!$eligible)
         You are not eligible for this camp.
     @elseif ($quota_exceed)
@@ -12,9 +16,12 @@
     @elseif ($already_applied)
         You already applied for this camp.
     @else
-        Questions.
-        @foreach ($questions as $question)
-            {{ $question }}
-        @endforeach
+        @if (!empty($json))
+            <script>
+                getCampId({!! $camp->id !!});
+                var client_json = JSON.parse({!! $json !!});
+                readJSON(client_json);
+            </script>
+        @endif
     @endif
 @endsection

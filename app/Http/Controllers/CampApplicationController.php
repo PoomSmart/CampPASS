@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Camp;
+use App\Common;
 
 use App\Enums\RegistrationStatus;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CampApplicationController extends Controller
 {
@@ -28,6 +30,12 @@ class CampApplicationController extends Controller
             foreach ($pairs as $pair)
                 array_push($questions, $pair->question());
         }
-        return view('camp_application.landing', compact('camp', 'eligible', 'quota_exceed', 'already_applied', 'questions'));
+        $json = [];
+        if ($eligible && !$quota_exceed && !empty($questions)) {
+            $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
+            $json = json_encode(Storage::disk('local')->get($json_path));
+            // TODO: remove checkbox and label keys
+        }
+        return view('camp_application.landing', compact('camp', 'eligible', 'quota_exceed', 'already_applied', 'questions', 'json'));
     }
 }
