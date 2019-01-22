@@ -33,8 +33,10 @@ class CampApplicationController extends Controller
         $json = [];
         if ($eligible && !$quota_exceed && !empty($questions)) {
             $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
-            $json = json_encode(Storage::disk('local')->get($json_path));
-            // TODO: remove checkbox and label keys
+            $json = json_decode(Storage::disk('local')->get($json_path), true);
+            // Remove solutions from the questions
+            unset($json['radio']);
+            unset($json['checkbox']);
         }
         return view('camp_application.landing', compact('camp', 'eligible', 'quota_exceed', 'already_applied', 'questions', 'json'));
     }
