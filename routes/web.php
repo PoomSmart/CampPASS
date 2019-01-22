@@ -25,7 +25,7 @@ Route::group(['middleware' => ['permission:role-list']], function() {
     Route::resource('roles', 'RoleController');
 });
 
-Route::group(['middleware' => ['permission:camp-edit']], function() {
+Route::group(['middleware' => ['permission:camp-list']], function() {
     Route::resource('camps', 'CampController');
     Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
 });
