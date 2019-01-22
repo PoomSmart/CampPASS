@@ -25,7 +25,7 @@
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $camp->getName() }}</td>
             <td>{{ $camp->getShortDescription() }}</td>
-            <td>{{ $camp->approved ? $camp->campers()->count() : 0 }}</td>
+            <td>{{ $camp->approved ? $camp->campers(null)->count() : 0 }}</td>
             <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
 	        <td>
                 @if (!$camp->approved)

@@ -10,6 +10,8 @@ use App\QuestionSet;
 use App\Registration;
 use App\User;
 
+use App\Enums\RegistrationStatus;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Camp extends Model
@@ -92,12 +94,15 @@ class Camp extends Model
     }
 
     /**
-     * Return the campers that belong to the given camp.
+     * Return the campers that belong to the given camp, given the status
      * 
      */
-    public function campers()
+    public function campers($status)
     {
-        $registrations = $this->registrations()->select('camper_id')->get();
+        $registrations = $this->registrations()->select('camper_id');
+        if (!is_null($status))
+            $registrations = $registrations->where('status', $status);
+        $registrations = $registrations->get();
         $campers = User::campers()->whereIn('id', $registrations)->get();
         return $campers;
     }
