@@ -71,6 +71,11 @@ class Camp extends Model
         return $this->short_description_en;
     }
 
+    public function getURL()
+    {
+        return $this->fburl ? $this->fburl : $this->url;
+    }
+
     public function getAcceptableProgramsAttribute($value)
     {
         $data = json_decode("[{$value}]", true);
