@@ -29,7 +29,19 @@
         <div class="form-group row">
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
-                <input type="text" required autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
+                <div class="input-group">
+                    <input type="text" required autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="{{ trans('question.EnterQuestionPlaceholder') }}">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <input type="checkbox" id="question-required" name="question_required[{{ $camp_id }}-00000]" aria-label="Check to require answer for this question">
+                            <span class="ml-1">Required</span>
+                        </div>
+                        <div class="input-group-text">
+                            <input type="checkbox" id="question-graded" name="question_graded[{{ $camp_id }}-00000]" aria-label="Check to require this question to be graded">
+                            <span class="ml-1">Graded</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="additional-content"></div>

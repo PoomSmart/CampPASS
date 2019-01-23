@@ -44,6 +44,9 @@ function readJSON(json) {
         block.attr("id", `question-block-${id}`);
         block.find("#question-type").attr("name", `type[${id}]`).val(question_type);
         block.find("#question").attr("name", `question[${id}]`).val(question_text);
+        block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", json.question_required && id in json.question_required)
+            .attr("onclick", question_type == QuestionType.CHOICES || question_type == QuestionType.CHECKBOXES ? "this.checked=!this.checked" : null);
+        block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", json.question_graded && id in json.question_graded);
         var add = block.find("#additional-content");
         switch (question_type) {
             case QuestionType.CHOICES:
@@ -70,6 +73,8 @@ function addQuestion() {
     var block = jQuery(question_block_selector).first().clone().attr("id", `question-block-${id}`);
     block.find("#question-type").attr("name", `type[${id}]`);
     block.find("#question").attr("name", `question[${id}]`).val("");
+    block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", false);
+    block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", false);
     block.find("#additional-content").empty();
     jQuery("#questions").append(block);
 }
@@ -131,6 +136,7 @@ function addRadioOrCheckbox(target, name, type, parentId, i) {
 
 function addAdditionalContent(block, add, type, parentId, entries, value) {
     if (type == QuestionType.CHOICES) {
+        block.find("#question-required").attr("onclick", "this.checked=!this.checked").prop("checked", true);
         var add_choice_button = jQuery(jQuery.parseHTML(add_choice_HTML));
         add_choice_button.on('click', function (e) {
             e.preventDefault();
@@ -150,6 +156,7 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             addRadioOrCheckbox(add, "radio", type, parentId, randId());
         }
     } else if (type == QuestionType.CHECKBOXES) {
+        block.find("#question-required").attr("onclick", "this.checked=!this.checked").prop("checked", true);
         var add_checkbox_button = jQuery(jQuery.parseHTML(add_checkbox_HTML));
         add_checkbox_button.on('click', function (e) {
             e.preventDefault();
@@ -163,7 +170,8 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             });
         } else
             addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
-    }
+    } else
+        block.find("#question-required").attr("onclick", null).prop("checked", false);
 }
 
 function selectionChanged(select) {

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -13,6 +14,7 @@ class CreateCampsTable extends Migration
      */
     public function up()
     {
+        Storage::disk('local')->deleteDirectory('camps/'); // TODO: Decide whether this should exist in the future
         Schema::create('camps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('camp_category_id')->unsigned();

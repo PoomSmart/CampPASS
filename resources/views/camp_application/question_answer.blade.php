@@ -24,12 +24,23 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-4">
-                            <?php $type = (int)$json['type'][$key] ?>
+                            <?php
+                                $type = (int)$json['type'][$key];
+                                $required = isset($json['question_required'][$key]);
+                            ?>
                             <!-- ? TODO: Simplify radio and checkbox -->
                             @if ($type == 1)
-                                <input type="text" class="form-control" name="{{ $key }}" value="{{ isset($answers[$key]) ? $answers[$key] : "" }}">
+                                <input type="text" class="form-control" name="{{ $key }}" value="{{ isset($answers[$key]) ? $answers[$key] : "" }}"
+                                    @if ($required)
+                                        required
+                                    @endif
+                                >
                             @elseif ($type == 2)
-                                <textarea class="form-control" name="{{ $key }}">{{ isset($answers[$key]) ? $answers[$key] : "" }}</textarea>
+                                <textarea class="form-control" name="{{ $key }}"
+                                    @if ($required)
+                                        required
+                                    @endif
+                                >{{ isset($answers[$key]) ? $answers[$key] : "" }}</textarea>
                             @elseif ($type == 3)
                                 <?php $set_required = false; ?>
                                 @foreach ($json['radio_label'][$key] as $id => $label)

@@ -23,8 +23,8 @@ class CreateAnswersTable extends Migration
             $table->foreign('camper_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('registration_id')->unsigned();
             $table->foreign('registration_id')->references('id')->on('registrations');
-            $table->string('answer');
-            $table->double('score')->default(0.0);
+            $table->string('answer')->nullable();
+            $table->double('score')->nullable();
             $table->timestamps();
         });
     }

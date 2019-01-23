@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->string('json_id')->unique();
             $table->smallInteger('type')->unsigned();
-            $table->double('full_score')->default(1.0);
+            $table->double('full_score')->nullable();
             $table->timestamps();
         });
     }

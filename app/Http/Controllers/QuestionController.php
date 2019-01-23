@@ -81,24 +81,25 @@ class QuestionController extends Controller
         if (!$question_set->exists()) {
             $question_set_id = QuestionSet::create([
                 'camp_id' => $camp->id,
-                'score_threshold' => 1.0,
+                'score_threshold' => 0.5,
             ])->id;
         } else
             $question_set_id = $question_set->first()->id;
-        unset($content['_token']);
         $questions = $content['type'];
         foreach ($questions as $json_id => $type) {
+            $graded = isset($content['question_graded'][$json_id]);
             $question_id = Question::updateOrCreate([
                 'json_id' => $json_id,
             ], [
                 'type' => (int)$type,
-                'full_score' => 1, // TODO: set the value
+                'full_score' => $graded ? 10.0 : null,
             ])->id;
             QuestionSetQuestionPair::updateOrCreate([
                 'question_set_id' => $question_set_id,
                 'question_id' => $question_id,
             ]);
         }
+        unset($content['_token']);
         $json = json_encode($content);
         $directory = Common::questionSetDirectory($camp->id);
         Storage::disk('local')->put($directory.'/questions.json', $json);
