@@ -66,11 +66,14 @@
             </div>
         </div>
     @endforeach
-    @component('components.submit', ['label' => trans('app.Edit')])
-    @slot('postcontent')
-        @if (isset($question_set) && !is_null($question_set))
-            <a href="" class="btn btn-success">Submit</a>
-        @endif
-    @endslot
-    @endcomponent
+    <script>
+        jQuery(':radio:not(:checked)').attr('disabled', true);
+        jQuery(':checkbox:not(:checked)').attr('disabled', true);
+    </script>
+    <div class="form-group row mb-0">
+        <div class="col-12">
+            <a href="" class="btn btn-secondary">{{ trans('app.Edit') }}</a>
+            <a href="" class="btn btn-success">{{ trans('Submit') }}</a>
+        </div>
+    </div>
 @endsection
