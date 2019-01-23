@@ -77,7 +77,7 @@
             @endforeach
             @component('components.submit', ['label' => trans('app.Save')])
             @slot('postcontent')
-                <a href="" class="btn btn-success">Next</a>
+                <a href="{{ route('camp_application.question_review', $question_set->id) }}" class="btn btn-success">Next</a>
             @endslot
             @endcomponent
         </form>

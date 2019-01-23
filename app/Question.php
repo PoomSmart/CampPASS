@@ -15,11 +15,6 @@ class Question extends Model
         'json_id', 'full_score', 'type',
     ];
 
-    public function answers()
-    {
-        return $this->hasMany(Answer::class);
-    }
-
     public function pair()
     {
         return $this->belongsTo(QuestionSetQuestionPair::class)->limit(1)->get()->first();

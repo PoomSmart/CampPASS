@@ -43,6 +43,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
 });
 
+Route::group(['middleware' => ['role:camper']], function() {
+    Route::get('/review/{question_set}', 'CampApplicationController@question_review')->name('camp_application.question_review');
+});
+
 Route::resource('camp_browser', 'CampBrowserController');
 
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
