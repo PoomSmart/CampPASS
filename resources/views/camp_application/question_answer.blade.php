@@ -6,9 +6,9 @@
 
 @section('card_content')
     @if (!$eligible)
-        You are not eligible for this camp.
+        You are not eligible for this camp by the pre-conditions set by the camp makers.
     @elseif ($quota_exceed)
-        The quota is full.
+        Sorry, the quota of this camp is full.
     @elseif ($already_applied)
         You already applied for this camp.
     @elseif (!empty($json))

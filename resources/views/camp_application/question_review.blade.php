@@ -73,7 +73,7 @@
     <div class="form-group row mb-0">
         <div class="col-12">
             <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-secondary">{{ trans('app.Edit') }}</a>
-            <a href="" class="btn btn-success">{{ trans('Submit') }}</a>
+            <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">{{ trans('Submit') }}</a>
         </div>
     </div>
 @endsection

@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::group(['middleware' => ['role:camper']], function() {
     Route::get('/review/{question_set}', 'CampApplicationController@question_review')->name('camp_application.question_review');
+    Route::get('/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
 });
 
 Route::resource('camp_browser', 'CampBrowserController');

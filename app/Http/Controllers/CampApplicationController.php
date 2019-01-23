@@ -34,7 +34,7 @@ class CampApplicationController extends Controller
     public function camperAlreadyApplied($registration)
     {
         // TODO: verify already-applied state check
-        return $registration ? $registration->status == RegistrationStatus::QUALIFIED : false;
+        return $registration ? $registration->status == RegistrationStatus::APPLIED || $registration->status == RegistrationStatus::QUALIFIED : false;
     }
 
     /**
@@ -122,8 +122,12 @@ class CampApplicationController extends Controller
         // A registration record will be created if not already
         $registration_id = -1;
         $registration = $this->getLatestRegistration($camp, $user->id);
-        if ($registration)
+        if ($registration) {
+            // In case campers somehow want to edit the answers in the submitted application form
+            if ($this->camperAlreadyApplied($registration))
+                return redirect('/')->with('error', 'Unable to save the answers.');
             $registration_id = $registration->id;
+        }
         else {
             $registration_id = Registration::create([
                 'camp_id' => $camp->id,
@@ -168,5 +172,17 @@ class CampApplicationController extends Controller
             ];
         }
         return view('camp_application.question_review', compact('data', 'json', 'question_set', 'camp'));
+    }
+
+    public function submit_application_form(Camp $camp)
+    {
+        $registration = $this->getLatestRegistration($camp, \Auth::user()->id);
+        if ($registration->status >= RegistrationStatus::APPROVED) {
+            // This should not happen
+            return redirect()->back()->with('error', 'You cannot submit the application form to the camp you alraedy are qualified for.');
+        }
+        $registration->status = RegistrationStatus::APPLIED;
+        $registration->save();
+        return view('camp_application.done');
     }
 }
