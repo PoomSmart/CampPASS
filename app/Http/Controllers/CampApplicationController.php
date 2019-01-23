@@ -151,6 +151,7 @@ class CampApplicationController extends Controller
     public function question_review(QuestionSet $question_set)
     {
         $camper = \Auth::user();
+        $camp = $question_set->camp();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = array();
         $json = $this->getJSON($question_set->camp_id);
@@ -166,6 +167,6 @@ class CampApplicationController extends Controller
                 'answer' => $this->decodeIfNeeded($answer, $question->type),
             ];
         }
-        return view('camp_application.question_review', compact('data', 'json', 'question_set'));
+        return view('camp_application.question_review', compact('data', 'json', 'question_set', 'camp'));
     }
 }
