@@ -25,19 +25,19 @@
                         $required = isset($json['question_required'][$key]);
                     ?>
                     <!-- ? TODO: Simplify radio and checkbox -->
-                    @if ($type == 1)
+                    @if ($type == \App\Enums\QuestionType::TEXT)
                         <input type="text" readonly class="form-control" name="{{ $key }}" value="{{ $answer }}"
                             @if ($required)
                                 required
                             @endif
                         >
-                    @elseif ($type == 2)
+                    @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
                         <textarea class="form-control" readonly name="{{ $key }}"
                             @if ($required)
                                 required
                             @endif
                         >{{ $answer }}</textarea>
-                    @elseif ($type == 3)
+                    @elseif ($type == \App\Enums\QuestionType::CHOICES)
                         @foreach ($json['radio_label'][$key] as $id => $label)
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="{{ $key }}" id="{{ $id }}" value="{{ $id }}"
@@ -48,7 +48,7 @@
                                 <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
                             </div>
                         @endforeach
-                    @elseif ($type == 4)
+                    @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
                         @foreach ($json['checkbox_label'][$key] as $id => $label)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
@@ -59,7 +59,7 @@
                                 <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
                             </div>
                         @endforeach
-                    @elseif ($type == 5)
+                    @elseif ($type == \App\Enums\QuestionType::FILE)
                         <!-- TODO: Complete file type answer -->
                     @endif
                 </div>
