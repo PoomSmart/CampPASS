@@ -33,7 +33,7 @@ class Registration extends Model
         return $this->hasOne(Certificate::class)->limit(1)->get()->first();
     }
 
-    public function payments()
+    public function payment_slips()
     {
         return $this->hasMany(PaymentSlip::class);
     }

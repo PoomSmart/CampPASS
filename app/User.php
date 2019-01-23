@@ -82,12 +82,7 @@ class User extends Authenticatable
 
     public function registrations()
     {
-        return $this->isCamper() ? $this->hasMany(Registration::class) : null;
-    }
-
-    public function approvals()
-    {
-        return $this->isCampMaker() ? $this->hasMany(Registration::class) : null;
+        return $this->hasMany(Registration::class);
     }
 
     public function organization()

@@ -13,9 +13,14 @@ class Organization extends Model
         'name_en', 'name_th', 'address', 'zipcode', 'type', 'subtype',
     ];
 
-    public function campMakers()
+    public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function camp_makers()
+    {
+        return $this->users();
     }
 
     public function camps()

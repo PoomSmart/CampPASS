@@ -27,9 +27,9 @@
                             <?php $type = (int)$json['type'][$key] ?>
                             <!-- ? TODO: Simplify radio and checkbox -->
                             @if ($type == 1)
-                                <input type="text" class="form-control" name="{{ $key }}" value="{{ $answers[$key] }}">
+                                <input type="text" class="form-control" name="{{ $key }}" value="{{ isset($answers[$key]) ? $answers[$key] : "" }}">
                             @elseif ($type == 2)
-                                <textarea class="form-control" name="{{ $key }}">{{ $answers[$key] }}</textarea>
+                                <textarea class="form-control" name="{{ $key }}">{{ isset($answers[$key]) ? $answers[$key] : "" }}</textarea>
                             @elseif ($type == 3)
                                 <?php $set_required = false; ?>
                                 @foreach ($json['radio_label'][$key] as $id => $label)
@@ -39,7 +39,7 @@
                                                 <?php $set_required = true; ?>
                                                 required
                                             @endif
-                                            @if ($id == $answers[$key])
+                                            @if (isset($answers[$key]) && $id == $answers[$key])
                                                 checked
                                             @endif
                                         >
@@ -50,7 +50,7 @@
                                 @foreach ($json['checkbox_label'][$key] as $id => $label)
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
-                                            @if (in_array($id, $answers[$key], true))
+                                            @if (isset($answers[$key]) && in_array($id, $answers[$key], true))
                                                 checked
                                             @endif
                                         >

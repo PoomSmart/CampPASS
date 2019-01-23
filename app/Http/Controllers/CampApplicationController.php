@@ -30,6 +30,11 @@ class CampApplicationController extends Controller
         return $camp->quota && $camp->campers(RegistrationStatus::APPROVED)->count() >= $camp->quota;
     }
 
+    public function camperAlreadyApplied($registration)
+    {
+        return $registration ? $registration->status == RegistrationStatus::QUALIFIED : false;
+    }
+
     /**
      * Check whether the given camp can be manipulated by the current user.
      * The function returns the camp object if the user can.
@@ -37,7 +42,7 @@ class CampApplicationController extends Controller
      */
     public static function authenticate($camp_id)
     {
-        $camp = Camp::find($id);
+        $camp = Camp::find($camp_id);
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             return redirect('/')->with('error', trans('camp.ApproveFirst'));
         if (!\Auth::user()->canManageCamp($camp))
@@ -48,6 +53,7 @@ class CampApplicationController extends Controller
     public function landing(Camp $camp)
     {
         // Stage 1: Answering questions
+        // $camp->camp_procedure()->candidate_required);
         // TODO: make $operate less "elegant" and more "readable?"
         // TODO: add application date check
         $user = \Auth::user();
@@ -55,12 +61,12 @@ class CampApplicationController extends Controller
         $operate = $eligible = $user->isEligibleForCamp($camp);
         $latest_registration = $operate ? $this->getLatestRegistration($camp, $user->id) : null;
         // TODO: verify already-applied state check
-        $already_applied = $latest_registration ? $latest_registration->status == RegistrationStatus::QUALIFIED : false;
+        $already_applied = $this->camperAlreadyApplied($latest_registration);
         $operate = $operate && !$already_applied ? true : false;
         // TODO: verify quota exceed check
         $quota_exceed = $operate && $this->isCampFull($camp);
         $operate = $operate && !$quota_exceed ? true : false;
-        $question_set = $operate ? $camp->questionSet() : null;
+        $question_set = $operate ? $camp->question_set() : null;
         $questions = [];
         if ($question_set) {
             $pairs = $question_set->pairs()->get();

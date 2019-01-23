@@ -32,12 +32,12 @@ class Camp extends Model
         return $this->hasMany(Registration::class);
     }
 
-    public function certificateTemplates()
+    public function certificate_templates()
     {
         return $this->hasMany(CertificateTemplate::class);
     }
 
-    public function procedure()
+    public function camp_procedure()
     {
         return $this->belongsTo(CampProcedure::class)->limit(1)->get()->first();
     }
@@ -47,12 +47,12 @@ class Camp extends Model
         return $this->belongsTo(Organization::class)->limit(1)->get()->first();
     }
 
-    public function category()
+    public function camp_category()
     {
         return $this->belongsTo(CampCategory::class)->limit(1)->get()->first();
     }
 
-    public function questionSet()
+    public function question_set()
     {
         return $this->hasOne(QuestionSet::class)->limit(1)->get()->first();
     }
