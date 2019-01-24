@@ -20,17 +20,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CampApplicationController extends Controller
 {
-    public function getLatestRegistration(Camp $camp, $camper_id)
-    {
-        return $camp->registrations()->where('camper_id', $camper_id)->latest()->first();
-    }
-
-    public function isCampFull(Camp $camp)
-    {
-        // TODO: verify quota exceed check
-        return $camp->quota && $camp->campers(RegistrationStatus::APPROVED)->count() >= $camp->quota;
-    }
-
     public function camperAlreadyApplied($registration)
     {
         // TODO: verify already-applied state check
@@ -71,10 +60,10 @@ class CampApplicationController extends Controller
             $user = \Auth::user();
             // TODO: verify camper eligibility check
             $operate = $eligible = $user->isEligibleForCamp($camp);
-            $latest_registration = $operate ? $this->getLatestRegistration($camp, $user->id) : null;
+            $latest_registration = $operate ? $camp->getLatestRegistration($user->id) : null;
             $already_applied = $this->camperAlreadyApplied($latest_registration);
             $operate = $operate && !$already_applied ? true : false;
-            $quota_exceed = $operate && $this->isCampFull($camp);
+            $quota_exceed = $operate && $camp->isFull();
             $operate = $operate && !$quota_exceed ? true : false;
             $json = [];
             $answers = [];
@@ -88,27 +77,13 @@ class CampApplicationController extends Controller
                     foreach ($pre_answers as $pre_answer) {
                         $question = Question::find($id = $pre_answer->question_id);
                         $key = $question->json_id;
-                        $answers[$key] = $this->decodeIfNeeded($pre_answer->answer, $question->type);
+                        $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
                     }
                 }
             }
             return view('camp_application.question_answer', compact('camp', 'eligible', 'quota_exceed', 'already_applied', 'answers', 'json', 'question_set'));
         }
         return null;
-    }
-
-    private function encodeIfNeeded($value, $question_type)
-    {
-        if ($question_type == QuestionType::CHECKBOXES)
-            return json_encode($value);
-        return $value;
-    }
-
-    private function decodeIfNeeded($value, $question_type)
-    {
-        if ($question_type == QuestionType::CHECKBOXES)
-            return json_decode($value);
-        return $value;
     }
 
     public function store(Request $request)
@@ -121,7 +96,7 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         // A registration record will be created if not already
         $registration_id = -1;
-        $registration = $this->getLatestRegistration($camp, $user->id);
+        $registration = $camp->getLatestRegistration($user->id);
         if ($registration) {
             // In case campers somehow want to edit the answers in the submitted application form
             if ($this->camperAlreadyApplied($registration))
@@ -146,7 +121,7 @@ class CampApplicationController extends Controller
                 'camper_id' => $user->id,
                 'registration_id' => $registration_id,
             ], [
-                'answer' => $this->encodeIfNeeded($request[$json_id], $question->type),
+                'answer' => Common::encodeIfNeeded($request[$json_id], $question->type),
             ]);
         }
         return redirect()->back()->with('success', 'Answers are saved.');
@@ -168,7 +143,7 @@ class CampApplicationController extends Controller
                 $answer = '';
             $data[] = [
                 'question' => $question,
-                'answer' => $this->decodeIfNeeded($answer, $question->type),
+                'answer' => Common::decodeIfNeeded($answer, $question->type),
             ];
         }
         return view('camp_application.question_review', compact('data', 'json', 'question_set', 'camp'));
@@ -176,7 +151,7 @@ class CampApplicationController extends Controller
 
     public function submit_application_form(Camp $camp)
     {
-        $registration = $this->getLatestRegistration($camp, \Auth::user()->id);
+        $registration = $camp->getLatestRegistration(\Auth::user()->id);
         if ($registration->status >= RegistrationStatus::APPROVED) {
             // This should not happen
             return redirect()->back()->with('error', 'You cannot submit the application form to the camp you alraedy are qualified for.');

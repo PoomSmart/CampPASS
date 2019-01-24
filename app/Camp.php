@@ -24,7 +24,7 @@ class Camp extends Model
     ];
 
     protected $appends = [
-        'acceptable_regions', 'acceptable_programs'
+        'acceptable_regions', 'acceptable_programs',
     ];
 
     public function registrations()
@@ -110,5 +110,15 @@ class Camp extends Model
         $registrations = $registrations->get();
         $campers = User::campers()->whereIn('id', $registrations)->get();
         return $campers;
+    }
+
+    public function getLatestRegistration($camper_id)
+    {
+        return $this->registrations()->where('camper_id', $camper_id)->latest()->first();
+    }
+
+    public function isFull()
+    {
+        return $this->quota && $this->campers(RegistrationStatus::APPROVED)->count() >= $this->quota;
     }
 }

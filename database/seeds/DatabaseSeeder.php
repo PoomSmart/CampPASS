@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    private function campCategories()
+    private function camp_categories()
     {
         CampCategory::insert([
             [ 'name' => 'Engineering' ],
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    private function campProcedures()
+    private function camp_procedures()
     {
         CampProcedure::insert([
             [ 'title' => 'Walk-in', 'description' => 'camp.WalkInDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => false ],
@@ -91,14 +91,29 @@ class DatabaseSeeder extends Seeder
         return $camp_id.'-'.bin2hex(random_bytes(5));
     }
 
-    private function questions()
+    private function registrations_and_questions_and_answers()
     {
+        $total_registrations = 50;
         $total_question_sets = 30;
-        $minimum_questions = 3;
+        $minimum_questions = 5;
         $maximum_questions = 10;
-        $maximum_choices = 4;
+        $maximum_choices = 6;
         $maximum_checkboxes = 8;
         $faker = Faker\Factory::create();
+        $campers = User::campers()->get();
+        while ($total_registrations--) {
+            $camper = User::_campers(true)->first();
+            $camp = Camp::inRandomOrder()->first();
+            if (!$camper->isEligibleForCamp($camp))
+                continue;
+            if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
+                continue;
+            Registration::create([
+                'camp_id' => $camp->id,
+                'camper_id' => $camper->id,
+                'submission_time' => $faker->date(),
+            ]);
+        }
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -123,10 +138,12 @@ class DatabaseSeeder extends Seeder
                 $required = $graded ? true : rand(0, 1);
                 $json_id = $this->randomID($camp_id);
                 $json['type'][$json_id] = $question_type;
-                $question_text = $faker->sentences($nb = 2, $asText = true);
+                $question_text = $faker->sentences($nb = rand(1, 2), $asText = true);
                 $json['question'][$json_id] = $question_text;
                 if ($required)
                     $json['question_required'][$json_id] = $question_text;
+                $multiple_radio_map = [];
+                $multiple_checkbox_map = [];
                 switch ($question_type) {
                     case QuestionType::TEXT:
 
@@ -141,6 +158,7 @@ class DatabaseSeeder extends Seeder
                             $choice_id = $this->randomID($camp_id);
                             $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 40);
                         }
+                        $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
                         $correct_choice = array_rand($json['radio_label'][$json_id]);
                         $json['radio'][$json_id] = $correct_choice;
                         break;
@@ -151,6 +169,7 @@ class DatabaseSeeder extends Seeder
                             $checkbox_id = $this->randomID($camp_id);
                             $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
                         }
+                        $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
                         break;
                 }
                 $question = Question::create([
@@ -162,6 +181,41 @@ class DatabaseSeeder extends Seeder
                     'question_set_id' => $question_set->id,
                     'question_id' => $question->id,
                 ]);
+                foreach ($campers as $camper) {
+                    if (!$camper->isEligibleForCamp($camp))
+                        continue;
+                    $registration = $camp->getLatestRegistration($camper->id);
+                    if (is_null($registration))
+                        continue;
+                    $answer = null;
+                    switch ($question_type) {
+                        case QuestionType::TEXT:
+                            $answer = $faker->text($maxNbChars = 20);
+                            break;
+                        case QuestionType::PARAGRAPH:
+                            $answer = $faker->sentences($nb = rand(2, 5), $asText = true);
+                            break;
+                        case QuestionType::CHOICES:
+                            $answer = array_rand($multiple_radio_map[$json_id]);
+                            break;
+                        case QuestionType::CHECKBOXES:
+                            $answer = array_rand($multiple_checkbox_map[$json_id]);
+                            break;
+                        case QuestionType::FILE:
+
+                            break;
+                    }
+                    $answer = Common::encodeIfNeeded($answer, $question_type);
+                    Answer::create([
+                        'question_set_id' => $question_set->id,
+                        'question_id' => $question->id,
+                        'camper_id' => $camper->id,
+                        'registration_id' => $registration->id,
+                        'answer' => $answer,
+                    ]);
+                }
+                unset($multiple_radio_map);
+                unset($multiple_checkbox_map);
             }
             foreach ($json as $key => $value) {
                 if (empty($value))
@@ -173,7 +227,7 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private function alterCampers()
+    private function alter_campers()
     {
         foreach (User::campers()->cursor() as $camper) {
             $camper->mattayom = rand(0, 5);
@@ -189,7 +243,7 @@ class DatabaseSeeder extends Seeder
         $candidate->save();
     }
 
-    private function alterCampMakers()
+    private function alter_campmakers()
     {
         foreach (User::campMakers()->cursor() as $campmaker) {
             $campmaker->organization_id = Organization::inRandomOrder()->first()->id;
@@ -203,7 +257,7 @@ class DatabaseSeeder extends Seeder
         $candidate->save();
     }
 
-    private function createAdmin()
+    private function create_admin()
     {
         $admin = User::_campMakers(true)->limit(1)->first();
         $admin->type = config('const.account.admin');
@@ -228,17 +282,16 @@ class DatabaseSeeder extends Seeder
         $this->religions();
         $this->regions();
         $this->programs();
-        $this->campCategories();
-        $this->campProcedures();
+        $this->camp_categories();
+        $this->camp_procedures();
         factory(School::class, 5)->create();
         factory(Organization::class, 5)->create();
         factory(Camp::class, 20)->create();
         factory(User::class, 50)->create();
-        $this->alterCampers();
-        $this->alterCampMakers();
-        $this->createAdmin();
-        $this->questions();
-        factory(Registration::class, 50)->create();
+        $this->alter_campers();
+        $this->alter_campmakers();
+        $this->create_admin();
+        $this->registrations_and_questions_and_answers();
         $this->call([
             PermissionTableSeeder::class
         ]);
