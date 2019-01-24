@@ -23,6 +23,7 @@
                         $type = $question->type;
                         $key = $question->json_id;
                         $required = isset($json['question_required'][$key]);
+                        $graded = isset($json['question_graded'][$key]);
                     ?>
                     <!-- ? TODO: Simplify radio and checkbox -->
                     @if ($type == \App\Enums\QuestionType::TEXT)
@@ -45,7 +46,7 @@
                                         checked
                                     @endif
                                 >
-                                <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
+                                <label class="form-check-label{{ $graded && $json['radio'][$key] == $id ? " font-weight-bold" : "" }}" for="{{ $id }}">{{ $label }}</label>
                             </div>
                         @endforeach
                     @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
