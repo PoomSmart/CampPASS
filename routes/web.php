@@ -44,8 +44,13 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 Route::group(['middleware' => ['role:camper']], function() {
-    Route::get('/review/{question_set}', 'CampApplicationController@question_review')->name('camp_application.question_review');
+    Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
     Route::get('/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
+});
+
+Route::group(['middleware' => ['role:campmaker']], function() {
+    Route::resource('qualification', 'QualificationController');
+    Route::get('/view-answers/{camper}/{question_set}', 'QualificationController@answer_view')->name('qualification.answer_view');
 });
 
 Route::resource('camp_browser', 'CampBrowserController');

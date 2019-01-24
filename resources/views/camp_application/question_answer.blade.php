@@ -61,7 +61,7 @@
                                 @foreach ($json['checkbox_label'][$key] as $id => $label)
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
-                                            @if (isset($answers[$key]) && in_array($id, $answers[$key], true))
+                                            @if (isset($answers[$key]) && !is_null($answers[$key]) && in_array($id, $answers[$key], true))
                                                 checked
                                             @endif
                                         >
@@ -77,7 +77,7 @@
             @endforeach
             @component('components.submit', ['label' => trans('app.Save')])
             @slot('postcontent')
-                <a href="{{ route('camp_application.question_review', $question_set->id) }}" class="btn btn-success">Next</a>
+                <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">Next</a>
             @endslot
             @endcomponent
         </form>

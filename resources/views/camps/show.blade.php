@@ -28,6 +28,7 @@
                     <th>{{ trans('account.School') }}</th>
                     <th>{{ trans('account.Program') }}</th>
                     <th>{{ trans('account.Status') }}</th>
+                    <th>{{ trans('app.Actions') }}</th>
                 </tr>
                 @foreach ($data as $key => $registration)
                     <?php $camper = $registration->camper(); ?>
@@ -38,6 +39,13 @@
                         <td>{{ $camper->school()->getName() }}</td>
                         <td>{{ $camper->program()->getName() }}</td>
                         <td>{{ $registration->getStatus() }}</td>
+                        <td>
+                            @can('answer-list')
+                                @if ($camp->camp_procedure()->candidate_required && !is_null($camp->question_set()))
+                                    <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
+                                @endif
+                            @endcan
+                        </td>
                     </tr>
                 @endforeach
             </table>

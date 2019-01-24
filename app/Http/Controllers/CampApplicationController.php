@@ -41,16 +41,6 @@ class CampApplicationController extends Controller
         return $camp;
     }
 
-    private function getJSON($camp_id)
-    {
-        $json_path = Common::questionSetDirectory($camp_id).'/questions.json';
-        $json = json_decode(Storage::disk('local')->get($json_path), true);
-        // Remove solutions from the questions before responding back to campers
-        unset($json['radio']);
-        unset($json['checkbox']);
-        return $json;
-    }
-
     public function landing(Camp $camp)
     {
         if ($camp->camp_procedure()->candidate_required) {
@@ -72,7 +62,7 @@ class CampApplicationController extends Controller
                 $question_set = $camp->question_set();
                 $pairs = $question_set ? $question_set->pairs()->get() : [];
                 if (!empty($pairs)) {
-                    $json = $this->getJSON($camp->id);
+                    $json = Common::getQuestionJSON($camp->id);
                     $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
                     foreach ($pre_answers as $pre_answer) {
                         $question = Question::find($id = $pre_answer->question_id);
@@ -127,13 +117,13 @@ class CampApplicationController extends Controller
         return redirect()->back()->with('success', 'Answers are saved.');
     }
 
-    public function question_review(QuestionSet $question_set)
+    public function answer_view(QuestionSet $question_set)
     {
         $camper = \Auth::user();
         $camp = $question_set->camp();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
-        $data = array();
-        $json = $this->getJSON($question_set->camp_id);
+        $data = [];
+        $json = Common::getQuestionJSON($question_set->camp_id);
         foreach ($pairs as $pair) {
             $question = $pair->question();
             $answer = $question_set->answers()->where('camper_id', $camper->id)->where('question_id', $question->id)->get();
@@ -146,7 +136,7 @@ class CampApplicationController extends Controller
                 'answer' => Common::decodeIfNeeded($answer, $question->type),
             ];
         }
-        return view('camp_application.question_review', compact('data', 'json', 'question_set', 'camp'));
+        return view('camp_application.answer_view', compact('data', 'json', 'question_set', 'camp'));
     }
 
     public function submit_application_form(Camp $camp)

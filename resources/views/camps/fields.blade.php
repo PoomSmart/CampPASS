@@ -55,13 +55,13 @@
 @component('components.input', [
     'name' => 'organization_id',
     'label' => trans('camp.Organization'),
-    'attributes' => Auth::user()->hasPermissionTo('org-list') ? 'required' : '',
+    'attributes' => Auth::user()->hasPermissionTo('organization-list') ? 'required' : '',
 ])
 @slot('override')
     @component('components.select', [
         'name' => 'organization_id',
         'objects' => $organizations,
-        'disabled' => !Auth::user()->hasPermissionTo('org-list'),
+        'disabled' => !Auth::user()->hasPermissionTo('organization-list'),
     ])
     @endcomponent
 @endslot

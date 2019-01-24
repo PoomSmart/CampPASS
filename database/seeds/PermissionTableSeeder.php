@@ -61,10 +61,10 @@ class PermissionTableSeeder extends Seeder
             'school-delete',
 
             // organization management
-            'org-list',
-            'org-create',
-            'org-edit',
-            'org-delete',
+            'organization-list',
+            'organization-create',
+            'organization-edit',
+            'organization-delete',
 
             // question management
             'question-list',
@@ -73,10 +73,10 @@ class PermissionTableSeeder extends Seeder
             'question-delete',
 
             // answer management
-            'ans-list',
-            'ans-create',
-            'ans-edit',
-            'ans-delete',
+            'answer-list',
+            'answer-create',
+            'answer-edit',
+            'answer-delete',
 
             // badge management
             'badge-list',
@@ -85,23 +85,23 @@ class PermissionTableSeeder extends Seeder
             'badge-delete',
 
             // certificate management
-            'cert-list',
-            'cert-create',
-            'cert-edit',
-            'cert-delete',
+            'certificate-list',
+            'certificate-create',
+            'certificate-edit',
+            'certificate-delete',
 
             // certificate template management
-            'certtemp-list',
-            'certtemp-create',
-            'certtemp-edit',
-            'certtemp-delete',
+            'certificate-template-list',
+            'certificate-template-create',
+            'certificate-template-edit',
+            'certificate-template-delete',
 
             // payment slip management
-            'pay-list',
-            'pay-create',
-            'pay-edit',
-            'pay-delete',
-            'pay-status',
+            'payment-list',
+            'payment-create',
+            'payment-edit',
+            'payment-delete',
+            'payment-status',
         ];
  
  
@@ -133,18 +133,18 @@ class PermissionTableSeeder extends Seeder
             // campers can see questions
             'question-list',
             // campers can manage their answers
-            'ans-list',
-            'ans-create',
-            'ans-edit',
-            'ans-delete',
+            'answer-list',
+            'answer-create',
+            'answer-edit',
+            'answer-delete',
             // campers can view their badges
             'badge-list',
             // campers can view their certificates
-            'cert-list',
+            'certificate-list',
             // campers can manage their payment slips
-            'pay-create',
-            'pay-edit',
-            'pay-delete',
+            'payment-create',
+            'payment-edit',
+            'payment-delete',
         ]);
         foreach (User::campers()->cursor() as $camper) {
             $camper->assignRole('camper');
@@ -178,14 +178,14 @@ class PermissionTableSeeder extends Seeder
             'question-edit',
             'question-delete',
             // camp makers can view answers from campers
-            'ans-list',
+            'answer-list',
             // camp makers can see badges of campers
             'badge-list',
             // camp makers can see certificates of campers
-            'cert-list',
+            'certificate-list',
             // camp makers can view and set status of payment slips
-            'pay-list',
-            'pay-status',
+            'payment-list',
+            'payment-status',
         ]);
         foreach (User::campMakers()->cursor() as $campmaker) {
             $campmaker->assignRole('campmaker');

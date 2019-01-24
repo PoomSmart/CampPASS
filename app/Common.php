@@ -4,6 +4,8 @@ namespace App;
 
 use App\Enums\QuestionType;
 
+use Illuminate\Support\Facades\Storage;
+
 class Common
 {
     public static function campDirectory($camp_id)
@@ -33,5 +35,15 @@ class Common
         if ($question_type == QuestionType::CHECKBOXES)
             return json_decode($value);
         return $value;
+    }
+
+    public static function getQuestionJSON($camp_id)
+    {
+        $json_path = self::questionSetDirectory($camp_id).'/questions.json';
+        $json = json_decode(Storage::disk('local')->get($json_path), true);
+        // Remove solutions from the questions before responding back to campers
+        unset($json['radio']);
+        unset($json['checkbox']);
+        return $json;
     }
 }

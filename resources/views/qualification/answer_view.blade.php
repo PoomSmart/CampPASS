@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    Review Application Form
+    View Application Form
 @endsection
 
 @section('card_content')
@@ -52,7 +52,7 @@
                         @foreach ($json['checkbox_label'][$key] as $id => $label)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
-                                    @if (in_array($id, $answer, true))
+                                    @if (!is_null($answer) && in_array($id, $answer, true))
                                         checked
                                     @endif
                                 >
@@ -67,13 +67,12 @@
         </div>
     @endforeach
     <script>
-        jQuery(':radio:not(:checked)').attr('disabled', true);
-        jQuery(':checkbox:not(:checked)').attr('disabled', true);
+        jQuery(':radio').attr('disabled', true);
+        jQuery(':checkbox').attr('disabled', true);
     </script>
     <div class="form-group row mb-0">
         <div class="col-12">
-            <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-secondary">{{ trans('app.Edit') }}</a>
-            <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">{{ trans('Submit') }}</a>
+            
         </div>
     </div>
 @endsection

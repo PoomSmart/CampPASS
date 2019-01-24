@@ -2,9 +2,10 @@
 
 return [
     'DRAFT' => 'Draft',
-    'APPLIED' => 'Apply',
+    'APPLIED' => 'Applied',
     'RETURNED' => 'Returned',
     'APPROVED' => 'Approved',
     'QUALIFIED' => 'Qualified',
     'ID' => 'Reg ID',
+    'View' => 'View',
 ];

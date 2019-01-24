@@ -17,6 +17,7 @@ use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 
 use App\Enums\QuestionType;
+use App\Enums\RegistrationStatus;
 
 use Spatie\Permission\Models\Role;
 
@@ -93,7 +94,7 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
-        $total_registrations = 50;
+        $total_registrations = 100;
         $total_question_sets = 30;
         $minimum_questions = 5;
         $maximum_questions = 10;
@@ -101,6 +102,8 @@ class DatabaseSeeder extends Seeder
         $maximum_checkboxes = 8;
         $faker = Faker\Factory::create();
         $campers = User::campers()->get();
+        // First, fake registrations of campers who are eligible for
+        // ISSUE: This is < 100% effectiveness (Actual created registration records can be lowered than the total number)
         while ($total_registrations--) {
             $camper = User::_campers(true)->first();
             $camp = Camp::inRandomOrder()->first();
@@ -113,7 +116,14 @@ class DatabaseSeeder extends Seeder
                 'camper_id' => $camper->id,
                 'submission_time' => $faker->date(),
             ]);
+            // Camps with registrations must obviously be approved first
+            if (!$camp->approved) {
+                $camp->approved = true;
+                $camp->save();
+            }
         }
+        // Fake questions of several types for the camps that require
+        // ISSUE: < 100% effectiveness
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -181,6 +191,7 @@ class DatabaseSeeder extends Seeder
                     'question_set_id' => $question_set->id,
                     'question_id' => $question->id,
                 ]);
+                // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($campers as $camper) {
                     if (!$camper->isEligibleForCamp($camp))
                         continue;
@@ -199,7 +210,10 @@ class DatabaseSeeder extends Seeder
                             $answer = array_rand($multiple_radio_map[$json_id]);
                             break;
                         case QuestionType::CHECKBOXES:
-                            $answer = array_rand($multiple_checkbox_map[$json_id], rand(1, count($multiple_checkbox_map[$json_id])));
+                            $count = rand(1, count($multiple_checkbox_map[$json_id]));
+                            $answer = array_rand($multiple_checkbox_map[$json_id], $count);
+                            if ($count == 1)
+                                $answer = [ $answer ];
                             break;
                         case QuestionType::FILE:
 
@@ -213,10 +227,16 @@ class DatabaseSeeder extends Seeder
                         'registration_id' => $registration->id,
                         'answer' => $answer,
                     ]);
+                    // Randomly submit the application forms
+                    if (rand(0, 8) > 3) {
+                        $registration->status = RegistrationStatus::APPLIED;
+                        $registration->save();
+                    }
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
+            // Empty fields are ruled out the same way the form POST does
             foreach ($json as $key => $value) {
                 if (empty($value))
                     unset($json[$key]);

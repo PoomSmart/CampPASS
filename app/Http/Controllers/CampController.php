@@ -36,7 +36,7 @@ class CampController extends Controller
     private function getOrganizationsIfNeeded()
     {
         if (is_null($this->organizations)) {
-            if (\Auth::user()->hasPermissionTo('org-list'))
+            if (\Auth::user()->hasPermissionTo('organization-list'))
                 $this->organizations = Organization::all();
             else
                 $this->organizations = array(Organization::find($id=\Auth::user()->organization_id));
