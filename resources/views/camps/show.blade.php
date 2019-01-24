@@ -44,6 +44,7 @@
         </div>
     @endcan
     @role('camper')
+        <!-- TODO: add already-applied state -->
         <a class="btn btn-primary" href="{{ route('camp_application.landing', $camp->id) }}">{{ trans('Apply') }}</a>
         <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('ContactCampMaker') }}</a>
     @endrole

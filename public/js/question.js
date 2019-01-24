@@ -23,7 +23,7 @@ function getCampId() {
 }
 
 function randId() {
-    return `${campId}-${Math.random().toString(36).substr(2, 5)}`;
+    return `${campId}-${Math.random().toString(36).substr(2, 10)}`;
 }
 
 function readJSON(json) {
@@ -80,6 +80,7 @@ function addQuestion() {
 }
 
 function deleteQuestion(button) {
+    // Keep at least 1 question block to do copying pasting as the user adds more questions
     if (jQuery(question_block_selector).length <= 1)
         return;
     jQuery(button).closest(question_block_selector).remove();
@@ -151,12 +152,13 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             if (value)
                 block.find(`#radio_${value}`).attr("checked", true);
         } else {
+            // Add two radio buttons by default with the former selected
             addRadioOrCheckbox(add, "radio", type, parentId, randId());
             add.find("input[type=radio]").first().attr("checked", true);
             addRadioOrCheckbox(add, "radio", type, parentId, randId());
         }
     } else if (type == QuestionType.CHECKBOXES) {
-        block.find("#question-required").attr("onclick", "this.checked=!this.checked").prop("checked", true);
+        block.find("#question-required").attr("onclick", null).prop("checked", false);
         var add_checkbox_button = jQuery(jQuery.parseHTML(add_checkbox_HTML));
         add_checkbox_button.on('click', function (e) {
             e.preventDefault();
@@ -169,6 +171,7 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
                 add.append(generateContent("checkbox", checkbox_text, parentId, checkbox_id, type));
             });
         } else
+            // Add one checkbox by default
             addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
     } else
         block.find("#question-required").attr("onclick", null).prop("checked", false);
