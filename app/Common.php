@@ -37,13 +37,15 @@ class Common
         return $value;
     }
 
-    public static function getQuestionJSON($camp_id)
+    public static function getQuestionJSON($camp_id, $graded = false)
     {
         $json_path = self::questionSetDirectory($camp_id).'/questions.json';
         $json = json_decode(Storage::disk('local')->get($json_path), true);
-        // Remove solutions from the questions before responding back to campers
-        unset($json['radio']);
-        unset($json['checkbox']);
+        if (!is_null($graded) && !$graded) {
+            // Remove solutions from the questions before responding back to campers
+            unset($json['radio']);
+            unset($json['checkbox']);
+        }
         return $json;
     }
 }

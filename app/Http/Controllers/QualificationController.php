@@ -7,6 +7,7 @@ use App\QuestionSet;
 use App\Registration;
 
 use App\Enums\RegistrationStatus;
+use App\Enums\QuestionType;
 
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class QualificationController extends Controller
         $camp = $question_set->camp();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
-        $json = Common::getQuestionJSON($question_set->camp_id);
+        $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
+        $json['question_scored'] = [];
         foreach ($pairs as $pair) {
             $question = $pair->question();
             $answer = $question_set->answers()->where('camper_id', $camper->id)->where('question_id', $question->id)->get();
@@ -32,6 +34,11 @@ class QualificationController extends Controller
                 $answer = $answer->first()->answer;
             else
                 $answer = '';
+            // Grade the questions that need to be graded and are of choice type (for now)
+            if ($question->type == QuestionType::CHOICES && isset($json['question_graded'][$question->json_id])) {
+                $solution = $json['radio'][$question->json_id];
+                $json['question_scored'][$question->json_id] = $solution == $answer ? $question->full_score : 0;
+            }
             $data[] = [
                 'question' => $question,
                 'answer' => Common::decodeIfNeeded($answer, $question->type),

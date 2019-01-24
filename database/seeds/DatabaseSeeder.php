@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
         $minimum_questions = 5;
         $maximum_questions = 10;
         $maximum_choices = 6;
-        $maximum_checkboxes = 8;
+        $maximum_checkboxes = 6;
         $faker = Faker\Factory::create();
         $campers = User::campers()->get();
         // First, fake registrations of campers who are eligible for
@@ -156,7 +156,9 @@ class DatabaseSeeder extends Seeder
                 $question_text = $faker->sentences($nb = rand(1, 2), $asText = true);
                 $json['question'][$json_id] = $question_text;
                 if ($required)
-                    $json['question_required'][$json_id] = $question_text;
+                    $json['question_required'][$json_id] = '1';
+                if ($graded)
+                    $json['question_graded'][$json_id] = '1';
                 $multiple_radio_map = [];
                 $multiple_checkbox_map = [];
                 switch ($question_type) {

@@ -8,6 +8,7 @@
     {{ trans('question.CreateQuestions') }}
 @endsection
 
+<!-- TODO: Score threshold -->
 @section('card_content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
