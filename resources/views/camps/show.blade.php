@@ -9,17 +9,10 @@
 @endsection
 
 @section('content')
-    {{ $category }}
-    <div class="row justify-content-center">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                {{ $camp->getShortDescription() }}
-            </div>
-        </div>
-    </div>
+    <p>{{ $category }} - {{ $camp->camp_procedure()->getTitle() }} - {{ $camp->getShortDescription() }}</p>
     @can('camper-list')
-        <div class="row justify-content-center">
-            <strong>Campers</strong>
+        <div class="row">
+            <h3>Registered Campers</h3>
             <table class="table table-bordered">
                 <tr>
                     <th>{{ trans('registration.ID') }}</th>

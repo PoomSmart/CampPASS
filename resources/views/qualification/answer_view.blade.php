@@ -46,7 +46,13 @@
                                         checked
                                     @endif
                                 >
-                                <label class="form-check-label{{ $graded && $json['radio'][$key] == $id ? " font-weight-bold" : "" }}" for="{{ $id }}">{{ $label }}</label>
+                                <label class="form-check-label
+                                    {{ $graded && $json['radio'][$key] == $id ?
+                                        $id == $answer ? " font-weight-bold text-success"
+                                        : " font-weight-bold text-danger"
+                                        : "" }}"
+                                    for="{{ $id }}"
+                                >{{ $label }}</label>
                             </div>
                         @endforeach
                     @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)

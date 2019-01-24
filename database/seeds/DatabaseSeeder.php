@@ -149,6 +149,9 @@ class DatabaseSeeder extends Seeder
             $questions_number = rand($minimum_questions, $maximum_questions);
             while ($questions_number--) {
                 $question_type = QuestionType::any();
+                // TODO: bias type setting
+                if ($question_type != QuestionType::CHOICES && rand(0, 5) > 3)
+                    $question_type = QuestionType::CHOICES;
                 $graded = rand(0, 1);
                 $required = $graded ? true : rand(0, 1);
                 $json_id = $this->randomID($camp_id);
