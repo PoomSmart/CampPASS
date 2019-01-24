@@ -111,11 +111,16 @@ class DatabaseSeeder extends Seeder
                 continue;
             if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
                 continue;
-            Registration::create([
+            $registration = Registration::create([
                 'camp_id' => $camp->id,
                 'camper_id' => $camper->id,
                 'submission_time' => $faker->date(),
             ]);
+            // Randomly submit the application forms
+            if (rand(0, 8) > 3) {
+                $registration->status = RegistrationStatus::APPLIED;
+                $registration->save();
+            }
             // Camps with registrations must obviously be approved first
             if (!$camp->approved) {
                 $camp->approved = true;
@@ -227,11 +232,6 @@ class DatabaseSeeder extends Seeder
                         'registration_id' => $registration->id,
                         'answer' => $answer,
                     ]);
-                    // Randomly submit the application forms
-                    if (rand(0, 8) > 3) {
-                        $registration->status = RegistrationStatus::APPLIED;
-                        $registration->save();
-                    }
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);

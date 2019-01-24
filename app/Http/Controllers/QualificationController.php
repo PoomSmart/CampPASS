@@ -95,7 +95,7 @@ class QualificationController extends Controller
         if (!$camper->isCamper())
             return redirect('/')->with('error', 'app.InternalError');
         if ($registration->status == RegistrationStatus::DRAFT || $registration->status == RegistrationStatus::RETURNED)
-            return redirect('/')->with('error', 'You cannot view the answers of an unsubmitted form.');
+            return redirect()->back()->with('error', 'You cannot view the answers of an unsubmitted form.');
         $question_set = QuestionSet::findOrFail($question_set_id);
         $camp = $question_set->camp();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
@@ -113,6 +113,6 @@ class QualificationController extends Controller
                 'answer' => Common::decodeIfNeeded($answer, $question->type),
             ];
         }
-        return view('qualification.answer_view', compact('data', 'json'));
+        return view('qualification.answer_view', compact('camper', 'data', 'json'));
     }
 }

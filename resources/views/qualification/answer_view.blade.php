@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    View Application Form
+    View Application Form of {{ $camper->getFullName() }}
 @endsection
 
 @section('card_content')
