@@ -72,7 +72,7 @@
     </script>
     <div class="form-group row mb-0">
         <div class="col-12">
-            
+            <a href="{{ route('camps.show', $camp->id) }}" class="btn btn-primary">{{ trans('app.Back') }}</a>
         </div>
     </div>
 @endsection
