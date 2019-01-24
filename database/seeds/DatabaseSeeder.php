@@ -199,7 +199,7 @@ class DatabaseSeeder extends Seeder
                             $answer = array_rand($multiple_radio_map[$json_id]);
                             break;
                         case QuestionType::CHECKBOXES:
-                            $answer = array_rand($multiple_checkbox_map[$json_id]);
+                            $answer = array_rand($multiple_checkbox_map[$json_id], rand(1, count($multiple_checkbox_map[$json_id])));
                             break;
                         case QuestionType::FILE:
 
