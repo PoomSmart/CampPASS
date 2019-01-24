@@ -149,7 +149,7 @@ class DatabaseSeeder extends Seeder
                         $json['checkbox_label'][$json_id] = [];
                         for ($i = 1; $i <= $checkboxes_number; $i++) {
                             $checkbox_id = $this->randomID($camp_id);
-                            $json['checkbox'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
+                            $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
                         }
                         break;
                 }
