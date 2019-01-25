@@ -23,7 +23,10 @@ class QualificationController extends Controller
             return redirect()->back()->with('error', 'You cannot view the answers of an unsubmitted form.');
         $question_set = QuestionSet::findOrFail($question_set_id);
         $camp = $question_set->camp();
-        $pairs = $question_set ? $question_set->pairs()->get() : [];
+        if ($question_set->pairs())
+            $pairs = $question_set->pairs()->get();
+        else
+            return redirect('/')->with('error', 'You cannot view the answers of the application form without questions.');
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
         $json['question_scored'] = [];
@@ -34,6 +37,7 @@ class QualificationController extends Controller
         foreach ($pairs as $pair) {
             $question = $pair->question();
             $answer = $question_set->answers()->where('camper_id', $camper->id)->where('question_id', $question->id)->get();
+            // An answer may be null if the camper did not fill it in
             if ($answer->isNotEmpty())
                 $answer = $answer->first()->answer;
             else
