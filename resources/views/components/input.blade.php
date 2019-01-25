@@ -1,6 +1,13 @@
 <div class="form-group row">
     @if (isset($label))
-        <label for="{{ $name }}" class="col-md-4 col-form-label text-md-right">{{ $label }}</label>
+        <label
+            for="{{ $name }}"
+            @if (isset($attributes))
+                {{ $attributes }}
+            @endif
+            class="col-md-4 col-form-label text-md-right">
+            {{ $label }}
+        </label>
     @endif
     <div class="col-md-6 my-auto">
         @if (isset($override))

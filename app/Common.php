@@ -8,6 +8,31 @@ use Illuminate\Support\Facades\Storage;
 
 class Common
 {
+    public static function randomFrequentHit()
+    {
+        return rand(0, 10) > 3;
+    }
+
+    public static function randomVeryFrequentHit()
+    {
+        return rand(0, 10) > 1;
+    }
+
+    public static function randomMediumHit()
+    {
+        return rand() % 2;
+    }
+
+    public static function randomRareHit()
+    {
+        return rand(0, 10) > 6;
+    }
+
+    public static function randomVeryRareHit()
+    {
+        return rand(0, 10) > 8;
+    }
+
     public static function campDirectory($camp_id)
     {
         return "camps/{$camp_id}";

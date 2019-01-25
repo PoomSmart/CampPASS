@@ -21,7 +21,7 @@ class CampController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:camp-list', ['only' => ['show']]);
+        $this->middleware('permission:camp-list', ['only' => ['show']]); // TODO: This must accept guests too
         $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);

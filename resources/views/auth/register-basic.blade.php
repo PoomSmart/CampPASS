@@ -39,6 +39,7 @@
 @component('components.input', [
     'name' => 'nationality',
     'label' => trans('account.Nationality'),
+    'attributes' => 'required',
 ])
 @slot('override')
     <fieldset>
@@ -51,6 +52,7 @@
 @component('components.input', [
     'name' => 'gender',
     'label' => trans('account.Gender'),
+    'attributes' => 'required',
 ])
 @slot('override')
     <fieldset>

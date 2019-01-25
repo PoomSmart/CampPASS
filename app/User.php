@@ -13,6 +13,8 @@ use App\School;
 
 use App\Enums\Gender;
 
+use Carbon\Carbon;
+
 use Spatie\Permission\Traits\HasRoles;
 
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +38,7 @@ class User extends Authenticatable
         'allergy', 'email', 'username', 'password', 'status', 'activation_code', 'type',
         'religion_id',
         // camper
+        'cgpa',
         'short_biography',
         'mattayom',
         'blood_group',
@@ -44,6 +47,15 @@ class User extends Authenticatable
         'guardian_mobile_no',
         // camp maker
         'organization_id',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'dob'
     ];
 
     /**
@@ -152,11 +164,41 @@ class User extends Authenticatable
         return $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
     }
 
+    public function getIneligibleReasonForCamp(Camp $camp)
+    {
+        // TODO: map zipcodes to regions so that we can add region check
+        // TODO: age check
+        // An access to unapproved camps should not exist
+        if (!$this->isCamper())
+            return null;
+        if (!$camp->approved)
+            return trans('camp.CampNotApproved');
+        if (!in_array($this->program_id, $camp->acceptable_programs))
+            return trans('camp.NotInRequiredPrograms');
+        if ($camp->min_gpa > $this->cgpa)
+            return trans('camp.NotEnoughCGPA');
+        if ($camp->registerOnly()) {
+            if (is_null($camp->reg_open_date))
+                return trans('camp.UnknownRegistrationOpen');
+            if (Carbon::now()->diffInDays(Carbon::parse($camp->reg_open_date)) < 0)
+                return trans('camp.BeforeRegistrationOpen');
+            if ($camp->reg_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->reg_close_date)) > 0)
+                return trans('camp.LateRegistration');
+        } else {
+            if (is_null($camp->app_open_date))
+                return trans('camp.UnknownApplicationOpen');
+            if (Carbon::now()->diffInDays(Carbon::parse($camp->app_open_date)) < 0)
+                return trans('camp.BeforeApplicationOpen');
+            if ($camp->app_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) > 0)
+                return trans('camp.LateApplication');
+        }
+        if ($camp->isFull())
+            return trans('camp.QuotaExceeded');
+        return null;
+    }
+
     public function isEligibleForCamp(Camp $camp)
     {
-        // TODO: map zipcodes to regions
-        if (!in_array($this->program_id, $camp->acceptable_programs))
-            return false;
-        return true;
+        return is_null($this->getIneligibleReasonForCamp($camp));
     }
 }

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CampProcedure extends Model
 {
+    protected $fillable = [
+        'title', 'description', 'interview_required', 'deposit_required', 'candidate_required',
+    ];
+
     public function camps()
     {
         return $this->hasMany(Camp::class);

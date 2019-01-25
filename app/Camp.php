@@ -12,19 +12,31 @@ use App\User;
 
 use App\Enums\RegistrationStatus;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Camp extends Model
 {
     protected $fillable = [
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
-        'acceptable_regions', 'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_opendate', 'app_closedate',
-        'reg_opendate', 'reg_closedate', 'event_startdate', 'event_enddate', 'event_location_lat', 'event_location_long',
+        'acceptable_regions', 'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_open_date', 'app_close_date',
+        'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date', 'event_location_lat', 'event_location_long',
         'quota', 'approved',
     ];
 
     protected $appends = [
         'acceptable_regions', 'acceptable_programs',
+        'app_open_date', 'app_close_date', 'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'app_open_date', 'app_close_date', 'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date',
     ];
 
     public function registrations()
@@ -76,28 +88,6 @@ class Camp extends Model
         return $this->fburl ? $this->fburl : $this->url;
     }
 
-    public function getAcceptableProgramsAttribute($value)
-    {
-        $data = json_decode("[{$value}]", true);
-        return count($data) ? $data[0] : $data;
-    }
-
-    public function setAcceptableProgramsAttribute($value)
-    {
-        $this->attributes['acceptable_programs'] = json_encode(array_map('intval', $value));
-    }
-
-    public function getAcceptableRegionsAttribute($value)
-    {
-        $data = json_decode("[{$value}]", true);
-        return count($data) ? $data[0] : $data;
-    }
-
-    public function setAcceptableRegionsAttribute($value)
-    {
-        $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
-    }
-
     /**
      * Return the campers that belong to the given camp, given the status
      * 
@@ -120,5 +110,62 @@ class Camp extends Model
     public function isFull()
     {
         return $this->quota && $this->campers(RegistrationStatus::APPROVED)->count() >= $this->quota;
+    }
+
+    public function registerOnly()
+    {
+        return !$this->camp_procedure()->candidate_required;
+    }
+
+    public function getAcceptableProgramsAttribute($value)
+    {
+        $data = json_decode("[{$value}]", true);
+        return count($data) ? $data[0] : $data;
+    }
+
+    public function setAcceptableProgramsAttribute($value)
+    {
+        $this->attributes['acceptable_programs'] = json_encode(array_map('intval', $value));
+    }
+
+    public function getAcceptableRegionsAttribute($value)
+    {
+        $data = json_decode("[{$value}]", true);
+        return count($data) ? $data[0] : $data;
+    }
+
+    public function setAcceptableRegionsAttribute($value)
+    {
+        $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
+    }
+
+    public function getAppOpenDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function getAppCloseDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function getRegOpenDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function getRegCloseDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function getEventStartDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function getEventEndDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 }

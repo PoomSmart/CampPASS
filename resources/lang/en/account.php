@@ -35,7 +35,8 @@ return [
     'ThaiNickname' => 'Nickname in Thai',
     'FullName' => 'Full Name',
 
-    'Email' => "E-mail Address",
+    'Email' => 'E-mail Address',
+    'CGPA' => 'Cumulative GPA',
     'DOB' => 'Date of Birth',
     'MobileNo' => 'Mobile No.',
     'Address' => 'Address',

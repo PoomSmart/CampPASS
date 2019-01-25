@@ -5,17 +5,21 @@
 @endsection
 
 @section('card_content')
-    @if (!$eligible)
-        You are not eligible for this camp by the pre-conditions set by the camp makers.
-    @elseif ($quota_exceed)
-        Sorry, the quota of this camp is full.
-    @elseif ($already_applied)
+    @if (isset($ineligible_reason))
+        {{ $ineligible_reason }}
+    @elseif (isset($already_applied))
         You already applied for this camp.
-    @elseif (!empty($json))
+    @elseif (empty($json))
+        No questions in here.
+    @else
         <form method="POST" action="{{ route('camp_application.store') }}">
             @csrf
             <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
             @foreach ($json['question'] as $key => $text)
+                <?php
+                    $type = (int)$json['type'][$key];
+                    $required = isset($json['question_required'][$key]);
+                ?>
                 <div class="row">
                     <div class="col-12">
                         <h3 id="question-title">{{ $text }}</h2>
@@ -24,10 +28,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-4">
-                            <?php
-                                $type = (int)$json['type'][$key];
-                                $required = isset($json['question_required'][$key]);
-                            ?>
                             <!-- ? TODO: Simplify radio and checkbox -->
                             @if ($type == \App\Enums\QuestionType::TEXT)
                                 <input type="text" class="form-control" name="{{ $key }}" value="{{ isset($answers[$key]) ? $answers[$key] : "" }}"

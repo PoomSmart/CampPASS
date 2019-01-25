@@ -22,6 +22,7 @@
 @component('components.input', [
     'name' => 'mattayom',
     'label' => trans('account.Mattayom'),
+    'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>
@@ -30,6 +31,13 @@
 </fieldset> 
 @endslot
 @endcomponent
+
+@component('components.input', [
+    'name' => 'cgpa',
+    'label' => trans('account.CGPA'),
+    'type' => 'number',
+    'attributes' => 'required step=any',
+])@endcomponent
 
 @component('components.input', [
     'name' => 'blood_group',
@@ -53,6 +61,7 @@
 @component('components.input', [
     'name' => 'guardian_role',
     'label' => trans('account.GuardianRole'),
+    'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>

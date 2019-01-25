@@ -5,6 +5,7 @@
 @endsection
 
 @section('button')
+    <!-- TODO: This will raise a permission error to guests -->
     <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
 @endsection
 

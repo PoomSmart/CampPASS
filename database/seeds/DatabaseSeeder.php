@@ -94,7 +94,6 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
-        $total_registrations = 100;
         $total_question_sets = 30;
         $minimum_questions = 5;
         $maximum_questions = 10;
@@ -103,32 +102,33 @@ class DatabaseSeeder extends Seeder
         $faker = Faker\Factory::create();
         $campers = User::campers()->get();
         // First, fake registrations of campers who are eligible for
-        // ISSUE: This is < 100% effectiveness (Actual created registration records can be lowered than the total number)
-        while ($total_registrations--) {
-            $camper = User::_campers(true)->first();
-            $camp = Camp::inRandomOrder()->first();
-            if (!$camper->isEligibleForCamp($camp))
-                continue;
-            if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
-                continue;
-            $registration = Registration::create([
-                'camp_id' => $camp->id,
-                'camper_id' => $camper->id,
-                'submission_time' => $faker->date(),
-            ]);
-            // Randomly submit the application forms
-            if (rand(0, 8) > 3) {
-                $registration->status = RegistrationStatus::APPLIED;
-                $registration->save();
-            }
-            // Camps with registrations must obviously be approved first
-            if (!$camp->approved) {
-                $camp->approved = true;
-                $camp->save();
+        foreach (User::campers()->cursor() as $camper) {
+            foreach (Camp::all() as $camp) {
+                if (Common::randomVeryRareHit())
+                    continue;
+                if (!$camper->isEligibleForCamp($camp))
+                    continue;
+                if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
+                    continue;
+                $registration = Registration::create([
+                    'camp_id' => $camp->id,
+                    'camper_id' => $camper->id,
+                    'submission_time' => $faker->date(),
+                ]);
+                // Randomly submit the application forms
+                if (Common::randomFrequentHit()) {
+                    $registration->status = RegistrationStatus::APPLIED;
+                    $registration->save();
+                }
+                // Camps with registrations must obviously be approved first
+                if (!$camp->approved) {
+                    $camp->approved = true;
+                    $camp->save();
+                }
             }
         }
         // Fake questions of several types for the camps that require
-        // ISSUE: < 100% effectiveness
+        // ISSUE: This is < 100% effectiveness (Actual created registration records can be lowered than the total number)
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -143,6 +143,7 @@ class DatabaseSeeder extends Seeder
             $json['type'] = [];
             $json['question'] = [];
             $json['question_required'] = [];
+            $json['question_graded'] = [];
             $json['radio'] = [];
             $json['radio_label'] = [];
             $json['checkbox_label'] = [];
@@ -150,7 +151,7 @@ class DatabaseSeeder extends Seeder
             while ($questions_number--) {
                 $question_type = QuestionType::any();
                 // TODO: bias type setting
-                if ($question_type != QuestionType::CHOICES && rand(0, 5) > 3)
+                if ($question_type != QuestionType::CHOICES && Common::randomRareHit())
                     $question_type = QuestionType::CHOICES;
                 $graded = rand(0, 1);
                 $required = $graded ? true : rand(0, 1);
@@ -257,6 +258,7 @@ class DatabaseSeeder extends Seeder
         foreach (User::campers()->cursor() as $camper) {
             $camper->mattayom = rand(0, 5);
             $camper->blood_group = rand(0, 3);
+            $camper->cgpa = rand(200, 400) / 100.0; // Assume campers are not that incompetent
             $camper->school_id = School::inRandomOrder()->first()->id;
             $camper->program_id = Program::inRandomOrder()->first()->id;
             $camper->save();
@@ -265,6 +267,7 @@ class DatabaseSeeder extends Seeder
         $candidate->username = 'camper';
         $candidate->status = 1;
         $candidate->activation_code = null;
+        $candidate->cgpa = 3.2; // The candidate will be used to test certain camps so the smartening is needed
         $candidate->save();
     }
 
@@ -309,9 +312,9 @@ class DatabaseSeeder extends Seeder
         $this->programs();
         $this->camp_categories();
         $this->camp_procedures();
-        factory(School::class, 5)->create();
-        factory(Organization::class, 5)->create();
-        factory(Camp::class, 20)->create();
+        factory(School::class, 10)->create();
+        factory(Organization::class, 10)->create();
+        factory(Camp::class, 40)->create();
         factory(User::class, 50)->create();
         $this->alter_campers();
         $this->alter_campmakers();

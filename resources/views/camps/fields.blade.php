@@ -131,39 +131,39 @@
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'app_opendate',
+    'name' => 'app_open_date',
     'label' => trans('camp.AppOpenDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'app_closedate',
+    'name' => 'app_close_date',
     'label' => trans('camp.AppCloseDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'reg_opendate',
+    'name' => 'reg_open_date',
     'label' => trans('camp.RegOpenDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'reg_closedate',
+    'name' => 'reg_close_date',
     'label' => trans('camp.RegCloseDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'event_startdate',
+    'name' => 'event_start_date',
     'label' => trans('camp.EventStartDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 @component('components.input', [
-    'name' => 'event_enddate',
+    'name' => 'event_end_date',
     'label' => trans('camp.EventEndDate'),
-    'type' => 'date',
+    'type' => 'datetime-local',
 ])@endcomponent
 
 <!-- TODO: Geolocation -->

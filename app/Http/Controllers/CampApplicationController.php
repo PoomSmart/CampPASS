@@ -45,33 +45,29 @@ class CampApplicationController extends Controller
     {
         if ($camp->camp_procedure()->candidate_required) {
             // Stage: Answering questions
-            // TODO: make $operate less "elegant" and more "readable?"
-            // TODO: add application date check
             $user = \Auth::user();
             // TODO: verify camper eligibility check
-            $operate = $eligible = $user->isEligibleForCamp($camp);
-            $latest_registration = $operate ? $camp->getLatestRegistration($user->id) : null;
+            $latest_registration = $camp->getLatestRegistration($user->id);
             $already_applied = $this->camperAlreadyApplied($latest_registration);
-            $operate = $operate && !$already_applied ? true : false;
-            $quota_exceed = $operate && $camp->isFull();
-            $operate = $operate && !$quota_exceed ? true : false;
+            if ($already_applied)
+                return view('camp_application.question_answer', compact('already_applied'));
+            $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
+            if ($ineligible_reason)
+                return view('camp_application.question_answer', compact('ineligible_reason'));
             $json = [];
             $answers = [];
-            $question_set = null;
-            if ($operate && $eligible && !$quota_exceed) {
-                $question_set = $camp->question_set();
-                $pairs = $question_set ? $question_set->pairs()->get() : [];
-                if (!empty($pairs)) {
-                    $json = Common::getQuestionJSON($camp->id);
-                    $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
-                    foreach ($pre_answers as $pre_answer) {
-                        $question = Question::find($id = $pre_answer->question_id);
-                        $key = $question->json_id;
-                        $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
-                    }
+            $question_set = $camp->question_set();
+            $pairs = $question_set ? $question_set->pairs()->get() : [];
+            if (!empty($pairs)) {
+                $json = Common::getQuestionJSON($camp->id);
+                $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
+                foreach ($pre_answers as $pre_answer) {
+                    $question = Question::find($id = $pre_answer->question_id);
+                    $key = $question->json_id;
+                    $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
                 }
             }
-            return view('camp_application.question_answer', compact('camp', 'eligible', 'quota_exceed', 'already_applied', 'answers', 'json', 'question_set'));
+            return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
         }
         return null;
     }

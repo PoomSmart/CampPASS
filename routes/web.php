@@ -48,7 +48,8 @@ Route::group(['middleware' => ['role:camper']], function() {
     Route::get('/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
 });
 
-Route::group(['middleware' => ['role:campmaker']], function() {
+// TODO: refine this
+Route::group(['middleware' => ['permission:answer-list', 'permission:camper-list']], function() {
     Route::resource('qualification', 'QualificationController');
     Route::get('/view-answers/{camper}/{question_set}', 'QualificationController@answer_view')->name('qualification.answer_view');
 });

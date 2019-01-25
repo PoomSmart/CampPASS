@@ -47,6 +47,7 @@ class CreateUsersTable extends Migration
 
             // camper
             $table->string('short_biography', 500)->nullable();
+            $table->double('cgpa', 3, 2)->nullable();
             $table->tinyInteger('mattayom')->nullable();
             $table->tinyInteger('blood_group')->nullable();
             $table->string('guardian_name')->nullable();
