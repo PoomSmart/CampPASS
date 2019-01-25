@@ -27,6 +27,10 @@ class QualificationController extends Controller
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
         $json['question_scored'] = [];
+        $auto_gradable_score = 0;
+        $total_auto_gradable_score = 0;
+        $camper_score = 0;
+        $total_score = 0;
         foreach ($pairs as $pair) {
             $question = $pair->question();
             $answer = $question_set->answers()->where('camper_id', $camper->id)->where('question_id', $question->id)->get();
@@ -35,15 +39,23 @@ class QualificationController extends Controller
             else
                 $answer = '';
             // Grade the questions that need to be graded and are of choice type (for now)
-            if ($question->type == QuestionType::CHOICES && isset($json['question_graded'][$question->json_id])) {
-                $solution = $json['radio'][$question->json_id];
-                $json['question_scored'][$question->json_id] = $solution == $answer ? $question->full_score : 0;
+            if (isset($json['question_graded'][$question->json_id])) {
+                if ($question->type == QuestionType::CHOICES) {
+                    $solution = $json['radio'][$question->json_id];
+                    $score = $solution == $answer ? $question->full_score : 0;
+                    $json['question_scored'][$question->json_id] = $score;
+                    $auto_gradable_score += $score;
+                    $camper_score += $score;
+                    $total_auto_gradable_score += $question->full_score;
+                }
+                $total_score += $question->full_score;
             }
             $data[] = [
                 'question' => $question,
                 'answer' => Common::decodeIfNeeded($answer, $question->type),
             ];
         }
-        return view('qualification.answer_view', compact('camp', 'camper', 'data', 'json'));
+        $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
+        return view('qualification.answer_view', compact('camp', 'camper', 'data', 'json', 'score_report'));
     }
 }

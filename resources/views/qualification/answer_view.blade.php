@@ -1,10 +1,16 @@
 @extends('layouts.card')
 
 @section('header')
-    View Application Form of {{ $camper->getFullName() }}
+    <!-- TODO: Link to camper profile page -->
+    View Application Form of <a href="" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
 @section('card_content')
+    <div class="row">
+        <div class="col-12 text-muted text-right">
+            {{ $score_report }}
+        </div>
+    </div>
     @foreach ($data as $pair)
         <?php
             $question = $pair['question'];
