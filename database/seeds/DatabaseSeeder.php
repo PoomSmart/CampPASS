@@ -277,8 +277,7 @@ class DatabaseSeeder extends Seeder
             $campmaker->organization_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
         }
-        // TODO: Sometimes this will return nothing
-        $candidate = User::campMakers()->whereIn('organization_id', Camp::distinct('organization_id')->select('organization_id')->groupBy('organization_id')->get())->limit(1)->first();
+        $candidate = User::_campMakers(true)->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->status = 1;
         $candidate->activation_code = null;
