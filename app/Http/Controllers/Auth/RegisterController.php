@@ -41,7 +41,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -130,7 +130,7 @@ class RegisterController extends Controller
             event(new Registered($user));
         } catch (\Exception $exception) {
             Log::channel('stderr')->error($exception);
-            return redirect()->to('/home');
+            return redirect()->to('/');
         }
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
     }
@@ -155,6 +155,6 @@ class RegisterController extends Controller
             logger()->error($exception);
             return "Whoops! something went wrong.";
         }
-        return redirect()->to('/home');
+        return redirect()->to('/');
     }
 }

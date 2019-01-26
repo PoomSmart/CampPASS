@@ -128,7 +128,7 @@ class DatabaseSeeder extends Seeder
             }
         }
         // Fake questions of several types for the camps that require
-        // ISSUE: This is < 100% effectiveness (Actual created registration records can be lowered than the total number)
+        // ISSUE: This is < 100% effectiveness (Actual created question set records can be lowered than the total number)
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -150,10 +150,10 @@ class DatabaseSeeder extends Seeder
             $questions_number = rand($minimum_questions, $maximum_questions);
             while ($questions_number--) {
                 $question_type = QuestionType::any();
-                // TODO: bias type setting
+                // TODO: bias type setting: more choices and must be graded
                 if ($question_type != QuestionType::CHOICES && Common::randomRareHit())
                     $question_type = QuestionType::CHOICES;
-                $graded = rand(0, 1);
+                $graded = $question_type != QuestionType::CHOICES ? rand(0, 1) : true;
                 $required = $graded ? true : rand(0, 1);
                 $json_id = $this->randomID($camp_id);
                 $json['type'][$json_id] = $question_type;
