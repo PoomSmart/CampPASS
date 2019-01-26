@@ -35,6 +35,22 @@
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('camp_browser.index') }}">Browse Camps</a>
+                        </li>
+                        @can('camp-create')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('camps.index') }}">Organize Camps</a>
+                            </li>
+                        @endcan
+                        @if (Auth::user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">Manage Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('roles.index') }}">Manage Roles</a>
+                            </li>
+                        @endif
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
