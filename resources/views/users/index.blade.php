@@ -4,7 +4,7 @@
     {{ trans('UsersManagement') }}
 @endsection
 
-@section('button')
+@section('extra-buttons')
     <a class="btn btn-success" href="{{ route('users.create') }}">{{ trans('account.CreateUser') }}</a>
 @endsection
 

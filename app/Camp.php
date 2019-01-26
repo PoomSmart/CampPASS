@@ -92,13 +92,16 @@ class Camp extends Model
      * Return the campers that belong to the given camp, given the status
      * 
      */
-    public function campers($status, $higher = false)
+    public function campers($status = null, $higher = false, $paginate = 0)
     {
         $registrations = $this->registrations()->select('camper_id');
         if (!is_null($status))
             $registrations = $registrations->where('status', $higher ? '>=' : '=', $status);
         $registrations = $registrations->get();
-        $campers = User::campers()->whereIn('id', $registrations)->get();
+        $campers = User::campers();
+        if ($paginate)
+            $campers = $campers->paginate($paginate);
+        $campers = $campers->whereIn('id', $registrations)->get();
         return $campers;
     }
 

@@ -5,13 +5,24 @@ namespace App\Http\Controllers;
 use App\Answer;
 use App\Common;
 use App\QuestionSet;
+use App\User;
 
 use App\Enums\QuestionType;
+use App\Enums\RegistrationStatus;
 
 use Illuminate\Http\Request;
 
 class CandidateRankController extends Controller
 {
+    protected $scores;
+
+    public function score_rank($a, $b)
+    {
+        $score_a = $this->scores[$a->id];
+        $score_b = $this->scores[$b->id];
+        return $score_a == $score_b ? 0 : $score_a < $score_b ? 1 : -1;
+    }
+
     public function rank(QuestionSet $question_set)
     {
         $answers = Answer::where('question_set_id', $question_set->id)->get();
@@ -36,6 +47,11 @@ class CandidateRankController extends Controller
                 }
             }
         }
-        return view('qualification.candidate_rank', compact('scores'));
+        $this->scores = $scores;
+        //$max = config('const.app.max_paginate');
+        $campers = $camp->campers($status = RegistrationStatus::APPLIED)->all();
+        usort($campers, [get_class(), 'score_rank']);
+        // TODO: pagination
+        return view('qualification.candidate_rank', compact('campers', 'scores'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
     }
 }
