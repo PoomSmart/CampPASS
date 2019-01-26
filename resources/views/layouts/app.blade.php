@@ -43,7 +43,7 @@
                                 <a class="nav-link" href="{{ route('camps.index') }}">Organize Camps</a>
                             </li>
                         @endcan
-                        @if (Auth::user()->isAdmin())
+                        @if (\Auth::user() && \Auth::user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">Manage Users</a>
                             </li>
