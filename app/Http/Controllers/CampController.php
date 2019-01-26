@@ -99,10 +99,11 @@ class CampController extends Controller
      */
     public function show(Camp $camp)
     {
+        $max = config('const.app.max_paginate');
         View::share('object', $camp);
-        $data = $camp->registrations()->get();
+        $data = $camp->registrations()->paginate($max);
         $category = CampCategory::find($camp->camp_category_id)->getName();
-        return view('camps.show', compact('camp', 'category', 'data'));
+        return view('camps.show', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
     /**

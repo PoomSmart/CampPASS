@@ -7,6 +7,9 @@
 @section('content')
     <p>{{ $category }} - {{ $camp->camp_procedure()->getTitle() }} - {{ $camp->getShortDescription() }}</p>
     @can('camper-list')
+        @can('answer-list')
+            <?php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); ?>
+        @endcan
         <div class="row">
             <div class="col-12">
                 <h3>Registered Campers</h3>
@@ -30,20 +33,21 @@
                             <td>{{ $camper->program()->getName() }}</td>
                             <td>{{ $registration->getStatus() }}</td>
                             <td>
-                                @can('answer-list')
-                                    @if ($camp->camp_procedure()->candidate_required && !is_null($camp->question_set()))
-                                        <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
-                                    @endif
-                                @endcan
+                                @if ($rankable)
+                                    <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                 </table>
+                {!! $data->links() !!}
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-warning" href="">Rank</a>
+                @if ($rankable)
+                    <a class="btn btn-warning" href="">Rank</a>
+                @endif
             </div>
         </div>
     @endcan
