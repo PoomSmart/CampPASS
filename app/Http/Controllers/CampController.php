@@ -142,9 +142,9 @@ class CampController extends Controller
     public function update(StoreCampRequest $request, Camp $camp)
     {
         if (!\Auth::user()->canManageCamp($camp))
-            return redirect()->back()->with('error', trans('app.NoPermissionError'));
+            return redirect()->route('camps.index')->with('error', trans('app.NoPermissionError'));
         $camp->update($request->all());
-        return redirect()->back()->with('success', 'Camp updated successfully');
+        return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
     }
 
     /**
