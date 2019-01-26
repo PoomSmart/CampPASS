@@ -31,9 +31,6 @@ class StoreCampRequest extends FormRequest
             return [];
         }
         $rules = [
-            'camp_category_id' => 'required',
-            'camp_category_id.*' => 'integer|exists:camp_categories,id',
-            'camp_procedure_id' => 'required|integer|exists:camp_procedures,id',
             'name_en' => 'nullable|string|required_without:name_th',
             'name_th' => 'nullable|string|required_without:name_en',
             'short_description_en' => 'nullable|string|max:200|required_without:short_description_th',
@@ -47,12 +44,12 @@ class StoreCampRequest extends FormRequest
             'application_fee' => 'nullable|integer|min:0',
             'url' => 'nullable|url|max:150',
             'fburl' => 'nullable|url|max:150',
-            'app_open_date' => 'nullable|date_format:Y-m-d H:i:s|after_or_equal:today',
-            'app_close_date' => 'nullable|date_format:Y-m-d H:i:s|after:app_open_date',
-            'reg_open_date' => 'nullable|date_format:Y-m-d H:i:s|after_or_equal:today',
-            'reg_close_date' => 'nullable|date_format:Y-m-d H:i:s|after:reg_open_date',
-            'event_start_date' => 'nullable|date_format:Y-m-d H:i:s|after:tomorrow',
-            'event_end_date' => 'nullable|date_format:Y-m-d H:i:s|after_or_equal:event_start_date',
+            'app_open_date' => 'nullable|date|after_or_equal:today',
+            'app_close_date' => 'nullable|date|after:app_open_date',
+            'reg_open_date' => 'nullable|date|after_or_equal:today',
+            'reg_close_date' => 'nullable|date|after:reg_open_date',
+            'event_start_date' => 'nullable|date|after:tomorrow',
+            'event_end_date' => 'nullable|date|after_or_equal:event_start_date',
             'event_location_lat' => 'nullable|numeric|min:-90|max:90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|min:-180|max:180',
             'quota' => 'nullable|integer|min:0',
@@ -60,6 +57,13 @@ class StoreCampRequest extends FormRequest
         ];
         if (\Auth::user()->isAdmin() && $method == 'POST')
             $rules += [ 'organization_id' => 'required|exists:organizations,id', ];
+        if ($method != 'PUT' && $method != 'PATCH') {
+            $rules += [
+                'camp_category_id' => 'required',
+                'camp_category_id.*' => 'integer|exists:camp_categories,id',
+                'camp_procedure_id' => 'required|integer|exists:camp_procedures,id',
+            ];
+        }
         return $rules;
     }
 }

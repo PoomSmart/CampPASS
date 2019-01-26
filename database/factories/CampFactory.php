@@ -34,17 +34,22 @@ class Randomizer
 
 $factory->define(App\Camp::class, function (Faker $faker) {
     $camp_procedure = CampProcedure::inRandomOrder()->first();
-    $app_open_date = $camp_procedure->candidate_required ? Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = '-6 months', '+6 months') : null : null;
-    $app_close_date = $app_open_date && $camp_procedure->candidate_required && Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($app_open_date, $app_open_date->format('Y-m-d H:i:s').' +6 months') : null;
-    $reg_open_date = !$camp_procedure->candidate_required ? Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = '-6 months', '+6 months') : null : null;
-    $reg_close_date = $reg_open_date && !$camp_procedure->candidate_required && Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($reg_open_date, $reg_open_date->format('Y-m-d H:i:s').' +6 months') : null;
+    $app_open_date = $app_close_date = null;
+    $reg_open_date = $reg_close_date = null;
     $event_start_date = $event_end_date = null;
-    if ($app_close_date)
-        $event_start_date = $faker->dateTimeBetween($app_close_date, $app_close_date->format('Y-m-d H:i:s').' +6 months');
-    else if ($reg_close_date)
-        $event_start_date = $faker->dateTimeBetween($reg_close_date, $reg_close_date->format('Y-m-d H:i:s').' +6 months');
+    if ($camp_procedure->candidate_required) {
+        $app_open_date = Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = '-6 months', '+6 months') : null;
+        $app_close_date = $app_open_date && Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = $app_open_date->format('Y-m-d H:i:s').' +10 days', '+6 months') : null;
+        if ($app_close_date)
+            $event_start_date = $faker->dateTimeBetween($app_close_date, $app_close_date->format('Y-m-d H:i:s').' +6 months');
+    } else {
+        $reg_open_date = Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = '-6 months', '+6 months') : null;
+        $reg_close_date = $reg_open_date && Common::randomVeryFrequentHit() ? $faker->dateTimeBetween($startDate = $reg_open_date->format('Y-m-d H:i:s').' +10 days', '+6 months') : null;
+        if ($reg_close_date)
+            $event_start_date = $faker->dateTimeBetween($reg_close_date, $reg_close_date->format('Y-m-d H:i:s').' +6 months');
+    }
     if ($event_start_date)
-        $event_end_date = $faker->dateTimeBetween($event_start_date, $event_start_date->format('Y-m-d H:i:s').' +6 months');
+        $event_end_date = $faker->dateTimeBetween($event_start_date, $event_start_date->format('Y-m-d H:i:s').' +3 months');
     // TODO: Fake locations
     return [
         'name_en' => "Camp {$faker->unique()->company}",

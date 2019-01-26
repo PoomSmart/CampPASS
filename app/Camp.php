@@ -162,31 +162,37 @@ class Camp extends Model
 
     public function getAppOpenDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
     public function getAppCloseDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
     public function getRegOpenDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
     public function getRegCloseDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
     public function getEventStartDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
     public function getEventEndDateAttribute($value)
     {
+        if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 }

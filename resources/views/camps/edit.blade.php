@@ -1,5 +1,5 @@
 @extends('layouts.card')
-@include('camps.fields')
+@include('camps.fields', ['update' => 1])
 
 @section('header')
     {{ trans('app.Edit') .' '. $object->getName() }}
@@ -10,7 +10,7 @@
         @csrf
         @method('PUT')
         @yield('camp-fields')
-        @component('components.submit', ['label' => 'Update'])
+        @component('components.submit', ['label' => trans('app.Update')])
         @endcomponent
     </form>
 @endsection

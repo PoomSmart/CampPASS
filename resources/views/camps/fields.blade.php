@@ -47,21 +47,24 @@
     @component('components.select', [
         'name' => 'camp_procedure_id',
         'objects' => $camp_procedures,
+        'disabled' => !Auth::user()->isAdmin() && isset($update),
     ])
     @endcomponent
 @endslot
 @endcomponent
 
+<?php $can_list_organization = Auth::user()->hasPermissionTo('organization-list'); ?>
+
 @component('components.input', [
     'name' => 'organization_id',
     'label' => trans('camp.Organization'),
-    'attributes' => Auth::user()->hasPermissionTo('organization-list') ? 'required' : '',
+    'attributes' => $can_list_organization ? 'required' : isset($update) ? 'disabled' : '',
 ])
 @slot('override')
     @component('components.select', [
         'name' => 'organization_id',
         'objects' => $organizations,
-        'disabled' => !Auth::user()->hasPermissionTo('organization-list'),
+        'disabled' => !$can_list_organization,
     ])
     @endcomponent
 @endslot
