@@ -118,6 +118,23 @@ class Camp extends Model
         return !$this->camp_procedure()->candidate_required;
     }
 
+    public static function allApproved()
+    {
+        return self::where('approved', true);
+    }
+
+    public static function popularCamps()
+    {
+        // TODO: This at the moment is done by randomization
+        return self::allApproved()->limit(5);
+    }
+
+    public function getCloseDate()
+    {
+        $date = $this->app_close_date ? $this->app_close_date : $this->reg_close_date;
+        return $date ? Carbon::parse($date)->toFormattedDateString() : null;
+    }
+
     public function getAcceptableProgramsAttribute($value)
     {
         $data = json_decode("[{$value}]", true);

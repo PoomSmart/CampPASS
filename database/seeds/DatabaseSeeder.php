@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
 
     private function randomID($camp_id)
     {
-        return $camp_id.'-'.bin2hex(random_bytes(5));
+        return $camp_id.'-'.Common::randomString(10);
     }
 
     private function registrations_and_questions_and_answers()

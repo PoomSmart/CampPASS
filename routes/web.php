@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Auth::routes();
 
 Route::group(['middleware' => ['role:admin']], function() {
@@ -62,4 +58,4 @@ Route::get('/register-campmaker', 'Auth\RegisterController@campmaker')->name('re
 
 Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');

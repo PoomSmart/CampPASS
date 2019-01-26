@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('style')
     <link rel="stylesheet" href="{{ URL::asset('css/welcome.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -31,7 +30,7 @@
         /* control image height */
         .card-img-top-250 {
             max-height: 250px;
-            overflow:hidden;
+            overflow: hidden;
         }
     </style>
 @stop
@@ -63,11 +62,11 @@
         <!-- Left and right controls -->
         <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">{{ trans('app.Previous') }}</span>
         </a>
         <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+            <span class="sr-only">{{ trans('app.Next') }}</span>
         </a>
     </div>
 
@@ -81,60 +80,26 @@
             </div>
         </div>
         <div class="container p-t-0 m-t-2 carousel-inner">
-            <div class="row row-equal carousel-item active m-t-0">
+            <?php $index = 0 ?>
+            @foreach ($popular_camps as $camp)
+                @if ($index % 3 == 0)
+                    <div class="row row-equal carousel-item m-t-0{{ $index == 0 ? ' active' : ''}}">
+                @endif
+                <?php ++$index; ?>
                 <div class="col-md-4">
                     <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/f44242/fff" alt="Card image cap">
+                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title">Card 1</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <h4 class="card-title">{{ $camp->getName() }}</h4>
+                            <p class="card-text">{{ $camp->getShortDescription() }}</p>
+                            <p class="card-text"><small class="text-muted">{{ trans('registration.WillClose').' '.$camp->getCloseDate() }}</small></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/418cf4/fff" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card 2</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
+                @if ($index % 3 == 0)
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/3ed846/fff" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card 3</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row row-equal carousel-item m-t-0">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/42ebf4/fff" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card 4</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/f49b41/fff" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card 5</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                @endif
+            @endforeach
         </div>
     </div>
 

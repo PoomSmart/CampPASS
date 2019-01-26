@@ -73,4 +73,9 @@ class Common
         }
         return $json;
     }
+
+    public static function randomString($length = 6)
+    {
+        return bin2hex(random_bytes($length / 2));
+    }
 }

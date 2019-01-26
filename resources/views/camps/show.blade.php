@@ -67,7 +67,7 @@
                 @default
                     <?php $apply_text = trans('registration.Apply'); ?>
             @endswitch
-        <a class="btn btn-primary{{ $status >= \App\Enums\RegistrationStatus::APPLIED ? " disabled" : ""}}"
+        <a class="btn btn-primary{{ $status >= \App\Enums\RegistrationStatus::APPLIED ? ' disabled' : ''}}"
             href="{{ route('camp_application.landing', $camp->id) }}"
         >{{ $apply_text }}</a>
         <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('ContactCampMaker') }}</a>
