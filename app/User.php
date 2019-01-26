@@ -12,6 +12,7 @@ use App\Registration;
 use App\School;
 
 use App\Enums\Gender;
+use App\Enums\RegistrationStatus;
 
 use Carbon\Carbon;
 
@@ -200,5 +201,20 @@ class User extends Authenticatable
     public function isEligibleForCamp(Camp $camp)
     {
         return is_null($this->getIneligibleReasonForCamp($camp));
+    }
+
+    public function registrationStatusForCamp(Camp $camp)
+    {
+        if ($this->isCamper()) {
+            $registration = $camp->getLatestRegistration($this->id);
+            return $registration ? $registration->status : null;
+        }
+        return null;
+    }
+
+    public function alreadyAppliedForCamp(Camp $camp)
+    {
+        $status = $this->registrationStatusForCamp($camp);
+        return $status == RegistrationStatus::APPLIED || $status == RegistrationStatus::QUALIFIED;
     }
 }

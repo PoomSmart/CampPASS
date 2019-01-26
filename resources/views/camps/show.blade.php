@@ -46,8 +46,30 @@
         </div>
     @endcan
     @role('camper')
-        <!-- TODO: add already-applied state -->
-        <a class="btn btn-primary" href="{{ route('camp_application.landing', $camp->id) }}">{{ trans('Apply') }}</a>
+            <?php
+                $apply_text = null;
+                $status = \Auth::user()->registrationStatusForCamp($camp);
+            ?>
+            @switch ($status)
+                @case (\App\Enums\RegistrationStatus::DRAFT)
+                @case (\App\Enums\RegistrationStatus::RETURNED)
+                    <?php $apply_text = trans('registration.Edit'); ?>
+                    @break
+                @case (\App\Enums\RegistrationStatus::APPLIED)
+                    <?php $apply_text = trans('registration.Applied'); ?>
+                    @break
+                @case (\App\Enums\RegistrationStatus::APPROVED)
+                    <?php $apply_text = trans('registration.Approved'); ?>
+                    @break
+                @case (\App\Enums\RegistrationStatus::QUALIFIED)
+                    <?php $apply_text = trans('registration.Applied'); ?>
+                    @break
+                @default
+                    <?php $apply_text = trans('registration.Apply'); ?>
+            @endswitch
+        <a class="btn btn-primary{{ $status >= \App\Enums\RegistrationStatus::APPLIED ? " disabled" : ""}}"
+            href="{{ route('camp_application.landing', $camp->id) }}"
+        >{{ $apply_text }}</a>
         <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('ContactCampMaker') }}</a>
     @endrole
 @endsection

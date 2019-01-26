@@ -20,12 +20,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CampApplicationController extends Controller
 {
-    public function camperAlreadyApplied($registration)
-    {
-        // TODO: verify already-applied state check
-        return $registration ? $registration->status == RegistrationStatus::APPLIED || $registration->status == RegistrationStatus::QUALIFIED : false;
-    }
-
     /**
      * Check whether the given camp can be manipulated by the current user.
      * The function returns the camp object if the user can.
@@ -47,8 +41,7 @@ class CampApplicationController extends Controller
             // Stage: Answering questions
             $user = \Auth::user();
             // TODO: verify camper eligibility check
-            $latest_registration = $camp->getLatestRegistration($user->id);
-            $already_applied = $this->camperAlreadyApplied($latest_registration);
+            $already_applied = $user->alreadyAppliedForCamp($camp);
             if ($already_applied)
                 return view('camp_application.question_answer', compact('already_applied'));
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
@@ -80,21 +73,16 @@ class CampApplicationController extends Controller
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             return redirect('/')->with('error', 'Unable to save the answers.');
         $user = \Auth::user();
+        // In case campers somehow want to edit the answers in the submitted application form
+        if ($user->alreadyAppliedForCamp($camp))
+            return redirect('/')->with('error', 'Unable to save the answers.');
         // A registration record will be created if not already
-        $registration_id = -1;
         $registration = $camp->getLatestRegistration($user->id);
-        if ($registration) {
-            // In case campers somehow want to edit the answers in the submitted application form
-            if ($this->camperAlreadyApplied($registration))
-                return redirect('/')->with('error', 'Unable to save the answers.');
-            $registration_id = $registration->id;
-        }
-        else {
-            $registration_id = Registration::create([
+        if (!$registration)
+            $registration = Registration::create([
                 'camp_id' => $camp->id,
                 'camper_id' => $user->id,
-            ])->id;
-        }
+            ]);
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = QuestionSet::where('camp_id', $camp->id)->first();
         $question_ids = $question_set->pairs()->get(['question_id']);
@@ -105,7 +93,7 @@ class CampApplicationController extends Controller
                 'question_set_id' => $question_set->id,
                 'question_id' => $question->id,
                 'camper_id' => $user->id,
-                'registration_id' => $registration_id,
+                'registration_id' => $registration->id,
             ], [
                 'answer' => Common::encodeIfNeeded($request[$json_id], $question->type),
             ]);

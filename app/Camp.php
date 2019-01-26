@@ -104,7 +104,8 @@ class Camp extends Model
 
     public function getLatestRegistration($camper_id)
     {
-        return $this->registrations()->where('camper_id', $camper_id)->latest()->first();
+        $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
+        return $registration->exists() ? $registration->first() : null;
     }
 
     public function isFull()
