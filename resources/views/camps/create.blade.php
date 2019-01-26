@@ -5,10 +5,6 @@
     {{ trans('camp.CreateCamp') }}
 @endsection
 
-@section('button')
-    <a class="btn btn-primary" href="{{ route('camps.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('card_content')
     <form method="POST" action="{{ route('camps.store') }}">
         @csrf

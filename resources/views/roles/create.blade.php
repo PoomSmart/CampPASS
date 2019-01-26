@@ -4,10 +4,6 @@
     {{ trans('account.CreateRole') }}
 @endsection
 
-@section('button')
-    <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('card_content')
     {!! Form::open(array('route' => 'roles.store', 'method'=>'POST')) !!}
         <div class="row">

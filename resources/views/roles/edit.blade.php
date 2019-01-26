@@ -4,10 +4,6 @@
     {{ trans('account.EditRole') }}
 @endsection
 
-@section('button')
-    <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('card_content')
     {!! Form::model($role, ['method' => 'PATCH', 'route' => ['roles.update', $role->id]]) !!}
         <div class="row">

@@ -7,7 +7,8 @@
                 <h2>@yield('header')</h2>
             </div>
             <div class="float-right">
-                @yield('button')
+                @yield('extra-buttons')
+                <a href="{{ url()->previous() }}" class="btn btn-default">{{ trans('app.Back') }}</a>
             </div>
         </div>
     </div>

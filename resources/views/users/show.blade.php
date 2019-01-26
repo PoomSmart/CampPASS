@@ -4,10 +4,6 @@
     {{ $user->username }}
 @endsection
 
-@section('button')
-    <a class="btn btn-primary" href="{{ route('users.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('content')
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-12">

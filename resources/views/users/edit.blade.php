@@ -4,10 +4,6 @@
     {{ trans('app.Edit') .' '. $user->username }}
 @endsection
 
-@section('button')
-    <a class="btn btn-primary" href="{{ route('users.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('content')
     {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
     <div class="row">
