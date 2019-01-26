@@ -85,7 +85,6 @@
                 @if ($index % 3 == 0)
                     <div class="row row-equal carousel-item m-t-0{{ $index == 0 ? ' active' : ''}}">
                 @endif
-                <?php ++$index; ?>
                 <div class="col-md-4">
                     <div class="card">
                         <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
@@ -96,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                @if ($index % 3 == 0)
+                @if (++$index % 3 == 0)
                     </div>
                 @endif
             @endforeach
