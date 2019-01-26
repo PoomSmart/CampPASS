@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-12">
                 @if ($rankable)
-                    <a class="btn btn-warning" href="">Rank</a>
+                    <a class="btn btn-warning" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">Rank</a>
                 @endif
             </div>
         </div>
@@ -54,7 +54,9 @@
     @role('camper')
             <?php
                 $apply_text = null;
-                $status = \Auth::user()->registrationStatusForCamp($camp);
+                $camper = \Auth::user();
+                $registration = $camper->registrationForCamp($camp);
+                $status = $registration ? $registration->status : -1;
             ?>
             @switch ($status)
                 @case (\App\Enums\RegistrationStatus::DRAFT)

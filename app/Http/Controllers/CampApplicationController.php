@@ -126,7 +126,7 @@ class CampApplicationController extends Controller
     public function submit_application_form(Camp $camp)
     {
         $registration = $camp->getLatestRegistration(\Auth::user()->id);
-        if ($registration->status >= RegistrationStatus::APPROVED) {
+        if ($registration->cannotSubmit()) {
             // This should not happen
             return redirect()->back()->with('error', 'You cannot submit the application form to the camp you alraedy are qualified for.');
         }

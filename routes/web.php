@@ -48,6 +48,7 @@ Route::group(['middleware' => ['role:camper']], function() {
 Route::group(['middleware' => ['permission:answer-list', 'permission:camper-list']], function() {
     Route::resource('qualification', 'QualificationController');
     Route::get('/view-answers/{camper}/{question_set}', 'QualificationController@answer_view')->name('qualification.answer_view');
+    Route::get('/rank/{question_set}', 'CandidateRankController@rank')->name('qualification.candidate_rank');
 });
 
 Route::resource('camp_browser', 'CampBrowserController');

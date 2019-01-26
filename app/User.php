@@ -203,18 +203,18 @@ class User extends Authenticatable
         return is_null($this->getIneligibleReasonForCamp($camp));
     }
 
-    public function registrationStatusForCamp(Camp $camp)
+    public function registrationForCamp(Camp $camp)
     {
         if ($this->isCamper()) {
             $registration = $camp->getLatestRegistration($this->id);
-            return $registration ? $registration->status : null;
+            return $registration;
         }
         return null;
     }
 
     public function alreadyAppliedForCamp(Camp $camp)
     {
-        $status = $this->registrationStatusForCamp($camp);
-        return $status == RegistrationStatus::APPLIED || $status == RegistrationStatus::QUALIFIED;
+        $registration = $this->registrationForCamp($camp);
+        return $registration ? $registration->cannotSubmit() : false;
     }
 }

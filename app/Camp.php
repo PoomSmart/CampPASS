@@ -92,11 +92,11 @@ class Camp extends Model
      * Return the campers that belong to the given camp, given the status
      * 
      */
-    public function campers($status)
+    public function campers($status, $higher = false)
     {
         $registrations = $this->registrations()->select('camper_id');
         if (!is_null($status))
-            $registrations = $registrations->where('status', $status);
+            $registrations = $registrations->where('status', $higher ? '>=' : '=', $status);
         $registrations = $registrations->get();
         $campers = User::campers()->whereIn('id', $registrations)->get();
         return $campers;
@@ -110,7 +110,7 @@ class Camp extends Model
 
     public function isFull()
     {
-        return $this->quota && $this->campers(RegistrationStatus::APPROVED)->count() >= $this->quota;
+        return $this->quota && $this->campers(RegistrationStatus::APPROVED, $higher = true)->count() >= $this->quota;
     }
 
     public function registerOnly()

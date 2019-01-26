@@ -19,7 +19,7 @@ class QualificationController extends Controller
         $camper = $registration->camper();
         if (!$camper->isCamper())
             return redirect('/')->with('error', 'app.InternalError');
-        if ($registration->status == RegistrationStatus::DRAFT || $registration->status == RegistrationStatus::RETURNED)
+        if ($registration->unsubmitted())
             return redirect()->back()->with('error', 'You cannot view the answers of an unsubmitted form.');
         $question_set = QuestionSet::findOrFail($question_set_id);
         $camp = $question_set->camp();
