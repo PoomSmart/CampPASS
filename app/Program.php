@@ -15,6 +15,6 @@ class Program extends Model
 
     public function getName()
     {
-        return $this->name; // TODO: Localization
+        return $this->name;
     }
 }

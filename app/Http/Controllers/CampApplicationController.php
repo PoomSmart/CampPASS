@@ -40,7 +40,6 @@ class CampApplicationController extends Controller
         if ($camp->camp_procedure()->candidate_required) {
             // Stage: Answering questions
             $user = \Auth::user();
-            // TODO: verify camper eligibility check
             $already_applied = $user->alreadyAppliedForCamp($camp);
             if ($already_applied)
                 return view('camp_application.question_answer', compact('already_applied'));

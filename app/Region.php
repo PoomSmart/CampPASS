@@ -8,11 +8,11 @@ class Region extends Model
 {
     public function getName()
     {
-        return $this->name; // TODO: Localization
+        return $this->name;
     }
     
     public function getShortName()
     {
-        return $this->short_name; // TODO: Localization
+        return $this->short_name;
     }
 }

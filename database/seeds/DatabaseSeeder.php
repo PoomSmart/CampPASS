@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Western Thailand', 'short_name' => 'W' ],
             [ 'name' => 'Central Thailand', 'short_name' => 'C' ],
             [ 'name' => 'Eastern Thailand', 'short_name' => 'E' ],
-            [ 'name' => 'Southern Thailand', 'short_name' => 'S' ],
+            [ 'name' => 'Southern Thailand', 'short_name' => 'S' ], // TODO: Localization
         ]);
     }
 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Artistic' ],
             [ 'name' => 'Musical' ],
             [ 'name' => 'Pilot' ],
-            [ 'name' => 'Argicultural' ],
+            [ 'name' => 'Argicultural' ], // TODO: Localization
         ]);
     }
 
@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],
             [ 'name' => 'Islamic' ],
-            [ 'name' => 'Other' ],
+            [ 'name' => 'Other' ], // TODO: Localization
         ]);
     }
 

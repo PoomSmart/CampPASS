@@ -55,7 +55,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
         $this->religions = Religion::all(['id', 'name']);
         $this->organizations = null;
-        $this->schools = School::all(['id', 'name_en']); // TODO: Localization
+        $this->schools = School::all();
     }
 
     /**
@@ -144,9 +144,8 @@ class RegisterController extends Controller
     {
         try {
             $user = app(User::class)->where('activation_code', $activationCode)->first();
-            if (!$user) {
+            if (!$user)
                 return "The code does not exist for any user in our system.";
-            }
             $user->status = 1;
             $user->activation_code = null;
             $user->save();

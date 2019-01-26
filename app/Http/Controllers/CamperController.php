@@ -21,14 +21,4 @@ class CamperController extends Controller
         $data = User::campers()->orderBy('id', 'DESC')->paginate($max);
         return view('campers.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * $max);
     }
-
-    public function create() {}
-
-    public function store(StoreUserRequest $request) {}
-
-    public function edit($id) {}
-
-    public function update(Request $request, $id) {}
-
-    public function destroy($id) {}
 }

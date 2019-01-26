@@ -11,18 +11,24 @@ use Faker\Generator as Faker;
 
 class Randomizer
 {
+    protected static $programs, $regions;
+
     public static function programs()
     {
-        $programs = Program::inRandomOrder();
-        $programs = $programs->limit(rand(1, $programs->count()))->pluck('id'); // TODO: Optimize away
-        return $programs->toArray();
+        if (!self::$programs)
+            self::$programs = Program::pluck('id')->toArray();
+        shuffle(self::$programs);
+        $values = array_rand(self::$programs, rand(1, count(self::$programs)));
+        return is_array($values) ? $values : [ $values ];
     }
 
     public static function regions()
     {
-        $regions = Region::inRandomOrder();
-        $regions = $regions->limit(rand(1, $regions->count()))->pluck('id'); // TODO: Optimize away
-        return $regions->toArray();
+        if (!self::$regions)
+            self::$regions = Region::pluck('id')->toArray();
+        shuffle(self::$regions);
+        $values = array_rand(self::$regions, rand(1, count(self::$regions)));
+        return is_array($values) ? $values : [ $values ];
     }
 }
 

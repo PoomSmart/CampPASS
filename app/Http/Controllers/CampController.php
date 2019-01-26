@@ -27,10 +27,10 @@ class CampController extends Controller
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
         $this->programs = Program::all(['id', 'name']);
-        $this->categories = CampCategory::all(['id', 'name']); // TODO: Localization
+        $this->categories = CampCategory::all(['id', 'name']);
         $this->organizations = null;
-        $this->camp_procedures = CampProcedure::all(['id', 'title']); // TODO: Localization
-        $this->regions = Region::all(['id', 'name']); // TODO: Localization
+        $this->camp_procedures = CampProcedure::all(['id', 'title']);
+        $this->regions = Region::all(['id', 'name']);
     }
 
     private function getOrganizationsIfNeeded()
