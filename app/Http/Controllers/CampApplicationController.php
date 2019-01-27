@@ -37,12 +37,19 @@ class CampApplicationController extends Controller
 
     public function landing(Camp $camp)
     {
-        if ($camp->camp_procedure()->candidate_required) {
+        $user = \Auth::user();
+        $already_applied = $user->alreadyAppliedForCamp($camp);
+        $camp_procedure = $camp->camp_procedure();
+        if ($already_applied) {
+            if ($camp_procedure->deposit_required) {
+                // Stage: Paying deposit
+                return view('camp_application.deposit', compact('camp'));
+            }
+            // Stage: Applied
+            return view('camp_application.question_answer', compact('already_applied'));
+        }
+        if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
-            $user = \Auth::user();
-            $already_applied = $user->alreadyAppliedForCamp($camp);
-            if ($already_applied)
-                return view('camp_application.question_answer', compact('already_applied'));
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
             if ($ineligible_reason)
                 return view('camp_application.question_answer', compact('ineligible_reason'));
@@ -50,6 +57,7 @@ class CampApplicationController extends Controller
             $answers = [];
             $question_set = $camp->question_set();
             $pairs = $question_set ? $question_set->pairs()->get() : [];
+            // TODO: handle the case without questions
             if (!empty($pairs)) {
                 $json = Common::getQuestionJSON($camp->id);
                 $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
