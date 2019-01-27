@@ -81,7 +81,7 @@ class QuestionController extends Controller
         if (!$question_set->exists()) {
             $question_set_id = QuestionSet::create([
                 'camp_id' => $camp->id,
-                'score_threshold' => 0.5,
+                'score_threshold' => $request->input('score_threshold'),
             ])->id;
         } else
             $question_set_id = $question_set->first()->id;

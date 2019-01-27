@@ -13,6 +13,12 @@
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
         <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp_id }}">
+        @component('components.input', [
+            'name' => 'score_threshold',
+            'label' => trans('camp.ScoreThreshold'),
+            'type' => 'number',
+            'attributes' => 'step=any',
+        ])@endcomponent
         <div id="questions">
             @component('questions.question', [
                 'title' => 'Title',

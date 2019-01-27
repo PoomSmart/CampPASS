@@ -22,6 +22,23 @@ function getCampId() {
     console.log(`Get camp ID: ${campId}`);
 }
 
+function forcePropertiesIfNecessary(block, type) {
+    // Requirement: file upload is always required and graded
+    if (type == QuestionType.FILE) {
+        block.find("#question-required").attr("onclick", "this.checked=!this.checked").prop("checked", true);
+        block.find("#question-graded").attr("onclick", "this.checked=!this.checked").prop("checked", true);
+    }
+    // Requirement: what has to be graded must be required
+    block.find("#question-graded").click(function(e) {
+        block.find("#question-required").attr("onclick", this.checked ? "this.checked=!this.checked" : null).prop("checked", this.checked);
+    });
+}
+
+function resetProperties(block) {
+    block.find("#question-required").attr("onclick", null).prop("checked", false);
+    block.find("#question-graded").attr("onclick", null).prop("checked", false);
+}
+
 function randId() {
     return `${campId}-${Math.random().toString(36).substr(2, 10)}`;
 }
@@ -44,9 +61,9 @@ function readJSON(json) {
         block.attr("id", `question-block-${id}`);
         block.find("#question-type").attr("name", `type[${id}]`).val(question_type);
         block.find("#question").attr("name", `question[${id}]`).val(question_text);
-        block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", json.question_required && id in json.question_required)
-            .attr("onclick", question_type == QuestionType.CHOICES || question_type == QuestionType.CHECKBOXES ? "this.checked=!this.checked" : null);
+        block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", json.question_required && id in json.question_required);
         block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", json.question_graded && id in json.question_graded);
+        forcePropertiesIfNecessary(block, question_type);
         var add = block.find("#additional-content");
         switch (question_type) {
             case QuestionType.CHOICES:
@@ -76,6 +93,8 @@ function addQuestion() {
     block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", false);
     block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", false);
     block.find("#additional-content").empty();
+    resetProperties(block);
+    forcePropertiesIfNecessary(block, QuestionType.TEXT);
     jQuery("#questions").append(block);
 }
 
@@ -136,8 +155,8 @@ function addRadioOrCheckbox(target, name, type, parentId, i) {
 }
 
 function addAdditionalContent(block, add, type, parentId, entries, value) {
+    resetProperties(block);
     if (type == QuestionType.CHOICES) {
-        block.find("#question-required").attr("onclick", "this.checked=!this.checked").prop("checked", true);
         var add_choice_button = jQuery(jQuery.parseHTML(add_choice_HTML));
         add_choice_button.on('click', function (e) {
             e.preventDefault();
@@ -158,7 +177,6 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             addRadioOrCheckbox(add, "radio", type, parentId, randId());
         }
     } else if (type == QuestionType.CHECKBOXES) {
-        block.find("#question-required").attr("onclick", null).prop("checked", false);
         var add_checkbox_button = jQuery(jQuery.parseHTML(add_checkbox_HTML));
         add_checkbox_button.on('click', function (e) {
             e.preventDefault();
@@ -173,8 +191,8 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
         } else
             // Add one checkbox by default
             addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
-    } else
-        block.find("#question-required").attr("onclick", null).prop("checked", false);
+    }
+    forcePropertiesIfNecessary(block, type);
 }
 
 function selectionChanged(select) {

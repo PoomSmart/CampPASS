@@ -9,6 +9,7 @@ return [
     'Status' => 'Status',
     'ApprovalPending' => 'Pending',
     'Approved' => 'Approved',
+    'ScoreThreshold' => 'Score Threshold',
     'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',
     'Organization' => 'Organization',
