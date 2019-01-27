@@ -168,7 +168,7 @@ class Camp extends Model
 
     public function setAppOpenDateAttribute($value)
     {
-        $this->attributes['app_open_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['app_open_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getAppCloseDateAttribute($value)
@@ -179,7 +179,7 @@ class Camp extends Model
 
     public function setAppCloseDateAttribute($value)
     {
-        $this->attributes['app_close_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['app_close_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getRegOpenDateAttribute($value)
@@ -190,7 +190,7 @@ class Camp extends Model
 
     public function setRegOpenDateAttribute($value)
     {
-        $this->attributes['reg_open_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['reg_open_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getRegCloseDateAttribute($value)
@@ -201,7 +201,7 @@ class Camp extends Model
 
     public function setRegCloseDateAttribute($value)
     {
-        $this->attributes['reg_close_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['reg_close_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getEventStartDateAttribute($value)
@@ -212,7 +212,7 @@ class Camp extends Model
 
     public function setEventStartDateAttribute($value)
     {
-        $this->attributes['event_start_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['event_start_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getEventEndDateAttribute($value)
@@ -223,6 +223,6 @@ class Camp extends Model
 
     public function setEventEndDateAttribute($value)
     {
-        $this->attributes['event_end_date'] = $value ? Carbon::parse($value) : null;
+        $this->attributes['event_end_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 }
