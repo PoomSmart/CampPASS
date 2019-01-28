@@ -63,11 +63,12 @@
                         $disabled = true;
                     $registration = $camper->registrationForCamp($camp);
                     $status = $registration ? $registration->status : -1;
+                    $camp_procedure = $camp->camp_procedure();
                 ?>
                 @switch ($status)
                     @case (\App\Enums\RegistrationStatus::DRAFT)
                     @case (\App\Enums\RegistrationStatus::RETURNED)
-                        <?php $apply_text = trans('app.Edit'); ?>
+                        <?php $apply_text = $camp_procedure->candidate_required ? trans('app.Edit') : null; ?>
                         @break
                     @case (\App\Enums\RegistrationStatus::APPLIED)
                         <?php $apply_text = trans('registration.APPLIED'); ?>
@@ -78,9 +79,8 @@
                     @case (\App\Enums\RegistrationStatus::QUALIFIED)
                         <?php $apply_text = trans('registration.QUALIFIED'); ?>
                         @break
-                    @default
-                        <?php $apply_text = trans('registration.Apply'); ?>
                 @endswitch
+                <?php if (!$apply_text) $apply_text = trans('registration.Apply'); ?>
                 <a class="btn btn-primary{{ $disabled || $status >= \App\Enums\RegistrationStatus::APPLIED ? ' disabled' : ''}}"
                     href="{{ route('camp_application.landing', $camp->id) }}"
                 >{{ $apply_text }}</a>

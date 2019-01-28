@@ -11,6 +11,7 @@ return [
     'Show' => 'Show',
     'Edit' => 'Edit',
     'Delete' => 'Delete',
+    'Update' => 'Update',
     'Save' => 'Save',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',

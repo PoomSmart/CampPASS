@@ -69,7 +69,6 @@ class CampApplicationController extends Controller
             }
             return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
         }
-        // TODO: bug - Edit state but go to here
         // Stage: Apply (right away)
         return $this->submit_application_form($camp);
     }

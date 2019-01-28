@@ -26,8 +26,12 @@ class Camp extends Model
     ];
 
     protected $appends = [
-        'acceptable_regions', 'acceptable_programs',
         'app_open_date', 'app_close_date', 'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date',
+    ];
+
+    protected $casts = [
+        'acceptable_regions' => 'array',
+        'acceptable_programs' => 'array',
     ];
 
     /**
@@ -138,21 +142,9 @@ class Camp extends Model
         return $date ? Carbon::parse($date)->toFormattedDateString() : null;
     }
 
-    public function getAcceptableProgramsAttribute($value)
-    {
-        $data = json_decode("[{$value}]", true);
-        return count($data) ? $data[0] : $data;
-    }
-
     public function setAcceptableProgramsAttribute($value)
     {
         $this->attributes['acceptable_programs'] = json_encode(array_map('intval', $value));
-    }
-
-    public function getAcceptableRegionsAttribute($value)
-    {
-        $data = json_decode("[{$value}]", true);
-        return count($data) ? $data[0] : $data;
     }
 
     public function setAcceptableRegionsAttribute($value)
