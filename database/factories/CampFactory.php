@@ -9,7 +9,7 @@ use App\Region;
 
 use Faker\Generator as Faker;
 
-class Randomizer
+class Camp_Randomizer
 {
     protected static $programs, $regions;
 
@@ -58,9 +58,9 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'camp_category_id' => CampCategory::inRandomOrder()->first()->id,
         'camp_procedure_id' => $camp_procedure->id,
         'organization_id' => Organization::inRandomOrder()->first()->id,
-        'acceptable_regions' => Randomizer::regions(),
+        'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
-        'acceptable_programs' => Randomizer::programs(),
+        'acceptable_programs' => Camp_Randomizer::programs(),
         'min_gpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
         'other_conditions' => rand() % 2 ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => $faker->unique()->url,

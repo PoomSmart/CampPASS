@@ -1,8 +1,40 @@
 <?php
 
+use App\Common;
 Use App\Religion;
 
 use Faker\Generator as Faker;
+
+class User_Randomizer
+{
+    public static function zipcode_prefix()
+    {
+        $region = rand(0, 5);
+        $region_array = null;
+        switch ($region) {
+            case 0:
+                $region_array = Common::$north_region;
+                break;
+            case 1:
+                $region_array = Common::$northeast_region;
+                break;
+            case 2:
+                $region_array = Common::$central_region;
+                break;
+            case 3:
+                $region_array = Common::$east_region;
+                break;
+            case 4:
+                $region_array = Common::$west_region;
+                break;
+            case 5:
+                $region_array = Common::$south_region;
+                break;
+        }
+        shuffle($region_array);
+        return $region_array[array_rand($region_array)];
+    }
+}
 
 $factory->define(App\User::class, function (Faker $faker) {
     $name = $faker->unique()->firstName;
@@ -18,7 +50,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'citizen_id' => implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 13, $allowDuplicates = true)),
         'dob' => $dob,
         'address' => $faker->address,
-        'zipcode' => $faker->postcode,
+        'zipcode' => User_Randomizer::zipcode_prefix().implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         'religion_id' => Religion::inRandomOrder()->first()->id,
         'email' => $faker->unique()->safeEmail,

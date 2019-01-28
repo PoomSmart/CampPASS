@@ -5,8 +5,10 @@ namespace App;
 use App\Answer;
 use App\Badge;
 use App\Camp;
+use App\Common;
 use App\Organization;
 use App\Program;
+use App\Region;
 use App\Religion;
 use App\Registration;
 use App\School;
@@ -165,19 +167,42 @@ class User extends Authenticatable
         return $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
     }
 
+    public function region()
+    {
+        $prefix = (int)substr($this->zipcode, 0, 2);
+        if (in_array($prefix, Common::$west_region))
+            return Region::where('short_name', 'W')->first();
+        if (in_array($prefix, Common::$east_region))
+            return Region::where('short_name', 'E')->first();
+        if (in_array($prefix, Common::$north_region))
+            return Region::where('short_name', 'N')->first();
+        if (in_array($prefix, Common::$south_region))
+            return Region::where('short_name', 'S')->first();
+        if (in_array($prefix, Common::$central_region))
+            return Region::where('short_name', 'C')->first();
+        if (in_array($prefix, Common::$northeast_region))
+            return Region::where('short_name', 'NE')->first();
+        return null;
+    }
+
     public function getIneligibleReasonForCamp(Camp $camp)
     {
-        // TODO: map zipcodes to regions so that we can add region check
         // TODO: age check
-        // An access to unapproved camps should not exist
         if (!$this->isCamper())
             return null;
+        // An access to unapproved camps should not exist
         if (!$camp->approved)
             return trans('camp.CampNotApproved');
+        // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
             return trans('camp.NotInRequiredPrograms');
+        // Campers with CGPA lower than the criteria would not pass
         if ($camp->min_gpa > $this->cgpa)
             return trans('camp.NotEnoughCGPA');
+        // Campers outside of the specified regions cannot participate
+        $region = $this->region();
+        if ($region && !in_array($region->id, $camp->acceptable_regions))
+            return trans('camp.NotInRequiredRegions');
         if ($camp->registerOnly()) {
             if (is_null($camp->reg_open_date))
                 return trans('camp.UnknownRegistrationOpen');
