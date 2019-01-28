@@ -98,11 +98,13 @@
 @component('components.input', [
     'name' => 'address',
     'label' => trans('account.Address'),
+    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [
     'name' => 'zipcode',
     'label' => trans('account.ZipCode'),
+    'attributes' => 'required',
 ])@endcomponent
 
 @component('components.input', [

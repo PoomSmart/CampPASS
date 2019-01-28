@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ThaiCitizenID;
+use App\Rules\ThaiZipCode;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -45,7 +48,7 @@ class StoreUserRequest extends FormRequest
             'dob' => 'required|date_format:Y-m-d|before:today',
             'address' => 'required|string|max:300',
             'allergy' => 'nullable|string|max:200',
-            'zipcode' => 'required|string:max:20',
+            'zipcode' => ['required', 'digits:5', new ThaiZipCode],
             'password' => 'required|string|min:6|confirmed',
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
@@ -64,12 +67,16 @@ class StoreUserRequest extends FormRequest
             $id = $user->id;
             $citizen_id = $user->citizen_id;
             $rules += [
-                'citizen_id' => "required|string|digits:13|unique:users,citizen_id,{$citizen_id}", // TODO: Citizen ID validator
+                'citizen_id' => [
+                    'required', 'digits:13', "unique:users,citizen_id,{$citizen_id}", new ThaiCitizenID,
+                ],
                 'email' => "required|string|email|max:100|unique:users,email,{$id}",
             ];
         } else if ($method =='POST') {
             $rules += [
-                'citizen_id' => 'required|string|digits:13|unique:users,citizen_id',
+                'citizen_id' => [
+                    'required', 'digits:13', "unique:users,citizen_id", new ThaiCitizenID,
+                ],
                 'email' => 'required|string|email|max:100|unique:users,email',
             ];
         }
