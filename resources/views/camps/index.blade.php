@@ -18,12 +18,12 @@
             <th>{{ trans('camp.ShortDescription') }}</th>
             <th>Registered Campers</th>
             <th>{{ trans('camp.Status') }}</th>
-            <th width="280px">{{ trans('app.Actions') }}</th>
+            <th width="240px">{{ trans('app.Actions') }}</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $camp->getName() }}</td>
+	        <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp->getName() }}</a></td>
             <td>{{ $camp->getShortDescription() }}</td>
             <td>{{ $camp->approved ? $camp->campers(null)->count() : 0 }}</td>
             <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
@@ -41,7 +41,6 @@
                     @endcan
                 @endif
                 <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('camps.show', $camp->id) }}">{{ trans('app.Show') }}</a>
                     @can('camp-edit')
                         <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
                     @endcan
