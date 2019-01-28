@@ -52,7 +52,7 @@ class CampApplicationController extends Controller
             // Stage: Answering questions
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
             if ($ineligible_reason)
-                return view('camp_application.question_answer', compact('ineligible_reason'));
+                return redirect()->back()->with('error', $ineligible_reason);
             $json = [];
             $answers = [];
             $question_set = $camp->question_set();
@@ -69,6 +69,7 @@ class CampApplicationController extends Controller
             }
             return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
         }
+        // Stage: Apply (right away)
         return null;
     }
 

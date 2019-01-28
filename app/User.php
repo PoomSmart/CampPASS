@@ -194,31 +194,31 @@ class User extends Authenticatable
             return trans('camp.CampNotApproved');
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
-            return trans('camp.NotInRequiredPrograms');
+            return trans('registration.NotInRequiredPrograms');
         // Campers with CGPA lower than the criteria would not pass
         if ($camp->min_gpa > $this->cgpa)
-            return trans('camp.NotEnoughCGPA');
+            return trans('registration.NotEnoughCGPA');
         // Campers outside of the specified regions cannot participate
         $region = $this->region();
         if ($region && !in_array($region->id, $camp->acceptable_regions))
-            return trans('camp.NotInRequiredRegions');
+            return trans('registration.NotInRequiredRegions');
         if ($camp->registerOnly()) {
             if (is_null($camp->reg_open_date))
-                return trans('camp.UnknownRegistrationOpen');
+                return trans('registration.UnknownRegistrationOpen');
             if (Carbon::now()->diffInDays(Carbon::parse($camp->reg_open_date)) < 0)
-                return trans('camp.BeforeRegistrationOpen');
+                return trans('registration.BeforeRegistrationOpen');
             if ($camp->reg_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->reg_close_date)) > 0)
                 return trans('camp.LateRegistration');
         } else {
             if (is_null($camp->app_open_date))
-                return trans('camp.UnknownApplicationOpen');
+                return trans('registration.UnknownApplicationOpen');
             if (Carbon::now()->diffInDays(Carbon::parse($camp->app_open_date)) < 0)
-                return trans('camp.BeforeApplicationOpen');
+                return trans('registration.BeforeApplicationOpen');
             if ($camp->app_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) > 0)
-                return trans('camp.LateApplication');
+                return trans('registration.LateApplication');
         }
         if ($camp->isFull())
-            return trans('camp.QuotaExceeded');
+            return trans('registration.QuotaExceeded');
         return null;
     }
 

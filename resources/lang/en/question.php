@@ -5,7 +5,6 @@ return [
     'PARAGRAPH' => 'Paragraph',
     'CHOICES' => 'Multiple choices',
     'CHECKBOXES' => 'Multiple checkboxes',
-    'LIST' => 'List',
     'FILE' => 'File upload',
     'Question' => 'Question',
     'CreateQuestions' => 'Create Questions',

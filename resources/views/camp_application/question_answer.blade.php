@@ -6,9 +6,7 @@
 
 <!-- TODO: Decide what to do when the camper makes changes and presses next without saving first -->
 @section('card_content')
-    @if (isset($ineligible_reason))
-        {{ $ineligible_reason }}
-    @elseif (isset($already_applied))
+    @if (isset($already_applied))
         You already applied for this camp.
     @elseif (empty($json))
         No questions in here.

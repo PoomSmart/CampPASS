@@ -52,32 +52,47 @@
         </div>
     @endcan
     @role('camper')
-            <?php
-                $apply_text = null;
-                $camper = \Auth::user();
-                $registration = $camper->registrationForCamp($camp);
-                $status = $registration ? $registration->status : -1;
-            ?>
-            @switch ($status)
-                @case (\App\Enums\RegistrationStatus::DRAFT)
-                @case (\App\Enums\RegistrationStatus::RETURNED)
-                    <?php $apply_text = trans('registration.Edit'); ?>
-                    @break
-                @case (\App\Enums\RegistrationStatus::APPLIED)
-                    <?php $apply_text = trans('registration.Applied'); ?>
-                    @break
-                @case (\App\Enums\RegistrationStatus::APPROVED)
-                    <?php $apply_text = trans('registration.Approved'); ?>
-                    @break
-                @case (\App\Enums\RegistrationStatus::QUALIFIED)
-                    <?php $apply_text = trans('registration.Applied'); ?>
-                    @break
-                @default
-                    <?php $apply_text = trans('registration.Apply'); ?>
-            @endswitch
-        <a class="btn btn-primary{{ $status >= \App\Enums\RegistrationStatus::APPLIED ? ' disabled' : ''}}"
-            href="{{ route('camp_application.landing', $camp->id) }}"
-        >{{ $apply_text }}</a>
-        <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('ContactCampMaker') }}</a>
+        <div class="row">
+            <div class="col-12">
+                <?php
+                    $apply_text = null;
+                    $camper = \Auth::user();
+                    $ineligible_reason = $camper->getIneligibleReasonForCamp($camp);
+                    $disabled = false;
+                    if ($ineligible_reason)
+                        $disabled = true;
+                    $registration = $camper->registrationForCamp($camp);
+                    $status = $registration ? $registration->status : -1;
+                ?>
+                @switch ($status)
+                    @case (\App\Enums\RegistrationStatus::DRAFT)
+                    @case (\App\Enums\RegistrationStatus::RETURNED)
+                        <?php $apply_text = trans('registration.Edit'); ?>
+                        @break
+                    @case (\App\Enums\RegistrationStatus::APPLIED)
+                        <?php $apply_text = trans('registration.Applied'); ?>
+                        @break
+                    @case (\App\Enums\RegistrationStatus::APPROVED)
+                        <?php $apply_text = trans('registration.Approved'); ?>
+                        @break
+                    @case (\App\Enums\RegistrationStatus::QUALIFIED)
+                        <?php $apply_text = trans('registration.Applied'); ?>
+                        @break
+                    @default
+                        <?php $apply_text = trans('registration.Apply'); ?>
+                @endswitch
+                <a class="btn btn-primary{{ $disabled || $status >= \App\Enums\RegistrationStatus::APPLIED ? ' disabled' : ''}}"
+                    href="{{ route('camp_application.landing', $camp->id) }}"
+                >{{ $apply_text }}</a>
+                <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('camp.ContactCampMaker') }}</a>
+            </div>
+        </div>
+        @if ($ineligible_reason)
+        <div class="row mt-2">
+            <div class="col-12">
+                <p class="text-danger">{{ $ineligible_reason }}</p>
+            </div>
+        </div>
+        @endif
     @endrole
 @endsection
