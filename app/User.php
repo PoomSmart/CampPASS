@@ -187,7 +187,6 @@ class User extends Authenticatable
 
     public function getIneligibleReasonForCamp(Camp $camp)
     {
-        // TODO: age check
         if (!$this->isCamper())
             return null;
         // An access to unapproved camps should not exist
