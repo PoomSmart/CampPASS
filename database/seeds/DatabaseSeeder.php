@@ -180,7 +180,6 @@ class DatabaseSeeder extends Seeder
                             $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 40);
                         }
                         $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
-                        shuffle($json['radio_label'][$json_id]);
                         $correct_choice = array_rand($json['radio_label'][$json_id]);
                         $json['radio'][$json_id] = $correct_choice;
                         break;
@@ -223,7 +222,6 @@ class DatabaseSeeder extends Seeder
                             break;
                         case QuestionType::CHECKBOXES:
                             $count = rand(1, count($multiple_checkbox_map[$json_id]));
-                            shuffle($multiple_checkbox_map[$json_id]);
                             $answer = array_rand($multiple_checkbox_map[$json_id], $count);
                             if ($count == 1)
                                 $answer = [ $answer ];

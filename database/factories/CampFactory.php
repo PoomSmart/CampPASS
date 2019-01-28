@@ -16,8 +16,7 @@ class Camp_Randomizer
     public static function programs()
     {
         if (!self::$programs)
-            self::$programs = Program::pluck('id')->toArray();
-        shuffle(self::$programs);
+            self::$programs = array_column(Program::select('id')->get()->toArray(), 'id', 'id');
         $values = array_rand(self::$programs, rand(1, count(self::$programs)));
         return is_array($values) ? $values : [ $values ];
     }
@@ -25,8 +24,7 @@ class Camp_Randomizer
     public static function regions()
     {
         if (!self::$regions)
-            self::$regions = Region::pluck('id')->toArray();
-        shuffle(self::$regions);
+            self::$regions = array_column(Region::select('id')->get()->toArray(), 'id', 'id');
         $values = array_rand(self::$regions, rand(1, count(self::$regions)));
         return is_array($values) ? $values : [ $values ];
     }

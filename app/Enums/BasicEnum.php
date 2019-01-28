@@ -21,7 +21,6 @@ abstract class BasicEnum {
 
     public static function any() {
         $constants = self::getConstants();
-        shuffle($constants);
         $index = array_rand($constants);
         return $constants[$index];
     }

@@ -31,7 +31,6 @@ class User_Randomizer
                 $region_array = Common::$south_region;
                 break;
         }
-        shuffle($region_array);
         return $region_array[array_rand($region_array)];
     }
 }
