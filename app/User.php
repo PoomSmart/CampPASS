@@ -208,7 +208,7 @@ class User extends Authenticatable
             if (Carbon::now()->diffInDays(Carbon::parse($camp->reg_open_date)) < 0)
                 return trans('registration.BeforeRegistrationOpen');
             if ($camp->reg_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->reg_close_date)) > 0)
-                return trans('camp.LateRegistration');
+                return trans('registration.LateRegistration');
         } else {
             if (is_null($camp->app_open_date))
                 return trans('registration.UnknownApplicationOpen');

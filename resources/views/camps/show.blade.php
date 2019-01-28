@@ -67,16 +67,16 @@
                 @switch ($status)
                     @case (\App\Enums\RegistrationStatus::DRAFT)
                     @case (\App\Enums\RegistrationStatus::RETURNED)
-                        <?php $apply_text = trans('registration.Edit'); ?>
+                        <?php $apply_text = trans('app.Edit'); ?>
                         @break
                     @case (\App\Enums\RegistrationStatus::APPLIED)
-                        <?php $apply_text = trans('registration.Applied'); ?>
+                        <?php $apply_text = trans('registration.APPLIED'); ?>
                         @break
                     @case (\App\Enums\RegistrationStatus::APPROVED)
-                        <?php $apply_text = trans('registration.Approved'); ?>
+                        <?php $apply_text = trans('registration.APPROVED'); ?>
                         @break
                     @case (\App\Enums\RegistrationStatus::QUALIFIED)
-                        <?php $apply_text = trans('registration.Applied'); ?>
+                        <?php $apply_text = trans('registration.QUALIFIED'); ?>
                         @break
                     @default
                         <?php $apply_text = trans('registration.Apply'); ?>

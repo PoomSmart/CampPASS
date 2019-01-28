@@ -70,7 +70,7 @@ class CampApplicationController extends Controller
             return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
         }
         // Stage: Apply (right away)
-        return null;
+        return $this->submit_application_form($camp);
     }
 
     public function store(Request $request)
