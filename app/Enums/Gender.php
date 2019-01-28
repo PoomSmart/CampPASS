@@ -7,7 +7,8 @@ use App\Enums\BasicEnum;
 final class Gender extends BasicEnum
 {
     const
-        MALE = 1,
-        FEMALE = 2
+        MALE = 0,
+        FEMALE = 1,
+        OTHER = 2
     ;
 }

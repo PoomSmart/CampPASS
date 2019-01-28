@@ -113,7 +113,7 @@ class DatabaseSeeder extends Seeder
                 $registration = Registration::create([
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
-                    'submission_time' => $faker->date(),
+                    'submission_time' => now(),
                 ]);
                 // Randomly submit the application forms
                 if (Common::randomFrequentHit()) {

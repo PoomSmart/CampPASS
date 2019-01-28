@@ -3,6 +3,8 @@
 use App\Common;
 Use App\Religion;
 
+use App\Enums\Gender;
+
 use Faker\Generator as Faker;
 
 class User_Randomizer
@@ -33,6 +35,23 @@ class User_Randomizer
         }
         return $region_array[array_rand($region_array)];
     }
+
+    /**
+     * Randomize Thai citizen ID (Only for testing purpose).
+     * http://kiss-hack.blogspot.com/2013/09/random-number-13.html
+     * 
+     */
+    public static function citizenID() {
+        $firstNumber = rand(1, 8);
+        $numberCalc = 13 * $firstNumber;
+        for ($i = 12; $i > 1; $i--) {
+            $m = rand(0, 9);
+            $firstNumber .= $m;
+            $numberCalc += ($i * $m);
+        }
+        $lastNumber = (11 - ($numberCalc % 11)) % 10;
+        return $firstNumber.$lastNumber;
+    }
 }
 
 $factory->define(App\User::class, function (Faker $faker) {
@@ -45,8 +64,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'surname_en' => $faker->lastName,
         'nickname_en' => $faker->word,
         'nationality' => $faker->numberBetween($min = 0, $max = 1),
-        'gender' => $faker->numberBetween($min = 0, $max = 2),
-        'citizen_id' => implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 13, $allowDuplicates = true)),
+        'gender' => Gender::any(),
+        'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
         'address' => $faker->address,
         'zipcode' => User_Randomizer::zipcode_prefix().implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
@@ -55,7 +74,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => $type,
-        'password' => bcrypt('123456'), // secret
+        'password' => bcrypt('123456'),
         'remember_token' => str_random(10),
     ];
 });
