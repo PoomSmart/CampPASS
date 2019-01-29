@@ -60,7 +60,7 @@
                                     'required' => $required ? 'required' : '',
                                 ])@endcomponent
                             @elseif ($type == \App\Enums\QuestionType::FILE)
-                                <!-- TODO: Complete file type answer -->
+                                <input type="file" class="form-control-file" name="{{ $key }}">
                             @endif
                         </div>
                     </div>

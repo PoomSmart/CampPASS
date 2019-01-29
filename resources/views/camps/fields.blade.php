@@ -103,11 +103,22 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'min_gpa',
+    'name' => 'min_gpa_range',
     'label' => trans('camp.MinGPA'),
-    'type' => 'number',
-    'attributes' => 'step=any',
-])@endcomponent
+    'type' => 'range',
+    'value' => old('min_gpa', isset($object) ? $object->{'min_gpa'} : ''),
+    'attributes' => 'min=1.0 max=4.0 step=0.01 oninput=this.nextElementSibling.value=this.value',
+])
+@slot('append')
+    @component('components.input', [
+        'name' => 'min_gpa',
+        'type' => 'number',
+        'nowrapper' => 1,
+        'attributes' => 'min=1.0 max=4.0 step=0.01 oninput=this.previousElementSibling.value=this.value',
+    ])
+    @endcomponent
+@endslot
+@endcomponent
 
 @component('components.input', [
     'name' => 'other_conditions',
