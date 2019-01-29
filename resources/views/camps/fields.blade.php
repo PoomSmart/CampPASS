@@ -72,7 +72,7 @@
 
 @component('components.input',[
     'name' => 'acceptable_years',
-    'label' => 'trans('camp.AcceptableYears'),
+    'label' => trans('camp.AcceptableYears'),
     'attributes' => 'required',
 ])
 @slot('overide')
