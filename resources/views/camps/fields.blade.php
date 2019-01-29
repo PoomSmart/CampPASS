@@ -3,24 +3,28 @@
 @component('components.input', [
     'name' => 'name_en',
     'label' => trans('camp.EnglishName'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'name_th',
     'label' => trans('camp.ThaiName'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'short_description_en',
     'label' => trans('camp.EnglishShortDescription'),
     'textarea' => 1,
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'short_description_th',
     'label' => trans('camp.ThaiShortDescription'),
     'textarea' => 1,
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'camp_category_id',
@@ -33,7 +37,8 @@
         'name' => 'camp_category_id',
         'objects' => $categories,
         'required' => 1
-    ])@endcomponent
+    ])
+@endcomponent
 </fieldset> 
 @endslot
 @endcomponent
@@ -80,8 +85,9 @@
         @component('components.radio', [
             'name' => 'acceptable_years',
             'type' => 'checkbox',
-            'objects' => $years
-        ])@endcomponent
+            'objects' => $years,
+        ])
+        @endcomponent
     </fieldset> 
 @endslot
 @endcomponent
@@ -97,7 +103,8 @@
             'name' => 'acceptable_regions',
             'type' => 'checkbox',
             'objects' => $regions
-        ])@endcomponent
+        ])
+@endcomponent
     </fieldset> 
 @endslot
 @endcomponent
@@ -113,7 +120,8 @@
             'name' => 'acceptable_programs',
             'type' => 'checkbox',
             'objects' => $programs
-        ])@endcomponent
+        ])
+@endcomponent
     </fieldset> 
 @endslot
 @endcomponent
@@ -140,61 +148,71 @@
     'name' => 'other_conditions',
     'label' => trans('camp.OtherConditions'),
     'textarea' => 1,
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'application_fee',
     'label' => trans('camp.ApplicationFee'),
     'type' => 'number',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'url',
     'label' => trans('camp.URL'),
     'type' => 'url',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'fburl',
     'label' => trans('camp.FBURL'),
     'type' => 'url',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'app_open_date',
     'label' => trans('camp.AppOpenDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'app_close_date',
     'label' => trans('camp.AppCloseDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'reg_open_date',
     'label' => trans('camp.RegOpenDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'reg_close_date',
     'label' => trans('camp.RegCloseDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'event_start_date',
     'label' => trans('camp.EventStartDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'event_end_date',
     'label' => trans('camp.EventEndDate'),
     'type' => 'datetime-local',
-])@endcomponent
+])
+@endcomponent
 
 <!-- TODO: Geolocation -->
 
@@ -202,6 +220,7 @@
     'name' => 'quota',
     'label' => trans('camp.Quota'),
     'type' => 'number',
-])@endcomponent
+])
+@endcomponent
 
 @stop
