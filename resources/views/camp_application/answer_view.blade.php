@@ -15,8 +15,6 @@
             <div class="col-12">
                 <h3 id="question-title">{{ $json['question'][$key] }}</h2>
             </div>
-        </div>
-        <div class="row">
             <div class="col-12">
                 <div class="mb-4">
                     <?php
@@ -29,6 +27,7 @@
                             'name' => $key,
                             'value' => $answer,
                             'nowrapper' => 1,
+                            'simple_id' => 1,
                             'attributes' => 'readonly',
                         ])@endcomponent
                     @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
@@ -37,6 +36,7 @@
                             'value' => $answer,
                             'textarea' => 1,
                             'nowrapper' => 1,
+                            'simple_id' => 1,
                             'attributes' => 'readonly',
                         ])@endcomponent
                     @elseif ($type == \App\Enums\QuestionType::CHOICES)
@@ -45,6 +45,7 @@
                             'value' => $answer,
                             'objects' => $json['radio_label'][$key],
                             'idx' => 1,
+                            'simple_id' => 1,
                             'noinline' => 1,
                             'required' => 1,
                         ])@endcomponent
@@ -55,6 +56,7 @@
                             'type' => 'checkbox',
                             'objects' => $json['checkbox_label'][$key],
                             'idx' => 1,
+                            'simple_id' => 1,
                             'noinline' => 1,
                             'required' => 1,
                         ])@endcomponent

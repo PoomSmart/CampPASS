@@ -23,8 +23,6 @@
                     <div class="col-12">
                         <h3 id="question-title">{{ $text }}</h2>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-12">
                         <div class="mb-4">
                             @if ($type == \App\Enums\QuestionType::TEXT)
