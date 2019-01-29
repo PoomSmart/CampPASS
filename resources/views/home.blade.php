@@ -119,6 +119,7 @@
 
     <!-- Start footer Area -->
     <footer class="page-footer">
+  
         <div class="container-fluid text-center">
             <div class="row">
                 <div class="col-sm-3" >
@@ -137,7 +138,7 @@
                 </div>
                 <div class="col-sm-6 text-right">
                     <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
-                    <p><button type="button" class="btn btn-default">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
+                    <p><button type="button" class="btn btn-outline-light"><href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
                 </div>
             </div>
         </div>
