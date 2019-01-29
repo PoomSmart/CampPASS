@@ -80,7 +80,7 @@
     'label' => trans('camp.AcceptableYears'),
     'attributes' => 'required',
 ])
-@slot('overide')
+@slot('override')
     <fieldset>
         @component('components.radio', [
             'name' => 'acceptable_years',
@@ -104,23 +104,7 @@
             'type' => 'checkbox',
             'objects' => $regions
         ])
-@endcomponent
-    </fieldset> 
-@endslot
-@endcomponent
-
-@component('components.input', [
-    'name' => 'acceptable_years',
-    'label' => trans('camp.AcceptableYears'),
-    'attributes' => 'required',
-])
-@slot('override')
-    <fieldset>
-        @component('components.radio', [
-            'name' => 'acceptable_years',
-            'type' => 'checkbox',
-            'objects' => $years
-        ])@endcomponent
+        @endcomponent
     </fieldset> 
 @endslot
 @endcomponent

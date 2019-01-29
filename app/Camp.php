@@ -32,6 +32,7 @@ class Camp extends Model
     protected $casts = [
         'acceptable_regions' => 'array',
         'acceptable_programs' => 'array',
+        'acceptable_years' => 'array',
     ];
 
     /**

@@ -12,6 +12,7 @@ return [
     'ScoreThreshold' => 'Score Threshold',
     'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',
+    'AcceptableYears' => 'Acceptable Years',
     'Organization' => 'Organization',
     'Category' => 'Category',
     'MinGPA' => 'Minimum GPA',
