@@ -70,22 +70,6 @@
 @endslot
 @endcomponent
 
-@component('components.input',[
-    'name' => 'acceptable_years',
-    'label' => 'trans('camp.AcceptableYears'),
-    'attributes' => 'required',
-])
-@slot('overide')
-    <fieldset>
-        @component('components.radio', [
-            'name' => 'acceptable_years',
-            'type' => 'checkbox',
-            'objects' => $years
-        ])@endcomponent
-    </fieldset> 
-@endslot
-@endcomponent
-
 @component('components.input', [
     'name' => 'acceptable_regions',
     'label' => trans('camp.AcceptableRegions'),
