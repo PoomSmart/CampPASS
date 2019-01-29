@@ -1,4 +1,5 @@
 // TODO: Add a warning for when the user tries to quit without saving
+// TODO: Localization for dynamically added elements
 
 var QuestionType = {
     TEXT: 1,

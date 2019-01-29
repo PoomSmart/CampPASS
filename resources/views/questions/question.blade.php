@@ -44,6 +44,13 @@
                 </div>
             </div>
         </div>
+        <script>
+            // Requirement: what has to be graded must be required
+            var block = jQuery("[id^=question-block]").first();
+            block.find("#question-graded").click(function(e) {
+                block.find("#question-required").attr("onclick", this.checked ? "this.checked=!this.checked" : null).prop("checked", this.checked);
+            });
+        </script>
         <div id="additional-content"></div>
     </div>
 </div>

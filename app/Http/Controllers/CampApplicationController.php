@@ -57,15 +57,14 @@ class CampApplicationController extends Controller
             $answers = [];
             $question_set = $camp->question_set();
             $pairs = $question_set ? $question_set->pairs()->get() : [];
-            // TODO: handle the case without questions
-            if (!empty($pairs)) {
-                $json = Common::getQuestionJSON($camp->id);
-                $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
-                foreach ($pre_answers as $pre_answer) {
-                    $question = Question::find($id = $pre_answer->question_id);
-                    $key = $question->json_id;
-                    $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
-                }
+            if (empty($pairs))
+                return redirect()->back()->with('error', 'There are no questions in here.');
+            $json = Common::getQuestionJSON($camp->id);
+            $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
+            foreach ($pre_answers as $pre_answer) {
+                $question = Question::find($id = $pre_answer->question_id);
+                $key = $question->json_id;
+                $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
             }
             return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
         }

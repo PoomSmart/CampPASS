@@ -17,7 +17,7 @@ class CreateQuestionSetsTable extends Migration
             $table->increments('id');
             $table->integer('camp_id')->unsigned();
             $table->foreign('camp_id')->references('id')->on('camps');
-            $table->double('score_threshold')->default(0.0);
+            $table->double('score_threshold')->nullable();
             $table->timestamps();
         });
     }

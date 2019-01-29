@@ -171,6 +171,8 @@ return [
         'school_id' => trans('account.School'),
         'organization_id' => trans('account.Organization'),
         'mattayom' => trans('account.Mattayom'),
+
+        'score_threshold' => trans('camp.ScoreThreshold'),
     ],
 
 ];

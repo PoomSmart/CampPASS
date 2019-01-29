@@ -60,7 +60,8 @@
                             </div>
                         @endforeach
                     @elseif ($type == \App\Enums\QuestionType::FILE)
-                        <!-- TODO: Complete file type answer -->
+                        <!-- TODO: Make this correct -->
+                        <input type="file" name="{{ $key }}">
                     @endif
                 </div>
             </div>

@@ -8,7 +8,6 @@
     {{ trans('question.CreateQuestions') }}
 @endsection
 
-<!-- TODO: Score threshold -->
 @section('card_content')
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
@@ -17,6 +16,7 @@
             'name' => 'score_threshold',
             'label' => trans('camp.ScoreThreshold'),
             'type' => 'number',
+            'placeholder' => trans('question.EnterThreshold'),
             'attributes' => 'step=any',
         ])@endcomponent
         <div id="questions">

@@ -32,6 +32,7 @@ class CandidateRankController extends Controller
         $json = Common::getQuestionJSON($camp->id, $graded = true);
         $scores = [];
         foreach ($answers as $answer) {
+            // We would not grade unsubmitted answers
             if ($answer->registration()->unsubmitted()) continue;
             $question = $answer->question();
             $camper = $answer->camper();
