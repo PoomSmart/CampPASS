@@ -18,7 +18,8 @@
             'type' => 'number',
             'placeholder' => trans('question.EnterThreshold'),
             'attributes' => 'step=any',
-        ])@endcomponent
+        ])
+        @endcomponent
         <div id="questions">
             @component('questions.question', [
                 'title' => 'Title',

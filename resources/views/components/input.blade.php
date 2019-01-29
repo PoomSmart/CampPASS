@@ -28,7 +28,9 @@
                         id="{{ $name }}" 
                         class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}"
                         name="{{ $name }}"
-                        placeholder="{{ isset($placeholder) ? $placeholder : '' }}"
+                        @if (isset($placeholder))
+                            placeholder="{{ $placeholder }}"
+                        @endif
                     @if (isset($desc))
                         aria-describedby="{{ $name }}-desc-inline"
                     @endif
@@ -37,6 +39,9 @@
                         >{{ isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '') }}</textarea>
                     @else
                         >
+                    @endif
+                    @if (isset($append))
+                        {{ $append }}
                     @endif
                     @if ($errors->has($name))
                         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>

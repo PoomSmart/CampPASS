@@ -36,7 +36,8 @@
                             'nowrapper' => 1,
                             'simple_id' => 1,
                             'attributes' => 'readonly',
-                        ])@endcomponent
+                        ])
+                        @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
                         @component('components.input', [
                             'name' => $key,
@@ -45,7 +46,8 @@
                             'nowrapper' => 1,
                             'simple_id' => 1,
                             'attributes' => 'readonly',
-                        ])@endcomponent
+                        ])
+                        @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::CHOICES)
                         @component('components.radio', [
                             'name' => $key,
@@ -55,7 +57,8 @@
                             'idx' => 1,
                             'simple_id' => 1,
                             'noinline' => 1,
-                        ])@endcomponent
+                        ])
+                        @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
                         @component('components.radio', [
                             'name' => $key,
@@ -65,7 +68,8 @@
                             'idx' => 1,
                             'simple_id' => 1,
                             'noinline' => 1,
-                        ])@endcomponent
+                        ])
+                        @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::FILE)
                         <!-- TODO: Complete file type answer -->
                     @endif

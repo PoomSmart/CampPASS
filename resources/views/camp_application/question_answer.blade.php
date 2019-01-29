@@ -31,7 +31,8 @@
                                     'value' => isset($answers[$key]) ? $answers[$key] : '',
                                     'nowrapper' => 1,
                                     'attributes' => $required ? 'required' : '',
-                                ])@endcomponent
+                                ])
+                                @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
                                 @component('components.input', [
                                     'name' => $key,
@@ -39,7 +40,8 @@
                                     'textarea' => 1,
                                     'nowrapper' => 1,
                                     'attributes' => $required ? 'required' : '',
-                                ])@endcomponent
+                                ])
+                                @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::CHOICES)
                                 @component('components.radio', [
                                     'name' => $key,
@@ -48,7 +50,8 @@
                                     'idx' => 1,
                                     'noinline' => 1,
                                     'required' => $required ? 'required' : '',
-                                ])@endcomponent
+                                ])
+                                @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
                                 @component('components.radio', [
                                     'name' => $key,
@@ -58,9 +61,10 @@
                                     'idx' => 1,
                                     'noinline' => 1,
                                     'required' => $required ? 'required' : '',
-                                ])@endcomponent
+                                ])
+                                @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::FILE)
-                                <!-- TODO: Complete file type answer -->
+                                <input type="file" class="form-control-file" name="{{ $key }}">
                             @endif
                         </div>
                     </div>

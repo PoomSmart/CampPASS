@@ -37,7 +37,8 @@
     'label' => trans('account.CGPA'),
     'type' => 'number',
     'attributes' => 'required step=any',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'blood_group',
@@ -56,7 +57,8 @@
     'name' => 'guardian_name',
     'label' => trans('account.GuardianName'),
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'guardian_role',
@@ -76,7 +78,8 @@
     'label' => trans('account.GuardianMobileNo'),
     'attributes' => 'required',
     'type' => 'tel',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'short_biography',
@@ -84,6 +87,7 @@
     'placeholder' => trans('account.YouCanWriteItLater'),
     'textarea' => 1,
     'attributes' => 'rows=3',
-])@endcomponent
+])
+@endcomponent
 
 @stop

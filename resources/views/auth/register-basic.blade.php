@@ -3,38 +3,45 @@
 @component('components.input', [
     'name' => 'name_en',
     'label' => trans('account.EnglishName'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'surname_en',
     'label' => trans('account.EnglishSurname'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'nickname_en',
     'label' => trans('account.EnglishNickname'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'name_th',
     'label' => trans('account.ThaiName'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'surname_th',
     'label' => trans('account.ThaiSurname'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'nickname_th',
     'label' => trans('account.ThaiNickname'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'citizen_id',
     'label' => trans('account.CitizenID'),
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'nationality',
@@ -80,58 +87,67 @@
     'label' => trans('account.MobileNo'),
     'type' => 'tel',
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'dob',
     'label' => trans('account.DOB'),
     'type' => 'date',
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'allergy',
     'label' => trans('account.Allergy'),
     'placeholder' => trans('account.LeaveBlank'),
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'address',
     'label' => trans('account.Address'),
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'zipcode',
     'label' => trans('account.ZipCode'),
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'username',
     'label' => trans('account.Username'),
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'email',
     'label' => trans('account.Email'),
     'type' => 'email',
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'password',
     'label' => trans('account.Password'),
     'type' => 'password',
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @component('components.input', [
     'name' => 'password_confirmation',
     'label' => trans('account.ConfirmPassword'),
     'type' => 'password',
     'attributes' => 'required',
-])@endcomponent
+])
+@endcomponent
 
 @stop
