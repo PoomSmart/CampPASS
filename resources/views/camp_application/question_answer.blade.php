@@ -11,7 +11,7 @@
     @elseif (empty($json))
         No questions in here.
     @else
-        <form method="POST" action="{{ route('camp_application.store') }}">
+        <form method="POST" action="{{ route('camp_application.store') }}" enctype="multipart/form-data">
             @csrf
             <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
             @foreach ($json['question'] as $key => $text)
@@ -64,7 +64,12 @@
                                 ])
                                 @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::FILE)
-                                <input type="file" class="form-control-file" name="{{ $key }}">
+                                @if (isset($answers[$key]))
+                                    <a href="{{ route('camp_application.file_download', ['json_id' => $key, 'filename' => $answers[$key]]) }}">{{ $answers[$key] }}</a>
+                                    <button class="btn btn-danger" id="{{ 'file-delete-'.$key }}">{{ trans('app.Delete') }}</button>
+                                @else
+                                    <input type="file" class="form-control-file" name="{{ $key }}">
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -72,9 +77,33 @@
             @endforeach
             @component('components.submit', ['label' => trans('app.Save')])
             @slot('postcontent')
-                <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">Next</a>
+                <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">{{ trans('app.Next') }}</a>
             @endslot
             @endcomponent
         </form>
+        <script>
+            jQuery.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+            jQuery("[id^=file-delete]").click(function(e) {
+                e.preventDefault();
+                jQuery.ajax({
+                    type: 'POST',
+                    url: "{!! route('camp_application.file_delete') !!}",
+                    data: {
+                        json_id: "{!! $key !!}",
+                        filename: "{!! $answers[$key] !!}",
+                    },
+                    success: function(data) {
+                        alert('shit it worked');
+                    },
+                    error: function() {
+                        alert('shit doesnotwork')
+                    },
+                });
+            });
+        </script>
     @endif
 @endsection

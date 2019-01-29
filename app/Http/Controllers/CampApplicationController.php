@@ -53,12 +53,11 @@ class CampApplicationController extends Controller
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
             if ($ineligible_reason)
                 return redirect()->back()->with('error', $ineligible_reason);
-            $json = [];
-            $answers = [];
             $question_set = $camp->question_set();
             $pairs = $question_set ? $question_set->pairs()->get() : [];
             if (empty($pairs))
                 return redirect()->back()->with('error', 'There are no questions in here.');
+            $answers = [];
             $json = Common::getQuestionJSON($camp->id);
             $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
             foreach ($pre_answers as $pre_answer) {
@@ -74,12 +73,12 @@ class CampApplicationController extends Controller
 
     public function store(Request $request)
     {
-        $camp = Camp::find($request->input('camp_id'));
+        $camp = Camp::find($request['camp_id']);
         if (strcmp(get_class($camp), 'App\Camp')) return $camp;
-        // Campers would not submit the answers to the questions of such non-approved camps
-        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
-            return redirect('/')->with('error', 'Unable to save the answers.');
         $user = \Auth::user();
+        // Campers would not submit the answers to the questions of such non-approved camps
+        if (!$camp->approved && !$user->isAdmin())
+            return redirect('/')->with('error', 'Unable to save the answers.');
         // In case campers somehow want to edit the answers in the submitted application form
         if ($user->alreadyAppliedForCamp($camp))
             return redirect('/')->with('error', 'Unable to save the answers.');
@@ -96,13 +95,24 @@ class CampApplicationController extends Controller
         $questions = Question::whereIn('id', $question_ids)->get();
         foreach ($questions as $question) {
             $json_id = $question->json_id;
+            $answer_content = null;
+            if ($question->type == QuestionType::FILE) {
+                if ($request->hasFile($json_id)) {
+                    $file_post = $request->file($json_id);
+                    $answer_content = $file_post->getClientOriginalName();
+                    $file = $request->file($json_id);
+                    $directory = Common::questionSetDirectory($camp->id);
+                    Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, $answer_content);
+                }
+            } else
+                $answer_content = Common::encodeIfNeeded($request[$json_id], $question->type);
             Answer::updateOrCreate([
                 'question_set_id' => $question_set->id,
                 'question_id' => $question->id,
                 'camper_id' => $user->id,
                 'registration_id' => $registration->id,
             ], [
-                'answer' => Common::encodeIfNeeded($request[$json_id], $question->type),
+                'answer' => $answer_content,
             ]);
         }
         return redirect()->back()->with('success', 'Answers are saved.');
@@ -140,5 +150,24 @@ class CampApplicationController extends Controller
         $registration->status = RegistrationStatus::APPLIED;
         $registration->save();
         return view('camp_application.done');
+    }
+
+    public function file_download($json_id, $filename)
+    {
+        $question = Question::where('json_id', $json_id)->first();
+        if (!$question)
+            return response()->toJson();
+        if ($question->type != QuestionType::FILE)
+            return response()->toJson();
+        $camp = $question->question_set()->camp();
+        $directory = Common::questionSetDirectory($camp->id);
+        $user = \Auth::user();
+        $filepath = storage_path("{$directory}/{$json_id}/{$user->id}/{$filename}");
+        return response()->download($filepath);
+    }
+
+    public function file_delete(Request $request)
+    {
+        dd($request);
     }
 }
