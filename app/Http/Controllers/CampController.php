@@ -9,6 +9,7 @@ use App\Program;
 use App\Organization;
 use App\Region;
 use App\User;
+use App\Year;
 
 use App\Http\Requests\StoreCampRequest;
 
@@ -30,6 +31,7 @@ class CampController extends Controller
         $this->organizations = null;
         $this->camp_procedures = CampProcedure::all(['id', 'title']);
         $this->regions = Region::all(['id', 'name']);
+        $this->years = Year::all(['id','name']);
     }
 
     private function getOrganizationsIfNeeded()
@@ -68,7 +70,8 @@ class CampController extends Controller
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
-        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
+        $years = $this->years;
+        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 
     /**
