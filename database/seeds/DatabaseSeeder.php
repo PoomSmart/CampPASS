@@ -276,7 +276,7 @@ class DatabaseSeeder extends Seeder
         $candidate->username = 'camper';
         $candidate->status = 1;
         $candidate->activation_code = null;
-        $candidate->cgpa = 3.2; // The candidate will be used to test certain camps so the smartening is needed
+        $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
         $candidate->save();
     }
 
