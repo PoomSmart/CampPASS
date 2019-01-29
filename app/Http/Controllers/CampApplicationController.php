@@ -180,11 +180,13 @@ class CampApplicationController extends Controller
     public function file_download($json_id)
     {
         $filepath = $this->get_file_path($json_id);
+        // TODO: check if fallback works properly
         return $filepath ? Storage::download($filepath) : response()->toJson();
     }
 
     public function file_delete($json_id)
     {
+        // TODO: this is somewhat boilerplate
         $filepath = $this->get_file_path($json_id);
         if (!$filepath)
             return redirect()->back()->with('error', 'Error deleting the file.');

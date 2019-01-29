@@ -12,43 +12,45 @@
         @endcan
         <div class="row">
             <div class="col-12">
-                <h3>Registered Campers</h3>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>{{ trans('registration.ID') }}</th>
-                        <th>{{ trans('account.ID') }}</th>
-                        <th>{{ trans('app.LocalizedName') }}</th>
-                        <th>{{ trans('account.School') }}</th>
-                        <th>{{ trans('account.Program') }}</th>
-                        <th>{{ trans('account.Status') }}</th>
-                        <th>{{ trans('app.Actions') }}</th>
-                    </tr>
-                    @foreach ($data as $key => $registration)
-                        <?php $camper = $registration->camper(); ?>
+                @if (count($data))
+                    <h3>Registered Campers</h3>
+                    <table class="table table-bordered">
                         <tr>
-                            <td>{{ $registration->id }}</td>
-                            <td>{{ $camper->id }}</td>
-                            <td>{{ $camper->getFullName() }}</td>
-                            <td>{{ $camper->school()->getName() }}</td>
-                            <td>{{ $camper->program()->getName() }}</td>
-                            <td>{{ $registration->getStatus() }}</td>
-                            <td>
-                                @if ($rankable)
-                                    <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
-                                @endif
-                            </td>
+                            <th>{{ trans('registration.ID') }}</th>
+                            <th>{{ trans('account.ID') }}</th>
+                            <th>{{ trans('app.LocalizedName') }}</th>
+                            <th>{{ trans('account.School') }}</th>
+                            <th>{{ trans('account.Program') }}</th>
+                            <th>{{ trans('account.Status') }}</th>
+                            <th>{{ trans('app.Actions') }}</th>
                         </tr>
-                    @endforeach
-                </table>
-                {!! $data->links() !!}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                @if ($rankable)
-                    <a class="btn btn-warning" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">Rank</a>
+                        @foreach ($data as $key => $registration)
+                            <?php $camper = $registration->camper(); ?>
+                            <tr>
+                                <td>{{ $registration->id }}</td>
+                                <td>{{ $camper->id }}</td>
+                                <td>{{ $camper->getFullName() }}</td>
+                                <td>{{ $camper->school()->getName() }}</td>
+                                <td>{{ $camper->program()->getName() }}</td>
+                                <td>{{ $registration->getStatus() }}</td>
+                                <td>
+                                    @if ($rankable)
+                                        <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    {!! $data->links() !!}
+                @else
+                    <p>{{ trans('registration.EmptyRegistration') }}</p>
                 @endif
             </div>
+            @if ($rankable && count($data))
+                <div class="col-12">
+                    <a class="btn btn-warning" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">{{ trans('qualification.Rank') }}</a>
+                </div>
+            @endif
         </div>
     @endcan
     @role('camper')

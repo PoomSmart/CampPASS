@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'Rank' => 'Rank',
+];
