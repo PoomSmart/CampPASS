@@ -5,7 +5,7 @@
 @endsection
 
 @can('camp-create')
-    @section('button')
+    @section('extra-buttons')
         <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
     @endsection
 @endcan

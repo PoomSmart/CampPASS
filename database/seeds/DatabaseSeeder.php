@@ -150,9 +150,7 @@ class DatabaseSeeder extends Seeder
             $questions_number = rand($minimum_questions, $maximum_questions);
             while ($questions_number--) {
                 $question_type = QuestionType::any();
-                // TODO: bias type setting: more choices
-                if ($question_type != QuestionType::CHOICES && Common::randomRareHit())
-                    $question_type = QuestionType::CHOICES;
+                // Requirement: file upload is always required and graded
                 $graded = $question_type == QuestionType::FILE ? true : rand(0, 1);
                 $required = $graded ? true : rand(0, 1);
                 $json_id = $this->randomID($camp_id);
@@ -314,7 +312,7 @@ class DatabaseSeeder extends Seeder
         factory(School::class, 10)->create();
         factory(Organization::class, 10)->create();
         factory(Camp::class, 40)->create();
-        factory(User::class, 50)->create();
+        factory(User::class, 70)->create();
         $this->alter_campers();
         $this->alter_campmakers();
         $this->create_admin();

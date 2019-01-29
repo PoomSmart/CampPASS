@@ -4,7 +4,7 @@
     {{ trans('RoleManagement') }}
 @endsection
 
-@section('button')
+@section('extra-buttons')
     <a class="btn btn-success" href="{{ route('roles.create') }}">{{ trans('account.CreateRole') }}</a>
 @endsection
 

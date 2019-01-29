@@ -47,13 +47,13 @@
     @component('components.select', [
         'name' => 'camp_procedure_id',
         'objects' => $camp_procedures,
-        'disabled' => !Auth::user()->isAdmin() && isset($update),
+        'disabled' => !\Auth::user()->isAdmin() && isset($update),
     ])
     @endcomponent
 @endslot
 @endcomponent
 
-<?php $can_list_organization = Auth::user()->hasPermissionTo('organization-list'); ?>
+<?php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); ?>
 
 @component('components.input', [
     'name' => 'organization_id',

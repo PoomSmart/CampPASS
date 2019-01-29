@@ -27,46 +27,40 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-4">
-                            <!-- ? TODO: Simplify radio and checkbox -->
                             @if ($type == \App\Enums\QuestionType::TEXT)
-                                <input type="text" class="form-control" name="{{ $key }}" value="{{ isset($answers[$key]) ? $answers[$key] : "" }}"
-                                    @if ($required)
-                                        required
-                                    @endif
-                                >
+                                @component('components.input', [
+                                    'name' => $key,
+                                    'value' => isset($answers[$key]) ? $answers[$key] : '',
+                                    'nowrapper' => 1,
+                                    'attributes' => $required ? 'required' : '',
+                                ])@endcomponent
                             @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
-                                <textarea class="form-control" name="{{ $key }}"
-                                    @if ($required)
-                                        required
-                                    @endif
-                                >{{ isset($answers[$key]) ? $answers[$key] : "" }}</textarea>
+                                @component('components.input', [
+                                    'name' => $key,
+                                    'value' => isset($answers[$key]) ? $answers[$key] : '',
+                                    'textarea' => 1,
+                                    'nowrapper' => 1,
+                                    'attributes' => $required ? 'required' : '',
+                                ])@endcomponent
                             @elseif ($type == \App\Enums\QuestionType::CHOICES)
-                                <?php $set_required = false; ?>
-                                @foreach ($json['radio_label'][$key] as $id => $label)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="{{ $key }}" id="{{ $id }}" value="{{ $id }}"
-                                            @if (!$set_required)
-                                                <?php $set_required = true; ?>
-                                                required
-                                            @endif
-                                            @if (isset($answers[$key]) && $id == $answers[$key])
-                                                checked
-                                            @endif
-                                        >
-                                        <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
-                                    </div>
-                                @endforeach
+                                @component('components.radio', [
+                                    'name' => $key,
+                                    'value' => $answer[$key],
+                                    'objects' => $json['radio_label'][$key],
+                                    'idx' => 1,
+                                    'noinline' => 1,
+                                    'required' => $required ? 'required' : '',
+                                ])@endcomponent
                             @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
-                                @foreach ($json['checkbox_label'][$key] as $id => $label)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="{{ $key }}[]" id="{{ $id }}" value="{{ $id }}"
-                                            @if (isset($answers[$key]) && !is_null($answers[$key]) && in_array($id, $answers[$key], true))
-                                                checked
-                                            @endif
-                                        >
-                                        <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
-                                    </div>
-                                @endforeach
+                                @component('components.radio', [
+                                    'name' => $key,
+                                    'value' => $answer[$key],
+                                    'type' => 'checkbox',
+                                    'objects' => $json['checkbox_label'][$key],
+                                    'idx' => 1,
+                                    'noinline' => 1,
+                                    'required' => $required ? 'required' : '',
+                                ])@endcomponent
                             @elseif ($type == \App\Enums\QuestionType::FILE)
                                 <!-- TODO: Complete file type answer -->
                             @endif

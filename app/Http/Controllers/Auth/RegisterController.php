@@ -13,7 +13,6 @@ use App\Notifications\UserRegisteredSuccessfully;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -108,7 +107,7 @@ class RegisterController extends Controller
             // $user->notify(new UserRegisteredSuccessfully($user));
             return $user;
         } catch (\Exception $exception) {
-            Log::channel('stderr')->error($exception);
+            logger()->error($exception);
             return redirect()->back()->with('message', 'Unable to create new user.');
         }
     }
@@ -129,7 +128,7 @@ class RegisterController extends Controller
                 $user->assignRole('campmaker');
             event(new Registered($user));
         } catch (\Exception $exception) {
-            Log::channel('stderr')->error($exception);
+            logger()->error($exception);
             return redirect()->to('/');
         }
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');

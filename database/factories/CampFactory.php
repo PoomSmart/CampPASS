@@ -31,7 +31,8 @@ class Camp_Randomizer
 }
 
 $factory->define(App\Camp::class, function (Faker $faker) {
-    $camp_procedure = CampProcedure::inRandomOrder()->first();
+    // TODO: biased camp procedure choosing
+    $camp_procedure = Common::randomMediumHit() ? CampProcedure::inRandomOrder()->where('candidate_required', true)->first() : CampProcedure::inRandomOrder()->first();
     $app_open_date = $app_close_date = null;
     $reg_open_date = $reg_close_date = null;
     $event_start_date = $event_end_date = null;

@@ -4,7 +4,7 @@
     {{ trans('account.ShowRole') }}
 @endsection
 
-@section('button')
+@section('extra-buttons')
     <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
 @endsection
 

@@ -14,7 +14,6 @@ use App\Http\Requests\StoreCampRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class CampController extends Controller
@@ -83,9 +82,13 @@ class CampController extends Controller
         try {
             if (\Auth::user()->isCampMaker())
                 $request->merge(['organization_id' => \Auth::user()->organization_id]);
-            Camp::create($request->all());
+            $camp = Camp::create($request->all());
+            if (\Auth::user()->isAdmin()) {
+                $camp->approved = true;
+                $camp->save();
+            }
         } catch (\Exception $exception) {
-            Log::channel('stderr')->error($exception);
+            logger()->error($exception);
             return redirect()->back()->with('error', 'Camp failed to create.');
         }
         return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
