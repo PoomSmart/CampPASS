@@ -31,7 +31,7 @@ class CampController extends Controller
         $this->organizations = null;
         $this->camp_procedures = CampProcedure::all(['id', 'title']);
         $this->regions = Region::all(['id', 'name']);
-        $this->years = Year::all(['id','name']);
+        $this->years = Year::all(['id', 'name']);
     }
 
     private function getOrganizationsIfNeeded()
@@ -77,7 +77,7 @@ class CampController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreUserRequest  $request
+     * @param  \App\Http\Requests\StoreCampRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCampRequest $request)
@@ -141,7 +141,7 @@ class CampController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\StoreUserRequest  $request
+     * @param  \App\Http\Requests\StoreCampRequest  $request
      * @param  \App\Camp  $camp
      * @return \Illuminate\Http\Response
      */
