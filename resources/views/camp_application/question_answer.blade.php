@@ -43,7 +43,7 @@
                             @elseif ($type == \App\Enums\QuestionType::CHOICES)
                                 @component('components.radio', [
                                     'name' => $key,
-                                    'value' => $answer[$key],
+                                    'value' => isset($answers[$key]) ? $answers[$key] : null,
                                     'objects' => $json['radio_label'][$key],
                                     'idx' => 1,
                                     'noinline' => 1,
@@ -52,7 +52,7 @@
                             @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
                                 @component('components.radio', [
                                     'name' => $key,
-                                    'value' => $answer[$key],
+                                    'value' => isset($answers[$key]) ? $answers[$key] : null,
                                     'type' => 'checkbox',
                                     'objects' => $json['checkbox_label'][$key],
                                     'idx' => 1,
