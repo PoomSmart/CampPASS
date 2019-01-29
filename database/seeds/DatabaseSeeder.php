@@ -15,6 +15,7 @@ use App\Organization;
 use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
+use App\Year;
 
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
@@ -84,6 +85,16 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Christ' ],
             [ 'name' => 'Islamic' ],
             [ 'name' => 'Other' ], // TODO: Localization
+        ]);
+    }
+
+    private function years()
+    {
+        Year::insert([
+            [ 'name' => 'Primary School' ],
+            [ 'name' => 'Secondary School' ],
+            [ 'name' => 'Junior High School' ],
+            [ 'name' => 'Senior High School' ],
         ]);
     }
 
@@ -306,6 +317,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->religions();
         $this->regions();
+        $this->years();
         $this->programs();
         $this->camp_categories();
         $this->camp_procedures();

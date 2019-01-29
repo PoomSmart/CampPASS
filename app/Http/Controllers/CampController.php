@@ -128,7 +128,8 @@ class CampController extends Controller
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
-        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions'));
+        $years = $this ->years;
+        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 
     public function approve(Camp $camp)
