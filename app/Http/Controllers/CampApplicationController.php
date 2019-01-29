@@ -102,10 +102,12 @@ class CampApplicationController extends Controller
                     $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
                     $directory = Common::questionSetDirectory($camp->id);
-                    Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, $answer_content);
+                    Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
                 }
             } else
                 $answer_content = Common::encodeIfNeeded($request[$json_id], $question->type);
+            if ($question->type == QuestionType::FILE && !$answer_content)
+                continue;
             Answer::updateOrCreate([
                 'question_set_id' => $question_set->id,
                 'question_id' => $question->id,
@@ -152,22 +154,47 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
-    public function file_download($json_id, $filename)
+    public function get_question($json_id)
     {
         $question = Question::where('json_id', $json_id)->first();
         if (!$question)
-            return response()->toJson();
+            return null;
         if ($question->type != QuestionType::FILE)
-            return response()->toJson();
-        $camp = $question->question_set()->camp();
-        $directory = Common::questionSetDirectory($camp->id);
-        $user = \Auth::user();
-        $filepath = storage_path("{$directory}/{$json_id}/{$user->id}/{$filename}");
-        return response()->download($filepath);
+            return null;
+        return $question;
     }
 
-    public function file_delete(Request $request)
+    public function get_file_path($json_id)
     {
-        dd($request);
+        $question = $this->get_question($json_id);
+        if (!$question)
+            return null;
+        $question_set = $question->pair()->question_set();
+        $camp = $question_set->camp();
+        $directory = Common::questionSetDirectory($camp->id);
+        $user = \Auth::user();
+        $filepath = "{$directory}/{$json_id}/{$user->id}/{$json_id}.pdf";
+        return $filepath;
+    }
+
+    public function file_download($json_id)
+    {
+        $filepath = $this->get_file_path($json_id);
+        return $filepath ? Storage::download($filepath) : response()->toJson();
+    }
+
+    public function file_delete($json_id)
+    {
+        $filepath = $this->get_file_path($json_id);
+        if (!$filepath)
+            return redirect()->back()->with('error', 'Error deleting the file.');
+        Storage::disk('local')->delete($filepath);
+        $question = $this->get_question($json_id);
+        if ($question) {
+            $question_set = $question->pair()->question_set();
+            $answer = $question_set->answers()->where('camper_id', \Auth::user()->id)->where('question_id', $question->id)->first();
+            $answer->delete();
+        }
+        return redirect()->back()->with('success', 'File deleted successfully.');
     }
 }

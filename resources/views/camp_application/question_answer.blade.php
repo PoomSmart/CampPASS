@@ -65,11 +65,10 @@
                                 @endcomponent
                             @elseif ($type == \App\Enums\QuestionType::FILE)
                                 @if (isset($answers[$key]))
-                                    <a href="{{ route('camp_application.file_download', ['json_id' => $key, 'filename' => $answers[$key]]) }}">{{ $answers[$key] }}</a>
-                                    <button class="btn btn-danger" id="{{ 'file-delete-'.$key }}">{{ trans('app.Delete') }}</button>
-                                @else
-                                    <input type="file" class="form-control-file" name="{{ $key }}">
+                                    <a href="{{ route('camp_application.file_download', $key) }}">{{ $answers[$key] }}</a>
+                                    <a class="btn btn-danger" href="{{ route('camp_application.file_delete', $key) }}">{{ trans('app.Delete') }}</a>
                                 @endif
+                                <input type="file" class="form-control-file" name="{{ $key }}">
                             @endif
                         </div>
                     </div>
@@ -81,29 +80,5 @@
             @endslot
             @endcomponent
         </form>
-        <script>
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                }
-            });
-            jQuery("[id^=file-delete]").click(function(e) {
-                e.preventDefault();
-                jQuery.ajax({
-                    type: 'POST',
-                    url: "{!! route('camp_application.file_delete') !!}",
-                    data: {
-                        json_id: "{!! $key !!}",
-                        filename: "{!! $answers[$key] !!}",
-                    },
-                    success: function(data) {
-                        alert('shit it worked');
-                    },
-                    error: function() {
-                        alert('shit doesnotwork')
-                    },
-                });
-            });
-        </script>
     @endif
 @endsection

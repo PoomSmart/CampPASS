@@ -35,7 +35,7 @@ Route::group(['middleware' => ['permission:campmaker-edit']], function() {
 });
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/application/download/{json_id}/{filename}', 'CampApplicationController@file_download')->name('camp_application.file_download');
+    Route::get('/application/file-download/{json_id}', 'CampApplicationController@file_download')->name('camp_application.file_download');
 });
 
 Route::group(['middleware' => ['role:camper']], function() {
@@ -43,7 +43,7 @@ Route::group(['middleware' => ['role:camper']], function() {
     Route::post('/application/save', 'CampApplicationController@store')->name('camp_application.store');
     Route::get('/application/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
     Route::get('/application/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
-    Route::post('/application/delete', 'CampApplicationController@file_delete')->name('camp_application.file_delete');
+    Route::get('/application/file-delete/{json_id}', 'CampApplicationController@file_delete')->name('camp_application.file_delete');
 });
 
 // TODO: refine this
