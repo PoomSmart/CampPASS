@@ -16,6 +16,7 @@ use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 use App\Year;
+use App\BadgeCategory;
 
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
@@ -54,13 +55,29 @@ class DatabaseSeeder extends Seeder
     {
         CampCategory::insert([
             [ 'name' => 'Engineering' ],
+            [ 'name' => 'Science'],
+            [ 'name' => 'Computer'],
+            [ 'name' => 'Teacher'],
             [ 'name' => 'Architectural' ],
-            [ 'name' => 'Economic' ],
+            [ 'name' => 'Law'],
+            [ 'name' => 'Language-Human'],
+            [ 'name' => 'Commarts'],
+            [ 'name' => 'Health'],
+            [ 'name' => 'Doctor'],
+            [ 'name' => 'Nurse'],
+            [ 'name' => 'Dentist'],
+            [ 'name' => 'Psychology'],
+            [ 'name' => 'Pharmacy'],
+            [ 'name' => 'Music'],
+            [ 'name' => 'Tutor'],
+            [ 'name' => 'Account-Economic'],
+            [ 'name' => 'Social Science'],
+            [ 'name' => 'Veter' ],
+            [ 'name' => 'Art' ],
+            [ 'name' => 'Agri-Fishery' ],
             [ 'name' => 'Political' ],
-            [ 'name' => 'Artistic' ],
-            [ 'name' => 'Musical' ],
-            [ 'name' => 'Pilot' ],
-            [ 'name' => 'Argicultural' ], // TODO: Localization
+            [ 'name' => 'Youth' ],
+            [ 'name' => 'Preserve' ], // TODO: Localization
         ]);
     }
 
@@ -95,6 +112,39 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Secondary School' ],
             [ 'name' => 'Junior High School' ],
             [ 'name' => 'Senior High School' ],
+        ]);
+    }
+
+    private function badge_categories()
+    {
+        BadgeCategory::insert([
+            [ 'name' => 'Pioneer', 'description' => 'badge.PioneerDescription'],
+            [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription'],
+            [ 'name' => 'Baby-Step', 'description' => 'badge.Baby-StepDescription'],
+            [ 'name' => '3 Stars Engineering', 'description' => 'badge.3StarsEngineerDescription'],
+            [ 'name' => '3 Stars Science', 'description' => 'badge.3 StarsScienceDescription'],
+            [ 'name' => '3 Stars Computer', 'description' => 'badge.3StarsComputerDescription'],
+            [ 'name' => '3 Stars Teacher', 'description' => 'badge.3StarsTeacherDescription'],
+            [ 'name' => '3 Stars Architectural' , 'description' => 'badge.3StarsArchitecturalDescription'],
+            [ 'name' => '3 Stars Law', 'description' => 'badge.3StarsLawDescription'],
+            [ 'name' => '3 Stars Language-Human', 'description' => 'badge.3StarsLanguage-HumanDescription'],
+            [ 'name' => '3 Stars Commarts', 'description' => 'badge.3StarsCommartsDescription'],
+            [ 'name' => '3 Stars Health', 'description' => 'badge.3StarsHealthDescription'],
+            [ 'name' => '3 Stars Doctor', 'description' => 'badge.3StarsDoctorDescription'],
+            [ 'name' => '3 Stars Nurse', 'description' => 'badge.3StarsNurseDescription'],
+            [ 'name' => '3 Stars Dentist', 'description' => 'badge.3StarsDentistDescription'],
+            [ 'name' => '3 Stars Psychology', 'description' => 'badge.3StarsPsychologyDescription'],
+            [ 'name' => '3 Stars Pharmacy', 'description' => 'badge.3StarsPharmacyDescription'],
+            [ 'name' => '3 Stars Music', 'description' => 'badge.3StarsMusicDescription'],
+            [ 'name' => '3 Stars Tutor', 'description' => 'badge.3StarsTutorDescription'],
+            [ 'name' => '3 Stars Account-Economic', 'description' => 'badge.3StarsAccount-EconomicDescription'],
+            [ 'name' => '3 Stars Social Science', 'description' => 'badge.3StarsSocialScienceDescription'],
+            [ 'name' => '3 Stars Veter' , 'description' => 'badge.3StarsVeterDescription'],
+            [ 'name' => '3 Stars Art' , 'description' => 'badge.3StarsArtDescription'],
+            [ 'name' => '3 Stars Agri-Fishery' , 'description' => 'badge.3StarsAgri-FisheryDescription'],
+            [ 'name' => '3 Stars Political' , 'description' => 'badge.3StarsPoliticalDescription'],
+            [ 'name' => '3 Stars Youth' , 'description' => 'badge.3StarsYouthrDescription'],
+            [ 'name' => '3 Stars Preserve' , 'description' => 'badge.3StarsPreserveDescription'],
         ]);
     }
 
@@ -319,6 +369,7 @@ class DatabaseSeeder extends Seeder
         $this->regions();
         $this->years();
         $this->programs();
+        $this->badge_categories();
         $this->camp_categories();
         $this->camp_procedures();
         factory(School::class, 10)->create();
