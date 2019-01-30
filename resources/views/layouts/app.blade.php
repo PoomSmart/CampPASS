@@ -67,7 +67,7 @@
                                     {{ \Auth::user()->getFullName() }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <!--<a class="dropdown-item" href="\{\{ route('profile.edit', \Auth::user()) \}\}">Manage Account</a>-->
+                                    <a class="dropdown-item" href="{{ route('profiles.show', \Auth::user()) }}">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -103,7 +103,7 @@
                 @endif
                 @if ($errors->any())
                     <div class="alert alert-danger">
-                        <ul style="margin-bottom: 0;">
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach

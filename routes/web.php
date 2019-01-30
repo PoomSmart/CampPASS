@@ -61,6 +61,11 @@ Route::group(['middleware' => ['permission:answer-list', 'permission:camper-list
     });
 });
 
+Route::prefix('profile')->group(function () {
+    Route::get('/', 'ProfileController@index')->name('profiles.index');
+    Route::get('/{user}', 'ProfileController@show')->name('profiles.show');
+});
+
 Route::resource('camp_browser', 'CampBrowserController');
 
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');

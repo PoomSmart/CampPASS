@@ -140,6 +140,11 @@ class User extends Authenticatable
         return self::_campMakers(false);
     }
 
+    public function isActivated()
+    {
+        return $this->status == 1;
+    }
+
     public function getFullName()
     {
         if (config('app.locale') == 'th' && !is_null($this->name-th))
