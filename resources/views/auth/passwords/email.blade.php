@@ -14,7 +14,7 @@
             'attributes' => 'required',
         ])
         @endcomponent
-        @component('components.submit', ['label' => 'account.SendPasswordResetLink'])
+        @component('components.submit', ['label' => trans('account.SendPasswordResetLink')])
         @endcomponent
     </form>
 @endsection

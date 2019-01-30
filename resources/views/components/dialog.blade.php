@@ -13,7 +13,7 @@
             <div class="modal-footer">
                 <form id="confirm-form" action="" method="POST">
                     @csrf
-                    @if ($form_type == 'DELETE')
+                    @if ($method == 'DELETE')
                         @method('DELETE')
                     @endif
                     <button type="submit" class="btn btn-{{ isset($confirm_type) ? $confirm_type : 'primary' }}">{{ $confirm_label }}</button>

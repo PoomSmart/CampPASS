@@ -39,7 +39,7 @@
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
             </div>
         </div>
-        @component('components.submit', ['label' => 'account.ResetPassword'])
+        @component('components.submit', ['label' => trans('account.ResetPassword')])
         @endcomponent
     </form>
 @endsection

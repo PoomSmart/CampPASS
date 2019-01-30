@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        @component('components.submit', ['label' => 'app.Login'])
+        @component('components.submit', ['label' => trans('app.Login')])
         @slot('postcontent')
             @if (Route::has('password.request'))
                 <a class="btn btn-link" href="{{ route('password.request') }}">

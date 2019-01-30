@@ -37,7 +37,7 @@
             @endslot
             @endcomponent
         @endif
-        @component('components.submit', ['label' => 'Register'])
+        @component('components.submit', ['label' => trans('account.Register')])
         @endcomponent
     </form>
 @endsection

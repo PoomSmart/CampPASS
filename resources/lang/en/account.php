@@ -15,6 +15,7 @@ return [
     'CreateRole' => 'Create New Role',
     'EditRole' => 'Edit Role',
     'ShowRole' => 'Show Role',
+    'Permissions' => 'Permissions',
 
     'VerifyEmail' => 'Verify your E-mail Address',
     'VerifyCheckEmailBeforeProceed' => 'Before proceeding, please check your email for a verification link.',

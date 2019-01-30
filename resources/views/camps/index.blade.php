@@ -20,7 +20,7 @@
         'body' => 'Are you sure you want to delete this camp?',
         'confirm_label' => 'Confirm',
         'confirm_type' => 'danger',
-        'form_type' => 'DELETE',
+        'method' => 'DELETE',
     ])
     @endcomponent
     <table class="table table-bordered">

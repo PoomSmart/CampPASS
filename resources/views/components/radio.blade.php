@@ -32,7 +32,7 @@
                 : " font-weight-bold text-danger"
                 : "" }}"
             for="{{ $id }}"
-        >{{ (isset($idx) && $idx === 1 ? $obj : $obj->getName()) }}</label>
+        >{{ (isset($idx) && $idx === 1 ? $obj : (isset($getter) ? $obj->{$getter} : $obj->getName())) }}</label>
     </div>
     <!-- TODO: make this thing shows -->
     @if ($i == count($objects) - 1)
