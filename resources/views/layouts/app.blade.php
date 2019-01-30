@@ -89,14 +89,17 @@
                     <div class="alert alert-info">
                         {{ $message }}
                     </div>
+                    <?php Session::forget('message'); ?>
                 @elseif ($message = Session::get('success'))
                     <div class="alert alert-success">
                         {{ $message }}
                     </div>
+                    <?php Session::forget('success'); ?>
                 @elseif ($message = Session::get('error'))
                     <div class="alert alert-danger">
                         {{ $message }}
                     </div>
+                    <?php Session::forget('error'); ?>
                 @endif
                 @if ($errors->any())
                     <div class="alert alert-danger">

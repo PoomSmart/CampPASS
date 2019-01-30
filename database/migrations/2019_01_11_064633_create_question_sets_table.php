@@ -16,7 +16,7 @@ class CreateQuestionSetsTable extends Migration
         Schema::create('question_sets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('camp_id')->unsigned();
-            $table->foreign('camp_id')->references('id')->on('camps');
+            $table->foreign('camp_id')->references('id')->on('camps')->onDelete('cascade');
             $table->double('score_threshold')->nullable();
             $table->timestamps();
         });

@@ -11,6 +11,21 @@
 @endcan
 
 @section('content')
+    @component('components.dialog', [
+        'title' => 'Confirmation',
+        'body' => 'Are you sure you want to delete this camp?',
+        'confirm_label' => 'Confirm',
+        'confirm_type' => 'danger',
+        'form_type' => 'DELETE',
+    ])
+    @endcomponent
+    <script>
+        jQuery("#modal").on("show.bs.modal", function (event) {
+            var target = jQuery(event.relatedTarget);
+            var form_action = target.attr("data-action");
+            jQuery(this).find("#confirm-form").attr("action", form_action);
+        });
+    </script>
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
@@ -40,19 +55,17 @@
                         <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('question.Question') }}</a>
                     @endcan
                 @endif
-                <form action="{{ route('camps.destroy', $camp->id) }}" method="POST">
-                    @can('camp-edit')
-                        <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
-                    @endcan
-                    @can('camp-delete') <!-- TODO: Add confirmation dialog + Grant from admin -->
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">{{ trans('Delete') }}</button>
-                    @endcan
-                </form>
+                @can('camp-edit')
+                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
+                @endcan
+                @can('camp-delete')
+                    <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
+                        {{ trans('app.Delete') }}
+                    </button>
+                @endcan
             </td>
 	    </tr>
-	    @endforeach
+        @endforeach
     </table>
     {!! $camps->links() !!}
 @endsection
