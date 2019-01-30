@@ -41,19 +41,20 @@
     </div>
 
     <div id="myCampCarousel" class="carousel slide mt-2" data-ride="carousel">
-        <div class="container mb-2">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-4">
-                    <h4 class="my-auto">Recommended Camps</h4>
+        <div class="containern mb-2">
+            <div class="row justify-content-between no-gutters">
+                <div class="col-auto my-auto">
+                    <h3 class="my-auto">Recommended Camps</h3>
                 </div>
-                <div class="col-4 text-right">
+                <div class="col-auto my-auto text-right">
                     <a class="btn btn-secondary-outline prev" href="#myCampCarousel" role="button" data-slide="prev" title="Go back"><i class="fa fa-lg fa-chevron-left"></i></a>
                     <a class="btn btn-secondary-outline next" href="#myCampCarousel" role="button" data-slide="next" title="More"><i class="fa fa-lg fa-chevron-right"></i></a>
                 </div>
             </div>
         </div>
-        <div class="container pt-0 carousel-inner" style="height: 450px; max-height: 450px;">
+        <div class="container pt-0 carousel-inner px-0" style="height: 450px; max-height: 450px;">
             <?php $index = 0 ?>
+            <!-- TODO: three-columns can suck when the screen is not too small -->
             @foreach ($popular_camps as $camp)
                 @if ($index % 3 == 0)
                     <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
