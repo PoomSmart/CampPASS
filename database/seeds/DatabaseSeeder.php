@@ -374,7 +374,7 @@ class DatabaseSeeder extends Seeder
         $this->camp_procedures();
         factory(School::class, 10)->create();
         factory(Organization::class, 10)->create();
-        factory(Camp::class, 40)->create();
+        factory(Camp::class, 50)->create();
         factory(User::class, 70)->create();
         $this->alter_campers();
         $this->alter_campmakers();

@@ -16,6 +16,7 @@ return [
     'Submit' => 'Submit',
     'Save' => 'Save',
     'Required' => 'Required',
+    'Next' => 'Next',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',
     'Approve' => 'Approve',

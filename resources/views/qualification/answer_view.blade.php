@@ -71,7 +71,11 @@
                         ])
                         @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::FILE)
-                        <!-- TODO: Complete file type answer -->
+                        @if (isset($answer))
+                            <a href="{{ route('camp_application.file_download', $key) }}">{{ $answer }}</a>
+                        @else
+                            <p>{{ trans('question.NoFileUploaded') }}</p>
+                        @endif
                     @endif
                 </div>
             </div>

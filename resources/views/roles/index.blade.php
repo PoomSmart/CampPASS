@@ -13,7 +13,7 @@
         <tr>
             <th>{{ trans('app.No_') }}</th>
             <th>{{ trans('app.Name') }}</th>
-            <th width="280px">Actions</th>
+            <th width="280px">{{ trans('app.Actions') }}</th>
         </tr>
             @foreach ($roles as $key => $role)
                 <tr>

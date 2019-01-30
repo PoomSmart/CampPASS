@@ -15,4 +15,5 @@ return [
     'AddMoreCheckbox' => 'Add More Checkbox',
     'AddMoreChoice' => 'Add More Choice',
     'EnterThreshold' => 'Enter the threshold, if necessary',
+    'NoFileUploaded'=> 'No file was uploaded.',
 ];
