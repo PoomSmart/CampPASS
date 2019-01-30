@@ -27,6 +27,13 @@
 @endcomponent
 
 @component('components.input', [
+    'name' => 'long_description',
+    'label' => trans('camp.LongDescription'),
+    'textarea' => 1,
+])
+@endcomponent
+
+@component('components.input', [
     'name' => 'camp_category_id',
     'label' => trans('camp.Category'),
     'attributes' => 'required',

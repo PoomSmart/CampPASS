@@ -6,6 +6,7 @@ return [
     'EnglishShortDescription' => 'Short Description in English',
     'ThaiShortDescription' => 'Short Description in Thai',
     'ShortDescription' => 'Short Description',
+    'LongDescription' => 'Long Description',
     'Status' => 'Status',
     'ApprovalPending' => 'Pending',
     'Approved' => 'Approved',

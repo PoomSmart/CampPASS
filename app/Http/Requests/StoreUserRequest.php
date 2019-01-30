@@ -53,7 +53,6 @@ class StoreUserRequest extends FormRequest
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'cgpa' => "nullable|required_if:type,{$CAMPER}|numeric|min:1.0|max:4.0",
-            'short_biography' => 'nullable|string|max:500',
             'mattayom' => 'nullable|integer|min:0|max:5',
             'blood_group' => "nullable|integer|required_if:type,{$CAMPER}",
             'guardian_name' => "nullable|required_if:type,{$CAMPER}|string",

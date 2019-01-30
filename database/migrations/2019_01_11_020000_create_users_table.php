@@ -46,7 +46,6 @@ class CreateUsersTable extends Migration
             $table->foreign('organization_id')->references('id')->on('organizations');
 
             // camper
-            $table->string('short_biography', 500)->nullable();
             $table->double('cgpa', 3, 2)->nullable();
             $table->tinyInteger('mattayom')->nullable();
             $table->tinyInteger('blood_group')->nullable();

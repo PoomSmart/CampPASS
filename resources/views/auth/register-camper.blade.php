@@ -81,13 +81,4 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'short_biography',
-    'label' => trans('account.ShortBiography'),
-    'placeholder' => trans('account.YouCanWriteItLater'),
-    'textarea' => 1,
-    'attributes' => 'rows=3',
-])
-@endcomponent
-
 @stop

@@ -35,6 +35,7 @@ class StoreCampRequest extends FormRequest
             'name_th' => 'nullable|string|required_without:name_en',
             'short_description_en' => 'nullable|string|max:200|required_without:short_description_th',
             'short_description_th' => 'nullable|string|max:200|required_without:short_description_en',
+            'long_description' => 'nullable|string|max:65536',
             'acceptable_regions' => 'nullable|min:1',
             'acceptable_regions.*' => 'integer',
             'acceptable_programs' => 'nullable|min:1',
