@@ -4,6 +4,10 @@
     Camps
 @endsection
 
+@section('script')
+    <script src="{{ asset('js/modal.js') }}"></script>
+@endsection
+
 @can('camp-create')
     @section('extra-buttons')
         <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
@@ -19,13 +23,6 @@
         'form_type' => 'DELETE',
     ])
     @endcomponent
-    <script>
-        jQuery("#modal").on("show.bs.modal", function (event) {
-            var target = jQuery(event.relatedTarget);
-            var form_action = target.attr("data-action");
-            jQuery(this).find("#confirm-form").attr("action", form_action);
-        });
-    </script>
     <table class="table table-bordered">
         <tr>
             <th>{{ trans('app.No_') }}</th>
