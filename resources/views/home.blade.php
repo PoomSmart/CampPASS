@@ -3,36 +3,6 @@
 @section('style')
     <link rel="stylesheet" href="{{ URL::asset('css/welcome.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <style>
-        .row-equal > div[class*='col-'] {
-            display: flex;
-            flex: 1 0 auto;
-        }
-
-        .row-equal .card {
-            width: 100%;
-        }
-
-        /* ensure equal card height inside carousel */
-        .carousel-inner>.row-equal.active, 
-        .carousel-inner>.row-equal.next, 
-        .carousel-inner>.row-equal.prev {
-            display: flex;
-        }
-
-        /* prevent flicker during transition */
-        .carousel-inner>.row-equal.active.left, 
-        .carousel-inner>.row-equal.active.right {
-            opacity: 0.5;
-            display: flex;
-        }
-
-        /* control image height */
-        .card-img-top-250 {
-            max-height: 250px;
-            overflow: hidden;
-        }
-    </style>
 @stop
 
 @section('outer_content')
@@ -70,29 +40,32 @@
         </a>
     </div>
 
-    <div id="myCampCarousel" class="carousel slide" data-ride="carousel">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-md-right lead">
+    <div id="myCampCarousel" class="carousel slide mt-2" data-ride="carousel">
+        <div class="container mb-2">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-4">
+                    <h4 class="my-auto">Recommended Camps</h4>
+                </div>
+                <div class="col-4 text-right">
                     <a class="btn btn-secondary-outline prev" href="#myCampCarousel" role="button" data-slide="prev" title="Go back"><i class="fa fa-lg fa-chevron-left"></i></a>
                     <a class="btn btn-secondary-outline next" href="#myCampCarousel" role="button" data-slide="next" title="More"><i class="fa fa-lg fa-chevron-right"></i></a>
                 </div>
             </div>
         </div>
-        <div class="container p-t-0 m-t-2 carousel-inner">
+        <div class="container pt-0 carousel-inner" style="height: 450px; max-height: 450px;">
             <?php $index = 0 ?>
             @foreach ($popular_camps as $camp)
                 @if ($index % 3 == 0)
-                    <div class="row row-equal carousel-item m-t-0{{ $index == 0 ? ' active' : ''}}">
+                    <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
                 @endif
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top card-img-top-250" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">{{ $camp->getName() }}</h4>
-                            <p class="card-text">{{ $camp->getShortDescription() }}</p>
+                <div class="card">
+                    <img class="card-img-top" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ $camp->getName() }}</h4>
+                        <p class="card-text">{{ $camp->getShortDescription() }}</p>
+                        @if ($camp->getCloseDate())
                             <p class="card-text"><small class="text-muted">{{ trans('registration.WillClose').' '.$camp->getCloseDate() }}</small></p>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 @if (++$index % 3 == 0)
