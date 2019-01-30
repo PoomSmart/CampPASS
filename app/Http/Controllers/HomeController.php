@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Camp;
+use App\CampCategory;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $popular_camps = Camp::popularCamps()->get();
-        return view('home', compact('popular_camps'));
+        $camp_categories = CampCategory::all();
+        return view('home', compact('popular_camps', 'camp_categories'));
     }
 }

@@ -76,18 +76,14 @@
         </div>
     </div>
 
-    <div class="container"> 
-        <h3>Camp</h3>   
+    <div class="container px-0"> 
+        <h3>{{ trans('camp.CampCategories') }}</h3>   
         <div class="card-columns">
-            <div class="card-light mb-3">
-                <img class="card-img-top" src="https://placehold.it/150x80?text=IMAGE" alt="Card image cap">
-            </div>
-            <div class="card-light mb-3">
-                <img class="card-img-top" src="https://placehold.it/150x80?text=IMAGE" alt="Card image cap">
-            </div>
-            <div class="card-light mb-3">
-                <img class="card-img-top" src="https://placehold.it/150x80?text=IMAGE" alt="Card image cap">
-            </div>
+            @foreach ($camp_categories as $category)
+                <div class="card-light mb-3">
+                    <img class="card-img-top" src="https://placehold.it/150x80?text={{ $category->getName() }}" alt="Card image {{ $category->getName() }}">
+                </div>
+            @endforeach
         </div>
     </div>
 
@@ -112,7 +108,7 @@
                 </div>
                 <div class="col-sm-6 text-right">
                     <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
-                    <p><button type="button" class="btn btn-outline-light"><href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
+                    <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
                 </div>
             </div>
         </div>
