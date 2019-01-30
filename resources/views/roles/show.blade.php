@@ -4,10 +4,6 @@
     {{ trans('account.ShowRole') }}
 @endsection
 
-@section('extra-buttons')
-    <a class="btn btn-primary" href="{{ route('roles.index') }}">{{ trans('app.Back') }}</a>
-@endsection
-
 @section('card_content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">

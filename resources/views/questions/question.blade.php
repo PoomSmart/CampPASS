@@ -6,7 +6,7 @@
             </div>
             <div class="col-12 col-sm-12 col-md-9">
                 <div class="form-group row">
-                    <label for="question-type" class="col-12 col-sm-2 col-md-2 col-form-label text-sm-left text-md-right">Type</label>
+                    <label for="question-type" class="col-12 col-sm-2 col-md-2 col-form-label text-sm-left text-md-right">{{ trans('question.Type') }}</label>
                     <div class="col-sm-10 col-md-10">    
                         <div class="input-group">
                             @component('components.select', [
@@ -18,7 +18,7 @@
                             ])
                             @endcomponent
                             <div class="input-group-append">
-                                <a href="#" class="btn btn-danger float-right" onclick="return deleteQuestion(this);">Delete</a>
+                                <a href="#" class="btn btn-danger float-right" onclick="return deleteQuestion(this);">{{ trans('app.Delete') }}</a>
                             </div>
                         </div>
                     </div>
@@ -34,11 +34,11 @@
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <input type="checkbox" id="question-required" name="question_required[{{ $camp_id }}-00000]" aria-label="Check to require answer for this question">
-                            <span class="ml-1">Required</span>
+                            <span class="ml-1">{{ trans('app.Required') }}</span>
                         </div>
                         <div class="input-group-text">
                             <input type="checkbox" id="question-graded" name="question_graded[{{ $camp_id }}-00000]" aria-label="Check to require this question to be graded">
-                            <span class="ml-1">Graded</span>
+                            <span class="ml-1">{{ trans('question.Graded') }}</span>
                         </div>
                     </div>
                 </div>

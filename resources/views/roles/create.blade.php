@@ -5,7 +5,7 @@
 @endsection
 
 @section('card_content')
-    {!! Form::open(array('route' => 'roles.store', 'method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'roles.store', 'method' => 'POST')) !!}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">{{ trans('Submit') }}</button>
+                <button type="submit" class="btn btn-primary">{{ trans('app.Submit') }}</button>
             </div>
         </div>
     {!! Form::close() !!}
