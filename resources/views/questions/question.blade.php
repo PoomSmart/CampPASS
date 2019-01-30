@@ -18,7 +18,7 @@
                             ])
                             @endcomponent
                             <div class="input-group-append">
-                                <a href="#" class="btn btn-danger float-right" onclick="return deleteQuestion(this);">{{ trans('app.Delete') }}</a>
+                                <a href="#" id="question-delete" class="btn btn-danger" onclick="return deleteQuestion(this);">{{ trans('app.Delete') }}</a>
                             </div>
                         </div>
                     </div>

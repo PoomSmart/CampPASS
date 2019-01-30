@@ -12,5 +12,7 @@ return [
     'CreateQuestions' => 'Create Questions',
     'EnterQuestionPlaceholder' => 'Enter question here',
     'AddMoreQuestion' => 'Add More Question',
+    'AddMoreCheckbox' => 'Add More Checkbox',
+    'AddMoreChoice' => 'Add More Choice',
     'EnterThreshold' => 'Enter the threshold, if necessary',
 ];

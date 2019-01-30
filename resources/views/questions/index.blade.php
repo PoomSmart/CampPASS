@@ -27,7 +27,7 @@
             ]);
             @endcomponent
         </div>
-        <script>getCampId();</script>
+        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}");</script>
         @if (!empty($json))
             <script>
                 var client_json = JSON.parse({!! $json !!});

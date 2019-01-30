@@ -1,5 +1,4 @@
 // TODO: Add a warning for when the user tries to quit without saving
-// TODO: Localization for dynamically added elements
 
 var QuestionType = {
     TEXT: 1,
@@ -10,17 +9,26 @@ var QuestionType = {
 };
 
 var question_block_selector = "[id^=question-block]";
-var add_choice_HTML = `
-    <button class="btn btn-success mb-3" type="button"><span>Add More Choice</span></button>
-`;
-var add_checkbox_HTML = `
-    <button class="btn btn-success mb-3" type="button"><span>Add More Checkbox</span></button>
-`;
+
+var delete_label = "";
+var choice_label = "";
+var checkbox_label = "";
+var add_choice_HTML = "";
+var add_checkbox_HTML = "";
 
 var campId = -1
-function getCampId() {
+function getInfo(loc_choice_label, loc_checkbox_label) {
     campId = jQuery("#camp_id").val();
     console.log(`Get camp ID: ${campId}`);
+    delete_label = jQuery(question_block_selector).first().find("#question-delete").text();
+    choice_label = loc_choice_label;
+    checkbox_label = loc_checkbox_label;
+    add_choice_HTML = `
+        <button class="btn btn-success mb-3" type="button"><span>${choice_label}</span></button>
+    `;
+    add_checkbox_HTML = `
+        <button class="btn btn-success mb-3" type="button"><span>${checkbox_label}</span></button>
+    `;
 }
 
 function forcePropertiesIfNecessary(block, type) {
@@ -129,7 +137,7 @@ function generateContent(name, value, parentId, i, type) {
                         </div>
                         <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter choice" value="${value ? value : ""}"}">
                         <div class="input-group-append">
-                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">Delete</a>
+                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">${delete_label}</a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +149,7 @@ function generateContent(name, value, parentId, i, type) {
                     <div class="input-group mb-2">
                         <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter checkbox label" value="${value ? value : ""}"}">
                         <div class="input-group-append">
-                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">Delete</a>
+                            <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">${delete_label}</a>
                         </div>
                     </div>
                 </div>
