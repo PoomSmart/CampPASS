@@ -25,7 +25,7 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate(mixed $camp, $soft = false)
+    public static function authenticate($camp, $soft = false)
     {
         if (!$camp instanceof \App\Camp)
             $camp = Camp::find($camp);
