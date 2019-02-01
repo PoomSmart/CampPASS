@@ -25,11 +25,7 @@ class QuestionController extends Controller
         $this->middleware('permission:question-create', ['only' => ['create', 'show', 'store']]);
         $this->middleware('permission:question-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:question-delete', ['only' => ['destroy']]);
-        $types = QuestionType::getConstants();
-        $this->question_types = [];
-        foreach ($types as $text => $number) {
-            array_push($this->question_types, (object)[ 'value' => $number, 'name' => trans("question.${text}") ]);
-        }
+        $this->question_types = QuestionType::getLocalizedConstants('question');
     }
 
     /**

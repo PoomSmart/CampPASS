@@ -1,6 +1,6 @@
 @foreach ($objects as $i => $obj)
     <?php
-        $j = isset($idx) && $idx === 1 ? $i : $obj->id;
+        $j = isset($idx) && $idx == 1 ? $i : $obj->id;
         $checkbox = isset($type) && $type == 'checkbox';
         $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
         $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
@@ -11,7 +11,7 @@
             name="{{ $name }}{{ ($checkbox ? "[]" : "") }}"
             id="{{ $id }}"
             value="{{ $j }}"
-            @if (isset($required) && $required === 1)
+            @if (isset($required) && $required == 1)
                 required
             @endif
             <?php
@@ -32,7 +32,7 @@
                 : " font-weight-bold text-danger"
                 : "" }}"
             for="{{ $id }}"
-        >{{ (isset($idx) && $idx === 1 ? $obj : (isset($getter) ? $obj->{$getter} : $obj->getName())) }}</label>
+        >{{ (isset($idx) && $idx == 1 ? $obj : (isset($getter) ? $obj->{$getter} : $obj->getName())) }}</label>
     </div>
     <!-- TODO: make this thing shows -->
     @if ($i == count($objects) - 1)

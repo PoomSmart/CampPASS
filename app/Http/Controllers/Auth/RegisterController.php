@@ -7,6 +7,8 @@ use App\Religion;
 use App\School;
 use App\Organization;
 
+use App\Enums\EducationLevel;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Notifications\UserRegisteredSuccessfully;
@@ -77,7 +79,8 @@ class RegisterController extends Controller
         $type = $this->CAMPER;
         $religions = $this->religions;
         $schools = $this->schools;
-        return view('auth.register', compact('type', 'religions', 'schools'));
+        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        return view('auth.register', compact('type', 'religions', 'schools', 'education_levels'));
     }
 
     /**

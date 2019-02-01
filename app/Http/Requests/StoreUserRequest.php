@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\EducationLevel;
+
 use App\Rules\ThaiCitizenID;
 use App\Rules\ThaiZipCode;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -32,6 +35,7 @@ class StoreUserRequest extends FormRequest
         }
         $CAMPER = config('const.account.camper');
         $CAMPMAKER = config('const.account.campmaker');
+        $education_levels = array_values(EducationLevel::getConstants());
         $rules = [
             // common
             'type' => "required|in:{$CAMPER},{$CAMPMAKER}",
@@ -53,9 +57,12 @@ class StoreUserRequest extends FormRequest
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'cgpa' => "nullable|required_if:type,{$CAMPER}|numeric|min:1.0|max:4.0",
-            'mattayom' => 'nullable|integer|min:0|max:5',
+            'education_level' => [
+                'nullable', "required_if:type,{$CAMPER}", 'integer', Rule::in($education_levels),
+            ],
             'blood_group' => "nullable|integer|required_if:type,{$CAMPER}",
             'guardian_name' => "nullable|required_if:type,{$CAMPER}|string",
+            'guardian_surname' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_role' => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
             'guardian_mobile_no' => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker

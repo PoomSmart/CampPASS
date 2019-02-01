@@ -43,9 +43,10 @@ class User extends Authenticatable
         // camper
         'cgpa',
         'short_biography',
-        'mattayom',
+        'education_level',
         'blood_group',
         'guardian_name',
+        'guardian_surname',
         'guardian_role',
         'guardian_mobile_no',
         // camp maker
@@ -150,12 +151,6 @@ class User extends Authenticatable
         if (config('app.locale') == 'th' && !is_null($this->name-th))
             return $this->name_th .' '. $this->surname_th;
         return $this->name_en .' '. $this->surname_en;
-    }
-
-    // TODO: proper value store initially?
-    public function getMattayom()
-    {
-        return $this->isCamper() ? $this->mattayom + 1 : null;
     }
 
     public function belongingCamps()

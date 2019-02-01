@@ -18,6 +18,7 @@ use App\QuestionSetQuestionPair;
 use App\Year;
 use App\BadgeCategory;
 
+use App\Enums\EducationLevel;
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
 
@@ -315,7 +316,7 @@ class DatabaseSeeder extends Seeder
     private function alter_campers()
     {
         foreach (User::campers()->cursor() as $camper) {
-            $camper->mattayom = rand(0, 5);
+            $camper->education_level = EducationLevel::any();
             $camper->blood_group = rand(0, 3);
             $camper->cgpa = rand(200, 400) / 100.0; // Assume campers are not that incompetent
             $camper->school_id = School::inRandomOrder()->first()->id;

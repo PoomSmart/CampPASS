@@ -50,7 +50,7 @@
 ])
 @slot('override')
     <fieldset>
-        @component('components.radio', ['name' => 'nationality', 'idx' => 1, 'objects' => [trans('account.Thai'), trans('account.Other')], 'required' => 1])
+        @component('components.radio', ['name' => 'nationality', 'idx' => 1, 'objects' => [trans('account.Thai'), trans('app.Other')], 'required' => 1])
         @endcomponent
     </fieldset> 
 @endslot
@@ -63,7 +63,7 @@
 ])
 @slot('override')
     <fieldset>
-        @component('components.radio', ['name' => 'gender', 'idx' => 1, 'objects' => [trans('account.Male'), trans('account.Female'), trans('account.Other')], 'required' => 1])
+        @component('components.radio', ['name' => 'gender', 'idx' => 1, 'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')], 'required' => 1])
         @endcomponent
     </fieldset> 
 @endslot
@@ -101,7 +101,6 @@
 @component('components.input', [
     'name' => 'allergy',
     'label' => trans('account.Allergy'),
-    'placeholder' => trans('account.LeaveBlank'),
 ])
 @endcomponent
 

@@ -47,9 +47,10 @@ class CreateUsersTable extends Migration
 
             // camper
             $table->double('cgpa', 3, 2)->nullable();
-            $table->tinyInteger('mattayom')->nullable();
+            $table->tinyInteger('education_level')->nullable();
             $table->tinyInteger('blood_group')->nullable();
             $table->string('guardian_name')->nullable();
+            $table->string('guardian_surname')->nullable();
             $table->tinyInteger('guardian_role')->nullable();
             $table->string('guardian_mobile_no')->nullable();
             $table->integer('school_id')->unsigned()->nullable();

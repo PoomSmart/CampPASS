@@ -40,7 +40,7 @@ class CampController extends Controller
             if (\Auth::user()->hasPermissionTo('organization-list'))
                 $this->organizations = Organization::all();
             else
-                $this->organizations = array(Organization::find($id=\Auth::user()->organization_id));
+                $this->organizations = array(Organization::find($id = \Auth::user()->organization_id));
         }
         return $this->organizations;
     }

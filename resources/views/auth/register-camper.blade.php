@@ -20,13 +20,18 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'mattayom',
-    'label' => trans('account.Mattayom'),
+    'name' => 'education_level',
+    'label' => trans('account.EducationLevel'),
     'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'mattayom', 'idx' => 1, 'objects' => ['1', '2', '3', '4', '5', '6'], 'required' => 1])
+    @component('components.radio', [
+        'name' => 'education_level',
+        'objects' => $education_levels,
+        'getter' => 'name',
+        'required' => 1
+    ])
     @endcomponent
 </fieldset> 
 @endslot
@@ -55,19 +60,26 @@
 
 @component('components.input', [
     'name' => 'guardian_name',
-    'label' => trans('account.GuardianName'),
+    'label' => trans('camper.GuardianName'),
+    'attributes' => 'required',
+])
+@endcomponent
+
+@component('components.input', [
+    'name' => 'guardian_surname',
+    'label' => trans('camper.GuardianSurname'),
     'attributes' => 'required',
 ])
 @endcomponent
 
 @component('components.input', [
     'name' => 'guardian_role',
-    'label' => trans('account.GuardianRole'),
+    'label' => trans('camper.GuardianRole'),
     'attributes' => 'required',
 ])
 @slot('override')
 <fieldset>
-    @component('components.radio', ['name' => 'guardian_role', 'idx' => 1, 'objects' => [trans('account.Father'), trans('account.Mother'), trans('account.Other')], 'required' => 1])
+    @component('components.radio', ['name' => 'guardian_role', 'idx' => 1, 'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')], 'required' => 1])
     @endcomponent
 </fieldset> 
 @endslot
@@ -75,7 +87,7 @@
 
 @component('components.input', [
     'name' => 'guardian_mobile_no',
-    'label' => trans('account.GuardianMobileNo'),
+    'label' => trans('camper.GuardianMobileNo'),
     'attributes' => 'required',
     'type' => 'tel',
 ])

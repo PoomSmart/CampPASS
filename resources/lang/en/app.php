@@ -7,6 +7,7 @@ return [
     'Name' => 'Name',
     'Login' => 'Log in',
     'Logout' => 'Log out',
+    'Other' => 'Other',
     'Back' => 'Back',
     'Show' => 'Show',
     'Edit' => 'Edit',

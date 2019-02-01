@@ -25,6 +25,16 @@ abstract class BasicEnum {
         return $constants[$index];
     }
 
+    public static function getLocalizedConstants($lang_prefix)
+    {
+        $localized = [];
+        $constants = self::getConstants();
+        foreach ($constants as $text => $number) {
+            array_push($localized, (object)[ 'id' => $number, 'value' => $number, 'name' => trans("{$lang_prefix}.{$text}") ]);
+        }
+        return $localized;
+    }
+
     public static function isValidName($name, $strict = false) {
         $constants = self::getConstants();
 

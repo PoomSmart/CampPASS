@@ -170,7 +170,7 @@ return [
         'religion_id' => trans('account.Religion'),
         'school_id' => trans('account.School'),
         'organization_id' => trans('account.Organization'),
-        'mattayom' => trans('account.Mattayom'),
+        'education_level' => trans('account.EducationLevel'),
 
         'score_threshold' => trans('camp.ScoreThreshold'),
     ],
