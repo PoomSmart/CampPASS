@@ -37,9 +37,8 @@ class QuestionController extends Controller
     {
         $camp = Camp::find($camp_id);
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
-            return redirect('/')->with('error', trans('camp.ApproveFirst'));
-        if (!\Auth::user()->canManageCamp($camp))
-            return redirect('/')->with('error', trans('app.NoPermissionError'));
+            throw new \App\Exceptions\ApproveCampException();
+        \Auth::user()->canManageCamp($camp);
         return $camp;
     }
 
@@ -52,7 +51,6 @@ class QuestionController extends Controller
     public function store(StoreQuestionRequest $request)
     {
         $camp = $this->authenticate($request->input('camp_id'));
-        if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $content = $request->all();
         $question_set_id = QuestionSet::updateOrCreate([
             'camp_id' => $camp->id,
@@ -90,7 +88,6 @@ class QuestionController extends Controller
     public function show($id)
     {
         $camp = $this->authenticate($id);
-        if (strcmp(get_class($camp), 'App\Camp')) return $camp;
         $camp_id = $camp->id;
         $question_set = QuestionSet::where('camp_id', $camp_id)->first();
         if ($question_set) {

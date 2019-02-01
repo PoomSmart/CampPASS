@@ -25,18 +25,21 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($camp_id)
+    public static function authenticate(mixed $camp, $soft = false)
     {
-        $camp = Camp::find($camp_id);
-        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
-            return redirect('/')->with('error', trans('camp.ApproveFirst'));
-        if (!\Auth::user()->canManageCamp($camp))
-            return redirect('/')->with('error', trans('app.NoPermissionError'));
+        if (!$camp instanceof \App\Camp)
+            $camp = Camp::find($camp);
+        // Campers would not submit the answers to the questions of such non-approved camps
+        if (!$camp->approved && !\Auth::user()->isAdmin())
+            throw new \App\Exceptions\ApproveCampException();
+        if (!$soft)
+            \Auth::user()->canManageCamp($camp);
         return $camp;
     }
 
     public function landing(Camp $camp)
     {
+        $this->authenticate($camp, true);
         $user = \Auth::user();
         $already_applied = $user->alreadyAppliedForCamp($camp);
         $camp_procedure = $camp->camp_procedure();
@@ -73,12 +76,8 @@ class CampApplicationController extends Controller
 
     public function store(Request $request)
     {
-        $camp = Camp::find($request['camp_id']);
-        if (strcmp(get_class($camp), 'App\Camp')) return $camp;
+        $camp = $this->authenticate($request['camp_id']);
         $user = \Auth::user();
-        // Campers would not submit the answers to the questions of such non-approved camps
-        if (!$camp->approved && !$user->isAdmin())
-            return redirect('/')->with('error', 'Unable to save the answers.');
         // In case campers somehow want to edit the answers in the submitted application form
         if ($user->alreadyAppliedForCamp($camp))
             return redirect('/')->with('error', 'Unable to save the answers.');

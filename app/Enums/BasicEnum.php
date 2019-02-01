@@ -25,7 +25,7 @@ abstract class BasicEnum {
         return $constants[$index];
     }
 
-    public static function getLocalizedConstants($lang_prefix)
+    public static function getLocalizedConstants($lang_prefix = 'app')
     {
         $localized = [];
         $constants = self::getConstants();

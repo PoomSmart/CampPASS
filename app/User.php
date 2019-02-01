@@ -165,7 +165,10 @@ class User extends Authenticatable
 
     public function canManageCamp(Camp $camp)
     {
-        return $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
+        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
+        if (!$value)
+            throw new \App\Exceptions\ManageCampException();
+        return $value;
     }
 
     public function region()
@@ -203,7 +206,7 @@ class User extends Authenticatable
         $region = $this->region();
         if ($region && !in_array($region->id, $camp->acceptable_regions))
             return trans('registration.NotInRequiredRegions');
-        if ($camp->app_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) > 0)
+        if (Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) < 0)
             return trans('registration.LateApplication');
         if ($camp->isFull())
             return trans('registration.QuotaExceeded');

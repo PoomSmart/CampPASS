@@ -46,9 +46,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
-            return redirect('/')->with('error', 'You do not have permission to access this page.');
-        }
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException)
+            return redirect('/')->with('error', trans('app.NoPermissionError'));
+        if ($exception instanceof \App\Exceptions\ManageCampException)
+            return redirect('/')->with('error', trans('app.NoPermissionError'));
+        if ($exception instanceof \App\Exceptions\ApproveCampException)
+            return redirect('/')->with('error', trans('camp.ApproveFirst'));
         return parent::render($request, $exception);
     }
 }
