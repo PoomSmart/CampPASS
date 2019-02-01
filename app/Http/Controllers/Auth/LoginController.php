@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -44,13 +45,10 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {
-        $this->validate(
-            $request,
-            [
+        $this->validate($request, [
                 'identity' => 'required|string',
                 'password' => 'required|string',
-            ],
-            [
+            ], [
                 'identity.required' => trans('validation.required', ['attribute' => trans('account.Username').' or '.trans('account.Email')]),
                 'password.required' => trans('validation.required', ['attribute' => 'password']),
             ]

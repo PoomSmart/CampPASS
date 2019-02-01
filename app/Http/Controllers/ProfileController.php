@@ -18,7 +18,7 @@ class ProfileController extends Controller
         if (!$user->isActivated())
             return redirect()->back()->with('error', 'This account has not been activated.');
         if ($user->isAdmin())
-            return redirect()->back()->with('error', 'Error displaying the user');
+            return redirect()->back()->with('error', 'Error displaying the user.');
         return view('profiles.show', compact('user'));
     }
 }

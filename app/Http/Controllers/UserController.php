@@ -75,12 +75,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
         $data = $user->belongingCamps()->orderBy('id')->get();
         return view('users.show', compact('user', 'data'));
     }
@@ -88,12 +87,11 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
         return view('users.edit', compact('user', 'roles', 'userRole'));
@@ -103,7 +101,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\StoreUserRequest $request
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUserRequest $request, User $user)
@@ -117,12 +115,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
         if ($user->isCamper()) {
             foreach (Answer::where('camper_id', $user->id)->cursor() as $answer) {
                 $question = $answer->question();
