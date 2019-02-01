@@ -180,29 +180,8 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'app_open_date',
-    'label' => trans('camp.AppOpenDate'),
-    'type' => 'datetime-local',
-])
-@endcomponent
-
-@component('components.input', [
     'name' => 'app_close_date',
     'label' => trans('camp.AppCloseDate'),
-    'type' => 'datetime-local',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'reg_open_date',
-    'label' => trans('camp.RegOpenDate'),
-    'type' => 'datetime-local',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'reg_close_date',
-    'label' => trans('camp.RegCloseDate'),
     'type' => 'datetime-local',
 ])
 @endcomponent

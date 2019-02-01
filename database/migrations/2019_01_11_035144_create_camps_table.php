@@ -35,12 +35,9 @@ class CreateCampsTable extends Migration
             $table->integer('application_fee')->unsigned()->nullable(); // some camps don't cost campers
             $table->string('url', 150)->nullable();
             $table->string('fburl', 150)->nullable();
-            $table->dateTime('app_open_date')->nullable(); // some camps don't require application
-            $table->dateTime('app_close_date')->nullable(); // same as above
-            $table->dateTime('reg_open_date')->nullable(); // registration date may depend on applications
-            $table->dateTime('reg_close_date')->nullable(); // registration deadline may be undecided
-            $table->dateTime('event_start_date')->nullable(); // event start date may be undecided
-            $table->dateTime('event_end_date')->nullable(); // same as above
+            $table->dateTime('app_close_date');
+            $table->dateTime('event_start_date');
+            $table->dateTime('event_end_date');
             $table->double('event_location_lat')->nullable(); // event place may be undecided
             $table->double('event_location_long')->nullable(); // same as above
             $table->smallInteger('quota')->unsigned()->nullable();

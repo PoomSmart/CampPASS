@@ -203,21 +203,8 @@ class User extends Authenticatable
         $region = $this->region();
         if ($region && !in_array($region->id, $camp->acceptable_regions))
             return trans('registration.NotInRequiredRegions');
-        if ($camp->registerOnly()) {
-            if (is_null($camp->reg_open_date))
-                return trans('registration.UnknownRegistrationOpen');
-            if (Carbon::now()->diffInDays(Carbon::parse($camp->reg_open_date)) < 0)
-                return trans('registration.BeforeRegistrationOpen');
-            if ($camp->reg_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->reg_close_date)) > 0)
-                return trans('registration.LateRegistration');
-        } else {
-            if (is_null($camp->app_open_date))
-                return trans('registration.UnknownApplicationOpen');
-            if (Carbon::now()->diffInDays(Carbon::parse($camp->app_open_date)) < 0)
-                return trans('registration.BeforeApplicationOpen');
-            if ($camp->app_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) > 0)
-                return trans('registration.LateApplication');
-        }
+        if ($camp->app_close_date && Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) > 0)
+            return trans('registration.LateApplication');
         if ($camp->isFull())
             return trans('registration.QuotaExceeded');
         return null;

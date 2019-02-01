@@ -20,13 +20,13 @@ class Camp extends Model
 {
     protected $fillable = [
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
-        'acceptable_regions', 'acceptable_years', 'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_open_date', 'app_close_date',
-        'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date', 'event_location_lat', 'event_location_long',
+        'acceptable_regions', 'acceptable_years', 'min_gpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_close_date',
+        'event_start_date', 'event_end_date', 'event_location_lat', 'event_location_long',
         'quota', 'approved',
     ];
 
     protected $appends = [
-        'app_open_date', 'app_close_date', 'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date',
+        'app_close_date', 'event_start_date', 'event_end_date',
     ];
 
     protected $casts = [
@@ -41,7 +41,7 @@ class Camp extends Model
      * @var array
      */
     protected $dates = [
-        'app_open_date', 'app_close_date', 'reg_open_date', 'reg_close_date', 'event_start_date', 'event_end_date',
+        'app_close_date', 'event_start_date', 'event_end_date',
     ];
 
     public function registrations()
@@ -139,8 +139,7 @@ class Camp extends Model
 
     public function getCloseDate()
     {
-        $date = $this->app_close_date ? $this->app_close_date : $this->reg_close_date;
-        return $date ? Carbon::parse($date)->toFormattedDateString() : null;
+        return Carbon::parse($this->app_close_date)->toFormattedDateString();
     }
 
     public function setAcceptableProgramsAttribute($value)
@@ -158,17 +157,6 @@ class Camp extends Model
         $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
     }
 
-    public function getAppOpenDateAttribute($value)
-    {
-        if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
-    }
-
-    public function setAppOpenDateAttribute($value)
-    {
-        $this->attributes['app_open_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
-    }
-
     public function getAppCloseDateAttribute($value)
     {
         if (!$value) return null;
@@ -178,28 +166,6 @@ class Camp extends Model
     public function setAppCloseDateAttribute($value)
     {
         $this->attributes['app_close_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
-    }
-
-    public function getRegOpenDateAttribute($value)
-    {
-        if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
-    }
-
-    public function setRegOpenDateAttribute($value)
-    {
-        $this->attributes['reg_open_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
-    }
-
-    public function getRegCloseDateAttribute($value)
-    {
-        if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
-    }
-
-    public function setRegCloseDateAttribute($value)
-    {
-        $this->attributes['reg_close_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
     }
 
     public function getEventStartDateAttribute($value)

@@ -45,11 +45,8 @@ class StoreCampRequest extends FormRequest
             'application_fee' => 'nullable|integer|min:0',
             'url' => 'nullable|url|max:150',
             'fburl' => 'nullable|url|max:150',
-            'app_open_date' => 'nullable|date',
-            'app_close_date' => 'nullable|date|after:app_open_date',
-            'reg_open_date' => 'nullable|date',
-            'reg_close_date' => 'nullable|date|after:reg_open_date',
-            'event_start_date' => 'nullable|date|after:tomorrow',
+            'app_close_date' => 'nullable|date|after:today',
+            'event_start_date' => 'nullable|date|after:tomorrow|after:app_close_date',
             'event_end_date' => 'nullable|date|after_or_equal:event_start_date',
             'event_location_lat' => 'nullable|numeric|min:-90|max:90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|min:-180|max:180',
