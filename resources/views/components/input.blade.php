@@ -26,7 +26,7 @@
                             }}"
                     @endif
                         id="{{ $name }}" 
-                        class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}"
+                        class="form-control{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
                         name="{{ $name }}"
                         @if (isset($placeholder))
                             placeholder="{{ $placeholder }}"

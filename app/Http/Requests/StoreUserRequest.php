@@ -64,6 +64,7 @@ class StoreUserRequest extends FormRequest
             'guardian_name' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_surname' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_role' => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
+            'guardian_role_text' => "nullable|required_if:type,{$CAMPER},guardian_role,2|string|max:20",
             'guardian_mobile_no' => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",

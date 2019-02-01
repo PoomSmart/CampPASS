@@ -48,6 +48,7 @@ class User extends Authenticatable
         'guardian_name',
         'guardian_surname',
         'guardian_role',
+        'guardian_role_text',
         'guardian_mobile_no',
         // camp maker
         'organization_id',

@@ -52,6 +52,7 @@ class CreateUsersTable extends Migration
             $table->string('guardian_name')->nullable();
             $table->string('guardian_surname')->nullable();
             $table->tinyInteger('guardian_role')->nullable();
+            $table->string('guardian_role_text', 20)->nullable();
             $table->string('guardian_mobile_no')->nullable();
             $table->integer('school_id')->unsigned()->nullable();
             $table->foreign('school_id')->references('id')->on('schools');

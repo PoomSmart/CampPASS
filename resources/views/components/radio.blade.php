@@ -33,6 +33,9 @@
                 : "" }}"
             for="{{ $id }}"
         >{{ (isset($idx) && $idx == 1 ? $obj : (isset($getter) ? $obj->{$getter} : $obj->getName())) }}</label>
+        @if ($i == count($objects) - 1 && isset($append_last))
+            {{ $append_last }}
+        @endif
     </div>
     <!-- TODO: make this thing shows -->
     @if ($i == count($objects) - 1)
