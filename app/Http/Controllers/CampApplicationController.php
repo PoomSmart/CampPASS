@@ -25,21 +25,19 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($camp, $soft = false)
+    public static function authenticate($camp)
     {
         if (!$camp instanceof \App\Camp)
             $camp = Camp::find($camp);
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
-        if (!$soft)
-            \Auth::user()->canManageCamp($camp);
         return $camp;
     }
 
     public function landing(Camp $camp)
     {
-        $this->authenticate($camp, true);
+        $this->authenticate($camp);
         $user = \Auth::user();
         $already_applied = $user->alreadyAppliedForCamp($camp);
         $camp_procedure = $camp->camp_procedure();
