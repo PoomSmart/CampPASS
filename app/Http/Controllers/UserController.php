@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
 use App\User;
+use App\Answer;
+
+use App\Enums\QuestionType;
+
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Controllers\Controller;
 
 use Spatie\Permission\Models\Role;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use DB;
 use Hash;
@@ -116,7 +122,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
+        $user = User::find($id);
+        if ($user->isCamper()) {
+            foreach (Answer::where('camper_id', $user->id)->cursor() as $answer) {
+                $question = $answer->question();
+                if ($question->type == QuestionType::FILE) {
+                    $registration = $answer->registration();
+                    $camp = $registration->camp();
+                    $directory = Common::questionSetDirectory($camp->id);
+                    Storage::disk('local')->delete("{$directory}/{$question->json_id}/{$user->id}");
+                }
+            }
+        }
+        $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
 }
