@@ -215,7 +215,10 @@ class User extends Authenticatable
 
     public function isEligibleForCamp(Camp $camp)
     {
-        return is_null($this->getIneligibleReasonForCamp($camp));
+        $error = $this->getIneligibleReasonForCamp($camp);
+        if ($error)
+            throw new \App\Exceptions\CampIneligibilityException($error);
+        return is_null($error);
     }
 
     public function registrationForCamp(Camp $camp)

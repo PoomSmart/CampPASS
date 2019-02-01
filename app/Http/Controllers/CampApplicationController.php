@@ -32,6 +32,7 @@ class CampApplicationController extends Controller
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
+        \Auth::user()->isEligibleForCamp($camp);
         return $camp;
     }
 
@@ -119,8 +120,9 @@ class CampApplicationController extends Controller
 
     public function answer_view(QuestionSet $question_set)
     {
-        $camper = \Auth::user();
         $camp = $question_set->camp();
+        $this->authenticate($camp);
+        $camper = \Auth::user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id);
@@ -141,6 +143,7 @@ class CampApplicationController extends Controller
 
     public function submit_application_form(Camp $camp)
     {
+        $this->authenticate($camp);
         $registration = $camp->getLatestRegistration(\Auth::user()->id);
         if ($registration->cannotSubmit()) {
             // This should not happen

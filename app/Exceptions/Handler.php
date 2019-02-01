@@ -52,6 +52,8 @@ class Handler extends ExceptionHandler
             return redirect('/')->with('error', trans('app.NoPermissionError'));
         if ($exception instanceof \App\Exceptions\ApproveCampException)
             return redirect('/')->with('error', trans('camp.ApproveFirst'));
+        if ($exception instanceof \App\Exceptions\CampIneligibilityException)
+            return redirect('/')->with('error', $exception->getMessage());
         return parent::render($request, $exception);
     }
 }
