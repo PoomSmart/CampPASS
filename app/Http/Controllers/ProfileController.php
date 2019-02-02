@@ -10,7 +10,7 @@ class ProfileController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth', ['only' => ['edit']]);
+        $this->middleware('auth', ['only' => ['edit', 'store']]);
     }
 
     public function index()
@@ -18,8 +18,10 @@ class ProfileController extends Controller
         return $this->show(\Auth::user());
     }
 
-    public function authenticate(User $user)
+    public function authenticate(User $user, $me = false)
     {
+        if ($me && $user->id != \Auth::user()->id)
+            throw new \App\Exceptions\CampPASSException();
         if (!$user->isActivated())
             throw new \App\Exceptions\CampPASSException('This account has not been activated.');
         if ($user->isAdmin())
@@ -34,8 +36,7 @@ class ProfileController extends Controller
 
     public function edit(User $user)
     {
-        if ($user->id != \Auth::user()->id)
-            throw new \App\Exceptions\CampPASSException();
+        $this->authenticate($user, $me = true);
         return view('profiles.edit', compact('user'));
     }
 }

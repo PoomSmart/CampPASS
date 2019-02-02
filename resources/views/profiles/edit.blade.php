@@ -1,5 +1,5 @@
 @extends('layouts.card')
 
-@section('outer_content')
-    {{ $user }}
+@section('card_content')
+    
 @endsection
