@@ -29,7 +29,6 @@
                                 @component('components.input', [
                                     'name' => $key,
                                     'value' => isset($answers[$key]) ? $answers[$key] : '',
-                                    'nowrapper' => 1,
                                     'attributes' => $required ? 'required' : '',
                                 ])
                                 @endcomponent
@@ -38,7 +37,6 @@
                                     'name' => $key,
                                     'value' => isset($answers[$key]) ? $answers[$key] : '',
                                     'textarea' => 1,
-                                    'nowrapper' => 1,
                                     'attributes' => $required ? 'required' : '',
                                 ])
                                 @endcomponent

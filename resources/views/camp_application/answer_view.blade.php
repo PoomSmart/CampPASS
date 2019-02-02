@@ -26,7 +26,6 @@
                         @component('components.input', [
                             'name' => $key,
                             'value' => $answer,
-                            'nowrapper' => 1,
                             'simple_id' => 1,
                             'attributes' => 'readonly',
                         ])
@@ -36,7 +35,6 @@
                             'name' => $key,
                             'value' => $answer,
                             'textarea' => 1,
-                            'nowrapper' => 1,
                             'simple_id' => 1,
                             'attributes' => 'readonly',
                         ])

@@ -144,7 +144,6 @@
     @component('components.input', [
         'name' => 'min_gpa',
         'type' => 'number',
-        'nowrapper' => 1,
         'attributes' => 'min=1.0 max=4.0 step=0.01 oninput=this.previousElementSibling.value=this.value',
     ])
     @endcomponent

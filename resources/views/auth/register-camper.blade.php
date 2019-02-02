@@ -82,7 +82,6 @@
     @component('components.radio', ['name' => 'guardian_role', 'idx' => 1, 'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')], 'required' => 1])
     @slot('append_last')
         @component('components.input', [
-            'nowrapper' => 1,
             'name' => 'guardian_role_text',
             'class' => 'ml-2',
         ])
