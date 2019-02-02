@@ -2,9 +2,12 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use \App\Exceptions\CampPASSException;
 
-class ApproveCampException extends Exception
+class ApproveCampException extends CampPASSException
 {
-    //
+    protected function setMessage($message)
+    {
+        $this->message = trans('camp.ApproveFirst');
+    }
 }

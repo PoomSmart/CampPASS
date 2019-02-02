@@ -48,11 +48,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException)
             return redirect('/')->with('error', trans('app.NoPermissionError'));
-        if ($exception instanceof \App\Exceptions\ManageCampException)
-            return redirect('/')->with('error', trans('app.NoPermissionError'));
-        if ($exception instanceof \App\Exceptions\ApproveCampException)
-            return redirect('/')->with('error', trans('camp.ApproveFirst'));
-        if ($exception instanceof \App\Exceptions\CampIneligibilityException)
+        if ($exception instanceof \App\Exceptions\CampPASSException)
             return redirect('/')->with('error', $exception->getMessage());
         return parent::render($request, $exception);
     }
