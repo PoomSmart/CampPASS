@@ -1,6 +1,9 @@
 @if (isset($label))
     <label
         for="{{ $name }}"
+        @if (isset($attributes) && strpos($attributes, 'required'))
+            <?php $label_attributes = 'required' ?>
+        @endif
         @if (isset($label_attributes))
             {{ $label_attributes }}
         @endif

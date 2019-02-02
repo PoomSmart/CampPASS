@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Religion;
+use App\School;
 
 use Illuminate\Http\Request;
 
@@ -11,6 +13,9 @@ class ProfileController extends Controller
     function __construct()
     {
         $this->middleware('auth', ['only' => ['edit', 'store']]);
+        $this->religions = Religion::all(['id', 'name']);
+        $this->organizations = null;
+        $this->schools = School::all();
     }
 
     public function index()
@@ -37,6 +42,7 @@ class ProfileController extends Controller
     public function edit(User $user)
     {
         $this->authenticate($user, $me = true);
-        return view('profiles.edit', compact('user'));
+        $religions = $this->religions;
+        return view('profiles.edit', compact('user', 'religions'));
     }
 }
