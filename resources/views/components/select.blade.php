@@ -14,7 +14,7 @@
                 @if ($obj->id == old("{{ $name }}"))
                     selected
                 @endif
-                value="{{ $obj->id }}">{{ $obj->getName() }}
+                value="{{ $obj->id }}">{{ $obj }}
             @endif
         </option>
     @endforeach

@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    {{ $camp->getName() }}
+    {{ $camp }}
 @endsection
 
 @section('content')
@@ -30,8 +30,8 @@
                                 <td>{{ $registration->id }}</td>
                                 <td>{{ $camper->id }}</td>
                                 <td>{{ $camper->getFullName() }}</td>
-                                <td>{{ $camper->school()->getName() }}</td>
-                                <td>{{ $camper->program()->getName() }}</td>
+                                <td>{{ $camper->school() }}</td>
+                                <td>{{ $camper->program() }}</td>
                                 <td>{{ $registration->getStatus() }}</td>
                                 <td>
                                     @if ($rankable)

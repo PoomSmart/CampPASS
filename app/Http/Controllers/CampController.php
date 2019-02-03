@@ -108,7 +108,7 @@ class CampController extends Controller
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
         $data = $camp->registrations()->paginate($max);
-        $category = CampCategory::find($camp->camp_category_id)->getName();
+        $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
@@ -135,7 +135,7 @@ class CampController extends Controller
     {
         $camp->approved = true;
         $camp->save();
-        return redirect()->route('camps.index')->with('success', "Camp {$camp->getName()} has been approved");
+        return redirect()->route('camps.index')->with('success', "Camp {$camp} has been approved");
     }
 
     /**

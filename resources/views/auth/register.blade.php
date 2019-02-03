@@ -30,7 +30,7 @@
                             @if ($index == 0)
                                 selected
                             @endif
-                            value="{{ $org->id }}">{{ $org->getName() }}
+                            value="{{ $org->id }}">{{ $org }}
                         </option>
                     @endforeach
                 </select>

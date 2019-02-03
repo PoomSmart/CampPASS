@@ -62,7 +62,7 @@
                 <div class="card">
                     <img class="card-img-top" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title">{{ $camp->getName() }}</h4>
+                        <h4 class="card-title">{{ $camp }}</h4>
                         <p class="card-text">{{ $camp->getShortDescription() }}</p>
                         @if ($camp->getCloseDate())
                             <p class="card-text"><small class="text-muted">{{ trans('registration.WillClose').' '.$camp->getCloseDate() }}</small></p>
@@ -81,7 +81,7 @@
         <div class="card-columns">
             @foreach ($camp_categories as $category)
                 <div class="card-light mb-3">
-                    <img class="card-img-top" src="https://placehold.it/150x80?text={{ $category->getName() }}" alt="Card image {{ $category->getName() }}">
+                    <img class="card-img-top" src="https://placehold.it/150x80?text={{ $category }}" alt="Card image {{ $category }}">
                 </div>
             @endforeach
         </div>

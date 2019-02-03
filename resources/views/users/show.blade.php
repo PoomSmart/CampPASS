@@ -39,7 +39,7 @@
             @foreach ($data as $key => $camp)
                 <tr>
                     <td>{{ $camp->id }}</td>
-                    <td><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp->getName() }}</a></td>
+                    <td><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></td>
                 </tr>
             @endforeach
         </table>

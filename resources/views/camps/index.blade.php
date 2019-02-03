@@ -35,7 +35,7 @@
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp->getName() }}</a></td>
+	        <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></td>
             <td>{{ $camp->getShortDescription() }}</td>
             <td>{{ $camp->approved ? $camp->campers(null)->count() : 0 }}</td>
             <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>

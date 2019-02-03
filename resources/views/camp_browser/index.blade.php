@@ -15,7 +15,7 @@
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-            <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp->getName() }}</a></td>
+            <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></td>
             <td>{{ $camp->camp_procedure()->getTitle() }}</td>
             <td>{{ $camp->getShortDescription() }}</td>
 	    </tr>

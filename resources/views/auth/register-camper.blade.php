@@ -12,7 +12,7 @@
                 @if ($index == 0)
                     selected
                 @endif
-                value="{{ $school->id }}">{{ $school->getName() }}
+                value="{{ $school->id }}">{{ $school }}
             </option>
         @endforeach
     </select>

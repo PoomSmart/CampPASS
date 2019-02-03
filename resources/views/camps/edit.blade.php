@@ -2,7 +2,7 @@
 @include('camps.fields', ['update' => 1])
 
 @section('header')
-    {{ trans('app.Edit') .' '. $object->getName() }}
+    {{ trans('app.Edit') .' '. $object }}
 @endsection
 
 @section('card_content')
