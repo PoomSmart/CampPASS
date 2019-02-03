@@ -25,7 +25,6 @@
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
     @component('components.radio', [
         'name' => 'education_level',
         'objects' => $education_levels,
@@ -33,7 +32,6 @@
         'required' => 1
     ])
     @endcomponent
-</fieldset> 
 @endslot
 @endcomponent
 
@@ -51,10 +49,8 @@
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
     @component('components.radio', ['name' => 'blood_group', 'idx' => 1, 'objects' => ['A', 'O', 'B', 'AB'], 'required' => 1])
     @endcomponent
-</fieldset> 
 @endslot
 @endcomponent
 
@@ -78,7 +74,6 @@
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
     @component('components.radio', ['name' => 'guardian_role', 'idx' => 1, 'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')], 'required' => 1])
     @slot('append_last')
         @component('components.input', [
@@ -88,7 +83,6 @@
         @endcomponent
     @endslot
     @endcomponent
-</fieldset> 
 @endslot
 @endcomponent
 

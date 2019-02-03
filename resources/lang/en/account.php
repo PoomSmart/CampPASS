@@ -56,7 +56,6 @@ return [
     'Mother' => 'Mother',
 
     'School' => 'School',
-    'Program' => 'Program',
     'EducationLevel' => 'Education Level',
 
     'Status' => 'Status',

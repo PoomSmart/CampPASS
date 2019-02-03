@@ -13,7 +13,7 @@ class Program extends Model
         return $this->hasMany(User::class);
     }
 
-    public function getName()
+    public function __toString()
     {
         return $this->name;
     }

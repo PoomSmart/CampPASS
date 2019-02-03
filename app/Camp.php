@@ -74,7 +74,7 @@ class Camp extends Model
         return $this->hasOne(QuestionSet::class)->limit(1)->get()->first();
     }
 
-    public function getName()
+    public function __toString()
     {
         if (config('app.locale') == 'th' && !is_null($this->name_th))
             return $this->name_th;

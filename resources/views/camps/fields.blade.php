@@ -39,14 +39,12 @@
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
     @component('components.radio', [
         'name' => 'camp_category_id',
         'objects' => $categories,
         'required' => 1
     ])
-@endcomponent
-</fieldset> 
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -88,14 +86,12 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <fieldset>
-        @component('components.radio', [
-            'name' => 'acceptable_years',
-            'type' => 'checkbox',
-            'objects' => $years,
-        ])
-        @endcomponent
-    </fieldset> 
+    @component('components.radio', [
+        'name' => 'acceptable_years',
+        'type' => 'checkbox',
+        'objects' => $years,
+    ])
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -105,14 +101,12 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <fieldset>
-        @component('components.radio', [
-            'name' => 'acceptable_regions',
-            'type' => 'checkbox',
-            'objects' => $regions
-        ])
-        @endcomponent
-    </fieldset> 
+    @component('components.radio', [
+        'name' => 'acceptable_regions',
+        'type' => 'checkbox',
+        'objects' => $regions
+    ])
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -122,14 +116,12 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <fieldset>
-        @component('components.radio', [
-            'name' => 'acceptable_programs',
-            'type' => 'checkbox',
-            'objects' => $programs
-        ])
-@endcomponent
-    </fieldset> 
+    @component('components.radio', [
+        'name' => 'acceptable_programs',
+        'type' => 'checkbox',
+        'objects' => $programs
+    ])
+    @endcomponent
 @endslot
 @endcomponent
 

@@ -18,15 +18,13 @@
             'attributes' => 'required',
         ])
         @slot('override')
-            <fieldset>
-                @component('components.radio', [
-                    'name' => 'permission',
-                    'type' => 'checkbox',
-                    'objects' => $permission,
-                    'getter' => 'name',
-                ])
-                @endcomponent
-            </fieldset> 
+            @component('components.radio', [
+                'name' => 'permission',
+                'type' => 'checkbox',
+                'objects' => $permission,
+                'getter' => 'name',
+            ])
+            @endcomponent
         @endslot
         @endcomponent
         @component('components.submit', ['label' => trans('app.Submit')])

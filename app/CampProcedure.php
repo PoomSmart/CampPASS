@@ -22,7 +22,7 @@ class CampProcedure extends Model
         return $this->title;
     }
 
-    public function getName()
+    public function __toString()
     {
         return $this->getTitle();
     }

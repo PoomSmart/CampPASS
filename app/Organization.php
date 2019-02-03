@@ -28,7 +28,7 @@ class Organization extends Model
         return $this->hasMany(Camp::class);
     }
 
-    public function getName()
+    public function __toString()
     {
         if (config('app.locale') == 'th' && !is_null($this->name_th))
             return $this->name_th;

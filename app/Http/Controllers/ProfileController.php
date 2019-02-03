@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Religion;
 use App\School;
+use App\Program;
+
+use App\Enums\EducationLevel;
 
 use Illuminate\Http\Request;
 
@@ -16,6 +19,8 @@ class ProfileController extends Controller
         $this->religions = Religion::all(['id', 'name']);
         $this->organizations = null;
         $this->schools = School::all();
+        $this->programs = Program::all();
+        $this->education_levels = EducationLevel::getLocalizedConstants('camper');
     }
 
     public function index()
@@ -43,6 +48,9 @@ class ProfileController extends Controller
     {
         $this->authenticate($user, $me = true);
         $religions = $this->religions;
-        return view('profiles.edit', compact('user', 'religions'));
+        $schools = $this->schools;
+        $programs = $this->programs;
+        $education_levels = $this->education_levels;
+        return view('profiles.edit', compact('user', 'religions', 'schools', 'programs', 'education_levels'));
     }
 }

@@ -53,15 +53,13 @@
                 'attributes' => 'required',
             ])
             @slot('override')
-                <fieldset>
-                    @component('components.radio', [
-                        'name' => 'gender',
-                        'idx' => 1,
-                        'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
-                        'required' => 1
-                    ])
-                    @endcomponent
-                </fieldset> 
+                @component('components.radio', [
+                    'name' => 'gender',
+                    'idx' => 1,
+                    'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
+                    'required' => 1
+                ])
+                @endcomponent
             @endslot
             @endcomponent
         </div>
@@ -72,7 +70,6 @@
                 'attributes' => 'required',
             ])
             @slot('override')
-            <fieldset>
                 @component('components.radio', [
                     'name' => 'blood_group',
                     'idx' => 1,
@@ -80,7 +77,6 @@
                     'required' => 1
                 ])
                 @endcomponent
-            </fieldset> 
             @endslot
             @endcomponent
         </div>
@@ -91,14 +87,62 @@
                 'attributes' => 'required',
             ])
             @slot('override')
-            <fieldset>
                 @component('components.radio', [
                     'name' => 'religion_id',
                     'objects' => $religions,
                     'required' => 1
                 ])
                 @endcomponent
-            </fieldset> 
+            @endslot
+            @endcomponent
+        </div>
+    </div>
+    <h3>Education</h3>
+    <div class="row">
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'school_id',
+                'label' => trans('account.School'),
+                'attributes' => 'required',
+            ])
+            @slot('override')
+                {!! Form::select('school_id', $schools, null, [
+                    'class' => 'form-control',
+                    'placeholder' => 'Select your school...',
+                ]) !!}
+            @endslot
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'program_id',
+                'label' => trans('camper.Program'),
+                'attributes' => 'required',
+            ])
+            @slot('override')
+                @component('components.radio', [
+                    'name' => 'program_id',
+                    'objects' => $programs,
+                    'required' => 1,
+                ])
+                @endcomponent
+            @endslot
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'education_level',
+                'label' => trans('account.EducationLevel'),
+                'attributes' => 'required',
+            ])
+            @slot('override')
+                @component('components.radio', [
+                    'name' => 'education_level',
+                    'objects' => $education_levels,
+                    'getter' => 'name',
+                    'required' => 1
+                ])
+                @endcomponent
             @endslot
             @endcomponent
         </div>

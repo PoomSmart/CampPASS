@@ -49,10 +49,8 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <fieldset>
-        @component('components.radio', ['name' => 'nationality', 'idx' => 1, 'objects' => [trans('account.Thai'), trans('app.Other')], 'required' => 1])
-        @endcomponent
-    </fieldset> 
+    @component('components.radio', ['name' => 'nationality', 'idx' => 1, 'objects' => [trans('account.Thai'), trans('app.Other')], 'required' => 1])
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -62,10 +60,8 @@
     'attributes' => 'required',
 ])
 @slot('override')
-    <fieldset>
-        @component('components.radio', ['name' => 'gender', 'idx' => 1, 'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')], 'required' => 1])
-        @endcomponent
-    </fieldset> 
+    @component('components.radio', ['name' => 'gender', 'idx' => 1, 'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')], 'required' => 1])
+    @endcomponent
 @endslot
 @endcomponent
 
@@ -75,10 +71,8 @@
     'attributes' => 'required',
 ])
 @slot('override')
-<fieldset>
     @component('components.radio', ['name' => 'religion_id', 'objects' => $religions, 'required' => 1])
     @endcomponent
-</fieldset> 
 @endslot
 @endcomponent
 

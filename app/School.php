@@ -17,7 +17,7 @@ class School extends Model
         return $this->hasMany(User::class);
     }
 
-    public function getName()
+    public function __toString()
     {
         if (config('app.locale') == 'th' && !is_null($this->name_th))
             return $this->name_th;
