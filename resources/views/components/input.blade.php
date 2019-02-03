@@ -1,7 +1,7 @@
 @if (isset($label))
     <label
         for="{{ $name }}"
-        @if (isset($attributes) && strpos($attributes, 'required'))
+        @if (isset($attributes) && strpos($attributes, 'required') !== false)
             <?php $label_attributes = 'required' ?>
         @endif
         @if (isset($label_attributes))

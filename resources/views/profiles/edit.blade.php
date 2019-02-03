@@ -1,6 +1,7 @@
 @extends('layouts.card')
 
 @section('card_content')
+    <h3>About You</h3>
     <div class="row">
         <div class="col-md-6">
             @component('components.input', [
@@ -53,7 +54,12 @@
             ])
             @slot('override')
                 <fieldset>
-                    @component('components.radio', ['name' => 'gender', 'idx' => 1, 'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')], 'required' => 1])
+                    @component('components.radio', [
+                        'name' => 'gender',
+                        'idx' => 1,
+                        'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
+                        'required' => 1
+                    ])
                     @endcomponent
                 </fieldset> 
             @endslot
@@ -67,7 +73,12 @@
             ])
             @slot('override')
             <fieldset>
-                @component('components.radio', ['name' => 'blood_group', 'idx' => 1, 'objects' => ['A', 'O', 'B', 'AB'], 'required' => 1])
+                @component('components.radio', [
+                    'name' => 'blood_group',
+                    'idx' => 1,
+                    'objects' => ['A', 'O', 'B', 'AB'],
+                    'required' => 1
+                ])
                 @endcomponent
             </fieldset> 
             @endslot
@@ -81,7 +92,11 @@
             ])
             @slot('override')
             <fieldset>
-                @component('components.radio', ['name' => 'religion_id', 'objects' => $religions, 'required' => 1])
+                @component('components.radio', [
+                    'name' => 'religion_id',
+                    'objects' => $religions,
+                    'required' => 1
+                ])
                 @endcomponent
             </fieldset> 
             @endslot
