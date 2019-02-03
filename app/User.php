@@ -37,9 +37,9 @@ class User extends Authenticatable
     protected $fillable = [
         // common
         'name_en', 'name_th', 'surname_en', 'surname_th', 'nickname_en', 'nickname_th',
-        'nationality', 'citizen_id', 'gender', 'dob', 'address', 'zipcode', 'mobile_no',
-        'allergy', 'email', 'username', 'password', 'status', 'activation_code', 'type',
-        'religion_id',
+        'nationality', 'religion_id', 'citizen_id', 'gender', 'dob', 'allergy',
+        'street_address', 'city', 'zipcode', 'mobile_no', 'email',
+        'username', 'password', 'status', 'activation_code', 'type',
         // camper
         'cgpa',
         'short_biography',
@@ -217,7 +217,7 @@ class User extends Authenticatable
     {
         $error = $this->getIneligibleReasonForCamp($camp);
         if ($error)
-            throw new \App\Exceptions\CampIneligibilityException($error);
+            throw new \App\Exceptions\CampPASSException($error);
         return is_null($error);
     }
 

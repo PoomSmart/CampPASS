@@ -48,55 +48,58 @@
         </div>
         <div class="col-12">
             @component('components.input', [
+                'name' => 'citizen_id',
+                'label' => trans('account.CitizenID'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-6">
+            @component('components.input', [
+                'name' => 'nationality',
+                'label' => trans('account.Nationality'),
+                'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => [trans('account.Thai'), trans('app.Other')],
+                'idx' => 1,
+
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-6">
+            @component('components.input', [
                 'name' => 'gender',
                 'label' => trans('account.Gender'),
                 'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
+                'idx' => 1,
             ])
-            @slot('override')
-                @component('components.radio', [
-                    'name' => 'gender',
-                    'idx' => 1,
-                    'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
-                    'required' => 1
-                ])
-                @endcomponent
-            @endslot
             @endcomponent
         </div>
-        <div class="col-12">
+        <div class="col-md-6">
             @component('components.input', [
                 'name' => 'blood_group',
                 'label' => trans('account.BloodGroup'),
                 'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => ['A', 'O', 'B', 'AB'],
+                'idx' => 1,
             ])
-            @slot('override')
-                @component('components.radio', [
-                    'name' => 'blood_group',
-                    'idx' => 1,
-                    'objects' => ['A', 'O', 'B', 'AB'],
-                    'required' => 1
-                ])
-                @endcomponent
-            @endslot
             @endcomponent
         </div>
-        <div class="col-12">
+        <div class="col-md-6">
             @component('components.input', [
                 'name' => 'religion_id',
                 'label' => trans('account.Religion'),
                 'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => $religions,
             ])
-            @slot('override')
-                @component('components.radio', [
-                    'name' => 'religion_id',
-                    'objects' => $religions,
-                    'required' => 1
-                ])
-                @endcomponent
-            @endslot
             @endcomponent
         </div>
     </div>
+
     <h3>Education</h3>
     <div class="row">
         <div class="col-12">
@@ -104,13 +107,10 @@
                 'name' => 'school_id',
                 'label' => trans('account.School'),
                 'attributes' => 'required',
+                'input_type' => 'select',
+                'objects' => $schools,
+                'placeholder' => 'Select your school...',
             ])
-            @slot('override')
-                {!! Form::select('school_id', $schools, null, [
-                    'class' => 'form-control',
-                    'placeholder' => 'Select your school...',
-                ]) !!}
-            @endslot
             @endcomponent
         </div>
         <div class="col-12">
@@ -118,15 +118,9 @@
                 'name' => 'program_id',
                 'label' => trans('camper.Program'),
                 'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => $programs,
             ])
-            @slot('override')
-                @component('components.radio', [
-                    'name' => 'program_id',
-                    'objects' => $programs,
-                    'required' => 1,
-                ])
-                @endcomponent
-            @endslot
             @endcomponent
         </div>
         <div class="col-12">
@@ -134,16 +128,148 @@
                 'name' => 'education_level',
                 'label' => trans('account.EducationLevel'),
                 'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => $education_levels,
+                'getter' => 'name',
             ])
-            @slot('override')
-                @component('components.radio', [
-                    'name' => 'education_level',
-                    'objects' => $education_levels,
-                    'getter' => 'name',
-                    'required' => 1
+            @endcomponent
+        </div>
+    </div>
+
+    <h3>Student Documents</h3>
+    <div class="row">
+        <div class="col-12">
+            <!-- TODO: TBD -->
+        </div>
+    </div>
+
+    <h3>Contact Information</h3>
+    <div class="row">
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'mobile_no',
+                'label' => trans('account.MobileNo'),
+                'type' => 'tel',
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'address',
+                'label' => trans('account.StreetAddress'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-6">
+            @component('components.input', [
+                'name' => 'city',
+                'label' => trans('account.City'),
+                'attributes' => 'required',
+                'input_type' => 'select',
+                'objects' => [],
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-6">
+            @component('components.input', [
+                'name' => 'zipcode',
+                'label' => trans('account.ZipCode'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+    </div>
+
+    <h3>Emergency Contact Information</h3>
+    <div class="row">
+        <div class="col-md-6">
+            @component('components.input', [
+                'name' => 'guardian_name',
+                'label' => trans('camper.GuardianName'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-6">
+            @component('components.input', [
+                'name' => 'guardian_surname',
+                'label' => trans('camper.GuardianSurname'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'education_level',
+                'label' => trans('account.EducationLevel'),
+                'attributes' => 'required',
+                'input_type' => 'radio',
+                'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')],
+                'idx' => 1,
+            ])
+            @slot('append_last')
+                @component('components.input', [
+                    'name' => 'guardian_role_text',
+                    'class' => 'ml-2',
                 ])
                 @endcomponent
             @endslot
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'guardian_mobile_no',
+                'label' => trans('camper.GuardianMobileNo'),
+                'attributes' => 'required',
+                'type' => 'tel',
+            ])
+            @endcomponent
+        </div>
+    </div>
+    
+    <h3>Account</h3>
+    <div class="row">
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'username',
+                'label' => trans('account.Username'),
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'email',
+                'label' => trans('account.Email'),
+                'type' => 'email',
+                'attributes' => 'required',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'current_password',
+                'label' => trans('account.CurrentPassword'),
+                'type' => 'password',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'password',
+                'label' => trans('account.Password'),
+                'type' => 'password',
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'password_confirmation',
+                'label' => trans('account.ConfirmPassword'),
+                'type' => 'password',
+            ])
             @endcomponent
         </div>
     </div>

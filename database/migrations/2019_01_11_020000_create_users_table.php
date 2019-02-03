@@ -25,7 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('citizen_id');
             $table->tinyInteger('gender')->unsigned();
             $table->date('dob');
-            $table->string('address', 300);
+            $table->string('street_address', 300);
+            $table->tinyInteger('city');
             $table->string('zipcode');
             $table->string('mobile_no')->nullable();
             $table->string('allergy', 200)->nullable();

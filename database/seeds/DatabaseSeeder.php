@@ -168,8 +168,11 @@ class DatabaseSeeder extends Seeder
             foreach (Camp::all() as $camp) {
                 if (Common::randomVeryRareHit())
                     continue;
-                if (!$camper->isEligibleForCamp($camp))
+                try {
+                    $camper->isEligibleForCamp($camp);
+                } catch (\Exception $e) {
                     continue;
+                }
                 if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
                     continue;
                 $registration = Registration::create([
@@ -264,8 +267,11 @@ class DatabaseSeeder extends Seeder
                 ]);
                 // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($campers as $camper) {
-                    if (!$camper->isEligibleForCamp($camp))
+                    try {
+                        $camper->isEligibleForCamp($camp);
+                    } catch (\Exception $e) {
                         continue;
+                    }
                     $registration = $camp->getLatestRegistration($camper->id);
                     if (is_null($registration))
                         continue;

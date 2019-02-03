@@ -67,7 +67,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
-        'address' => $faker->address,
+        'street_address' => $faker->address,
+        'city' => 0, // TODO: add city array
         'zipcode' => User_Randomizer::zipcode_prefix().implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         'religion_id' => Religion::inRandomOrder()->first()->id,

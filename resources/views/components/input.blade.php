@@ -1,7 +1,11 @@
+<?php $required = false; ?>
+@if (isset($attributes) && strpos($attributes, 'required') !== false)
+    <?php $required = true ?>
+@endif
 @if (isset($label))
     <label
         for="{{ $name }}"
-        @if (isset($attributes) && strpos($attributes, 'required') !== false)
+        @if ($required)
             <?php $label_attributes = 'required' ?>
         @endif
         @if (isset($label_attributes))
@@ -11,8 +15,30 @@
         {{ $label }}
     </label>
 @endif
-@if (isset($override))
-    {{ $override }}
+@if (isset($input_type))
+    @switch ($input_type)
+        @case ('select')
+            {!! Form::select($name, $objects, null, [
+                'class' => 'form-control',
+                'placeholder' => isset($placeholder) ? $placeholder : null,
+            ]) !!}
+            @break
+        @case ('radio')
+        @case ('checkbox')
+            @component('components.radio', [
+                'name' => $name,
+                'type' => $input_type,
+                'objects' => $objects,
+                'required' => $required,
+                'getter' => isset($getter) ? $getter : null,
+                'idx' => isset($idx) ? $idx : null,
+            ])
+            @slot('append_last')
+                {{ isset($append_last) ? $append_last : null }}
+            @endslot
+            @endcomponent
+            @break
+    @endswitch
 @else
     @if (isset($textarea))
         <textarea
