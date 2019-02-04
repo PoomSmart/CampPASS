@@ -215,8 +215,8 @@
         </div>
         <div class="col-12">
             @component('components.input', [
-                'name' => 'education_level',
-                'label' => trans('account.EducationLevel'),
+                'name' => 'guardian_role',
+                'label' => trans('camper.GuardianRole'),
                 'attributes' => 'required',
                 'input_type' => 'radio',
                 'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')],
