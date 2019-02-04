@@ -10,7 +10,7 @@
             <h3 class="mb-4">{{ $category }}</h3>
             @foreach ($camps as $index => $camp)
                 @if ($index % 3 == 0)
-                    <div class="align-items-start card-columns no-gutters">
+                    <div class="card-columns">
                 @endif
                 @component('components.camp_block', [
                     'src' => 'http://placehold.it/800x600/'.\App\Common::randomString(6),
