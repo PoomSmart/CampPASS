@@ -36,6 +36,36 @@ class CampApplicationController extends Controller
         return $camp;
     }
 
+    public static function getApplyButtonInformation(Camp $camp)
+    {
+        $apply_text = null;
+        $camper = \Auth::user();
+        $ineligible_reason = $camper->getIneligibleReasonForCamp($camp);
+        $disabled = false;
+        if ($ineligible_reason)
+            $disabled = true;
+        $registration = $camper->registrationForCamp($camp);
+        $status = $registration ? $registration->status : -1;
+        $camp_procedure = $camp->camp_procedure();
+        switch ($status) {
+            case RegistrationStatus::DRAFT:
+            case RegistrationStatus::RETURNED:
+                $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
+                break;
+            case RegistrationStatus::APPLIED:
+                $apply_text = trans('registration.APPLIED');
+                break;
+            case RegistrationStatus::APPROVED:
+                $apply_text = trans('registration.APPROVED');
+                break;
+            case RegistrationStatus::QUALIFIED:
+                $apply_text = trans('registration.QUALIFIED');
+                break;
+        }
+        if (!$apply_text) $apply_text = trans('registration.Apply');
+        return [ 'text' => $apply_text, 'disabled' => $disabled || $status >= RegistrationStatus::APPLIED, ];
+    }
+
     public function landing(Camp $camp)
     {
         $this->authenticate($camp);
