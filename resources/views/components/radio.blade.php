@@ -56,4 +56,7 @@
             </div>
         @endif
     @endforeach
+    @if (isset($columns) && count($objects) % $columns)
+        </div>
+    @endif
 </fieldset>

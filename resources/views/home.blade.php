@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="container pt-0 carousel-inner px-0" style="height: 450px; max-height: 450px;">
+        <div class="container pt-0 carousel-inner px-0">
             <?php $index = 0 ?>
             <!-- TODO: three-columns can suck when the screen is not too small -->
             @foreach ($popular_camps as $camp)
@@ -68,6 +68,9 @@
                     </div>
                 @endif
             @endforeach
+            @if (count($popular_camps) % 3)
+                </div>
+            @endif
         </div>
     </div>
 

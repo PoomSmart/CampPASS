@@ -15,7 +15,13 @@ class CampBrowserController extends Controller
      */
     public function index()
     {
-        $camps = Camp::allApproved()->latest()->get();
-        return view('camp_browser.index', compact('camps'));
+        $categorized_camps = [];
+        foreach (Camp::allApproved()->latest()->get() as $camp) {
+            $category = $camp->camp_category()->name;
+            if (!isset($categorized_camps[$category]))
+                $categorized_camps[$category] = [];
+            $categorized_camps[$category][] = $camp;
+        }
+        return view('camp_browser.index', compact('categorized_camps'));
     }
 }
