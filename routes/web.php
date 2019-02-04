@@ -67,7 +67,11 @@ Route::prefix('profile')->group(function () {
     Route::get('/edit/{user}', 'ProfileController@edit')->name('profiles.edit');
 });
 
-Route::resource('camp_browser', 'CampBrowserController');
+Route::prefix('browse-camps')->group(function () {
+    Route::get('/', 'CampBrowserController@index')->name('camp_browser.index');
+    Route::get('/organization/{record}', 'CampBrowserController@by_organization')->name('camp_browser.by_organization');
+    Route::get('/category/{record}', 'CampBrowserController@by_category')->name('camp_browser.by_category');
+});
 
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
 Route::get('/register-camper', 'Auth\RegisterController@camper')->name('register-camper');

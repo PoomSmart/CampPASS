@@ -18,6 +18,11 @@ class CampCategory extends Model
         return $this->name;
     }
 
+    public function getName()
+    {
+        return $this->name; // TODO: Localization
+    }
+
     public static function values()
     {
         return self::orderBy('name')->select(['id', 'name'])->get();

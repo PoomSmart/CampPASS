@@ -92,6 +92,7 @@
 ])
 @endcomponent
 
+<!-- TODO: make them inline? -->
 @component('components.input', [
     'name' => 'min_gpa_range',
     'label' => trans('camp.MinGPA'),

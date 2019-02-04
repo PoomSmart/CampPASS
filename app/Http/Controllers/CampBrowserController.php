@@ -3,11 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Camp;
+use App\CampCategory;
+use App\Organization;
 
 use Illuminate\Http\Request;
 
 class CampBrowserController extends Controller
 {
+    protected $category_ids = [];
+
+    public function get_camps($column = null, $value = null)
+    {
+        $camps = Camp::allApproved();
+        if ($column && $value) {
+            $camps = $camps->where($column, $value);
+            return $camps->latest()->get();
+        }
+        $output_camps = [];
+        foreach ($camps->latest()->get() as $camp) {
+            $category = $camp->camp_category();
+            $category_name = $category->name;
+            if (!isset($output_camps[$category_name])) {
+                $output_camps[$category_name] = [];
+                $this->category_ids[$category_name] = $category->id;
+            }
+            $output_camps[$category_name][] = $camp;
+        }
+        return $output_camps;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,13 +38,20 @@ class CampBrowserController extends Controller
      */
     public function index()
     {
-        $categorized_camps = [];
-        foreach (Camp::allApproved()->latest()->get() as $camp) {
-            $category = $camp->camp_category()->name;
-            if (!isset($categorized_camps[$category]))
-                $categorized_camps[$category] = [];
-            $categorized_camps[$category][] = $camp;
-        }
-        return view('camp_browser.index', compact('categorized_camps'));
+        $categorized_camps = $this->get_camps();
+        $category_ids = $this->category_ids;
+        return view('camp_browser.index', compact('categorized_camps', 'category_ids'));
+    }
+
+    public function by_category(CampCategory $record)
+    {
+        $camps = $this->get_camps('camp_category_id', $record->id);
+        return view('camp_browser.by_category', compact('camps', 'record'));
+    }
+
+    public function by_organization(Organization $record)
+    {
+        $camps = $this->get_camps('organization_id', $record->id);
+        return view('camp_browser.by_category', compact('camps', 'record'));
     }
 }
