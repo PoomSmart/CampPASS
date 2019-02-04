@@ -56,13 +56,18 @@ class User_Randomizer
 
 $factory->define(App\User::class, function (Faker $faker) {
     $name = $faker->unique()->firstName;
-    $type = Common::randomFrequentHit() ? config('const.account.camper') : config('const.account.campmaker');
-    $dob = $type == config('const.account.camper') ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
+    $CAMPER = config('const.account.camper');
+    $CAMPMAKER = config('const.account.campmaker');
+    $type = Common::randomFrequentHit() ? $CAMPER : $CAMPMAKER;
+    $dob = $type == $CAMPER ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
     return [
         'username' => strtolower($name),
         'name_en' => $name,
         'surname_en' => $faker->lastName,
         'nickname_en' => $faker->word,
+        'guardian_name' => $type == $CAMPER ? $faker->firstName : null,
+        'guardian_surname' => $type == $CAMPER ? $faker->lastName : null,
+        'guardian_role' => $type == $CAMPER ? rand() % 2 : null,
         'nationality' => $faker->numberBetween($min = 0, $max = 1),
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
