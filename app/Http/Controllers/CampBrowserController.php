@@ -14,12 +14,14 @@ class CampBrowserController extends Controller
 
     public function get_camps($column = null, $value = null)
     {
+        $max_fetch = config('const.camp.max_fetch');
         $camps = Camp::allApproved();
         if ($column && $value) {
             $camps = $camps->where($column, $value);
             return $camps->latest()->get();
         }
         $output_camps = [];
+        $category_count = CampCategory::count();
         foreach ($camps->latest()->get() as $camp) {
             $category = $camp->camp_category();
             $category_name = $category->name;
@@ -27,7 +29,11 @@ class CampBrowserController extends Controller
                 $output_camps[$category_name] = [];
                 $this->category_ids[$category_name] = $category->id;
             }
-            $output_camps[$category_name][] = $camp;
+            if (count($output_camps[$category_name]) < $max_fetch) {
+                $output_camps[$category_name][] = $camp;
+                if (--$category_count == 0)
+                    break;
+            }
         }
         return $output_camps;
     }
