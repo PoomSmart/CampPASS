@@ -13,19 +13,19 @@ use Illuminate\Http\Request;
 
 class QualificationController extends Controller
 {
-    public function answer_view($registration_id, $question_set_id)
+    public function answer_grade($registration_id, $question_set_id)
     {
         $registration = Registration::findOrFail($registration_id);
         $camper = $registration->camper();
         if (!$camper->isCamper())
             throw new \App\Exceptions\CampPassException(trans('app.InternalError'));
         if ($registration->unsubmitted())
-            throw new \App\Exceptions\CampPassException('You cannot view the answers of an unsubmitted form.');
+            throw new \App\Exceptions\CampPassException('You cannot grade the answers of an unsubmitted form.');
         $question_set = QuestionSet::findOrFail($question_set_id);
         $camp = $question_set->camp();
         $answers = Answer::where('question_set_id', $question_set->id)->get()->where('camper_id', $camper->id);
         if (empty($answers))
-            throw new \App\Exceptions\CampPassException('You cannot view the answers of the application form without questions.');
+            throw new \App\Exceptions\CampPassException('You cannot grade the answers of the application form without questions.');
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
         $json['question_scored'] = [];
@@ -56,6 +56,6 @@ class QualificationController extends Controller
             ];
         }
         $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
-        return view('qualification.answer_view', compact('camp', 'camper', 'data', 'json', 'score_report'));
+        return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report'));
     }
 }

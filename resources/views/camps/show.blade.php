@@ -35,7 +35,7 @@
                                 <td>{{ $registration->getStatus() }}</td>
                                 <td>
                                     @if ($rankable)
-                                        <a class="btn btn-info" href="{{ route('qualification.answer_view', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
+                                        <a class="btn btn-info" href="{{ route('qualification.answer_grade', [$registration->id, $camp->question_set()->id]) }}">{{ trans('registration.View') }}</a>
                                     @endif
                                 </td>
                             </tr>
