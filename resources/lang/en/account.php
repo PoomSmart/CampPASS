@@ -2,7 +2,7 @@
 
 return [
     'Password' => 'Password',
-    'Current Password' => 'Current Password',
+    'CurrentPassword' => 'Current Password',
     'ConfirmPassword' => 'Confirm Password',
     'ResetPassword' => 'Reset Password',
     'ForgotYourPassword' => 'Forgot your password?',

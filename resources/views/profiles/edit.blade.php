@@ -131,6 +131,7 @@
                 'input_type' => 'radio',
                 'objects' => $education_levels,
                 'getter' => 'name',
+                'columns' => 3,
             ])
             @endcomponent
         </div>

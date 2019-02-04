@@ -1,5 +1,12 @@
 <fieldset>
+    <?php if (isset($columns)) $col_width = 12 / $columns ?>
     @foreach ($objects as $i => $obj)
+        @if (isset($columns) && $i % $columns == 0)
+            <div class="row">
+        @endif
+        @if (isset($columns))
+            <div class="col-md-{{ $col_width }}">
+        @endif
         <?php
             $j = isset($idx) && $idx == 1 ? $i : $obj->id;
             $checkbox = isset($type) && $type == 'checkbox';
@@ -41,6 +48,12 @@
         <!-- TODO: make this thing shows -->
         @if ($i == count($objects) - 1)
             <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
+        @endif
+        @if (isset($columns))
+            </div>
+        @endif
+        @if (isset($columns) && ($i + 1) % $columns == 0)
+            </div>
         @endif
     @endforeach
 </fieldset>
