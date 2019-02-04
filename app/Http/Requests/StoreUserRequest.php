@@ -78,6 +78,7 @@ class StoreUserRequest extends FormRequest
                     'required', 'digits:13', "unique:users,citizen_id,{$citizen_id}", new ThaiCitizenID,
                 ],
                 'email' => "required|string|email|max:100|unique:users,email,{$id}",
+                'current_password' => "sometimes|required|current_password|different:password",
             ];
         } else if ($method =='POST') {
             $rules += [

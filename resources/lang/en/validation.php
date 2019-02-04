@@ -116,6 +116,8 @@ return [
     'url' => ':attribute format is invalid.',
     'uuid' => ':attribute must be a valid UUID.',
 
+    'current_password' => ':attribute is invalid.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -157,7 +159,8 @@ return [
         'mobile_no' => trans('account.MobileNo'),
         'dob' => trans('account.DOB'),
         'allergy' => trans('account.Allergy'),
-        'address' => trans('account.Address'),
+        'street_address' => trans('account.StreetAddress'),
+        'city' => trans('account.City'),
         'zipcode' => trans('account.ZipCode'),
         'username' => trans('account.Username'),
         'email' => trans('account.Email'),
@@ -165,6 +168,7 @@ return [
         'password_confirmation' => trans('account.ConfirmPassword'),
         'blood_group' => trans('account.BloodGroup'),
         'guardian_name' => trans('account.GuardianName'),
+        'guardian_surname' => trans('account.GuardianSurname'),
         'guardian_role' => trans('account.GuardianRole'),
         'guardian_mobile_no' => trans('account.GuardianMobileNo'),
         'religion_id' => trans('account.Religion'),
