@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 d-inline-flex flex-wrap align-content-start">
         <?php if (isset($columns)) $col_width = 12 / $columns ?>
         @foreach ($objects as $i => $obj)
             <?php
@@ -8,7 +8,7 @@
                 $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
                 $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
             ?>
-            <div class="form-check{{ !isset($noinline) ? ' form-check-inline' : '' }}{{ isset($columns) ? ' col-md-'.$col_width : '' }}">
+            <div class="form-check{{ !isset($noinline) ? ' form-check-inline' : '' }}">
                 <input class="form-check-input"
                     type="{{ isset($type) ? $type : 'radio' }}"
                     name="{{ $name }}{{ ($checkbox ? "[]" : "") }}"

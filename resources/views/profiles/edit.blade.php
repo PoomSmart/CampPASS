@@ -122,6 +122,7 @@
             ])
             @endcomponent
         </div>
+        <!-- TODO: This is all in one-line, should we comply with XD -->
         <div class="col-12">
             @component('components.input', [
                 'name' => 'education_level',
