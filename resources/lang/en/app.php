@@ -11,6 +11,7 @@ return [
     'Back' => 'Back',
     'Show' => 'Show',
     'Edit' => 'Edit',
+    'By' => 'By',
     'Delete' => 'Delete',
     'Close' => 'Close',
     'Update' => 'Update',

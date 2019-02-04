@@ -59,16 +59,11 @@
                 @if ($index % 3 == 0)
                     <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
                 @endif
-                <div class="card">
-                    <img class="card-img-top" src="http://placehold.it/800x600/{{ \App\Common::randomString(6) }}/fff" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ $camp }}</h4>
-                        <p class="card-text">{{ $camp->getShortDescription() }}</p>
-                        @if ($camp->getCloseDate())
-                            <p class="card-text"><small class="text-muted">{{ trans('registration.WillClose').' '.$camp->getCloseDate() }}</small></p>
-                        @endif
-                    </div>
-                </div>
+                @component('components.camp_block', [
+                    'src' => 'http://placehold.it/800x600/'.\App\Common::randomString(6),
+                    'camp' => $camp,
+                ])
+                @endcomponent
                 @if (++$index % 3 == 0)
                     </div>
                 @endif

@@ -15,4 +15,5 @@ return [
     'LateApplication' => 'This camp already closed its application period.',
     'QuotaExceeded' => 'The quota of this camp is full.',
     'EmptyRegistration' => 'No one has registered for this camp yet.',
+    'WillClose' => 'Application will be close on'
 ];
