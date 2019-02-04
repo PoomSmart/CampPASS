@@ -6,6 +6,7 @@ use App\CampCategory;
 use App\CampProcedure;
 use App\Organization;
 use App\Region;
+use App\Year;
 
 use Carbon\Carbon;
 
@@ -13,13 +14,21 @@ use Faker\Generator as Faker;
 
 class Camp_Randomizer
 {
-    protected static $programs, $regions;
+    protected static $programs, $regions, $years;
 
     public static function programs()
     {
         if (!self::$programs)
             self::$programs = array_column(Program::select('id')->get()->toArray(), 'id', 'id');
         $values = array_rand(self::$programs, rand(1, count(self::$programs)));
+        return is_array($values) ? $values : [ $values ];
+    }
+
+    public static function years()
+    {
+        if (!self::$years)
+            self::$years = array_column(Year::select('id')->get()->toArray(), 'id', 'id');
+        $values = array_rand(self::$years, rand(1, count(self::$years)));
         return is_array($values) ? $values : [ $values ];
     }
 
@@ -50,6 +59,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),
         'acceptable_programs' => Camp_Randomizer::programs(),
+        'acceptable_years' => Camp_Randomizer::years(),
         'min_gpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
         'other_conditions' => rand() % 2 ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => $faker->unique()->url,
