@@ -21,15 +21,11 @@
             'attributes' => 'required',
         ])
         @endcomponent
-        <div class="form-group row">
-            <div class="col-md-6 offset-md-4">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">
-                        {{ trans('account.RememberMe') }}
-                    </label>
-                </div>
-            </div>
+        <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+            <label class="form-check-label" for="remember">
+                {{ trans('account.RememberMe') }}
+            </label>
         </div>
         @component('components.submit', ['label' => trans('app.Login')])
         @slot('postcontent')

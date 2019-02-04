@@ -18,17 +18,18 @@ class QualificationController extends Controller
         $registration = Registration::findOrFail($registration_id);
         $camper = $registration->camper();
         if (!$camper->isCamper())
-            return redirect('/')->with('error', 'app.InternalError');
+            throw new \App\Exceptions\CampPassException(trans('app.InternalError'));
         if ($registration->unsubmitted())
-            return redirect()->back()->with('error', 'You cannot view the answers of an unsubmitted form.');
+            throw new \App\Exceptions\CampPassException('You cannot view the answers of an unsubmitted form.');
         $question_set = QuestionSet::findOrFail($question_set_id);
         $camp = $question_set->camp();
         $answers = Answer::where('question_set_id', $question_set->id)->get()->where('camper_id', $camper->id);
         if (empty($answers))
-            return redirect('/')->with('error', 'You cannot view the answers of the application form without questions.');
+            throw new \App\Exceptions\CampPassException('You cannot view the answers of the application form without questions.');
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
         $json['question_scored'] = [];
+        $json['question_full_score'] = [];
         $auto_gradable_score = 0;
         $total_auto_gradable_score = 0;
         $camper_score = 0;
@@ -48,6 +49,7 @@ class QualificationController extends Controller
                 }
                 $total_score += $question->full_score;
             }
+            $json['question_full_score'][$question->json_id] = $question->full_score;
             $data[] = [
                 'question' => $question,
                 'answer' => Common::decodeIfNeeded($answer, $question->type),

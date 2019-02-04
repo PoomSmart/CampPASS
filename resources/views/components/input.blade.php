@@ -8,17 +8,14 @@
     }
 ?>
 @if (isset($label))
-    <label
-        for="{{ $name }}"
-        @if ($required)
-            <?php $label_attributes = 'required' ?>
-        @endif
-        @if (isset($label_attributes))
-            {{ $label_attributes }}
-        @endif
-        class="col-form-label {{ isset($label_class) ? $label_class : '' }}">
-        {{ $label }}
-    </label>
+    @component('components.label', [
+        'name' => $name,
+        'required' => $required,
+        'label' => $label,
+        'label_attributes' => isset($label_attributes) ? $label_attributes : null,
+        'label_class' => isset($label_class) ? $label_class : null,
+    ])
+    @endcomponent
 @endif
 @if (isset($input_type))
     @switch ($input_type)
@@ -56,7 +53,7 @@
             }}"
     @endif
         id="{{ $name }}" 
-        class="form-control{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
+        class="form-control{{ isset($type) ? ' form-control-'.$type : ''}}{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
         name="{{ $name }}"
         @if (isset($placeholder))
             placeholder="{{ $placeholder }}"
@@ -69,9 +66,6 @@
         >{{ isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '') }}</textarea>
     @else
         >
-    @endif
-    @if (isset($append))
-        {{ $append }}
     @endif
     @if ($errors->has($name))
         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>

@@ -13,7 +13,7 @@
         ?>
         <div class="row">
             <div class="col-12">
-                <h3 id="question-title">{{ $json['question'][$key] }}</h2>
+                <h4 id="question-title">{{ $json['question'][$key] }}</h4>
             </div>
             <div class="col-12">
                 <div class="mb-4">
