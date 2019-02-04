@@ -10,13 +10,14 @@ use App\Program;
 use App\Enums\EducationLevel;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class ProfileController extends Controller
 {
     function __construct()
     {
         $this->middleware('auth', ['only' => ['edit', 'store']]);
-        $this->religions = Religion::all(['id', 'name']);
+        $this->religions = Religion::values();
         $this->organizations = null;
         $this->schools = School::all();
         $this->programs = Program::all();
@@ -41,6 +42,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
         $this->authenticate($user);
+        View::share('object', $user);
         return view('profiles.show', compact('user'));
     }
 
@@ -51,6 +53,7 @@ class ProfileController extends Controller
         $schools = $this->schools;
         $programs = $this->programs;
         $education_levels = $this->education_levels;
+        View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'programs', 'education_levels'));
     }
 }
