@@ -62,7 +62,6 @@
                 'input_type' => 'radio',
                 'objects' => [trans('account.Thai'), trans('app.Other')],
                 'idx' => 1,
-
             ])
             @endcomponent
         </div>
@@ -275,6 +274,7 @@
                 'name' => 'password',
                 'label' => trans('account.Password'),
                 'type' => 'password',
+                'value' => '',
             ])
             @endcomponent
         </div>

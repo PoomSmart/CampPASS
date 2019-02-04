@@ -7,6 +7,8 @@
         if (strpos($attributes, 'disabled') !== false)
             $disabled = true;
     }
+    if (!isset($value))
+        $value = old($name, isset($object) ? $object->{$name} : '')
 ?>
 @if (isset($label))
     @component('components.label', [
@@ -21,7 +23,7 @@
 @if (isset($input_type))
     @switch ($input_type)
         @case ('select')
-            {!! Form::select($name, $objects, null, [
+            {!! Form::select($name, $objects, (int)$value - 1, [
                 'class' => 'form-control',
                 'placeholder' => isset($placeholder) ? $placeholder : null,
                 'disabled' => $disabled,
@@ -48,10 +50,7 @@
     @if (isset($textarea))
         <textarea
     @else
-        <input type="{{ isset($type) ? $type : 'text' }}"
-            value="{{
-                isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '')
-            }}"
+        <input type="{{ isset($type) ? $type : 'text' }}" value="{{ $value }}"
     @endif
         id="{{ $name }}" 
         class="form-control{{ isset($type) ? ' form-control-'.$type : ''}}{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
@@ -67,7 +66,7 @@
         @endif
             {{ isset($attributes) ? $attributes : '' }}
         @if (isset($textarea))
-            >{{ isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '') }}</textarea>
+            >{{ $value }}</textarea>
         @else
             >
         @endif
