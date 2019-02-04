@@ -13,7 +13,7 @@
                     <div class="card-columns">
                 @endif
                 @component('components.camp_block', [
-                    'camp' => $camp,
+                    'object' => $camp,
                 ])
                 @endcomponent
                 @if (($index + 1) % 3 == 0)
