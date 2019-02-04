@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('card_content')
-    <h3>About You</h3>
+    <h3 class="mt-4">About You</h3>
     <div class="row">
         <div class="col-md-6">
             @component('components.input', [
@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    <h3>Education</h3>
+    <h3 class="mt-4">Education</h3>
     <div class="row">
         <div class="col-12">
             @component('components.input', [
@@ -136,14 +136,27 @@
         </div>
     </div>
 
-    <h3>Student Documents</h3>
+    <h3 class="mt-4">Student Documents</h3>
     <div class="row">
+        <h4 class="col-12 mt-2">Transcript</h4>
         <div class="col-12">
-            <!-- TODO: TBD -->
+            <div class="btn-group d-flex justify-content-between" role="group">
+                <a href="" class="btn btn-primary w-100">View</a>
+                <a href="" class="btn btn-primary w-100">Upload</a>
+                <a href="" class="btn btn-primary w-100">Delete</a>
+            </div>
+        </div>
+        <h4 class="col-12 mt-2">Student Certificate</h4>
+        <div class="col-12">
+            <div class="btn-group d-flex justify-content-between" role="group">
+                <a href="" class="btn btn-primary w-100">View</a>
+                <a href="" class="btn btn-primary w-100">Upload</a>
+                <a href="" class="btn btn-primary w-100">Delete</a>
+            </div>
         </div>
     </div>
 
-    <h3>Contact Information</h3>
+    <h3 class="mt-4">Contact Information</h3>
     <div class="row">
         <div class="col-12">
             @component('components.input', [
@@ -182,7 +195,7 @@
         </div>
     </div>
 
-    <h3>Emergency Contact Information</h3>
+    <h3 class="mt-4">Emergency Contact Information</h3>
     <div class="row">
         <div class="col-md-6">
             @component('components.input', [
@@ -229,7 +242,7 @@
         </div>
     </div>
     
-    <h3>Account</h3>
+    <h3 class="mt-4">Account</h3>
     <div class="row">
         <div class="col-12">
             @component('components.input', [
@@ -273,4 +286,6 @@
             @endcomponent
         </div>
     </div>
+    @component('components.submit')
+    @endcomponent
 @endsection
