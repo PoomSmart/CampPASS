@@ -1,7 +1,12 @@
-<?php $required = false; ?>
-@if (isset($attributes) && strpos($attributes, 'required') !== false)
-    <?php $required = true ?>
-@endif
+<?php
+    $required = $disabled = false;
+    if (isset($attributes)) {
+        if (strpos($attributes, 'required') !== false)
+            $required = true;
+        if (strpos($attributes, 'disabled') !== false)
+            $disabled = true;
+    }
+?>
 @if (isset($label))
     <label
         for="{{ $name }}"
@@ -21,6 +26,7 @@
             {!! Form::select($name, $objects, null, [
                 'class' => 'form-control',
                 'placeholder' => isset($placeholder) ? $placeholder : null,
+                'disabled' => $disabled,
             ]) !!}
             @break
         @case ('radio')

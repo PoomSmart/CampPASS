@@ -49,7 +49,7 @@
     'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
     'input_type' => 'select',
     'objects' => $camp_procedures,
-    'placeholder' => 'Select Camp Registration Type...',
+    'placeholder' => isset($update) ? null : 'Select Camp Registration Type...',
 ])
 @endcomponent
 
@@ -58,10 +58,10 @@
 @component('components.input', [
     'name' => 'organization_id',
     'label' => trans('camp.Organization'),
-    'attributes' => $can_list_organization ? 'required' : isset($update) ? 'disabled' : '',
+    'attributes' => $can_list_organization ? 'required' : 'disabled',
     'input_type' => 'select',
     'objects' => $organizations,
-    'placeholder' => 'Select Organization...',
+    'placeholder' => $can_list_organization && !isset($update) ? 'Select Organization...' : null,
 ])
 @endcomponent
 

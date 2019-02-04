@@ -26,4 +26,9 @@ class CampProcedure extends Model
     {
         return $this->getTitle();
     }
+
+    public static function values()
+    {
+        return self::orderBy('title')->select(['id', 'title'])->get();
+    }
 }

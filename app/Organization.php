@@ -34,4 +34,10 @@ class Organization extends Model
             return $this->name_th;
         return $this->name_en;
     }
+
+    public static function values()
+    {
+        $column = 'name_'.config('app.locale');
+        return self::orderBy($column)->select(['id', $column])->get();
+    }
 }

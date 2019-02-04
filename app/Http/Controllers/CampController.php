@@ -26,21 +26,21 @@ class CampController extends Controller
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
-        $this->programs = Program::all(['id', 'name']);
-        $this->categories = CampCategory::all(['id', 'name']);
+        $this->programs = Program::values();
+        $this->categories = CampCategory::values();
         $this->organizations = null;
-        $this->camp_procedures = CampProcedure::all(['id', 'title']);
-        $this->regions = Region::all(['id', 'name']);
-        $this->years = Year::all(['id', 'name']);
+        $this->camp_procedures = CampProcedure::values();
+        $this->regions = Region::values();
+        $this->years = Year::values();
     }
 
     private function getOrganizationsIfNeeded()
     {
         if (is_null($this->organizations)) {
             if (\Auth::user()->hasPermissionTo('organization-list'))
-                $this->organizations = Organization::all();
+                $this->organizations = Organization::values();
             else
-                $this->organizations = array(Organization::find($id = \Auth::user()->organization_id));
+                $this->organizations = array(Organization::values()->find($id = \Auth::user()->organization_id));
         }
         return $this->organizations;
     }
