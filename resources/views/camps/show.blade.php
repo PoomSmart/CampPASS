@@ -67,12 +67,5 @@
                 <a class="btn btn-secondary" target="_blank" href="{{ $camp->getURL() }}">{{ trans('camp.ContactCampMaker') }}</a>
             </div>
         </div>
-        @if ($ineligible_reason)
-        <div class="row mt-2">
-            <div class="col-12">
-                <p class="text-danger">{{ $ineligible_reason }}</p>
-            </div>
-        </div>
-        @endif
     @endrole
 @endsection

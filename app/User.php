@@ -189,27 +189,28 @@ class User extends Authenticatable
         return null;
     }
 
-    public function getIneligibleReasonForCamp(Camp $camp)
+    public function getIneligibleReasonForCamp(Camp $camp, $short = false)
     {
         if (!$this->isCamper())
             return null;
+        $suffix = $short ? 'Short' : '';
         // An access to unapproved camps should not exist
         if (!$camp->approved)
-            return trans('camp.CampNotApproved');
+            return trans('camp.CampNotApproved'.$suffix);
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
-            return trans('registration.NotInRequiredPrograms');
+            return trans('registration.NotInRequiredPrograms'.$suffix);
         // Campers with CGPA lower than the criteria would not pass
         if ($camp->min_gpa > $this->cgpa)
-            return trans('registration.NotEnoughCGPA');
+            return trans('registration.NotEnoughCGPA'.$suffix);
         // Campers outside of the specified regions cannot participate
         $region = $this->region();
         if ($region && !in_array($region->id, $camp->acceptable_regions))
-            return trans('registration.NotInRequiredRegions');
+            return trans('registration.NotInRequiredRegions'.$suffix);
         if (Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) < 0)
-            return trans('registration.LateApplication');
+            return trans('registration.LateApplication'.$suffix);
         if ($camp->isFull())
-            return trans('registration.QuotaExceeded');
+            return trans('registration.QuotaExceeded'.$suffix);
         return null;
     }
 
