@@ -80,3 +80,9 @@ Route::get('/register-campmaker', 'Auth\RegisterController@campmaker')->name('re
 Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/language/{locale}', function ($locale) {
+    if (in_array($locale, \Config::get('app.locales')))
+        Session::put('locale', $locale);
+    return redirect()->back();
+})->name('locale');

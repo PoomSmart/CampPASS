@@ -149,7 +149,7 @@ class User extends Authenticatable
 
     public function getFullName()
     {
-        if (config('app.locale') == 'th' && !is_null($this->name-th))
+        if (\App::getLocale() == 'th' && !is_null($this->name_th))
             return $this->name_th .' '. $this->surname_th;
         return $this->name_en .' '. $this->surname_en;
     }

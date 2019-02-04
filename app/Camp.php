@@ -76,14 +76,14 @@ class Camp extends Model
 
     public function __toString()
     {
-        if (config('app.locale') == 'th' && !is_null($this->name_th))
+        if (\App::getLocale() == 'th' && !is_null($this->name_th))
             return $this->name_th;
         return $this->name_en;
     }
 
     public function getShortDescription()
     {
-        if (config('app.locale') == 'th' && !is_null($this->short_description_th))
+        if (\App::getLocale() == 'th' && !is_null($this->short_description_th))
             return $this->short_description_th;
         return $this->short_description_en;
     }

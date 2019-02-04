@@ -30,14 +30,14 @@ class Organization extends Model
 
     public function __toString()
     {
-        if (config('app.locale') == 'th' && !is_null($this->name_th))
+        if (\App::getLocale() == 'th' && !is_null($this->name_th))
             return $this->name_th;
         return $this->name_en;
     }
 
     public static function values()
     {
-        $column = 'name_'.config('app.locale');
+        $column = 'name_'.\App::getLocale();
         return self::orderBy($column)->select(['id', $column])->get();
     }
 }

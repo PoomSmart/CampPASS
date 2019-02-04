@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    Camp Browser
+    View All Camps
 @endsection
 
 @section('content')

@@ -19,7 +19,7 @@ class School extends Model
 
     public function __toString()
     {
-        if (config('app.locale') == 'th' && !is_null($this->name_th))
+        if (\App::getLocale() == 'th' && !is_null($this->name_th))
             return $this->name_th;
         return $this->name_en;
     }
