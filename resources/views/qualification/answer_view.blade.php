@@ -83,12 +83,18 @@
             </div>
             <div class="col-md-4 my-auto">
                 @if (isset($json['question_graded'][$key]))
-                    <?php $full_score = $json['question_full_score'][$key] ?>
+                    <?php
+                        $full_score = $json['question_full_score'][$key];
+                        $score = isset($json['question_scored'][$key]) ? $json['question_scored'][$key] : null;
+                    ?>
                     @component('components.numeric_range', [
                         'name' => 'manual_score', // TODO: save these values
+                        'id' => $key,
                         'min' => 0,
                         'max' => $full_score,
                         'step' => 1,
+                        'value' => $graded ? $score : null,
+                        'readonly' => $score,
                         'object' => isset($object) ? $object : null,
                     ])
                     @endcomponent

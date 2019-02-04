@@ -1,5 +1,6 @@
 <?php
-    $required = $disabled = false;
+    $required = false;
+    if (!isset($disabled)) $disabled = false;
     if (isset($attributes)) {
         if (strpos($attributes, 'required') !== false)
             $required = true;
@@ -58,15 +59,18 @@
         @if (isset($placeholder))
             placeholder="{{ $placeholder }}"
         @endif
-    @if (isset($desc))
-        aria-describedby="{{ $name }}-desc-inline"
-    @endif
-        {{ isset($attributes) ? $attributes : '' }}
-    @if (isset($textarea))
-        >{{ isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '') }}</textarea>
-    @else
-        >
-    @endif
+        @if ($disabled)
+            disabled
+        @endif
+        @if (isset($desc))
+            aria-describedby="{{ $name }}-desc-inline"
+        @endif
+            {{ isset($attributes) ? $attributes : '' }}
+        @if (isset($textarea))
+            >{{ isset($value) ? $value : old($name, isset($object) ? $object->{$name} : '') }}</textarea>
+        @else
+            >
+        @endif
     @if ($errors->has($name))
         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
     @endif
