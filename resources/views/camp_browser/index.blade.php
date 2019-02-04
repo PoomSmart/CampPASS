@@ -13,7 +13,6 @@
                     <div class="card-columns">
                 @endif
                 @component('components.camp_block', [
-                    'src' => 'http://placehold.it/800x600/'.\App\Common::randomString(6),
                     'camp' => $camp,
                 ])
                 @endcomponent

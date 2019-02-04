@@ -1,19 +1,17 @@
 <div class="card">
-    <img class="card-img-top" src="{{ $src }}" alt="Image of {{ $camp }}">
+    <img class="card-img-top" src="{{ isset($src) ? $src : 'http://placehold.it/800x600/'.\App\Common::randomString(6) }}" alt="Image of {{ $object }}">
     <div class="card-body">
-        <h5 class="card-title">{{ $camp }}</h5>
-        <h6 class="text-muted">{{ trans('app.By') }} {{ $camp->organization() }}</h6>
-        <p class="card-text">{{ $camp->getShortDescription() }}</p>
+        <h5 class="card-title">{{ $object }}</h5>
+        <h6 class="text-muted">{{ trans('app.By') }} {{ $object->organization() }}</h6>
+        <p class="card-text">{{ $object->getShortDescription() }}</p>
         <?php
-            $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
+            $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object);
             $apply_text = $info['text'];
             $disabled = $info['disabled'];
         ?>
-        <a class="btn btn-primary w-100{{ $disabled ? ' disabled' : ''}}"
-            href="{{ route('camp_application.landing', $camp->id) }}"
-        >{{ $apply_text }}</a>
-        @if ($camp->getCloseDate())
-            <p class="card-text text-center mt-2"><small class="text-muted">{{ trans('registration.WillClose').' '.$camp->getCloseDate() }}</small></p>
+        <a class="btn btn-primary w-100{{ $disabled ? ' disabled' : ''}}" href="{{ route('camp_application.landing', $object->id) }}">{{ $apply_text }}</a>
+        @if ($object->getCloseDate())
+            <p class="card-text text-center mt-2"><small class="text-muted">{{ trans('registration.WillClose').' '.$object->getCloseDate() }}</small></p>
         @endif
     </div>
 </div>
