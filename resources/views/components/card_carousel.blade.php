@@ -1,5 +1,7 @@
+<?php if (!isset($rows)) $rows = 1 ?>
+<?php $mod = 3 * $rows ?>
 <div id="{{ $id }}" class="carousel slide mt-2" data-ride="carousel">
-    <div class="containern mb-2">
+    <div class="container mb-2">
         <div class="row justify-content-between no-gutters">
             <div class="col-auto my-auto">
                 <h3 class="my-auto">{{ $header }}</h3>
@@ -14,18 +16,18 @@
         <?php $index = 0 ?>
         <!-- TODO: three-columns can suck when the screen is not too small -->
         @foreach ($objects as $object)
-            @if ($index % 3 == 0)
+            @if ($index % $mod == 0)
                 <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
             @endif
             @component($component, [
                 'object' => $object,
             ])
             @endcomponent
-            @if (++$index % 3 == 0)
+            @if (++$index % $mod == 0)
                 </div>
             @endif
         @endforeach
-        @if (count($objects) % 3)
+        @if (count($objects) % $mod)
             </div>
         @endif
     </div>

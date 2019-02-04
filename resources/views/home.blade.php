@@ -41,23 +41,21 @@
     </div>
 
     @component('components.card_carousel', [
-        'id' => 'myCampCarousel',
+        'id' => 'myCampsCarousel',
         'header' => 'Recommended Camps',
         'objects' => $popular_camps,
         'component' => 'components.camp_block',
     ])
     @endcomponent
 
-    <div class="container px-0"> 
-        <h3>{{ trans('camp.CampCategories') }}</h3>   
-        <div class="card-columns">
-            @foreach ($camp_categories as $category)
-                <div class="card-light mb-3">
-                    <img class="card-img-top" src="https://placehold.it/150x80?text={{ $category }}" alt="Card image {{ $category }}">
-                </div>
-            @endforeach
-        </div>
-    </div>
+    @component('components.card_carousel', [
+        'id' => 'campCategoriesCarousel',
+        'header' => trans('camp.CampCategories'),
+        'objects' => $camp_categories,
+        'component' => 'components.camp_category_block',
+        'rows' => 2,
+    ])
+    @endcomponent
 
     <!-- Start footer Area -->
     <footer class="page-footer">
@@ -87,8 +85,8 @@
     </footer>
     
     <script>
-        jQuery('.next').click(function(){ jQuery('#myCampCarousel').carousel('next'); return false; });
-        jQuery('.prev').click(function(){ jQuery('#myCampCarousel').carousel('prev'); return false; });
+        jQuery('.next').click(function() { jQuery(this).closest('.carousel').carousel('next'); return false; });
+        jQuery('.prev').click(function() { jQuery(this).closest('.carousel').carousel('prev'); return false; });
     </script>
     <!-- End footer Area -->            
 @stop
