@@ -37,30 +37,20 @@
     'name' => 'camp_category_id',
     'label' => trans('camp.Category'),
     'attributes' => 'required',
+    'input_type' => 'radio',
+    'objects' => $categories,
+    'columns' => 4,
 ])
-@slot('override')
-    @component('components.radio', [
-        'name' => 'camp_category_id',
-        'objects' => $categories,
-        'required' => 1
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 @component('components.input', [
     'name' => 'camp_procedure_id',
     'label' => trans('camp.CampProcedure'),
-    'attributes' => 'required',
+    'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
+    'input_type' => 'select',
+    'objects' => $camp_procedures,
+    'placeholder' => 'Select Camp Registration Type...',
 ])
-@slot('override')
-    @component('components.select', [
-        'name' => 'camp_procedure_id',
-        'objects' => $camp_procedures,
-        'disabled' => !\Auth::user()->isAdmin() && isset($update),
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 <?php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); ?>
@@ -69,60 +59,37 @@
     'name' => 'organization_id',
     'label' => trans('camp.Organization'),
     'attributes' => $can_list_organization ? 'required' : isset($update) ? 'disabled' : '',
+    'input_type' => 'select',
+    'objects' => $organizations,
+    'placeholder' => 'Select Organization...',
 ])
-@slot('override')
-    @component('components.select', [
-        'name' => 'organization_id',
-        'objects' => $organizations,
-        'disabled' => !$can_list_organization,
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 @component('components.input',[
     'name' => 'acceptable_years',
     'label' => trans('camp.AcceptableYears'),
     'attributes' => 'required',
+    'input_type' => 'checkbox',
+    'objects' => $years,
 ])
-@slot('override')
-    @component('components.radio', [
-        'name' => 'acceptable_years',
-        'type' => 'checkbox',
-        'objects' => $years,
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 @component('components.input', [
     'name' => 'acceptable_regions',
     'label' => trans('camp.AcceptableRegions'),
     'attributes' => 'required',
+    'input_type' => 'checkbox',
+    'objects' => $regions,
 ])
-@slot('override')
-    @component('components.radio', [
-        'name' => 'acceptable_regions',
-        'type' => 'checkbox',
-        'objects' => $regions
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 @component('components.input', [
     'name' => 'acceptable_programs',
     'label' => trans('camp.AcceptablePrograms'),
     'attributes' => 'required',
+    'input_type' => 'checkbox',
+    'objects' => $programs,
 ])
-@slot('override')
-    @component('components.radio', [
-        'name' => 'acceptable_programs',
-        'type' => 'checkbox',
-        'objects' => $programs
-    ])
-    @endcomponent
-@endslot
 @endcomponent
 
 @component('components.input', [
