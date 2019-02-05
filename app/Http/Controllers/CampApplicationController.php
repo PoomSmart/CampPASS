@@ -40,33 +40,37 @@ class CampApplicationController extends Controller
     {
         $apply_text = null;
         $camper = \Auth::user();
-        $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
         $disabled = false;
-        if ($ineligible_reason) {
-            $disabled = true;
-            $apply_text = $ineligible_reason;
-        } else {
-            $registration = $camper->registrationForCamp($camp);
-            $status = $registration ? $registration->status : -1;
-            $camp_procedure = $camp->camp_procedure();
-            switch ($status) {
-                case RegistrationStatus::DRAFT:
-                case RegistrationStatus::RETURNED:
-                    $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
-                    break;
-                case RegistrationStatus::APPLIED:
-                    $apply_text = trans('registration.APPLIED');
-                    break;
-                case RegistrationStatus::APPROVED:
-                    $apply_text = trans('registration.APPROVED');
-                    break;
-                case RegistrationStatus::QUALIFIED:
-                    $apply_text = trans('registration.QUALIFIED');
-                    break;
+        if ($camper) {
+            $disabled |= $camper->isAdmin();
+            $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
+            if ($ineligible_reason) {
+                $disabled = true;
+                $apply_text = $ineligible_reason;
+            } else {
+                $registration = $camper->registrationForCamp($camp);
+                $status = $registration ? $registration->status : -1;
+                $camp_procedure = $camp->camp_procedure();
+                switch ($status) {
+                    case RegistrationStatus::DRAFT:
+                    case RegistrationStatus::RETURNED:
+                        $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
+                        break;
+                    case RegistrationStatus::APPLIED:
+                        $apply_text = trans('registration.APPLIED');
+                        break;
+                    case RegistrationStatus::APPROVED:
+                        $apply_text = trans('registration.APPROVED');
+                        break;
+                    case RegistrationStatus::QUALIFIED:
+                        $apply_text = trans('registration.QUALIFIED');
+                        break;
+                }
+                $disabled |= $status >= RegistrationStatus::APPLIED;
             }
-            if (!$apply_text) $apply_text = trans('registration.Apply');
         }
-        return [ 'text' => $apply_text, 'disabled' => $camper->isAdmin() || $disabled || $status >= RegistrationStatus::APPLIED, ];
+        if (!$apply_text) $apply_text = trans('registration.Apply');
+        return [ 'text' => $apply_text, 'disabled' => $disabled, ];
     }
 
     public function landing(Camp $camp)
