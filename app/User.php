@@ -187,7 +187,7 @@ class User extends Authenticatable
         $suffix = $short ? 'Short' : '';
         // An access to unapproved camps should not exist
         if (!$camp->approved)
-            return trans('camp.CampNotApproved'.$suffix);
+            return trans('camp.ApproveFirst'.$suffix);
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
             return trans('registration.NotInRequiredPrograms'.$suffix);
@@ -226,5 +226,15 @@ class User extends Authenticatable
     {
         $registration = $this->registrationForCamp($camp);
         return $registration ? $registration->cannotSubmit() : false;
+    }
+
+    public function activate()
+    {
+        if (!$this->isActivated()) {
+            $this->status = 1;
+            $this->activation_code = null;
+            return true;
+        }
+        return false;
     }
 }

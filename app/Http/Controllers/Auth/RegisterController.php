@@ -148,8 +148,7 @@ class RegisterController extends Controller
             $user = app(User::class)->where('activation_code', $activationCode)->first();
             if (!$user)
                 return "The code does not exist for any user in our system.";
-            $user->status = 1;
-            $user->activation_code = null;
+            $user->activate();
             $user->save();
             auth()->login($user);
         } catch (\Exception $exception) {

@@ -67,7 +67,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'nickname_en' => $faker->word,
         'guardian_name' => $type == $CAMPER ? $faker->firstName : null,
         'guardian_surname' => $type == $CAMPER ? $faker->lastName : null,
-        'guardian_role' => $type == $CAMPER ? rand() % 2 : null,
+        'guardian_role' => $type == $CAMPER ? Common::randomMediumHit() : null,
         'nationality' => $faker->numberBetween($min = 0, $max = 1),
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),

@@ -44,7 +44,7 @@ class Common
 
     public static function randomMediumHit()
     {
-        return rand() % 2;
+        return rand() & 1;
     }
 
     public static function randomRareHit()

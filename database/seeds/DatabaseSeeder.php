@@ -188,16 +188,16 @@ class DatabaseSeeder extends Seeder
         // First, fake registrations of campers who are eligible for
         $this->log_seed('registrations');
         foreach (User::campers()->cursor() as $camper) {
-            foreach (Camp::all() as $camp) {
-                if (Common::randomVeryRareHit())
-                    continue;
+            $done = false;
+            foreach (Camp::get()->filter(function ($camp) use ($camper) {
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
-                    continue;
+                    return false;
                 }
-                if (Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists())
-                    continue;
+                return Common::randomVeryFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
+            }) as $camp) {
+                $done = true;
                 $registration = Registration::create([
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
@@ -213,6 +213,11 @@ class DatabaseSeeder extends Seeder
                     $camp->approved = true;
                     $camp->save();
                 }
+            }
+            if ($done) {
+                // Campers that applied for camps must already have their account activated
+                if ($camper->activate())
+                    $camper->save();
             }
         }
         // Fake questions of several types for the camps that require
@@ -356,8 +361,7 @@ class DatabaseSeeder extends Seeder
         }
         $candidate = User::_campers(true)->limit(1)->first();
         $candidate->username = 'camper';
-        $candidate->status = 1;
-        $candidate->activation_code = null;
+        $candidate->activate();
         $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
         $candidate->save();
     }
@@ -371,8 +375,7 @@ class DatabaseSeeder extends Seeder
         }
         $candidate = User::_campMakers(true)->limit(1)->first();
         $candidate->username = 'campmaker';
-        $candidate->status = 1;
-        $candidate->activation_code = null;
+        $candidate->activate();
         $candidate->save();
     }
 
@@ -386,8 +389,7 @@ class DatabaseSeeder extends Seeder
         $admin->surname_en = '001';
         $admin->nickname_en = 'Admin';
         $admin->organization_id = null;
-        $admin->status = 1;
-        $admin->activation_code = null;
+        $admin->activate();
         $admin->save();
     }
 

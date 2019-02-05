@@ -2,7 +2,7 @@
 
 @section('header')
     <!-- TODO: Link to camper profile page -->
-    Grade Application Form of <a href="" target="_blank">{{ $camper->getFullName() }}</a>
+    Grade Application Form of <a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
 @section('card_content')
