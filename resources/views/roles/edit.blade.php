@@ -10,23 +10,19 @@
             'name' => 'name',
             'label' => trans('app.Name'),
             'attributes' => 'required',
+            'object' => $role,
         ])
         @endcomponent
         @component('components.input', [
             'name' => 'permission',
             'label' => trans('account.Permissions'),
             'attributes' => 'required',
+            'input_type' => 'checkbox',
+            'objects' => $permission,
+            'value' => $rolePermissions,
+            'getter' => 'name',
+            'columns' => 3,
         ])
-        @slot('override')
-            @component('components.radio', [
-                'name' => 'permission',
-                'type' => 'checkbox',
-                'objects' => $permission,
-                'value' => $rolePermissions,
-                'getter' => 'name',
-            ])
-            @endcomponent
-        @endslot
         @endcomponent
         @component('components.submit', ['label' => trans('app.Submit')])
         @endcomponent

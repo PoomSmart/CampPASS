@@ -39,6 +39,7 @@
                 'getter' => isset($getter) ? $getter : null,
                 'idx' => isset($idx) ? $idx : null,
                 'columns' => isset($columns) ? $columns : null,
+                'value' => isset($value) ? $value : null,
             ])
             @slot('append_last')
                 {{ isset($append_last) ? $append_last : null }}
