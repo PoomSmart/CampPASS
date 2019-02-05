@@ -42,16 +42,20 @@ class QualificationController extends Controller
         foreach ($answers as $answer) {
             $question = $answer->question();
             $answer_score = $answer->score;
-            $answer = $answer->answer;
+            $answer_value = $answer->answer;
             // Grade the questions that need to be graded and are of choice type (for now)
             if (isset($json['question_graded'][$question->json_id])) {
                 if ($question->type == QuestionType::CHOICES) {
                     $solution = $json['radio'][$question->json_id];
-                    $score = $solution == $answer ? $question->full_score : 0;
+                    $score = $solution == $answer_value ? $question->full_score : 0;
                     $json['question_scored'][$question->json_id] = $score;
                     $json['question_lock'][$question->json_id] = 1;
                     $auto_gradable_score += $score;
                     $camper_score += $score;
+                    if (!isset($answer_score)) {
+                        $answer->score = $score;
+                        $answer->save();
+                    }
                     $total_auto_gradable_score += $question->full_score;
                 } else if (isset($answer_score)) {
                     $json['question_scored'][$question->json_id] = $answer_score;
@@ -61,7 +65,7 @@ class QualificationController extends Controller
             $json['question_full_score'][$question->json_id] = $question->full_score;
             $data[] = [
                 'question' => $question,
-                'answer' => Common::decodeIfNeeded($answer, $question->type),
+                'answer' => Common::decodeIfNeeded($answer_value, $question->type),
             ];
         }
         $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
