@@ -20,7 +20,7 @@
                             <th>{{ trans('account.ID') }}</th>
                             <th>{{ trans('app.LocalizedName') }}</th>
                             <th>{{ trans('account.School') }}</th>
-                            <th>{{ trans('account.Program') }}</th>
+                            <th>{{ trans('camper.Program') }}</th>
                             <th>{{ trans('account.Status') }}</th>
                             <th>{{ trans('app.Actions') }}</th>
                         </tr>
