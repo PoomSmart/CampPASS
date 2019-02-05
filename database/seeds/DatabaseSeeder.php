@@ -31,8 +31,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
+    private static function log(string $message)
+    {
+        Log::channel('errorlog')->info($message);
+    }
+
+    private static function log_seed(string $message)
+    {
+        self::log("seeding {$message}");
+    }
+
+    private static function log_alter(string $message)
+    {
+        self::log("alter {$message}");
+    }
+
     private function programs()
     {
+        $this->log_seed('programs');
         Program::insert([
             [ 'name' => 'Sci-Math' ],
             [ 'name' => 'Arts-Math' ],
@@ -42,6 +58,7 @@ class DatabaseSeeder extends Seeder
 
     private function regions()
     {
+        $this->log_seed('regions');
         Region::insert([
             [ 'name' => 'Northen Thailand', 'short_name' => 'N' ],
             [ 'name' => 'Northeastern Thailand', 'short_name' => 'NE' ],
@@ -54,6 +71,7 @@ class DatabaseSeeder extends Seeder
 
     private function camp_categories()
     {
+        $this->log_seed('camp_categories');
         CampCategory::insert([
             [ 'name' => 'Engineering' ],
             [ 'name' => 'Science' ],
@@ -84,6 +102,7 @@ class DatabaseSeeder extends Seeder
 
     private function camp_procedures()
     {
+        $this->log_seed('camp_procedures');
         CampProcedure::insert([
             [ 'title' => 'Walk-in', 'description' => 'camp.WalkInDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => false ],
             [ 'title' => 'QA Only', 'description' =>'camp.QAOnlyDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
@@ -98,6 +117,7 @@ class DatabaseSeeder extends Seeder
 
     private function religions()
     {
+        $this->log_seed('religions');
         Religion::insert([
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],
@@ -108,6 +128,7 @@ class DatabaseSeeder extends Seeder
 
     private function years()
     {
+        $this->log_seed('years');
         Year::insert([
             [ 'name' => 'Primary School' ],
             [ 'name' => 'Secondary School' ],
@@ -118,6 +139,7 @@ class DatabaseSeeder extends Seeder
 
     private function badge_categories()
     {
+        $this->log_seed('badge_categories');
         BadgeCategory::insert([
             [ 'name' => 'Pioneer', 'description' => 'badge.PioneerDescription' ],
             [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription' ],
@@ -164,6 +186,7 @@ class DatabaseSeeder extends Seeder
         $faker = Faker\Factory::create();
         $campers = User::campers()->get();
         // First, fake registrations of campers who are eligible for
+        $this->log_seed('registrations');
         foreach (User::campers()->cursor() as $camper) {
             foreach (Camp::all() as $camp) {
                 if (Common::randomVeryRareHit())
@@ -194,6 +217,7 @@ class DatabaseSeeder extends Seeder
         }
         // Fake questions of several types for the camps that require
         // ISSUE: This is < 100% effectiveness (Actual created question set records can be lowered than the total number)
+        $this->log_seed('questions and answers');
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -321,6 +345,7 @@ class DatabaseSeeder extends Seeder
 
     private function alter_campers()
     {
+        $this->log_alter('campers');
         foreach (User::campers()->cursor() as $camper) {
             $camper->education_level = EducationLevel::any();
             $camper->blood_group = rand(0, 3);
@@ -339,6 +364,7 @@ class DatabaseSeeder extends Seeder
 
     private function alter_campmakers()
     {
+        $this->log_alter('campmakers');
         foreach (User::campMakers()->cursor() as $campmaker) {
             $campmaker->organization_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
@@ -352,6 +378,7 @@ class DatabaseSeeder extends Seeder
 
     private function create_admin()
     {
+        $this->log_alter('admin');
         $admin = User::_campMakers(true)->limit(1)->first();
         $admin->type = config('const.account.admin');
         $admin->username = 'admin';
