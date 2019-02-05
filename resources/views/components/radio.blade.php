@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 d-inline-flex flex-wrap align-content-start">
+    <div class="col-12 align-content-start">
         <?php if (isset($columns)) $col_width = 12 / $columns ?>
         @foreach ($objects as $i => $obj)
             <?php

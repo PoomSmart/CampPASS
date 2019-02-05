@@ -134,6 +134,7 @@
     'name' => 'app_close_date',
     'label' => trans('camp.AppCloseDate'),
     'type' => 'datetime-local',
+    'attributes' => 'required',
 ])
 @endcomponent
 
@@ -141,6 +142,7 @@
     'name' => 'event_start_date',
     'label' => trans('camp.EventStartDate'),
     'type' => 'datetime-local',
+    'attributes' => 'required',
 ])
 @endcomponent
 
@@ -148,6 +150,7 @@
     'name' => 'event_end_date',
     'label' => trans('camp.EventEndDate'),
     'type' => 'datetime-local',
+    'attributes' => 'required',
 ])
 @endcomponent
 
