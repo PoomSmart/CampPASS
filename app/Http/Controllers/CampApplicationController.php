@@ -66,7 +66,7 @@ class CampApplicationController extends Controller
             }
             if (!$apply_text) $apply_text = trans('registration.Apply');
         }
-        return [ 'text' => $apply_text, 'disabled' => $disabled || $status >= RegistrationStatus::APPLIED, ];
+        return [ 'text' => $apply_text, 'disabled' => $camper->isAdmin() || $disabled || $status >= RegistrationStatus::APPLIED, ];
     }
 
     public function landing(Camp $camp)
