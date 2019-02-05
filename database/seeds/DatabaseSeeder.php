@@ -229,6 +229,14 @@ class DatabaseSeeder extends Seeder
             $camp_id = $camp->id;
             if (!$camp->camp_procedure()->candidate_required || QuestionSet::where('camp_id', $camp_id)->exists())
                 continue;
+            $eligible_campers = $campers->filter(function ($camper) use ($camp) {
+                try {
+                    $camper->isEligibleForCamp($camp);
+                } catch (\Exception $e) {
+                    return false;
+                }
+                return true;
+            });
             $question_set = QuestionSet::create([
                 'camp_id' => $camp_id,
                 'score_threshold' => rand(0, 75) / 100.0,
@@ -295,12 +303,7 @@ class DatabaseSeeder extends Seeder
                     'question_id' => $question->id,
                 ]);
                 // For each question, all campers who are eligible and registered get a chance to answer
-                foreach ($campers as $camper) {
-                    try {
-                        $camper->isEligibleForCamp($camp);
-                    } catch (\Exception $e) {
-                        continue;
-                    }
+                foreach ($eligible_campers as $camper) {
                     $registration = $camp->getLatestRegistration($camper->id);
                     if (is_null($registration))
                         continue;
