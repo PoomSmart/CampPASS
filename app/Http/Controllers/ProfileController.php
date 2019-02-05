@@ -7,6 +7,8 @@ use App\Religion;
 use App\School;
 use App\Program;
 
+use App\Http\Requests\StoreUserRequest;
+
 use App\Enums\EducationLevel;
 
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class ProfileController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth', ['only' => ['edit', 'store']]);
+        $this->middleware('auth', ['only' => ['edit', 'store', 'update']]);
         $this->religions = Religion::values();
         $this->organizations = null;
         $this->schools = School::all();
@@ -55,5 +57,11 @@ class ProfileController extends Controller
         $education_levels = $this->education_levels;
         View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'programs', 'education_levels'));
+    }
+
+    public function update(StoreUserRequest $request, User $user)
+    {
+        $camp->update($request->all());
+        return redirect('profiles.index')->with('success', 'Profile updated successfully');
     }
 }

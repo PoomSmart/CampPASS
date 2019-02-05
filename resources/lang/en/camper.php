@@ -14,4 +14,6 @@ return [
     'GuardianSurname' => 'Guardian Surname',
     'GuardianMobileNo' => 'Guardian Mobile No.',
     'GuardianRole' => 'Guardian Role',
+    'GuardianRoleText' => 'Guardian Role',
+    'CGPA' => 'Cumulative GPA',
 ];

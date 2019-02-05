@@ -50,7 +50,7 @@ class StoreUserRequest extends FormRequest
             'nationality' => 'required|integer|min:0|max:1',
             'gender' => 'required|integer|min:0|max:2',
             'dob' => 'required|date_format:Y-m-d|before:today',
-            'address' => 'required|string|max:300',
+            'street_address' => 'required|string|max:300',
             'allergy' => 'nullable|string|max:200',
             'zipcode' => ['required', 'digits:5', new ThaiZipCode],
             'password' => 'required|string|min:6|confirmed',
@@ -64,7 +64,7 @@ class StoreUserRequest extends FormRequest
             'guardian_name' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_surname' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_role' => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
-            'guardian_role_text' => "nullable|required_if:type,{$CAMPER},guardian_role,2|string|max:20",
+            'guardian_role_text' => "nullable|required_if:guardian_role,2|string|max:20",
             'guardian_mobile_no' => "nullable|required_if:type,{$CAMPER}|string",
             // camp maker
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",

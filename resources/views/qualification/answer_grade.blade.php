@@ -90,7 +90,7 @@
                         ?>
                         @component('components.numeric_range', [
                             'name' => 'manual_score',
-                            'id' => $key,
+                            'range_id' => $key,
                             'min' => 0.0,
                             'max' => $full_score,
                             'step' => 0.1,

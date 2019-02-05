@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Program;
 use App\Religion;
 use App\School;
 use App\Organization;
@@ -51,9 +52,10 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('guest');
         $this->CAMPER = config('const.account.camper');
         $this->CAMPMAKER = config('const.account.campmaker');
-        $this->middleware('guest');
+        $this->programs = Program::values();
         $this->religions = Religion::values();
         $this->organizations = null;
         $this->schools = School::all();
@@ -78,9 +80,10 @@ class RegisterController extends Controller
     {
         $type = $this->CAMPER;
         $religions = $this->religions;
+        $programs = $this->programs;
         $schools = $this->schools;
         $education_levels = EducationLevel::getLocalizedConstants('camper');
-        return view('auth.register', compact('type', 'religions', 'schools', 'education_levels'));
+        return view('auth.register', compact('type', 'religions', 'programs', 'schools', 'education_levels'));
     }
 
     /**

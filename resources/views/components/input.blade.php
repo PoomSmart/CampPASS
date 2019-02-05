@@ -1,5 +1,5 @@
 <?php
-    $required = false;
+    $required = isset($required) && $required == 1;
     if (!isset($disabled)) $disabled = false;
     if (isset($attributes)) {
         if (strpos($attributes, 'required') !== false)
@@ -61,6 +61,9 @@
         @endif
         @if ($disabled)
             disabled
+        @endif
+        @if ($required)
+            required
         @endif
         @if (isset($desc))
             aria-describedby="{{ $name }}-desc-inline"
