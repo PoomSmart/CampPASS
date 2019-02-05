@@ -76,17 +76,19 @@
             ])
             @endcomponent
         </div>
-        <div class="col-md-6">
-            @component('components.input', [
-                'name' => 'blood_group',
-                'label' => trans('account.BloodGroup'),
-                'attributes' => 'required',
-                'input_type' => 'radio',
-                'objects' => ['A', 'O', 'B', 'AB'],
-                'idx' => 1,
-            ])
-            @endcomponent
-        </div>
+        @role('camper')
+            <div class="col-md-6">
+                @component('components.input', [
+                    'name' => 'blood_group',
+                    'label' => trans('account.BloodGroup'),
+                    'attributes' => 'required',
+                    'input_type' => 'radio',
+                    'objects' => ['A', 'O', 'B', 'AB'],
+                    'idx' => 1,
+                ])
+                @endcomponent
+            </div>
+        @endrole
         <div class="col-md-6">
             @component('components.input', [
                 'name' => 'religion_id',
@@ -99,63 +101,65 @@
         </div>
     </div>
 
-    <h3 class="mt-4">Education</h3>
-    <div class="row">
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'school_id',
-                'label' => trans('account.School'),
-                'attributes' => 'required',
-                'input_type' => 'select',
-                'objects' => $schools,
-                'placeholder' => 'Select your school...',
-            ])
-            @endcomponent
+    @role('camper')
+        <h3 class="mt-4">Education</h3>
+        <div class="row">
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'school_id',
+                    'label' => trans('account.School'),
+                    'attributes' => 'required',
+                    'input_type' => 'select',
+                    'objects' => $schools,
+                    'placeholder' => 'Select your school...',
+                ])
+                @endcomponent
+            </div>
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'program_id',
+                    'label' => trans('camper.Program'),
+                    'attributes' => 'required',
+                    'input_type' => 'radio',
+                    'objects' => $programs,
+                ])
+                @endcomponent
+            </div>
+            <!-- TODO: This is all in one-line, should we comply with XD -->
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'education_level',
+                    'label' => trans('account.EducationLevel'),
+                    'attributes' => 'required',
+                    'input_type' => 'radio',
+                    'objects' => $education_levels,
+                    'getter' => 'name',
+                    'columns' => 3,
+                ])
+                @endcomponent
+            </div>
         </div>
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'program_id',
-                'label' => trans('camper.Program'),
-                'attributes' => 'required',
-                'input_type' => 'radio',
-                'objects' => $programs,
-            ])
-            @endcomponent
-        </div>
-        <!-- TODO: This is all in one-line, should we comply with XD -->
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'education_level',
-                'label' => trans('account.EducationLevel'),
-                'attributes' => 'required',
-                'input_type' => 'radio',
-                'objects' => $education_levels,
-                'getter' => 'name',
-                'columns' => 3,
-            ])
-            @endcomponent
-        </div>
-    </div>
 
-    <h3 class="mt-4">Student Documents</h3>
-    <div class="row">
-        <h4 class="col-12 mt-2">Transcript</h4>
-        <div class="col-12">
-            <div class="btn-group d-flex justify-content-between" role="group">
-                <a href="" class="btn btn-primary w-100">View</a>
-                <a href="" class="btn btn-primary w-100">Upload</a>
-                <a href="" class="btn btn-primary w-100">Delete</a>
+        <h3 class="mt-4">Student Documents</h3>
+        <div class="row">
+            <h4 class="col-12 mt-2">Transcript</h4>
+            <div class="col-12">
+                <div class="btn-group d-flex justify-content-between" role="group">
+                    <a href="" class="btn btn-primary w-100">View</a>
+                    <a href="" class="btn btn-primary w-100">Upload</a>
+                    <a href="" class="btn btn-primary w-100">Delete</a>
+                </div>
+            </div>
+            <h4 class="col-12 mt-2">Student Certificate</h4>
+            <div class="col-12">
+                <div class="btn-group d-flex justify-content-between" role="group">
+                    <a href="" class="btn btn-primary w-100">View</a>
+                    <a href="" class="btn btn-primary w-100">Upload</a>
+                    <a href="" class="btn btn-primary w-100">Delete</a>
+                </div>
             </div>
         </div>
-        <h4 class="col-12 mt-2">Student Certificate</h4>
-        <div class="col-12">
-            <div class="btn-group d-flex justify-content-between" role="group">
-                <a href="" class="btn btn-primary w-100">View</a>
-                <a href="" class="btn btn-primary w-100">Upload</a>
-                <a href="" class="btn btn-primary w-100">Delete</a>
-            </div>
-        </div>
-    </div>
+    @endrole
 
     <h3 class="mt-4">Contact Information</h3>
     <div class="row">
@@ -196,52 +200,54 @@
         </div>
     </div>
 
-    <h3 class="mt-4">Emergency Contact Information</h3>
-    <div class="row">
-        <div class="col-md-6">
-            @component('components.input', [
-                'name' => 'guardian_name',
-                'label' => trans('camper.GuardianName'),
-                'attributes' => 'required',
-            ])
-            @endcomponent
-        </div>
-        <div class="col-md-6">
-            @component('components.input', [
-                'name' => 'guardian_surname',
-                'label' => trans('camper.GuardianSurname'),
-                'attributes' => 'required',
-            ])
-            @endcomponent
-        </div>
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'guardian_role',
-                'label' => trans('camper.GuardianRole'),
-                'attributes' => 'required',
-                'input_type' => 'radio',
-                'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')],
-                'idx' => 1,
-            ])
-            @slot('append_last')
+    @role('camper')
+        <h3 class="mt-4">Emergency Contact Information</h3>
+        <div class="row">
+            <div class="col-md-6">
                 @component('components.input', [
-                    'name' => 'guardian_role_text',
-                    'class' => 'ml-2',
+                    'name' => 'guardian_name',
+                    'label' => trans('camper.GuardianName'),
+                    'attributes' => 'required',
                 ])
                 @endcomponent
-            @endslot
-            @endcomponent
+            </div>
+            <div class="col-md-6">
+                @component('components.input', [
+                    'name' => 'guardian_surname',
+                    'label' => trans('camper.GuardianSurname'),
+                    'attributes' => 'required',
+                ])
+                @endcomponent
+            </div>
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'guardian_role',
+                    'label' => trans('camper.GuardianRole'),
+                    'attributes' => 'required',
+                    'input_type' => 'radio',
+                    'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')],
+                    'idx' => 1,
+                ])
+                @slot('append_last')
+                    @component('components.input', [
+                        'name' => 'guardian_role_text',
+                        'class' => 'ml-2',
+                    ])
+                    @endcomponent
+                @endslot
+                @endcomponent
+            </div>
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'guardian_mobile_no',
+                    'label' => trans('camper.GuardianMobileNo'),
+                    'attributes' => 'required',
+                    'type' => 'tel',
+                ])
+                @endcomponent
+            </div>
         </div>
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'guardian_mobile_no',
-                'label' => trans('camper.GuardianMobileNo'),
-                'attributes' => 'required',
-                'type' => 'tel',
-            ])
-            @endcomponent
-        </div>
-    </div>
+    @endrole
     
     <h3 class="mt-4">Account</h3>
     <div class="row">

@@ -18,24 +18,7 @@
             @include('auth.register-camper')
             @yield('camper-fields')
         @elseif ($type == config('const.account.campmaker'))
-            @component('components.input', [
-                'name' => 'organization_id',
-                'label' => trans('campmaker.Organization'),
-                'attributes' => 'required',
-            ])
-            @slot('override')
-                <select name="organization_id" id="organization_id" class="form-control">
-                    @foreach ($organizations as $index => $org)
-                        <option
-                            @if ($index == 0)
-                                selected
-                            @endif
-                            value="{{ $org->id }}">{{ $org }}
-                        </option>
-                    @endforeach
-                </select>
-            @endslot
-            @endcomponent
+            
         @endif
         @component('components.submit', ['label' => trans('account.Register')])
         @endcomponent
