@@ -76,6 +76,7 @@ class PermissionTableSeeder extends Seeder
             'answer-list',
             'answer-create',
             'answer-edit',
+            'answer-grade',
             'answer-delete',
 
             // badge management
@@ -103,8 +104,6 @@ class PermissionTableSeeder extends Seeder
             'payment-delete',
             'payment-status',
         ];
- 
- 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
@@ -179,6 +178,7 @@ class PermissionTableSeeder extends Seeder
             'question-delete',
             // camp makers can view answers from campers
             'answer-list',
+            'answer-grade',
             // camp makers can see badges of campers
             'badge-list',
             // camp makers can see certificates of campers

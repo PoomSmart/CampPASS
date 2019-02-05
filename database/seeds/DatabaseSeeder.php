@@ -359,7 +359,7 @@ class DatabaseSeeder extends Seeder
             $camper->program_id = Program::inRandomOrder()->first()->id;
             $camper->save();
         }
-        $candidate = User::_campers(true)->limit(1)->first();
+        $candidate = User::campers(true)->limit(1)->first();
         $candidate->username = 'camper';
         $candidate->activate();
         $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
@@ -373,7 +373,7 @@ class DatabaseSeeder extends Seeder
             $campmaker->organization_id = Organization::inRandomOrder()->first()->id;
             $campmaker->save();
         }
-        $candidate = User::_campMakers(true)->limit(1)->first();
+        $candidate = User::campMakers(true)->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->activate();
         $candidate->save();
@@ -382,7 +382,7 @@ class DatabaseSeeder extends Seeder
     private function create_admin()
     {
         $this->log_alter('admin');
-        $admin = User::_campMakers(true)->limit(1)->first();
+        $admin = User::campMakers(true)->limit(1)->first();
         $admin->type = config('const.account.admin');
         $admin->username = 'admin';
         $admin->name_en = 'Administrator';

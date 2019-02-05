@@ -113,24 +113,14 @@ class User extends Authenticatable
         return $this->isCamper() ? $this->belongsTo(School::class)->limit(1)->get()->first() : null;
     }
 
-    public static function _campers(bool $randomOrder)
+    public static function campers(bool $randomOrder = false)
     {
         return $randomOrder ? User::inRandomOrder()->where('type', config('const.account.camper')) : User::where('type', config('const.account.camper'));
     }
 
-    public static function campers()
-    {
-        return self::_campers(false);
-    }
-
-    public static function _campMakers(bool $randomOrder)
+    public static function campMakers(bool $randomOrder = false)
     {
         return $randomOrder ? User::inRandomOrder()->where('type', config('const.account.campmaker')) : User::where('type', config('const.account.campmaker'));
-    }
-
-    public static function campMakers()
-    {
-        return self::_campMakers(false);
     }
 
     public function isActivated()

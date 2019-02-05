@@ -25,7 +25,10 @@ class Registration extends Model
 
     public function camper()
     {
-        return $this->belongsTo(User::class)->limit(1)->get()->first();
+        $camper = $this->belongsTo(User::class)->limit(1)->get()->first();
+        if (!$camper->isCamper())
+            throw new \App\Exceptions\CampPassException(trans('app.InternalError'));
+        return $camper;
     }
 
     public function certificate()

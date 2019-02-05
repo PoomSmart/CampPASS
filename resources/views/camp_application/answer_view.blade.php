@@ -81,7 +81,7 @@
         <div class="col-12">
             @can('answer-edit')
                 <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-secondary">{{ trans('app.Edit') }}</a>
-                <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">{{ trans('Submit') }}</a>
+                <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">{{ trans('app.Submit') }}</a>
             @endcan
         </div>
     </div>

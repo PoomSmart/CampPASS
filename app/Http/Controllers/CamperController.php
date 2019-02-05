@@ -15,6 +15,7 @@ class CamperController extends Controller
         $this->middleware('permission:camper-list');
         $this->middleware('permission:camper-delete', ['only' => ['destroy']]);
     }
+    
     public function index(Request $request)
     {
         $max = config('const.app.max_paginate');
