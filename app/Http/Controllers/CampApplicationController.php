@@ -87,20 +87,23 @@ class CampApplicationController extends Controller
             // Stage: Answering questions
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
             if ($ineligible_reason)
-                return redirect()->back()->with('error', $ineligible_reason);
+                throw new \App\Exceptions\CampPASSException($ineligible_reason);
             $question_set = $camp->question_set();
             $pairs = $question_set ? $question_set->pairs()->get() : [];
             if (empty($pairs))
-                return redirect()->back()->with('error', 'There are no questions in here.');
+                throw new \App\Exceptions\CampPASSException('There are no questions in here.');
             $answers = [];
             $json = Common::getQuestionJSON($camp->id);
-            $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['question_id', 'answer']);
+            $json['answer'] = [];
+            $json['answer_id'] = [];
+            $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
             foreach ($pre_answers as $pre_answer) {
                 $question = Question::find($id = $pre_answer->question_id);
                 $key = $question->json_id;
-                $answers[$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
+                $json['answer'][$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
+                $json['answer_id'][$key] = $pre_answer->id;
             }
-            return view('camp_application.question_answer', compact('camp', 'answers', 'json', 'question_set'));
+            return view('camp_application.question_answer', compact('camp', 'json', 'question_set'));
         }
         // Stage: Apply (right away)
         return $this->submit_application_form($camp);
@@ -112,7 +115,7 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         // In case campers somehow want to edit the answers in the submitted application form
         if ($user->alreadyAppliedForCamp($camp))
-            return redirect('/')->with('error', 'Unable to save the answers.');
+            throw new \App\Exceptions\CampPASSException('Unable to save the answers.');
         // A registration record will be created if not already
         $registration = $camp->getLatestRegistration($user->id);
         if (!$registration)
@@ -129,6 +132,7 @@ class CampApplicationController extends Controller
             $answer_content = null;
             if ($question->type == QuestionType::FILE) {
                 if ($request->hasFile($json_id)) {
+                    // We store the file uploaded by a camper to the folder of the camp with the current question set
                     $file_post = $request->file($json_id);
                     $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
@@ -159,13 +163,13 @@ class CampApplicationController extends Controller
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id);
+        $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
         foreach ($pairs as $pair) {
             $question = $pair->question();
-            $answer = $question_set->answers()->where('camper_id', $camper->id)->where('question_id', $question->id)->get();
-            if ($answer->isNotEmpty())
-                $answer = $answer->first()->answer;
-            else
-                $answer = '';
+            $answer = $answers->filter(function ($answer) use ($question) {
+                return $answer->question_id == $question->id;
+            })->first();
+            $answer = $answer ? $answer->first()->answer : '';
             $data[] = [
                 'question' => $question,
                 'answer' => Common::decodeIfNeeded($answer, $question->type),
@@ -180,7 +184,7 @@ class CampApplicationController extends Controller
         $registration = $camp->getLatestRegistration(\Auth::user()->id);
         if ($registration->cannotSubmit()) {
             // This should not happen
-            return redirect()->back()->with('error', 'You cannot submit the application form to the camp you alraedy are qualified for.');
+            throw new \App\Exceptions\CampPASSException('You cannot submit the application form to the camp you alraedy are qualified for.');
         }
         $registration->status = RegistrationStatus::APPLIED;
         $registration->save();
@@ -197,39 +201,33 @@ class CampApplicationController extends Controller
         return $question;
     }
 
-    public function get_file_path($json_id)
+    public function get_answer_file_path(Answer $answer)
     {
-        $question = $this->get_question($json_id);
-        if (!$question)
-            return null;
+        $question = $answer->question();
+        $json_id = $question->json_id;
         $question_set = $question->pair()->question_set();
         $camp = $question_set->camp();
+        $camper_id = $answer->camper_id;
         $directory = Common::questionSetDirectory($camp->id);
-        $user = \Auth::user();
-        $filepath = "{$directory}/{$json_id}/{$user->id}/{$json_id}.pdf";
+        $filepath = "{$directory}/{$json_id}/{$camper_id}/{$json_id}.pdf";
         return $filepath;
     }
 
-    public function file_download($json_id)
+    public function file_download(Answer $answer)
     {
-        $filepath = $this->get_file_path($json_id);
+        $filepath = $this->get_answer_file_path($answer);
         // TODO: check if fallback works properly
         return $filepath ? Storage::download($filepath) : response()->toJson();
     }
 
-    public function file_delete($json_id)
+    public function answer_file_delete(Answer $answer)
     {
-        // TODO: this is somewhat boilerplate
-        $filepath = $this->get_file_path($json_id);
+        $json_id = $answer->question()->json_id;
+        $filepath = $this->get_answer_file_path($json_id);
         if (!$filepath)
             return redirect()->back()->with('error', 'Error deleting the file.');
         Storage::disk('local')->delete($filepath);
-        $question = $this->get_question($json_id);
-        if ($question) {
-            $question_set = $question->pair()->question_set();
-            $answer = $question_set->answers()->where('camper_id', \Auth::user()->id)->where('question_id', $question->id)->first();
-            $answer->delete();
-        }
+        $answer->delete();
         return redirect()->back()->with('success', 'File deleted successfully.');
     }
 }

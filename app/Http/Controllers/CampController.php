@@ -21,7 +21,6 @@ class CampController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:camp-list', ['only' => ['show']]); // TODO: This must accept guests too
         $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
@@ -107,7 +106,8 @@ class CampController extends Controller
     {
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
-        $data = $camp->registrations()->paginate($max);
+        if (\Auth::user()->hasPermissionTo('camper-list'))
+            $data = $camp->registrations()->paginate($max);
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }

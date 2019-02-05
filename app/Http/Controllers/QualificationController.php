@@ -89,6 +89,10 @@ class QualificationController extends Controller
                 $answer = $answers->filter(function ($answer) use ($key) {
                     return $answer->question()->json_id == $key;
                 })->first();
+                if (!$answer) {
+                    logger()->error('Trying to parse an answer that does not exist.');
+                    continue;
+                }
                 $answer->score = (double)$value;
                 $answer->save();
             }

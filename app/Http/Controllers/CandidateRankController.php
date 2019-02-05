@@ -25,9 +25,10 @@ class CandidateRankController extends Controller
 
     public function rank(QuestionSet $question_set)
     {
-        $answers = Answer::where('question_set_id', $question_set->id)->get();
-        if (empty($answers))
-            return redirect('/')->with('error', 'You cannot rank the application form without questions.');
+        $answers = Answer::where('question_set_id', $question_set->id);
+        if (!$answers->exists())
+            throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
+        $answers = $answers->get();
         $camp = $question_set->camp();
         $json = Common::getQuestionJSON($camp->id, $graded = true);
         $scores = [];
