@@ -94,6 +94,7 @@
 
 @component('components.numeric_range', [
     'name' => 'min_gpa',
+    'label' => trans('camp.MinCGPA'),
     'min' => 1.0,
     'max' => 4.0,
     'step' => 0.01,

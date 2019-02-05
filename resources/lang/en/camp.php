@@ -16,7 +16,7 @@ return [
     'AcceptableYears' => 'Acceptable Years',
     'Organization' => 'Organization',
     'Category' => 'Category',
-    'MinGPA' => 'Minimum GPA',
+    'MinCGPA' => 'Minimum CGPA',
     'OtherConditions' => 'Other Conditions',
     'ApplicationFee' => 'Application Fee',
     'URL' => 'URL',
