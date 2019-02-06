@@ -130,9 +130,7 @@ class User extends Authenticatable
 
     public function getFullName()
     {
-        if (\App::getLocale() == 'th' && !is_null($this->name_th))
-            return $this->name_th .' '. $this->surname_th;
-        return $this->name_en .' '. $this->surname_en;
+        return Common::getLocalizedName($this).' '.Common::getLocalizedName($this, 'surname');
     }
 
     public function belongingCamps()
