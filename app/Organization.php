@@ -30,7 +30,7 @@ class Organization extends Model
 
     public function __toString()
     {
-        if (\App::getLocale() == 'th' && !is_null($this->name_th))
+        if ((\App::getLocale() == 'th' && !is_null($this->name_th)) || is_null($this->name_en))
             return $this->name_th;
         return $this->name_en;
     }

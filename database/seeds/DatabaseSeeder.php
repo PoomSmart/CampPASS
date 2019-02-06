@@ -419,8 +419,7 @@ class DatabaseSeeder extends Seeder
         $this->camp_procedures();
         $this->log_seed('schools');
         factory(School::class, 10)->create();
-        $this->log_seed('organizations');
-        factory(Organization::class, 10)->create();
+        $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
         factory(Camp::class, 50)->create();
         $this->log_seed('users');
@@ -430,9 +429,8 @@ class DatabaseSeeder extends Seeder
         $this->create_admin();
         $this->registrations_and_questions_and_answers();
         $this->call([
-            PermissionTableSeeder::class
+            PermissionTableSeeder::class,
         ]);
         Model::reguard();
-        DB::enableQueryLog();
     }
 }

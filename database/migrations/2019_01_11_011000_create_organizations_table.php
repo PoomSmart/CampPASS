@@ -17,8 +17,8 @@ class CreateOrganizationsTable extends Migration
             $table->increments('id');
             $table->string('name_en')->nullable();
             $table->string('name_th')->nullable();
-            $table->string('address');
-            $table->string('zipcode');
+            $table->string('address')->nullable(); // TODO: temporary
+            $table->string('zipcode')->nullable(); // TODO: temporary
             $table->tinyInteger('type')->unsigned();
             $table->tinyInteger('subtype')->unsigned()->nullable();
             $table->timestamps();
