@@ -42,7 +42,7 @@ class CampApplicationController extends Controller
         $camper = \Auth::user();
         $disabled = false;
         if ($camper) {
-            $disabled |= $camper->isAdmin();
+            $disabled |= $camper->isAdmin() || $camper->isCampMaker();
             $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
             if ($ineligible_reason) {
                 $disabled = true;
