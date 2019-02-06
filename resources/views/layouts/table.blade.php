@@ -8,7 +8,7 @@
             </div>
             <div class="float-right">
                 @yield('extra-buttons')
-                <a class="btn btn-secondary" href="{{ url()->previous() }}">{{ trans('app.Back') }}</a>
+                <a class="btn btn-secondary" href="{{ url()->previous() }}">@lang('app.Back')</a>
             </div>
         </div>
     </div>

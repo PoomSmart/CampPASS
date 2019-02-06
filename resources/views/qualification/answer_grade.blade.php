@@ -75,7 +75,7 @@
                                     @if (isset($answer))
                                         <a href="{{ route('camp_application.file_download', $key) }}">{{ $answer }}</a>
                                     @else
-                                        <p>{{ trans('question.NoFileUploaded') }}</p>
+                                        <p>@lang('question.NoFileUploaded')</p>
                                     @endif
                                 @endif
                             </div>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-    {{ trans('question.CreateQuestions') }}
+    @lang('question.CreateQuestions')
 @endsection
 
 @section('card_content')
@@ -38,7 +38,7 @@
         @endif
         @component('components.submit', ['label' => trans('app.Save')])
         @slot('postcontent')
-            <button class="btn btn-success" type="button" onclick="addQuestion();"><span>{{ trans('question.AddMoreQuestion') }}</span></button>
+            <button class="btn btn-success" type="button" onclick="addQuestion();"><span>@lang('question.AddMoreQuestion')</span></button>
         @endslot
         @endcomponent
     </form>

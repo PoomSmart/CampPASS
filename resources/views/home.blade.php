@@ -32,11 +32,11 @@
         <!-- Left and right controls -->
         <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">{{ trans('app.Previous') }}</span>
+            <span class="sr-only">@lang('app.Previous')</span>
         </a>
         <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">{{ trans('app.Next') }}</span>
+            <span class="sr-only">@lang('app.Next')</span>
         </a>
     </div>
 

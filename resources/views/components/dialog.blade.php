@@ -18,7 +18,7 @@
                     @endif
                     <button type="submit" class="btn btn-{{ isset($confirm_type) ? $confirm_type : 'primary' }}">{{ $confirm_label }}</button>
                 </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('app.Close') }}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('app.Close')</button>
             </div>
         </div>
     </div>

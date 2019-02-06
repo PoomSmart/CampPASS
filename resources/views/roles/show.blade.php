@@ -1,20 +1,20 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ trans('account.ShowRole') }}
+    @lang('account.ShowRole')
 @endsection
 
 @section('card_content')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>{{ trans('app.Name') }}:</strong>
+                <strong>@lang('app.Name'):</strong>
                 {{ $role->name }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>{{ trans('account.Permissions') }}:</strong>
+                <strong>@lang('account.Permissions'):</strong>
                 @if (!empty($rolePermissions))
                     @foreach ($rolePermissions as $v)
                         <label class="label label-success">{{ $v->name }},</label>

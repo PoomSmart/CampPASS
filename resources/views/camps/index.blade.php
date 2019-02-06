@@ -10,7 +10,7 @@
 
 @can('camp-create')
     @section('extra-buttons')
-        <a class="btn btn-success" href="{{ route('camps.create') }}">{{ trans('camp.CreateCamp') }}</a>
+        <a class="btn btn-success" href="{{ route('camps.create') }}">@lang('camp.CreateCamp')</a>
     @endsection
 @endcan
 
@@ -25,12 +25,12 @@
     @endcomponent
     <table class="table table-bordered">
         <tr>
-            <th>{{ trans('app.No_') }}</th>
-            <th>{{ trans('app.LocalizedName') }}</th>
-            <th>{{ trans('camp.ShortDescription') }}</th>
+            <th>@lang('app.No_')</th>
+            <th>@lang('app.LocalizedName')</th>
+            <th>@lang('camp.ShortDescription')</th>
             <th>Registered Campers</th>
-            <th>{{ trans('camp.Status') }}</th>
-            <th width="240px">{{ trans('app.Actions') }}</th>
+            <th>@lang('camp.Status')</th>
+            <th width="240px">@lang('app.Actions')</th>
         </tr>
 	    @foreach ($camps as $camp)
 	    <tr>
@@ -44,22 +44,22 @@
                     @can('camp-approve')
                         <form action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
                             @csrf
-                            <button type="submit" class="btn btn-warning">{{ trans('app.Approve') }}</button>
+                            <button type="submit" class="btn btn-warning">@lang('app.Approve')</button>
                         </form>
                     @endcan
                 @else
                     @can('question-edit')
                         @if ($camp->camp_procedure()->candidate_required)
-                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('question.Question') }}</a>
+                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">@lang('question.Question')</a>
                         @endif
                     @endcan
                 @endif
                 @can('camp-edit')
-                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">{{ trans('app.Edit') }}</a>
+                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">@lang('app.Edit')</a>
                 @endcan
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
-                        {{ trans('app.Delete') }}
+                        @lang('app.Delete')
                     </button>
                 @endcan
             </td>

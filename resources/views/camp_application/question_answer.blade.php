@@ -65,7 +65,7 @@
                             @elseif ($type == \App\Enums\QuestionType::FILE)
                                 @if ($value)
                                     <a href="{{ route('camp_application.answer_file_download', $json['answer_id'][$key]) }}">{{ $value }}</a>
-                                    <a class="btn btn-danger" href="{{ route('camp_application.answer_file_delete', $json['answer_id'][$key]) }}">{{ trans('app.Delete') }}</a>
+                                    <a class="btn btn-danger" href="{{ route('camp_application.answer_file_delete', $json['answer_id'][$key]) }}">@lang('app.Delete')</a>
                                 @endif
                                 <input type="file" class="form-control-file" name="{{ $key }}">
                             @endif
@@ -75,7 +75,7 @@
             @endforeach
             @component('components.submit', ['label' => trans('app.Save')])
             @slot('postcontent')
-                <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">{{ trans('app.Next') }}</a>
+                <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">@lang('app.Next')</a>
             @endslot
             @endcomponent
         </form>

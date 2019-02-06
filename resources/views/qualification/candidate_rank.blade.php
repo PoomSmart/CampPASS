@@ -1,15 +1,15 @@
 @extends('layouts.table')
 
 @section('header')
-    {{ trans('CandidateRanking') }}
+    @lang('CandidateRanking')
 @endsection
 
 @section('content')
     <table class="table table-bordered">
         <tr>
-            <th>{{ trans('app.No_') }}</th>
-            <th>{{ trans('account.FullName') }}</th>
-            <th>{{ trans('Score') }}</th>
+            <th>@lang('app.No_')</th>
+            <th>@lang('account.FullName')</th>
+            <th>@lang('Score')</th>
         </tr>
         <?php $i = 0; ?>
         @foreach ($campers as $camper)

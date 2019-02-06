@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('header')
-    {{ trans('account.VerifyEmail') }}
+    @lang('account.VerifyEmail')
 @endsection
 
 @section('content')
     @if (session('resent'))
         <div class="alert alert-success" role="alert">
-            {{ trans('account.VerificationLinkSent') }}
+            @lang('account.VerificationLinkSent')
         </div>
     @endif
-    {{ trans('account.VerifyCheckEmailBeforeProceed') }}
-    {{ trans('account.IfNotReceiveEmail') }}, <a href="{{ route('verification.resend') }}">{{ trans('account.RequestVerifyLink') }}</a>.
+    @lang('account.VerifyCheckEmailBeforeProceed')
+    @lang('account.IfNotReceiveEmail'), <a href="{{ route('verification.resend') }}">@lang('account.RequestVerifyLink')</a>.
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ trans('account.ResetPassword') }}
+    @lang('account.ResetPassword')
 @endsection
 
 @section('card_content')
