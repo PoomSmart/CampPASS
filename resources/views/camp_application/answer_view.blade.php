@@ -66,7 +66,7 @@
                         @if (isset($answer) && !empty($answer))
                             <a href="{{ route('camp_application.file_download', $key) }}">{{ $answer }}</a>
                         @else
-                            <p>{{ trans('question.NoFileUploaded') }}</p>
+                            <p>@lang('question.NoFileUploaded')</p>
                         @endif
                     @endif
                 </div>
@@ -80,8 +80,8 @@
     <div class="form-group row mb-0">
         <div class="col-12">
             @can('answer-edit')
-                <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-secondary">{{ trans('app.Edit') }}</a>
-                <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">{{ trans('app.Submit') }}</a>
+                <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-secondary">@lang('app.Edit')</a>
+                <a href="{{ route('camp_application.submit_application_form', $camp->id) }}" class="btn btn-success">@lang('app.Submit')</a>
             @endcan
         </div>
     </div>

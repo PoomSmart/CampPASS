@@ -30,11 +30,11 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <strong>{{ trans('camp.BelongingCamps') }}</strong>
+        <strong>@lang('camp.BelongingCamps')</strong>
         <table class="table table-bordered">
             <tr>
-                <th>{{ trans('app.ID') }}</th>
-                <th>{{ trans('app.LocalizedName') }}</th>
+                <th>@lang('app.ID')</th>
+                <th>@lang('app.LocalizedName')</th>
             </tr>
             @foreach ($data as $key => $camp)
                 <tr>

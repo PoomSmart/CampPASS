@@ -2,7 +2,7 @@
 @include('camps.fields')
 
 @section('header')
-    {{ trans('camp.CreateCamp') }}
+    @lang('camp.CreateCamp')
 @endsection
 
 @section('card_content')

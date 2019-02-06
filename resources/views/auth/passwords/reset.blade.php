@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ trans('account.ResetPassword') }}
+    @lang('account.ResetPassword')
 @endsection
 
 <!--TODO: Simplify -->
@@ -10,7 +10,7 @@
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">
         <div class="form-group row">
-            <label for="email" class="col-md-4 col-form-label text-md-right">{{ trans('account.Email') }}</label>
+            <label for="email" class="col-md-4 col-form-label text-md-right">@lang('account.Email')</label>
             <div class="col-md-6">
                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
                 @if ($errors->has('email'))
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">{{ trans('account.Password') }}</label>
+            <label for="password" class="col-md-4 col-form-label text-md-right">@lang('account.Password')</label>
 
             <div class="col-md-6">
                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ trans('account.ConfirmPassword') }}</label>
+            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">@lang('account.ConfirmPassword')</label>
             <div class="col-md-6">
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
             </div>

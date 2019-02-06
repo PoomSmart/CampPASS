@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ trans('account.CreateRole') }}
+    @lang('account.CreateRole')
 @endsection
 
 @section('card_content')

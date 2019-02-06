@@ -6,7 +6,7 @@
 @include('auth.register-basic')
 
 @section('header')
-    {{ trans('account.Register') }}
+    @lang('account.Register')
 @endsection
 
 @section('card_content')

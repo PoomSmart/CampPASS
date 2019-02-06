@@ -7,8 +7,8 @@
                 <h3 class="my-auto">{{ $header }}</h3>
             </div>
             <div class="col-auto my-auto text-right">
-                <a class="btn btn-secondary-outline prev" href="#{{ $id }}" role="button" data-slide="prev" title="{{ trans('app.Back') }}"><i class="fa fa-lg fa-chevron-left"></i></a>
-                <a class="btn btn-secondary-outline next" href="#{{ $id }}" role="button" data-slide="next" title="{{ trans('app.Next') }}"><i class="fa fa-lg fa-chevron-right"></i></a>
+                <a class="btn btn-secondary-outline prev" href="#{{ $id }}" role="button" data-slide="prev" title="@lang('app.Back')"><i class="fa fa-lg fa-chevron-left"></i></a>
+                <a class="btn btn-secondary-outline next" href="#{{ $id }}" role="button" data-slide="next" title="@lang('app.Next')"><i class="fa fa-lg fa-chevron-right"></i></a>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ trans('app.Login') }}
+    @lang('app.Login')
 @endsection
 
 @section('card_content')
@@ -23,16 +23,12 @@
         @endcomponent
         <div class="form-check mt-2">
             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-            <label class="form-check-label" for="remember">
-                {{ trans('account.RememberMe') }}
-            </label>
+            <label class="form-check-label" for="remember">@lang('account.RememberMe')</label>
         </div>
         @component('components.submit', ['label' => trans('app.Login')])
         @slot('postcontent')
             @if (Route::has('password.request'))
-                <a class="btn btn-link" href="{{ route('password.request') }}">
-                    {{ trans('account.ForgotYourPassword') }}
-                </a>
+                <a class="btn btn-link" href="{{ route('password.request') }}">@lang('account.ForgotYourPassword')</a>
             @endif
         @endslot
         @endcomponent
