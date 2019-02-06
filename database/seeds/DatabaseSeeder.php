@@ -186,6 +186,7 @@ class DatabaseSeeder extends Seeder
         $campers = User::campers()->get();
         // First, fake registrations of campers who are eligible for
         $this->log_seed('registrations');
+        $registrations = [];
         foreach (User::campers()->cursor() as $camper) {
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
@@ -197,16 +198,12 @@ class DatabaseSeeder extends Seeder
                 return Common::randomVeryFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
             }) as $camp) {
                 $done = true;
-                $registration = Registration::create([
+                $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
+                    'status' => Common::randomFrequentHit() ? RegistrationStatus::APPLIED : RegistrationStatus::DRAFT, // Randomly submit the application forms
                     'submission_time' => now(),
-                ]);
-                // Randomly submit the application forms
-                if (Common::randomFrequentHit()) {
-                    $registration->status = RegistrationStatus::APPLIED;
-                    $registration->save();
-                }
+                ];
                 // Camps with registrations must obviously be approved first
                 if (!$camp->approved) {
                     $camp->approved = true;
@@ -219,6 +216,7 @@ class DatabaseSeeder extends Seeder
                     $camper->save();
             }
         }
+        Registration::insert($registrations);
         // Fake questions of several types for the camps that require
         // ISSUE: This is < 100% effectiveness (Actual created question set records can be lowered than the total number)
         $this->log_seed('questions and answers');
