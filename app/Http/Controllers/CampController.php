@@ -93,7 +93,7 @@ class CampController extends Controller
             logger()->error($exception);
             return redirect()->back()->with('error', 'Camp failed to create.');
         }
-        return redirect()->route('camps.index')->with('success', 'Camp created successfully.');
+        return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
     }
 
     /**
@@ -149,7 +149,7 @@ class CampController extends Controller
     {
         \Auth::user()->canManageCamp($camp);
         $camp->update($request->all());
-        return redirect()->route('camps.index')->with('success', 'Camp updated successfully');
+        return redirect()->route('camps.index')->with('success', "Camp {$camp} updated successfully");
     }
 
     /**

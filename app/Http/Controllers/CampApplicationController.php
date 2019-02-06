@@ -195,19 +195,11 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
-    public function get_question($json_id)
-    {
-        $question = Question::where('json_id', $json_id)->first();
-        if (!$question)
-            return null;
-        if ($question->type != QuestionType::FILE)
-            return null;
-        return $question;
-    }
-
     public function get_answer_file_path(Answer $answer)
     {
         $question = $answer->question();
+        if ($question->type != QuestionType::FILE)
+            return null;
         $json_id = $question->json_id;
         $question_set = $question->pair()->question_set();
         $camp = $question_set->camp();
@@ -226,8 +218,7 @@ class CampApplicationController extends Controller
 
     public function answer_file_delete(Answer $answer)
     {
-        $json_id = $answer->question()->json_id;
-        $filepath = $this->get_answer_file_path($json_id);
+        $filepath = $this->get_answer_file_path($answer);
         if (!$filepath)
             return redirect()->back()->with('error', 'Error deleting the file.');
         Storage::disk('local')->delete($filepath);
