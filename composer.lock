@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "app/Vendors/jeroenzwart/laravel-csv-seeder",
-                "reference": "68248f677d0617c6d806a17d890c5964ee3e52a5",
+                "reference": "c4a286c5ea66a795b575ce799ca4678edcb22776",
                 "shasum": null
             },
             "require": {
