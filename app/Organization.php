@@ -32,10 +32,4 @@ class Organization extends Model
     {
         return Common::getLocalizedName($this);
     }
-
-    public static function values()
-    {
-        $column = 'name_'.\App::getLocale();
-        return self::orderBy($column)->select(['id', $column])->get();
-    }
 }

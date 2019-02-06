@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Common;
 use App\User;
 use App\Program;
 use App\Religion;
@@ -55,10 +56,10 @@ class RegisterController extends Controller
         $this->middleware('guest');
         $this->CAMPER = config('const.account.camper');
         $this->CAMPMAKER = config('const.account.campmaker');
-        $this->programs = Program::values();
-        $this->religions = Religion::values();
+        $this->programs = Common::values(Program::class);
+        $this->religions = Common::values(Religion::class);
         $this->organizations = null;
-        $this->schools = School::all();
+        $this->schools = Common::values(School::class);
     }
 
     /**

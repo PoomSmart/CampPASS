@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Camp;
 use App\CampCategory;
 use App\CampProcedure;
+use App\Common;
 use App\Program;
 use App\Organization;
 use App\Region;
@@ -25,21 +26,21 @@ class CampController extends Controller
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
-        $this->programs = Program::values();
-        $this->categories = CampCategory::values();
+        $this->programs = Common::values(Program::class);
+        $this->categories = Common::values(CampCategory::class);
         $this->organizations = null;
-        $this->camp_procedures = CampProcedure::values();
-        $this->regions = Region::values();
-        $this->years = Year::values();
+        $this->camp_procedures = Common::values(CampProcedure::class);
+        $this->regions = Common::values(Region::class);
+        $this->years = Common::values(Year::class);
     }
 
     private function getOrganizationsIfNeeded()
     {
         if (is_null($this->organizations)) {
             if (\Auth::user()->hasPermissionTo('organization-list'))
-                $this->organizations = Organization::values();
+                $this->organizations = Common::values(Organization::class);
             else
-                $this->organizations = array(Organization::values()->find($id = \Auth::user()->organization_id));
+                $this->organizations = array(Organization::find($id = \Auth::user()->organization_id));
         }
         return $this->organizations;
     }

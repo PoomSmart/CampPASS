@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
 use App\User;
 use App\Religion;
 use App\School;
@@ -19,10 +20,10 @@ class ProfileController extends Controller
     function __construct()
     {
         $this->middleware('auth', ['only' => ['edit', 'store', 'update']]);
-        $this->religions = Religion::values();
+        $this->religions = Common::values(Religion::class);
         $this->organizations = null;
-        $this->schools = School::all();
-        $this->programs = Program::all();
+        $this->schools = Common::values(School::class);
+        $this->programs = Common::values(Program::class);
         $this->education_levels = EducationLevel::getLocalizedConstants('camper');
     }
 

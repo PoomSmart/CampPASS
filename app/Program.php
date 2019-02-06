@@ -17,9 +17,4 @@ class Program extends Model
     {
         return $this->name;
     }
-
-    public static function values()
-    {
-        return self::orderBy('name')->select(['id', 'name'])->get();
-    }
 }

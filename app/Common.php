@@ -4,6 +4,7 @@ namespace App;
 
 use App\Enums\QuestionType;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class Common
@@ -109,6 +110,13 @@ class Common
         $en = $record->{"{$attribute}_en"};
         if ((\App::getLocale() == 'th' && !is_null($th)) || is_null($en))
             return $th;
-        return $en;
+        return $en ? $en : '<blank>';
+    }
+
+    public static function values($clazz)
+    {
+        return Arr::sort($clazz::all(), function($record) {
+            return $record->__toString();
+        });
     }
 }

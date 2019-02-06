@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
 use App\Camp;
 use App\CampCategory;
 
@@ -27,7 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $popular_camps = Camp::popularCamps()->get();
-        $camp_categories = CampCategory::all();
+        $camp_categories = Common::values(CampCategory::class);
         return view('home', compact('popular_camps', 'camp_categories'));
     }
 }

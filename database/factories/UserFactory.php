@@ -2,8 +2,12 @@
 
 use App\Common;
 Use App\Religion;
+use App\School;
+use App\Program;
+use App\Organization;
 
 use App\Enums\Gender;
+use App\Enums\EducationLevel;
 
 use Faker\Generator as Faker;
 
@@ -60,14 +64,11 @@ $factory->define(App\User::class, function (Faker $faker) {
     $CAMPMAKER = config('const.account.campmaker');
     $type = Common::randomFrequentHit() ? $CAMPER : $CAMPMAKER;
     $dob = $type == $CAMPER ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
-    return [
+    $data = [
         'username' => strtolower($name),
         'name_en' => $name,
         'surname_en' => $faker->lastName,
         'nickname_en' => $faker->word,
-        'guardian_name' => $type == $CAMPER ? $faker->firstName : null,
-        'guardian_surname' => $type == $CAMPER ? $faker->lastName : null,
-        'guardian_role' => $type == $CAMPER ? Common::randomMediumHit() : null,
         'nationality' => $faker->numberBetween($min = 0, $max = 1),
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
@@ -83,4 +84,22 @@ $factory->define(App\User::class, function (Faker $faker) {
         'password' => bcrypt('123456'),
         'remember_token' => str_random(10),
     ];
+    if ($type == $CAMPER) {
+        $data += [
+            'education_level' => EducationLevel::any(),
+            'blood_group' => rand(0, 3),
+            'cgpa' => rand(200, 400) / 100.0, // Assume campers are not that incompetent
+            'school_id' => $faker->numberBetween($min = 1, $max = School::count()),
+            'program_id' => $faker->numberBetween($min = 1, $max = Program::count()),
+            'guardian_name' => $faker->firstName,
+            'guardian_surname' => $faker->lastName,
+            'guardian_role' => Common::randomMediumHit(),
+            'guardian_mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
+        ];
+    } else {
+        $data += [
+            'organization_id' => $faker->numberBetween($min = 1, $max = Organization::count()),
+        ];
+    }
+    return $data;
 });

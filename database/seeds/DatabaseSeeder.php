@@ -18,7 +18,6 @@ use App\QuestionSetQuestionPair;
 use App\Year;
 use App\BadgeCategory;
 
-use App\Enums\EducationLevel;
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
 
@@ -223,6 +222,8 @@ class DatabaseSeeder extends Seeder
         // Fake questions of several types for the camps that require
         // ISSUE: This is < 100% effectiveness (Actual created question set records can be lowered than the total number)
         $this->log_seed('questions and answers');
+        $answers = [];
+        $pairs = [];
         while ($total_question_sets--) {
             $json = [];
             $camp = Camp::inRandomOrder()->first();
@@ -298,10 +299,10 @@ class DatabaseSeeder extends Seeder
                     'type' => $question_type,
                     'full_score' => $graded ? 10.0 : null,
                 ]);
-                $pair = QuestionSetQuestionPair::create([
+                $pairs[] = [
                     'question_set_id' => $question_set->id,
                     'question_id' => $question->id,
-                ]);
+                ];
                 // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($eligible_campers as $camper) {
                     $registration = $camp->getLatestRegistration($camper->id);
@@ -329,13 +330,13 @@ class DatabaseSeeder extends Seeder
                             break;
                     }
                     $answer = Common::encodeIfNeeded($answer, $question_type);
-                    Answer::create([
+                    $answers[] = [
                         'question_set_id' => $question_set->id,
                         'question_id' => $question->id,
                         'camper_id' => $camper->id,
                         'registration_id' => $registration->id,
                         'answer' => $answer,
-                    ]);
+                    ];
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
@@ -349,42 +350,28 @@ class DatabaseSeeder extends Seeder
             $directory = Common::questionSetDirectory($camp_id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
         }
+        Answer::insert($answers);
+        QuestionSetQuestionPair::insert($pairs);
         unset($faker);
     }
 
     private function alter_campers()
     {
         $this->log_alter('campers');
-        $faker = Faker\Factory::create();
-        foreach (User::campers()->cursor() as $camper) {
-            $camper->education_level = EducationLevel::any();
-            $camper->blood_group = rand(0, 3);
-            $camper->cgpa = rand(200, 400) / 100.0; // Assume campers are not that incompetent
-            $camper->school_id = $faker->numberBetween($min = 1, $max = School::count());
-            $camper->program_id = $faker->numberBetween($min = 1, $max = Program::count());
-            $camper->save();
-        }
         $candidate = User::campers(true)->limit(1)->first();
         $candidate->username = 'camper';
         $candidate->activate();
         $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
         $candidate->save();
-        unset($faker);
     }
 
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
-        $faker = Faker\Factory::create();
-        foreach (User::campMakers()->cursor() as $campmaker) {
-            $campmaker->organization_id = $faker->numberBetween($min = 1, $max = Organization::count());
-            $campmaker->save();
-        }
         $candidate = User::campMakers(true)->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->activate();
         $candidate->save();
-        unset($faker);
     }
 
     private function create_admin()
