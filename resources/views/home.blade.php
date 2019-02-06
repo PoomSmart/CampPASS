@@ -56,6 +56,15 @@
         'rows' => 2,
     ])
     @endcomponent
+
+    @component('components.card_carousel', [
+        'id' => 'campCategoriesCarousel',
+        'header' => trans('organization.UniversityCategories'),
+        'objects' => $camp_categories,
+        'component' => 'components.camp_category_block',
+        'rows' => 2,
+    ])
+    @endcomponent
   
     <script>
         jQuery('.next').click(function() { jQuery(this).closest('.carousel').carousel('next'); return false; });
