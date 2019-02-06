@@ -408,6 +408,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::disableQueryLog();
         Model::unguard();
         $this->religions();
         $this->regions();
@@ -432,5 +433,6 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class
         ]);
         Model::reguard();
+        DB::enableQueryLog();
     }
 }
