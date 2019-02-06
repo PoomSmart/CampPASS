@@ -21,6 +21,7 @@
             @endif
             @component($component, [
                 'object' => $object,
+                'folder' => isset($folder) ? $folder : null,
             ])
             @endcomponent
             @if (++$index % $mod == 0)

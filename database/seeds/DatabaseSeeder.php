@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Music' ],
             [ 'name' => 'Tutor' ],
             [ 'name' => 'Account-Economic' ],
-            [ 'name' => 'Social Science' ],
+            [ 'name' => 'Social-Science' ],
             [ 'name' => 'Veter' ],
             [ 'name' => 'Art' ],
             [ 'name' => 'Agri-Fishery' ],

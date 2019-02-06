@@ -54,6 +54,7 @@
         'objects' => $camp_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
+        'folder' => 'camp_categories',
     ])
     @endcomponent
 
@@ -63,6 +64,7 @@
         'objects' => $camp_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
+        'folder' => 'university_categories',
     ])
     @endcomponent
   
