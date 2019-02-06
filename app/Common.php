@@ -102,4 +102,13 @@ class Common
     {
         return bin2hex(random_bytes($length / 2));
     }
+
+    public static function getLocalizedName($record, $attribute = 'name')
+    {
+        $th = $record->{"{$attribute}_th"};
+        $en = $record->{"{$attribute}_en"};
+        if ((\App::getLocale() == 'th' && !is_null($th)) || is_null($en))
+            return $th;
+        return $en;
+    }
 }

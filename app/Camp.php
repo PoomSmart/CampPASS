@@ -76,16 +76,12 @@ class Camp extends Model
 
     public function __toString()
     {
-        if (\App::getLocale() == 'th' && !is_null($this->name_th))
-            return $this->name_th;
-        return $this->name_en;
+        return Common::getLocalizedName($this);
     }
 
     public function getShortDescription()
     {
-        if (\App::getLocale() == 'th' && !is_null($this->short_description_th))
-            return $this->short_description_th;
-        return $this->short_description_en;
+        return Common::getLocalizedName($this, 'short_description');
     }
 
     public function getURL()
