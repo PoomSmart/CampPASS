@@ -50,11 +50,10 @@ class CampApplicationController extends Controller
             } else {
                 $registration = $camper->registrationForCamp($camp);
                 $status = $registration ? $registration->status : -1;
-                $camp_procedure = $camp->camp_procedure();
                 switch ($status) {
                     case RegistrationStatus::DRAFT:
                     case RegistrationStatus::RETURNED:
-                        $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
+                        $apply_text = $camp->camp_procedure()->candidate_required ? trans('registration.Edit') : null;
                         break;
                     case RegistrationStatus::APPLIED:
                         $apply_text = trans('registration.APPLIED');
