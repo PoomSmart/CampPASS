@@ -7,4 +7,5 @@ return [
     'ASSOCIATION' => 'Association',
     'CLUB' => 'Club',
     'GROUP' => 'Group',
+    'UniversityCategories' => 'University Categories',
 ];
