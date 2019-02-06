@@ -58,7 +58,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),
         'acceptable_programs' => Camp_Randomizer::programs(),
         'acceptable_years' => Camp_Randomizer::years(),
-        'min_gpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
+        'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 4.0),
         'other_conditions' => Common::randomMediumHit() ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => $faker->unique()->url,
         'app_close_date' => $app_close_date,

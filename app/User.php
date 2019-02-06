@@ -182,7 +182,7 @@ class User extends Authenticatable
         if (!in_array($this->program_id, $camp->acceptable_programs))
             return trans('registration.NotInRequiredPrograms'.$suffix);
         // Campers with CGPA lower than the criteria would not pass
-        if ($camp->min_gpa > $this->cgpa)
+        if ($camp->min_cgpa > $this->cgpa)
             return trans('registration.NotEnoughCGPA'.$suffix);
         // Campers outside of the specified regions cannot participate
         $region = $this->region();

@@ -31,7 +31,7 @@ class CreateCampsTable extends Migration
             $table->string('short_description_en', 200)->nullable();
             $table->string('short_description_th', 200)->nullable();
             $table->text('long_description')->nullable();
-            $table->double('min_gpa', 3, 2)->nullable();
+            $table->double('min_cgpa', 3, 2)->nullable();
             $table->string('other_conditions', 200)->nullable();
             $table->integer('application_fee')->unsigned()->nullable(); // some camps don't cost campers
             $table->string('url', 150)->nullable();

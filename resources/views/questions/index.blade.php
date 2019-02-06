@@ -12,15 +12,17 @@
     <form method="POST" action="{{ route('questions.store') }}">
         @csrf
         <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp_id }}">
-        @component('components.input', [
+        @component('components.numeric_range', [
             'name' => 'score_threshold',
-            'label' => trans('camp.ScoreThreshold'),
-            'type' => 'number',
+            'label' => trans('question.ScoreThreshold'),
             'placeholder' => trans('question.EnterThreshold'),
-            'attributes' => 'step=any',
+            'min' => 0.0,
+            'max' => 1.0,
+            'step' => 0.01,
+            'object' => isset($object) ? $object : null,
         ])
         @endcomponent
-        <div id="questions">
+        <div id="questions" class="mt-4">
             @component('questions.question', [
                 'title' => 'Title',
                 'label' => 'Question',
