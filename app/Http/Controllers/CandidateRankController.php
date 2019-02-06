@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Common;
+use App\FormScore;
 use App\QuestionSet;
 use App\User;
+
+use App\Http\Controllers\QualificationController;
 
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
@@ -25,32 +28,30 @@ class CandidateRankController extends Controller
 
     public function rank(QuestionSet $question_set)
     {
-        $answers = Answer::where('question_set_id', $question_set->id);
-        if (!$answers->exists())
+        $form_scores = FormScore::where('question_set_id', $question_set->id);
+        if (!$form_scores->exists())
             throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
-        $answers = $answers->get();
+        $form_scores = $form_scores->get()->filter(function ($form_score) {
+            // We would not grade unsubmitted answers
+            return !$form_score->registration()->unsubmitted();
+        });
+        if (empty($form_scores))
+            throw new \App\Exceptions\CampPASSException('No appropriate application forms to rank.');
         $camp = $question_set->camp();
         $json = Common::getQuestionJSON($camp->id, $graded = true);
         $scores = [];
-        foreach ($answers as $answer) {
-            // We would not grade unsubmitted answers
-            if ($answer->registration()->unsubmitted()) continue;
-            $question = $answer->question();
-            $camper = $answer->camper();
-            $answer = $answer->answer;
-            if (!isset($scores[$camper->id]))
-                $scores[$camper->id] = 0;
-            $json_id = $question->json_id;
-            if (isset($json['question_graded'][$json_id])) {
-                if ($question->type == QuestionType::CHOICES) {
-                    $solution = $json['radio'][$json_id];
-                    $score = $solution == $answer ? $question->full_score : 0;
-                    $scores[$camper->id] += $score;
-                }
+        foreach ($form_scores as $form_score) {
+            $registration = $form_score->registration();
+            $question_set = $form_score->question_set();
+            if (is_null($form_score->total_score)) {
+                $form_score->total_score = QualificationController::answer_grade($registration->id, $question_set->id, $silent = true);
+                $form_score->save();
             }
+            $camper = $registration->camper();
+            $scores[$camper->id] = $form_score->total_score;
         }
         $this->scores = $scores;
-        //$max = config('const.app.max_paginate');
+        // $max = config('const.app.max_paginate');
         $campers = $camp->campers($status = RegistrationStatus::APPLIED)->all();
         usort($campers, [get_class(), 'score_rank']);
         // TODO: pagination

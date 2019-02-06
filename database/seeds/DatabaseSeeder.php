@@ -5,6 +5,7 @@ use App\Camp;
 use App\CampCategory;
 use App\CampProcedure;
 use App\Common;
+use App\FormScore;
 use App\User;
 use App\Program;
 use App\Registration;
@@ -132,7 +133,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Primary School' ],
             [ 'name' => 'Secondary School' ],
             [ 'name' => 'Junior High School' ],
-            [ 'name' => 'Senior High School' ],
+            [ 'name' => 'Senior High School' ], // TODO: Localization
         ]);
     }
 
@@ -236,6 +237,7 @@ class DatabaseSeeder extends Seeder
                 }
                 return true;
             });
+            $form_scores = [];
             $question_set = QuestionSet::create([
                 'camp_id' => $camp_id,
                 'score_threshold' => rand(0, 75) / 100.0,
@@ -335,6 +337,11 @@ class DatabaseSeeder extends Seeder
                         'registration_id' => $registration->id,
                         'answer' => $answer,
                     ];
+                    $form_scores[] = [
+                        'registration_id' => $registration->id,
+                        'question_set_id' => $question_set->id,
+                        'total_score' => null, // We cannot calculate the total score right now
+                    ];
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
@@ -347,6 +354,8 @@ class DatabaseSeeder extends Seeder
             $json = json_encode($json);
             $directory = Common::questionSetDirectory($camp_id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
+            FormScore::insert($form_scores);
+            unset($form_scores);
         }
         Answer::insert($answers);
         QuestionSetQuestionPair::insert($pairs);
