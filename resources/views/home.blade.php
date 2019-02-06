@@ -56,34 +56,7 @@
         'rows' => 2,
     ])
     @endcomponent
-
-    <!-- Start footer Area -->
-    <footer class="page-footer">
   
-        <div class="container-fluid text-center">
-            <div class="row">
-                <div class="col-sm-3" >
-                    <h6 class="text-left ">CampPASS
-                        <br><a href="/About">What's CampPASS</a>
-                        <br><a href="/About">How it works</a>
-                        <br><a href="/About">Becoming a Camp Maker</a>
-                    </h6>
-                </div>
-                <div class="col-sm-3"> 
-                    <h6 class="text-left">
-                        <br><a href="/About">About</a>
-                        <br><a href="/About">Help</a>
-                        <br><a href="/About">Terms</a>
-                    </h6>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
-                    <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
     <script>
         jQuery('.next').click(function() { jQuery(this).closest('.carousel').carousel('next'); return false; });
         jQuery('.prev').click(function() { jQuery(this).closest('.carousel').carousel('prev'); return false; });

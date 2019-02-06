@@ -121,6 +121,54 @@
                 @yield('outer_content')
             </div>
         </main>
-    </div>
+    </div>  <!-- Start footer Area -->
+  <footer class="footer">
+  
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3 mx-auto">
+                    <br>
+                    <h6 class="text-left ">CampPASS</h6>
+                    
+                    <ul class="list-unstyled">    
+                        <li>
+                            <a href="#!">What's CampPASS</a>
+                        </li>
+                        <li>
+                                <a href="#!">How it works</a>
+                        </li>
+                        <li>
+                                    <a href="#!">Becoming a Camp Maker</a>
+                        </li>
+                    </ul>
+                    
+                </div>
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <div class="col-md-3 mx-auto-none"> 
+
+                        <ul class="list-unstyled">
+                            <br><br>    
+                                <li>
+                                    <a href="#!">About</a>
+                                </li>
+                                <li>
+                                        <a href="#!">Help</a>
+                                </li>
+                                <li>
+                                            <a href="#!">Terms</a>
+                                </li>
+                            </ul>
+                </div>
+                <div class="col-sm-6 text-right"><br>
+                    <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
+                    <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
+
+    
 </html>

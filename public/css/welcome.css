@@ -1,5 +1,5 @@
 html, body {
-    background-color: #fff;
+    background-color: #f6f8f9;
     color: #636b6f;
     font-family: 'Nunito', sans-serif;
     font-weight: 200;
@@ -47,4 +47,11 @@ html, body {
   
   .m-b-md {
     margin-bottom: 30px;
+  }
+
+  .footer {
+    color: #636b6f;
+    background-color: #FB6B0A;
+    padding-left: 10px;
+
   }
