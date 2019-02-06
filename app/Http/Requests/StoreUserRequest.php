@@ -52,7 +52,9 @@ class StoreUserRequest extends FormRequest
             'dob' => 'required|date_format:Y-m-d|before:today',
             'street_address' => 'required|string|max:300',
             'allergy' => 'nullable|string|max:200',
-            'zipcode' => ['required', 'digits:5', new ThaiZipCode],
+            'zipcode' => [
+                'required', 'digits:5', new ThaiZipCode
+            ],
             'password' => 'required|string|min:6|confirmed',
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",

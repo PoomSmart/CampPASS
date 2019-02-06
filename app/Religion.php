@@ -17,9 +17,4 @@ class Religion extends Model
     {
         return $this->name; // TODO: Localization
     }
-
-    public static function values()
-    {
-        return self::orderBy('name')->select(['id', 'name'])->get();
-    }
 }

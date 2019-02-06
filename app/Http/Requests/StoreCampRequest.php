@@ -40,7 +40,7 @@ class StoreCampRequest extends FormRequest
             'acceptable_regions.*' => 'integer',
             'acceptable_programs' => 'nullable|min:1',
             'acceptable_programs.*' => 'integer',
-            'min_cgpa' => 'nullable|numeric|min:1.0|max:4.0',
+            'min_cgpa' => 'nullable|numeric|between:1.0,4.0',
             'other_conditions' => 'nullable|string|max:200',
             'application_fee' => 'nullable|integer|min:0',
             'url' => 'nullable|url|max:150',

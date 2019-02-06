@@ -15,9 +15,4 @@ class Region extends Model
     {
         return $this->short_name;
     }
-
-    public static function values()
-    {
-        return self::orderBy('name')->select(['id', 'name'])->get();
-    }
 }

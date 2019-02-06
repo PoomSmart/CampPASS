@@ -28,7 +28,7 @@ class StoreQuestionRequest extends FormRequest
             return [];
         }
         $rules = [
-            'score_threshold' => 'nullable|numeric|min:0.1|max:1.0',
+            'score_threshold' => 'nullable|numeric|between:0.1,1.0',
         ];
         return $rules;
     }
