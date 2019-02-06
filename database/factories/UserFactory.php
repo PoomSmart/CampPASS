@@ -76,7 +76,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'city' => 0, // TODO: add city array
         'zipcode' => User_Randomizer::zipcode_prefix().implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
-        'religion_id' => Religion::inRandomOrder()->first()->id,
+        'religion_id' => $faker->numberBetween($min = 1, $max = Religion::count()),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => $type,

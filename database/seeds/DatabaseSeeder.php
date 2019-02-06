@@ -349,17 +349,19 @@ class DatabaseSeeder extends Seeder
             $directory = Common::questionSetDirectory($camp_id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
         }
+        unset($faker);
     }
 
     private function alter_campers()
     {
         $this->log_alter('campers');
+        $faker = Faker\Factory::create();
         foreach (User::campers()->cursor() as $camper) {
             $camper->education_level = EducationLevel::any();
             $camper->blood_group = rand(0, 3);
             $camper->cgpa = rand(200, 400) / 100.0; // Assume campers are not that incompetent
-            $camper->school_id = School::inRandomOrder()->first()->id;
-            $camper->program_id = Program::inRandomOrder()->first()->id;
+            $camper->school_id = $faker->numberBetween($min = 1, $max = School::count());
+            $camper->program_id = $faker->numberBetween($min = 1, $max = Program::count());
             $camper->save();
         }
         $candidate = User::campers(true)->limit(1)->first();
@@ -367,19 +369,22 @@ class DatabaseSeeder extends Seeder
         $candidate->activate();
         $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
         $candidate->save();
+        unset($faker);
     }
 
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
+        $faker = Faker\Factory::create();
         foreach (User::campMakers()->cursor() as $campmaker) {
-            $campmaker->organization_id = Organization::inRandomOrder()->first()->id;
+            $campmaker->organization_id = $faker->numberBetween($min = 1, $max = Organization::count());
             $campmaker->save();
         }
         $candidate = User::campMakers(true)->limit(1)->first();
         $candidate->username = 'campmaker';
         $candidate->activate();
         $candidate->save();
+        unset($faker);
     }
 
     private function create_admin()
@@ -411,9 +416,13 @@ class DatabaseSeeder extends Seeder
         $this->badge_categories();
         $this->camp_categories();
         $this->camp_procedures();
+        $this->log_seed('schools');
         factory(School::class, 10)->create();
+        $this->log_seed('organizations');
         factory(Organization::class, 10)->create();
+        $this->log_seed('camps');
         factory(Camp::class, 50)->create();
+        $this->log_seed('users');
         factory(User::class, 70)->create();
         $this->alter_campers();
         $this->alter_campmakers();

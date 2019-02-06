@@ -49,7 +49,9 @@
                     @endcan
                 @else
                     @can('question-edit')
-                        <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('question.Question') }}</a>
+                        @if ($camp->camp_procedure()->candidate_required)
+                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">{{ trans('question.Question') }}</a>
+                        @endif
                     @endcan
                 @endif
                 @can('camp-edit')

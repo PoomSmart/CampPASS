@@ -42,8 +42,6 @@ class Camp_Randomizer
 }
 
 $factory->define(App\Camp::class, function (Faker $faker) {
-    // TODO: biased camp procedure choosing
-    $camp_procedure = Common::randomMediumHit() ? CampProcedure::inRandomOrder()->where('candidate_required', true)->first() : CampProcedure::inRandomOrder()->first();
     $event_start_date = $event_end_date = null;
     $now = Carbon::now()->format('Y-m-d H:i:s');
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
@@ -52,9 +50,9 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     // TODO: Fake locations
     return [
         'name_en' => "Camp {$faker->unique()->company}",
-        'camp_category_id' => CampCategory::inRandomOrder()->first()->id,
-        'camp_procedure_id' => $camp_procedure->id,
-        'organization_id' => Organization::inRandomOrder()->first()->id,
+        'camp_category_id' => $faker->numberBetween($min = 1, $max = CampCategory::count()),
+        'camp_procedure_id' => $faker->numberBetween($min = 1, $max = CampProcedure::count()),
+        'organization_id' => $faker->numberBetween($min = 1, $max = Organization::count()),
         'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),

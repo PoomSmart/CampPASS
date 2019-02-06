@@ -179,7 +179,7 @@ class CampApplicationController extends Controller
                 'answer' => Common::decodeIfNeeded($answer, $question->type),
             ];
         }
-        return view('camp_application.answer_view', compact('data', 'json', 'question_set', 'camp'));
+        return view('camp_application.answer_view', compact('data', 'json', 'camp'));
     }
 
     public function submit_application_form(Camp $camp)
