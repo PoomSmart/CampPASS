@@ -6,11 +6,11 @@
 @stop
 
 @section('outer_content')
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="highlightCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#highlightCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#highlightCarousel" data-slide-to="1"></li>
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
@@ -30,11 +30,11 @@
             </div>
         </div>
         <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#highlightCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">@lang('app.Previous')</span>
         </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#highlightCarousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">@lang('app.Next')</span>
         </a>
