@@ -19,6 +19,8 @@ return [
     'Save' => 'Save',
     'Required' => 'Required',
     'Next' => 'Next',
+    'Yes' => 'Yes',
+    'No' => 'No',
     'Actions' => 'Actions',
     'LocalizedName' => 'Localized Name',
     'Approve' => 'Approve',
