@@ -34,7 +34,7 @@
         <table class="table table-bordered">
             <tr>
                 <th>@lang('app.ID')</th>
-                <th>@lang('app.LocalizedName')</th>
+                <th>@lang('account.Name')</th>
             </tr>
             @foreach ($data as $key => $camp)
                 <tr>

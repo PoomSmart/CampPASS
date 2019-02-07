@@ -38,11 +38,11 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('camp_browser.index') }}">Browse Camps</a>
+                            <a class="nav-link" href="{{ route('camp_browser.index') }}">@lang('camp.BrowseCamps')</a>
                         </li>
                         @can('camp-create')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('camps.index') }}">Organize Camps</a>
+                                <a class="nav-link" href="{{ route('camps.index') }}">@lang('camp.OrganizeCamps')</a>
                             </li>
                         @endcan
                         @if (\Auth::user() && \Auth::user()->isAdmin())
@@ -69,7 +69,7 @@
                                     {{ \Auth::user()->getFullName() }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profiles.index') }}">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -123,43 +123,26 @@
         </main>
     </div>  <!-- Start footer Area -->
   <footer class="footer">
-  
         <div class="container">
             <div class="row">
                 <div class="col-sm-3 mx-auto">
                     <br>
                     <h6 class="text-left ">CampPASS</h6>
-                    
                     <ul class="list-unstyled">    
-                        <li>
-                            <a href="#!">What's CampPASS</a>
-                        </li>
-                        <li>
-                                <a href="#!">How it works</a>
-                        </li>
-                        <li>
-                                    <a href="#!">Becoming a Camp Maker</a>
-                        </li>
+                        <li><a href="#!">What's CampPASS</a></li>
+                        <li><a href="#!">How it works</a></li>
+                        <li><a href="#!">Becoming a Camp Maker</a></li>
                     </ul>
-                    
                 </div>
-
                 <hr class="clearfix w-100 d-md-none">
-
                 <div class="col-md-3 mx-auto-none"> 
-
-                        <ul class="list-unstyled">
-                            <br><br>    
-                                <li>
-                                    <a href="#!">About</a>
-                                </li>
-                                <li>
-                                        <a href="#!">Help</a>
-                                </li>
-                                <li>
-                                            <a href="#!">Terms</a>
-                                </li>
-                            </ul>
+                    <ul class="list-unstyled">
+                        <br>
+                        <br>    
+                        <li><a href="#!">About</a></li>
+                        <li><a href="#!">Help</a></li>
+                        <li><a href="#!">Terms</a></li>
+                    </ul>
                 </div>
                 <div class="col-sm-6 text-right"><br>
                     <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
@@ -169,6 +152,4 @@
         </div>
     </footer>
 </body>
-
-    
 </html>

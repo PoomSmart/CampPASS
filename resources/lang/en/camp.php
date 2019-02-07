@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Name' => 'Camp Name',
     'EnglishName' => 'Name in English',
     'ThaiName' => 'Name in Thai',
     'EnglishShortDescription' => 'Short Description in English',
@@ -39,4 +40,7 @@ return [
     'ApproveFirstShort' => 'Not approved',
     'ContactCampMaker' => 'Contact Camp Maker',
     'CampCategories' => 'Camp Categories',
+    'Camps' => 'Camps',
+    'OrganizeCamps' => 'Organize Camps',
+    'BrowseCamps' => 'Browse Camps',
 ];

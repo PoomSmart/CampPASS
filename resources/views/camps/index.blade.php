@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    Camps
+    @lang('camp.Camps')
 @endsection
 
 @section('script')
@@ -26,9 +26,9 @@
     <table class="table table-bordered">
         <tr>
             <th>@lang('app.No_')</th>
-            <th>@lang('app.LocalizedName')</th>
+            <th>@lang('camp.Name')</th>
             <th>@lang('camp.ShortDescription')</th>
-            <th>Registered Campers</th>
+            <th>@lang('camper.RegisteredCampers')</th>
             <th>@lang('camp.Status')</th>
             <th>Grading Type</th>
             <th width="240px">@lang('app.Actions')</th>

@@ -22,7 +22,6 @@ return [
     'Yes' => 'Yes',
     'No' => 'No',
     'Actions' => 'Actions',
-    'LocalizedName' => 'Localized Name',
     'Approve' => 'Approve',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
 ];

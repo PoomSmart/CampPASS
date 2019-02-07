@@ -29,6 +29,7 @@ return [
     'CampMaker' => 'Camp Maker',
 
     'Username' => 'Username',
+    'Name' => 'Name',
     'EnglishName' => 'Name in English',
     'EnglishSurname' => 'Surname in English',
     'EnglishNickname' => 'Nickname in English',
@@ -61,4 +62,5 @@ return [
 
     'Status' => 'Status',
     'ID' => 'Account ID',
+    'Profile' => 'Profile',
 ];

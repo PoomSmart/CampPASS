@@ -23,7 +23,7 @@
                         <tr>
                             <th>@lang('registration.ID')</th>
                             <th>@lang('account.ID')</th>
-                            <th>@lang('app.LocalizedName')</th>
+                            <th>@lang('account.Name')</th>
                             <th>@lang('account.School')</th>
                             <th>@lang('camper.Program')</th>
                             <th>@lang('account.Status')</th>
