@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    @lang('RoleManagement')
+    @lang('account.ManageRoles')
 @endsection
 
 @section('extra-buttons')
@@ -13,7 +13,7 @@
         <tr>
             <th>@lang('app.No_')</th>
             <th>@lang('app.Name')</th>
-            <th width="280px">@lang('app.Actions')</th>
+            <th width="250px">@lang('app.Actions')</th>
         </tr>
             @foreach ($roles as $key => $role)
                 <tr>

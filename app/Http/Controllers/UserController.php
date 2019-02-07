@@ -40,17 +40,10 @@ class UserController extends Controller
         $data = User::orderBy('id', 'DESC')->paginate($max);
         return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * $max);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        // TODO: User creation page for admin
-        $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles'));
+        return null;
     }
 
     /**

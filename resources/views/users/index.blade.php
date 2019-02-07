@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    @lang('UsersManagement')
+    @lang('account.ManageUsers')
 @endsection
 
 @section('extra-buttons')
@@ -15,14 +15,14 @@
             <th>@lang('account.Username')</th>
             <th>@lang('account.FullName')</th>
             <th>@lang('account.Email')</th>
-            <th>Roles</th>
-            <th width="280px">@lang('app.Actions')</th>
+            <th>@lang('account.Roles')</th>
+            <th>@lang('app.Actions')</th>
         </tr>
         @foreach ($data as $key => $user)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $user->username }}</td>
-                <td>{{ $user->getFullName() }}</td>
+                <td><a href="{{ route('profiles.show', $user) }}" target="_blank">{{ $user->getFullName() }}</a></td>
                 <td>{{ $user->email }}</td>
                 <td>
                     @if (!empty($user->getRoleNames()))

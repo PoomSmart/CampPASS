@@ -19,7 +19,7 @@ class CampProcedure extends Model
 
     public function getTitle()
     {
-        return $this->title;
+        return $this->title; // TODO: Localization
     }
 
     public function __toString()

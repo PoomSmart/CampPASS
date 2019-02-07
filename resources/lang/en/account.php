@@ -16,6 +16,8 @@ return [
     'CreateRole' => 'Create New Role',
     'EditRole' => 'Edit Role',
     'ShowRole' => 'Show Role',
+    'Roles' => 'Roles',
+    'ManageRoles' => 'Manage Roles',
     'Permissions' => 'Permissions',
 
     'VerifyEmail' => 'Verify your E-mail Address',
@@ -28,6 +30,7 @@ return [
     'Camper' => 'Camper',
     'CampMaker' => 'Camp Maker',
 
+    'ManageUsers' => 'Manage Users',
     'Username' => 'Username',
     'Name' => 'Name',
     'EnglishName' => 'Name in English',

@@ -32,10 +32,6 @@ Route::group(['middleware' => ['permission:question-edit']], function() {
     Route::resource('questions', 'QuestionController');
 });
 
-Route::group(['middleware' => ['permission:campmaker-edit']], function() {
-    Route::resource('campers', 'CamperController');
-});
-
 Route::group(['middleware' => ['auth']], function() {
     Route::prefix('application')->group(function () {
         Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
