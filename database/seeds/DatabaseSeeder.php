@@ -246,6 +246,7 @@ class DatabaseSeeder extends Seeder
             ]);
             $question_set_has_grade = false;
             $question_set_has_manual_grade = false;
+            $question_set_total_score = 0;
             // Biased setting to have some entirely auto-gradable question sets
             $question_set_try_auto = Common::randomRareHit();
             $json['camp_id'] = $camp->id;
@@ -261,14 +262,15 @@ class DatabaseSeeder extends Seeder
                 $question_type = QuestionType::any();
                 // Requirement: file upload is always required and graded
                 if ($question_type == QuestionType::FILE) {
+                    $graded = true;
                     if ($question_set_try_auto)
-                        $question_type = rand(QuestionType::TEXT, QuestionType::CHECKBOXES); // To bypass the aforementioned requirement
-                    else {
-                        $graded = true;
+                        // To bypass the aforementioned requirement
+                        $question_type = rand(QuestionType::TEXT, QuestionType::CHECKBOXES);
+                    else
                         // Having gradable file upload automatically translates into needing to manually grade
                         $question_set_has_manual_grade = true;
                     }
-                } else
+                else
                     $graded = $question_set_try_auto ? $question_type == QuestionType::CHOICES : rand(0, 1);
                 if ($graded)
                     $question_set_has_grade = true;
@@ -317,6 +319,7 @@ class DatabaseSeeder extends Seeder
                     'type' => $question_type,
                     'full_score' => $graded ? 10.0 : null,
                 ]);
+                $question_set_total_score += $question->full_score;
                 $pairs[] = [
                     'question_set_id' => $question_set->id,
                     'question_id' => $question->id,
@@ -368,10 +371,17 @@ class DatabaseSeeder extends Seeder
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
-            if ($question_set_has_grade)
-                $question_set->manual_required = $question_set_try_auto ? false : $question_set_has_manual_grade;
-            else
-                $question_set->score_threshold = null; // Such question sets without any gradable questions do not need the score threshold
+            if ($question_set_has_grade) {
+                $question_set->manual_required = $question_set_has_manual_grade;
+                $question_set->total_score = $question_set_total_score;
+            } else {
+                // Such question sets without any gradable questions should only exist in those camps without requiring candidates
+                // TODO: They should rather be removed !
+                $question_set->score_threshold = null;
+                $camp = $question_set->camp();
+                $camp->camp_procedure_id = CampProcedure::inRandomOrder()->where('candidate_required', false)->limit(1)->first()->id;
+                $camp->save();
+            }
             $question_set->save();
             // Empty fields are ruled out the same way the form POST does
             foreach ($json as $key => $value) {

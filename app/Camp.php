@@ -133,6 +133,15 @@ class Camp extends Model
         return self::allApproved()->limit(5);
     }
 
+    public function gradingType()
+    {
+        if (!$this->camp_procedure()->candidate_required)
+            return 'N/A';
+        if ($this->question_set() || (!is_null($this->question_set()) && !empty($this->question_set())))
+            return $this->question_set()->manual_required ? 'Manual' : 'Auto';
+        return 'N/A';
+    }
+
     public function getCloseDate()
     {
         return Carbon::parse($this->app_close_date)->toFormattedDateString();

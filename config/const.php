@@ -10,6 +10,6 @@ return [
         'max_fetch' => 6,
     ],
     'app' => [
-        'max_paginate' => 10,
+        'max_paginate' => 15,
     ],
 ];

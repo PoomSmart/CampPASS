@@ -40,7 +40,7 @@
             <td>{{ $camp->getShortDescription() }}</td>
             <td>{{ $camp->approved ? $camp->campers(null)->count() : 0 }}</td>
             <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
-            <td>{{ ($camp->question_set() || (!is_null($camp->question_set()) && !empty($camp->question_set()))) ? ($camp->question_set()->manual_required ? 'Manual' : 'Auto') : 'N/A' }}</td>
+            <td>{{ $camp->gradingType() }}</td>
 	        <td>
                 @if (!$camp->approved)
                     @can('camp-approve')

@@ -52,25 +52,29 @@ class QuestionController extends Controller
     {
         $camp = $this->authenticate($request->input('camp_id'));
         $content = $request->all();
-        $question_set_id = QuestionSet::updateOrCreate([
+        $question_set = QuestionSet::updateOrCreate([
             'camp_id' => $camp->id,
         ], [
             'score_threshold' => $request->input('score_threshold'),
-        ])->id;
+        ]);
         $questions = $content['type'];
+        $question_set_total_score = 0;
         foreach ($questions as $json_id => $type) {
             $graded = isset($content['question_graded'][$json_id]);
-            $question_id = Question::updateOrCreate([
+            $question = Question::updateOrCreate([
                 'json_id' => $json_id,
             ], [
                 'type' => (int)$type,
                 'full_score' => $graded ? 10.0 : null, // TODO: user-specified?
-            ])->id;
-            QuestionSetQuestionPair::updateOrCreate([
-                'question_set_id' => $question_set_id,
-                'question_id' => $question_id,
             ]);
+            QuestionSetQuestionPair::updateOrCreate([
+                'question_set_id' => $question_set->id,
+                'question_id' => $question->id,
+            ]);
+            $question_set_total_score += $question->full_score;
         }
+        $question_set->total_score = $question_set_total_score;
+        $question_set->save();
         // We do not need token to be stored
         unset($content['_token']);
         $json = json_encode($content);

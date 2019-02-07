@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></td>
-                <td>{{ $scores[$camper->id] }}</td>
+                <td>{{ $scores[$camper->id] }} / {{ $question_set->total_score }}</td>
             </tr>
         @endforeach
     </table>

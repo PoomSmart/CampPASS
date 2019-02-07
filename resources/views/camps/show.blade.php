@@ -12,7 +12,7 @@
         @endcan
         <div class="row">
             @if ($camp->question_set() && $camp->question_set()->manual_required)
-                <div class="col-12">
+                <div class="col-12 text-center">
                     <b class="text-info">** Manual Grading required. **</b>
                 </div>
             @endif

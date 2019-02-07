@@ -18,6 +18,7 @@ class CreateQuestionSetsTable extends Migration
             $table->integer('camp_id')->unsigned();
             $table->foreign('camp_id')->references('id')->on('camps')->onDelete('cascade');
             $table->double('score_threshold')->nullable();
+            $table->double('total_score')->nullable();
             $table->boolean('manual_required')->default(false);
             $table->timestamps();
         });

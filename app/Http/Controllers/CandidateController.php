@@ -59,6 +59,6 @@ class CandidateController extends Controller
         $campers = $camp->campers($status = RegistrationStatus::APPLIED)->all();
         usort($campers, [get_class(), 'score_rank']);
         // TODO: pagination
-        return view('qualification.candidate_rank', compact('campers', 'scores'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
+        return view('qualification.candidate_rank', compact('campers', 'scores', 'question_set'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
     }
 }
