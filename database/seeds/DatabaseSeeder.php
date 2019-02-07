@@ -358,8 +358,11 @@ class DatabaseSeeder extends Seeder
                     $form_scores[] = [
                         'registration_id' => $registration->id,
                         'question_set_id' => $question_set->id,
-                        'total_score' => null, // We cannot calculate the total score right now
-                        'finalized' => $question_set_try_auto, // Form scores are finalized as we say every question can be auto-graded
+                        // We cannot calculate the total score right now
+                        'total_score' => null,
+                        // Form scores are finalized as we say every question can be auto-graded
+                        // However, this must mean there are no manual graded questions
+                        'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
                     ];
                 }
                 unset($multiple_radio_map);
