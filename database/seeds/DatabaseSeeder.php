@@ -178,8 +178,8 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
-        $minimum_questions = 5;
-        $maximum_questions = 10;
+        $minimum_questions = 6;
+        $maximum_questions = 15;
         $maximum_choices = 6;
         $maximum_checkboxes = 6;
         $faker = Faker\Factory::create();
