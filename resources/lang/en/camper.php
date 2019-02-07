@@ -16,4 +16,5 @@ return [
     'GuardianRole' => 'Guardian Role',
     'GuardianRoleText' => 'Guardian Role',
     'CGPA' => 'Cumulative GPA',
+    'RegisteredCampers' => 'Registered Campers',
 ];

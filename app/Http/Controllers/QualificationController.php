@@ -31,7 +31,7 @@ class QualificationController extends Controller
                 return $form_score->total_score;
         }
         $registration = Registration::findOrFail($registration_id);
-        if ($registration->unsubmitted())
+        if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\CampPassException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper();
         $question_set = QuestionSet::findOrFail($question_set_id);

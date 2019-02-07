@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    @lang('CandidateRanking')
+    @lang('qualification.CandidateRanking')
 @endsection
 
 @section('content')
@@ -15,9 +15,10 @@
         @foreach ($campers as $camper)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ $camper->getFullName() }}</td>
+                <td><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></td>
                 <td>{{ $scores[$camper->id] }}</td>
             </tr>
         @endforeach
     </table>
+    <a class="btn btn-danger" href="">Announce</a>
 @endsection

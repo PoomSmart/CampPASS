@@ -60,4 +60,9 @@ class Registration extends Model
     {
         return $this->status <= RegistrationStatus::RETURNED;
     }
+
+    public function applied()
+    {
+        return $this->status == RegistrationStatus::APPLIED;
+    }
 }

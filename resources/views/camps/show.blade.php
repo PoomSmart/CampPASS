@@ -18,7 +18,7 @@
             @endif
             <div class="col-12">
                 @if (count($data))
-                    <h3>Registered Campers</h3>
+                    <h3>@lang('camper.RegisteredCampers')</h3>
                     <table class="table table-bordered">
                         <tr>
                             <th>@lang('registration.ID')</th>
@@ -40,7 +40,8 @@
                                 <td>{{ $registration->getStatus() }}</td>
                                 <td>
                                     @if ($rankable)
-                                        <a class="btn btn-info" href="{{ route('qualification.answer_grade', [$registration->id, $camp->question_set()->id]) }}">@lang('registration.View')</a>
+                                        <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
+                                            href="{{ route('qualification.answer_grade', [$registration->id, $camp->question_set()->id]) }}">@lang('registration.View')</a>
                                     @endif
                                 </td>
                             </tr>

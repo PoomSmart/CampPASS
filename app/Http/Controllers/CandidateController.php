@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Answer;
 use App\Common;
 use App\FormScore;
 use App\QuestionSet;
-use App\User;
 
 use App\Http\Controllers\QualificationController;
 
-use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
 
 use Illuminate\Http\Request;
 
-class CandidateRankController extends Controller
+class CandidateController extends Controller
 {
     protected $scores;
 
@@ -32,11 +29,18 @@ class CandidateRankController extends Controller
         if (!$form_scores->exists())
             throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
         $form_scores = $form_scores->get()->filter(function ($form_score) {
-            // We would not grade unsubmitted and unfinalized answers
-            return !$form_score->registration()->unsubmitted() && $form_score->finalized;
+             // We would not grade unsubmitted forms
+            return $form_score->registration()->applied();
+        });
+        $total_registrations = $form_scores->count();
+        $form_scores = $form_scores->filter(function ($form_score) {
+            // We would not grade unfinalized answers
+            return $form_score->finalized;
         });
         if ($form_scores->isEmpty())
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('No finalized application forms to rank.');
+        if ($form_scores->count() !== $total_registrations)
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
         $camp = $question_set->camp();
         $json = Common::getQuestionJSON($camp->id, $graded = true);
         $scores = [];
