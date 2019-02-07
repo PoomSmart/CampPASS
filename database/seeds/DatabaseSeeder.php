@@ -187,6 +187,7 @@ class DatabaseSeeder extends Seeder
         // First, fake registrations of campers who are eligible for
         $this->log_seed('registrations');
         $registrations = [];
+        $tbd_question_set_ids = [];
         foreach (User::campers()->cursor() as $camper) {
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
@@ -259,19 +260,14 @@ class DatabaseSeeder extends Seeder
             $json['checkbox_label'] = [];
             $questions_number = rand($minimum_questions, $maximum_questions);
             while ($questions_number--) {
-                $question_type = QuestionType::any();
+                $question_type = $question_set_try_auto ? QuestionType::CHOICES : QuestionType::any();
                 // Requirement: file upload is always required and graded
                 if ($question_type == QuestionType::FILE) {
                     $graded = true;
-                    if ($question_set_try_auto)
-                        // To bypass the aforementioned requirement
-                        $question_type = rand(QuestionType::TEXT, QuestionType::CHECKBOXES);
-                    else
-                        // Having gradable file upload automatically translates into needing to manually grade
-                        $question_set_has_manual_grade = true;
-                    }
-                else
-                    $graded = $question_set_try_auto ? $question_type == QuestionType::CHOICES : rand(0, 1);
+                    // Having gradable file upload automatically translates into needing to manually grade
+                    $question_set_has_manual_grade = true;
+                } else
+                    $graded = $question_set_try_auto ? true : rand(0, 1);
                 if ($graded)
                     $question_set_has_grade = true;
                 $required = $graded ? true : rand(0, 1);
@@ -376,11 +372,8 @@ class DatabaseSeeder extends Seeder
                 $question_set->total_score = $question_set_total_score;
             } else {
                 // Such question sets without any gradable questions should only exist in those camps without requiring candidates
-                // TODO: They should rather be removed !
-                $question_set->score_threshold = null;
-                $camp = $question_set->camp();
-                $camp->camp_procedure_id = CampProcedure::inRandomOrder()->where('candidate_required', false)->limit(1)->first()->id;
-                $camp->save();
+                // They should just be removed
+                $tbd_question_set_ids[] = $question_set->id;
             }
             $question_set->save();
             // Empty fields are ruled out the same way the form POST does
@@ -396,6 +389,7 @@ class DatabaseSeeder extends Seeder
         }
         Answer::insert($answers);
         QuestionSetQuestionPair::insert($pairs);
+        QuestionSet::whereIn('id', $tbd_question_set_ids)->delete();
         unset($faker);
     }
 
