@@ -22,7 +22,6 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>@lang('registration.ID')</th>
-                            <th>@lang('account.ID')</th>
                             <th>@lang('account.Name')</th>
                             <th>@lang('account.School')</th>
                             <th>@lang('camper.Program')</th>
@@ -33,8 +32,7 @@
                             <?php $camper = $registration->camper(); ?>
                             <tr>
                                 <td>{{ $registration->id }}</td>
-                                <td>{{ $camper->id }}</td>
-                                <td>{{ $camper->getFullName() }}</td>
+                                <td><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></td>
                                 <td>{{ $camper->school() }}</td>
                                 <td>{{ $camper->program() }}</td>
                                 <td>{{ $registration->getStatus() }}</td>

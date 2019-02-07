@@ -74,6 +74,7 @@ class QualificationController extends Controller
                 } else if (isset($answer_score)) {
                     // If the type is not choice, camp makers have graded it and the score has been saved to the database, so we send this information to the view
                     $json['question_scored'][$question->json_id] = $answer_score;
+                    $camper_score += $answer_score;
                 }
                 $total_score += $question->full_score;
             }

@@ -107,6 +107,9 @@
         @component('components.submit', [
             'label' => trans('app.Save'),
         ])
+        @slot('postcontent')
+            <a class="btn btn-secondary" href="{{ route('camps.show', $camp) }}">@lang('app.Back')</a>
+        @endslot
         @endcomponent
     </form>
     <script>

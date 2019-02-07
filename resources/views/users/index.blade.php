@@ -4,10 +4,6 @@
     @lang('account.ManageUsers')
 @endsection
 
-@section('extra-buttons')
-    <a class="btn btn-success" href="{{ route('users.create') }}">@lang('account.CreateUser')</a>
-@endsection
-
 @section('content')
     <table class="table table-bordered">
         <tr>
