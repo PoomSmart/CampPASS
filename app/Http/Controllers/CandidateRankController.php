@@ -32,11 +32,11 @@ class CandidateRankController extends Controller
         if (!$form_scores->exists())
             throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
         $form_scores = $form_scores->get()->filter(function ($form_score) {
-            // We would not grade unsubmitted answers
-            return !$form_score->registration()->unsubmitted();
+            // We would not grade unsubmitted and unfinalized answers
+            return !$form_score->registration()->unsubmitted() && $form_score->finalized;
         });
-        if (empty($form_scores))
-            throw new \App\Exceptions\CampPASSException('No appropriate application forms to rank.');
+        if ($form_scores->isEmpty())
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('No finalized application forms to rank.');
         $camp = $question_set->camp();
         $json = Common::getQuestionJSON($camp->id, $graded = true);
         $scores = [];

@@ -25,8 +25,8 @@ class QualificationController extends Controller
      */
     public static function answer_grade($registration_id, $question_set_id, $silent = false)
     {
+        $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->first();
         if ($silent) {
-            $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->first();
             if ($form_score && isset($form_score->total_score))
                 return $form_score->total_score;
         }
@@ -88,12 +88,14 @@ class QualificationController extends Controller
         $registration_id = $registration->id;
         $question_set_id = $question_set->id;
         if ($silent) {
-            FormScore::updateOrCreate([
-                'registration_id' => $registration_id,
-                'question_set_id' => $question_set_id,
-            ], [
-                'total_score' => $camper_score,
-            ]);
+            if (!$form_score) {
+                FormScore::create([
+                    'registration_id' => $registration_id,
+                    'question_set_id' => $question_set_id,
+                    'total_score' => $camper_score,
+                    'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+                ]);
+            }
             return $camper_score;
         } else
             $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";

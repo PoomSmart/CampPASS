@@ -20,7 +20,7 @@ class CreateFormScoresTable extends Migration
             $table->integer('question_set_id')->unsigned();
             $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
             $table->double('total_score')->nullable();
-            // TODO: there could be an attribute: "finalized"
+            $table->boolean('finalized')->default(false);
             $table->timestamps();
         });
     }

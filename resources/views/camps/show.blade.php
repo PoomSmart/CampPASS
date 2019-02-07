@@ -11,6 +11,11 @@
             <?php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); ?>
         @endcan
         <div class="row">
+            @if ($camp->question_set() && $camp->question_set()->manual_required)
+                <div class="col-12">
+                    <b class="text-info">** Manual Grading required. **</b>
+                </div>
+            @endif
             <div class="col-12">
                 @if (count($data))
                     <h3>Registered Campers</h3>

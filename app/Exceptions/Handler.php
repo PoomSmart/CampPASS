@@ -50,6 +50,8 @@ class Handler extends ExceptionHandler
             return redirect('/')->with('error', trans('app.NoPermissionError'));
         if ($exception instanceof \App\Exceptions\CampPASSException)
             return redirect('/')->with('error', $exception->getMessage());
+        if ($exception instanceof \App\Exceptions\CampPASSExceptionRedirectBack)
+            return redirect()->back()->with('error', $exception->getMessage());
         return parent::render($request, $exception);
     }
 }

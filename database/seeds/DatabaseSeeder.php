@@ -178,7 +178,6 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
-        $total_question_sets = 30;
         $minimum_questions = 5;
         $maximum_questions = 10;
         $maximum_choices = 6;
@@ -219,16 +218,19 @@ class DatabaseSeeder extends Seeder
         }
         Registration::insert($registrations);
         // Fake questions of several types for the camps that require
-        // ISSUE: This is < 100% effectiveness (Actual created question set records can be lowered than the total number)
         $this->log_seed('questions and answers');
         $answers = [];
         $pairs = [];
-        while ($total_question_sets--) {
-            $json = [];
-            $camp = Camp::inRandomOrder()->first();
-            $camp_id = $camp->id;
-            if (!$camp->camp_procedure()->candidate_required || QuestionSet::where('camp_id', $camp_id)->exists())
+        foreach (Camp::allApproved()->get() as $camp) {
+            if (!$camp->camp_procedure()->candidate_required) {
+                // Clean up all registrations that should not exist in this case
+                Registration::where('camp_id', $camp->id)->delete();
                 continue;
+            }
+            // If there is already the question set for the camp, we already seeded questions and answers
+            if (QuestionSet::where('camp_id', $camp->id)->exists())
+                continue;
+            $json = [];
             $eligible_campers = $campers->filter(function ($camper) use ($camp) {
                 try {
                     $camper->isEligibleForCamp($camp);
@@ -239,10 +241,14 @@ class DatabaseSeeder extends Seeder
             });
             $form_scores = [];
             $question_set = QuestionSet::create([
-                'camp_id' => $camp_id,
-                'score_threshold' => rand(0, 75) / 100.0,
+                'camp_id' => $camp->id,
+                'score_threshold' => rand(1, 75) / 100.0,
             ]);
-            $json['camp_id'] = $camp_id;
+            $question_set_has_grade = false;
+            $question_set_has_manual_grade = false;
+            // Biased setting to have some entirely auto-gradable question sets
+            $question_set_try_auto = Common::randomRareHit();
+            $json['camp_id'] = $camp->id;
             $json['type'] = [];
             $json['question'] = [];
             $json['question_required'] = [];
@@ -254,9 +260,20 @@ class DatabaseSeeder extends Seeder
             while ($questions_number--) {
                 $question_type = QuestionType::any();
                 // Requirement: file upload is always required and graded
-                $graded = $question_type == QuestionType::FILE ? true : rand(0, 1);
+                if ($question_type == QuestionType::FILE) {
+                    if ($question_set_try_auto)
+                        $question_type = rand(QuestionType::TEXT, QuestionType::CHECKBOXES); // To bypass the aforementioned requirement
+                    else {
+                        $graded = true;
+                        // Having gradable file upload automatically translates into needing to manually grade
+                        $question_set_has_manual_grade = true;
+                    }
+                } else
+                    $graded = $question_set_try_auto ? $question_type == QuestionType::CHOICES : rand(0, 1);
+                if ($graded)
+                    $question_set_has_grade = true;
                 $required = $graded ? true : rand(0, 1);
-                $json_id = $this->randomID($camp_id);
+                $json_id = $this->randomID($camp->id);
                 $json['type'][$json_id] = $question_type;
                 $question_text = $faker->sentences($nb = rand(1, 2), $asText = true);
                 $json['question'][$json_id] = $question_text;
@@ -268,16 +285,16 @@ class DatabaseSeeder extends Seeder
                 $multiple_checkbox_map = [];
                 switch ($question_type) {
                     case QuestionType::TEXT:
-
+                        if ($graded) $question_set_has_manual_grade = true;
                         break;
                     case QuestionType::PARAGRAPH:
-
+                        if ($graded) $question_set_has_manual_grade = true;
                         break;
                     case QuestionType::CHOICES:
                         $choices_number = rand($maximum_choices / 2, $maximum_choices);
                         $json['radio_label'][$json_id] = [];
                         for ($i = 1; $i <= $choices_number; $i++) {
-                            $choice_id = $this->randomID($camp_id);
+                            $choice_id = $this->randomID($camp->id);
                             $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 40);
                         }
                         $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
@@ -285,10 +302,11 @@ class DatabaseSeeder extends Seeder
                         $json['radio'][$json_id] = $correct_choice;
                         break;
                     case QuestionType::CHECKBOXES:
+                        if ($graded) $question_set_has_manual_grade = true;
                         $checkboxes_number = rand($maximum_checkboxes / 2, $maximum_checkboxes);
                         $json['checkbox_label'][$json_id] = [];
                         for ($i = 1; $i <= $checkboxes_number; $i++) {
-                            $checkbox_id = $this->randomID($camp_id);
+                            $checkbox_id = $this->randomID($camp->id);
                             $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
                         }
                         $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
@@ -341,18 +359,24 @@ class DatabaseSeeder extends Seeder
                         'registration_id' => $registration->id,
                         'question_set_id' => $question_set->id,
                         'total_score' => null, // We cannot calculate the total score right now
+                        'finalized' => $question_set_try_auto, // Form scores are finalized as we say every question can be auto-graded
                     ];
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
+            if ($question_set_has_grade)
+                $question_set->manual_required = $question_set_try_auto ? false : $question_set_has_manual_grade;
+            else
+                $question_set->score_threshold = null; // Such question sets without any gradable questions do not need the score threshold
+            $question_set->save();
             // Empty fields are ruled out the same way the form POST does
             foreach ($json as $key => $value) {
                 if (empty($value))
                     unset($json[$key]);
             }
             $json = json_encode($json);
-            $directory = Common::questionSetDirectory($camp_id);
+            $directory = Common::questionSetDirectory($camp->id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
             FormScore::insert($form_scores);
             unset($form_scores);
