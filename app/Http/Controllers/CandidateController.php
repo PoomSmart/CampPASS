@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common;
+use App\Candidate;
 use App\FormScore;
 use App\QuestionSet;
 
@@ -14,51 +15,72 @@ use Illuminate\Http\Request;
 
 class CandidateController extends Controller
 {
-    protected $scores;
-
-    public function score_rank($a, $b)
-    {
-        $score_a = $this->scores[$a->id];
-        $score_b = $this->scores[$b->id];
-        return $score_a == $score_b ? 0 : $score_a < $score_b ? 1 : -1;
-    }
-
-    public function rank(QuestionSet $question_set)
+    public function rank(QuestionSet $question_set, $list = false)
     {
         $form_scores = FormScore::where('question_set_id', $question_set->id);
-        if (!$form_scores->exists())
+        if (!$form_scores->exists()) {
+            if ($list)
+                return null;
             throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
+        }
         $form_scores = $form_scores->get()->filter(function ($form_score) {
              // We would not grade unsubmitted forms
             return $form_score->registration()->applied();
         });
         $total_registrations = $form_scores->count();
-        $form_scores = $form_scores->filter(function ($form_score) {
+        $form_scores = $form_scores->filter(function ($form_score) use ($question_set) {
             // We would not grade unfinalized answers
-            return $form_score->finalized;
+            return $form_score->finalized && ($question_set->announced ? ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold) : true);
         });
-        if ($form_scores->isEmpty())
+        if ($form_scores->isEmpty()) {
+            if ($list)
+                return null;
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('No finalized application forms to rank.');
-        if ($form_scores->count() !== $total_registrations)
+        }
+        if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
+            if ($list)
+                return null;
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
-        $camp = $question_set->camp();
-        $json = Common::getQuestionJSON($camp->id, $graded = true);
-        $scores = [];
+        }
         foreach ($form_scores as $form_score) {
-            $registration = $form_score->registration();
-            $question_set = $form_score->question_set();
             if (is_null($form_score->total_score)) {
+                $registration = $form_score->registration();
+                $question_set = $form_score->question_set();
                 $form_score->total_score = QualificationController::answer_grade($registration->id, $question_set->id, $silent = true);
                 $form_score->save();
             }
-            $camper = $registration->camper();
-            $scores[$camper->id] = $form_score->total_score;
         }
-        $this->scores = $scores;
+        $form_scores = $form_scores->sortByDesc(function ($form_score) {
+            return $form_score->total_score;
+        });
+        if ($list)
+            return $form_scores;
         // $max = config('const.app.max_paginate');
-        $campers = $camp->campers($status = RegistrationStatus::APPLIED)->all();
-        usort($campers, [get_class(), 'score_rank']);
-        // TODO: pagination
-        return view('qualification.candidate_rank', compact('campers', 'scores', 'question_set'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
+        // TODO: pagination ?
+        return view('qualification.candidate_rank', compact('form_scores', 'question_set'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
+    }
+
+    public function announce(QuestionSet $question_set)
+    {
+        if ($question_set->announced)
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
+        $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use ($question_set) {
+            return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
+        });
+        if (!$form_scores)
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('There are no campers to announce to.');
+        $candidates = [];
+        foreach ($form_scores as $form_score) {
+            $candidates[] = [
+                'registration_id' => $form_score->registration_id,
+                'total_score' => $form_score->total_score,
+            ];
+        }
+        Candidate::insert($candidates);
+        // TODO: somehow notify these candidates
+        // Candidates are finalized, this question set will no longer be editable
+        $question_set->announced = true;
+        $question_set->save();
+        return redirect()->back()->with('success', 'Candidates are announced.');
     }
 }

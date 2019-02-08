@@ -6,4 +6,5 @@ return [
     'CandidateRanking' => 'Candidate Ranking',
     'Passed' => 'Passed',
     'Finalize' => 'Finalize',
+    'Announce' => 'Announce',
 ];

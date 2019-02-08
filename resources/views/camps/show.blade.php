@@ -11,7 +11,7 @@
             <?php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); ?>
         @endcan
         <div class="row">
-            @if ($camp->question_set() && $camp->question_set()->manual_required)
+            @if ($camp->question_set() && $camp->question_set()->manual_required && !$camp->question_set()->announced)
                 <div class="col-12 text-center">
                     <b class="text-info">** Manual Grading required. **</b>
                 </div>

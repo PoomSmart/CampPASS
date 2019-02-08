@@ -191,6 +191,7 @@ class DatabaseSeeder extends Seeder
         $registrations = [];
         $tbd_question_set_ids = [];
         $manual_grade_question_set_ids = [];
+        $form_scores = [];
         foreach (User::campers()->cursor() as $camper) {
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
@@ -243,7 +244,6 @@ class DatabaseSeeder extends Seeder
                 }
                 return true;
             });
-            $form_scores = [];
             $question_set = QuestionSet::create([
                 'camp_id' => $camp->id,
                 'score_threshold' => rand(1, 75) / 100.0,
@@ -357,18 +357,20 @@ class DatabaseSeeder extends Seeder
                         'registration_id' => $registration->id,
                         'answer' => $answer,
                     ];
-                    $form_scores[] = [
-                        'registration_id' => $registration->id,
-                        'question_set_id' => $question_set->id,
-                        // We cannot calculate the total score right now
-                        'total_score' => null,
-                        // Form scores are finalized as we say every question can be auto-graded
-                        // However, this must mean there are no manual graded questions
-                        'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
-                    ];
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
+            }
+            foreach (Registration::where('camp_id', $camp->id)->get() as $registration) {
+                $form_scores[] = [
+                    'registration_id' => $registration->id,
+                    'question_set_id' => $question_set->id,
+                    // We cannot calculate the total score right now
+                    'total_score' => null,
+                    // Form scores are finalized as we say every question can be auto-graded
+                    // However, this must mean there are no manual graded questions
+                    'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
+                ];
             }
             if ($question_set_has_grade) {
                 $question_set->manual_required = $question_set_has_manual_grade;
@@ -390,9 +392,8 @@ class DatabaseSeeder extends Seeder
             $json = json_encode($json);
             $directory = Common::questionSetDirectory($camp->id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
-            FormScore::insert($form_scores);
-            unset($form_scores);
         }
+        FormScore::insert($form_scores);
         Answer::insert($answers);
         QuestionSetQuestionPair::insert($pairs);
         QuestionSet::whereIn('id', $tbd_question_set_ids)->delete();
@@ -428,7 +429,9 @@ class DatabaseSeeder extends Seeder
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
-        $candidate = User::campMakers(true)->limit(1)->first();
+        $candidate = User::campMakers(true)->get()->filter(function ($campmaker) {
+            return $campmaker->belongingCamps()->count();
+        })->first();
         $candidate->username = 'campmaker';
         $candidate->activate();
         $candidate->save();

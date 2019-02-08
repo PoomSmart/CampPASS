@@ -83,9 +83,10 @@ class QualificationController extends Controller
         }
         if ($silent) {
             if (!$form_score) {
-                FormScore::create([
+                FormScore::updateOrcreate([
                     'registration_id' => $registration_id,
                     'question_set_id' => $question_set_id,
+                ], [
                     'total_score' => $camper_score,
                     'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
                 ]);

@@ -20,6 +20,7 @@ class CreateQuestionSetsTable extends Migration
             $table->double('score_threshold')->nullable();
             $table->double('total_score')->nullable();
             $table->boolean('manual_required')->default(false);
+            $table->boolean('announced')->default(false);
             $table->timestamps();
         });
     }
