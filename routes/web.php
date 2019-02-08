@@ -49,11 +49,12 @@ Route::group(['middleware' => ['role:camper']], function() {
 });
 
 // TODO: refine this
-Route::group(['middleware' => ['permission:answer-list', 'permission:camper-list']], function() {
+Route::group(['middleware' => ['permission:answer-grade', 'permission:camper-list']], function() {
     Route::resource('qualification', 'QualificationController');
     Route::prefix('qualification')->group(function () {
         Route::get('/grade-answers/{registration}/{question_set}', 'QualificationController@answer_grade')->name('qualification.answer_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
+        Route::get('/finalize-form/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
     });
 });

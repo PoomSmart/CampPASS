@@ -10,7 +10,7 @@
             {{ $score_report }}
         </div>
     </div>
-    <form action="{{ route('qualification.save_manual_grade', [ $registration_id, $question_set_id ]) }}" method="POST">
+    <form action="{{ route('qualification.save_manual_grade', [ $form_score->registration_id, $form_score->question_set_id ]) }}" method="POST">
         @csrf
         @foreach ($data as $pair)
             <?php
@@ -108,6 +108,7 @@
             'label' => trans('app.Save'),
         ])
         @slot('postcontent')
+            <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">@lang('qualification.Finalize')</a>
             <a class="btn btn-secondary" href="{{ route('camps.show', $camp) }}">@lang('app.Back')</a>
         @endslot
         @endcomponent

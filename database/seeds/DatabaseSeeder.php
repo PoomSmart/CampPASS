@@ -19,6 +19,8 @@ use App\QuestionSetQuestionPair;
 use App\Year;
 use App\BadgeCategory;
 
+use App\Http\Controllers\QualificationController;
+
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;
 
@@ -188,6 +190,7 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('registrations');
         $registrations = [];
         $tbd_question_set_ids = [];
+        $manual_grade_question_set_ids = [];
         foreach (User::campers()->cursor() as $camper) {
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
@@ -370,6 +373,9 @@ class DatabaseSeeder extends Seeder
             if ($question_set_has_grade) {
                 $question_set->manual_required = $question_set_has_manual_grade;
                 $question_set->total_score = $question_set_total_score;
+                // For some question sets that require manual grading, we simulate humanly manual grading
+                if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
+                    $manual_grade_question_set_ids[] = $question_set->id;
             } else {
                 // Such question sets without any gradable questions should only exist in those camps without requiring candidates
                 // They should just be removed
@@ -390,6 +396,22 @@ class DatabaseSeeder extends Seeder
         Answer::insert($answers);
         QuestionSetQuestionPair::insert($pairs);
         QuestionSet::whereIn('id', $tbd_question_set_ids)->delete();
+        // Begin seeding of manual grading at the outmost scope
+        $this->log('-> seeding manually-graded scores');
+        foreach (Answer::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_grade_answer) {
+            $question = $manual_grade_answer->question();
+            // We take only the questions that need to be graded, i.e., full_score is set
+            if ($question->full_score) {
+                // If the answer does not exist, this as much is of file type and we have yet to "seed" that
+                $manual_grade_answer->score = $manual_grade_answer->answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question->full_score) : 0.0;
+                $manual_grade_answer->save();
+            }
+        }
+        // Now we can mark all application forms with manual grading as finalized
+        $this->log('-> finalizing respective form scores');
+        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_form_score) {
+            QualificationController::form_finalize($manual_form_score);
+        }
         unset($faker);
     }
 

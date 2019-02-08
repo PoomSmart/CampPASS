@@ -14,11 +14,6 @@ use Illuminate\Http\Request;
 
 class QualificationController extends Controller
 {
-    function __construct()
-    {
-        $this->middleware('permission:answer-grade', ['only' => 'answer_grade', 'save_manual_grade']);
-    }
-
     /**
      * Grade an application form from a camper (represented by a registration record) and the respective question set
      * 
@@ -86,8 +81,6 @@ class QualificationController extends Controller
                 ];
             }
         }
-        $registration_id = $registration->id;
-        $question_set_id = $question_set->id;
         if ($silent) {
             if (!$form_score) {
                 FormScore::create([
@@ -100,7 +93,7 @@ class QualificationController extends Controller
             return $camper_score;
         } else
             $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
-        return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'registration_id', 'question_set_id'));
+        return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
     }
 
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
@@ -127,5 +120,15 @@ class QualificationController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Scores are updated successfully.');
+    }
+
+    public static function form_finalize(FormScore $form_score)
+    {
+        // TODO: further permission check?
+        if (!$form_score->finalized) {
+            $form_score->finalized = true;
+            $form_score->save();
+        }
+        return redirect()->back()->with('success', 'This form is finalized.');
     }
 }
