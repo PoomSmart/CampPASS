@@ -1,7 +1,7 @@
 @extends('layouts.table')
 
 @section('header')
-    {{ $record->getName() }}
+    @lang('camper.MyCamps')
 @endsection
 
 @section('content')

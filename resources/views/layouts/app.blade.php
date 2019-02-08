@@ -62,6 +62,11 @@
                                 </li>
                             @endif
                         @else
+                            @role('camper')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('profiles.my_camps', \Auth::user()) }}">@lang('camper.MyCamps')</a>
+                                </li>
+                            @endrole
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ \Auth::user()->getFullName() }} <span class="caret"></span>

@@ -65,4 +65,10 @@ class ProfileController extends Controller
         $camp->update($request->all());
         return redirect('profiles.index')->with('success', 'Profile updated successfully');
     }
+
+    public function my_camps(User $user)
+    {
+        $camps = $user->belongingCamps()->latest()->get();
+        return view('profiles.my_camps', compact('camps'));
+    }
 }

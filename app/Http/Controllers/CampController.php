@@ -53,7 +53,7 @@ class CampController extends Controller
     public function index()
     {
         $max = config('const.app.max_paginate');
-        $camps = \Auth::user()->hasRole('admin') ? Camp::latest() : \Auth::user()->belongingCamps()->latest();
+        $camps = \Auth::user()->isAdmin() ? Camp::latest() : \Auth::user()->belongingCamps()->latest();
         $camps = $camps->paginate($max);
         return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
@@ -83,10 +83,11 @@ class CampController extends Controller
     public function store(StoreCampRequest $request)
     {
         try {
-            if (\Auth::user()->isCampMaker())
-                $request->merge(['organization_id' => \Auth::user()->organization_id]);
+            $user = \Auth::user();
+            if ($user->isCampMaker())
+                $request->merge(['organization_id' => $user->organization_id]);
             $camp = Camp::create($request->all());
-            if (\Auth::user()->isAdmin()) {
+            if ($user->isAdmin()) {
                 $camp->approved = true;
                 $camp->save();
             }
