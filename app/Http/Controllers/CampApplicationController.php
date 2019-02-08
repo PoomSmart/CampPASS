@@ -184,7 +184,16 @@ class CampApplicationController extends Controller
     public function submit_application_form(Camp $camp)
     {
         $this->authenticate($camp);
-        $registration = $camp->getLatestRegistration(\Auth::user()->id);
+        $user = \Auth::user();
+        $registration = $camp->getLatestRegistration($user->id);
+        if (!$registration) {
+            // The registration record does not exist as we simply go to this function first
+            // This is the case for camps without candidates requirement
+            $registration = Registration::create([
+                'camp_id' => $camp->id,
+                'camper_id' => $user->id,
+            ]);
+        }
         if ($registration->cannotSubmit()) {
             // This should not happen
             throw new \App\Exceptions\CampPASSException('You cannot submit the application form to the camp you alraedy are qualified for.');
