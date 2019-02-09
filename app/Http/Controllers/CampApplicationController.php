@@ -69,7 +69,8 @@ class CampApplicationController extends Controller
                         $apply_text = trans('registration.QUALIFIED');
                         break;
                 }
-                if ($camp_procedure->deposit_required) {
+                // We allow the button to show as "Pay Deposit" if there are further stages, and Deposit Only is our exception
+                if ($camp_procedure->deposit_required && $camp_procedure->candidate_required) {
                     $apply_text = trans('registration.PayDeposit');
                     $route = 'camp_application.deposit';
                 }
@@ -137,22 +138,44 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         $registration = $this->register($camp, $user);
         $camp_procedure = $camp->camp_procedure();
-        if ($registration->applied()) {
+        if ($registration->applied_or_qualified()) {
+            // Stage: Already applied or qualified
+            if ($registration->qualified())
+                throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already are qualified for this camp.');
             if ($camp_procedure->deposit_required) {
-                // Stage: Paying deposit
-                return view('camp_application.deposit', compact('camp'));
+                if ($camp_procedure->candidate_required) {
+                    if ($registration->approved()) {
+                        // TODO: Stage: Status checking after being approved
+                        // Cases: QA & Deposit / QA & Interview / QA & Interview & Deposit Approved
+                        // The view is only for chosen candidates
+                    }
+                    // Stage: Upload payment slip after the application
+                    // Cases: QA & Deposit / QA & Interview / QA & Interview & Deposit Applied
+                    return view('camp_application.deposit', compact('camp'));
+                }
+                // TODO: Stage: Status checking
+                // Cases: Deposit Only / QA Only Applied
+                // The view is only for chosen candidates
             }
-            // Stage: Applied
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already have applied for this camp.');
         }
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
+            // Cases: All camp procedures with Questions Pre-applied
             $data = $this->prepare_questions_answers($camp, $user);
             $json = $data['json'];
             $question_set = $data['question_set'];
             return view('camp_application.question_answer', compact('camp', 'json', 'question_set'));
         }
+        if ($camp_procedure->deposit_required) {
+            // Stage: Upload payment slip
+            // Cases: Deposit Only Pre-applied
+            // TODO: The below view is only for chosen candidates
+            return view('camp_application.deposit', compact('camp'));
+        }
         // Stage: Apply (right away)
+        // Cases: Walk-in Pre-applied
+        // TODO: with status checking page?
         return $this->submit_application_form($camp);
     }
 
