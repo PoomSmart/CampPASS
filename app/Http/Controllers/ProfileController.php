@@ -68,7 +68,7 @@ class ProfileController extends Controller
 
     public function my_camps(User $user)
     {
-        $camps = $user->belongingCamps()->latest()->get();
+        $camps = $user->belonging_camps()->latest()->get();
         return view('profiles.my_camps', compact('camps'));
     }
 }

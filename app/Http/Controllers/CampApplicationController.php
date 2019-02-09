@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Camp;
+use App\User;
 use App\Common;
 use App\Registration;
 use App\Question;
@@ -25,30 +26,31 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($camp)
+    public static function authenticate($camp, $eligible_check = false)
     {
         if (!$camp instanceof \App\Camp)
             $camp = Camp::find($camp);
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
-        \Auth::user()->isEligibleForCamp($camp);
+        if ($eligible_check)
+            \Auth::user()->is_eligible_for_camp($camp);
         return $camp;
     }
 
-    public static function getApplyButtonInformation(Camp $camp, $short = false)
+    public static function get_apply_button_information(Camp $camp, $short = false)
     {
         $apply_text = null;
         $camper = \Auth::user();
         $disabled = false;
         if ($camper) {
             $disabled |= $camper->isAdmin() || $camper->isCampMaker();
-            $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
+            $ineligible_reason = $camper->get_ineligible_reason_for_camp($camp, $short);
             if ($ineligible_reason) {
                 $disabled = true;
                 $apply_text = $ineligible_reason;
             } else {
-                $registration = $camper->registrationForCamp($camp);
+                $registration = $camper->registration_for_camp($camp);
                 $status = $registration ? $registration->status : -1;
                 switch ($status) {
                     case RegistrationStatus::DRAFT:
@@ -69,43 +71,77 @@ class CampApplicationController extends Controller
             }
         }
         if (!$apply_text) $apply_text = trans('registration.Apply');
-        return [ 'text' => $apply_text, 'disabled' => $disabled, ];
+        return [
+            'text' => $apply_text,
+            'disabled' => $disabled,
+        ];
+    }
+
+    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT)
+    {
+        $ineligible_reason = $user->get_ineligible_reason_for_camp($camp);
+        if ($ineligible_reason)
+            throw new \App\Exceptions\CampPASSException($ineligible_reason);
+        $registration = $camp->get_latest_registration($user->id);
+        if ($registration) {
+            if ($registration->qualified())
+                throw new \App\Exceptions\CampPASSException('You already have applied for this camp.');
+            if ($status != RegistrationStatus::DRAFT) {
+                $registration->status = $status;
+                $registration->save();
+            }
+        } else {
+            $registration = Registration::create([
+                'camp_id' => $camp->id,
+                'camper_id' => $user->id,
+                'status' => $status,
+            ]);
+        }
+        return $registration;
+    }
+
+    public function prepare_questions_answers(Camp $camp, User $user)
+    {
+        $question_set = $camp->question_set();
+        $pairs = $question_set ? $question_set->pairs()->get() : [];
+        if (empty($pairs))
+            throw new \App\Exceptions\CampPASSException('There are no questions in here.');
+        $answers = [];
+        $json = Common::getQuestionJSON($camp->id);
+        $json['answer'] = [];
+        $json['answer_id'] = [];
+        $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
+        foreach ($pre_answers as $pre_answer) {
+            $question = Question::find($id = $pre_answer->question_id);
+            $key = $question->json_id;
+            $json['answer'][$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
+            $json['answer_id'][$key] = $pre_answer->id;
+        }
+        return [
+            'json' => $json,
+            'question_set' => $question_set,
+        ];
     }
 
     public function landing(Camp $camp)
     {
         $this->authenticate($camp);
         $user = \Auth::user();
-        $already_applied = $user->alreadyAppliedForCamp($camp);
+        $registration = $this->register($camp, $user);
         $camp_procedure = $camp->camp_procedure();
-        if ($already_applied) {
+        if ($registration->applied()) {
             if ($camp_procedure->deposit_required) {
                 // Stage: Paying deposit
                 return view('camp_application.deposit', compact('camp'));
             }
             // Stage: Applied
-            return view('camp_application.question_answer', compact('already_applied'));
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already have applied for this camp.');
         }
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
-            $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
-            if ($ineligible_reason)
-                throw new \App\Exceptions\CampPASSException($ineligible_reason);
-            $question_set = $camp->question_set();
-            $pairs = $question_set ? $question_set->pairs()->get() : [];
-            if (empty($pairs))
-                throw new \App\Exceptions\CampPASSException('There are no questions in here.');
-            $answers = [];
-            $json = Common::getQuestionJSON($camp->id);
-            $json['answer'] = [];
-            $json['answer_id'] = [];
-            $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
-            foreach ($pre_answers as $pre_answer) {
-                $question = Question::find($id = $pre_answer->question_id);
-                $key = $question->json_id;
-                $json['answer'][$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
-                $json['answer_id'][$key] = $pre_answer->id;
-            }
+            $data = $this->prepare_questions_answers($camp, $user);
+            $json = $data['json'];
+            $question_set = $data['question_set'];
             return view('camp_application.question_answer', compact('camp', 'json', 'question_set'));
         }
         // Stage: Apply (right away)
@@ -116,16 +152,8 @@ class CampApplicationController extends Controller
     {
         $camp = $this->authenticate($request['camp_id']);
         $user = \Auth::user();
-        // In case campers somehow want to edit the answers in the submitted application form
-        if ($user->alreadyAppliedForCamp($camp))
-            throw new \App\Exceptions\CampPASSException('Unable to save the answers.');
         // A registration record will be created if not already
-        $registration = $camp->getLatestRegistration($user->id);
-        if (!$registration)
-            $registration = Registration::create([
-                'camp_id' => $camp->id,
-                'camper_id' => $user->id,
-            ]);
+        $registration = $this->register($camp, $user);
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = QuestionSet::where('camp_id', $camp->id)->first();
         $question_ids = $question_set->pairs()->get(['question_id']);
@@ -161,21 +189,17 @@ class CampApplicationController extends Controller
     public function answer_view(QuestionSet $question_set)
     {
         $camp = $question_set->camp();
-        $this->authenticate($camp);
+        $this->authenticate($camp, $eligible_check = true);
         $camper = \Auth::user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id);
         $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
-        foreach ($pairs as $pair) {
-            $question = $pair->question();
-            $answer = $answers->filter(function ($answer) use ($question) {
-                return $answer->question_id == $question->id;
-            })->first();
-            $answer = $answer ? $answer->first()->answer : '';
+        foreach ($answers as $answer) {
+            $question = $answer->question();
             $data[] = [
                 'question' => $question,
-                'answer' => Common::decodeIfNeeded($answer, $question->type),
+                'answer' => Common::decodeIfNeeded($answer->answer, $question->type),
             ];
         }
         return view('camp_application.answer_view', compact('data', 'json', 'camp'));
@@ -185,21 +209,7 @@ class CampApplicationController extends Controller
     {
         $this->authenticate($camp);
         $user = \Auth::user();
-        $registration = $camp->getLatestRegistration($user->id);
-        if (!$registration) {
-            // The registration record does not exist as we simply go to this function first
-            // This is the case for camps without candidates requirement
-            $registration = Registration::create([
-                'camp_id' => $camp->id,
-                'camper_id' => $user->id,
-            ]);
-        }
-        if ($registration->cannotSubmit()) {
-            // This should not happen
-            throw new \App\Exceptions\CampPASSException('You cannot submit the application form to the camp you alraedy are qualified for.');
-        }
-        $registration->status = RegistrationStatus::APPLIED;
-        $registration->save();
+        $this->register($camp, $user, RegistrationStatus::APPLIED);
         return view('camp_application.done');
     }
 

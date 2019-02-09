@@ -106,7 +106,7 @@ class Camp extends Model
         return $campers;
     }
 
-    public function getLatestRegistration($camper_id)
+    public function get_latest_registration($camper_id)
     {
         $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
         return $registration->exists() ? $registration->first() : null;
@@ -130,6 +130,7 @@ class Camp extends Model
     public static function popularCamps()
     {
         // TODO: This at the moment is done by randomization
+        // TODO: We also should filter out camps that the user is not eligible for
         return self::allApproved()->limit(5);
     }
 

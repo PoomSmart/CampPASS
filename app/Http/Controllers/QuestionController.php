@@ -38,7 +38,7 @@ class QuestionController extends Controller
         $camp = Camp::find($camp_id);
         if (!$camp->approved && !\Auth::user()->hasRole('admin'))
             throw new \App\Exceptions\ApproveCampException();
-        \Auth::user()->canManageCamp($camp);
+        \Auth::user()->can_manage_camp($camp);
         return $camp;
     }
 

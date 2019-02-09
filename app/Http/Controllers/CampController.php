@@ -53,7 +53,7 @@ class CampController extends Controller
     public function index()
     {
         $max = config('const.app.max_paginate');
-        $camps = \Auth::user()->isAdmin() ? Camp::latest() : \Auth::user()->belongingCamps()->latest();
+        $camps = \Auth::user()->isAdmin() ? Camp::latest() : \Auth::user()->belonging_camps()->latest();
         $camps = $camps->paginate($max);
         return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
@@ -122,7 +122,7 @@ class CampController extends Controller
      */
     public function edit(Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        \Auth::user()->can_manage_camp($camp);
         View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
@@ -149,7 +149,7 @@ class CampController extends Controller
      */
     public function update(StoreCampRequest $request, Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        \Auth::user()->can_manage_camp($camp);
         $camp->update($request->all());
         return redirect()->route('camps.index')->with('success', "Camp {$camp} updated successfully");
     }
@@ -162,7 +162,7 @@ class CampController extends Controller
      */
     public function destroy(Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        \Auth::user()->can_manage_camp($camp);
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

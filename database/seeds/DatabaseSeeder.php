@@ -196,13 +196,15 @@ class DatabaseSeeder extends Seeder
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
                 try {
-                    $camper->isEligibleForCamp($camp);
+                    $camper->is_eligible_for_camp($camp);
                 } catch (\Exception $e) {
                     return false;
                 }
                 return Common::randomVeryFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
             }) as $camp) {
                 $done = true;
+                if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
+                    continue;
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
@@ -238,7 +240,7 @@ class DatabaseSeeder extends Seeder
             $json = [];
             $eligible_campers = $campers->filter(function ($camper) use ($camp) {
                 try {
-                    $camper->isEligibleForCamp($camp);
+                    $camper->is_eligible_for_camp($camp);
                 } catch (\Exception $e) {
                     return false;
                 }
@@ -325,7 +327,7 @@ class DatabaseSeeder extends Seeder
                 ];
                 // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($eligible_campers as $camper) {
-                    $registration = $camp->getLatestRegistration($camper->id);
+                    $registration = $camp->get_latest_registration($camper->id);
                     if (is_null($registration))
                         continue;
                     $answer = null;
@@ -430,7 +432,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_alter('campmakers');
         $candidate = User::campMakers(true)->get()->filter(function ($campmaker) {
-            return $campmaker->belongingCamps()->count();
+            return $campmaker->belonging_camps()->count();
         })->first();
         $candidate->username = 'campmaker';
         $candidate->activate();

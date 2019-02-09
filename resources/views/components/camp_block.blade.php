@@ -8,7 +8,7 @@
             <span class="text-muted"><i class="fas fa-globe-asia mr-2"></i>Location X</span>
         </div>
         <?php
-            $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true);
+            $info = \App\Http\Controllers\CampApplicationController::get_apply_button_information($object, $short = true);
             $apply_text = $info['text'];
             $disabled = $info['disabled'];
         ?>

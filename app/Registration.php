@@ -51,11 +51,6 @@ class Registration extends Model
         return trans('registration.'.array_search($this->status, RegistrationStatus::getConstants()));
     }
 
-    public function cannotSubmit()
-    {
-        return $this->status >= RegistrationStatus::APPROVED;
-    }
-
     public function unsubmitted()
     {
         return $this->status <= RegistrationStatus::RETURNED;
@@ -64,5 +59,10 @@ class Registration extends Model
     public function applied()
     {
         return $this->status == RegistrationStatus::APPLIED;
+    }
+
+    public function qualified()
+    {
+        return $this->status == RegistrationStatus::QUALIFIED;
     }
 }
