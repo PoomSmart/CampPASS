@@ -43,6 +43,7 @@ class CampApplicationController extends Controller
         $apply_text = null;
         $camper = \Auth::user();
         $disabled = false;
+        $route = null;
         if ($camper) {
             $disabled |= $camper->isAdmin() || $camper->isCampMaker();
             $ineligible_reason = $camper->get_ineligible_reason_for_camp($camp, $short);
@@ -52,10 +53,11 @@ class CampApplicationController extends Controller
             } else {
                 $registration = $camper->registration_for_camp($camp);
                 $status = $registration ? $registration->status : -1;
+                $camp_procedure = $camp->camp_procedure();
                 switch ($status) {
                     case RegistrationStatus::DRAFT:
                     case RegistrationStatus::RETURNED:
-                        $apply_text = $camp->camp_procedure()->candidate_required ? trans('registration.Edit') : null;
+                        $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
                         break;
                     case RegistrationStatus::APPLIED:
                         $apply_text = trans('registration.APPLIED');
@@ -67,13 +69,19 @@ class CampApplicationController extends Controller
                         $apply_text = trans('registration.QUALIFIED');
                         break;
                 }
-                $disabled |= $status >= RegistrationStatus::APPLIED;
+                if ($camp_procedure->deposit_required) {
+                    $apply_text = trans('registration.PayDeposit');
+                    $route = 'camp_application.deposit';
+                }
+                else
+                    $disabled |= $status >= RegistrationStatus::APPLIED;
             }
         }
         if (!$apply_text) $apply_text = trans('registration.Apply');
         return [
             'text' => $apply_text,
             'disabled' => $disabled,
+            'route' => $route,
         ];
     }
 
@@ -208,9 +216,14 @@ class CampApplicationController extends Controller
     public function submit_application_form(Camp $camp)
     {
         $this->authenticate($camp);
-        $user = \Auth::user();
-        $this->register($camp, $user, RegistrationStatus::APPLIED);
+        $this->register($camp, \Auth::user(), RegistrationStatus::APPLIED);
         return view('camp_application.done');
+    }
+
+    public function deposit(Registration $registration)
+    {
+        // TODO: complete this
+        return view('camp_application.deposit');
     }
 
     public function get_answer_file_path(Answer $answer)

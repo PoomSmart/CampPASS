@@ -11,8 +11,9 @@
             $info = \App\Http\Controllers\CampApplicationController::get_apply_button_information($object, $short = true);
             $apply_text = $info['text'];
             $disabled = $info['disabled'];
+            $route = isset($info['route']) ? $info['route'] : 'camp_application.landing';
         ?>
-        <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ route('camp_application.landing', $object->id) }}">{{ $apply_text }}</a>
+        <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ route($route, $object->id) }}">{{ $apply_text }}</a>
         @if ($object->getCloseDate())
             <p class="card-text text-center mt-2"><small class="text-muted">@lang('registration.WillClose') {{ $object->getCloseDate() }}</small></p>
         @endif

@@ -58,9 +58,9 @@
     @endcomponent
 
     @component('components.card_carousel', [
-        'id' => 'campCategoriesCarousel',
+        'id' => 'universityCategoriesCarousel',
         'header' => trans('organization.UniversityCategories'),
-        'objects' => $camp_categories,
+        'objects' => $university_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
         'folder' => 'university_categories',

@@ -5,6 +5,6 @@
         <h2>Thank you for applying for the camp.</h2>
     </div>
     <div class="row">
-        <a class="btn btn-primary mx-auto" href="{{ route('home') }}">@lang('app.OK')</a>
+        <a class="btn btn-primary mx-auto" href="{{ route('camp_browser.index') }}">@lang('app.OK')</a>
     </div>
 @endsection

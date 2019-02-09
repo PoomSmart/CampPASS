@@ -21,5 +21,6 @@ return [
     'LateApplicationShort' => 'Closed',
     'QuotaExceededShort' => 'Full',
     'EmptyRegistration' => 'No one has registered for this camp yet.',
-    'WillClose' => 'Application will be close on'
+    'WillClose' => 'Application will be close on',
+    'PayDeposit' => 'Pay Deposit',
 ];
