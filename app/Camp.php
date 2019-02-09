@@ -142,9 +142,14 @@ class Camp extends Model
         return 'N/A';
     }
 
+    public function getEventStartDate()
+    {
+        return Carbon::parse($this->event_start_date)->format('j F Y');
+    }
+
     public function getCloseDate()
     {
-        return Carbon::parse($this->app_close_date)->toFormattedDateString();
+        return Carbon::parse($this->app_close_date)->format('j F Y');
     }
 
     public function setAcceptableProgramsAttribute($value)
