@@ -13,24 +13,18 @@
         </div>
     </div>
     <div class="container pt-0 carousel-inner px-0">
-        <?php $index = 0 ?>
         <!-- TODO: three-columns can suck when the screen is not too small -->
-        @foreach ($objects as $object)
-            @if ($index % $mod == 0)
-                <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
-            @endif
-            @component($component, [
-                'object' => $object,
-                'folder' => isset($folder) ? $folder : null,
-                'getter' => isset($getter) ? $getter : null,
-            ])
-            @endcomponent
-            @if (++$index % $mod == 0)
-                </div>
-            @endif
-        @endforeach
-        @if (count($objects) % $mod)
+        @foreach (array_chunk($objects, $mod, true) as $index => $chunk)
+            <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
+                @foreach ($chunk as $object)
+                    @component($component, [
+                        'object' => $object,
+                        'folder' => isset($folder) ? $folder : null,
+                        'getter' => isset($getter) ? $getter : null,
+                    ])
+                    @endcomponent
+                @endforeach
             </div>
-        @endif
+        @endforeach
     </div>
 </div>

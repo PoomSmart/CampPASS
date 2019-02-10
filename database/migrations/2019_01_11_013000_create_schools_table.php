@@ -17,9 +17,9 @@ class CreateSchoolsTable extends Migration
             $table->increments('id');
             $table->string('name_en')->nullable();
             $table->string('name_th')->nullable();
-            $table->string('address');
-            $table->string('zipcode');
-            $table->tinyInteger('type')->unsigned();
+            $table->string('address')->nullable(); // TODO: temporary but likely never
+            $table->string('zipcode')->nullable(); // TOOD: temporary but likely never
+            $table->tinyInteger('type')->unsigned()->nullable(); // TODO: temporary but likely never
             $table->timestamps();
         });
     }

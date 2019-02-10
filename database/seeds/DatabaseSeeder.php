@@ -467,8 +467,7 @@ class DatabaseSeeder extends Seeder
         $this->badge_categories();
         $this->camp_categories();
         $this->camp_procedures();
-        $this->log_seed('schools');
-        factory(School::class, 10)->create();
+        $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
         factory(Camp::class, 50)->create();

@@ -1,16 +1,11 @@
 <?php if (!isset($columns)) $columns = 3 ?>
-@foreach ($objects as $index => $object)
-    @if ($index % $columns == 0)
-        <div class="card-columns">
-    @endif
-    @component($component, [
-        'object' => $object,
-    ])
-    @endcomponent
-    @if (($index + 1) % $columns == 0)
-        </div>
-    @endif
-@endforeach
-@if (count($objects) % $columns)
+@foreach (array_chunk($objects, $columns, true) as $chunk)
+    <div class="card-columns">
+        @foreach ($chunk as $object)
+            @component($component, [
+                'object' => $object,
+            ])
+            @endcomponent
+        @endforeach
     </div>
-@endif
+@endforeach

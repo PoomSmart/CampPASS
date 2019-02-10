@@ -15,23 +15,30 @@ class CampBrowserController extends Controller
         $camps = Camp::allApproved();
         if ($column && $value) {
             $camps = $camps->where($column, $value);
-            $result = $camps->latest()->get();
+            $result = [];
+            foreach ($camps->latest()->get()->chunk(3) as $chunk) {
+                foreach ($chunk as $camp) {
+                    $result[] = $camp;
+                }
+            }
         } else {
             $max_fetch = config('const.camp.max_fetch');
             $output_camps = [];
             $category_ids = [];
             $category_count = CampCategory::count();
-            foreach ($camps->latest()->get() as $camp) {
-                $category = $camp->camp_category();
-                $category_name = $category->name;
-                if (!isset($output_camps[$category_name])) {
-                    $output_camps[$category_name] = [];
-                    $category_ids[$category_name] = $category->id;
-                }
-                if (count($output_camps[$category_name]) < $max_fetch) {
-                    $output_camps[$category_name][] = $camp;
-                    if (--$category_count == 0)
-                        break;
+            foreach ($camps->latest()->get()->chunk(3) as $chunk) {
+                foreach ($chunk as $camp) {
+                    $category = $camp->camp_category();
+                    $category_name = $category->name;
+                    if (!isset($output_camps[$category_name])) {
+                        $output_camps[$category_name] = [];
+                        $category_ids[$category_name] = $category->id;
+                    }
+                    if (count($output_camps[$category_name]) < $max_fetch) {
+                        $output_camps[$category_name][] = $camp;
+                        if (--$category_count == 0)
+                            break;
+                    }
                 }
             }
             $result = [

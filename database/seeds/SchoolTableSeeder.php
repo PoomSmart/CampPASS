@@ -2,14 +2,15 @@
 
 use JeroenZwart\CsvSeeder\CsvSeeder;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SchoolTableSeeder extends CsvSeeder
 {
     public function __construct()
     {
         $this->file = '/database/seeds/csvs/schools.csv';
-        $this->type = ['name_th'];
+        $this->type = [ 'name_th', ];
+        $this->delimiter = ',';
         $this->table = 'schools';
     }
     
@@ -21,6 +22,8 @@ class SchoolTableSeeder extends CsvSeeder
     public function run()
     {
 	    DB::disableQueryLog();
-	    parent::run();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        parent::run();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
