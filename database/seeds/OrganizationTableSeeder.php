@@ -12,7 +12,7 @@ class OrganizationTableSeeder extends CsvSeeder
     {
         $this->file = '/database/seeds/csvs/universities.csv';
         $this->tablename = 'organizations';
-        $this->type = [ 'name_th', 'subtype' ];
+        $this->type = [ 'name_th', 'subtype', 'image', ];
         $this->delimiter = ',';
         $this->defaults = [
             'type' => OrganizationType::UNIVERSITY,

@@ -22,6 +22,7 @@
             @component($component, [
                 'object' => $object,
                 'folder' => isset($folder) ? $folder : null,
+                'getter' => isset($getter) ? $getter : null,
             ])
             @endcomponent
             @if (++$index % $mod == 0)

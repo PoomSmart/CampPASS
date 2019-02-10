@@ -21,6 +21,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('zipcode')->nullable(); // TODO: temporary
             $table->tinyInteger('type')->unsigned();
             $table->tinyInteger('subtype')->unsigned()->nullable();
+            $table->string('image', 10)->nullable();
             $table->timestamps();
         });
     }

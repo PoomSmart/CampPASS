@@ -22,7 +22,8 @@ class HomeController extends Controller
     {
         $popular_camps = Camp::popularCamps()->get();
         $camp_categories = Common::values(CampCategory::class);
-        $university_categories = Common::values(Organization::class, $column = 'type', $value = OrganizationType::UNIVERSITY);
+        // TODO: Link university categories to proper pages
+        $university_categories = Common::values(Organization::class, $column = 'type', $value = OrganizationType::UNIVERSITY, $group = 'image');
         return view('home', compact('popular_camps', 'camp_categories', 'university_categories'));
     }
 }

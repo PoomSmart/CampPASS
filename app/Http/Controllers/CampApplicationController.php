@@ -146,15 +146,20 @@ class CampApplicationController extends Controller
                 if ($camp_procedure->candidate_required) {
                     if ($registration->approved()) {
                         // TODO: Stage: Status checking after being approved
-                        // Cases: QA & Deposit / QA & Interview / QA & Interview & Deposit Approved
+                        // Cases: QA & Deposit / QA & Interview & Deposit Approved
                         // The view is only for chosen candidates
                     }
                     // Stage: Upload payment slip after the application
-                    // Cases: QA & Deposit / QA & Interview / QA & Interview & Deposit Applied
+                    // Cases: QA & Deposit / QA & Interview & Deposit Applied
                     return view('camp_application.deposit', compact('camp'));
                 }
                 // TODO: Stage: Status checking
                 // Cases: Deposit Only / QA Only Applied
+                // The view is only for chosen candidates
+            }
+            if ($camp_procedure->interview_required) {
+                // TODO: Stage: Status checking for further interview
+                // Cases: QA & Interview Applied
                 // The view is only for chosen candidates
             }
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already have applied for this camp.');

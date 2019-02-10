@@ -64,6 +64,7 @@
         'component' => 'components.camp_category_block',
         'rows' => 2,
         'folder' => 'university_categories',
+        'getter' => 'image',
     ])
     @endcomponent
   

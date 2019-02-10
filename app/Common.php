@@ -113,11 +113,15 @@ class Common
         return $en ? $en : '<blank>';
     }
 
-    public static function values($clazz, $column = null, $value = null)
+    public static function values($clazz, $column = null, $value = null, $group = null)
     {
-        if ($column && $value)
-            $values = $clazz::where($column, $value)->get();
-        else
+        if ($column && $value) {
+            $values = $clazz::where($column, $value);
+            if ($group)
+                $values = $values->where($group, '<>', '')->get()->unique($group);
+            else
+                $values = $values->get();
+        }else
             $values = $clazz::all();
         return Arr::sort($values, function($record) {
             return $record->__toString();
