@@ -45,7 +45,7 @@ return [
     'DOB' => 'Date of Birth',
     'MobileNo' => 'Mobile No.',
     'StreetAddress' => 'Street Address',
-    'City' => 'City',
+    'Province' => 'Province',
     'ZipCode' => 'Zip Code',
     'Allergy' => 'Allergies',
     'CitizenID' => 'Citizen ID',

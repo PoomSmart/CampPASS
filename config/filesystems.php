@@ -48,6 +48,11 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'seed' => [
+            'driver' => 'local',
+            'root' => base_path('/database/seeds/csvs'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

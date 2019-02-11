@@ -23,6 +23,7 @@ class ProfileController extends Controller
         $this->religions = Common::values(Religion::class);
         $this->organizations = null;
         $this->schools = Common::values(School::class);
+        $this->provinces = Common::values(Province::class);
         $this->programs = Common::values(Program::class);
         $this->education_levels = EducationLevel::getLocalizedConstants('camper');
     }
@@ -54,10 +55,11 @@ class ProfileController extends Controller
         $this->authenticate($user, $me = true);
         $religions = $this->religions;
         $schools = $this->schools;
+        $provinces = $this->provinces;
         $programs = $this->programs;
         $education_levels = $this->education_levels;
         View::share('object', $user);
-        return view('profiles.edit', compact('user', 'religions', 'schools', 'programs', 'education_levels'));
+        return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
     }
 
     public function update(StoreUserRequest $request, User $user)

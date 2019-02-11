@@ -160,7 +160,7 @@ return [
         'dob' => trans('account.DOB'),
         'allergy' => trans('account.Allergy'),
         'street_address' => trans('account.StreetAddress'),
-        'city' => trans('account.City'),
+        'province' => trans('account.Province'),
         'zipcode' => trans('account.ZipCode'),
         'username' => trans('account.Username'),
         'email' => trans('account.Email'),

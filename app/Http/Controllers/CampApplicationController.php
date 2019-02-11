@@ -73,8 +73,7 @@ class CampApplicationController extends Controller
                 if ($camp_procedure->deposit_required && $camp_procedure->candidate_required) {
                     $apply_text = trans('registration.PayDeposit');
                     $route = 'camp_application.deposit';
-                }
-                else
+                } else
                     $disabled |= $status >= RegistrationStatus::APPLIED;
             }
         }

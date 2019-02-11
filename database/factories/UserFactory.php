@@ -4,6 +4,7 @@ use App\Common;
 Use App\Religion;
 use App\School;
 use App\Program;
+use App\Province;
 use App\Organization;
 
 use App\Enums\Gender;
@@ -13,33 +14,6 @@ use Faker\Generator as Faker;
 
 class User_Randomizer
 {
-    public static function zipcode_prefix()
-    {
-        $region = rand(0, 5);
-        $region_array = null;
-        switch ($region) {
-            case 0:
-                $region_array = Common::$north_region;
-                break;
-            case 1:
-                $region_array = Common::$northeast_region;
-                break;
-            case 2:
-                $region_array = Common::$central_region;
-                break;
-            case 3:
-                $region_array = Common::$east_region;
-                break;
-            case 4:
-                $region_array = Common::$west_region;
-                break;
-            case 5:
-                $region_array = Common::$south_region;
-                break;
-        }
-        return $region_array[array_rand($region_array)];
-    }
-
     /**
      * Randomize Thai citizen ID (Only for testing purpose).
      * http://kiss-hack.blogspot.com/2013/09/random-number-13.html
@@ -64,6 +38,7 @@ $factory->define(App\User::class, function (Faker $faker) {
     $CAMPMAKER = config('const.account.campmaker');
     $type = Common::randomFrequentHit() ? $CAMPER : $CAMPMAKER;
     $dob = $type == $CAMPER ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
+    $province = Province::inRandomOrder()->get()->first();
     $data = [
         'username' => strtolower($name),
         'name_en' => $name,
@@ -74,8 +49,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
         'street_address' => $faker->address,
-        'city' => 0, // TODO: add city array
-        'zipcode' => User_Randomizer::zipcode_prefix().implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
+        'province_id' => $province->id,
+        'zipcode' => $province->zipcode_prefix.implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         'religion_id' => $faker->numberBetween($min = 1, $max = Religion::count()),
         'email' => $faker->unique()->safeEmail,

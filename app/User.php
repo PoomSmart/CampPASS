@@ -38,7 +38,7 @@ class User extends Authenticatable
         // common
         'name_en', 'name_th', 'surname_en', 'surname_th', 'nickname_en', 'nickname_th',
         'nationality', 'religion_id', 'citizen_id', 'gender', 'dob', 'allergy',
-        'street_address', 'city', 'zipcode', 'mobile_no', 'email',
+        'street_address', 'province_id', 'zipcode', 'mobile_no', 'email',
         'username', 'password', 'status', 'activation_code', 'type',
         // camper
         'cgpa',

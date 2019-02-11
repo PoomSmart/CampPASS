@@ -7,6 +7,7 @@ use App\User;
 use App\Program;
 use App\Religion;
 use App\School;
+use App\Province;
 use App\Organization;
 
 use App\Enums\EducationLevel;
@@ -60,6 +61,7 @@ class RegisterController extends Controller
         $this->religions = Common::values(Religion::class);
         $this->organizations = null;
         $this->schools = Common::values(School::class);
+        $this->provinces = Common::values(Province::class);
     }
 
     /**
@@ -83,8 +85,9 @@ class RegisterController extends Controller
         $religions = $this->religions;
         $programs = $this->programs;
         $schools = $this->schools;
+        $provinces = $this->provinces;
         $education_levels = EducationLevel::getLocalizedConstants('camper');
-        return view('auth.register', compact('type', 'religions', 'programs', 'schools', 'education_levels'));
+        return view('auth.register', compact('type', 'religions', 'programs', 'schools', 'provinces', 'education_levels'));
     }
 
     /**
@@ -96,7 +99,12 @@ class RegisterController extends Controller
     {
         if (is_null($this->organizations))
             $this->organizations = Organization::all();
-        return view('auth.register', [ 'type' => $this->CAMPMAKER, 'religions' => $this->religions, 'organizations' => $this->organizations ]);
+        return view('auth.register', [
+            'type' => $this->CAMPMAKER,
+            'religions' => $this->religions,
+            'provinces' => $this->provinces,
+            'organizations' => $this->organizations
+        ]);
     }
 
     /* Create a new user instance after a valid registration.

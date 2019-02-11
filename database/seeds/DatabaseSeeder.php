@@ -19,6 +19,8 @@ use App\QuestionSetQuestionPair;
 use App\Year;
 use App\BadgeCategory;
 
+use App\Imports\ProvincesImport;
+
 use App\Http\Controllers\QualificationController;
 
 use App\Enums\QuestionType;
@@ -135,6 +137,11 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Junior High School' ],
             [ 'name' => 'Senior High School' ], // TODO: Localization
         ]);
+    }
+
+    private function provinces()
+    {
+        Excel::import(new ProvincesImport, 'provinces.csv', 'seed', \Maatwebsite\Excel\Excel::CSV);
     }
 
     private function badge_categories()
@@ -462,6 +469,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         $this->religions();
         $this->regions();
+        $this->provinces();
         $this->years();
         $this->programs();
         $this->badge_categories();

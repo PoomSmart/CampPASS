@@ -196,11 +196,12 @@
         </div>
         <div class="col-md-6">
             @component('components.input', [
-                'name' => 'city',
-                'label' => trans('account.City'),
+                'name' => 'province_id',
+                'label' => trans('account.Province'),
                 'attributes' => 'required',
                 'input_type' => 'select',
-                'objects' => [],
+                'objects' => $provinces,
+                'placeholder' => 'Select your province...',
             ])
             @endcomponent
         </div>

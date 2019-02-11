@@ -52,6 +52,7 @@ class StoreUserRequest extends FormRequest
             'dob' => 'required|date_format:Y-m-d|before:today',
             'street_address' => 'required|string|max:300',
             'allergy' => 'nullable|string|max:200',
+            'province' => 'exists:provinces,id',
             'zipcode' => [
                 'required', 'digits:5', new ThaiZipCode
             ],
