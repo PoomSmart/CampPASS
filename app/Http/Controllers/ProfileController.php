@@ -6,6 +6,7 @@ use App\Common;
 use App\User;
 use App\Religion;
 use App\School;
+use App\Province;
 use App\Program;
 
 use App\Http\Requests\StoreUserRequest;
