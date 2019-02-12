@@ -18,4 +18,9 @@ class Badge extends Model
     {
         return $this->belongsTo(BadgeCategory::class)->limit(1)->get()->first();
     }
+
+    public function getImageName()
+    {
+        return str_replace(' ','', $this->name);
+    }
 }

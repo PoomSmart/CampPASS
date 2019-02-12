@@ -2,3 +2,18 @@ label[required]::after {
     content: "*";
     color: red;
 }
+
+.footer {
+    color: white;
+    background-color: #FB6B0A;
+    padding-left: 10px;
+  }
+
+  .footer a {
+    color: white;
+  }
+
+  .footer a:hover {
+    color:#FB6B0A;
+    text-decoration: none;
+  }

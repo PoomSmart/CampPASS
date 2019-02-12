@@ -152,7 +152,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription' ],
             [ 'name' => 'Baby-Step', 'description' => 'badge.Baby-StepDescription' ],
             [ 'name' => '3 Stars Engineering', 'description' => 'badge.3StarsEngineerDescription' ],
-            [ 'name' => '3 Stars Science', 'description' => 'badge.3 StarsScienceDescription' ],
+            [ 'name' => '3 Stars Science', 'description' => 'badge.3StarsScienceDescription' ],
             [ 'name' => '3 Stars Computer', 'description' => 'badge.3StarsComputerDescription' ],
             [ 'name' => '3 Stars Teacher', 'description' => 'badge.3StarsTeacherDescription' ],
             [ 'name' => '3 Stars Architectural' , 'description' => 'badge.3StarsArchitecturalDescription' ],

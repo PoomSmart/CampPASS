@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('style')
-    <link rel="stylesheet" href="{{ URL::asset('css/welcome.css') }}">
-@stop
-
 @section('outer_content')
     <div id="highlightCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->

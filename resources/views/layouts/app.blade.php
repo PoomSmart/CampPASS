@@ -148,9 +148,14 @@
                         <li><a href="#!">Terms</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-6 text-right"><br>
-                    <p><i class="fab fa-twitter"></i> <i class="fab fa-facebook-f"></i> <i class="fas fa-globe-asia"></i></p> 
-                    <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
+                <div class="col-sm-6 text-center">
+                        <br>
+                        <br>
+                    <ul class="list-unstyled list-inline social text-center">
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-facebook-f"></i>
+                        <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></button></p>
+                    </ul>
                 </div>
             </div>
         </div>
