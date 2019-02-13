@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Program' => 'Program',
+    'Program' => 'Program of Study',
     'P' => 'Prathom 1 - 6',
     'M1' => 'Mattayom 1',
     'M2' => 'Mattayom 2',

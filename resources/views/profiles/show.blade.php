@@ -11,19 +11,19 @@
         </div>
         
         <div class="col-md-8"> 
-            <h4 class="mb-4">Education</h4>
+            <h4 class="mb-4">@lang('account.Education')</h4>
             <div class="row mb-2">
                 <div class="col-md-6">
-                    <h5>School</h5>
+                    <h5>@lang('account.School')</h5>
                     <h6>{{ $user->school() }}</h6>
                 </div>
                 
                 <div class="col-md-6">
-                    <h5>Program of Study</h5>
+                    <h5>@lang('camper.Program')</h5>
                     <h6>{{ $user->program() }}</h6>
                 </div>
             </div>
-            <h4 class="mb-4">Camps</h4>
+            <h4 class="mb-4">@lang('camp.Camps')</h4>
             @php
                 $camps = $user->belonging_camps();
             @endphp
@@ -48,7 +48,7 @@
                     </div>
             </div>
             {{-- Badges --}}
-           <h4 class="mb-4">Badges</h4>
+           <h4 class="mb-4">@lang('camp.Badges')</h4>
             <div class="row">
                 @foreach ($badges as $badge)
                     <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2">

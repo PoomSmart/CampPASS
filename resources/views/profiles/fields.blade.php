@@ -102,7 +102,7 @@
     </div>
 
     @if (isset($camper))
-        <h3 class="mt-4">Education</h3>
+        <h3 class="mt-4">@lang('account.Education')</h3>
         <div class="row">
             <div class="col-12">
                 @component('components.input', [
