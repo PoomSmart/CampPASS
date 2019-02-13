@@ -30,8 +30,8 @@
                         <h6>1 January 2019</h6>
                 </div>
                 <div class="col-md-6">
-                    <h5>Camp Joined</h5>
-                    <h6>Math Sci</h6>
+                    <h5>Camps Joined</h5>
+                    <h6>4</h6>
                 </div>
                 <div class="col-12 mt-2">
                     <h5>Camp Activities</h5>
