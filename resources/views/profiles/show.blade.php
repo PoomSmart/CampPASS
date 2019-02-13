@@ -39,15 +39,15 @@
                     <h6>Math Sci</h6>
                 </div>
             </div>
-            {{-- Badge --}}
+            {{-- Badges --}}
            <h3>Badges</h3>
-                <div class="row">
-                    @foreach ($badges as $badge)
-                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
-                            <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
-                        </div>
-                    @endforeach
-                </div>
+            <div class="row">
+                @foreach ($badges as $badge)
+                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
+                        <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection

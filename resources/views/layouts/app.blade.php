@@ -124,35 +124,33 @@
             </div>
         </main>
         <footer class="footer">
-            <div class="container">
+            <div class="container pt-4">
                 <div class="row">
-                    <div class="col-sm-3 mx-auto">
-                        <br>
+                    <div class="col-12 col-sm-6">
                         <h6 class="text-left"><b>{{ config('app.name') }}</b></h6>
-                        <ul class="list-unstyled">    
-                            <li><a href="#!">What's {{ config('app.name') }}</a></li>
-                            <li><a href="#!">How it works</a></li>
-                            <li><a href="#!">Becoming a Camp Maker</a></li>
-                        </ul>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <ul class="list-unstyled">    
+                                    <li><a href="#!">What's {{ config('app.name') }}</a></li>
+                                    <li><a href="#!">How it works</a></li>
+                                    <li><a href="#!">Becoming a Camp Maker</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <ul class="list-unstyled">    
+                                    <li><a href="#!">About</a></li>
+                                    <li><a href="#!">Help</a></li>
+                                    <li><a href="#!">Terms</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <hr class="clearfix w-100 d-md-none">
-                    <div class="col-md-3 mx-auto-none">
-                        <ul class="list-unstyled">
-                            <br>
-                            <br>
-                            <li><a href="#!">About</a></li>
-                            <li><a href="#!">Help</a></li>
-                            <li><a href="#!">Terms</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <br>
-                        <br>
-                        <ul class="list-unstyled list-inline social text-center">
+                    <div class="col-sm-6">
+                        <ul class="list-unstyled list-inline social text-right">
                             <i class="fab fa-twitter"></i>
                             <i class="fab fa-facebook-f"></i>
-                            <p><button type="button" class="btn btn-outline-light"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></a></button></p>
                         </ul>
+                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></a></button>
                     </div>
                 </div>
             </div>
