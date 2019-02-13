@@ -58,7 +58,7 @@
            <h4 class="mb-4">Badges</h4>
             <div class="row">
                 @foreach ($badges as $badge)
-                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
+                    <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
                         <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
                     </div>
                 @endforeach
