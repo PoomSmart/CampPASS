@@ -1,12 +1,17 @@
 @extends('layouts.card')
 
+@section('script')
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+@endsection
+
 @section('header')
     Camp Application Form
 @endsection
 
 <!-- TODO: Decide what to do when the camper makes changes and presses next without saving first -->
 @section('card_content')
-    <form method="POST" action="{{ route('camp_application.store') }}" enctype="multipart/form-data">
+    <form method="POST" id="form" action="{{ route('camp_application.store') }}" enctype="multipart/form-data">
         @csrf
         <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
         @foreach ($json['question'] as $key => $text)
