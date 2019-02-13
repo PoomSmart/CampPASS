@@ -106,6 +106,7 @@
         @endforeach
         @component('components.submit', [
             'label' => trans('app.Save'),
+            'disabled' => $form_score->finalized,
         ])
         @slot('postcontent')
             <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">@lang('qualification.Finalize')</a>

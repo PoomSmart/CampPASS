@@ -99,6 +99,9 @@ class QualificationController extends Controller
 
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
     {
+        $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->first();
+        if ($form_score->finalized)
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
         $form_data = $request->all();
         unset($form_data['_token']);
         $camper = $registration->camper();
