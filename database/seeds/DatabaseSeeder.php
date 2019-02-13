@@ -36,19 +36,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
-    private static function log(string $message)
+    private function log(string $message)
     {
-        Log::channel('errorlog')->info($message);
+        $this->command->line('<comment>CampPASS: </comment>'.$message);
     }
 
-    private static function log_seed(string $message)
+    private function log_seed(string $message)
     {
-        self::log("seeding {$message}");
+        $this->log("seeding {$message}");
     }
 
-    private static function log_alter(string $message)
+    private function log_alter(string $message)
     {
-        self::log("alter {$message}");
+        $this->log("alter {$message}");
     }
 
     private function programs()
