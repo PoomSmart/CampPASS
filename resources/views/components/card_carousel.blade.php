@@ -19,6 +19,7 @@
                 @foreach ($chunk as $object)
                     @component($component, [
                         'object' => $object,
+                        'route' => isset($route) ? $route : null,
                         'folder' => isset($folder) ? $folder : null,
                         'getter' => isset($getter) ? $getter : null,
                         'border' => isset($border) ? $border : null,

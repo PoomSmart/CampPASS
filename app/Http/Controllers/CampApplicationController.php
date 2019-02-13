@@ -111,8 +111,8 @@ class CampApplicationController extends Controller
     public function prepare_questions_answers(Camp $camp, User $user)
     {
         $question_set = $camp->question_set();
-        $pairs = $question_set ? $question_set->pairs()->get() : [];
-        if (empty($pairs))
+        $pairs = $question_set ? $question_set->pairs()->get() : null;
+        if (!isset($pairs) || $pairs->isEmpty())
             throw new \App\Exceptions\CampPASSException('There are no questions in here.');
         $answers = [];
         $json = Common::getQuestionJSON($camp->id);
@@ -230,6 +230,8 @@ class CampApplicationController extends Controller
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id);
         $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
+        if ($answers->isEmpty())
+            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You have not answered anything.');
         foreach ($answers as $answer) {
             $question = $answer->question();
             $data[] = [

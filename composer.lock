@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b069255bdd6c1b87093f8cfd8c78eb9b",
+    "content-hash": "458b320f41bca4f2fbd8a2ec7c13fba5",
     "packages": [
         {
             "name": "camppass/laravel-csv-seeder",
@@ -2439,6 +2439,55 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "rundiz/thai-date",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Rundiz/thai-date.git",
+                "reference": "db655956c4b8fb8c80dfd199a85fbe4073065cd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Rundiz/thai-date/zipball/db655956c4b8fb8c80dfd199a85fbe4073065cd0",
+                "reference": "db655956c4b8fb8c80dfd199a85fbe4073065cd0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rundiz\\Thaidate\\": "Rundiz/Thaidate"
+                },
+                "files": [
+                    "Rundiz/Thaidate/thaidate-functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vee W.",
+                    "email": "kawewong@gmail.com",
+                    "homepage": "http://rundiz.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Display date in Thai language use PHP date() and strftime()",
+            "keywords": [
+                "Thai date",
+                "date",
+                "date thai",
+                "date translation",
+                "datethai",
+                "thaidate"
+            ],
+            "time": "2019-01-10T16:54:26+00:00"
         },
         {
             "name": "spatie/laravel-permission",

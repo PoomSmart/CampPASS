@@ -61,6 +61,7 @@
         'rows' => 2,
         'border' => 1,
         'folder' => 'university_categories',
+        'route' => 'camp_browser.by_organization',
         'getter' => 'image',
     ])
     @endcomponent

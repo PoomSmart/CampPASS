@@ -16,9 +16,7 @@
 
 @section('content')
     @component('components.dialog', [
-        'title' => 'Confirmation',
         'body' => 'Are you sure you want to delete this camp?',
-        'confirm_label' => 'Confirm',
         'confirm_type' => 'danger',
         'method' => 'DELETE',
     ])

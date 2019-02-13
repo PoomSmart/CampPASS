@@ -41,4 +41,5 @@ return [
     'Camps' => 'Camps',
     'OrganizeCamps' => 'Organize Camps',
     'BrowseCamps' => 'Browse Camps',
+    'Badges' => 'Badges',
 ];

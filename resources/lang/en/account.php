@@ -61,6 +61,7 @@ return [
     'Mother' => 'Mother',
 
     'School' => 'School',
+    'Education' => 'Education',
     'EducationLevel' => 'Education Level',
 
     'Status' => 'Status',
