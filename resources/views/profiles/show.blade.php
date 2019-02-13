@@ -20,39 +20,32 @@
                 
                 <div class="col-md-6">
                     <h5>Program of Study</h5>
-                    <h6>Math Sci</h6>
+                    <h6>{{ $user->program() }}</h6>
                 </div>
             </div>
             <h4 class="mb-4">Camps</h4>
+            @php
+                $camps = $user->belonging_camps();
+            @endphp
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>Camper Since</h5>
-                        <h6>1 January 2019</h6>
+                        <h6></h6>
                 </div>
                 <div class="col-md-6">
                     <h5>Camps Joined</h5>
-                    <h6>4</h6>
+                    <h6>{{ $camps->count() }}</h6>
                 </div>
                 <div class="col-12 mt-2">
                     <h5>Camp Activities</h5>
                         <div class="row">
-                            <div class="col-md-6">
-                                <span>Camp A</span>
-                            </div>
-                            <div class="col-md-6">
-                                <span>Camp A</span>
-                            </div>
-                            <div class="col-md-6">
-                                <span>Camp A</span>
-                            </div>
-                            <div class="col-md-6">
-                                <span>Camp A</span>
-                            </div>
-                            <div class="col-md-6">
-                                <span>Camp A</span>
-                            </div>
+                            @foreach ($camps->get() as $camp)
+                                <div class="col-md-6">
+                                <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
+                                </div>
+                            @endforeach
                         </div>
-                </div>
+                    </div>
             </div>
             {{-- Badges --}}
            <h4 class="mb-4">Badges</h4>
