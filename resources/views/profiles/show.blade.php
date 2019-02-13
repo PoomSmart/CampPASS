@@ -30,7 +30,7 @@
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>Camper Since</h5>
-                        <h6>{{ $user->email_verified_at }}</h6>
+                        <h6>{{ date_format(date_create($user->email_verified_at), 'j F Y') }}</h6>
                 </div>
                 <div class="col-md-6">
                     <h5>Camps Joined</h5>
