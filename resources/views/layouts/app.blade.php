@@ -128,9 +128,9 @@
                 <div class="row">
                     <div class="col-sm-3 mx-auto">
                         <br>
-                        <h6 class="text-left ">CampPASS</h6>
+                        <h6 class="text-left"><b>{{ config('app.name') }}</b></h6>
                         <ul class="list-unstyled">    
-                            <li><a href="#!">What's CampPASS</a></li>
+                            <li><a href="#!">What's {{ config('app.name') }}</a></li>
                             <li><a href="#!">How it works</a></li>
                             <li><a href="#!">Becoming a Camp Maker</a></li>
                         </ul>
