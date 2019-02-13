@@ -30,11 +30,11 @@
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>Camper Since</h5>
-                        <h6></h6>
+                        <h6>{{ $user->email_verified_at }}</h6>
                 </div>
                 <div class="col-md-6">
                     <h5>Camps Joined</h5>
-                    <h6>{{ $camps->count() }}</h6>
+                        <h6>{{ $camps->count() }}</h6>
                 </div>
                 <div class="col-12 mt-2">
                     <h5>Camp Activities</h5>
