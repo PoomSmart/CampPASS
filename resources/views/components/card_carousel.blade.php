@@ -21,6 +21,7 @@
                         'object' => $object,
                         'folder' => isset($folder) ? $folder : null,
                         'getter' => isset($getter) ? $getter : null,
+                        'border' => isset($border) ? $border : null,
                     ])
                     @endcomponent
                 @endforeach

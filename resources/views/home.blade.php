@@ -59,6 +59,7 @@
         'objects' => $university_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
+        'border' => 1,
         'folder' => 'university_categories',
         'getter' => 'image',
     ])

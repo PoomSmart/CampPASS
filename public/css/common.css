@@ -54,3 +54,10 @@ label[required]::after {
   padding: 30px 0 30px 0;
   
 }
+
+#card-border {
+  border-style: solid;
+  border-width: 7px;
+  border-color: #FB6B0A;
+
+}
