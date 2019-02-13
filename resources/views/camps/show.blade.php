@@ -11,7 +11,10 @@
             <?php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); ?>
         @endcan
         <div class="row">
-            @if ($camp->question_set() && $camp->question_set()->manual_required && !$camp->question_set()->announced)
+            <?php
+                $manual_grading_required = $camp->question_set() && $camp->question_set()->manual_required && !$camp->question_set()->announced;
+            ?>
+            @if ($manual_grading_required)
                 <div class="col-12 text-center">
                     <b class="text-info">** Manual Grading required. **</b>
                 </div>
@@ -25,17 +28,22 @@
                             <th>@lang('account.Name')</th>
                             <th>@lang('account.School')</th>
                             <th>@lang('camper.Program')</th>
-                            <th>@lang('account.Status')</th>
+                            <th>@lang('registration.Status')</th>
+                            <th>@lang('qualification.Finalized')</th>
                             <th>@lang('app.Actions')</th>
                         </tr>
-                        @foreach ($data as $key => $registration)
-                            <?php $camper = $registration->camper(); ?>
+                        @foreach ($data as $key => $form_score)
+                            <?php
+                                $registration = $form_score->registration();
+                                $camper = $registration->camper();
+                            ?>
                             <tr>
                                 <td>{{ $registration->id }}</td>
                                 <td><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></td>
                                 <td>{{ $camper->school() }}</td>
                                 <td>{{ $camper->program() }}</td>
                                 <td>{{ $registration->getStatus() }}</td>
+                                <td>{{ $manual_grading_required && !$form_score->finalized ? trans('app.No') : trans('app.Yes')  }}</td>
                                 <td>
                                     @if ($rankable)
                                         <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"

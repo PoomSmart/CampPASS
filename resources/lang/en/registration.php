@@ -23,4 +23,5 @@ return [
     'EmptyRegistration' => 'No one has registered for this camp yet.',
     'WillClose' => 'Application will be close on',
     'PayDeposit' => 'Pay Deposit',
+    'Status' => 'Registration Status',
 ];
