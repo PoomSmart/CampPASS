@@ -33,4 +33,9 @@ class Organization extends Model
     {
         return Common::getLocalizedName($this);
     }
+
+    public function getName()
+    {
+        return $this->__toString();
+    }
 }

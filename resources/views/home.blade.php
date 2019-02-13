@@ -60,6 +60,7 @@
         'component' => 'components.camp_category_block',
         'rows' => 2,
         'folder' => 'university_categories',
+        'route' => 'camp_browser.by_organization',
         'getter' => 'image',
     ])
     @endcomponent
