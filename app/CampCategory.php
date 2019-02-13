@@ -15,11 +15,11 @@ class CampCategory extends Model
 
     public function __toString()
     {
-        return $this->name;
+        return trans("camp_category.{$this->name}");
     }
 
     public function getName()
     {
-        return $this->name; // TODO: Localization
+        return $this->__toString();
     }
 }

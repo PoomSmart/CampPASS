@@ -17,6 +17,6 @@ class Religion extends Model
 
     public function __toString()
     {
-        return $this->name; // TODO: Localization
+        return trans("religion.{$this->name}");
     }
 }

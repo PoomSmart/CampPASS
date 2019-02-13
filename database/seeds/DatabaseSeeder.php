@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         Program::insert([
             [ 'name' => 'Sci-Math' ],
             [ 'name' => 'Arts-Math' ],
-            [ 'name' => 'Vocational/Diploma Cert.' ], // TODO: Localization
+            [ 'name' => 'Vocational/Diploma Cert.' ],
         ]);
     }
 
@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Agri-Fishery' ],
             [ 'name' => 'Political' ],
             [ 'name' => 'Youth' ],
-            [ 'name' => 'Preserve' ], // TODO: Localization
+            [ 'name' => 'Preserve' ],
         ]);
     }
 
@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Buddhist' ],
             [ 'name' => 'Christ' ],
             [ 'name' => 'Islamic' ],
-            [ 'name' => 'Other' ], // TODO: Localization
+            [ 'name' => 'Other' ],
         ]);
     }
 
@@ -136,7 +136,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Primary School' ],
             [ 'name' => 'Secondary School' ],
             [ 'name' => 'Junior High School' ],
-            [ 'name' => 'Senior High School' ], // TODO: Localization
+            [ 'name' => 'Senior High School' ],
         ]);
     }
 

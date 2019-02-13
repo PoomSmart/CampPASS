@@ -19,11 +19,11 @@ class CampProcedure extends Model
 
     public function getTitle()
     {
-        return $this->title; // TODO: Localization
+        return $this->__toString();
     }
 
     public function __toString()
     {
-        return $this->getTitle();
+        return trans("camp_procedure.{$this->title}");
     }
 }

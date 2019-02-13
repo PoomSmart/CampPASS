@@ -17,6 +17,6 @@ class Program extends Model
 
     public function __toString()
     {
-        return $this->name; // TODO: Localization
+        return trans("program.{$this->name}");
     }
 }
