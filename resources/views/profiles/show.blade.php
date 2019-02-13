@@ -15,7 +15,7 @@
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>School</h5>
-                    <h6>School A</h6>
+                    <h6>{{ $user->school() }}</h6>
                 </div>
                 
                 <div class="col-md-6">

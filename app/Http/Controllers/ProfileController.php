@@ -49,7 +49,6 @@ class ProfileController extends Controller
     {
         $this->authenticate($user);
         $badges = Common::values(Badge::class, 'camper_id', \Auth::user()->id);
-        View::share('object', $user);
         return view('profiles.show', compact('user', 'badges'));
     }
 
