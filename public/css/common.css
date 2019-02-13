@@ -9,6 +9,7 @@
 html, body {
   height: 100%;
   position: relative;
+  background-color: whitesmoke;
 }
 
 #app {
@@ -52,12 +53,15 @@ label[required]::after {
   background-color: #FB6B0A;
   color: white;
   padding: 30px 0 30px 0;
-  
 }
 
 #card-border {
   border-style: solid;
   border-width: 7px;
   border-color: #FB6B0A;
+}
 
+.card {
+  background-color: white;
+  border: 0;
 }
