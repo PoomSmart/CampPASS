@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    @lang('account.Name')
+    {{ \Auth::user()->getFullName() }}
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
         </div>
         
         <div class="col-md-8"> 
-            <h3>Education</h3>
+            <h4 class="mb-4">Education</h4>
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>School</h5>
@@ -23,7 +23,7 @@
                     <h6>Math Sci</h6>
                 </div>
             </div>
-            <h3>Camps</h3>
+            <h4 class="mb-4">Camps</h4>
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>Camper Since</h5>
@@ -37,25 +37,25 @@
                     <h5>Camp Activities</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Camp A</h6>
+                                <span>Camp A</span>
                             </div>
                             <div class="col-md-6">
-                                <h6>Camp A</h6>
+                                <span>Camp A</span>
                             </div>
                             <div class="col-md-6">
-                                <h6>Camp A</h6>
+                                <span>Camp A</span>
                             </div>
                             <div class="col-md-6">
-                                <h6>Camp A</h6>
+                                <span>Camp A</span>
                             </div>
                             <div class="col-md-6">
-                                <h6>Camp A</h6>
+                                <span>Camp A</span>
                             </div>
                         </div>
                 </div>
             </div>
             {{-- Badges --}}
-           <h3>Badges</h3>
+           <h4 class="mb-4">Badges</h4>
             <div class="row">
                 @foreach ($badges as $badge)
                     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-6 mb-2">

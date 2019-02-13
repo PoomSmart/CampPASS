@@ -26,7 +26,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+                <a class="navbar-brand" href="{{ url('/') }}"><img class="img-fluid" style="width: 90px;" src={{ asset("/images/logo.png") }}></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('Toggle navigation')">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -93,6 +93,11 @@
                 </div>
             </div>
         </nav>
+        
+        <div class="container-fluid text-center" id="header">
+            <h2 class="mb-0">@yield('header')</h2>
+        </div>
+
         <main class="py-4">
             <div class="container">
                 @if ($message = Session::get('message'))

@@ -47,3 +47,10 @@ label[required]::after {
   content: "*";
   color: red;
 }
+
+#header {
+  background-color: #FB6B0A;
+  color: white;
+  padding: 30px 0 30px 0;
+  
+}
