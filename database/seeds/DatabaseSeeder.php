@@ -1,6 +1,8 @@
 <?php
 
 use App\Answer;
+use App\Badge;
+use App\BadgeCategory;
 use App\Camp;
 use App\CampCategory;
 use App\CampProcedure;
@@ -17,7 +19,6 @@ use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 use App\Year;
-use App\BadgeCategory;
 
 use App\Imports\ProvincesImport;
 
@@ -423,6 +424,27 @@ class DatabaseSeeder extends Seeder
         unset($faker);
     }
 
+    private function badges()
+    {
+        // TODO: This is a temporary unpractical generation of badges
+        $this->log_seed('badges');
+        $badges = [];
+        $badge_category_count = BadgeCategory::count();
+        foreach (User::campers()->get() as $camper) {
+            $camper_id = $camper->id;
+            $badge_category_first = rand(1, $badge_category_count);
+            $badge_category_last = rand($badge_category_count, $badge_category_count);
+            for ($badge_category_id = $badge_category_first; $badge_category_id <= $badge_category_last; ++$badge_category_id) {
+                $badges[] = [
+                    'badge_category_id' => $badge_category_id,
+                    'camper_id' => $camper_id,
+                    'earned_date' => now(),
+                ];
+            }
+        }
+        Badge::insert($badges);
+    }
+
     private function alter_campers()
     {
         $this->log_alter('campers');
@@ -485,6 +507,7 @@ class DatabaseSeeder extends Seeder
         $this->alter_campmakers();
         $this->create_admin();
         $this->registrations_and_questions_and_answers();
+        $this->badges();
         $this->call([
             PermissionTableSeeder::class,
         ]);

@@ -31,10 +31,13 @@
             <div class="col-4">
             </div>
             <div class="col-8">
-                    <h2>Badges</h2>
+                <h2>Badges</h2>
+                <div class="row">
                     @foreach ($badges as $badge)
-                     <img src={{ asset("/images/badges/{$badge->getImageName()}.png") }}>
+                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
+                            <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
+                        </div>
                     @endforeach
                 </div>
-
+            </div>
 @endsection

@@ -28,7 +28,6 @@ class ProfileController extends Controller
         $this->provinces = Common::values(Province::class);
         $this->programs = Common::values(Program::class);
         $this->education_levels = EducationLevel::getLocalizedConstants('camper');
-        $this->badges = Common::values(Badge::class);
     }
 
     public function index()
@@ -49,7 +48,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
         $this->authenticate($user);
-        $badges = $this->badges;
+        $badges = Common::values(Badge::class, 'camper_id', \Auth::user()->id);
         View::share('object', $user);
         return view('profiles.show', compact('user', 'badges'));
     }
