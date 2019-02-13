@@ -23,5 +23,7 @@ return [
     'No' => 'No',
     'Actions' => 'Actions',
     'Approve' => 'Approve',
+    'Confirm' => 'Confirm',
+    'Confirmation' => 'Confirmation',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
 ];
