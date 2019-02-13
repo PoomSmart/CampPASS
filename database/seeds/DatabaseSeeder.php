@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Western Thailand', 'short_name' => 'W' ],
             [ 'name' => 'Central Thailand', 'short_name' => 'C' ],
             [ 'name' => 'Eastern Thailand', 'short_name' => 'E' ],
-            [ 'name' => 'Southern Thailand', 'short_name' => 'S' ], // TODO: Localization
+            [ 'name' => 'Southern Thailand', 'short_name' => 'S' ],
         ]);
     }
 

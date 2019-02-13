@@ -10,7 +10,7 @@ class Region extends Model
     
     public function __toString()
     {
-        return $this->name;
+        return trans("region.{$this->name}");
     }
     
     public function getShortName()
