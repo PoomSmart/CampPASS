@@ -433,7 +433,7 @@ class DatabaseSeeder extends Seeder
         foreach (User::campers()->get() as $camper) {
             $camper_id = $camper->id;
             $badge_category_first = rand(1, $badge_category_count);
-            $badge_category_last = rand($badge_category_count, $badge_category_count);
+            $badge_category_last = rand($badge_category_first, $badge_category_count);
             for ($badge_category_id = $badge_category_first; $badge_category_id <= $badge_category_last; ++$badge_category_id) {
                 $badges[] = [
                     'badge_category_id' => $badge_category_id,
