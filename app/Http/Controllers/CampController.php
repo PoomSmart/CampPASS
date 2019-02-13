@@ -15,7 +15,6 @@ use App\Year;
 use App\Http\Requests\StoreCampRequest;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class CampController extends Controller
@@ -110,6 +109,8 @@ class CampController extends Controller
         View::share('object', $camp);
         if (\Auth::user()->hasPermissionTo('camper-list'))
             $data = $camp->registrations()->paginate($max);
+        else
+            $data = null;
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
