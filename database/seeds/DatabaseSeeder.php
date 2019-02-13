@@ -234,7 +234,7 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('questions and answers');
         $answers = [];
         $pairs = [];
-        foreach (Camp::allApproved()->get() as $camp) {
+        foreach (Camp::allApproved()->cursor() as $camp) {
             if (!$camp->camp_procedure()->candidate_required) {
                 // Clean up all registrations that should not exist in this case
                 Registration::where('camp_id', $camp->id)->delete();
@@ -407,7 +407,7 @@ class DatabaseSeeder extends Seeder
         QuestionSet::whereIn('id', $tbd_question_set_ids)->delete();
         // Begin seeding of manual grading at the outmost scope
         $this->log('-> seeding manually-graded scores');
-        foreach (Answer::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_grade_answer) {
+        foreach (Answer::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_grade_answer) {
             $question = $manual_grade_answer->question();
             // We take only the questions that need to be graded, i.e., full_score is set
             if ($question->full_score) {
@@ -418,7 +418,7 @@ class DatabaseSeeder extends Seeder
         }
         // Now we can mark all application forms with manual grading as finalized
         $this->log('-> finalizing respective form scores');
-        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_form_score) {
+        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
             QualificationController::form_finalize($manual_form_score);
         }
         unset($faker);
@@ -430,7 +430,7 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('badges');
         $badges = [];
         $badge_category_count = BadgeCategory::count();
-        foreach (User::campers()->get() as $camper) {
+        foreach (User::campers()->cursor() as $camper) {
             $camper_id = $camper->id;
             $badge_category_first = rand(1, $badge_category_count);
             $badge_category_last = rand($badge_category_first, $badge_category_count);
