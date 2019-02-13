@@ -94,9 +94,11 @@
             </div>
         </nav>
         
-        <div class="container-fluid text-center" id="header">
-            <h2 class="mb-0">@yield('header')</h2>
-        </div>
+        @if (View::hasSection('header'))
+            <div class="container-fluid text-center" id="header">
+                <h2 class="mb-0">@yield('header')</h2>
+            </div>
+        @endif
 
         <main class="py-4">
             <div class="container">
