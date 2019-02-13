@@ -45,42 +45,5 @@
                      <img src={{ asset("/images/badges/{$badge->getImageName()}.png") }}>
                 @endforeach
         </div>
-    </div>       
-
-
-
-
-
-        {{-- <div class="row">
-            <div class="col-sm-4 text-left">
-                    
-            </div>
-            
-            <div class="col-sm-4">
-                
-                    <h4>School</h4>
-                        <p>Some example text some example text. John Doe is an architect and engineer</p>
-                    
-                    <h4>Camper Since</h4>
-                        <p>Some example text some example text. John Doe is an architect and engineer</p>
-            </div>
-
-            <div class="col-sm-4">
-                <h2>Camp</h2>
-                <h4>Program of Study</h4>
-                    <p>Some example text some example text. John Doe is an architect and engineer</p>
-                <h4>Camp Activities</h4>
-                    <p>Some example text some example text. John Doe is an architect and engineer</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-            </div>
-            <div class="col-8">
-                    <h2>Badges</h2>
-                    @foreach ($badges as $badge)
-                     <img src={{ asset("/images/badges/{$badge->getImageName()}.png") }}>
-                    @endforeach
-                </div> --}}
-
+    </div>
 @endsection
