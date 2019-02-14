@@ -10,18 +10,10 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="https://placehold.it/1200x400?text=IMAGE" alt="Image">
-                <div class="carousel-caption">
-                    <h3>ICT Camp 2019</h3>
-                    <p>ICT</p>
-                </div>      
+                <img class="d-block w-100" src="https://placehold.it/1200x400?text=IMAGE" alt="Image">    
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">
-                <div class="carousel-caption">
-                    <h3>ICT Junior Camp 9</h3>
-                    <p>Lorem ipsum...</p>
-                </div>      
+                <img class="d-block w-100" src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">    
             </div>
         </div>
         <!-- Left and right controls -->
