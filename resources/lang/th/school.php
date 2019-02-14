@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'PUBLIC_' => 'Public School',
-    'PRIVATE_' => 'Private School',
-    'UNIVERSITY' => 'School within University',
+    'PUBLIC_' => 'โรงเรียนรัฐบาล',
+    'PRIVATE_' => 'โรงเรียนเอกชน',
+    'UNIVERSITY' => 'โรงเรียนเครือมหาวิทยาลัย',
 ];

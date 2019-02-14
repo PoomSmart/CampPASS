@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'Organization' => 'Organization',
+    'Organization' => 'องค์กร',
 ];
