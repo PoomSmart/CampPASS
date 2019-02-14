@@ -4,9 +4,11 @@
     {{ $user->getFullName() }}
 @endsection
 
-@section('extra-buttons')
-    <a href="{{ route('profiles.edit', \Auth::user()->id) }}" class="btn btn-primary w-50">Update Profile</a>
-@endsection
+@if (\Auth::user() && \Auth::user()->id == $user->id)
+    @section('extra-buttons')
+        <a href="{{ route('profiles.edit', \Auth::user()->id) }}" class="btn btn-primary w-50">Update Profile</a>
+    @endsection
+@endif
 
 @section('card_content')
     <div class="row mt-4">
