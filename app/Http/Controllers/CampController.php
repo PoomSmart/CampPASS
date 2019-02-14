@@ -25,6 +25,7 @@ class CampController extends Controller
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
+        $this->middleware('permission:camper-list', ['only' => ['registration']]);
         $this->programs = Common::values(Program::class);
         $this->categories = Common::values(CampCategory::class);
         $this->organizations = null;
@@ -105,6 +106,13 @@ class CampController extends Controller
      */
     public function show(Camp $camp)
     {
+        View::share('object', $camp);
+        $category = CampCategory::find($camp->camp_category_id);
+        return view('camps.show', compact('camp', 'category'));
+    }
+
+    public function registration(Camp $camp)
+    {
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
         if (\Auth::user()->hasPermissionTo('camper-list')) {
@@ -113,7 +121,7 @@ class CampController extends Controller
         } else
             $data = null;
         $category = CampCategory::find($camp->camp_category_id);
-        return view('camps.show', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
+        return view('camps.registration', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
     /**
