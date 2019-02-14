@@ -77,7 +77,12 @@ class CampApplicationController extends Controller
                     $disabled |= $status >= RegistrationStatus::APPLIED;
             }
         }
-        if (!$apply_text) $apply_text = trans('registration.Apply');
+        if (!$apply_text) {
+            $apply_text = trans('registration.Apply');
+            $camp_procedure = $camp->camp_procedure();
+            if ($camp_procedure->candidate_required)
+                $apply_text = "{$apply_text} (QA)";
+        }
         return [
             'text' => $apply_text,
             'disabled' => $disabled,
