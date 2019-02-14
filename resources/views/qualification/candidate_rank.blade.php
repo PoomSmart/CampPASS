@@ -1,10 +1,10 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     @lang('qualification.CandidateRanking') {{ $question_set->announced ? '(Announced)' : null }}
 @endsection
 
-@section('content')
+@section('card_content')
     <p>Passing criteria: {{ $question_set->score_threshold * 100 }}%</p>
     <table class="table table-bordered">
         <tr>
@@ -30,6 +30,9 @@
             </tr>
         @endforeach
     </table>
+@endsection
+
+@section('extra-buttons')
     <!-- TODO: add confirmation -->
-    <a class="btn btn-danger{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" href="{{ route('qualification.candidate_announce', $question_set) }}">@lang('qualification.Announce')</a>
+    <a class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" href="{{ route('qualification.candidate_announce', $question_set) }}">@lang('qualification.Announce')</a>
 @endsection
