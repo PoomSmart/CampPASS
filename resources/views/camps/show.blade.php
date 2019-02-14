@@ -59,11 +59,6 @@
                     <span class="text-muted">@lang('registration.EmptyRegistration')</span>
                 @endif
             </div>
-            @if ($rankable && count($data))
-                <div class="col-12">
-                    <a class="btn btn-warning" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">@lang('qualification.Rank')</a>
-                </div>
-            @endif
         </div>
     @endcan
     @role('camper')
@@ -82,3 +77,9 @@
         </div>
     @endrole
 @endsection
+
+@if (isset($rankable) && $rankable && count($data))
+    @section('extra-buttons')
+        <a class="btn btn-warning w-50" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">@lang('qualification.Rank')</a>
+    @endsection
+@endif
