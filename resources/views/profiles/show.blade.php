@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    {{ \Auth::user()->getFullName() }}
+    {{ $user->getFullName() }}
 @endsection
 
 @section('extra-buttons')
