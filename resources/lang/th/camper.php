@@ -15,7 +15,7 @@ return [
     'GuardianSurname' => 'นามสกุลผู้ปกครอง',
     'GuardianMobileNo' => 'เบอร์โทรศัพท์ผู้ปกครอง',
     'GuardianRole' => 'ความสัมพันธ์',
-    'GuardianRoleText' => trans('camper.GuardianRole'),
+    'GuardianRoleText' => 'ความสัมพันธ์',
     'CGPA' => 'เกรดเฉลี่ยสะสม(CGPA)',
     'RegisteredCampers' => 'ค่ายที่สมัคร',
     'MyCamps' => 'ค่ายของคุณ',
