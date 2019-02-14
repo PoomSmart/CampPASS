@@ -102,31 +102,6 @@
 
         <main class="py-4">
             <div class="container">
-                @if ($message = Session::get('message'))
-                    <div class="alert alert-info">
-                        {{ $message }}
-                    </div>
-                    <?php Session::forget('message'); ?>
-                @elseif ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        {{ $message }}
-                    </div>
-                    <?php Session::forget('success'); ?>
-                @elseif ($message = Session::get('error'))
-                    <div class="alert alert-danger">
-                        {{ $message }}
-                    </div>
-                    <?php Session::forget('error'); ?>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 @yield('outer_content')
             </div>
         </main>

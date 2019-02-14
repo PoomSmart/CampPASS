@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 
-@section('outer_content')
+@section('content')
     <div id="highlightCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
