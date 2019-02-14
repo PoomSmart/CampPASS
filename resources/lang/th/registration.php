@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'DRAFT' => 'Draft',
-    'APPLIED' => 'Applied',
+    'DRAFT' => 'แบบร่าง',
+    'APPLIED' => 'ส่งใบสมัคร',
     'RETURNED' => 'Returned',
-    'APPROVED' => 'Approved',
-    'QUALIFIED' => 'Qualified',
+    'APPROVED' => 'ยืนยันเรียบร้อย',
+    'QUALIFIED' => 'ตรงตามเงื่อนไข',
     'ID' => 'Reg ID',
     'View' => 'View',
     'Apply' => 'Apply Now',
@@ -19,7 +19,7 @@ return [
     'NotInRequiredProgramsShort' => 'Unavailable for your program',
     'NotEnoughCGPAShort' => 'CGPA too low',
     'LateApplicationShort' => 'Closed',
-    'QuotaExceededShort' => 'Full',
+    'QuotaExceededShort' => 'เต็ม',
     'EmptyRegistration' => 'No one has registered for this camp yet.',
     'WillClose' => 'Application will be close on',
     'PayDeposit' => 'Pay Deposit',

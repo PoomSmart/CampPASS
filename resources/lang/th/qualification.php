@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'Rank' => 'Rank',
-    'Score' => 'Score',
-    'CandidateRanking' => 'Candidate Ranking',
-    'Passed' => 'Passed',
+    'Rank' => 'จัดอันดับ',
+    'Score' => 'คะแนน',
+    'CandidateRanking' => 'จัดอันดับผู้สมัคร',
+    'Passed' => 'ผ่าน',
     'Finalize' => 'Finalize',
-    'Announce' => 'Announce',
+    'Announce' => 'ประกาศผล',
 ];
