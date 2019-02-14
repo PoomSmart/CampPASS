@@ -50,7 +50,7 @@ class CampApplicationController extends Controller
             if ($ineligible_reason) {
                 $disabled = true;
                 $apply_text = $ineligible_reason;
-            } else {
+            } else if ($camper->isCamper()) {
                 $registration = $camper->registration_for_camp($camp);
                 $status = $registration ? $registration->status : -1;
                 $camp_procedure = $camp->camp_procedure();
