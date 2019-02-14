@@ -31,15 +31,15 @@
     </div>
     <div class="row justify-content-center">
         <strong>@lang('camp.BelongingCamps')</strong>
-        <table class="table table-bordered">
-            <tr>
-                <th>@lang('app.ID')</th>
-                <th>@lang('account.Name')</th>
-            </tr>
+        <table class="table table-striped">
+            <thead>
+                <th class="align-middle">@lang('app.ID')</th>
+                <th class="align-middle">@lang('account.Name')</th>
+            </thead>
             @foreach ($data as $key => $camp)
                 <tr>
-                    <td>{{ $camp->id }}</td>
-                    <td><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></td>
+                    <th scope="row">{{ $camp->id }}</th>
+                    <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></th>
                 </tr>
             @endforeach
         </table>

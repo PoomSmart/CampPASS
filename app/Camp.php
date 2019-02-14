@@ -116,6 +116,8 @@ class Camp extends Model
     public function form_scores()
     {
         $question_set = $this->question_set();
+        if (!$question_set)
+            return null;
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         return $form_scores;
     }

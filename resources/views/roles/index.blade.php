@@ -1,4 +1,4 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     @lang('account.ManageRoles')
@@ -8,18 +8,18 @@
     <a class="btn btn-success" href="{{ route('roles.create') }}">@lang('account.CreateRole')</a>
 @endsection
 
-@section('content')
-    <table class="table table-bordered">
-        <tr>
-            <th>@lang('app.No_')</th>
-            <th>@lang('app.Name')</th>
+@section('card_content')
+    <table class="table table-striped">
+        <thead>
+            <th class="align-middle">@lang('app.No_')</th>
+            <th class="align-middle">@lang('app.Name')</th>
             <th width="250px">@lang('app.Actions')</th>
-        </tr>
+        </thead>
             @foreach ($roles as $key => $role)
                 <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $role->name }}</td>
-                    <td>
+                    <th scope="row">{{ ++$i }}</th>
+                    <th class="align-middle">{{ $role->name }}</th>
+                    <td class="align-middle">
                         <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">@lang('app.Show')</a>
                         @can('role-edit')
                             <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">@lang('app.Edit')</a>

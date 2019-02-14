@@ -1,33 +1,33 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     @lang('account.ManageUsers')
 @endsection
 
 @section('content')
-    <table class="table table-bordered">
-        <tr>
-            <th>@lang('app.No_')</th>
-            <th>@lang('account.Username')</th>
-            <th>@lang('account.FullName')</th>
-            <th>@lang('account.Email')</th>
-            <th>@lang('account.Roles')</th>
-            <th>@lang('app.Actions')</th>
-        </tr>
+    <table class="table table-striped">
+        <thead>
+            <th class="align-middle">@lang('app.No_')</th>
+            <th class="align-middle">@lang('account.Username')</th>
+            <th class="align-middle">@lang('account.FullName')</th>
+            <th class="align-middle">@lang('account.Email')</th>
+            <th class="align-middle">@lang('account.Roles')</th>
+            <th class="align-middle">@lang('app.Actions')</th>
+        </thead>
         @foreach ($data as $key => $user)
             <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $user->username }}</td>
-                <td><a href="{{ route('profiles.show', $user) }}" target="_blank">{{ $user->getFullName() }}</a></td>
-                <td>{{ $user->email }}</td>
-                <td>
+                <th scope="row">{{ ++$i }}</th>
+                <th class="align-middle">{{ $user->username }}</th>
+                <th class="align-middle"><a href="{{ route('profiles.show', $user) }}" target="_blank">{{ $user->getFullName() }}</a></th>
+                <td class="align-middle">{{ $user->email }}</td>
+                <td class="align-middle">
                     @if (!empty($user->getRoleNames()))
                         @foreach ($user->getRoleNames() as $v)
                             <label class="badge badge-success">{{ $v }}</label>
                         @endforeach
                     @endif
                 </td>
-                <td>
+                <td class="align-middle">
                     <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
                     <a class="btn btn-primary" href="{{ route('users.edit', $user) }}">@lang('app.Edit')</a>
                         {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}

@@ -1,10 +1,10 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     {{ $camp }}
 @endsection
 
-@section('content')
+@section('card_content')
     <p>{{ $category }} - {{ $camp->camp_procedure()->getTitle() }} - {{ $camp->getShortDescription() }}</p>
     @can('camper-list')
         @can('answer-list')
@@ -20,31 +20,32 @@
                 </div>
             @endif
             <div class="col-12">
-                @if (count($data))
+                @if ($data && count($data))
                     <h3>@lang('camper.RegisteredCampers')</h3>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>@lang('registration.ID')</th>
-                            <th>@lang('account.Name')</th>
-                            <th>@lang('account.School')</th>
-                            <th>@lang('camper.Program')</th>
-                            <th>@lang('registration.Status')</th>
-                            <th>@lang('qualification.Finalized')</th>
-                            <th>@lang('app.Actions')</th>
-                        </tr>
+                    <table class="table table-striped">
+                        <thead>
+                            <th class="align-middle">@lang('registration.ID')</th>
+                            <th class="align-middle">@lang('account.Name')</th>
+                            <th class="align-middle">@lang('account.School')</th>
+                            <th class="align-middle">@lang('camper.Program')</th>
+                            <th class="align-middle">@lang('registration.Status')</th>
+                            <th class="align-middle">@lang('qualification.Finalized')</th>
+                            <th class="align-middle">@lang('app.Actions')</th>
+                        </thead>
                         @foreach ($data as $key => $form_score)
                             <?php
                                 $registration = $form_score->registration();
                                 $camper = $registration->camper();
                             ?>
                             <tr>
-                                <td>{{ $registration->id }}</td>
-                                <td><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></td>
-                                <td>{{ $camper->school() }}</td>
-                                <td>{{ $camper->program() }}</td>
-                                <td>{{ $registration->getStatus() }}</td>
-                                <td>{{ $manual_grading_required && !$form_score->finalized ? trans('app.No') : trans('app.Yes')  }}</td>
-                                <td>
+                                <th class="align-middle" scope="row">{{ $registration->id }}</th>
+                                <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                                <td class="align-middle">{{ $camper->school() }}</td>
+                                <td class="align-middle">{{ $camper->program() }}</td>
+                                <td class="align-middle text-center">{{ $registration->getStatus() }}</td>
+                                <?php $not_finalized = $manual_grading_required && !$form_score->finalized; ?>
+                                <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
+                                <td class="align-middle">
                                     @if ($rankable)
                                         <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
                                             href="{{ route('qualification.answer_grade', [$registration->id, $camp->question_set()->id]) }}">@lang('registration.View')</a>
@@ -55,7 +56,7 @@
                     </table>
                     {!! $data->links() !!}
                 @else
-                    <p>@lang('registration.EmptyRegistration')</p>
+                    <span class="text-muted">@lang('registration.EmptyRegistration')</span>
                 @endif
             </div>
             @if ($rankable && count($data))

@@ -1,4 +1,4 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     @lang('camp.Camps')
@@ -14,28 +14,26 @@
     @endsection
 @endcan
 
-@section('content')
+@section('card_content')
     @component('components.dialog', [
         'body' => 'Are you sure you want to delete this camp?',
         'confirm_type' => 'danger',
         'method' => 'DELETE',
     ])
     @endcomponent
-    <table class="table table-bordered">
-        <tr>
-            <th>@lang('app.No_')</th>
-            <th>@lang('camp.Name')</th>
-            <th>@lang('camp.ShortDescription')</th>
-            <th>@lang('camper.RegisteredCampers')</th>
-            <th>@lang('camp.Status')</th>
-            <th>Grading Type</th>
-            <th width="240px">@lang('app.Actions')</th>
-        </tr>
+    <table class="table table-striped">
+        <thead>
+            <th class="align-middle">@lang('app.No_')</th>
+            <th class="align-middle">@lang('camp.Name')</th>
+            <th class="align-middle">@lang('camper.RegisteredCampers')</th>
+            <th class="align-middle">Grading Type</th>
+            <th class="align-middle">@lang('camp.Status')</th>
+            <th class="align-middle" width="240px">@lang('app.Actions')</th>
+        </thead>
 	    @foreach ($camps as $camp)
 	    <tr>
-	        <td>{{ ++$i }}</td>
-	        <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></td>
-            <td>{{ $camp->getShortDescription() }}</td>
+	        <th scope="row" class="align-middle">{{ ++$i }}</th>
+	        <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             <?php
                 if ($camp->approved) {
                     $registration_count = $camp->campers(null)->count();
@@ -44,13 +42,13 @@
                 } else
                     $registration_count = 0;
             ?>
-            <td>{{ $registration_count }}</td>
-            <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
-            <td>{{ $camp->gradingType() }}</td>
-	        <td>
+            <td class="align-middle">{{ $registration_count }}</td>
+            <td class="align-middle">{{ $camp->gradingType() }}</td>
+            <td class="align-middle{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
+	        <td class="align-middle">
                 @if (!$camp->approved)
                     @can('camp-approve')
-                        <form action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
+                        <form class="d-inline-block" action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
                             @csrf
                             <button type="submit" class="btn btn-warning">@lang('app.Approve')</button>
                         </form>
