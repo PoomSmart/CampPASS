@@ -41,8 +41,7 @@
                     $registration_count = $camp->campers(null)->count();
                     if ($camp->quota)
                         $registration_count = "{$registration_count} / {$camp->quota}";
-                }
-                else
+                } else
                     $registration_count = 0;
             ?>
             <td>{{ $registration_count }}</td>
