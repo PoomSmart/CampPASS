@@ -36,7 +36,15 @@
 	        <td>{{ ++$i }}</td>
 	        <td><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></td>
             <td>{{ $camp->getShortDescription() }}</td>
-            <td>{{ $camp->approved ? $camp->campers(null)->count() : 0 }}</td>
+            <?php
+                if ($camp->approved) {
+                    $registration_count = $camp->campers(null)->count();
+                    if ($camp->quota)
+                        $registration_count = "{$registration_count} / {$camp->quota}";
+                } else
+                    $registration_count = 0;
+            ?>
+            <td>{{ $registration_count }}</td>
             <td>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
             <td>{{ $camp->gradingType() }}</td>
 	        <td>

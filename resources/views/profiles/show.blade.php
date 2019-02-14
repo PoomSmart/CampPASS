@@ -51,7 +51,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                </div>
             </div>
             {{-- Badges --}}
             @if (!empty($badges))

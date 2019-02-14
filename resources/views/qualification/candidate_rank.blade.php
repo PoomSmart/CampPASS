@@ -6,13 +6,13 @@
 
 @section('card_content')
     <p>Passing criteria: {{ $question_set->score_threshold * 100 }}%</p>
-    <table class="table table-bordered">
-        <tr>
+    <table class="table table-striped">
+        <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('account.FullName')</th>
             <th>@lang('qualification.Score')</th>
             <th>@lang('qualification.Passed')</th>
-        </tr>
+        </thead>
         <?php
             $i = $passed = 0;
         ?>
@@ -22,10 +22,13 @@
                 $camper = $registration->camper();
             ?>
             <tr>
-                <td>{{ ++$i }}</td>
-                <td><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></td>
+                <th scope="row">{{ ++$i }}</th>
+                <th><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
                 <td>{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
-                <td>{{ ($question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold)) ? trans('app.Yes') : trans('app.No') }}</td>
+                <?php
+                    $passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
+                ?>
+                <td class="text-center{{ $passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $passed ? trans('app.Yes') : trans('app.No') }}</td>
                 <?php if (isset($camper_pass) && $camper_pass) ++$passed; ?>
             </tr>
         @endforeach

@@ -64,6 +64,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'app_close_date' => $app_close_date,
         'event_start_date' => $event_start_date,
         'event_end_date' => $event_end_date,
+        'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'approved' => Common::randomVeryFrequentHit() ? true : false,
     ];
 });
