@@ -17,7 +17,7 @@
         </thead>
             @foreach ($roles as $key => $role)
                 <tr>
-                    <th scope="row">{{ ++$i }}</th>
+                    <th class="align-middle" scope="row">{{ ++$i }}</th>
                     <th class="align-middle">{{ $role->name }}</th>
                     <td class="align-middle">
                         <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">@lang('app.Show')</a>

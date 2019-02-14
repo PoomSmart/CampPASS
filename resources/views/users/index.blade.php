@@ -16,7 +16,7 @@
         </thead>
         @foreach ($data as $key => $user)
             <tr>
-                <th scope="row">{{ ++$i }}</th>
+                <th class="align-middle" scope="row">{{ ++$i }}</th>
                 <th class="align-middle">{{ $user->username }}</th>
                 <th class="align-middle"><a href="{{ route('profiles.show', $user) }}" target="_blank">{{ $user->getFullName() }}</a></th>
                 <td class="align-middle">{{ $user->email }}</td>

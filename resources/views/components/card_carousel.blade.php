@@ -1,5 +1,8 @@
-<?php if (!isset($rows)) $rows = 1 ?>
-<?php $mod = 3 * $rows ?>
+<?php
+    if (!isset($rows))
+        $rows = 1;
+    $mod = 3 * $rows;
+?>
 <div id="{{ $id }}" class="carousel slide mt-2" data-ride="carousel">
     <div class="container mb-2">
         <div class="row justify-content-between no-gutters">

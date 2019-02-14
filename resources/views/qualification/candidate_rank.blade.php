@@ -22,7 +22,7 @@
                 $camper = $registration->camper();
             ?>
             <tr>
-                <th scope="row">{{ ++$i }}</th>
+                <th class="align-middle" scope="row">{{ ++$i }}</th>
                 <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                 <?php

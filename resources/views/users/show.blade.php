@@ -38,7 +38,7 @@
             </thead>
             @foreach ($data as $key => $camp)
                 <tr>
-                    <th scope="row">{{ $camp->id }}</th>
+                    <th class="align-middle" scope="row">{{ $camp->id }}</th>
                     <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></th>
                 </tr>
             @endforeach
