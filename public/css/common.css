@@ -80,3 +80,15 @@ label[required]::after {
     column-count: 1;
   }
 }
+
+.next {
+  color: #4e4a45;
+}
+
+.prev {
+  color: #4e4a45;
+}
+
+a:hover {
+  color: gray;
+}
