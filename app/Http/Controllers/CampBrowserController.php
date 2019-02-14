@@ -29,7 +29,7 @@ class CampBrowserController extends Controller
             foreach ($camps->latest()->get()->chunk(3) as $chunk) {
                 foreach ($chunk as $camp) {
                     $category = $camp->camp_category();
-                    $category_name = $category->name;
+                    $category_name = $category->getName();
                     if (!isset($output_camps[$category_name])) {
                         $output_camps[$category_name] = [];
                         $category_ids[$category_name] = $category->id;
