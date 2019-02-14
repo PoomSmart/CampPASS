@@ -47,21 +47,23 @@
                         <div class="row">
                             @foreach ($camps->get() as $camp)
                                 <div class="col-md-6">
-                                <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
+                                    <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
                                 </div>
                             @endforeach
                         </div>
                     </div>
             </div>
             {{-- Badges --}}
-           <h4 class="mb-4">@lang('camp.Badges')</h4>
-            <div class="row">
-                @foreach ($badges as $badge)
-                    <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
-                        <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
-                    </div>
-                @endforeach
-            </div>
+            @if (!empty($badges))
+                <h4 class="mb-4">@lang('camp.Badges')</h4>
+                <div class="row">
+                    @foreach ($badges as $badge)
+                        <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2">
+                            <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 @endsection
