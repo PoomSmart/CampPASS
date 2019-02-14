@@ -159,7 +159,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => '3 Stars Architectural' , 'description' => 'badge.3StarsArchitecturalDescription' ],
             [ 'name' => '3 Stars Law', 'description' => 'badge.3StarsLawDescription' ],
             [ 'name' => '3 Stars Language-Human', 'description' => 'badge.3StarsLanguage-HumanDescription' ],
-            [ 'name' => '3 Stars Commarts', 'description' => 'badge.3StarsCommartsDescription' ],
+            [ 'name' => '3 Stars Commart', 'description' => 'badge.3StarsCommartDescription' ],
             [ 'name' => '3 Stars Health', 'description' => 'badge.3StarsHealthDescription' ],
             [ 'name' => '3 Stars Doctor', 'description' => 'badge.3StarsDoctorDescription' ],
             [ 'name' => '3 Stars Nurse', 'description' => 'badge.3StarsNurseDescription' ],
