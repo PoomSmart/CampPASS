@@ -4,7 +4,7 @@
     @lang('account.ManageUsers')
 @endsection
 
-@section('content')
+@section('card_content')
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>
