@@ -5,6 +5,7 @@ namespace App;
 use App\CampCategory;
 use App\CampProcedure;
 use App\CertificateTemplate;
+use App\FormScore;
 use App\Organization;
 use App\QuestionSet;
 use App\Registration;
@@ -110,6 +111,13 @@ class Camp extends Model
     {
         $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
         return $registration->exists() ? $registration->first() : null;
+    }
+
+    public function form_scores()
+    {
+        $question_set = $this->question_set();
+        $form_scores = FormScore::where('question_set_id', $question_set->id);
+        return $form_scores;
     }
 
     public function isFull()

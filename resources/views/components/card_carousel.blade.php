@@ -13,7 +13,6 @@
         </div>
     </div>
     <div class="container pt-0 carousel-inner px-0">
-        <!-- TODO: three-columns can suck when the screen is not too small -->
         @foreach (array_chunk($objects, $mod, true) as $index => $chunk)
             <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
                 @foreach ($chunk as $object)

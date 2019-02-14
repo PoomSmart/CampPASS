@@ -1,4 +1,4 @@
-@extends('layouts.table')
+@extends('layouts.blank')
 
 @section('header')
     @lang('camper.MyCamps')

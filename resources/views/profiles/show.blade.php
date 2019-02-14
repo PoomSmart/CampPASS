@@ -4,8 +4,12 @@
     {{ \Auth::user()->getFullName() }}
 @endsection
 
-@section('content')
-    <div class="row">
+@section('extra-buttons')
+    <a href="{{ route('profiles.edit', \Auth::user()->id) }}" class="btn btn-primary w-50">Update Profile</a>
+@endsection
+
+@section('card_content')
+    <div class="row mt-4">
         <div class="col-md-4 text-center">
             <img src="https://via.placeholder.com/150" alt="..." class="img-circle">
         </div>

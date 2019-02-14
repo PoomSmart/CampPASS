@@ -1,4 +1,4 @@
-@extends('layouts.table')
+@extends('layouts.blank')
 
 @section('header')
     @lang('qualification.CandidateRanking') {{ $question_set->announced ? '(Announced)' : null }}
