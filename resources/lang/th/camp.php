@@ -11,6 +11,7 @@ return [
     'Status' => 'สถานะ',
     'ApprovalPending' => 'รอดำเนินการ',
     'Approved' => 'ยืนยัน',
+    'AcceptableProgramsShort' => 'สายการเรียนที่ยอมรับ',
     'AcceptablePrograms' => 'สายการเรียนที่ยอมรับ',
     'AcceptableRegions' => 'ภูมิภาคที่ยอมรับ',
     'AcceptableYears' => 'ปีการศึกษาที่ยอมรับ',
@@ -25,6 +26,7 @@ return [
     'EventStartDate' => 'วันเริ่มการจัดค่าย',
     'EventEndDate' => 'วันสิ้นสุดการจัดค่าย',
     'Quota' => 'โควต้า',
+    'UnlimitedQuota' => 'ไม่จำกัดจำนวน',
     'CreateCamp' => 'สร้างค่ายใหม่',
     'BelongingCamps' => 'ค่ายที่เข้า',
     'CampProcedure' => 'ประเภทการสมัคร',
@@ -41,4 +43,6 @@ return [
     'Camps' => 'ค่าย',
     'OrganizeCamps' => 'จัดระเบียบค่าย',
     'BrowseCamps' => 'ค้นหาค่าย',
+    'CampLocation' => 'สถานที่จัดค่าย',
+    'CampFor' => 'ค่ายสำหรับ',
 ];

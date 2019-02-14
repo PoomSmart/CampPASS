@@ -11,6 +11,7 @@ return [
     'Status' => 'Status',
     'ApprovalPending' => 'Pending',
     'Approved' => 'Approved',
+    'AcceptableProgramsShort' => 'Acceptable Programs',
     'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',
     'AcceptableYears' => 'Acceptable Years',
@@ -25,6 +26,7 @@ return [
     'EventStartDate' => 'Event Start Date',
     'EventEndDate' => 'Event End Date',
     'Quota' => 'Quota',
+    'UnlimitedQuota' => 'Unlimited Quota',
     'CreateCamp' => 'Create New Camp',
     'BelongingCamps' => 'Belonging Camps',
     'CampProcedure' => 'Registration Type',
@@ -42,4 +44,6 @@ return [
     'OrganizeCamps' => 'Organize Camps',
     'BrowseCamps' => 'Browse Camps',
     'Badges' => 'Badges',
+    'CampLocation' => 'Camp Location',
+    'CampFor' => 'Camp For',
 ];

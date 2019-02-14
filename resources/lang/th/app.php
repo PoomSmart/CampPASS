@@ -21,7 +21,9 @@ return [
     'Next' => 'ไปต่อ',
     'Yes' => 'ใช่',
     'No' => 'ไม่',
-    'Actions' => 'Actions',
+    'Actions' => 'คำสั่ง',
     'Approve' => 'ยอมรับ',
+    'Unspecified' => 'ไม่ระบุ',
+    'None' => 'ไม่มี',
     'NoPermissionError' => "คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้",
 ];
