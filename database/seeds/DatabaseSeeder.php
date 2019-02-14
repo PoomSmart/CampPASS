@@ -151,11 +151,11 @@ class DatabaseSeeder extends Seeder
         BadgeCategory::insert([
             [ 'name' => 'Pioneer', 'description' => 'badge.PioneerDescription' ],
             [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription' ],
-            [ 'name' => 'Baby-Step', 'description' => 'badge.Baby-StepDescription' ],
+            [ 'name' => 'BabyStep', 'description' => 'badge.BabyStepDescription' ],
             [ 'name' => '3 Stars Engineering', 'description' => 'badge.3StarsEngineerDescription' ],
             [ 'name' => '3 Stars Science', 'description' => 'badge.3StarsScienceDescription' ],
             [ 'name' => '3 Stars Computer', 'description' => 'badge.3StarsComputerDescription' ],
-            [ 'name' => '3 Stars Teacher', 'description' => 'badge.3StarsTeacherDescription' ],
+            [ 'name' => '3 Stars Education', 'description' => 'badge.3StarsEducationDescription' ],
             [ 'name' => '3 Stars Architectural' , 'description' => 'badge.3StarsArchitecturalDescription' ],
             [ 'name' => '3 Stars Law', 'description' => 'badge.3StarsLawDescription' ],
             [ 'name' => '3 Stars Language-Human', 'description' => 'badge.3StarsLanguage-HumanDescription' ],
