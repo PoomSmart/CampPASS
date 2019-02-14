@@ -37,5 +37,7 @@
             </tr>
         @endforeach
     </table>
-    {!! $data->render() !!}
+    <div class="d-flex justify-content-center">
+        {!! $data->links() !!}
+    </div>
 @endsection

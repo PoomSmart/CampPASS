@@ -25,6 +25,7 @@ Route::group(['middleware' => ['permission:camp-list']], function() {
     Route::resource('camps', 'CampController');
     Route::prefix('camps')->group(function () {
         Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
+        Route::get('/registration/{camp}', 'CampController@registration')->name('camps.registration');
     });
 });
 

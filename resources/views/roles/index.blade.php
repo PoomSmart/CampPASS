@@ -33,5 +33,7 @@
                 </tr>
             @endforeach
     </table>
-    {!! $roles->render() !!}
+    <div class="d-flex justify-content-center">
+        {!! $roles->links() !!}
+    </div>
 @endsection

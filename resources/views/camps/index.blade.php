@@ -10,7 +10,7 @@
 
 @can('camp-create')
     @section('extra-buttons')
-        <a class="btn btn-success" href="{{ route('camps.create') }}">@lang('camp.CreateCamp')</a>
+        <a class="btn btn-success w-50" href="{{ route('camps.create') }}">@lang('camp.CreateCamp')</a>
     @endsection
 @endcan
 
@@ -42,7 +42,7 @@
                 } else
                     $registration_count = 0;
             ?>
-            <td class="align-middle">{{ $registration_count }}</td>
+            <td class="align-middle"><a href="{{ route('camps.registration', $camp) }}">{{ $registration_count }}</a></td>
             <td class="align-middle">{{ $camp->gradingType() }}</td>
             <td class="align-middle{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
 	        <td class="align-middle">
@@ -72,5 +72,7 @@
 	    </tr>
         @endforeach
     </table>
-    {!! $camps->links() !!}
+    <div class="d-flex justify-content-center">
+        {!! $camps->links() !!}
+    </div>
 @endsection
