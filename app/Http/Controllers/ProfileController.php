@@ -22,12 +22,7 @@ class ProfileController extends Controller
     function __construct()
     {
         $this->middleware('auth', ['only' => ['edit', 'store', 'update']]);
-        $this->religions = Common::values(Religion::class);
         $this->organizations = null;
-        $this->schools = Common::values(School::class);
-        $this->provinces = Common::values(Province::class);
-        $this->programs = Common::values(Program::class);
-        $this->education_levels = EducationLevel::getLocalizedConstants('camper');
     }
 
     public function index()
@@ -55,11 +50,11 @@ class ProfileController extends Controller
     public function edit(User $user)
     {
         $this->authenticate($user, $me = true);
-        $religions = $this->religions;
-        $schools = $this->schools;
-        $provinces = $this->provinces;
-        $programs = $this->programs;
-        $education_levels = $this->education_levels;
+        $religions = Common::values(Religion::class);
+        $schools = Common::values(School::class);
+        $provinces = Common::values(Province::class);
+        $programs = Common::values(Program::class);
+        $education_levels = EducationLevel::getLocalizedConstants('camper');
         View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
     }
