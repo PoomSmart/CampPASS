@@ -7,7 +7,7 @@ return [
     'CHECKBOXES' => 'ช่องทำเครื่องหมาย',
     'FILE' => 'อัปโหลดไฟล์',
     'Type' => 'ประเภท',
-    'Graded' => 'Graded',
+    'Graded' => 'ตรวจแล้ว',
     'Question' => 'คำถาม',
     'CreateQuestions' => 'สร้างคำถาม',
     'EnterQuestionPlaceholder' => 'เขียนคำถามตรงนี้',
