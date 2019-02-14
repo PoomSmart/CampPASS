@@ -25,5 +25,7 @@ return [
     'Approve' => 'Approve',
     'Confirm' => 'Confirm',
     'Confirmation' => 'Confirmation',
+    'Unspecified' => 'Unspecified',
+    'None' => 'None',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
 ];
