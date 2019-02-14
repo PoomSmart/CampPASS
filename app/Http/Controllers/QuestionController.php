@@ -29,20 +29,6 @@ class QuestionController extends Controller
     }
 
     /**
-     * Check whether the given camp can be manipulated by the current user.
-     * The function returns the camp object if the user can.
-     * 
-     */
-    private function authenticate($camp_id)
-    {
-        $camp = Camp::find($camp_id);
-        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
-            throw new \App\Exceptions\ApproveCampException();
-        \Auth::user()->can_manage_camp($camp);
-        return $camp;
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Https\Requests\StoreQuestionRequest  $request
@@ -50,7 +36,7 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestionRequest $request)
     {
-        $camp = $this->authenticate($request->input('camp_id'));
+        $camp = Common::authenticate_camp($request->input('camp_id'));
         $content = $request->all();
         $question_set = QuestionSet::updateOrCreate([
             'camp_id' => $camp->id,
@@ -91,7 +77,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $camp = $this->authenticate($id);
+        $camp = Common::authenticate_camp($id);
         $camp_id = $camp->id;
         $question_set = QuestionSet::where('camp_id', $camp_id)->first();
         if ($question_set) {

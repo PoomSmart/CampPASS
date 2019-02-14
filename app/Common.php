@@ -127,4 +127,18 @@ class Common
             return $record->__toString();
         });
     }
+
+    /**
+     * Check whether the given camp can be manipulated by the current user.
+     * The function returns the camp object if the user can.
+     * 
+     */
+    public static function authenticate_camp($camp_id)
+    {
+        $camp = Camp::find($camp_id);
+        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
+            throw new \App\Exceptions\ApproveCampException();
+        \Auth::user()->can_manage_camp($camp);
+        return $camp;
+    }
 }

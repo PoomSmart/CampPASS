@@ -14,18 +14,24 @@ use Illuminate\Http\Request;
 
 class QualificationController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Grade an application form from a camper (represented by a registration record) and the respective question set
      * 
      */
     public static function answer_grade($registration_id, $question_set_id, $silent = false)
     {
-        $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->first();
+        $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($silent) {
             if ($form_score && isset($form_score->total_score))
                 return $form_score->total_score;
         }
         $registration = Registration::findOrFail($registration_id);
+        Common::authenticate_camp($registration->camp_id);
         if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\CampPassException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper();
@@ -99,7 +105,8 @@ class QualificationController extends Controller
 
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
     {
-        $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->first();
+        Common::authenticate_camp($registration->camp_id);
+        $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($form_score->finalized)
             throw new \App\Exceptions\CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
         $form_data = $request->all();
@@ -128,7 +135,7 @@ class QualificationController extends Controller
 
     public static function form_finalize(FormScore $form_score)
     {
-        // TODO: further permission check?
+        Common::authenticate_camp($form_score->question_set()->camp()->id);
         if (!$form_score->finalized) {
             $form_score->finalized = true;
             $form_score->save();
