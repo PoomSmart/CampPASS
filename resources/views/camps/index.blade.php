@@ -28,7 +28,7 @@
             <th class="align-middle">@lang('camper.RegisteredCampers')</th>
             <th class="align-middle">Grading Type</th>
             <th class="align-middle">@lang('camp.Status')</th>
-            <th class="align-middle" width="240px">@lang('app.Actions')</th>
+            <th class="align-middle" width="250px">@lang('app.Actions')</th>
         </thead>
 	    @foreach ($camps as $camp)
 	    <tr>
