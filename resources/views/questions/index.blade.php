@@ -25,7 +25,7 @@
         <div id="questions" class="mt-4">
             @component('questions.question', [
                 'title' => 'Title',
-                'label' => 'Question',
+                'label' => trans('question.Question'),
             ]);
             @endcomponent
         </div>

@@ -56,7 +56,7 @@
                 @else
                     @can('question-edit')
                         @if ($camp->camp_procedure()->candidate_required)
-                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">@lang('question.Question')</a>
+                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}">@lang('question.Questions')</a>
                         @endif
                     @endcan
                 @endif

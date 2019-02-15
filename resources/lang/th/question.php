@@ -9,6 +9,7 @@ return [
     'Type' => 'ประเภท',
     'Graded' => 'ตรวจแล้ว',
     'Question' => 'คำถาม',
+    'Questions' => 'คำถาม',
     'CreateQuestions' => 'สร้างคำถาม',
     'EnterQuestionPlaceholder' => 'เขียนคำถามตรงนี้',
     'AddMoreQuestion' => 'เพิ่มคำถาม',

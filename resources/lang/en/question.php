@@ -9,6 +9,7 @@ return [
     'Type' => 'Type',
     'Graded' => 'Graded',
     'Question' => 'Question',
+    'Questions' => 'Questions',
     'CreateQuestions' => 'Create Questions',
     'EnterQuestionPlaceholder' => 'Enter question here',
     'AddMoreQuestion' => 'Add More Question',
