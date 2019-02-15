@@ -1,6 +1,6 @@
-<?php if (empty($type)) {
+@php if (empty($type)) {
     die("An internal error has occurred");
-}?>
+}@endphp
 
 @extends('layouts.card')
 @include('auth.register-basic')

@@ -1,9 +1,9 @@
-<?php
+@php
     $readonly = isset($readonly) && $readonly == 1;
     $required = isset($required) && $required == 1;
     $real_name = isset($range_id) ? "{$name}_{$range_id}" : $name;
     $name_range = isset($range_id) ? "{$name}_range_{$range_id}" : "{$name}_range";
-?>
+@endphp
 <div class="row">
     @if (isset($label))
         <div class="col-12">
@@ -17,10 +17,10 @@
             @endcomponent
         </div>
     @endif
-    <?php
+    @php
         if (!isset($value))
             $value = old($real_name, isset($object) ? $object->{$real_name} : '');
-    ?>
+    @endphp
     <div class="col-md-6">
         @component('components.input', [
             'name' => $real_name,

@@ -1,7 +1,7 @@
 <label
     for="{{ $name }}"
     @if (isset($required) && $required)
-        <?php $label_attributes = 'required' ?>
+        @php $label_attributes = 'required' @endphp
     @endif
     @if (isset($label_attributes))
         {{ $label_attributes }}

@@ -7,12 +7,12 @@
 @section('card_content')
     <p class="text-center">{{ $category->getName() }}</p>
     @can('answer-list')
-        <?php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); ?>
+        @php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); @endphp
     @endcan
     <div class="row">
-        <?php
+        @php
             $manual_grading_required = $camp->question_set() && $camp->question_set()->manual_required && !$camp->question_set()->announced;
-        ?>
+        @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
                 <b class="text-info">** Manual Grading required. **</b>
@@ -32,17 +32,17 @@
                         <th class="align-middle">@lang('app.Actions')</th>
                     </thead>
                     @foreach ($data as $key => $form_score)
-                        <?php
+                        @php
                             $registration = $form_score->registration();
                             $camper = $registration->camper();
-                        ?>
+                        @endphp
                         <tr>
                             <th class="align-middle" scope="row">{{ $registration->id }}</th>
                             <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                             <td class="align-middle">{{ $camper->school() }}</td>
                             <td class="align-middle">{{ $camper->program() }}</td>
                             <td class="align-middle text-center">{{ $registration->getStatus() }}</td>
-                            <?php $not_finalized = $manual_grading_required && !$form_score->finalized; ?>
+                            @php $not_finalized = $manual_grading_required && !$form_score->finalized; @endphp
                             <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
                             <td class="align-middle">
                                 @if ($rankable)

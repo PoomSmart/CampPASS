@@ -1,4 +1,4 @@
-<?php
+@php
     $required = isset($required) && $required == 1;
     if (!isset($disabled)) $disabled = false;
     if (isset($attributes)) {
@@ -9,7 +9,7 @@
     }
     if (!isset($value))
         $value = old($name, isset($object) ? $object->{$name} : '')
-?>
+@endphp
 @if (isset($label))
     @component('components.label', [
         'name' => $name,

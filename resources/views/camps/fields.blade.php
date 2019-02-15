@@ -53,7 +53,7 @@
 ])
 @endcomponent
 
-<?php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); ?>
+@php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); @endphp
 
 @component('components.input', [
     'name' => 'organization_id',

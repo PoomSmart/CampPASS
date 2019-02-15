@@ -15,11 +15,11 @@
         @csrf
         <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
         @foreach ($json['question'] as $key => $text)
-            <?php
+            @php
                 $type = (int)$json['type'][$key];
                 $required = isset($json['question_required'][$key]);
                 $value = isset($json['answer'][$key]) ? $json['answer'][$key] : null;
-            ?>
+            @endphp
             <div class="row">
                 <div class="col-12">
                     <h3 id="question-title">{{ $text }}</h2>

@@ -13,23 +13,23 @@
             <th class="align-middle">@lang('qualification.Score')</th>
             <th class="align-middle">@lang('qualification.Passed')</th>
         </thead>
-        <?php
+        @php
             $i = $passed = 0;
-        ?>
+        @endphp
         @foreach ($form_scores as $form_score)
-            <?php
+            @php
                 $registration = $form_score->registration();
                 $camper = $registration->camper();
-            ?>
+            @endphp
             <tr>
                 <th class="align-middle" scope="row">{{ ++$i }}</th>
                 <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
-                <?php
+                @php
                     $passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
-                ?>
+                @endphp
                 <td class="text-center{{ $passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $passed ? trans('app.Yes') : trans('app.No') }}</td>
-                <?php if (isset($camper_pass) && $camper_pass) ++$passed; ?>
+                @php if (isset($camper_pass) && $camper_pass) ++$passed; @endphp
             </tr>
         @endforeach
     </table>

@@ -13,11 +13,11 @@
     <form action="{{ route('qualification.save_manual_grade', [ $form_score->registration_id, $form_score->question_set_id ]) }}" method="POST">
         @csrf
         @foreach ($data as $pair)
-            <?php
+            @php
                 $question = $pair['question'];
                 $key = $question->json_id;
                 $answer = $pair['answer'];
-            ?>
+            @endphp
             <div class="row mb-4">
                 <div class="col-md-8">
                     <div class="row">
@@ -26,12 +26,12 @@
                         </div>
                         <div class="col-12">
                             <div class="mb-4">
-                                <?php
+                                @php
                                     $type = $question->type;
                                     $key = $question->json_id;
                                     $required = isset($json['question_required'][$key]);
                                     $graded = isset($json['question_graded'][$key]);
-                                ?>
+                                @endphp
                                 @if ($type == \App\Enums\QuestionType::TEXT)
                                     @component('components.input', [
                                         'name' => $key,
@@ -84,10 +84,10 @@
                 </div>
                 <div class="col-md-4 my-auto">
                     @if (isset($json['question_graded'][$key]))
-                        <?php
+                        @php
                             $full_score = $json['question_full_score'][$key];
                             $score = isset($json['question_scored'][$key]) ? $json['question_scored'][$key] : null;
-                        ?>
+                        @endphp
                         @component('components.numeric_range', [
                             'name' => 'manual_score',
                             'range_id' => $key,

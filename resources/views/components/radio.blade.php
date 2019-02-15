@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-12 align-content-start">
-        <?php if (isset($columns)) $col_width = 12 / $columns ?>
+        @php if (isset($columns)) $col_width = 12 / $columns @endphp
         @foreach ($objects as $i => $obj)
-            <?php
+            @php
                 $j = isset($idx) && $idx == 1 ? $i : $obj->id;
                 $checkbox = isset($type) && $type == 'checkbox';
                 $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
                 $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
-            ?>
+            @endphp
             <div class="form-check{{ !isset($noinline) ? ' form-check-inline' : '' }}">
                 <input class="form-check-input"
                     type="{{ isset($type) ? $type : 'radio' }}"
@@ -17,14 +17,14 @@
                     @if (isset($required) && $required == 1)
                         required
                     @endif
-                    <?php
+                    @php
                         $checked = false;
                         if (isset($object)) {
                             $checked = isset($bit) ? $object->{$name} & (1 << $j) : ($checkbox && !is_null($object->{$name}) ? (in_array($j, $object->{$name}, true)) : $object->{$name} == $j);
                         } else {
                             $checked = $selected_value ? ($checkbox ? in_array($j, $selected_value, true) : $selected_value == $j) : old($name, -1) == $j;
                         }
-                    ?>
+                    @endphp
                     @if ($checked)
                         checked
                     @endif

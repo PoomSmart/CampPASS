@@ -7,17 +7,17 @@
                 <div class="alert alert-info text-center">
                     <h3 class="mb-0">{{ $message }}</h3>
                 </div>
-                <?php Session::forget('message'); ?>
+                @php Session::forget('message'); @endphp
             @elseif ($message = Session::get('success'))
                 <div class="alert alert-success text-center">
                     <h3 class="mb-0">{{ $message }}</h3>
                 </div>
-                <?php Session::forget('success'); ?>
+                @php Session::forget('success'); @endphp
             @elseif ($message = Session::get('error'))
                 <div class="alert alert-danger text-center">
                     <h3 class="mb-0">{{ $message }}</h3>
                 </div>
-                <?php Session::forget('error'); ?>
+                @php Session::forget('error'); @endphp
             @endif
             @if ($errors->any())
                 <div class="alert alert-danger">

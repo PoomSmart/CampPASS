@@ -7,12 +7,12 @@
             <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>
             <span class="text-muted"><i class="fas fa-globe-asia mr-2"></i>Location X</span>
         </div>
-        <?php
+        @php
             $info = \App\Http\Controllers\CampApplicationController::get_apply_button_information($object, $short = true);
             $apply_text = $info['text'];
             $disabled = $info['disabled'];
             $route = isset($info['route']) ? $info['route'] : 'camp_application.landing';
-        ?>
+        @endphp
         <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ route($route, $object->id) }}">{{ $apply_text }}</a>
         @if ($object->getCloseDate())
             <p class="card-text text-center mt-2"><small class="text-muted">@lang('registration.WillClose') {{ $object->getCloseDate() }}</small></p>

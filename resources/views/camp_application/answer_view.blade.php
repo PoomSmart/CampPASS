@@ -6,22 +6,22 @@
 
 @section('card_content')
     @foreach ($data as $pair)
-        <?php
+        @php
             $question = $pair['question'];
             $key = $question->json_id;
             $answer = $pair['answer'];
-        ?>
+        @endphp
         <div class="row">
             <div class="col-12">
                 <h4 id="question-title">{{ $json['question'][$key] }}</h4>
             </div>
             <div class="col-12">
                 <div class="mb-4">
-                    <?php
+                    @php
                         $type = $question->type;
                         $key = $question->json_id;
                         $required = isset($json['question_required'][$key]);
-                    ?>
+                    @endphp
                     @if ($type == \App\Enums\QuestionType::TEXT)
                         @component('components.input', [
                             'name' => $key,

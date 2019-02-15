@@ -57,11 +57,11 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <?php
+                    @php
                         $info = \App\Http\Controllers\CampApplicationController::get_apply_button_information($camp);
                         $apply_text = $info['text'];
                         $disabled = $info['disabled'];
-                    ?>
+                    @endphp
                     <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
                         href="{{ route('camp_application.landing', $camp->id) }}"
                     >{{ $apply_text }}</a>

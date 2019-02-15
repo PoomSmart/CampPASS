@@ -43,7 +43,8 @@ class ProfileController extends Controller
     public function show(User $user)
     {
         $this->authenticate($user);
-        $badges = Common::values(Badge::class, 'camper_id', \Auth::user()->id);
+        if ($user->isCamper())
+            $badges = Common::values(Badge::class, 'camper_id', $user->id);
         return view('profiles.show', compact('user', 'badges'));
     }
 

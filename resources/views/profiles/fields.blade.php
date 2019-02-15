@@ -1,6 +1,6 @@
-<?php
+@php
     $camper = $type == config('const.account.camper') ? 1 : null;
-?>
+@endphp
 <h3 class="mt-4">About You</h3>
     <div class="row">
         <div class="col-md-6">
