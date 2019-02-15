@@ -147,7 +147,7 @@ class CampController extends Controller
     {
         $camp->approved = true;
         $camp->save();
-        return redirect()->route('camps.index')->with('success', "Camp {$camp} has been approved");
+        return redirect()->back()->with('success', "Camp {$camp} has been approved.");
     }
 
     /**
@@ -161,7 +161,7 @@ class CampController extends Controller
     {
         \Auth::user()->can_manage_camp($camp);
         $camp->update($request->all());
-        return redirect()->route('camps.index')->with('success', "Camp {$camp} updated successfully");
+        return redirect()->route('camps.index')->with('success', "Camp {$camp} has been updated successfully.");
     }
 
     /**
