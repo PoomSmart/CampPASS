@@ -46,4 +46,5 @@ return [
     'Badges' => 'Badges',
     'CampLocation' => 'Camp Location',
     'CampFor' => 'Camp For',
+    'GradingType' => 'Grading Type',
 ];

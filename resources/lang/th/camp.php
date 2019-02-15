@@ -45,4 +45,6 @@ return [
     'BrowseCamps' => 'ค้นหาค่าย',
     'CampLocation' => 'สถานที่จัดค่าย',
     'CampFor' => 'ค่ายสำหรับ',
+    'GradingType' => 'ประเภทการตรวจคะแนน',
+
 ];

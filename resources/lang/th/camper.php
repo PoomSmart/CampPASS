@@ -17,7 +17,7 @@ return [
     'GuardianRole' => 'ความสัมพันธ์',
     'GuardianRoleText' => 'ความสัมพันธ์',
     'CGPA' => 'เกรดเฉลี่ยสะสม(CGPA)',
-    'RegisteredCampers' => 'ค่ายที่สมัคร',
+    'RegisteredCampers' => 'จำนวนน้องค่าย',
     'MyCamps' => 'ค่ายของคุณ',
     
 ];
