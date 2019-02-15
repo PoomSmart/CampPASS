@@ -159,7 +159,6 @@ class PermissionTableSeeder extends Seeder
             'camp-list',
             'camp-create',
             'camp-edit',
-            'camp-delete',
             // camp makers can see the list of campers
             'camper-list',
             // camp makers can manage their account
