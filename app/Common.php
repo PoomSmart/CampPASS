@@ -133,12 +133,15 @@ class Common
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate_camp($camp_id)
+    public static function authenticate_camp($camp_id, $silent = false)
     {
         $camp = Camp::find($camp_id);
-        if (!$camp->approved && !\Auth::user()->hasRole('admin'))
-            throw new \App\Exceptions\ApproveCampException();
-        \Auth::user()->can_manage_camp($camp);
+        if (!$silent) {
+            $user = \Auth::user();
+            if (!$camp->approved && !$user->hasRole('admin'))
+                throw new \App\Exceptions\ApproveCampException();
+            $user->can_manage_camp($camp);
+        }
         return $camp;
     }
 }

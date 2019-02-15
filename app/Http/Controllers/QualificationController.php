@@ -133,9 +133,9 @@ class QualificationController extends Controller
         return redirect()->back()->with('success', 'Scores are updated successfully.');
     }
 
-    public static function form_finalize(FormScore $form_score)
+    public static function form_finalize(FormScore $form_score, $silent = false)
     {
-        Common::authenticate_camp($form_score->question_set()->camp()->id);
+        Common::authenticate_camp($form_score->question_set()->camp()->id, $silent = $silent);
         if (!$form_score->finalized) {
             $form_score->finalized = true;
             $form_score->save();

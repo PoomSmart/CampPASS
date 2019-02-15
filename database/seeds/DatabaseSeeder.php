@@ -206,7 +206,7 @@ class DatabaseSeeder extends Seeder
                 } catch (\Exception $e) {
                     return false;
                 }
-                return Common::randomVeryFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
+                return Common::randomFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
             }) as $camp) {
                 $done = true;
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
@@ -419,7 +419,7 @@ class DatabaseSeeder extends Seeder
         // Now we can mark all application forms with manual grading as finalized
         $this->log('-> finalizing respective form scores');
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
-            QualificationController::form_finalize($manual_form_score);
+            QualificationController::form_finalize($manual_form_score, $silent = true);
         }
         unset($faker);
     }
