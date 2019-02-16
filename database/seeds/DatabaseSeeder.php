@@ -195,7 +195,6 @@ class DatabaseSeeder extends Seeder
         // First, fake registrations of campers who are eligible for
         $this->log_seed('registrations');
         $registrations = [];
-        $manual_grade_question_set_ids = [];
         $form_scores = [];
         foreach (User::campers()->cursor() as $camper) {
             $done = false;
@@ -229,10 +228,12 @@ class DatabaseSeeder extends Seeder
             }
         }
         Registration::insert($registrations);
+        unset($registrations);
         // Fake questions of several types for the camps that require
         $this->log_seed('questions and answers');
         $answers = [];
         $pairs = [];
+        $questions = [];
         $question_sets = [];
         $question_set_id = 0;
         foreach (Camp::allApproved()->cursor() as $camp) {
@@ -268,6 +269,7 @@ class DatabaseSeeder extends Seeder
             $json['radio_label'] = [];
             $json['checkbox_label'] = [];
             $questions_number = rand($minimum_questions, $maximum_questions);
+            $question_id = 0;
             while ($questions_number--) {
                 $question_type = $question_set_try_auto ? QuestionType::CHOICES : QuestionType::any();
                 // Requirement: file upload is always required and graded
@@ -319,15 +321,17 @@ class DatabaseSeeder extends Seeder
                         $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
                         break;
                 }
-                $question = Question::create([
+                ++$question_id;
+                $question_full_score = 10; // TODO: user-specified?
+                $questions[] = [
                     'json_id' => $json_id,
                     'type' => $question_type,
-                    'full_score' => $graded ? 10.0 : null,
-                ]);
-                $question_set_total_score += $question->full_score;
+                    'full_score' => $graded ? $question_full_score : null,
+                ];
+                $question_set_total_score += $question_full_score;
                 $pairs[] = [
                     'question_set_id' => $question_set_id,
-                    'question_id' => $question->id,
+                    'question_id' => $question_id,
                 ];
                 // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($eligible_campers as $camper) {
@@ -356,17 +360,22 @@ class DatabaseSeeder extends Seeder
                             break;
                     }
                     $answer = Common::encodeIfNeeded($answer, $question_type);
+                    $can_manual_grade = $graded;
                     $answers[] = [
                         'question_set_id' => $question_set_id,
-                        'question_id' => $question->id,
+                        'question_id' => $question_id,
                         'camper_id' => $camper->id,
                         'registration_id' => $registration->id,
                         'answer' => $answer,
+                        // We take only the questions that need to be graded, i.e., full_score is set
+                        // If the answer does not exist, this as much is of file type and we have yet to "seed" that
+                        'score' => $answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score) : 0.0,
                     ];
                 }
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
+            $question_id = 0;
             foreach ($camp->registrations()->get() as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
@@ -384,7 +393,6 @@ class DatabaseSeeder extends Seeder
                 'manual_required' => $question_set_has_manual_grade,
                 'total_score' => $question_set_total_score,
             ];
-            // For some question sets that require manual grading, we simulate humanly manual grading
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
             // Empty fields are ruled out the same way the form POST does
@@ -395,21 +403,16 @@ class DatabaseSeeder extends Seeder
             $directory = Common::questionSetDirectory($camp->id);
             Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
         }
+        Question::insert($questions);
+        unset($questions);
         QuestionSet::insert($question_sets);
+        unset($question_sets);
         QuestionSetQuestionPair::insert($pairs);
+        unset($pairs);
         FormScore::insert($form_scores);
+        unset($form_scores);
         Answer::insert($answers);
-        // Begin seeding of manual grading at the outmost scope
-        $this->log('-> seeding manually-graded scores');
-        foreach (Answer::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_grade_answer) {
-            $question = $manual_grade_answer->question();
-            // We take only the questions that need to be graded, i.e., full_score is set
-            if ($question->full_score) {
-                // If the answer does not exist, this as much is of file type and we have yet to "seed" that
-                $manual_grade_answer->score = $manual_grade_answer->answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question->full_score) : 0.0;
-                $manual_grade_answer->save();
-            }
-        }
+        unset($answers);
         // Now we can mark all application forms with manual grading as finalized
         $this->log('-> finalizing respective form scores');
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
@@ -437,6 +440,7 @@ class DatabaseSeeder extends Seeder
             }
         }
         Badge::insert($badges);
+        unset($badges);
     }
 
     private function alter_campers()
