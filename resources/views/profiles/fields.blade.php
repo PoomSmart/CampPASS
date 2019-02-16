@@ -158,17 +158,17 @@
                 <h4 class="col-12 mt-2">Transcript</h4>
                 <div class="col-12">
                     <div class="btn-group d-flex justify-content-between" role="group">
-                        <a href="" class="btn btn-primary w-100">View</a>
-                        <a href="" class="btn btn-primary w-100">Upload</a>
-                        <a href="" class="btn btn-primary w-100">Delete</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.View')</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.Upload')</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.Delete')</a>
                     </div>
                 </div>
                 <h4 class="col-12 mt-2">Student Certificate</h4>
                 <div class="col-12">
                     <div class="btn-group d-flex justify-content-between" role="group">
-                        <a href="" class="btn btn-primary w-100">View</a>
-                        <a href="" class="btn btn-primary w-100">Upload</a>
-                        <a href="" class="btn btn-primary w-100">Delete</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.View')</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.Upload')</a>
+                        <a href="" class="btn btn-primary w-100">@lang('app.Delete')</a>
                     </div>
                 </div>
             </div>

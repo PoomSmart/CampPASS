@@ -62,8 +62,10 @@ class ProfileController extends Controller
 
     public function update(StoreUserRequest $request, User $user)
     {
-        $camp->update($request->all());
-        return redirect('profiles.index')->with('success', 'Profile updated successfully');
+        // TODO: It seems that the user will get logged out after updating their password
+        $this->authenticate($user, $me = true);
+        $user->update($request->all());
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
     public function my_camps(User $user)

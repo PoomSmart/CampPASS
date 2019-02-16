@@ -2,12 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\User;
+
 use App\Enums\EducationLevel;
 
 use App\Rules\ThaiCitizenID;
 use App\Rules\ThaiZipCode;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -54,9 +57,8 @@ class StoreUserRequest extends FormRequest
             'allergy' => 'nullable|string|max:200',
             'province' => 'exists:provinces,id',
             'zipcode' => [
-                'required', 'digits:5', new ThaiZipCode
+                'required', 'digits:5', new ThaiZipCode,
             ],
-            'password' => 'required|string|min:6|confirmed',
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'cgpa' => "nullable|required_if:type,{$CAMPER}|numeric|min:1.0|max:4.0",
@@ -73,15 +75,14 @@ class StoreUserRequest extends FormRequest
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         if ($method == 'PUT' || $method == 'PATCH') {
-            $user = User::find($this->users);
-            $id = $user->id;
-            $citizen_id = $user->citizen_id;
+            $user = \Auth::user();
             $rules += [
                 'citizen_id' => [
-                    'required', 'digits:13', "unique:users,citizen_id,{$citizen_id}", new ThaiCitizenID,
+                    'required', 'digits:13', Rule::unique('users')->ignore($user->citizen_id, 'citizen_id'), new ThaiCitizenID,
                 ],
-                'email' => "required|string|email|max:100|unique:users,email,{$id}",
-                'current_password' => "sometimes|required|current_password|different:password",
+                'email' => "required|string|email|max:100|unique:users,email,{$user->id}",
+                'current_password' => 'nullable',
+                'password' => "nullable|required_with:password_confirmation|string|different:current_password|confirmed",
             ];
         } else if ($method =='POST') {
             $rules += [
@@ -89,8 +90,24 @@ class StoreUserRequest extends FormRequest
                     'required', 'digits:13', "unique:users,citizen_id", new ThaiCitizenID,
                 ],
                 'email' => 'required|string|email|max:100|unique:users,email',
+                'password' => 'required|string|min:6|confirmed',
             ];
         }
         return $rules;
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->current_password && !Hash::check($this->current_password, $this->user()->password)) {
+                $validator->errors()->add('current_password', trans('validation.current_password', ['attribute' => trans('validation.attributes.current_password')]));
+            }
+        });
     }
 }

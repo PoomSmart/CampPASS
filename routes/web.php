@@ -67,7 +67,7 @@ Route::prefix('profile')->group(function () {
     Route::get('/{user}', 'ProfileController@show')->name('profiles.show');
     Route::get('/edit/{user}', 'ProfileController@edit')->name('profiles.edit');
     Route::get('/my-camps/{user}', 'ProfileController@my_camps')->name('profiles.my_camps');
-    Route::post('/update/{user}', 'ProfileController@update')->name('profiles.update');
+    Route::put('/update/{user}', 'ProfileController@update')->name('profiles.update');
 });
 
 Route::prefix('browse-camps')->group(function () {

@@ -116,7 +116,7 @@ return [
     'url' => ':attribute format is invalid.',
     'uuid' => ':attribute must be a valid UUID.',
 
-    'current_password' => ':attribute is invalid.',
+    'current_password' => ':attribute is not correct.',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +164,7 @@ return [
         'zipcode' => trans('account.ZipCode'),
         'username' => trans('account.Username'),
         'email' => trans('account.Email'),
+        'current_password' => trans('account.CurrentPassword'),
         'password' => trans('account.Password'),
         'password_confirmation' => trans('account.ConfirmPassword'),
         'blood_group' => trans('account.BloodGroup'),
