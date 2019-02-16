@@ -73,7 +73,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $data = $user->belonging_camps()->orderBy('id')->get();
+        $data = $user->getBelongingCamps()->orderBy('id')->get();
         return view('users.show', compact('user', 'data'));
     }
 

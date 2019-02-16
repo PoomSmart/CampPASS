@@ -107,13 +107,13 @@ class Camp extends Model
         return $campers;
     }
 
-    public function get_latest_registration($camper_id)
+    public function getLatestRegistration($camper_id)
     {
         $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
         return $registration->exists() ? $registration->first() : null;
     }
 
-    public function form_scores()
+    public function getFormScores()
     {
         $question_set = $this->question_set();
         if (!$question_set)

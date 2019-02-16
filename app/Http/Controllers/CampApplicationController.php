@@ -34,7 +34,7 @@ class CampApplicationController extends Controller
         if (!$camp->approved && !\Auth::user()->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
         if ($eligible_check)
-            \Auth::user()->is_eligible_for_camp($camp);
+            \Auth::user()->isEligibleForCamp($camp);
         return $camp;
     }
 
@@ -46,12 +46,12 @@ class CampApplicationController extends Controller
         $route = null;
         if ($camper) {
             $disabled |= $camper->isAdmin() || $camper->isCampMaker();
-            $ineligible_reason = $camper->get_ineligible_reason_for_camp($camp, $short);
+            $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
             if ($ineligible_reason) {
                 $disabled = true;
                 $apply_text = $ineligible_reason;
             } else if ($camper->isCamper()) {
-                $registration = $camper->registration_for_camp($camp);
+                $registration = $camper->getLatestRegistrationForCamp($camp);
                 $status = $registration ? $registration->status : -1;
                 $camp_procedure = $camp->camp_procedure();
                 switch ($status) {
@@ -92,10 +92,10 @@ class CampApplicationController extends Controller
 
     public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT)
     {
-        $ineligible_reason = $user->get_ineligible_reason_for_camp($camp);
+        $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
             throw new \App\Exceptions\CampPASSException($ineligible_reason);
-        $registration = $camp->get_latest_registration($user->id);
+        $registration = $camp->getLatestRegistration($user->id);
         if ($registration) {
             if ($registration->qualified())
                 throw new \App\Exceptions\CampPASSException('You already have applied for this camp.');

@@ -133,7 +133,7 @@ class User extends Authenticatable
         return Common::getLocalizedName($this).' '.Common::getLocalizedName($this, 'surname');
     }
 
-    public function belonging_camps()
+    public function getBelongingCamps()
     {
         if ($this->isCamper())
             return Camp::whereIn('id', Registration::where('camper_id', $this->id)->get(['camp_id']));
@@ -142,9 +142,9 @@ class User extends Authenticatable
         return null;
     }
 
-    public function can_manage_camp(Camp $camp)
+    public function canManageCamp(Camp $camp)
     {
-        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->belonging_camps()->where('id', $camp->id)->get()->isNotEmpty());
+        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
         if (!$value)
             throw new \App\Exceptions\CampPASSException();
         return $value;
@@ -168,7 +168,7 @@ class User extends Authenticatable
         return null;
     }
 
-    public function get_ineligible_reason_for_camp(Camp $camp, $short = false)
+    public function getIneligibleReasonForCamp(Camp $camp, $short = false)
     {
         if (!$this->isCamper())
             return null;
@@ -193,18 +193,18 @@ class User extends Authenticatable
         return null;
     }
 
-    public function is_eligible_for_camp(Camp $camp)
+    public function isEligibleForCamp(Camp $camp)
     {
-        $error = $this->get_ineligible_reason_for_camp($camp);
+        $error = $this->getIneligibleReasonForCamp($camp);
         if ($error)
             throw new \App\Exceptions\CampPASSException($error);
         return is_null($error);
     }
 
-    public function registration_for_camp(Camp $camp)
+    public function getLatestRegistrationForCamp(Camp $camp)
     {
         if ($this->isCamper()) {
-            $registration = $camp->get_latest_registration($this->id);
+            $registration = $camp->getLatestRegistration($this->id);
             return $registration;
         }
         return null;

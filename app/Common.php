@@ -110,7 +110,7 @@ class Common
         $en = $record->{"{$attribute}_en"};
         if ((\App::getLocale() == 'th' && !is_null($th)) || is_null($en))
             return $th;
-        return $en ? $en : '<blank>';
+        return $en ? $en : "<blank>";
     }
 
     public static function values($clazz, $column = null, $value = null, $group = null)
@@ -140,7 +140,7 @@ class Common
             $user = \Auth::user();
             if (!$camp->approved && !$user->hasRole('admin'))
                 throw new \App\Exceptions\ApproveCampException();
-            $user->can_manage_camp($camp);
+            $user->canManageCamp($camp);
         }
         return $camp;
     }

@@ -38,7 +38,7 @@
             </div>
             <h4 class="mb-4">@lang('camp.Camps')</h4>
             @php
-                $camps = $user->belonging_camps();
+                $camps = $user->getBelongingCamps();
             @endphp
             <div class="row mb-2">
                 <div class="col-md-6">
