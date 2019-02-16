@@ -402,6 +402,7 @@ class DatabaseSeeder extends Seeder
             }
             $directory = Common::questionSetDirectory($camp->id);
             Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
+            unset($json);
         }
         Question::insert($questions);
         unset($questions);
