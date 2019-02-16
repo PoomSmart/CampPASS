@@ -64,7 +64,7 @@
                         @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::FILE)
                         @if (isset($answer) && !empty($answer))
-                            <a href="{{ route('camp_application.file_download', $key) }}">{{ $answer }}</a>
+                            <a href="{{ route('camp_application.answer_file_download', $key) }}">{{ $answer }}</a>
                         @else
                             <p>@lang('question.NoFileUploaded')</p>
                         @endif

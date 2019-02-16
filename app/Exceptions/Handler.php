@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException)
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException || $exception instanceof \App\Exceptions\CampPASSExceptionPermission)
             return redirect('/')->with('error', trans('app.NoPermissionError'));
         if ($exception instanceof \App\Exceptions\CampPASSException)
             return redirect('/')->with('error', $exception->getMessage());

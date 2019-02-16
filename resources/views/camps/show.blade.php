@@ -58,7 +58,7 @@
             <div class="row">
                 <div class="col-12">
                     @php
-                        $info = \App\Http\Controllers\CampApplicationController::get_apply_button_information($camp);
+                        $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
                         $apply_text = $info['text'];
                         $disabled = $info['disabled'];
                     @endphp

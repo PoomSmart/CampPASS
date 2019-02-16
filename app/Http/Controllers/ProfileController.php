@@ -33,7 +33,7 @@ class ProfileController extends Controller
     public function authenticate(User $user, $me = false)
     {
         if ($me && $user->id != \Auth::user()->id)
-            throw new \App\Exceptions\CampPASSException();
+            throw new \App\Exceptions\CampPASSExceptionPermission();
         if (!$user->isActivated())
             throw new \App\Exceptions\CampPASSException('This account has not been activated.');
         if ($user->isAdmin())

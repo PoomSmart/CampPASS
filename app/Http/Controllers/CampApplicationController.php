@@ -38,7 +38,11 @@ class CampApplicationController extends Controller
         return $camp;
     }
 
-    public static function get_apply_button_information(Camp $camp, $short = false)
+    /**
+     * Given a camp and the current user, determine the registration status and return the apply button's status and availability.
+     * 
+     */
+    public static function getApplyButtonInformation(Camp $camp, $short = false)
     {
         $apply_text = null;
         $camper = \Auth::user();
@@ -90,6 +94,11 @@ class CampApplicationController extends Controller
         ];
     }
 
+    /**
+     * Create a registration record given the user and the camp with an optional parameter, registration status,
+     * in case we know exactly the registration status to set.
+     * 
+     */
     public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT)
     {
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
@@ -113,6 +122,10 @@ class CampApplicationController extends Controller
         return $registration;
     }
 
+    /**
+     * For the camps that include questions, we fetch those questions and respective answers for campers (if any) and return as JSON.
+     * 
+     */
     public function prepare_questions_answers(Camp $camp, User $user)
     {
         $question_set = $camp->question_set();
@@ -226,6 +239,10 @@ class CampApplicationController extends Controller
         return redirect()->back()->with('success', 'Answers are saved.');
     }
 
+    /**
+     * Display the review answer page for campers.
+     * 
+     */
     public function answer_view(QuestionSet $question_set)
     {
         $camp = $question_set->camp();
@@ -247,6 +264,10 @@ class CampApplicationController extends Controller
         return view('camp_application.answer_view', compact('data', 'json', 'camp'));
     }
 
+    /**
+     * Directly apply for a camp and respond back with the done page.
+     * 
+     */
     public function submit_application_form(Camp $camp)
     {
         $this->authenticate($camp);
@@ -260,8 +281,28 @@ class CampApplicationController extends Controller
         return view('camp_application.deposit');
     }
 
+    /**
+     * Make sure the only answer owner and respective camp makers can access the answer file.
+     * 
+     */
+    public function canAccessAnswer(Answer $answer)
+    {
+        $user = \Auth::user();
+        if ($user->isAdmin())
+            return;
+        if ($user->isCamper() && $answer->camper()->id != $user->id)
+            throw new \App\Exceptions\CampPASSExceptionPermission();
+        else if ($user->isCampMaker() && !$user->canManageCamp($answer->question_set()->camp()))
+            throw new \App\Exceptions\CampPASSExceptionPermission();
+    }
+
+    /**
+     * Get the respective file path of the given answer.
+     * 
+     */
     public function get_answer_file_path(Answer $answer)
     {
+        $this->canAccessAnswer($answer);
         $question = $answer->question();
         if ($question->type != QuestionType::FILE)
             return null;
@@ -274,13 +315,21 @@ class CampApplicationController extends Controller
         return $filepath;
     }
 
-    public function file_download(Answer $answer)
+    /**
+     * Download the answer of type file.
+     * 
+     */
+    public function answer_file_download(Answer $answer)
     {
         $filepath = $this->get_answer_file_path($answer);
         // TODO: check if fallback works properly
         return $filepath ? Storage::download($filepath) : response()->toJson();
     }
 
+    /**
+     * Delete the answer of type file.
+     * 
+     */
     public function answer_file_delete(Answer $answer)
     {
         $filepath = $this->get_answer_file_path($answer);
