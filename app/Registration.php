@@ -27,7 +27,7 @@ class Registration extends Model
     {
         $camper = $this->belongsTo(User::class)->limit(1)->get()->first();
         if (!$camper->isCamper())
-            throw new \App\Exceptions\CampPassException(trans('app.InternalError'));
+            throw new \CampPASSException(trans('app.InternalError'));
         return $camper;
     }
 

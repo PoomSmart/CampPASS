@@ -103,11 +103,11 @@ class CampApplicationController extends Controller
     {
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
-            throw new \App\Exceptions\CampPASSException($ineligible_reason);
+            throw new \CampPASSException($ineligible_reason);
         $registration = $camp->getLatestRegistration($user->id);
         if ($registration) {
             if ($registration->qualified())
-                throw new \App\Exceptions\CampPASSException('You already have applied for this camp.');
+                throw new \CampPASSException('You already have applied for this camp.');
             if ($status != RegistrationStatus::DRAFT) {
                 $registration->status = $status;
                 $registration->save();
@@ -131,7 +131,7 @@ class CampApplicationController extends Controller
         $question_set = $camp->question_set();
         $pairs = $question_set ? $question_set->pairs()->get() : null;
         if (!isset($pairs) || $pairs->isEmpty())
-            throw new \App\Exceptions\CampPASSException('There are no questions in here.');
+            throw new \CampPASSException('There are no questions in here.');
         $answers = [];
         $json = Common::getQuestionJSON($camp->id);
         $json['answer'] = [];
@@ -158,7 +158,7 @@ class CampApplicationController extends Controller
         if ($registration->applied_or_qualified()) {
             // Stage: Already applied or qualified
             if ($registration->qualified())
-                throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already are qualified for this camp.');
+                throw new \CampPASSExceptionRedirectBack('You already are qualified for this camp.');
             if ($camp_procedure->deposit_required) {
                 if ($camp_procedure->candidate_required) {
                     if ($registration->approved()) {
@@ -179,7 +179,7 @@ class CampApplicationController extends Controller
                 // Cases: QA & Interview Applied
                 // The view is only for chosen candidates
             }
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You already have applied for this camp.');
+            throw new \CampPASSExceptionRedirectBack('You already have applied for this camp.');
         }
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
@@ -253,7 +253,7 @@ class CampApplicationController extends Controller
         $json = Common::getQuestionJSON($question_set->camp_id);
         $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
         if ($answers->isEmpty())
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You have not answered anything.');
+            throw new \CampPASSExceptionRedirectBack('You have not answered anything.');
         foreach ($answers as $answer) {
             $question = $answer->question();
             $data[] = [
@@ -291,9 +291,9 @@ class CampApplicationController extends Controller
         if ($user->isAdmin())
             return;
         if ($user->isCamper() && $answer->camper()->id != $user->id)
-            throw new \App\Exceptions\CampPASSExceptionPermission();
+            throw new \CampPASSExceptionPermission();
         else if ($user->isCampMaker() && !$user->canManageCamp($answer->question_set()->camp()))
-            throw new \App\Exceptions\CampPASSExceptionPermission();
+            throw new \CampPASSExceptionPermission();
     }
 
     /**

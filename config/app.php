@@ -232,6 +232,10 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
+        'CampPASSException' => App\Exceptions\CampPASSException::class,
+        'CampPASSExceptionPermission' => App\Exceptions\CampPASSExceptionPermission::class,
+        'CampPASSExceptionRedirectBack' => App\Exceptions\CampPASSExceptionRedirectBack::class,
     ],
 
 ];

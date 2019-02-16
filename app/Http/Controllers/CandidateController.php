@@ -21,7 +21,7 @@ class CandidateController extends Controller
         if (!$form_scores->exists()) {
             if ($list)
                 return null;
-            throw new \App\Exceptions\CampPASSException('You cannot rank the application form without questions.');
+            throw new \CampPASSException('You cannot rank the application form without questions.');
         }
         $form_scores = $form_scores->get()->filter(function ($form_score) {
              // We would not grade unsubmitted forms
@@ -35,12 +35,12 @@ class CandidateController extends Controller
         if ($form_scores->isEmpty()) {
             if ($list)
                 return null;
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('No finalized application forms to rank.');
+            throw new \CampPASSExceptionRedirectBack('No finalized application forms to rank.');
         }
         if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
             if ($list)
                 return null;
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
+            throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
         }
         foreach ($form_scores as $form_score) {
             if (is_null($form_score->total_score)) {
@@ -63,12 +63,12 @@ class CandidateController extends Controller
     public function announce(QuestionSet $question_set)
     {
         if ($question_set->announced)
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
+            throw new \CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
         $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use ($question_set) {
             return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
         });
         if (!$form_scores)
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('There are no campers to announce to.');
+            throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
         foreach ($form_scores as $form_score) {
             $candidates[] = [

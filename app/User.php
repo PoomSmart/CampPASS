@@ -146,7 +146,7 @@ class User extends Authenticatable
     {
         $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
         if (!$value)
-            throw new \App\Exceptions\CampPASSExceptionPermission();
+            throw new \CampPASSExceptionPermission();
         return $value;
     }
 
@@ -197,7 +197,7 @@ class User extends Authenticatable
     {
         $error = $this->getIneligibleReasonForCamp($camp);
         if ($error)
-            throw new \App\Exceptions\CampPASSException($error);
+            throw new \CampPASSException($error);
         return is_null($error);
     }
 

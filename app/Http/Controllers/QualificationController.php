@@ -33,12 +33,12 @@ class QualificationController extends Controller
         $registration = Registration::findOrFail($registration_id);
         Common::authenticate_camp($registration->camp_id);
         if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
-            throw new \App\Exceptions\CampPassException('You cannot grade the answers of an unsubmitted form.');
+            throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper();
         $question_set = QuestionSet::findOrFail($question_set_id);
         $answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $camper->id);
         if (!$answers->exists())
-            throw new \App\Exceptions\CampPassException('You cannot grade the answers of the application form without questions.');
+            throw new \CampPASSException('You cannot grade the answers of the application form without questions.');
         $camp = $question_set->camp();
         $answers = $answers->get();
         $data = [];
@@ -108,13 +108,13 @@ class QualificationController extends Controller
         Common::authenticate_camp($registration->camp_id);
         $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($form_score->finalized)
-            throw new \App\Exceptions\CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
+            throw new \CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
         $form_data = $request->all();
         unset($form_data['_token']);
         $camper = $registration->camper();
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
         if (!$answers->exists())
-            throw new \App\Exceptions\CampPASSException('No answers to be saved.');
+            throw new \CampPASSException('No answers to be saved.');
         $answers = $answers->get();
         foreach ($form_data as $id => $value) {
             if (substr($id, 0, 19) === 'manual_score_range_') {
