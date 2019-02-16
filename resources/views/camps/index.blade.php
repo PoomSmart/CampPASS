@@ -36,7 +36,7 @@
 	        <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
-                    $registration_count = $camp->campers(null)->count();
+                    $registration_count = $camp->campers()->count();
                     if ($camp->quota)
                         $registration_count = "{$registration_count} / {$camp->quota}";
                 } else

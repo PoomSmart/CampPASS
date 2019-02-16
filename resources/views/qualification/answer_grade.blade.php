@@ -109,7 +109,7 @@
             'disabled' => $form_score->finalized,
         ])
         @slot('postcontent')
-            <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">@lang('qualification.Finalize')</a>
+            <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">{{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}</a>
             <a class="btn btn-secondary" href="{{ route('camps.show', $camp) }}">@lang('app.Back')</a>
         @endslot
         @endcomponent
