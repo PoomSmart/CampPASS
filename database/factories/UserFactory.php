@@ -14,6 +14,8 @@ use Faker\Generator as Faker;
 
 class User_Randomizer
 {
+    protected static $CAMPER, $CAMPMAKER;
+
     /**
      * Randomize Thai citizen ID (Only for testing purpose).
      * http://kiss-hack.blogspot.com/2013/09/random-number-13.html
@@ -30,21 +32,33 @@ class User_Randomizer
         $lastNumber = (11 - ($numberCalc % 11)) % 10;
         return $firstNumber.$lastNumber;
     }
+
+    public static function camper()
+    {
+        if (!self::$CAMPER)
+            self::$CAMPER = config('const.account.camper');
+        return self::$CAMPER;
+    }
+
+    public static function campmaker()
+    {
+        if (!self::$CAMPMAKER)
+            self::$CAMPMAKER = config('const.account.campmaker');
+        return self::$CAMPMAKER;
+    }
 }
 
 $factory->define(App\User::class, function (Faker $faker) {
     $name = $faker->unique()->firstName;
-    $CAMPER = config('const.account.camper');
-    $CAMPMAKER = config('const.account.campmaker');
-    $type = Common::randomFrequentHit() ? $CAMPER : $CAMPMAKER;
-    $dob = $type == $CAMPER ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
+    $type = Common::randomFrequentHit() ? User_Randomizer::camper() : User_Randomizer::campmaker();
+    $dob = $type == User_Randomizer::camper() ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
     $province = Province::inRandomOrder()->get()->first();
     $data = [
         'username' => strtolower($name),
         'name_en' => $name,
         'surname_en' => $faker->lastName,
         'nickname_en' => $faker->word,
-        'nationality' => $faker->numberBetween($min = 0, $max = 1),
+        'nationality' => rand(0, 1),
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
@@ -52,20 +66,20 @@ $factory->define(App\User::class, function (Faker $faker) {
         'province_id' => $province->id,
         'zipcode' => $province->zipcode_prefix.implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
-        'religion_id' => $faker->numberBetween($min = 1, $max = Religion::count()),
+        'religion_id' => rand(1, Religion::count()),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'type' => $type,
-        'password' => bcrypt('123456'),
+        'password' => '123456',
         'remember_token' => str_random(10),
     ];
-    if ($type == $CAMPER) {
+    if ($type == User_Randomizer::camper()) {
         $data += [
             'education_level' => EducationLevel::any(),
             'blood_group' => rand(0, 3),
             'cgpa' => rand(200, 400) / 100.0, // Assume campers are not that incompetent
-            'school_id' => $faker->numberBetween($min = 1, $max = School::count()),
-            'program_id' => $faker->numberBetween($min = 1, $max = Program::count()),
+            'school_id' => rand(1, School::count()),
+            'program_id' => rand(1, Program::count()),
             'guardian_name' => $faker->firstName,
             'guardian_surname' => $faker->lastName,
             'guardian_role' => Common::randomMediumHit(),
@@ -73,7 +87,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         ];
     } else {
         $data += [
-            'organization_id' => $faker->numberBetween($min = 1, $max = Organization::count()),
+            'organization_id' => rand(1, Organization::count()),
         ];
     }
     return $data;

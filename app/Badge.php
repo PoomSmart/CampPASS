@@ -11,12 +11,12 @@ class Badge extends Model
 {
     public function camper()
     {
-        return $this->belongsTo(User::class)->limit(1)->get()->first();
+        return $this->belongsTo(User::class)->limit(1)->first();
     }
 
     public function badge_category()
     {
-        return $this->belongsTo(BadgeCategory::class)->limit(1)->get()->first();
+        return $this->belongsTo(BadgeCategory::class)->limit(1)->first();
     }
 
     public function getImageName()

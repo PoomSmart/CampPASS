@@ -95,22 +95,22 @@ class User extends Authenticatable
 
     public function organization()
     {
-        return $this->isCampMaker() ? $this->belongsTo(Organization::class)->limit(1)->get()->first() : null;
+        return $this->isCampMaker() ? $this->belongsTo(Organization::class)->limit(1)->first() : null;
     }
 
     public function program()
     {
-        return $this->isCamper() ? $this->belongsTo(Program::class)->limit(1)->get()->first() : null;
+        return $this->isCamper() ? $this->belongsTo(Program::class)->limit(1)->first() : null;
     }
 
     public function religion()
     {
-        return $this->belongsTo(Religion::class)->limit(1)->get()->first();
+        return $this->belongsTo(Religion::class)->limit(1)->first();
     }
 
     public function school()
     {
-        return $this->isCamper() ? $this->belongsTo(School::class)->limit(1)->get()->first() : null;
+        return $this->isCamper() ? $this->belongsTo(School::class)->limit(1)->first() : null;
     }
 
     public static function campers(bool $randomOrder = false)

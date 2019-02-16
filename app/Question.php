@@ -17,6 +17,6 @@ class Question extends Model
 
     public function pair()
     {
-        return $this->hasOne(QuestionSetQuestionPair::class)->limit(1)->get()->first();
+        return $this->hasOne(QuestionSetQuestionPair::class)->limit(1)->first();
     }
 }

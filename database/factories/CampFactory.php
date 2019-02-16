@@ -50,9 +50,9 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     // TODO: Fake locations
     return [
         'name_en' => "Camp {$faker->unique()->company}",
-        'camp_category_id' => $faker->numberBetween($min = 1, $max = CampCategory::count()),
-        'camp_procedure_id' => $faker->numberBetween($min = 1, $max = CampProcedure::count()),
-        'organization_id' => $faker->numberBetween($min = 1, $max = Organization::count()),
+        'camp_category_id' => rand(1, CampCategory::count()),
+        'camp_procedure_id' => rand(1, CampProcedure::count()),
+        'organization_id' => rand(1, Organization::count()),
         'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),

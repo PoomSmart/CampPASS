@@ -20,12 +20,12 @@ class Registration extends Model
 
     public function camp()
     {
-        return $this->belongsTo(Camp::class)->limit(1)->get()->first();
+        return $this->belongsTo(Camp::class)->limit(1)->first();
     }
 
     public function camper()
     {
-        $camper = $this->belongsTo(User::class)->limit(1)->get()->first();
+        $camper = $this->belongsTo(User::class)->limit(1)->first();
         if (!$camper->isCamper())
             throw new \CampPASSException(trans('app.InternalError'));
         return $camper;
@@ -33,7 +33,7 @@ class Registration extends Model
 
     public function certificate()
     {
-        return $this->hasOne(Certificate::class)->limit(1)->get()->first();
+        return $this->hasOne(Certificate::class)->limit(1)->first();
     }
 
     public function payment_slips()

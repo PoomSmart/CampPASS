@@ -57,22 +57,22 @@ class Camp extends Model
 
     public function camp_procedure()
     {
-        return $this->belongsTo(CampProcedure::class)->limit(1)->get()->first();
+        return $this->belongsTo(CampProcedure::class)->limit(1)->first();
     }
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class)->limit(1)->get()->first();
+        return $this->belongsTo(Organization::class)->limit(1)->first();
     }
 
     public function camp_category()
     {
-        return $this->belongsTo(CampCategory::class)->limit(1)->get()->first();
+        return $this->belongsTo(CampCategory::class)->limit(1)->first();
     }
 
     public function question_set()
     {
-        return $this->hasOne(QuestionSet::class)->limit(1)->get()->first();
+        return $this->hasOne(QuestionSet::class)->limit(1)->first();
     }
 
     public function __toString()

@@ -195,7 +195,6 @@ class DatabaseSeeder extends Seeder
         // First, fake registrations of campers who are eligible for
         $this->log_seed('registrations');
         $registrations = [];
-        $tbd_question_set_ids = [];
         $manual_grade_question_set_ids = [];
         $form_scores = [];
         foreach (User::campers()->cursor() as $camper) {
@@ -206,7 +205,7 @@ class DatabaseSeeder extends Seeder
                 } catch (\Exception $e) {
                     return false;
                 }
-                return Common::randomFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->exists();
+                return Common::randomFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
@@ -234,6 +233,8 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('questions and answers');
         $answers = [];
         $pairs = [];
+        $question_sets = [];
+        $question_set_id = 0;
         foreach (Camp::allApproved()->cursor() as $camp) {
             if (!$camp->camp_procedure()->candidate_required) {
                 // Clean up all registrations that should not exist in this case
@@ -241,7 +242,7 @@ class DatabaseSeeder extends Seeder
                 continue;
             }
             // If there is already the question set for the camp, we already seeded questions and answers
-            if (QuestionSet::where('camp_id', $camp->id)->exists())
+            if (QuestionSet::where('camp_id', $camp->id)->limit(1)->exists())
                 continue;
             $json = [];
             $eligible_campers = $campers->filter(function ($camper) use ($camp) {
@@ -252,10 +253,7 @@ class DatabaseSeeder extends Seeder
                 }
                 return true;
             });
-            $question_set = QuestionSet::create([
-                'camp_id' => $camp->id,
-                'score_threshold' => rand(1, 75) / 100.0,
-            ]);
+            ++$question_set_id;
             $question_set_has_grade = false;
             $question_set_has_manual_grade = false;
             $question_set_total_score = 0;
@@ -328,13 +326,13 @@ class DatabaseSeeder extends Seeder
                 ]);
                 $question_set_total_score += $question->full_score;
                 $pairs[] = [
-                    'question_set_id' => $question_set->id,
+                    'question_set_id' => $question_set_id,
                     'question_id' => $question->id,
                 ];
                 // For each question, all campers who are eligible and registered get a chance to answer
                 foreach ($eligible_campers as $camper) {
                     $registration = $camp->getLatestRegistration($camper->id);
-                    if (is_null($registration))
+                    if (!$registration)
                         continue;
                     $answer = null;
                     switch ($question_type) {
@@ -359,7 +357,7 @@ class DatabaseSeeder extends Seeder
                     }
                     $answer = Common::encodeIfNeeded($answer, $question_type);
                     $answers[] = [
-                        'question_set_id' => $question_set->id,
+                        'question_set_id' => $question_set_id,
                         'question_id' => $question->id,
                         'camper_id' => $camper->id,
                         'registration_id' => $registration->id,
@@ -369,10 +367,10 @@ class DatabaseSeeder extends Seeder
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
-            foreach (Registration::where('camp_id', $camp->id)->get() as $registration) {
+            foreach ($camp->registrations()->get() as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
-                    'question_set_id' => $question_set->id,
+                    'question_set_id' => $question_set_id,
                     // We cannot calculate the total score right now
                     'total_score' => null,
                     // Form scores are finalized as we say every question can be auto-graded
@@ -380,31 +378,27 @@ class DatabaseSeeder extends Seeder
                     'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
                 ];
             }
-            if ($question_set_has_grade) {
-                $question_set->manual_required = $question_set_has_manual_grade;
-                $question_set->total_score = $question_set_total_score;
-                // For some question sets that require manual grading, we simulate humanly manual grading
-                if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
-                    $manual_grade_question_set_ids[] = $question_set->id;
-            } else {
-                // Such question sets without any gradable questions should only exist in those camps without requiring candidates
-                // They should just be removed
-                $tbd_question_set_ids[] = $question_set->id;
-            }
-            $question_set->save();
+            $question_sets[] = [
+                'camp_id' => $camp->id,
+                'score_threshold' => $question_set_has_grade ? rand(1, 75) / 100.0 : null,
+                'manual_required' => $question_set_has_manual_grade,
+                'total_score' => $question_set_total_score,
+            ];
+            // For some question sets that require manual grading, we simulate humanly manual grading
+            if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
+                $manual_grade_question_set_ids[] = $question_set_id;
             // Empty fields are ruled out the same way the form POST does
             foreach ($json as $key => $value) {
                 if (empty($value))
                     unset($json[$key]);
             }
-            $json = json_encode($json);
             $directory = Common::questionSetDirectory($camp->id);
-            Storage::disk('local')->put($directory.'/questions.json', $json);
+            Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
         }
+        QuestionSet::insert($question_sets);
+        QuestionSetQuestionPair::insert($pairs);
         FormScore::insert($form_scores);
         Answer::insert($answers);
-        QuestionSetQuestionPair::insert($pairs);
-        QuestionSet::whereIn('id', $tbd_question_set_ids)->delete();
         // Begin seeding of manual grading at the outmost scope
         $this->log('-> seeding manually-graded scores');
         foreach (Answer::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_grade_answer) {
