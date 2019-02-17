@@ -25,12 +25,12 @@
             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
             <label class="form-check-label" for="remember">@lang('account.RememberMe')</label>
         </div>
-        @component('components.submit', ['label' => trans('app.Login')])
-        @slot('postcontent')
+        <div class="text-center">
+            @component('components.submit', ['label' => trans('app.Login')])
+            @endcomponent
             @if (Route::has('password.request'))
                 <a class="btn btn-link" href="{{ route('password.request') }}">@lang('account.ForgotYourPassword')</a>
             @endif
-        @endslot
-        @endcomponent
+        </div>
     </form>
 @endsection

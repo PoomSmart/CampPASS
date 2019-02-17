@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Camp;
 use App\Common;
 use App\FormScore;
 use App\QuestionSet;
@@ -31,7 +32,7 @@ class QualificationController extends Controller
                 return $form_score->total_score;
         }
         $registration = Registration::findOrFail($registration_id);
-        Common::authenticate_camp($registration->camp_id);
+        Common::authenticate_camp(Camp::find($registration->camp_id));
         if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
             throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper();
@@ -106,7 +107,7 @@ class QualificationController extends Controller
 
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
     {
-        Common::authenticate_camp($registration->camp_id);
+        Common::authenticate_camp(Camp::find($registration->camp_id));
         $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($form_score->finalized)
             throw new \CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
@@ -137,7 +138,7 @@ class QualificationController extends Controller
 
     public static function form_finalize(FormScore $form_score, $silent = false)
     {
-        Common::authenticate_camp($form_score->question_set()->camp()->id, $silent = $silent);
+        Common::authenticate_camp(Camp::find($form_score->question_set()->camp()->id), $silent = $silent);
         if (!$form_score->finalized) {
             $form_score->update([
                 'finalized' => true,

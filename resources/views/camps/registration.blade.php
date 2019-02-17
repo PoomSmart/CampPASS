@@ -38,7 +38,7 @@
                         @endphp
                         <tr>
                             <th class="align-middle" scope="row">{{ $registration->id }}</th>
-                            <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                            <th class="align-middle"><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                             <td class="align-middle">{{ $camper->school() }}</td>
                             <td class="align-middle">{{ $camper->program() }}</td>
                             <td class="align-middle text-center">{{ $registration->getStatus() }}</td>

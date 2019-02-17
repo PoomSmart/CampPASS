@@ -44,5 +44,5 @@
 
 @section('extra-buttons')
     <!-- TODO: add confirmation -->
-    <a class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" href="{{ route('qualification.candidate_announce', $question_set) }}">@lang('qualification.Announce')</a>
+    <a class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" href="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</a>
 @endsection

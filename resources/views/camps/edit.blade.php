@@ -6,7 +6,7 @@
 @endsection
 
 @section('card_content')
-    <form action="{{ route('camps.update', $object) }}" method="POST">
+    <form action="{{ route('camps.update', $object->id) }}" method="POST">
         @csrf
         @method('PUT')
         @yield('camp-fields')

@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    Grade Application Form of <a href="{{ route('profiles.show', $camper) }}" target="_blank">{{ $camper->getFullName() }}</a>
+    Grade Application Form of <a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
 @section('card_content')
@@ -104,15 +104,15 @@
                 </div>
             </div>
         @endforeach
-        @component('components.submit', [
-            'label' => trans('app.Save'),
-            'disabled' => $form_score->finalized,
-        ])
-        @slot('postcontent')
+        <div class="text-center">
+            @component('components.submit', [
+                'label' => trans('app.Save'),
+                'disabled' => $form_score->finalized,
+            ])
+            @endcomponent
             <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">{{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}</a>
-            <a class="btn btn-secondary" href="{{ route('camps.show', $camp) }}">@lang('app.Back')</a>
-        @endslot
-        @endcomponent
+            <a class="btn btn-secondary" href="{{ route('camps.show', $camp->id) }}">@lang('app.Back')</a>
+        </div>
     </form>
     <script>
         jQuery(':radio').attr('disabled', true);

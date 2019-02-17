@@ -11,7 +11,7 @@ use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 
-use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuestionSetController;
 
 use App\Enums\QuestionType;
 use App\Enums\RegistrationStatus;

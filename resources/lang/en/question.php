@@ -19,4 +19,6 @@ return [
     'EnterThreshold' => 'Enter the threshold, if necessary',
     'EditScoreThreshold' => 'Edit Score Threshold',
     'NoFileUploaded'=> 'No file was uploaded.',
+    'Finalize' => 'Finalize',
+    'Finalized' => 'Finalized',
 ];

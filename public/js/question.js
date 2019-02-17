@@ -1,5 +1,3 @@
-// TODO: Add a warning for when the user tries to quit without saving
-
 var QuestionType = {
     TEXT: 1,
     PARAGRAPH: 2,
@@ -17,8 +15,8 @@ var add_choice_HTML = "";
 var add_checkbox_HTML = "";
 
 var campId = -1
-function getInfo(loc_choice_label, loc_checkbox_label) {
-    campId = jQuery("#camp_id").val();
+function getInfo(loc_choice_label, loc_checkbox_label, camp_id) {
+    campId = camp_id;
     console.log(`Get camp ID: ${campId}`);
     delete_label = jQuery(question_block_selector).first().find("#question-delete").text();
     choice_label = loc_choice_label;

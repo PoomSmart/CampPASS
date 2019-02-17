@@ -30,7 +30,11 @@ Route::group(['middleware' => ['permission:camp-list']], function() {
 });
 
 Route::group(['middleware' => ['permission:question-edit']], function() {
-    Route::resource('questions', 'QuestionController');
+    Route::prefix('questions')->group(function () {
+        Route::post('/save/{camp}', 'QuestionSetController@store')->name('questions.store');
+        Route::get('/{camp}', 'QuestionSetController@show')->name('questions.show');
+        Route::post('/finalize/{camp}', 'QuestionSetController@finalize')->name('questions.finalize');
+    });
 });
 
 Route::group(['middleware' => ['auth']], function() {

@@ -154,17 +154,17 @@ class User extends Authenticatable
     {
         $prefix = (int)substr($this->zipcode, 0, 2);
         if (in_array($prefix, Common::$west_region))
-            return Region::where('short_name', 'W')->first();
+            return Region::where('short_name', 'W')->limit(1)->first();
         if (in_array($prefix, Common::$east_region))
-            return Region::where('short_name', 'E')->first();
+            return Region::where('short_name', 'E')->limit(1)->first();
         if (in_array($prefix, Common::$north_region))
-            return Region::where('short_name', 'N')->first();
+            return Region::where('short_name', 'N')->limit(1)->first();
         if (in_array($prefix, Common::$south_region))
-            return Region::where('short_name', 'S')->first();
+            return Region::where('short_name', 'S')->limit(1)->first();
         if (in_array($prefix, Common::$central_region))
-            return Region::where('short_name', 'C')->first();
+            return Region::where('short_name', 'C')->limit(1)->first();
         if (in_array($prefix, Common::$northeast_region))
-            return Region::where('short_name', 'NE')->first();
+            return Region::where('short_name', 'NE')->limit(1)->first();
         return null;
     }
 

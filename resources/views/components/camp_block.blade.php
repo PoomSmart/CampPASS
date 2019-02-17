@@ -1,7 +1,7 @@
 <div class="card">
     <img class="card-img-top" src="{{ isset($src) ? $src : 'http://placehold.it/800x600/'.\App\Common::randomString(6) }}" alt="Image of {{ $object }}">
     <div class="card-body">
-        <h5 class="card-title"><a href="{{ route('camps.show', $object) }}">{{ $object }}</a></h5>
+        <h5 class="card-title"><a href="{{ route('camps.show', $object->id) }}">{{ $object }}</a></h5>
         <p class="text-muted mb-0">@lang('app.By') {{ $object->organization() }}</p>
         <div class="my-2 list-group">
             <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>

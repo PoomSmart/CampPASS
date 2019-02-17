@@ -73,10 +73,10 @@
                 </div>
             </div>
         @endforeach
-        @component('components.submit', ['label' => trans('app.Save')])
-        @slot('postcontent')
+        <div class="text-center">
+            @component('components.submit', ['label' => trans('app.Save')])
+            @endcomponent
             <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">@lang('app.Next')</a>
-        @endslot
-        @endcomponent
+        </div>
     </form>
 @endsection
