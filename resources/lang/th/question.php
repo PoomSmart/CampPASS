@@ -17,5 +17,6 @@ return [
     'AddMoreChoice' => 'เพิ่มตัวเลือก',
     'ScoreThreshold' => 'เกณฑ์คะแนน',
     'EnterThreshold' => 'กำหนดค่าเกณฑ์คะแนนที่ต้องการ',
+    'EditScoreThreshold' => 'แก้ไขเกณฑ์คะแนนใหม่',
     'NoFileUploaded'=> 'ไม่มีไฟล์อัปโหลด',
 ];

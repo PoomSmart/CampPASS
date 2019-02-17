@@ -55,7 +55,7 @@ function randId() {
 function readJSON(json) {
     if (!json) {
         console.log("Info: JSON is null");
-        return
+        return;
     }
     if (json.camp_id != campId) {
         console.log("Error: Camp ID mismatched");
@@ -70,9 +70,6 @@ function readJSON(json) {
         block.attr("id", `question-block-${id}`);
         block.find("#question-type").attr("name", `type[${id}]`).val(question_type);
         block.find("#question").attr("name", `question[${id}]`).val(question_text);
-        block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", json.question_required && id in json.question_required);
-        block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", json.question_graded && id in json.question_graded);
-        forcePropertiesIfNecessary(block, question_type);
         var add = block.find("#additional-content");
         switch (question_type) {
             case QuestionType.CHOICES:
@@ -89,6 +86,9 @@ function readJSON(json) {
                 }
                 break;
         }
+        block.find("#question-required").attr("name", `question_required[${id}]`).prop("checked", json.question_required && id in json.question_required);
+        block.find("#question-graded").attr("name", `question_graded[${id}]`).prop("checked", json.question_graded && id in json.question_graded);
+        forcePropertiesIfNecessary(block, question_type);
         jQuery("#questions").append(block);
     });
     old_block.remove();

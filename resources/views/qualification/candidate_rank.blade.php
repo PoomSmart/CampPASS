@@ -5,7 +5,10 @@
 @endsection
 
 @section('card_content')
-    <p>Passing criteria: {{ $question_set->score_threshold * 100 }}%</p>
+    <div class="d-flex justify-content-between align-items-end mb-2">
+        <span>Passing criteria: {{ $question_set->score_threshold * 100 }}%</span>
+        <a class="btn btn-secondary" href="{{ route('questions.show', $camp->id) }}">@lang('question.EditScoreThreshold')</a>
+    </div>
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>
@@ -16,22 +19,26 @@
         @php
             $i = $passed = 0;
         @endphp
-        @foreach ($form_scores as $form_score)
-            @php
-                $registration = $form_score->registration();
-                $camper = $registration->camper();
-            @endphp
-            <tr>
-                <th class="align-middle" scope="row">{{ ++$i }}</th>
-                <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
-                <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+        @if (!$question_set->total_score)
+            <p>Fatal error: Total score is zero.</p>
+        @else
+            @foreach ($form_scores as $form_score)
                 @php
-                    $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
+                    $registration = $form_score->registration();
+                    $camper = $registration->camper();
                 @endphp
-                <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $passed ? trans('app.Yes') : trans('app.No') }}</td>
-                @php if (isset($camper_pass) && $camper_pass) ++$passed; @endphp
-            </tr>
-        @endforeach
+                <tr>
+                    <th class="align-middle" scope="row">{{ ++$i }}</th>
+                    <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
+                    <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+                    @php
+                        $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
+                    @endphp
+                    <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $camper_passed ? trans('app.Yes') : trans('app.No') }}</td>
+                    @php if ($camper_passed) ++$passed; @endphp
+                </tr>
+            @endforeach
+        @endif
     </table>
 @endsection
 

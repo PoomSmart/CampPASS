@@ -17,5 +17,6 @@ return [
     'AddMoreChoice' => 'Add More Choice',
     'ScoreThreshold' => 'Score Threshold',
     'EnterThreshold' => 'Enter the threshold, if necessary',
+    'EditScoreThreshold' => 'Edit Score Threshold',
     'NoFileUploaded'=> 'No file was uploaded.',
 ];
