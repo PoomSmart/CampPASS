@@ -238,6 +238,7 @@ class DatabaseSeeder extends Seeder
         $questions = [];
         $question_sets = [];
         $question_set_id = 0;
+        $question_id = 0;
         foreach (Camp::allApproved()->cursor() as $camp) {
             if (!$camp->camp_procedure()->candidate_required) {
                 // Clean up all registrations that should not exist in this case
@@ -271,7 +272,6 @@ class DatabaseSeeder extends Seeder
             $json['radio_label'] = [];
             $json['checkbox_label'] = [];
             $questions_number = rand($minimum_questions, $maximum_questions);
-            $question_id = 0;
             while ($questions_number--) {
                 $question_type = $question_set_try_auto ? QuestionType::CHOICES : QuestionType::any();
                 // Requirement: file upload is always required and graded
@@ -377,7 +377,6 @@ class DatabaseSeeder extends Seeder
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
-            $question_id = 0;
             foreach ($camp->registrations()->get() as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,

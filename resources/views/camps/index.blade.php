@@ -42,7 +42,7 @@
                 } else
                     $registration_count = 0;
             @endphp
-            <td class="align-middle"><a href="{{ route('camps.registration', $camp) }}">{{ $registration_count }}</a></td>
+            <td class="align-middle"><a href="{{ route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
             <td class="align-middle">{{ $camp->gradingType() }}</td>
             <td class="align-middle text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
 	        <td class="align-middle">

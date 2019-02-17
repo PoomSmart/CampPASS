@@ -47,7 +47,10 @@
                             <td class="align-middle">
                                 @if ($rankable)
                                     <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
-                                        href="{{ route('qualification.answer_grade', [$registration->id, $camp->question_set()->id]) }}">@lang('registration.View')</a>
+                                        href="{{ route('qualification.answer_grade', [
+                                            'registration_id' => $registration->id,
+                                            'question_set_id' => $camp->question_set()->id
+                                        ]) }}">@lang('registration.View')</a>
                                 @endif
                             </td>
                         </tr>
