@@ -1,10 +1,10 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     {{ $camp }}
 @endsection
 
-@section('card_content')
+@section('content')
     <p class="text-center">{{ $category->getName() }}</p>
     @can('answer-list')
         @php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); @endphp

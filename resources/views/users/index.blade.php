@@ -1,10 +1,10 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     @lang('account.ManageUsers')
 @endsection
 
-@section('card_content')
+@section('content')
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>

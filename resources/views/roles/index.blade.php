@@ -1,4 +1,4 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     @lang('account.ManageRoles')
@@ -8,7 +8,7 @@
     <a class="btn btn-success" href="{{ route('roles.create') }}">@lang('account.CreateRole')</a>
 @endsection
 
-@section('card_content')
+@section('content')
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>

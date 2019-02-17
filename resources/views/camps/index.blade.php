@@ -1,4 +1,4 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     @lang('camp.Camps')
@@ -14,7 +14,7 @@
     @endsection
 @endcan
 
-@section('card_content')
+@section('content')
     @component('components.dialog', [
         'body' => 'Are you sure you want to delete this camp?',
         'confirm_type' => 'danger',

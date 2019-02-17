@@ -1,10 +1,10 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     @lang('xxx.Campers that passed') {{ $camp }} {{ $question_set->announced ? '(Announced)' : null }}
 @endsection
 
-@section('card_content')
+@section('content')
     <div class="d-flex justify-content-between align-items-end mb-2">
         <span>Passing criteria: {{ $question_set->score_threshold * 100 }}%</span>
         <a class="btn btn-secondary" href="{{ route('questions.show', $camp->id) }}">@lang('question.EditScoreThreshold')</a>
