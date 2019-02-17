@@ -197,6 +197,8 @@ class DatabaseSeeder extends Seeder
         $registrations = [];
         $form_scores = [];
         foreach (User::campers()->cursor() as $camper) {
+            if (Common::randomRareHit()) // Say some campers have yet to do anything at all
+                continue;
             $done = false;
             foreach (Camp::get()->filter(function ($camp) use ($camper) {
                 try {
