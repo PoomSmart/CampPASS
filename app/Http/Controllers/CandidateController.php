@@ -46,8 +46,9 @@ class CandidateController extends Controller
             if (is_null($form_score->total_score)) {
                 $registration = $form_score->registration();
                 $question_set = $form_score->question_set();
-                $form_score->total_score = QualificationController::answer_grade($registration->id, $question_set->id, $silent = true);
-                $form_score->save();
+                $form_score->update([
+                    'total_score' => QualificationController::answer_grade($registration->id, $question_set->id, $silent = true),
+                ]);
             }
         }
         $form_scores = $form_scores->sortByDesc(function ($form_score) {
@@ -79,8 +80,9 @@ class CandidateController extends Controller
         Candidate::insert($candidates);
         // TODO: somehow notify these candidates
         // Candidates are finalized, this question set will no longer be editable
-        $question_set->announced = true;
-        $question_set->save();
+        $question_set->update([
+            'announced' => true,
+        ]);
         return redirect()->back()->with('success', 'Candidates are announced.');
     }
 }

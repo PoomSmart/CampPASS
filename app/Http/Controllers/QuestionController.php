@@ -59,8 +59,9 @@ class QuestionController extends Controller
             ]);
             $question_set_total_score += $question->full_score;
         }
-        $question_set->total_score = $question_set_total_score;
-        $question_set->save();
+        $question_set->update([
+            'total_score' => $question_set_total_score,
+        ]);
         // We do not need token to be stored
         unset($content['_token']);
         $json = json_encode($content);

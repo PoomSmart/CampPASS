@@ -132,6 +132,13 @@ class Camp extends Model
         return !$this->camp_procedure()->candidate_required;
     }
 
+    public function approve()
+    {
+        $this->update([
+            'approved' => true,
+        ]);
+    }
+
     public static function allApproved()
     {
         return self::where('approved', true);

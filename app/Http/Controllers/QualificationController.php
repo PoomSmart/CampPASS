@@ -68,8 +68,9 @@ class QualificationController extends Controller
                     $auto_gradable_score += $score;
                     $camper_score += $score;
                     if (!isset($answer_score)) {
-                        $answer->score = $score;
-                        $answer->save();
+                        $answer->update([
+                            'score' => $score,
+                        ]);
                     }
                     $total_auto_gradable_score += $question->full_score;
                 } else if (isset($answer_score)) {
@@ -126,8 +127,9 @@ class QualificationController extends Controller
                     logger()->error('Trying to parse an answer that does not exist.');
                     continue;
                 }
-                $answer->score = (double)$value;
-                $answer->save();
+                $answer->update([
+                    'score' => (double)$value,
+                ]);
             }
         }
         return redirect()->back()->with('success', 'Scores are updated successfully.');
@@ -137,8 +139,9 @@ class QualificationController extends Controller
     {
         Common::authenticate_camp($form_score->question_set()->camp()->id, $silent = $silent);
         if (!$form_score->finalized) {
-            $form_score->finalized = true;
-            $form_score->save();
+            $form_score->update([
+                'finalized' => true,
+            ]);
         }
         return redirect()->back()->with('success', 'This form is finalized.');
     }

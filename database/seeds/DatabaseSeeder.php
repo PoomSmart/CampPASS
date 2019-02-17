@@ -217,14 +217,14 @@ class DatabaseSeeder extends Seeder
                 ];
                 // Camps with registrations must obviously be approved first
                 if (!$camp->approved) {
-                    $camp->approved = true;
-                    $camp->save();
+                    $camp->update([
+                        'approved' => true,
+                    ]);
                 }
             }
             if ($done) {
                 // Campers that applied for camps must already have their account activated
-                if ($camper->activate())
-                    $camper->save();
+                $camper->activate();
             }
         }
         Registration::insert($registrations);
@@ -448,10 +448,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_alter('campers');
         $candidate = User::campers(true)->limit(1)->first();
-        $candidate->username = 'camper';
         $candidate->activate();
-        $candidate->cgpa = 3.6; // The candidate will be used to test certain camps so the smartening is needed
-        $candidate->save();
+        $candidate->update([
+            'username' => 'camper',
+            'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
+        ]);
     }
 
     private function alter_campmakers()
@@ -460,23 +461,25 @@ class DatabaseSeeder extends Seeder
         $candidate = User::campMakers(true)->get()->filter(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();
         })->first();
-        $candidate->username = 'campmaker';
+        $candidate->update([
+            'username' => 'campmaker',
+        ]);
         $candidate->activate();
-        $candidate->save();
     }
 
     private function create_admin()
     {
         $this->log_alter('admin');
         $admin = User::campMakers(true)->limit(1)->first();
-        $admin->type = config('const.account.admin');
-        $admin->username = 'admin';
-        $admin->name_en = 'Administrator';
-        $admin->surname_en = '001';
-        $admin->nickname_en = 'Admin';
-        $admin->organization_id = null;
+        $admin->update([
+            'type' => config('const.account.admin'),
+            'username' => 'admin',
+            'name_en' => 'Administrator',
+            'surname_en' => '001',
+            'nickname_en' => 'Admin',
+            'organization_id' => null,
+        ]);
         $admin->activate();
-        $admin->save();
     }
 
     /**
@@ -507,9 +510,7 @@ class DatabaseSeeder extends Seeder
         $this->create_admin();
         $this->registrations_and_questions_and_answers();
         $this->badges();
-        $this->call([
-            PermissionTableSeeder::class,
-        ]);
+        $this->call(PermissionTableSeeder::class);
         Model::reguard();
     }
 }

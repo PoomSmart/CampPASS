@@ -161,7 +161,6 @@ class RegisterController extends Controller
             if (!$user)
                 return "The code does not exist for any user in our system.";
             $user->activate();
-            $user->save();
             auth()->login($user);
         } catch (\Exception $exception) {
             logger()->error($exception);

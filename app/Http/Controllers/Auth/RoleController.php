@@ -105,8 +105,9 @@ class RoleController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-        $role->name = $request->input('name');
-        $role->save();
+        $role->update([
+            'name' => $request->input('name'),
+        ]);
         $role->syncPermissions($request->input('permission'));
         return redirect()->route('roles.index')->with('success', 'Role updated successfully');
     }

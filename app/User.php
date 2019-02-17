@@ -213,8 +213,10 @@ class User extends Authenticatable
     public function activate()
     {
         if (!$this->isActivated()) {
-            $this->status = 1;
-            $this->activation_code = null;
+            $this->update([
+                'status' => 1,
+                'activation_code' => null,
+            ]);
             return true;
         }
         return false;

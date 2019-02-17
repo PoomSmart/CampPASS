@@ -87,10 +87,8 @@ class CampController extends Controller
             if ($user->isCampMaker())
                 $request->merge(['organization_id' => $user->organization_id]);
             $camp = Camp::create($request->all());
-            if ($user->isAdmin()) {
-                $camp->approved = true;
-                $camp->save();
-            }
+            if ($user->isAdmin())
+                $camp->approve();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', 'Camp failed to create.');
@@ -145,8 +143,7 @@ class CampController extends Controller
 
     public function approve(Camp $camp)
     {
-        $camp->approved = true;
-        $camp->save();
+        $camp->approve();
         return redirect()->back()->with('success', "Camp {$camp} has been approved.");
     }
 

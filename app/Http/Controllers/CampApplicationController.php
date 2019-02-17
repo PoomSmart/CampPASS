@@ -109,8 +109,9 @@ class CampApplicationController extends Controller
             if ($registration->qualified())
                 throw new \CampPASSException('You already have applied for this camp.');
             if ($status != RegistrationStatus::DRAFT) {
-                $registration->status = $status;
-                $registration->save();
+                $registration->update([
+                    'status' => $status,
+                ]);
             }
         } else {
             $registration = Registration::create([
