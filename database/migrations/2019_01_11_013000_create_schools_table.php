@@ -20,7 +20,6 @@ class CreateSchoolsTable extends Migration
             $table->string('address')->nullable(); // TODO: temporary but likely never
             $table->string('zipcode')->nullable(); // TOOD: temporary but likely never
             $table->tinyInteger('type')->unsigned()->nullable(); // TODO: temporary but likely never
-            $table->timestamps();
         });
     }
 

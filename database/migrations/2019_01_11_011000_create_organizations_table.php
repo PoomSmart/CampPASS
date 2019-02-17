@@ -22,7 +22,6 @@ class CreateOrganizationsTable extends Migration
             $table->tinyInteger('type')->unsigned();
             $table->tinyInteger('subtype')->unsigned()->nullable();
             $table->string('image', 10)->nullable();
-            $table->timestamps();
         });
     }
 

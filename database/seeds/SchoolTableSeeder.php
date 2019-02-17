@@ -10,6 +10,7 @@ class SchoolTableSeeder extends CsvSeeder
     {
         $this->file = '/database/seeds/csvs/schools.csv';
         $this->type = [ 'name_th', ];
+        $this->timestamps = false;
         $this->delimiter = ',';
         $this->table = 'schools';
     }
