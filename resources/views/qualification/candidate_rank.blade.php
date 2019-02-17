@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    @lang('qualification.CandidateRanking') {{ $question_set->announced ? '(Announced)' : null }}
+    @lang('xxx.Campers that passed') {{ $camp }} {{ $question_set->announced ? '(Announced)' : null }}
 @endsection
 
 @section('card_content')
@@ -26,9 +26,9 @@
                 <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                 @php
-                    $passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
+                    $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
                 @endphp
-                <td class="text-center{{ $passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $passed ? trans('app.Yes') : trans('app.No') }}</td>
+                <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $passed ? trans('app.Yes') : trans('app.No') }}</td>
                 @php if (isset($camper_pass) && $camper_pass) ++$passed; @endphp
             </tr>
         @endforeach

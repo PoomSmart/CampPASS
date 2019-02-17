@@ -56,9 +56,10 @@ class CandidateController extends Controller
         });
         if ($list)
             return $form_scores;
+        $camp = $question_set->camp();
         // $max = config('const.app.max_paginate');
         // TODO: pagination ?
-        return view('qualification.candidate_rank', compact('form_scores', 'question_set'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
+        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
     }
 
     public function announce(QuestionSet $question_set)
