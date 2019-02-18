@@ -26,6 +26,7 @@ class Camp extends Model
         'quota', 'approved',
     ];
 
+    // These attributes require mutators for user-friendly date display
     protected $appends = [
         'app_close_date', 'event_start_date', 'event_end_date',
     ];
@@ -85,14 +86,19 @@ class Camp extends Model
         return Common::getLocalizedName($this, 'short_description');
     }
 
+    /**
+     * Get such URL where guests can enter to contact the camp makers.
+     * 
+     */
     public function getURL()
     {
         return $this->fburl ? $this->fburl : $this->url;
     }
 
     /**
-     * Return the campers that belong to the given camp, given the status
+     * Return the campers that belong to the given camp, given the status.
      * 
+     * @return array
      */
     public function campers($status = null, $higher = false, $paginate = 0)
     {
@@ -107,6 +113,13 @@ class Camp extends Model
         return $campers;
     }
 
+    /**
+     * Get the most current registration record of the camper.
+     * TODO: Is it really okay to not take into account the status of the registration?
+     * 
+     * @return \App\Registration
+     * 
+     */
     public function getLatestRegistration($camper_id)
     {
         $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
@@ -122,14 +135,13 @@ class Camp extends Model
         return $form_scores;
     }
 
+    /**
+     * Check if the number of registered and approved campers exceeds the quota.
+     * 
+     */
     public function isFull()
     {
         return $this->quota && $this->campers(RegistrationStatus::APPROVED, $higher = true)->count() >= $this->quota;
-    }
-
-    public function registerOnly()
-    {
-        return !$this->camp_procedure()->candidate_required;
     }
 
     public function approve()
@@ -139,6 +151,10 @@ class Camp extends Model
         ]);
     }
 
+    /**
+     * Fetch all camps that have been approved.
+     * 
+     */
     public static function allApproved()
     {
         return self::where('approved', true);
@@ -151,6 +167,10 @@ class Camp extends Model
         return self::allApproved()->limit(5);
     }
 
+    /**
+     * Determine the question grading type of the camp whenever possible.
+     * 
+     */
     public function gradingType()
     {
         if (!$this->camp_procedure()->candidate_required)

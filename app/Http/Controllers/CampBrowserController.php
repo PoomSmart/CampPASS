@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class CampBrowserController extends Controller
 {
+    /**
+     * Return the camps (filtered by column-value or neither) as a sort of array.
+     * 
+     */
     public function get_camps($column = null, $value = null)
     {
         $camps = Camp::allApproved();

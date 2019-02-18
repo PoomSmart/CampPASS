@@ -25,6 +25,7 @@ class CandidateController extends Controller
         }
         $form_scores = $form_scores->get()->filter(function ($form_score) {
              // We would not grade unsubmitted forms
+             // TODO: These forms by common sense should be rejected from the qualification process at all
             return $form_score->registration()->applied();
         });
         $total_registrations = $form_scores->count();

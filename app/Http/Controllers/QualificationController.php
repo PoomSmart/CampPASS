@@ -112,11 +112,13 @@ class QualificationController extends Controller
         if ($form_score->finalized)
             throw new \CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
         $form_data = $request->all();
+        // We don't need token
         unset($form_data['_token']);
         $camper = $registration->camper();
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
         if (!$answers->exists())
             throw new \CampPASSException('No answers to be saved.');
+        // For all answers given, update all scores of those that will be manually graded
         $answers = $answers->get();
         foreach ($form_data as $id => $value) {
             if (substr($id, 0, 19) === 'manual_score_range_') {

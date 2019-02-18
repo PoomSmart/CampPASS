@@ -53,7 +53,7 @@ class QuestionSetController extends Controller
                     'json_id' => $json_id,
                 ], [
                     'type' => (int)$type,
-                    'full_score' => $graded ? 10.0 : null, // TODO: user-specified?
+                    'full_score' => $graded ? 10.0 : null,
                 ]);
                 QuestionSetQuestionPair::updateOrCreate([
                     'question_set_id' => $question_set->id,
@@ -79,7 +79,7 @@ class QuestionSetController extends Controller
         Common::authenticate_camp($camp);
         $question_set = $camp->question_set();
         if ($question_set) {
-            // questions for this camp exist
+            // Questions for this camp exist in the database
             $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
             $json = json_encode(Storage::disk('local')->get($json_path));
         } else
@@ -94,6 +94,7 @@ class QuestionSetController extends Controller
     {
         Common::authenticate_camp($camp);
         $question_set = $camp->question_set();
+        // This should not happen
         if (!$question_set)
             throw new \CampPASSException();
         if ($question_set->finalized)

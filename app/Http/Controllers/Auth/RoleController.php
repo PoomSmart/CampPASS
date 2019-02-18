@@ -12,11 +12,6 @@ use DB;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
         $this->middleware('permission:role-list');
@@ -33,7 +28,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $max = config('const.app.max_paginate');
-        $roles = Role::orderBy('id','DESC')->paginate($max);
+        $roles = Role::orderBy('id', 'DESC')->paginate($max);
         return view('roles.index', compact('roles'))->with('i', ($request->input('page', 1) - 1) * $max);
     }
 

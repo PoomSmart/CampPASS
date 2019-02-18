@@ -133,6 +133,15 @@ class User extends Authenticatable
         return Common::getLocalizedName($this).' '.Common::getLocalizedName($this, 'surname');
     }
 
+    /**
+     * Get all the camps where the given user belongs.
+     * If campers, return all the camps that they registered.
+     * If camp makers, return all the camps that they can manage.
+     * 
+     * @return Collection
+     * @return Builder
+     * 
+     */
     public function getBelongingCamps()
     {
         if ($this->isCamper())
@@ -142,6 +151,10 @@ class User extends Authenticatable
         return null;
     }
 
+    /**
+     * Check if this user can manage the given camp.
+     * 
+     */
     public function canManageCamp(Camp $camp)
     {
         $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
@@ -168,6 +181,12 @@ class User extends Authenticatable
         return null;
     }
 
+    /**
+     * Get the reason for why this user cannot apply for the given camp, if any.
+     * 
+     * @return string
+     * 
+     */
     public function getIneligibleReasonForCamp(Camp $camp, $short = false)
     {
         if (!$this->isCamper())
@@ -193,6 +212,10 @@ class User extends Authenticatable
         return null;
     }
 
+    /**
+     * Tell if this user is eligible for the camp before doing anything further.
+     * 
+     */
     public function isEligibleForCamp(Camp $camp)
     {
         $error = $this->getIneligibleReasonForCamp($camp);

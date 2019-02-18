@@ -45,11 +45,6 @@ class CampController extends Controller
         return $this->organizations;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $max = config('const.app.max_paginate');
@@ -58,11 +53,6 @@ class CampController extends Controller
         return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $programs = $this->programs;
@@ -74,12 +64,6 @@ class CampController extends Controller
         return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCampRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreCampRequest $request)
     {
         try {
@@ -96,12 +80,6 @@ class CampController extends Controller
         return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Camp  $camp
-     * @return \Illuminate\Http\Response
-     */
     public function show(Camp $camp)
     {
         View::share('object', $camp);
@@ -121,13 +99,7 @@ class CampController extends Controller
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.registration', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Camp  $camp
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(Camp $camp)
     {
         \Auth::user()->canManageCamp($camp);
@@ -146,14 +118,7 @@ class CampController extends Controller
         $camp->approve();
         return redirect()->back()->with('success', "Camp {$camp} has been approved.");
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCampRequest  $request
-     * @param  \App\Camp  $camp
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(StoreCampRequest $request, Camp $camp)
     {
         \Auth::user()->canManageCamp($camp);
@@ -161,12 +126,6 @@ class CampController extends Controller
         return redirect()->route('camps.index')->with('success', "Camp {$camp} has been updated successfully.");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Camp  $camp
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Camp $camp)
     {
         \Auth::user()->canManageCamp($camp);

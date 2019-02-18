@@ -21,6 +21,6 @@ class Badge extends Model
 
     public function getImageName()
     {
-        return str_replace(' ','', $this->badge_category()->name);
+        return str_replace(' ', '', $this->badge_category()->name);
     }
 }
