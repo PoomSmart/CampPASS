@@ -51,7 +51,7 @@ class StoreCampRequest extends FormRequest
             'event_location_lat' => 'nullable|numeric|between:-90,90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|between:-180,180',
             'quota' => 'nullable|integer|min:0',
-            'approved' => 'nullable|boolean|false', // we prevent camps that try to approve themselves
+            'approved' => 'nullable|boolean|false', // We prevent camps that try to approve themselves
         ];
         if (\Auth::user()->isAdmin() && $method == 'POST')
             $rules += [ 'organization_id' => 'required|exists:organizations,id', ];
