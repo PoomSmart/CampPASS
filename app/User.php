@@ -157,7 +157,7 @@ class User extends Authenticatable
      */
     public function canManageCamp(Camp $camp)
     {
-        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->get()->isNotEmpty());
+        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->limit(1)->exists());
         if (!$value)
             throw new \CampPASSExceptionPermission();
         return $value;

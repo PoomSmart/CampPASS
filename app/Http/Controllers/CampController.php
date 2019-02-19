@@ -109,7 +109,7 @@ class CampController extends Controller
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
-        $years = $this ->years;
+        $years = $this->years;
         return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 

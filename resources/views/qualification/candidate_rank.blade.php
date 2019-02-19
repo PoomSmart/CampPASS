@@ -1,13 +1,34 @@
 @extends('layouts.blank')
 
+@section('script')
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+@endsection
+
+
 @section('header')
     @lang('xxx.Campers that passed') {{ $camp }} {{ $question_set->announced ? '(Announced)' : null }}
 @endsection
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-end mb-2">
-        <span>Passing criteria: {{ $question_set->score_threshold * 100 }}%</span>
-        <a class="btn btn-secondary" href="{{ route('questions.show', $camp->id) }}">@lang('question.EditScoreThreshold')</a>
+    <div class="d-flex align-items-center mb-2">
+        <span class="mr-3">@lang('question.PassingCriteria')</span>
+        <form id="form" class="form-inline" method="POST" action="{{ route('questions.store', $camp->id) }}">
+            @csrf
+            @component('components.numeric_range', [
+                'name' => 'score_threshold',
+                'placeholder' => trans('question.EnterThreshold'),
+                'min' => 0.0,
+                'max' => 1.0,
+                'step' => 0.01,
+                'object' => $question_set,
+                'nowrapper' => 1,
+            ])
+            @endcomponent
+            @component('components.submit', [
+                'label' => trans('app.Save'),
+            ])
+            @endcomponent
+        </form>
     </div>
     <table class="table table-striped">
         <thead>

@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'type' => $this->CAMPMAKER,
             'religions' => $this->religions,
             'provinces' => $this->provinces,
-            'organizations' => $this->organizations
+            'organizations' => $this->organizations,
         ]);
     }
 
