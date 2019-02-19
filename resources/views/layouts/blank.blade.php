@@ -2,7 +2,11 @@
 
 @section('outer_content')
     <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10">
+        @if (View::hasSection('custom-width'))
+            @yield('custom-width')
+        @else
+            <div class="col-sm-12 col-md-10">
+        @endif
             @if ($message = Session::get('message'))
                 <div class="alert alert-info text-center">
                     <h3 class="mb-0">{{ $message }}</h3>

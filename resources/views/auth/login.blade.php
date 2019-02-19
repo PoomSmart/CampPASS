@@ -4,6 +4,10 @@
     @lang('app.Login')
 @endsection
 
+@section('custom-width')
+    <div class="col-sm-9 col-md-7">
+@endsection
+
 @section('card_content')
     <form method="POST" action="{{ route('login') }}">
         @csrf
