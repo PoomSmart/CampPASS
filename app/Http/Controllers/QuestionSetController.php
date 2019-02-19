@@ -26,14 +26,7 @@ class QuestionSetController extends Controller
         $this->middleware('permission:question-edit', ['only' => ['finalize']]);
         $this->question_types = QuestionType::getLocalizedConstants('question');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Https\Requests\StoreQuestionRequest  $request
-     * @param   \App\Camp   $camp
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(StoreQuestionRequest $request, Camp $camp)
     {
         Common::authenticate_camp($camp);
