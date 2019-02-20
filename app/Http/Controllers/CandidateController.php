@@ -29,7 +29,7 @@ class CandidateController extends Controller
             return $form_score->registration()->applied();
         });
         $total_registrations = $form_scores->count();
-        $form_scores = $form_scores->filter(function ($form_score) use ($question_set) {
+        $form_scores = $form_scores->filter(function ($form_score) use (&$question_set) {
             // We would not grade unfinalized answers
             return $form_score->finalized && ($question_set->announced ? ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold) : true);
         });
@@ -67,7 +67,7 @@ class CandidateController extends Controller
     {
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
-        $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use ($question_set) {
+        $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use (&$question_set) {
             return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
         });
         if (!$form_scores)

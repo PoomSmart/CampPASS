@@ -20,17 +20,18 @@ class CampBrowserController extends Controller
         if ($column && $value) {
             $camps = $camps->where($column, $value);
             $result = [];
-            foreach ($camps->latest()->get()->chunk(3) as $chunk) {
+            $camps->latest()->chunk(3, function ($chunk) {
                 foreach ($chunk as $camp) {
                     $result[] = $camp;
                 }
-            }
+            });
+            return $result;
         } else {
             $max_fetch = config('const.camp.max_fetch');
             $output_camps = [];
             $category_ids = [];
             $category_count = CampCategory::count();
-            foreach ($camps->latest()->get()->chunk(3) as $chunk) {
+            $camps->latest()->chunk(3, function ($chunk) use (&$max_fetch, &$category_count, &$output_camps, &$category_ids) {
                 foreach ($chunk as $camp) {
                     $category = $camp->camp_category();
                     $category_name = $category->getName();
@@ -44,13 +45,12 @@ class CampBrowserController extends Controller
                             break;
                     }
                 }
-            }
-            $result = [
+            });
+            return [
                 'categorized_camps' => $output_camps,
                 'category_ids' => $category_ids,
             ];
         }
-        return $result;
     }
     /**
      * Display a listing of the resource.

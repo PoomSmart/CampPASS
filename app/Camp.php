@@ -113,6 +113,11 @@ class Camp extends Model
         return $campers;
     }
 
+    public function getRegistrations(User $user)
+    {
+        return $this->registrations()->where('camper_id', $user->id);
+    }
+
     /**
      * Get the most current registration record of the camper.
      * TODO: Is it really okay to not take into account the status of the registration?
@@ -120,10 +125,10 @@ class Camp extends Model
      * @return \App\Registration
      * 
      */
-    public function getLatestRegistration($camper_id)
+    public function getLatestRegistration(User $user)
     {
-        $registration = $this->registrations()->where('camper_id', $camper_id)->latest();
-        return $registration->exists() ? $registration->first() : null;
+        $registrations = $this->getRegistrations($user)->latest();
+        return $registrations->exists() ? $registrations->first() : null;
     }
 
     public function getFormScores()

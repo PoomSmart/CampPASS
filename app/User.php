@@ -227,7 +227,7 @@ class User extends Authenticatable
     public function getLatestRegistrationForCamp(Camp $camp)
     {
         if ($this->isCamper()) {
-            $registration = $camp->getLatestRegistration($this->id);
+            $registration = $camp->getLatestRegistration($this);
             return $registration;
         }
         return null;
