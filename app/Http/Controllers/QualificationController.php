@@ -123,7 +123,7 @@ class QualificationController extends Controller
         foreach ($form_data as $id => $value) {
             if (substr($id, 0, 19) === 'manual_score_range_') {
                 $key = substr($id, 19);
-                $answer = $answers->filter(function ($answer) use ($key) {
+                $answer = $answers->filter(function ($answer) use (&$key) {
                     return $answer->question()->json_id == $key;
                 })->first();
                 if (!$answer) {

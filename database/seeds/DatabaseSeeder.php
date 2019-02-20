@@ -200,7 +200,7 @@ class DatabaseSeeder extends Seeder
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
             $done = false;
-            foreach (Camp::get()->filter(function ($camp) use ($camper) {
+            foreach (Camp::get()->filter(function ($camp) use (&$camper) {
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
@@ -249,7 +249,7 @@ class DatabaseSeeder extends Seeder
             if (QuestionSet::where('camp_id', $camp->id)->limit(1)->exists())
                 continue;
             $json = [];
-            $eligible_campers = $campers->filter(function ($camper) use ($camp) {
+            $eligible_campers = $campers->filter(function ($camper) use (&$camp) {
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
@@ -339,7 +339,7 @@ class DatabaseSeeder extends Seeder
                 if (Common::randomFrequentHit()) {
                     // For each question, all campers who are eligible and registered get a chance to answer
                     foreach ($eligible_campers as $camper) {
-                        $registration = $camp->getLatestRegistration($camper->id);
+                        $registration = $camp->getLatestRegistration($camper);
                         if (!$registration)
                             continue;
                         $answer = null;

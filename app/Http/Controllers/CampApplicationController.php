@@ -11,6 +11,7 @@ use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 
+use App\BadgeController;
 use App\Http\Controllers\QuestionSetController;
 
 use App\Enums\QuestionType;
@@ -99,12 +100,12 @@ class CampApplicationController extends Controller
      * in case we know exactly the registration status to set.
      * 
      */
-    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT)
+    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT, $badge_check = false)
     {
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
             throw new \CampPASSException($ineligible_reason);
-        $registration = $camp->getLatestRegistration($user->id);
+        $registration = $camp->getLatestRegistration($user);
         if ($registration) {
             if ($registration->qualified())
                 throw new \CampPASSException('You already have applied for this camp.');
@@ -120,6 +121,8 @@ class CampApplicationController extends Controller
                 'status' => $status,
             ]);
         }
+        if ($badge_check)
+            BadgeController::addBadgeIfNeeded($registration);
         return $registration;
     }
 
@@ -272,7 +275,7 @@ class CampApplicationController extends Controller
     public function submit_application_form(Camp $camp)
     {
         $this->authenticate($camp);
-        $this->register($camp, \Auth::user(), RegistrationStatus::APPLIED);
+        $this->register($camp, $user = \Auth::user(), $status = RegistrationStatus::APPLIED, $badge_check = true);
         return view('camp_application.done');
     }
 

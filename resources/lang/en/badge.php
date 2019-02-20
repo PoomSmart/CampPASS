@@ -7,7 +7,7 @@ return [
 
     'PioneerDescription' => '',
     'PremiumDescription' => '',
-    'Baby-StepDescription' => '',
+    'BabyStepDescription' => '',
     '3StarsEngineerDescription' => '',
     '3StarsScienceDescription' => '',
     '3StarsComputerDescription' => '',

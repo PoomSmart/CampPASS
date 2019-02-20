@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Badge extends Model
 {
+    protected $fillable = [
+        'badge_category_id', 'camper_id', 'earned_date',
+    ];
+
     public function camper()
     {
         return $this->belongsTo(User::class)->limit(1)->first();
