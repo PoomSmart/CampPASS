@@ -10,7 +10,12 @@
         @csrf
         @method('PUT')
         @yield('camp-fields')
-        @component('components.submit', ['label' => trans('app.Update')])
-        @endcomponent
+        <div class="mt-4 text-center">
+            @component('components.submit', [
+                'label' => trans('app.Update'),
+                'attributes' => 'w-50',
+            ])
+            @endcomponent
+        </div>
     </form>
 @endsection

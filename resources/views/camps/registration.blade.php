@@ -49,7 +49,7 @@
                                     <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
                                         href="{{ route('qualification.answer_grade', [
                                             'registration_id' => $registration->id,
-                                            'question_set_id' => $camp->question_set()->id
+                                            'question_set_id' => $camp->question_set()->id,
                                         ]) }}">@lang('registration.View')</a>
                                 @endif
                             </td>
