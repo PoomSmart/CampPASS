@@ -67,4 +67,6 @@ return [
     'Status' => 'Status',
     'ID' => 'Account ID',
     'Profile' => 'Profile',
+
+    'CampActivities' => 'Camp Activities',
 ];

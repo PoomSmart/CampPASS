@@ -17,7 +17,7 @@
 @section('card_content')
     <div class="row mt-4">
         <div class="col-md-4 text-center">
-            <img src="https://via.placeholder.com/150" alt="..." class="img-circle">
+            <img src="images/profiles/Profile.jpg" alt="..." class="img-circle">
         </div>
         <div class="col-md-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>

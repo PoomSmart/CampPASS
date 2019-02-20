@@ -18,4 +18,7 @@ return [
     'CGPA' => 'Cumulative GPA',
     'RegisteredCampers' => 'Registered Campers',
     'MyCamps' => 'My Camps',
+
+    'CamperSince' => 'Camper Since',
+    'CampsJoined' => 'Camps Joined',
 ];
