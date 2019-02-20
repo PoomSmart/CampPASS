@@ -3,6 +3,11 @@ Web-based Application and Management System for Thai camps.
 
 ## Configuration
 - Get yourself the `.env` file
-- `composer install` (and `composer update --no-scripts` if you feel like it)
+- Use the provided `php.ini` file
+- `composer install`
+- `composer require phpoffice/phpspreadsheet`
+- `composer require maatwebsite/excel`
+- `composer update`
+- `composer dump-autoload -o`
 - `php artisan migrate:fresh --seed`
-- `php artisan serve`
+- `./localrun`
