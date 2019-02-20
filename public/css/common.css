@@ -89,8 +89,13 @@ label[required]::after {
   color: #4e4a45;
 }
 
+a {
+  color: #FB6B0A;
+}
+
 a:hover {
   color: gray;
+  text-decoration: none;
 }
 
 .btn-primary {
@@ -99,7 +104,7 @@ a:hover {
   border: 0;
 }
 
-#btn-primary a:hover {
-  background-color:black;
+.btn-primary:hover {
+  background-color:#4e4a45;
   color: white;
-} 
+}
