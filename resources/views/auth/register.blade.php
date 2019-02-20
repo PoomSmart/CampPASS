@@ -3,7 +3,6 @@
 }@endphp
 
 @extends('layouts.card')
-@include('auth.register-basic')
 
 @section('header')
     @lang('account.Register')
@@ -14,9 +13,12 @@
         @csrf
         <input name="type" type="hidden" value="{{ $type }}">
         @include('profiles.fields')
-        @component('components.submit', [
-            'label' => trans('account.Register'),
-        ])
-        @endcomponent
+        <div class="mt-4 text-center">
+            @component('components.submit', [
+                'label' => trans('account.Register'),
+                'attributes' => 'w-50',
+            ])
+            @endcomponent
+        </div>
     </form>
 @endsection

@@ -50,7 +50,7 @@
                 @endphp
                 <tr>
                     <th class="align-middle" scope="row">{{ ++$i }}</th>
-                    <th class="align-middle"><a href="{{ route('profiles.show', $camper) }}">{{ $camper->getFullName() }}</a></th>
+                    <th class="align-middle"><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
                     <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                     @php
                         $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);

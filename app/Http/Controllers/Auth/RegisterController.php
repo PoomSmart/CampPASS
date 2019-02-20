@@ -107,7 +107,7 @@ class RegisterController extends Controller
             return $user;
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('message', 'Unable to create new user.');
+            throw new \CampPASSException($exception->getMessage());
         }
     }
 
@@ -128,7 +128,7 @@ class RegisterController extends Controller
             event(new Registered($user));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->to('/');
+            throw new \CampPASSException($exception->getMessage());
         }
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
     }
@@ -148,7 +148,7 @@ class RegisterController extends Controller
             auth()->login($user);
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return "Whoops! something went wrong.";
+            throw new \CampPASSException($exception->getMessage());
         }
         return redirect()->to('/');
     }

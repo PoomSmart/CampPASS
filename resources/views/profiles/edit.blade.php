@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('card_content')
-    <form method="POST" action="{{ route('profiles.update', \Auth::user()) }}">
+    <form method="POST" action="{{ route('profiles.update', \Auth::user()->id) }}">
         @csrf
         @method('PUT')
         @php $type = \Auth::user()->type @endphp
