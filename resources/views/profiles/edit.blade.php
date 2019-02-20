@@ -10,9 +10,12 @@
             'type' => $type,
             'update' => 1,
         ])
-        @component('components.submit', [
-            'label' => trans('app.Update'),
-        ])
-        @endcomponent
+        <div class="text-center mt-4">
+            @component('components.submit', [
+                'label' => trans('app.Update'),
+                'attributes' => 'w-50',
+            ])
+            @endcomponent
+        </div>
     </form>
 @endsection
