@@ -100,7 +100,7 @@ class CampApplicationController extends Controller
      * in case we know exactly the registration status to set.
      * 
      */
-    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT, $badge_check = false)
+    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT, bool $badge_check = false)
     {
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
@@ -112,6 +112,7 @@ class CampApplicationController extends Controller
             if ($status != RegistrationStatus::DRAFT) {
                 $registration->update([
                     'status' => $status,
+                    'submission_time' => now(),
                 ]);
             }
         } else {
@@ -119,6 +120,7 @@ class CampApplicationController extends Controller
                 'camp_id' => $camp->id,
                 'camper_id' => $user->id,
                 'status' => $status,
+                'submission_time' => now(),
             ]);
         }
         if ($badge_check)
