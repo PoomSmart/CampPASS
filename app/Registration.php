@@ -5,6 +5,7 @@ namespace App;
 use App\User;
 use App\Answer;
 use App\Camp;
+use App\Candidate;
 use App\Certificate;
 use App\PaymentSlip;
 
@@ -26,6 +27,11 @@ class Registration extends Model
     public function camper()
     {
         return $this->belongsTo(User::class)->limit(1)->first();
+    }
+
+    public function candidate()
+    {
+        return $this->hasOne(Candidate::class)->limit(1)->first();
     }
 
     public function certificate()
