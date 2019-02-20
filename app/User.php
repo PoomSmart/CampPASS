@@ -80,27 +80,27 @@ class User extends Authenticatable
 
     public function answers()
     {
-        return $this->isCamper() ? $this->hasMany(Answer::class) : null;
+        return $this->hasMany(Answer::class, 'camper_id');
     }
 
     public function badges()
     {
-        return $this->isCamper() ? $this->hasMany(Badge::class) : null;
+        return $this->hasMany(Badge::class, 'camper_id');
     }
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class, 'camper_id');
     }
 
     public function organization()
     {
-        return $this->isCampMaker() ? $this->belongsTo(Organization::class)->limit(1)->first() : null;
+        return $this->belongsTo(Organization::class)->limit(1)->first();
     }
 
     public function program()
     {
-        return $this->isCamper() ? $this->belongsTo(Program::class)->limit(1)->first() : null;
+        return $this->belongsTo(Program::class)->limit(1)->first();
     }
 
     public function religion()
@@ -110,7 +110,7 @@ class User extends Authenticatable
 
     public function school()
     {
-        return $this->isCamper() ? $this->belongsTo(School::class)->limit(1)->first() : null;
+        return $this->belongsTo(School::class)->limit(1)->first();
     }
 
     public static function campers(bool $randomOrder = false)
