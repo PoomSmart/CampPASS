@@ -149,9 +149,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_seed('badge_categories');
         BadgeCategory::insert([
-            [ 'name' => 'Pioneer', 'description' => 'badge.PioneerDescription' ],
-            [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription' ],
-            [ 'name' => 'BabyStep', 'description' => 'badge.BabyStepDescription' ],
             [ 'name' => '3 Stars Engineering', 'description' => 'badge.3StarsEngineerDescription' ],
             [ 'name' => '3 Stars Science', 'description' => 'badge.3StarsScienceDescription' ],
             [ 'name' => '3 Stars Computer', 'description' => 'badge.3StarsComputerDescription' ],
@@ -176,6 +173,9 @@ class DatabaseSeeder extends Seeder
             [ 'name' => '3 Stars Political' , 'description' => 'badge.3StarsPoliticalDescription' ],
             [ 'name' => '3 Stars Youth' , 'description' => 'badge.3StarsYouthrDescription' ],
             [ 'name' => '3 Stars Preserve' , 'description' => 'badge.3StarsPreserveDescription' ],
+            [ 'name' => 'Pioneer', 'description' => 'badge.PioneerDescription' ],
+            [ 'name' => 'Premium', 'description' => 'badge.PremiumDescription' ],
+            [ 'name' => 'BabyStep', 'description' => 'badge.BabyStepDescription' ],
         ]);
     }
 
