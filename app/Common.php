@@ -104,6 +104,11 @@ class Common
         return bin2hex(random_bytes($length / 2));
     }
 
+    public static function randomInt10()
+    {
+        return rand(1, 10);
+    }
+
     public static function getLocalizedName($record, $attribute = 'name')
     {
         $th = $record->{"{$attribute}_th"};

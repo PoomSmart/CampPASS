@@ -10,10 +10,10 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="https://placehold.it/1200x400?text=IMAGE" alt="Image">    
+                <img class="d-block w-100" src="images/placeholders/Hero 1.png" alt="Image">    
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">    
+                <img class="d-block w-100" src="images/placeholders/Hero 2.png" alt="Image">    
             </div>
         </div>
         <!-- Left and right controls -->

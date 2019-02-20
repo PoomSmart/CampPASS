@@ -1,5 +1,5 @@
 <div class="card">
-    <img class="card-img-top" src="{{ isset($src) ? $src : 'http://placehold.it/800x600/'.\App\Common::randomString(6) }}" alt="Image of {{ $object }}">
+    <img class="card-img-top" src="{{ isset($src) ? $src : 'images/placeholders/Camp '.\App\Common::randomInt10().'.png' }}" alt="Image of {{ $object }}">
     <div class="card-body">
         <h5 class="card-title"><a href="{{ route('camps.show', $object->id) }}">{{ $object }}</a></h5>
         <p class="text-muted mb-0">@lang('app.By') {{ $object->organization() }}</p>
