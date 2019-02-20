@@ -20,7 +20,7 @@ class Camp_Randomizer
     {
         if (!self::$programs)
             self::$programs = array_column(Program::select('id')->get()->toArray(), 'id', 'id');
-        $values = array_rand(self::$programs, rand(1, count(self::$programs)));
+        $values = array_rand(self::$programs, rand(2, count(self::$programs)));
         return is_array($values) ? $values : [ $values ];
     }
 
@@ -28,7 +28,7 @@ class Camp_Randomizer
     {
         if (!self::$years)
             self::$years = array_column(Year::select('id')->get()->toArray(), 'id', 'id');
-        $values = array_rand(self::$years, rand(1, count(self::$years)));
+        $values = array_rand(self::$years, rand(3, count(self::$years)));
         return is_array($values) ? $values : [ $values ];
     }
 
@@ -36,7 +36,7 @@ class Camp_Randomizer
     {
         if (!self::$regions)
             self::$regions = array_column(Region::select('id')->get()->toArray(), 'id', 'id');
-        $values = array_rand(self::$regions, rand(1, count(self::$regions)));
+        $values = array_rand(self::$regions, rand(3, count(self::$regions)));
         return is_array($values) ? $values : [ $values ];
     }
 }
@@ -58,7 +58,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),
         'acceptable_programs' => Camp_Randomizer::programs(),
         'acceptable_years' => Camp_Randomizer::years(),
-        'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 4.0),
+        'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
         'other_conditions' => Common::randomMediumHit() ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => $faker->unique()->url,
         'app_close_date' => $app_close_date,
