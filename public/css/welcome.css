@@ -49,3 +49,7 @@ html, body {
     margin-bottom: 30px;
   }
 
+  .btn-primary {
+    background-color: #FB6B0A;
+    color: black;
+  }

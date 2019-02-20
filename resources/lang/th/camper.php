@@ -19,5 +19,5 @@ return [
     'CGPA' => 'เกรดเฉลี่ยสะสม(CGPA)',
     'RegisteredCampers' => 'จำนวนน้องค่าย',
     'MyCamps' => 'ค่ายของคุณ',
-    
+
 ];

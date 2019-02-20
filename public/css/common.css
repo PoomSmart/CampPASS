@@ -92,3 +92,14 @@ label[required]::after {
 a:hover {
   color: gray;
 }
+
+.btn-primary {
+  background-color: #FB6B0A;
+  color: white;
+  border: 0;
+}
+
+#btn-primary a:hover {
+  background-color:black;
+  color: white;
+} 
