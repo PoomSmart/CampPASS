@@ -206,7 +206,7 @@ class DatabaseSeeder extends Seeder
                 } catch (\Exception $e) {
                     return false;
                 }
-                return Common::randomFrequentHit() && !Registration::where('camp_id', $camp->id)->where('camper_id', $camper->id)->limit(1)->exists();
+                return Common::randomFrequentHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
@@ -246,7 +246,7 @@ class DatabaseSeeder extends Seeder
                 continue;
             }
             // If there is already the question set for the camp, we already seeded questions and answers
-            if (QuestionSet::where('camp_id', $camp->id)->limit(1)->exists())
+            if ($camp->question_set())
                 continue;
             $json = [];
             $eligible_campers = $campers->filter(function ($camper) use (&$camp) {
