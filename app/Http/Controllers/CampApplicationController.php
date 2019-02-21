@@ -27,13 +27,11 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($camp, bool $eligible_check = false)
+    public static function authenticate(Camp $camp, bool $eligible_check = false)
     {
-        if (!$camp instanceof \App\Camp)
-            $camp = Camp::find($camp);
         $user = \Auth::user();
         if (!$user)
-            throw new \CampPASSException();
+            throw new \CampPASSExceptionPermission();
         if (!$user->hasPermissionTo('answer-list'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // Campers would not submit the answers to the questions of such non-approved camps
@@ -42,6 +40,17 @@ class CampApplicationController extends Controller
         if ($eligible_check)
             \Auth::user()->isEligibleForCamp($camp);
         return $camp;
+    }
+
+    /**
+     * Check whether the current user can manipulate the given registration record.
+     * That is, only the owner can make changes.
+     * 
+     */
+    public static function authenticate_registration(Registration $registration)
+    {
+        if ($registration->camper->id != \Auth::user()->id)
+            throw new \CampPASSExceptionPermission();
     }
 
     /**
@@ -250,11 +259,15 @@ class CampApplicationController extends Controller
 
     public static function status(Registration $registration)
     {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
         return view('camp_application.status', compact('registration'));
     }
 
     public static function confirm(Registration $registration, bool $void = false)
     {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
         if ($registration->status == RegistrationStatus::QUALIFIED)
             throw new \CampPASSExceptionRedirectBack('You already confirmed attending this camp.');
         $registration->update([
