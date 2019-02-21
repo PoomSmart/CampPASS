@@ -465,7 +465,7 @@ class DatabaseSeeder extends Seeder
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
-        $candidate = User::campMakers(true)->get()->filter(function ($campmaker) {
+        $candidate = User::campMakers(true)->get()->sortByDesc(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();
         })->first();
         $candidate->update([
