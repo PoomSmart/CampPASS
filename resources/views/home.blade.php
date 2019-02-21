@@ -10,10 +10,10 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="images/placeholders/Hero 1.png" alt="Image">    
+                <img class="d-block w-100" src="{{ isset($src) ? $src : asset('/images/placeholders/Hero 1.png') }}" alt="Junior Webmaster Camp X">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="images/placeholders/Hero 2.png" alt="Image">    
+                <img class="d-block w-100" src="{{ isset($src) ? $src : asset('/images/placeholders/Hero 2.png') }}" alt="MSP Spark Camp #2">
             </div>
         </div>
         <!-- Left and right controls -->
