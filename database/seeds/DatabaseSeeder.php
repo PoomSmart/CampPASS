@@ -425,6 +425,7 @@ class DatabaseSeeder extends Seeder
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
             QualificationController::form_finalize($manual_form_score, $silent = true);
         }
+        unset($manual_grade_question_set_ids);
         unset($faker);
     }
 

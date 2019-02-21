@@ -67,9 +67,13 @@ class CandidateController extends Controller
     {
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
-        $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use (&$question_set) {
-            return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
-        });
+        // The qualified campers are those that have form score passing the criteria
+        $form_scores = $this->rank($question_set, $list = true);
+        if ($form_scores) {
+            $form_scores = $form_scores->filter(function ($form_score) use (&$question_set) {
+                return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
+            });
+        }
         if (!$form_scores)
             throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
