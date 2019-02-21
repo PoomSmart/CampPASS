@@ -71,5 +71,5 @@
 @endsection
 
 @section('extra-buttons')
-    <button class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
+    <button class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
 @endsection

@@ -62,7 +62,7 @@ Route::group(['middleware' => ['permission:answer-grade', 'permission:camper-lis
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/finalize-form/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
-        Route::get('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
+        Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
     });
 });
 

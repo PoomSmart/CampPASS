@@ -17,6 +17,8 @@ class CandidateController extends Controller
 {
     public static function rank(QuestionSet $question_set, bool $list = false)
     {
+        if ($question_set->announced)
+            throw new \CampPASSException('The candidates have already been announced.');
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         if (!$form_scores->exists())
             throw new \CampPASSException('You cannot rank the application form without questions.');
@@ -38,10 +40,6 @@ class CandidateController extends Controller
         foreach ($form_scores as $form_score) {
             if (is_null($form_score->total_score)) {
                 $registration = $form_score->registration();
-                if ($registration->status != RegistrationStatus::QUALIFIED)
-                    $registration->update([
-                        'status' => RegistrationStatus::QUALIFIED,
-                    ]);
                 $question_set = $form_score->question_set();
                 $form_score->update([
                     'total_score' => QualificationController::answer_grade($registration->id, $question_set->id, $silent = true),
@@ -71,6 +69,10 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
         foreach ($form_scores as $form_score) {
+            $registration = $form_score->registration();
+            $registration->update([
+                'status' => RegistrationStatus::QUALIFIED,
+            ]);
             $candidates[] = [
                 'registration_id' => $form_score->registration_id,
                 'total_score' => $form_score->total_score,
