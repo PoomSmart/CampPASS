@@ -88,7 +88,7 @@ class CampApplicationController extends Controller
      * in case we know exactly the registration status to set.
      * 
      */
-    public function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT, bool $badge_check = false)
+    public static function register(Camp $camp, User $user, $status = RegistrationStatus::DRAFT, bool $badge_check = false)
     {
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
@@ -120,7 +120,7 @@ class CampApplicationController extends Controller
      * For the camps that include questions, we fetch those questions and respective answers for campers (if any) and return as JSON.
      * 
      */
-    public function prepare_questions_answers(Camp $camp, User $user)
+    public static function prepare_questions_answers(Camp $camp, User $user)
     {
         $question_set = $camp->question_set();
         $pairs = $question_set ? $question_set->pairs()->get() : null;
@@ -143,19 +143,20 @@ class CampApplicationController extends Controller
         ];
     }
 
-    public function landing(Camp $camp)
+    public static function landing(Camp $camp, Registration $registration = null)
     {
-        $this->authenticate($camp);
+        self::authenticate($camp);
         $user = \Auth::user();
-        $registration = $this->register($camp, $user);
+        if (!$registration)
+            $registration = self::register($camp, $user);
         $camp_procedure = $camp->camp_procedure();
         // Stage: Already applied or qualified
         if ($registration->applied_or_qualified())
-            return $this->status($registration);
+            return self::status($registration);
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
             // Cases: All camp procedures with Questions Pre-applied
-            $data = $this->prepare_questions_answers($camp, $user);
+            $data = self::prepare_questions_answers($camp, $user);
             $json = $data['json'];
             $question_set = $data['question_set'];
             return view('camp_application.question_answer', compact('camp', 'json', 'question_set'));
@@ -163,12 +164,12 @@ class CampApplicationController extends Controller
         if ($camp_procedure->deposit_required) {
             // Stage: Upload payment slip
             // Cases: Deposit Only Pre-applied
-            return $this->status($registration);
+            return self::status($registration);
         }
         // Stage: Apply (right away)
         // Cases: Walk-in Pre-applied
         // TODO: with status checking page?
-        return $this->submit_application_form($camp);
+        return self::submit_application_form($camp);
     }
 
     public function store(Request $request)
@@ -240,14 +241,14 @@ class CampApplicationController extends Controller
      * Directly apply for a camp and respond back with the done page.
      * 
      */
-    public function submit_application_form(Camp $camp)
+    public static function submit_application_form(Camp $camp)
     {
-        $this->authenticate($camp);
-        $this->register($camp, $user = \Auth::user(), $status = RegistrationStatus::APPLIED, $badge_check = true);
+        self::authenticate($camp);
+        self::register($camp, $user = \Auth::user(), $status = RegistrationStatus::APPLIED, $badge_check = true);
         return view('camp_application.done');
     }
 
-    public function status(Registration $registration)
+    public static function status(Registration $registration)
     {
         return view('camp_application.status', compact('registration'));
     }

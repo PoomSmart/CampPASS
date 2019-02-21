@@ -17,17 +17,15 @@
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">Application</h4>
-                <p>
                     @if ($registration->applied())
-                        @lang('qualification.Grading')
+                        <p>@lang('qualification.Grading')</p>
                     @elseif ($registration->approved() || $registration->qualified())
-                        Congratulations, your application form has been accepted!
+                        <p>Congratulations, your application form has been accepted!</p>
                     @elseif ($registration->returned())
-                        Your application form has been returned, please check the completeness of the form and resubmit it.
+                        <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>
                     @else
-                        @lang('registration.Edit')
+                        <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary">@lang('registration.Edit')</a>
                     @endif
-                </p>
             </div>
         @endif
 
