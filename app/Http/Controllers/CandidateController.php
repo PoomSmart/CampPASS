@@ -18,14 +18,10 @@ class CandidateController extends Controller
     public function rank(QuestionSet $question_set, $list = false)
     {
         $form_scores = FormScore::where('question_set_id', $question_set->id);
-        if (!$form_scores->exists()) {
-            if ($list)
-                return null;
+        if (!$form_scores->exists())
             throw new \CampPASSException('You cannot rank the application form without questions.');
-        }
         $form_scores = $form_scores->get()->filter(function ($form_score) {
-             // We would not grade unsubmitted forms
-             // TODO: These forms by common sense should be rejected from the qualification process at all
+             // TODO: These unsubmitted forms by common sense should be rejected from the grading process at all
             return $form_score->registration()->applied();
         });
         $total_registrations = $form_scores->count();
@@ -33,16 +29,10 @@ class CandidateController extends Controller
             // We would not grade unfinalized answers
             return $form_score->finalized && ($question_set->announced ? ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold) : true);
         });
-        if ($form_scores->isEmpty()) {
-            if ($list)
-                return null;
+        if ($form_scores->isEmpty())
             throw new \CampPASSExceptionRedirectBack('No finalized application forms to rank.');
-        }
-        if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
-            if ($list)
-                return null;
+        if (!$question_set->announced && $form_scores->count() !== $total_registrations)
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
-        }
         foreach ($form_scores as $form_score) {
             if (is_null($form_score->total_score)) {
                 $registration = $form_score->registration();
@@ -68,13 +58,10 @@ class CandidateController extends Controller
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
         // The qualified campers are those that have form score passing the criteria
-        $form_scores = $this->rank($question_set, $list = true);
-        if ($form_scores) {
-            $form_scores = $form_scores->filter(function ($form_score) use (&$question_set) {
-                return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
-            });
-        }
-        if (!$form_scores)
+        $form_scores = $this->rank($question_set, $list = true)->filter(function ($form_score) use (&$question_set) {
+            return $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
+        });
+        if ($form_scores->isEmpty())
             throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
         foreach ($form_scores as $form_score) {
