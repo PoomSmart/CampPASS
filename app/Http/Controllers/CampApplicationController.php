@@ -163,8 +163,7 @@ class CampApplicationController extends Controller
         if ($camp_procedure->deposit_required) {
             // Stage: Upload payment slip
             // Cases: Deposit Only Pre-applied
-            // TODO: The below view is only for chosen candidates
-            return view('camp_application.deposit', compact('camp'));
+            return $this->status($registration);
         }
         // Stage: Apply (right away)
         // Cases: Walk-in Pre-applied
@@ -248,15 +247,8 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
-    public function deposit(Registration $registration)
-    {
-        // TODO: complete this
-        return view('camp_application.deposit');
-    }
-
     public function status(Registration $registration)
     {
-        // TODO: complete this
         return view('camp_application.status', compact('registration'));
     }
 

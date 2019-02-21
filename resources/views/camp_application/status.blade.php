@@ -6,7 +6,7 @@
 @endphp
 
 @section('header')
-    Application Status
+    Application Status for {{ $camp }}
 @endsection
 
 @section('card_content')
