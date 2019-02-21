@@ -54,7 +54,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'organization_id' => rand(1, Organization::count()),
         'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
-        'long_description' => $faker->sentence($nbWords = 90, $variableNbWords = true),
+        'long_description' => $faker->sentence($nbWords = 80, $variableNbWords = true),
         'acceptable_programs' => Camp_Randomizer::programs(),
         'acceptable_years' => Camp_Randomizer::years(),
         'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
