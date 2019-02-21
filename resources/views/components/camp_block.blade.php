@@ -2,8 +2,8 @@
     <img class="card-img-top" src="{{ isset($src) ? $src : asset('/images/placeholders/Camp '.\App\Common::randomInt10().'.png') }}" alt="Image of {{ $object }}">
     <div class="card-body">
         <h5 class="card-title"><a href="{{ route('camps.show', $object->id) }}">{{ $object }}</a></h5>
-        <h6>({{ $object->camp_procedure() }})</h6>
-        <p class="text-muted mb-0">@lang('app.By') {{ $object->organization() }}</p>
+        <h6>({{ $object->camp_procedure }})</h6>
+        <p class="text-muted mb-0">@lang('app.By') {{ $object->organization }}</p>
         <div class="my-2 list-group">
             <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>
             <span class="text-muted"><i class="fas fa-globe-asia mr-2"></i>Location X</span>

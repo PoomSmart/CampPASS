@@ -35,12 +35,12 @@ class QualificationController extends Controller
         Common::authenticate_camp(Camp::find($registration->camp_id), $silent = $silent);
         if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
             throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
-        $camper = $registration->camper();
+        $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
         $answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $camper->id);
         if (!$answers->exists())
             throw new \CampPASSException('You cannot grade the answers of the application form without questions.');
-        $camp = $question_set->camp();
+        $camp = $question_set->camp;
         $answers = $answers->get();
         $data = [];
         $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
@@ -54,7 +54,7 @@ class QualificationController extends Controller
         $camper_score = 0;
         $total_score = 0;
         foreach ($answers as $answer) {
-            $question = $answer->question();
+            $question = $answer->question;
             $answer_score = $answer->score;
             $answer_value = $answer->answer;
             // Grade the questions that need to be graded and are of choice type
@@ -114,7 +114,7 @@ class QualificationController extends Controller
         $form_data = $request->all();
         // We don't need token
         unset($form_data['_token']);
-        $camper = $registration->camper();
+        $camper = $registration->camper;
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
         if (!$answers->exists())
             throw new \CampPASSException('No answers to be saved.');
@@ -124,7 +124,7 @@ class QualificationController extends Controller
             if (substr($id, 0, 19) === 'manual_score_range_') {
                 $key = substr($id, 19);
                 $answer = $answers->filter(function ($answer) use (&$key) {
-                    return $answer->question()->json_id == $key;
+                    return $answer->question->json_id == $key;
                 })->first();
                 if (!$answer) {
                     logger()->error('Trying to parse an answer that does not exist.');
@@ -140,7 +140,7 @@ class QualificationController extends Controller
 
     public static function form_finalize(FormScore $form_score, $silent = false)
     {
-        Common::authenticate_camp(Camp::find($form_score->question_set()->camp()->id), $silent = $silent);
+        Common::authenticate_camp(Camp::find($form_score->question_set->camp->id), $silent = $silent);
         if (!$form_score->finalized) {
             $form_score->update([
                 'finalized' => true,

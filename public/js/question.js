@@ -14,9 +14,11 @@ var checkbox_label = "";
 var add_choice_HTML = "";
 var add_checkbox_HTML = "";
 
-var campId = -1
-function getInfo(loc_choice_label, loc_checkbox_label, camp_id) {
+var campId = -1;
+var finalized = false;
+function getInfo(loc_choice_label, loc_checkbox_label, camp_id, is_finalized) {
     campId = camp_id;
+    finalized = is_finalized;
     console.log(`Get camp ID: ${campId}`);
     delete_label = jQuery(question_block_selector).first().find("#question-delete").text();
     choice_label = loc_choice_label;
@@ -164,11 +166,13 @@ function addRadioOrCheckbox(target, name, type, parentId, i) {
 function addAdditionalContent(block, add, type, parentId, entries, value) {
     resetProperties(block);
     if (type == QuestionType.CHOICES) {
-        var add_choice_button = jQuery(jQuery.parseHTML(add_choice_HTML));
-        add_choice_button.on('click', function (e) {
-            e.preventDefault();
-            addRadioOrCheckbox(add, "radio", type, parentId, randId());
-        });
+        if (!finalized) {
+            var add_choice_button = jQuery(jQuery.parseHTML(add_choice_HTML));
+            add_choice_button.on('click', function (e) {
+                e.preventDefault();
+                addRadioOrCheckbox(add, "radio", type, parentId, randId());
+            });
+        }
         add.append(add_choice_button);
         if (entries) {
             Object.keys(entries).forEach(function(choice_id) {
@@ -184,12 +188,14 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             addRadioOrCheckbox(add, "radio", type, parentId, randId());
         }
     } else if (type == QuestionType.CHECKBOXES) {
-        var add_checkbox_button = jQuery(jQuery.parseHTML(add_checkbox_HTML));
-        add_checkbox_button.on('click', function (e) {
-            e.preventDefault();
-            addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
-        });
-        add.append(add_checkbox_button);
+        if (!finalized) {
+            var add_checkbox_button = jQuery(jQuery.parseHTML(add_checkbox_HTML));
+            add_checkbox_button.on('click', function (e) {
+                e.preventDefault();
+                addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
+            });
+            add.append(add_checkbox_button);
+        }
         if (entries) {
             Object.keys(entries).forEach(function(checkbox_id) {
                 var checkbox_text = entries[checkbox_id];
@@ -200,6 +206,10 @@ function addAdditionalContent(block, add, type, parentId, entries, value) {
             addRadioOrCheckbox(add, "checkbox", type, parentId, randId());
     }
     forcePropertiesIfNecessary(block, type);
+    if (finalized) {
+        add.find(".input-group-append").remove();
+        add.find("input[type=text]").prop("disabled", true);
+    }
 }
 
 function selectionChanged(select) {

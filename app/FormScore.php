@@ -15,11 +15,11 @@ class FormScore extends Model
 
     public function registration()
     {
-        return $this->belongsTo(Registration::class)->limit(1)->first();
+        return $this->belongsTo(Registration::class);
     }
 
     public function question_set()
     {
-        return $this->belongsTo(QuestionSet::class)->limit(1)->first();
+        return $this->belongsTo(QuestionSet::class);
     }
 }

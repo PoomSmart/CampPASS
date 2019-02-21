@@ -11,11 +11,11 @@ class Certificate extends Model
 {
     public function template()
     {
-        return $this->belongsTo(CertificateTemplate::class)->limit(1)->first();
+        return $this->belongsTo(CertificateTemplate::class);
     }
 
     public function registration()
     {
-        return $this->belongsTo(Registration::class)->limit(1)->first();
+        return $this->belongsTo(Registration::class);
     }
 }

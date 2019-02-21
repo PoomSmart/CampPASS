@@ -35,7 +35,7 @@
             ]);
             @endcomponent
         </div>
-        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp_id !!}");</script>
+        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp_id !!}", {!! isset($object) && $object->finalized !!});</script>
         @if (!empty($json))
             <script>
                 var client_json = JSON.parse({!! $json !!});
@@ -50,4 +50,10 @@
             <a class="btn btn-secondary" href="{{ route('camps.index') }}">@lang('app.Back')</a>
         </div>
     </form>
+    @if (isset($object) && $object->finalized)
+        <script>
+            jQuery(':radio').attr('disabled', true);
+            jQuery(':checkbox').attr('disabled', true);
+        </script>
+    @endif
 @endsection

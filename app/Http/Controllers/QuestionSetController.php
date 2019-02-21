@@ -71,7 +71,7 @@ class QuestionSetController extends Controller
     public function show(Camp $camp)
     {
         Common::authenticate_camp($camp);
-        $question_set = $camp->question_set();
+        $question_set = $camp->question_set;
         if ($question_set) {
             // Questions for this camp exist in the database
             $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
@@ -87,10 +87,9 @@ class QuestionSetController extends Controller
     public function finalize(Camp $camp)
     {
         Common::authenticate_camp($camp);
-        $question_set = $camp->question_set();
-        // This should not happen
-        if (!$question_set)
-            throw new \CampPASSException();
+        $question_set = $camp->question_set;
+        if (!$question_set || $question_set->pairs->isEmpty())
+            throw new \CampPASSExceptionRedirectBack('There are no questions to be saved.');
         if ($question_set->finalized)
             throw new \CampPASSExceptionRedirectBack('This question set has already been finalized.');
         $question_set->update([

@@ -15,11 +15,11 @@ class QuestionSetQuestionPair extends Model
 
     public function question()
     {
-        return $this->belongsTo(Question::class)->limit(1)->first();
+        return $this->belongsTo(Question::class);
     }
 
     public function question_set()
     {
-        return $this->belongsTo(QuestionSet::class)->limit(1)->first();
+        return $this->belongsTo(QuestionSet::class);
     }
 }

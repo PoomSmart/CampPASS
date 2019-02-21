@@ -52,8 +52,8 @@
         @else
             @foreach ($form_scores as $form_score)
                 @php
-                    $registration = $form_score->registration();
-                    $camper = $registration->camper();
+                    $registration = $form_score->registration;
+                    $camper = $registration->camper;
                 @endphp
                 <tr>
                     <th class="align-middle" scope="row">{{ ++$i }}</th>

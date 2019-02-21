@@ -215,7 +215,7 @@ class DatabaseSeeder extends Seeder
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
-                $camp_procedure = $camp->camp_procedure();
+                $camp_procedure = $camp->camp_procedure;
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required)
                     $status = Common::randomFrequentHit() ? RegistrationStatus::QUALIFIED : RegistrationStatus::DRAFT;
                 else
@@ -249,13 +249,13 @@ class DatabaseSeeder extends Seeder
         $question_set_id = 0;
         $question_id = 0;
         foreach (Camp::allApproved()->cursor() as $camp) {
-            if (!$camp->camp_procedure()->candidate_required) {
+            if (!$camp->camp_procedure->candidate_required) {
                 // Clean up all registrations that should not exist in this case
                 Registration::where('camp_id', $camp->id)->delete();
                 continue;
             }
             // If there is already the question set for the camp, we already seeded questions and answers
-            if ($camp->question_set())
+            if ($camp->question_set)
                 continue;
             $json = [];
             $eligible_campers = $campers->filter(function ($camper) use (&$camp) {
@@ -444,7 +444,7 @@ class DatabaseSeeder extends Seeder
             try {
                 CandidateController::announce($question_set, $void = true);
                 if (Common::randomFrequentHit()) {
-                    foreach ($question_set->camp()->registrations()->all() as $registration) {
+                    foreach ($question_set->camp->registrations()->all() as $registration) {
                         if (Common::randomRareHit())
                             continue;
                         CampApplicationController::confirm($registration, $void = true);

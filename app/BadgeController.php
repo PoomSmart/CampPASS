@@ -40,8 +40,8 @@ class BadgeController
     {
         // TODO: Add Pioneer Badge
         if ($registration->qualified()) {
-            $camper = $registration->camper();
-            $camp = $registration->camp();
+            $camper = $registration->camper;
+            $camp = $registration->camp;
             $registrations = $camp->getRegistrations($camper)->where('camper_id', $camper->id)->where('status', RegistrationStatus::QUALIFIED);
             if (!$camper->badges()->where('badge_category_id', self::getBabyStepBadgeID())->limit(1)->exists()) {
                 // Attended the first camp via CampPASS
@@ -64,7 +64,7 @@ class BadgeController
             $registrations_by_camp_categories = [];
             $registrations->chunk(5, function ($chunk) {
                 foreach ($chunk as $registration) {
-                    $category_id = $registration->camp()->camp_category_id;
+                    $category_id = $registration->camp->camp_category_id;
                     if (!isset($registrations_by_camp_categories[$category_id]))
                         $registrations_by_camp_categories[$category_id] = [];
                     $registrations_by_camp_categories[$category_id][] = $registration;

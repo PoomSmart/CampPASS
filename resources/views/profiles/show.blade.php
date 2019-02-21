@@ -31,7 +31,7 @@
                         <h6>{{ $user->school() }}</h6>
                     @else
                         <h5>@lang('campmaker.Organization')</h5>
-                        <h6>{{ $user->organization() }}</h6>
+                        <h6>{{ $user->organization }}</h6>
                     @endif
                 </div>
                 <div class="col-md-6">
@@ -81,7 +81,7 @@
                 <div class="row">
                     @foreach ($badges as $badge)
                         <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2 my-auto">
-                            <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category()->name }}" title="{{ $badge->badge_category()->name }}">
+                            <img class="img-fluid" src={{ asset("/images/badges/{$badge->getImageName()}.png") }} alt="{{ $badge->badge_category->name }}" title="{{ $badge->badge_category->name }}">
                         </div>
                     @endforeach
                 </div>

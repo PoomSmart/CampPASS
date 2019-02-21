@@ -24,7 +24,7 @@ class CandidateController extends Controller
             throw new \CampPASSException('You cannot rank the application form without questions.');
         $form_scores = $form_scores->get()->filter(function ($form_score) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
-            $applied = $form_score->registration()->applied();
+            $applied = $form_score->registration->applied();
             // TODO: Must also check if this registration has the associated approved payment slip
             return $applied;
         });
@@ -39,8 +39,8 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
         foreach ($form_scores as $form_score) {
             if (is_null($form_score->total_score)) {
-                $registration = $form_score->registration();
-                $question_set = $form_score->question_set();
+                $registration = $form_score->registration;
+                $question_set = $form_score->question_set;
                 $form_score->update([
                     'total_score' => QualificationController::answer_grade($registration->id, $question_set->id, $silent = true),
                 ]);
@@ -51,7 +51,7 @@ class CandidateController extends Controller
         });
         if ($list)
             return $form_scores;
-        $camp = $question_set->camp();
+        $camp = $question_set->camp;
         // $max = config('const.app.max_paginate');
         // TODO: pagination ?
         return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
@@ -68,9 +68,9 @@ class CandidateController extends Controller
         if ($form_scores->isEmpty())
             throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
-        $camp_procedure = $question_set->camp()->camp_procedure();
+        $camp_procedure = $question_set->camp->camp_procedure;
         foreach ($form_scores as $form_score) {
-            $registration = $form_score->registration();
+            $registration = $form_score->registration;
             // The application form can be approved now if they do not need to pay the deposit
             if (!$camp_procedure->deposit_required)
                 $registration->update([

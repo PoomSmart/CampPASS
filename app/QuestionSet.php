@@ -16,7 +16,7 @@ class QuestionSet extends Model
 
     public function camp()
     {
-        return $this->belongsTo(Camp::class)->limit(1)->first();
+        return $this->belongsTo(Camp::class);
     }
 
     public function pairs()

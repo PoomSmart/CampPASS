@@ -1,3 +1,6 @@
+@php
+    $finalized = isset($object) && $object->finalized;
+@endphp
 <div class="card mb-4" id="question-block-{{ $camp_id }}-00000">
     <div class="card-body">
         <div class="row">
@@ -15,11 +18,14 @@
                                 'isform' => 0,
                                 'objects' => $question_types,
                                 'attributes' => 'required onchange=selectionChanged(this);',
+                                'disabled' => $finalized,
                             ])
                             @endcomponent
-                            <div class="input-group-append">
-                                <a href="#" id="question-delete" class="btn btn-danger" onclick="return deleteQuestion(this);">@lang('app.Delete')</a>
-                            </div>
+                            @if (!$finalized)
+                                <div class="input-group-append">
+                                    <a href="#" id="question-delete" class="btn btn-danger" onclick="return deleteQuestion(this);">@lang('app.Delete')</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -30,7 +36,7 @@
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
                 <div class="input-group">
-                    <input type="text" required autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="@lang('question.EnterQuestionPlaceholder')">
+                    <input type="text" required {{ $finalized ? 'disabled' : null }} autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="@lang('question.EnterQuestionPlaceholder')">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <input type="checkbox" id="question-required" name="question_required[{{ $camp_id }}-00000]" aria-label="Check to require answer for this question">

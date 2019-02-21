@@ -21,22 +21,22 @@ class Registration extends Model
 
     public function camp()
     {
-        return $this->belongsTo(Camp::class)->limit(1)->first();
+        return $this->belongsTo(Camp::class);
     }
 
     public function camper()
     {
-        return $this->belongsTo(User::class)->limit(1)->first();
+        return $this->belongsTo(User::class);
     }
 
     public function candidate()
     {
-        return $this->hasOne(Candidate::class)->limit(1)->first();
+        return $this->hasOne(Candidate::class);
     }
 
     public function certificate()
     {
-        return $this->hasOne(Certificate::class)->limit(1)->first();
+        return $this->hasOne(Certificate::class);
     }
 
     public function payment_slips()

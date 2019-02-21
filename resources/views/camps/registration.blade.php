@@ -8,8 +8,8 @@
     <p class="text-center">{{ $category->getName() }}</p>
     @can('answer-list')
         @php
-            $question_set = $camp->question_set();
-            $rankable = $camp->camp_procedure()->candidate_required && !is_null($question_set);
+            $question_set = $camp->question_set;
+            $rankable = $camp->camp_procedure->candidate_required && !is_null($question_set);
         @endphp
     @endcan
     <div class="row">
@@ -36,8 +36,8 @@
                     </thead>
                     @foreach ($data as $key => $form_score)
                         @php
-                            $registration = $form_score->registration();
-                            $camper = $registration->camper();
+                            $registration = $form_score->registration;
+                            $camper = $registration->camper;
                         @endphp
                         <tr>
                             <th class="align-middle" scope="row">{{ $registration->id }}</th>

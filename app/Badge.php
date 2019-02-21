@@ -15,16 +15,16 @@ class Badge extends Model
 
     public function camper()
     {
-        return $this->belongsTo(User::class)->limit(1)->first();
+        return $this->belongsTo(User::class);
     }
 
     public function badge_category()
     {
-        return $this->belongsTo(BadgeCategory::class)->limit(1)->first();
+        return $this->belongsTo(BadgeCategory::class);
     }
 
     public function getImageName()
     {
-        return str_replace(' ', '', $this->badge_category()->name);
+        return str_replace(' ', '', $this->badge_category->name);
     }
 }

@@ -70,7 +70,7 @@ class CampApplicationController extends Controller
         }
         if (!$apply_text) {
             $apply_text = trans('registration.Apply');
-            $camp_procedure = $camp->camp_procedure();
+            $camp_procedure = $camp->camp_procedure;
             if ($camp_procedure->candidate_required)
                 $apply_text = "{$apply_text} (QA)";
         }
@@ -122,7 +122,7 @@ class CampApplicationController extends Controller
      */
     public static function prepare_questions_answers(Camp $camp, User $user)
     {
-        $question_set = $camp->question_set();
+        $question_set = $camp->question_set;
         $pairs = $question_set ? $question_set->pairs()->get() : null;
         if (!isset($pairs) || $pairs->isEmpty())
             throw new \CampPASSException('There are no questions in here.');
@@ -149,7 +149,7 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         if (!$registration)
             $registration = self::register($camp, $user);
-        $camp_procedure = $camp->camp_procedure();
+        $camp_procedure = $camp->camp_procedure;
         // Stage: Already applied or qualified
         if ($registration->applied_to_qualified())
             return self::status($registration);
@@ -218,7 +218,7 @@ class CampApplicationController extends Controller
      */
     public function answer_view(QuestionSet $question_set)
     {
-        $camp = $question_set->camp();
+        $camp = $question_set->camp;
         $this->authenticate($camp, $eligible_check = true);
         $camper = \Auth::user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
@@ -228,7 +228,7 @@ class CampApplicationController extends Controller
         if ($answers->isEmpty())
             throw new \CampPASSExceptionRedirectBack('You have not answered anything.');
         foreach ($answers as $answer) {
-            $question = $answer->question();
+            $question = $answer->question;
             $data[] = [
                 'question' => $question,
                 'answer' => Common::decodeIfNeeded($answer->answer, $question->type),
@@ -274,9 +274,9 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         if ($user->isAdmin())
             return;
-        if ($user->isCamper() && $answer->camper()->id != $user->id)
+        if ($user->isCamper() && $answer->camper->id != $user->id)
             throw new \CampPASSExceptionPermission();
-        else if ($user->isCampMaker() && !$user->canManageCamp($answer->question_set()->camp()))
+        else if ($user->isCampMaker() && !$user->canManageCamp($answer->question_set->camp))
             throw new \CampPASSExceptionPermission();
     }
 
@@ -287,12 +287,12 @@ class CampApplicationController extends Controller
     public function get_answer_file_path(Answer $answer)
     {
         $this->canAccessAnswer($answer);
-        $question = $answer->question();
+        $question = $answer->question;
         if ($question->type != QuestionType::FILE)
             return null;
         $json_id = $question->json_id;
-        $question_set = $question->pair()->question_set();
-        $camp = $question_set->camp();
+        $question_set = $question->pair->question_set;
+        $camp = $question_set->camp;
         $camper_id = $answer->camper_id;
         $directory = Common::questionSetDirectory($camp->id);
         $filepath = "{$directory}/{$json_id}/{$camper_id}/{$json_id}.pdf";

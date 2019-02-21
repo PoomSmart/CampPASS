@@ -115,10 +115,10 @@ class UserController extends Controller
     {
         if ($user->isCamper()) {
             foreach (Answer::where('camper_id', $user->id)->cursor() as $answer) {
-                $question = $answer->question();
+                $question = $answer->question;
                 if ($question->type == QuestionType::FILE) {
-                    $registration = $answer->registration();
-                    $camp = $registration->camp();
+                    $registration = $answer->registration;
+                    $camp = $registration->camp;
                     $directory = Common::questionSetDirectory($camp->id);
                     Storage::disk('local')->delete("{$directory}/{$question->json_id}/{$user->id}");
                 }

@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h5>@lang('account.CampMaker')</h5>
-                    <p class="text-muted">{{ $camp->organization() }}</p>
+                    <p class="text-muted">{{ $camp->organization }}</p>
                 </div>
             </div>
             <div class="row">

@@ -33,7 +33,7 @@ class CampBrowserController extends Controller
             $category_count = CampCategory::count();
             $camps->latest()->chunk(3, function ($chunk) use (&$max_fetch, &$category_count, &$output_camps, &$category_ids) {
                 foreach ($chunk as $camp) {
-                    $category = $camp->camp_category();
+                    $category = $camp->camp_category;
                     $category_name = $category->getName();
                     if (!isset($output_camps[$category_name])) {
                         $output_camps[$category_name] = [];

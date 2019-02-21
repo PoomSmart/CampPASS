@@ -58,22 +58,22 @@ class Camp extends Model
 
     public function camp_procedure()
     {
-        return $this->belongsTo(CampProcedure::class)->limit(1)->first();
+        return $this->belongsTo(CampProcedure::class);
     }
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class)->limit(1)->first();
+        return $this->belongsTo(Organization::class);
     }
 
     public function camp_category()
     {
-        return $this->belongsTo(CampCategory::class)->limit(1)->first();
+        return $this->belongsTo(CampCategory::class);
     }
 
     public function question_set()
     {
-        return $this->hasOne(QuestionSet::class)->limit(1)->first();
+        return $this->hasOne(QuestionSet::class);
     }
 
     public function __toString()
@@ -133,7 +133,7 @@ class Camp extends Model
 
     public function getFormScores()
     {
-        $question_set = $this->question_set();
+        $question_set = $this->question_set;
         if (!$question_set)
             return null;
         $form_scores = FormScore::where('question_set_id', $question_set->id);
@@ -178,10 +178,10 @@ class Camp extends Model
      */
     public function gradingType()
     {
-        if (!$this->camp_procedure()->candidate_required)
+        if (!$this->camp_procedure->candidate_required)
             return 'N/A';
-        if ($this->question_set() || (!is_null($this->question_set()) && !empty($this->question_set())))
-            return $this->question_set()->manual_required ? 'Manual' : 'Auto';
+        if ($this->question_set || (!is_null($this->question_set) && !empty($this->question_set)))
+            return $this->question_set->manual_required ? 'Manual' : 'Auto';
         return 'N/A';
     }
 
