@@ -47,9 +47,9 @@ class CampApplicationController extends Controller
      * That is, only the owner can make changes.
      * 
      */
-    public static function authenticate_registration(Registration $registration)
+    public static function authenticate_registration(Registration $registration, bool $silent = false)
     {
-        if ($registration->camper->id != \Auth::user()->id)
+        if (!$silent && $registration->camper->id != \Auth::user()->id)
             throw new \CampPASSExceptionPermission();
     }
 
@@ -267,7 +267,7 @@ class CampApplicationController extends Controller
     public static function confirm(Registration $registration, bool $void = false)
     {
         self::authenticate($registration->camp);
-        self::authenticate_registration($registration);
+        self::authenticate_registration($registration, $silent = $void);
         if ($registration->status == RegistrationStatus::QUALIFIED)
             throw new \CampPASSExceptionRedirectBack('You already confirmed attending this camp.');
         $registration->update([
