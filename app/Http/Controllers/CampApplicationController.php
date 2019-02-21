@@ -51,17 +51,17 @@ class CampApplicationController extends Controller
     public static function getApplyButtonInformation(Camp $camp, bool $short = false)
     {
         $apply_text = null;
-        $camper = \Auth::user();
+        $user = \Auth::user();
         $disabled = false;
         $route = null;
         if ($camper) {
-            $disabled |= $camper->isAdmin() || $camper->isCampMaker();
-            $ineligible_reason = $camper->getIneligibleReasonForCamp($camp, $short);
+            $disabled |= $user->isAdmin() || $user->isCampMaker();
+            $ineligible_reason = $user->getIneligibleReasonForCamp($camp, $short);
             if ($ineligible_reason) {
                 $disabled = true;
                 $apply_text = $ineligible_reason;
-            } else if ($camper->isCamper()) {
-                $registration = $camper->getLatestRegistrationForCamp($camp);
+            } else if ($user->isCamper()) {
+                $registration = $user->getLatestRegistrationForCamp($camp);
                 if ($registration) {
                     $apply_text = trans('registration.ApplicationStatus');
                     $route = route('camp_application.status', $registration->id);
@@ -149,12 +149,9 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         $registration = $this->register($camp, $user);
         $camp_procedure = $camp->camp_procedure();
-        if ($registration->applied_or_qualified()) {
-            // Stage: Already applied or qualified
-            if ($registration->qualified())
-                throw new \CampPASSExceptionRedirectBack('You already are qualified for this camp.');
-            throw new \CampPASSExceptionRedirectBack('You already have applied for this camp.');
-        }
+        // Stage: Already applied or qualified
+        if ($registration->applied_or_qualified())
+            return $this->status($registration);
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions
             // Cases: All camp procedures with Questions Pre-applied

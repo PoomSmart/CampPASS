@@ -68,11 +68,14 @@ class CandidateController extends Controller
         if ($form_scores->isEmpty())
             throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
         $candidates = [];
+        $camp_procedure = $question_set->camp()->camp_procedure();
         foreach ($form_scores as $form_score) {
             $registration = $form_score->registration();
-            $registration->update([
-                'status' => RegistrationStatus::QUALIFIED,
-            ]);
+            // The application form can be approved now if they do not need to pay the deposit
+            if (!$camp_procedure->deposit_required)
+                $registration->update([
+                    'status' => RegistrationStatus::APPROVED,
+                ]);
             $candidates[] = [
                 'registration_id' => $form_score->registration_id,
                 'total_score' => $form_score->total_score,
