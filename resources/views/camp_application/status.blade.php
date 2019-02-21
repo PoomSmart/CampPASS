@@ -24,7 +24,7 @@
                     @elseif ($registration->returned())
                         <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>
                     @else
-                        <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary w-100">@lang('registration.Edit')</a>
+                        <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary w-100 mb-4">@lang('registration.Edit')</a>
                     @endif
             </div>
         @endif
@@ -50,7 +50,7 @@
             <div class="col-md-8">
                 <h4 class="mb-4">Deposit</h4>
                 <p>Please upload your payment slip.</p>
-                <a href="" class="btn btn-primary w-100">Upload Payment Slip</a>
+                <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
             </div>
         @endif
         
@@ -61,7 +61,7 @@
             <div class="col-md-8">
                 <h4 class="mb-4">Qualification</h4>
                 <p>Congratulations! Please do acknowledge your attendance by clicking confirm.</p>
-                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
+                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100 mb-4{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
             </div>
         @endif
     </div>
