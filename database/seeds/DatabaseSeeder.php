@@ -218,7 +218,7 @@ class DatabaseSeeder extends Seeder
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required)
                     $status = Common::randomFrequentHit() ? RegistrationStatus::QUALIFIED : RegistrationStatus::DRAFT;
                 else
-                    $status = Common::randomFrequentHit() ? RegistrationStatus::APPLIED : RegistrationStatus::DRAFT;
+                    $status = Common::randomFrequentHit() ? ($camp_procedure->candidate_required ? RegistrationStatus::APPLIED : RegistrationStatus::APPROVED) : RegistrationStatus::DRAFT;
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,

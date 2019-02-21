@@ -24,7 +24,7 @@
                     @elseif ($registration->returned())
                         <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>
                     @else
-                        <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary">@lang('registration.Edit')</a>
+                        <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary w-100">@lang('registration.Edit')</a>
                     @endif
             </div>
         @endif

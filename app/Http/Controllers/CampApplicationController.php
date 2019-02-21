@@ -169,7 +169,7 @@ class CampApplicationController extends Controller
         // Stage: Apply (right away)
         // Cases: Walk-in Pre-applied
         // TODO: with status checking page?
-        return self::submit_application_form($camp);
+        return self::submit_application_form($camp, $status = RegistrationStatus::APPROVED);
     }
 
     public function store(Request $request)
@@ -241,10 +241,10 @@ class CampApplicationController extends Controller
      * Directly apply for a camp and respond back with the done page.
      * 
      */
-    public static function submit_application_form(Camp $camp)
+    public static function submit_application_form(Camp $camp, $status = RegistrationStatus::APPLIED)
     {
         self::authenticate($camp);
-        self::register($camp, $user = \Auth::user(), $status = RegistrationStatus::APPLIED, $badge_check = true);
+        self::register($camp, $user = \Auth::user(), $status = $status, $badge_check = true);
         return view('camp_application.done');
     }
 
