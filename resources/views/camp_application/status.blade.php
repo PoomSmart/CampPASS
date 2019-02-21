@@ -19,7 +19,7 @@
                 <h4 class="mb-4">Application</h4>
                     @if ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
-                    @elseif ($registration->approved() || $registration->qualified())
+                    @elseif ($registration->approved() || $registration->qualified() || $registration->candidate())
                         <p>Congratulations, your application form has been accepted!</p>
                     @elseif ($registration->returned())
                         <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>

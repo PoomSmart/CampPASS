@@ -260,6 +260,7 @@ class CampApplicationController extends Controller
         $registration->update([
             'status' => RegistrationStatus::QUALIFIED,
         ]);
+        BadgeController::addBadgeIfNeeded($registration);
         return redirect()->back()->with('success', 'You are fully qualified for this camp.');
     }
 
