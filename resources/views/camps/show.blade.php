@@ -61,9 +61,10 @@
                         $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
                         $apply_text = $info['text'];
                         $disabled = $info['disabled'];
+                        $route = $info['route'];
                     @endphp
                     <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
-                        href="{{ route('camp_application.landing', $camp->id) }}"
+                        href="{{ $route }}"
                     >{{ $apply_text }}</a>
                     <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->getURL() }}">@lang('camp.ContactCampMaker')</a>
                 </div>

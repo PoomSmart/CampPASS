@@ -62,29 +62,10 @@ class CampApplicationController extends Controller
                 $apply_text = $ineligible_reason;
             } else if ($camper->isCamper()) {
                 $registration = $camper->getLatestRegistrationForCamp($camp);
-                $status = $registration ? $registration->status : -1;
-                $camp_procedure = $camp->camp_procedure();
-                switch ($status) {
-                    case RegistrationStatus::DRAFT:
-                    case RegistrationStatus::RETURNED:
-                        $apply_text = $camp_procedure->candidate_required ? trans('registration.Edit') : null;
-                        break;
-                    case RegistrationStatus::APPLIED:
-                        $apply_text = trans('registration.APPLIED');
-                        break;
-                    case RegistrationStatus::APPROVED:
-                        $apply_text = trans('registration.APPROVED');
-                        break;
-                    case RegistrationStatus::QUALIFIED:
-                        $apply_text = trans('registration.QUALIFIED');
-                        break;
+                if ($registration) {
+                    $apply_text = trans('registration.ApplicationStatus');
+                    $route = route('camp_application.status', $registration->id);
                 }
-                // We allow the button to show as "Pay Deposit" if there are further stages, and Deposit Only is our exception
-                if ($camp_procedure->deposit_required && $camp_procedure->candidate_required) {
-                    $apply_text = trans('registration.PayDeposit');
-                    $route = 'camp_application.deposit';
-                } else
-                    $disabled |= $status >= RegistrationStatus::APPLIED;
             }
         }
         if (!$apply_text) {
@@ -93,6 +74,8 @@ class CampApplicationController extends Controller
             if ($camp_procedure->candidate_required)
                 $apply_text = "{$apply_text} (QA)";
         }
+        if (!$route)
+            $route = route('camp_application.landing', $camp->id);
         return [
             'text' => $apply_text,
             'disabled' => $disabled,
@@ -170,26 +153,6 @@ class CampApplicationController extends Controller
             // Stage: Already applied or qualified
             if ($registration->qualified())
                 throw new \CampPASSExceptionRedirectBack('You already are qualified for this camp.');
-            if ($camp_procedure->deposit_required) {
-                if ($camp_procedure->candidate_required) {
-                    if ($registration->approved()) {
-                        // TODO: Stage: Status checking after being approved
-                        // Cases: QA & Deposit / QA & Interview & Deposit Approved
-                        // The view is only for chosen candidates
-                    }
-                    // Stage: Upload payment slip after the application
-                    // Cases: QA & Deposit / QA & Interview & Deposit Applied
-                    return view('camp_application.deposit', compact('camp'));
-                }
-                // TODO: Stage: Status checking
-                // Cases: Deposit Only / QA Only Applied
-                // The view is only for chosen candidates
-            }
-            if ($camp_procedure->interview_required) {
-                // TODO: Stage: Status checking for further interview
-                // Cases: QA & Interview Applied
-                // The view is only for chosen candidates
-            }
             throw new \CampPASSExceptionRedirectBack('You already have applied for this camp.');
         }
         if ($camp_procedure->candidate_required) {
@@ -294,10 +257,10 @@ class CampApplicationController extends Controller
         return view('camp_application.deposit');
     }
 
-    public function status(Camp $camp)
+    public function status(Registration $registration)
     {
         // TODO: complete this
-        return view('camp_application.status');
+        return view('camp_application.status', compact('registration'));
     }
 
     /**

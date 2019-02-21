@@ -51,7 +51,7 @@ Route::group(['middleware' => ['role:camper']], function() {
         Route::get('/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
         Route::get('/deposit/{registration}', 'CampApplicationController@deposit')->name('camp_application.deposit');
         Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
-        Route::get('/status/{camp}', 'CampApplicationController@status')->name('camp_application.status');
+        Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
     });
 });
 
@@ -62,8 +62,10 @@ Route::group(['middleware' => ['permission:answer-grade', 'permission:camper-lis
         Route::get('/grade-answers/{registration}/{question_set}', 'QualificationController@answer_grade')->name('qualification.answer_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/finalize-form/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
-        Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
-        Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
+        Route::group(['middleware' => ['permission:candidate-list']], function() {
+            Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
+            Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
+        });
     });
 });
 
