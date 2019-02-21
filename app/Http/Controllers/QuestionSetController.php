@@ -63,8 +63,9 @@ class QuestionSetController extends Controller
             $json = json_encode($content);
             $directory = Common::questionSetDirectory($camp->id);
             Storage::disk('local')->put($directory.'/questions.json', $json);
+            return redirect()->back()->with('success', 'Questions are saved successfully.');
         }
-        return redirect()->back()->with('success', 'Questions are saved successfully.');
+        return redirect()->back()->with('success', 'Score threshold has been changed.');
     }
 
     public function show(Camp $camp)

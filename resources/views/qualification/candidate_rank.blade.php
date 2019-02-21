@@ -2,14 +2,21 @@
 
 @section('script')
     <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    <script src="{{ asset('js/modal.js') }}"></script>
 @endsection
-
 
 @section('header')
     @lang('xxx.Campers that passed') {{ $camp }} {{ $question_set->announced ? '(Announced)' : null }}
 @endsection
 
 @section('content')
+    @component('components.dialog', [
+        'title' => trans('qualification.CandidatesAnnouncement'),
+        'body' => 'Once the candidates are announced, you will no longer be able to make changes. Continue?',
+        'confirm_type' => 'danger',
+        'confirm_label' => trans('app.Yes'),
+    ])
+    @endcomponent
     <div class="d-flex align-items-center mb-2">
         <span class="mr-3">@lang('question.PassingCriteria')</span>
         <form id="form" class="form-inline" method="POST" action="{{ route('questions.store', $camp->id) }}">
@@ -17,7 +24,7 @@
             @component('components.numeric_range', [
                 'name' => 'score_threshold',
                 'placeholder' => trans('question.EnterThreshold'),
-                'min' => 0.0,
+                'min' => 0.01,
                 'max' => 1.0,
                 'step' => 0.01,
                 'object' => $question_set,
@@ -64,6 +71,5 @@
 @endsection
 
 @section('extra-buttons')
-    <!-- TODO: add confirmation -->
-    <a class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" href="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</a>
+    <button class="btn btn-danger w-50{{ (!$passed || $question_set->announced) ? ' disabled' : '' }}" type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
 @endsection

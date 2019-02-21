@@ -22,7 +22,7 @@
             'name' => 'score_threshold',
             'label' => trans('question.ScoreThreshold'),
             'placeholder' => trans('question.EnterThreshold'),
-            'min' => 0.0,
+            'min' => 0.01,
             'max' => 1.0,
             'step' => 0.01,
             'object' => isset($object) ? $object : null,
