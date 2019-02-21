@@ -294,6 +294,12 @@ class CampApplicationController extends Controller
         return view('camp_application.deposit');
     }
 
+    public function status(Camp $camp)
+    {
+        // TODO: complete this
+        return view('camp_application.status');
+    }
+
     /**
      * Make sure the only answer owner and respective camp makers can access the answer file.
      * 
