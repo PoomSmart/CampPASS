@@ -48,9 +48,10 @@ Route::group(['middleware' => ['role:camper']], function() {
         Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
         Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
         Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
-        Route::get('/confirm/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
+        Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
         Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
         Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
+        Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
     });
 });
 

@@ -39,7 +39,11 @@
             </div>
         @endif
 
-        @if ($camp_procedure->deposit_required)
+        @php
+            $applied = $camp_procedure->candidate_required ? ($registration->applied() || $registration->returned()) : true;
+            // TODO: Deal with the case interview_required = true
+        @endphp
+        @if ($camp_procedure->deposit_required && $applied)
             <div class="col-md-4">
                 Deposit Placeholder
             </div>
@@ -57,7 +61,7 @@
             <div class="col-md-8">
                 <h4 class="mb-4">Qualification</h4>
                 <p>Congratulations! Please do acknowledge your attendance by clicking confirm.</p>
-                <a href="" class="btn btn-primary w-100{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
+                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
             </div>
         @endif
     </div>

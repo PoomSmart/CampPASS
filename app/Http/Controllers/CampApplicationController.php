@@ -253,6 +253,16 @@ class CampApplicationController extends Controller
         return view('camp_application.status', compact('registration'));
     }
 
+    public static function confirm(Registration $registration)
+    {
+        if ($registration->status == RegistrationStatus::QUALIFIED)
+            throw new \CampPASSExceptionRedirectBack('You already confirmed attending this camp.');
+        $registration->update([
+            'status' => RegistrationStatus::QUALIFIED,
+        ]);
+        return redirect()->back()->with('success', 'You are fully qualified for this camp.');
+    }
+
     /**
      * Make sure the only answer owner and respective camp makers can access the answer file.
      * 
