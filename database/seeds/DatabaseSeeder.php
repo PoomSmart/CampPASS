@@ -22,6 +22,8 @@ use App\Year;
 
 use App\Imports\ProvincesImport;
 
+use App\BadgeController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\QualificationController;
 
 use App\Enums\QuestionType;
@@ -211,10 +213,16 @@ class DatabaseSeeder extends Seeder
                 $done = true;
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
                     continue;
+                // Randomly submit the application forms, taking into account its camp procedure
+                $camp_procedure = $camp->camp_procedure();
+                if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required)
+                    $status = Common::randomFrequentHit() ? RegistrationStatus::QUALIFIED : RegistrationStatus::DRAFT;
+                else
+                    $status = Common::randomFrequentHit() ? RegistrationStatus::APPLIED : RegistrationStatus::DRAFT;
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
-                    'status' => Common::randomFrequentHit() ? RegistrationStatus::APPLIED : RegistrationStatus::DRAFT, // Randomly submit the application forms
+                    'status' => $status,
                     'submission_time' => now(),
                 ];
                 // Camps with registrations must obviously be approved first
@@ -427,12 +435,28 @@ class DatabaseSeeder extends Seeder
         }
         unset($manual_grade_question_set_ids);
         unset($faker);
+        // At this point, we simulate candidates announcement
+        $this->log('-> simulating candidates announcement');
+        foreach (QuestionSet::all() as $question_set) {
+            if (Common::randomRareHit())
+                continue;
+            try {
+                CandidateController::announce($question_set, $void = true);
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
+        // Simulate badges generation
+        $this->log('-> simulating badges generation');
+        foreach (Registration::all() as $registration) {
+            BadgeController::addBadgeIfNeeded($registration);
+        }
     }
 
     private function badges()
     {
-        // TODO: This is a temporary unpractical generation of badges
-        $this->log_seed('badges');
+        // TODO: This is a temporary unpractical generation of badges, we may use if we temporarily want more badges in the profile page
+        /*$this->log_seed('badges');
         $badges = [];
         $badge_category_count = BadgeCategory::count();
         foreach (User::campers()->cursor() as $camper) {
@@ -448,13 +472,15 @@ class DatabaseSeeder extends Seeder
             }
         }
         Badge::insert($badges);
-        unset($badges);
+        unset($badges);*/
     }
 
     private function alter_campers()
     {
         $this->log_alter('campers');
-        $candidate = User::campers(true)->limit(1)->first();
+        $candidate = User::campers(true)->get()->sortByDesc(function ($camper) {
+            return $camper->registrations()->count();
+        })->first();
         $candidate->activate();
         $candidate->update([
             'username' => 'camper',
@@ -512,10 +538,10 @@ class DatabaseSeeder extends Seeder
         factory(Camp::class, 100)->create();
         $this->log_seed('users');
         factory(User::class, 200)->create();
+        $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
         $this->create_admin();
-        $this->registrations_and_questions_and_answers();
         $this->badges();
         $this->call(PermissionTableSeeder::class);
         Model::reguard();

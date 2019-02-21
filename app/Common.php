@@ -58,17 +58,17 @@ class Common
         return rand(0, 10) > 8;
     }
 
-    public static function campDirectory($camp_id)
+    public static function campDirectory(int $camp_id)
     {
         return "camps/{$camp_id}";
     }
 
-    public static function registrationDirectory($camp_id)
+    public static function registrationDirectory(int $camp_id)
     {
         return self::campDirectory($camp_id)."/registrations";
     }
 
-    public static function questionSetDirectory($camp_id)
+    public static function questionSetDirectory(int $camp_id)
     {
         return self::campDirectory($camp_id)."/questions";
     }
@@ -87,7 +87,7 @@ class Common
         return $value;
     }
 
-    public static function getQuestionJSON($camp_id, $graded = false)
+    public static function getQuestionJSON(int $camp_id, bool $graded = false)
     {
         $json_path = self::questionSetDirectory($camp_id).'/questions.json';
         $json = json_decode(Storage::disk('local')->get($json_path), true);
@@ -99,7 +99,7 @@ class Common
         return $json;
     }
 
-    public static function randomString($length = 6)
+    public static function randomString(int $length = 6)
     {
         return bin2hex(random_bytes($length / 2));
     }
@@ -109,7 +109,7 @@ class Common
         return rand(1, 10);
     }
 
-    public static function getLocalizedName($record, $attribute = 'name')
+    public static function getLocalizedName($record, string $attribute = 'name')
     {
         $th = $record->{"{$attribute}_th"};
         $en = $record->{"{$attribute}_en"};
@@ -118,7 +118,7 @@ class Common
         return $en ? $en : "<blank>";
     }
 
-    public static function values($clazz, $column = null, $value = null, $group = null)
+    public static function values($clazz, string $column = null, string $value = null, string $group = null)
     {
         if ($column && $value) {
             $values = $clazz::where($column, $value);
@@ -137,7 +137,7 @@ class Common
      * Check whether the given camp can be manipulated by the current user.
      * 
      */
-    public static function authenticate_camp(Camp $camp, $silent = false)
+    public static function authenticate_camp(Camp $camp, bool $silent = false)
     {
         if (!$silent) {
             $user = \Auth::user();

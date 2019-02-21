@@ -42,7 +42,6 @@ class Camp_Randomizer
 }
 
 $factory->define(App\Camp::class, function (Faker $faker) {
-    $event_start_date = $event_end_date = null;
     $now = Carbon::now()->format('Y-m-d H:i:s');
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
     $event_start_date = $faker->dateTimeBetween($app_close_date, $app_close_date->format('Y-m-d H:i:s').' +6 months');
@@ -65,6 +64,6 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'event_start_date' => $event_start_date,
         'event_end_date' => $event_end_date,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
-        'approved' => Common::randomVeryFrequentHit() ? true : false,
+        'approved' => Common::randomVeryFrequentHit(),
     ];
 });

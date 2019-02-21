@@ -7,11 +7,14 @@
 @section('content')
     <p class="text-center">{{ $category->getName() }}</p>
     @can('answer-list')
-        @php $rankable = $camp->camp_procedure()->candidate_required && !is_null($camp->question_set()); @endphp
+        @php
+            $question_set = $camp->question_set();
+            $rankable = $camp->camp_procedure()->candidate_required && !is_null($question_set);
+        @endphp
     @endcan
     <div class="row">
         @php
-            $manual_grading_required = $camp->question_set() && $camp->question_set()->manual_required && !$camp->question_set()->announced;
+            $manual_grading_required = $question_set && $question_set->manual_required && !$question_set->announced;
         @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
@@ -49,7 +52,7 @@
                                     <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
                                         href="{{ route('qualification.answer_grade', [
                                             'registration_id' => $registration->id,
-                                            'question_set_id' => $camp->question_set()->id,
+                                            'question_set_id' => $question_set->id,
                                         ]) }}">@lang('registration.View')</a>
                                 @endif
                             </td>
@@ -68,6 +71,6 @@
 
 @if (isset($rankable) && $rankable && count($data))
     @section('extra-buttons')
-        <a class="btn btn-warning w-50" href="{{ route('qualification.candidate_rank', $camp->question_set()->id) }}">@lang('qualification.Rank')</a>
+        <a class="btn btn-warning w-50{{ $question_set->announced ? ' disabled' : null }}" href="{{ route('qualification.candidate_rank', $question_set->id) }}">@lang('qualification.Rank')</a>
     @endsection
 @endif

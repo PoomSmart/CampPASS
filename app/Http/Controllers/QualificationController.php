@@ -24,7 +24,7 @@ class QualificationController extends Controller
      * Grade an application form from a camper (represented by a registration record) and the respective question set
      * 
      */
-    public static function answer_grade($registration_id, $question_set_id, $silent = false)
+    public static function answer_grade(int $registration_id, int $question_set_id, bool $silent = false)
     {
         $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($silent) {
@@ -32,7 +32,7 @@ class QualificationController extends Controller
                 return $form_score->total_score;
         }
         $registration = Registration::findOrFail($registration_id);
-        Common::authenticate_camp(Camp::find($registration->camp_id));
+        Common::authenticate_camp(Camp::find($registration->camp_id), $silent = $silent);
         if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
             throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper();
@@ -105,7 +105,7 @@ class QualificationController extends Controller
         return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
     }
 
-    public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
+    public function save_manual_grade(Request $request, Registration $registration, int $question_set_id)
     {
         Common::authenticate_camp(Camp::find($registration->camp_id));
         $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
