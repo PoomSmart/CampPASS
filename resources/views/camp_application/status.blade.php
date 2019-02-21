@@ -50,14 +50,14 @@
             </div>
         @endif
         
-        @if ($registration->qualified())
+        @if ($registration->approved_to_qualified())
             <div class="col-md-4">
                 Qualification Placeholder
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">Qualification</h4>
                 <p>Congratulations! Please do acknowledge your attendance by clicking confirm.</p>
-                <a href="" class="btn btn-primary w-100">@lang('app.Confirm')</a>
+                <a href="" class="btn btn-primary w-100{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
             </div>
         @endif
     </div>

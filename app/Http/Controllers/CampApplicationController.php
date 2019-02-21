@@ -54,7 +54,7 @@ class CampApplicationController extends Controller
         $user = \Auth::user();
         $disabled = false;
         $route = null;
-        if ($camper) {
+        if ($user) {
             $disabled |= $user->isAdmin() || $user->isCampMaker();
             $ineligible_reason = $user->getIneligibleReasonForCamp($camp, $short);
             if ($ineligible_reason) {
@@ -151,7 +151,7 @@ class CampApplicationController extends Controller
             $registration = self::register($camp, $user);
         $camp_procedure = $camp->camp_procedure();
         // Stage: Already applied or qualified
-        if ($registration->applied_or_qualified())
+        if ($registration->applied_to_qualified())
             return self::status($registration);
         if ($camp_procedure->candidate_required) {
             // Stage: Answering questions

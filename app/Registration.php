@@ -74,9 +74,14 @@ class Registration extends Model
         return $this->status == RegistrationStatus::APPROVED;
     }
 
-    public function applied_or_qualified()
+    public function applied_to_qualified()
     {
         return $this->status >= RegistrationStatus::APPLIED;
+    }
+
+    public function approved_to_qualified()
+    {
+        return $this->status >= RegistrationStatus::APPROVED;
     }
 
     public function qualified()
