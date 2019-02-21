@@ -100,7 +100,7 @@ class Camp extends Model
      * 
      * @return array
      */
-    public function campers($status = null, $higher = false, $paginate = 0)
+    public function campers($status = null, bool $higher = false, int $paginate = 0)
     {
         $registrations = $this->registrations()->select('camper_id');
         if (!is_null($status))

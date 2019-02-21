@@ -27,7 +27,7 @@ class CampApplicationController extends Controller
      * The function returns the camp object if the user can.
      * 
      */
-    public static function authenticate($camp, $eligible_check = false)
+    public static function authenticate($camp, bool $eligible_check = false)
     {
         if (!$camp instanceof \App\Camp)
             $camp = Camp::find($camp);
@@ -43,7 +43,7 @@ class CampApplicationController extends Controller
      * Given a camp and the current user, determine the registration status and return the apply button's status and availability.
      * 
      */
-    public static function getApplyButtonInformation(Camp $camp, $short = false)
+    public static function getApplyButtonInformation(Camp $camp, bool $short = false)
     {
         $apply_text = null;
         $camper = \Auth::user();

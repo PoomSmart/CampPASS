@@ -145,7 +145,7 @@ class User extends Authenticatable
     public function getBelongingCamps()
     {
         if ($this->isCamper())
-            return Camp::whereIn('id', Registration::where('camper_id', $this->id)->get(['camp_id']));
+            return Camp::whereIn('id', $this->registrations()->get(['camp_id']));
         if ($this->isCampMaker())
             return Camp::where('organization_id', $this->organization_id);
         return null;
@@ -187,7 +187,7 @@ class User extends Authenticatable
      * @return string
      * 
      */
-    public function getIneligibleReasonForCamp(Camp $camp, $short = false)
+    public function getIneligibleReasonForCamp(Camp $camp, bool $short = false)
     {
         if (!$this->isCamper())
             return null;
@@ -246,7 +246,7 @@ class User extends Authenticatable
     }
 
     // Only accept a valid password and hash a password before saving
-    public function setPasswordAttribute($password)
+    public function setPasswordAttribute(string $password)
     {
         if ($password !== null & $password !== "") {
             $this->attributes['password'] = bcrypt($password);

@@ -30,7 +30,7 @@ class ProfileController extends Controller
         return $this->show(\Auth::user());
     }
 
-    public function authenticate(User $user, $me = false)
+    public function authenticate(User $user, bool $me = false)
     {
         if ($me && $user->id != \Auth::user()->id)
             throw new \CampPASSExceptionPermission();
