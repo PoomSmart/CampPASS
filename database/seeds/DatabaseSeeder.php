@@ -23,6 +23,7 @@ use App\Year;
 use App\Imports\ProvincesImport;
 
 use App\BadgeController;
+use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\QualificationController;
 
@@ -435,13 +436,20 @@ class DatabaseSeeder extends Seeder
         }
         unset($manual_grade_question_set_ids);
         unset($faker);
-        // At this point, we simulate candidates announcement
-        $this->log('-> simulating candidates announcement');
+        // At this point, we simulate candidates announcement and attendance confirmation
+        $this->log('-> simulating candidates announcement and attendance confirmation');
         foreach (QuestionSet::all() as $question_set) {
             if (Common::randomRareHit())
                 continue;
             try {
                 CandidateController::announce($question_set, $void = true);
+                if (Common::randomFrequentHit()) {
+                    foreach ($question_set->camp()->registrations()->all() as $registration) {
+                        if (Common::randomRareHit())
+                            continue;
+                        CampApplicationController::confirm($registration, $void = true);
+                    }
+                }
             } catch (\Exception $e) {
                 continue;
             }

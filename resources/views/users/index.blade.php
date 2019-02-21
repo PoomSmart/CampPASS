@@ -12,7 +12,8 @@
             <th class="align-middle">@lang('account.FullName')</th>
             <th class="align-middle">@lang('account.Email')</th>
             <th class="align-middle">@lang('account.Roles')</th>
-            <th class="align-middle">@lang('app.Actions')</th>
+            <th class="align-middle">@lang('app.Activated')</th>
+            <th class="align-middle" width="240px">@lang('app.Actions')</th>
         </thead>
         @foreach ($data as $key => $user)
             <tr>
@@ -27,6 +28,7 @@
                         @endforeach
                     @endif
                 </td>
+                <td class="align-middle text-center{{ $user->isActivated() ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $user->isActivated() ? trans('app.Yes') : trans('app.No') }}</td>
                 <td class="align-middle">
                     <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">@lang('app.Show')</a>
                     <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">@lang('app.Edit')</a>

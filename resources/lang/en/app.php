@@ -28,4 +28,5 @@ return [
     'Unspecified' => 'Unspecified',
     'None' => 'None',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
+    'Activated' => 'Activated',
 ];

@@ -37,7 +37,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $max = config('const.app.max_paginate');
-        $data = User::orderBy('id', 'DESC')->paginate($max);
+        $data = User::orderBy('username')->paginate($max);
         return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * $max);
     }
     

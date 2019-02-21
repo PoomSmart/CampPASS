@@ -253,7 +253,7 @@ class CampApplicationController extends Controller
         return view('camp_application.status', compact('registration'));
     }
 
-    public static function confirm(Registration $registration)
+    public static function confirm(Registration $registration, bool $void = false)
     {
         if ($registration->status == RegistrationStatus::QUALIFIED)
             throw new \CampPASSExceptionRedirectBack('You already confirmed attending this camp.');
@@ -261,7 +261,8 @@ class CampApplicationController extends Controller
             'status' => RegistrationStatus::QUALIFIED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
-        return redirect()->back()->with('success', 'You are fully qualified for this camp.');
+        if (!$void)
+            return redirect()->back()->with('success', 'You are fully qualified for this camp.');
     }
 
     /**

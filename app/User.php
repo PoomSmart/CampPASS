@@ -142,10 +142,14 @@ class User extends Authenticatable
      * @return Builder
      * 
      */
-    public function getBelongingCamps()
+    public function getBelongingCamps($status = null)
     {
-        if ($this->isCamper())
-            return Camp::whereIn('id', $this->registrations()->get(['camp_id']));
+        if ($this->isCamper()) {
+            $registrations = $this->registrations();
+            if ($status)
+                $registrations = $registrations->where('status', $status);
+            return Camp::whereIn('id', $registrations->get(['camp_id']));
+        }
         if ($this->isCampMaker())
             return Camp::where('organization_id', $this->organization_id);
         return null;

@@ -17,7 +17,10 @@
 @section('card_content')
     <div class="row mt-4">
         <div class="col-md-4 text-center">
-            <img src="images/profiles/Profile.jpg" alt="..." class="img-circle">
+            @php
+                $alt = 'Profile Picture of '.$user->getFullName();
+            @endphp
+            <img src="{{ asset('images/profiles/Profile.jpg') }}" alt="{{ $alt }}" title="{{ $alt }}" class="img-circle">
         </div>
         <div class="col-md-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>
@@ -38,7 +41,7 @@
             </div>
             <h4 class="mb-4">@lang('camp.Camps')</h4>
             @php
-                $camps = $user->getBelongingCamps();
+                $camps = $user->getBelongingCamps($status = \App\Enums\RegistrationStatus::QUALIFIED);
             @endphp
             <div class="row mb-2">
                 <div class="col-md-6">
