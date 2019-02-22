@@ -6,7 +6,7 @@
 @endphp
 
 @section('header')
-    Application Status for {{ $camp }}
+    @lang('registration.Status') - {{ $camp }}
 @endsection
 
 @section('card_content')
