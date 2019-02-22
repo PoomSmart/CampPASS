@@ -29,6 +29,12 @@ Route::group(['middleware' => ['permission:camp-list']], function() {
     });
 });
 
+Route::prefix('browse-camps')->group(function () {
+    Route::get('/', 'CampController@browser')->name('camps.browser');
+    Route::get('/organization/{record}', 'CampController@by_organization')->name('camps.by_organization');
+    Route::get('/category/{record}', 'CampController@by_category')->name('camps.by_category');
+});
+
 Route::group(['middleware' => ['permission:question-edit']], function() {
     Route::prefix('questions')->group(function () {
         Route::post('/save/{camp}', 'QuestionSetController@store')->name('questions.store');
@@ -75,12 +81,6 @@ Route::prefix('profile')->group(function () {
     Route::get('/edit/{user}', 'ProfileController@edit')->name('profiles.edit');
     Route::get('/my-camps/{user}', 'ProfileController@my_camps')->name('profiles.my_camps');
     Route::put('/update/{user}', 'ProfileController@update')->name('profiles.update');
-});
-
-Route::prefix('browse-camps')->group(function () {
-    Route::get('/', 'CampBrowserController@index')->name('camp_browser.index');
-    Route::get('/organization/{record}', 'CampBrowserController@by_organization')->name('camp_browser.by_organization');
-    Route::get('/category/{record}', 'CampBrowserController@by_category')->name('camp_browser.by_category');
 });
 
 Route::get('/register-landing', 'Auth\RegisterController@landing')->name('register-landing');
