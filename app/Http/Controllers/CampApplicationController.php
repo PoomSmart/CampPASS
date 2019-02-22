@@ -177,7 +177,6 @@ class CampApplicationController extends Controller
         }
         // Stage: Apply (right away)
         // Cases: Walk-in Pre-applied
-        // TODO: with status checking page?
         return self::submit_application_form($camp, $status = RegistrationStatus::APPROVED);
     }
 

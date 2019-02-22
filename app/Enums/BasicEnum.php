@@ -7,7 +7,8 @@ use ReflectionClass;
 abstract class BasicEnum {
     private static $constCacheArray = NULL;
 
-    public static function getConstants() {
+    public static function getConstants()
+    {
         if (self::$constCacheArray == NULL) {
             self::$constCacheArray = [];
         }
@@ -19,7 +20,8 @@ abstract class BasicEnum {
         return self::$constCacheArray[$calledClass];
     }
 
-    public static function any() {
+    public static function any()
+    {
         $constants = self::getConstants();
         $index = array_rand($constants);
         return $constants[$index];
@@ -35,18 +37,17 @@ abstract class BasicEnum {
         return $localized;
     }
 
-    public static function isValidName($name, $strict = false) {
+    public static function isValidName($name, $strict = false)
+    {
         $constants = self::getConstants();
-
-        if ($strict) {
+        if ($strict)
             return array_key_exists($name, $constants);
-        }
-
         $keys = array_map('strtolower', array_keys($constants));
         return in_array(strtolower($name), $keys);
     }
 
-    public static function isValidValue($value, $strict = true) {
+    public static function isValidValue($value, $strict = true)
+    {
         $values = array_values(self::getConstants());
         return in_array($value, $values, $strict);
     }

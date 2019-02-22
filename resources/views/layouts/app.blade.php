@@ -37,7 +37,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('camp_browser.index') }}">@lang('camp.BrowseCamps')</a>
+                            <a class="nav-link" href="{{ route('camps.browser') }}">@lang('camp.BrowseCamps')</a>
                         </li>
                         @can('camp-create')
                             <li class="nav-item">

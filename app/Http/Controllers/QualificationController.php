@@ -17,7 +17,9 @@ class QualificationController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:camper-list');
+        $this->middleware('permission:answer-grade', ['only' => ['answer_grade', 'save_manual_grade', 'form_finalize']]);
+        $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
     }
 
     /**

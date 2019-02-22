@@ -21,7 +21,7 @@ class ProfileController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth', ['only' => ['edit', 'store', 'update']]);
+        $this->middleware('auth', ['only' => ['index', 'edit', 'update', 'my_camps']]);
         $this->organizations = null;
     }
 

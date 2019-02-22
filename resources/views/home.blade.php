@@ -53,14 +53,14 @@
         'rows' => 2,
         'border' => 1,
         'folder' => 'university_categories',
-        'route' => 'camp_browser.by_organization',
+        'route' => 'camps.by_organization',
         'getter' => 'image',
     ])
     @endcomponent
   
     <script>
-        jQuery('.next').click(function() { jQuery(this).closest('.carousel').carousel('next'); return false; });
-        jQuery('.prev').click(function() { jQuery(this).closest('.carousel').carousel('prev'); return false; });
+        jQuery('.next').click(function () { jQuery(this).closest('.carousel').carousel('next'); return false; });
+        jQuery('.prev').click(function () { jQuery(this).closest('.carousel').carousel('prev'); return false; });
     </script>
     <!-- End footer Area -->            
 @stop

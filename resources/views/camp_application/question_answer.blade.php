@@ -9,7 +9,6 @@
     Camp Application Form
 @endsection
 
-<!-- TODO: Decide what to do when the camper makes changes and presses next without saving first -->
 @section('card_content')
     <form method="POST" id="form" action="{{ route('camp_application.store') }}" enctype="multipart/form-data">
         @csrf

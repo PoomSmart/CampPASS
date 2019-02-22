@@ -60,7 +60,10 @@
                 'label' => trans('account.Nationality'),
                 'attributes' => 'required',
                 'input_type' => 'radio',
-                'objects' => [trans('account.Thai'), trans('app.Other')],
+                'objects' => [
+                    trans('account.Thai'),
+                    trans('app.Other')
+                ],
                 'idx' => 1,
             ])
             @endcomponent
@@ -71,7 +74,11 @@
                 'label' => trans('account.Gender'),
                 'attributes' => 'required',
                 'input_type' => 'radio',
-                'objects' => [trans('account.Male'), trans('account.Female'), trans('account.OtherGender')],
+                'objects' => [
+                    trans('account.Male'),
+                    trans('account.Female'),
+                    trans('account.OtherGender')
+                ],
                 'idx' => 1,
             ])
             @endcomponent
@@ -240,7 +247,11 @@
                     'label' => trans('camper.GuardianRole'),
                     'attributes' => 'required',
                     'input_type' => 'radio',
-                    'objects' => [trans('account.Father'), trans('account.Mother'), trans('app.Other')],
+                    'objects' => [
+                        trans('account.Father'),
+                        trans('account.Mother'),
+                        trans('app.Other'),
+                    ],
                     'idx' => 1,
                 ])
                 @slot('append_last')
