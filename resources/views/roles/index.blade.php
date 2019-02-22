@@ -20,7 +20,7 @@
                     <th class="align-middle" scope="row">{{ ++$i }}</th>
                     <th class="align-middle">{{ $role->name }}</th>
                     <td class="align-middle">
-                        <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">@lang('app.Show')</a>
+                        <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">@lang('app.View')</a>
                         @can('role-edit')
                             <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">@lang('app.Edit')</a>
                         @endcan

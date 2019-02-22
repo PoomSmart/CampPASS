@@ -487,7 +487,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_alter('campers');
         $candidate = User::campers(true)->get()->sortByDesc(function ($camper) {
-            return $camper->registrations()->count();
+            return $camper->registrations()->get()->count();
         })->first();
         $candidate->activate();
         $candidate->update([

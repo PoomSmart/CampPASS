@@ -53,7 +53,7 @@
                                         href="{{ route('qualification.answer_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
-                                        ]) }}">@lang('registration.View')</a>
+                                        ]) }}">@lang('app.View')</a>
                                 @endif
                             </td>
                         </tr>

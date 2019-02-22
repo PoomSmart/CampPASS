@@ -8,7 +8,6 @@ return [
     'APPROVED' => 'Approved',
     'QUALIFIED' => 'Qualified',
     'ID' => 'Reg ID',
-    'View' => 'View',
     'Apply' => 'Apply Now',
     'Edit' => 'Edit Application',
     'NotInRequiredRegions' => 'This camp is not open for your region.',
