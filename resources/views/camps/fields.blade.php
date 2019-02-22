@@ -43,13 +43,15 @@
 ])
 @endcomponent
 
+<!-- TODO: client-side desc update -->
 @component('components.input', [
     'name' => 'camp_procedure_id',
-    'label' => trans('camp.CampProcedure'),
+    'label' => trans('camp_procedure.CampProcedure'),
     'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
     'input_type' => 'select',
     'objects' => $camp_procedures,
     'placeholder' => isset($update) ? null : 'Select Camp Registration Type...',
+    'desc' => isset($object) ? $object->camp_procedure->getDescription() : '',
 ])
 @endcomponent
 
@@ -57,7 +59,7 @@
 
 @component('components.input', [
     'name' => 'organization_id',
-    'label' => trans('camp.Organization'),
+    'label' => trans('organization.Organization'),
     'attributes' => $can_list_organization ? 'required' : 'disabled',
     'input_type' => 'select',
     'objects' => $organizations,

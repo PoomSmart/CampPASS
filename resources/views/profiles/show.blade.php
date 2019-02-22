@@ -30,7 +30,7 @@
                         <h5>@lang('account.School')</h5>
                         <h6>{{ $user->school }}</h6>
                     @else
-                        <h5>@lang('campmaker.Organization')</h5>
+                        <h5>@lang('organization.Organization')</h5>
                         <h6>{{ $user->organization }}</h6>
                     @endif
                 </div>
@@ -77,7 +77,7 @@
             </div>
             {{-- Badges --}}
             @if (!empty($badges))
-                <h4 class="mb-4">@lang('camp.Badges')</h4>
+                <h4 class="mb-4">@lang('badge.Badges')</h4>
                 <div class="row">
                     @foreach ($badges as $badge)
                         <div class="col-md-3 col-sm-3 col-xs-6 col-6 mb-2 my-auto">

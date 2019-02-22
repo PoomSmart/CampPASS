@@ -47,6 +47,9 @@
             @endcomponent
             @break
     @endswitch
+    @if ($input_type == 'select' && isset($desc))
+        <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
+    @endif
 @else
     @if (isset($textarea))
         <textarea
@@ -73,6 +76,9 @@
             >{{ $value }}</textarea>
         @else
             >
+        @endif
+        @if (isset($desc))
+            <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
         @endif
     @if ($errors->has($name))
         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>

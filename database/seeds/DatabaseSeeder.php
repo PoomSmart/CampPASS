@@ -112,12 +112,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_seed('camp_procedures');
         CampProcedure::insert([
-            [ 'title' => 'Walk-in', 'description' => 'camp.WalkInDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => false ],
-            [ 'title' => 'QA Only', 'description' =>'camp.QAOnlyDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
-            [ 'title' => 'Deposit Only', 'description' => 'camp.DepositOnlyDescription', 'interview_required' => false, 'deposit_required' => true, 'candidate_required' => false ],
-            [ 'title' => 'QA and Deposit', 'description' => 'camp.QAAndDepositDescription', 'interview_required' => false, 'deposit_required' => true, 'candidate_required' => true ],
-            [ 'title' => 'QA and Interview', 'description' => 'camp.QAAndInterviewDescription', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => true ],
-            [ 'title' => 'QA, Interview and Deposit', 'description' => 'camp.QAAndInterviewAndDepositDescription', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => true ],
+            [ 'title' => 'Walk-in', 'description' => 'WalkInDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => false ],
+            [ 'title' => 'QA', 'description' =>'QAOnlyDescription', 'interview_required' => false, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'Deposit', 'description' => 'DepositOnlyDescription', 'interview_required' => false, 'deposit_required' => true, 'candidate_required' => false ],
+            [ 'title' => 'QA-Deposit', 'description' => 'QAAndDepositDescription', 'interview_required' => false, 'deposit_required' => true, 'candidate_required' => true ],
+            [ 'title' => 'QA-Interview', 'description' => 'QAAndInterviewDescription', 'interview_required' => true, 'deposit_required' => false, 'candidate_required' => true ],
+            [ 'title' => 'QA-Interview-Deposit', 'description' => 'QAAndInterviewAndDepositDescription', 'interview_required' => true, 'deposit_required' => true, 'candidate_required' => true ],
         ]);
     }
 

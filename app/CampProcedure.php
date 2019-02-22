@@ -26,4 +26,9 @@ class CampProcedure extends Model
     {
         return trans("camp_procedure.{$this->title}");
     }
+
+    public function getDescription()
+    {
+        return trans("camp_procedure.{$this->description}");
+    }
 }

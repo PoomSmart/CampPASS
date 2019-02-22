@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Badges' => 'Badges',
     'PioneerDescription' => '',
     'PremiumDescription' => '',
     'BabyStepDescription' => '',
