@@ -103,6 +103,6 @@ a:hover {
 .btn-primary:hover{color:#fff;background-color:rgb(252, 132, 52);border: none;}
 .btn-primary:focus,.btn-primary.focus{box-shadow:0 0 0 .2rem rgba(90, 54, 0, 0.5)}
 .btn-primary.disabled,.btn-primary:disabled{color:#fff;background-color: rgb(255, 157, 92);border: none;}
-.btn-primary:not(:disabled):not(.disabled):active,.btn-primary:not(:disabled):not(.disabled).active,.show>.btn-primary.dropdown-toggle{color:#fff;background-color:#00b3b3;border-color:#one}
+.btn-primary:not(:disabled):not(.disabled):active,.btn-primary:not(:disabled):not(.disabled).active,.show>.btn-primary.dropdown-toggle{color:#fff;background-color:#00b3b3;border-color:none}
 .btn-primary:not(:disabled):not(.disabled):active:focus,.btn-primary:not(:disabled):not(.disabled).active:focus,.show>.btn-primary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(0,90,90,0.5)}
 
