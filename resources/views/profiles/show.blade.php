@@ -28,7 +28,7 @@
                 <div class="col-md-6">
                     @if ($camper)
                         <h5>@lang('account.School')</h5>
-                        <h6>{{ $user->school() }}</h6>
+                        <h6>{{ $user->school }}</h6>
                     @else
                         <h5>@lang('campmaker.Organization')</h5>
                         <h6>{{ $user->organization }}</h6>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6">
                     <h5>@lang('camper.Program')</h5>
-                    <h6>{{ $user->program() }}</h6>
+                    <h6>{{ $user->program }}</h6>
                 </div>
             </div>
             <h4 class="mb-4">@lang('camp.Camps')</h4>

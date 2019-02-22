@@ -42,8 +42,8 @@
                         <tr>
                             <th class="align-middle" scope="row">{{ $registration->id }}</th>
                             <th class="align-middle"><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
-                            <td class="align-middle">{{ $camper->school() }}</td>
-                            <td class="align-middle">{{ $camper->program() }}</td>
+                            <td class="align-middle">{{ $camper->school }}</td>
+                            <td class="align-middle">{{ $camper->program }}</td>
                             <td class="align-middle text-center">{{ $registration->getStatus() }}</td>
                             @php $not_finalized = $manual_grading_required && !$form_score->finalized; @endphp
                             <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
