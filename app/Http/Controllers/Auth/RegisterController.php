@@ -143,7 +143,7 @@ class RegisterController extends Controller
         try {
             $user = app(User::class)->where('activation_code', $activationCode)->first();
             if (!$user)
-                return "The code does not exist for any user in our system.";
+                throw new \CampPASSExpcetion('The code does not exist for any user in our system.');
             $user->activate();
             auth()->login($user);
         } catch (\Exception $exception) {
