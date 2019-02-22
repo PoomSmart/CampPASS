@@ -238,7 +238,8 @@ class DatabaseSeeder extends Seeder
                 $camper->activate();
             }
         }
-        Registration::insert($registrations);
+        foreach (array_chunk($registrations, 1000) as $chunk)
+            Registration::insert($chunk);
         unset($registrations);
         // Fake questions of several types for the camps that require
         $this->log_seed('questions and answers');
@@ -419,15 +420,20 @@ class DatabaseSeeder extends Seeder
             Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
             unset($json);
         }
-        Question::insert($questions);
+        foreach (array_chunk($questions, 1000) as $chunk)
+            Question::insert($chunk);
         unset($questions);
-        QuestionSet::insert($question_sets);
+        foreach (array_chunk($question_sets, 1000) as $chunk)
+            QuestionSet::insert($chunk);
         unset($question_sets);
-        QuestionSetQuestionPair::insert($pairs);
+        foreach (array_chunk($pairs, 1000) as $chunk)
+            QuestionSetQuestionPair::insert($chunk);
         unset($pairs);
-        FormScore::insert($form_scores);
+        foreach (array_chunk($form_scores, 1000) as $chunk)
+            FormScore::insert($chunk);
         unset($form_scores);
-        Answer::insert($answers);
+        foreach (array_chunk($answers, 1000) as $chunk)
+            Answer::insert($chunk);
         unset($answers);
         // Now we can mark all application forms with manual grading as finalized
         $this->log('-> finalizing respective form scores');
@@ -443,8 +449,8 @@ class DatabaseSeeder extends Seeder
                 continue;
             try {
                 CandidateController::announce($question_set, $void = true);
-                if (Common::randomFrequentHit()) {
-                    foreach ($question_set->camp->registrations()->all() as $registration) {
+                if (Common::randomVeryFrequentHit()) {
+                    foreach ($question_set->camp->registrations->all() as $registration) {
                         if (Common::randomRareHit())
                             continue;
                         CampApplicationController::confirm($registration, $void = true);
@@ -461,33 +467,11 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private function badges()
-    {
-        // TODO: This is a temporary unpractical generation of badges, we may use if we temporarily want more badges in the profile page
-        /*$this->log_seed('badges');
-        $badges = [];
-        $badge_category_count = BadgeCategory::count();
-        foreach (User::campers()->cursor() as $camper) {
-            $camper_id = $camper->id;
-            $badge_category_first = rand(1, $badge_category_count);
-            $badge_category_last = rand($badge_category_first, $badge_category_count);
-            for ($badge_category_id = $badge_category_first; $badge_category_id <= $badge_category_last; ++$badge_category_id) {
-                $badges[] = [
-                    'badge_category_id' => $badge_category_id,
-                    'camper_id' => $camper_id,
-                    'earned_date' => now(),
-                ];
-            }
-        }
-        Badge::insert($badges);
-        unset($badges);*/
-    }
-
     private function alter_campers()
     {
         $this->log_alter('campers');
         $candidate = User::campers(true)->get()->sortByDesc(function ($camper) {
-            return $camper->registrations()->get()->count();
+            return $camper->badges->count();
         })->first();
         $candidate->activate();
         $candidate->update([
@@ -543,14 +527,13 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 100)->create();
+        factory(Camp::class, 600)->create();
         $this->log_seed('users');
-        factory(User::class, 200)->create();
+        factory(User::class, 50)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
         $this->create_admin();
-        $this->badges();
         $this->call(PermissionTableSeeder::class);
         Model::reguard();
     }

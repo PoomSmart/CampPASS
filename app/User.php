@@ -193,8 +193,6 @@ class User extends Authenticatable
      */
     public function getIneligibleReasonForCamp(Camp $camp, bool $short = false)
     {
-        if (!$this->isCamper())
-            return null;
         $suffix = $short ? 'Short' : '';
         // An access to unapproved camps should not exist
         if (!$camp->approved)
@@ -230,11 +228,7 @@ class User extends Authenticatable
 
     public function getLatestRegistrationForCamp(Camp $camp)
     {
-        if ($this->isCamper()) {
-            $registration = $camp->getLatestRegistration($this);
-            return $registration;
-        }
-        return null;
+        return $camp->getLatestRegistration($this);
     }
 
     public function activate()

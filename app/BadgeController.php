@@ -42,7 +42,6 @@ class BadgeController
         if ($registration->qualified()) {
             $camper = $registration->camper;
             $camp = $registration->camp;
-            $registrations = $camp->getRegistrations($camper)->where('camper_id', $camper->id)->where('status', RegistrationStatus::QUALIFIED);
             if (!$camper->badges()->where('badge_category_id', self::getBabyStepBadgeID())->limit(1)->exists()) {
                 // Attended the first camp via CampPASS
                 Badge::create([
@@ -51,7 +50,8 @@ class BadgeController
                     'earned_date' => now(),
                 ]);
             }
-            if ($registration->count() == 10) {
+            $registrations = Registration::where('camper_id', $camper->id)->where('status', RegistrationStatus::QUALIFIED);
+            if ($registrations->count() >= 10) {
                 // Attended 10 camps
                 if (!$camper->badges()->where('badge_category_id', self::getPremiumBadgeID())->limit(1)->exists()) {
                     Badge::create([
@@ -62,14 +62,16 @@ class BadgeController
                 }
             }
             $registrations_by_camp_categories = [];
-            $registrations->chunk(5, function ($chunk) {
+            $registrations->chunk(100, function ($chunk) use (&$registrations_by_camp_categories, &$camper) {
                 foreach ($chunk as $registration) {
                     $category_id = $registration->camp->camp_category_id;
                     if (!isset($registrations_by_camp_categories[$category_id]))
                         $registrations_by_camp_categories[$category_id] = [];
                     $registrations_by_camp_categories[$category_id][] = $registration;
                     if (count($registrations_by_camp_categories[$category_id]) == 3) {
-                        if (!$camper->badges()->where('badge_category_id', $category_id)->limit(1)->exists()) {
+                        if ($camper->badges->filter(function ($badge) use (&$category_id) {
+                            return $badge->badge_category_id == $category_id;
+                        })->isEmpty()) {
                             // Attended 3 of the camps of the same category
                             Badge::create([
                                 'badge_category_id' => $category_id,

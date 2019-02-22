@@ -10,6 +10,10 @@ use App\Province;
 use App\Program;
 use App\Badge;
 
+use App\Registration;
+use App\Enums\RegistrationStatus;
+use App\BadgeController;
+
 use App\Http\Requests\StoreUserRequest;
 
 use App\Enums\EducationLevel;
@@ -44,7 +48,7 @@ class ProfileController extends Controller
     {
         $this->authenticate($user);
         if ($user->isCamper())
-            $badges = Common::values(Badge::class, 'camper_id', $user->id);
+            $badges = $user->badges;
         return view('profiles.show', compact('user', 'badges'));
     }
 
