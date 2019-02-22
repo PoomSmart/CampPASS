@@ -59,8 +59,8 @@
     @endcomponent
   
     <script>
-        jQuery('.next').click(function() { jQuery(this).closest('.carousel').carousel('next'); return false; });
-        jQuery('.prev').click(function() { jQuery(this).closest('.carousel').carousel('prev'); return false; });
+        jQuery('.next').click(function () { jQuery(this).closest('.carousel').carousel('next'); return false; });
+        jQuery('.prev').click(function () { jQuery(this).closest('.carousel').carousel('prev'); return false; });
     </script>
     <!-- End footer Area -->            
 @stop

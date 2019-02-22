@@ -13,21 +13,7 @@
 
 Auth::routes();
 
-Route::group(['middleware' => ['role:admin']], function() {
-    Route::resource('users', 'UserController');
-});
-
-Route::group(['middleware' => ['permission:role-list']], function() {
-    Route::resource('roles', 'RoleController');
-});
-
-Route::group(['middleware' => ['permission:camp-list']], function() {
-    Route::resource('camps', 'CampController');
-    Route::prefix('camps')->group(function () {
-        Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
-        Route::get('/registration/{camp}', 'CampController@registration')->name('camps.registration');
-    });
-});
+Route::resource('camps', 'CampController');
 
 Route::prefix('browse-camps')->group(function () {
     Route::get('/', 'CampController@browser')->name('camps.browser');
@@ -35,43 +21,39 @@ Route::prefix('browse-camps')->group(function () {
     Route::get('/category/{record}', 'CampController@by_category')->name('camps.by_category');
 });
 
-Route::group(['middleware' => ['permission:question-edit']], function() {
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::resource('users', 'UserController');
+        Route::resource('roles', 'RoleController');
+    });
+    Route::prefix('camps')->group(function () {
+        Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
+        Route::get('/registration/{camp}', 'CampController@registration')->name('camps.registration');
+    });
     Route::prefix('questions')->group(function () {
         Route::post('/save/{camp}', 'QuestionSetController@store')->name('questions.store');
         Route::get('/{camp}', 'QuestionSetController@show')->name('questions.show');
         Route::post('/finalize/{camp}', 'QuestionSetController@finalize')->name('questions.finalize');
     });
-});
-
-Route::group(['middleware' => ['auth']], function() {
     Route::prefix('application')->group(function () {
+        Route::group(['middleware' => ['role:camper']], function () {
+            Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
+            Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
+            Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
+            Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
+            Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
+            Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
+            Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
+        });
         Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
-});
-
-Route::group(['middleware' => ['role:camper']], function() {
-    Route::prefix('application')->group(function () {
-        Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
-        Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
-        Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
-        Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
-        Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
-        Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
-        Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
-    });
-});
-
-// TODO: refine this
-Route::group(['middleware' => ['permission:answer-grade', 'permission:camper-list']], function() {
     Route::resource('qualification', 'QualificationController');
     Route::prefix('qualification')->group(function () {
         Route::get('/grade-answers/{registration}/{question_set}', 'QualificationController@answer_grade')->name('qualification.answer_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/finalize-form/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
-        Route::group(['middleware' => ['permission:candidate-list']], function() {
-            Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
-            Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
-        });
+        Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
+        Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
     });
 });
 
