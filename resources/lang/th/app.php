@@ -23,7 +23,10 @@ return [
     'No' => 'ไม่',
     'Actions' => 'คำสั่ง',
     'Approve' => 'ยอมรับ',
+    'Confirm' => 'ยืนยัน',
+    'Confirmation' => 'การยืนยัน',
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',
     'NoPermissionError' => "คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้",
+    'Activated' => 'Activated',
 ];

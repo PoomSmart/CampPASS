@@ -1,7 +1,6 @@
 <?php
 
-return  [
-
+return [
     'Engineering' => 'Engineering',
     'Science' => 'Science',
     'Computer' => 'Computer',
@@ -26,5 +25,4 @@ return  [
     'Political' => 'Political',
     'Youth' => 'Youth',
     'Preserve' => 'Preserve',
-
 ];

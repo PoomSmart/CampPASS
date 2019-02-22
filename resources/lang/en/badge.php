@@ -1,10 +1,6 @@
 <?php
 
 return [
-
-    'Name' => 'Camp Name',
-    'EnglishName' => 'Name in English',
-
     'PioneerDescription' => '',
     'PremiumDescription' => '',
     'BabyStepDescription' => '',

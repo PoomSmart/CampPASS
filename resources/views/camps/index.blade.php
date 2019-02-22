@@ -25,7 +25,7 @@
         <thead>
             <th class="align-middle">@lang('app.No_')</th>
             <th class="align-middle">@lang('camp.Name')</th>
-            <th class="align-middle">@lang('camper.RegisteredCampers')</th>
+            <th class="align-middle">@lang('registration.RegisteredCampers')</th>
             <th class="align-middle">@lang('camp.GradingType')</th>
             <th class="align-middle">@lang('camp.Status')</th>
             <th class="align-middle" width="250px">@lang('app.Actions')</th>

@@ -24,4 +24,5 @@ return [
     'EmptyRegistration' => 'ยังไม่มีใครลงทะเบียนสำหรับค่ายนี้',
     'WillClose' => 'ปิดรับสมัครวันที่ ',
     'PayDeposit' => 'จ่ายค่าสมัคร',
+    'RegisteredCampers' => 'จำนวนใบสมัคร',
 ];

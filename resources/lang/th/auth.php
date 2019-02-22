@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'ข้อมูลการลงชื่อเข้าใช้นี้ไม่มีอยู่ในระบบ',
+    'throttle' => 'มีการร้องขอลงชื่อเข้าใช้มากเกินไป กรุณาลองใหม่ในอีก :seconds วินาที',
 ];
