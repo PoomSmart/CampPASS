@@ -1,7 +1,6 @@
 <?php
 
 return [
-    
     'Buddhist' => 'พุทธ',
     'Christ' => 'คริสต์',
     'Islamic' => 'อิสลาม',

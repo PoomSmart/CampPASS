@@ -5,5 +5,5 @@ return [
     'reset' => 'เปลี่ยนรหัสผ่านของคุณสำเร็จ!',
     'sent' => 'เราได้ส่งลิงก์เปลี่ยนรหัสให้ทางอีเมลของคุณแล้ว !',
     'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that e-mail address.",
+    'user' => "เราไม่พบบัญชีผู้ใช้ที่มีอีเมลดังกล่าว",
 ];

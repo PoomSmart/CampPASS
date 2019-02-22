@@ -39,12 +39,12 @@ return [
     'ApproveFirst' => 'ค่ายนี้ต้องถูกรับรองก่อน',
     'ApproveFirstShort' => 'ไม่ผ่านการรับรอง',
     'ContactCampMaker' => 'ติดต่อพี่ค่าย',
-    'CampCategories' => 'ประเภทค่าย',
-    'Camps' => 'ค่าย',
-    'OrganizeCamps' => 'จัดระเบียบค่าย',
+    'CampsByCategory' => 'ค่ายแบ่งตามประเภท',
+    'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
+    'Camps' => 'ค่ายต่างๆ',
+    'OrganizeCamps' => 'จัดการค่าย',
     'BrowseCamps' => 'ค้นหาค่าย',
     'CampLocation' => 'สถานที่จัดค่าย',
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
-
 ];

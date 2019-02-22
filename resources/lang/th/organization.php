@@ -7,5 +7,4 @@ return [
     'ASSOCIATION' => 'สมาคม',
     'CLUB' => 'ชมรม',
     'GROUP' => 'กลุ่ม',
-    'UniversityCategories' => 'ประเภทมหาวิทยาลัย',
 ];

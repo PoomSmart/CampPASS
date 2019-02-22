@@ -15,8 +15,8 @@ return [
     'AddMoreQuestion' => 'เพิ่มคำถาม',
     'AddMoreCheckbox' => 'เพิ่มช่องทำเครื่องหมาย',
     'AddMoreChoice' => 'เพิ่มตัวเลือก',
-    'ScoreThreshold' => 'เกณฑ์คะแนน',
-    'EnterThreshold' => 'กำหนดค่าเกณฑ์คะแนนที่ต้องการ',
+    'ScoreThreshold' => 'เกณฑ์คะแนนผ่าน',
+    'EnterThreshold' => 'กำหนดค่าเกณฑ์คะแนนขั้นต่ำในการได้รับคัดเลือก',
     'EditScoreThreshold' => 'แก้ไขเกณฑ์คะแนนใหม่',
     'NoFileUploaded'=> 'ไม่มีไฟล์อัปโหลด',
 ];

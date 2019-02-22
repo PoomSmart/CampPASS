@@ -1,9 +1,10 @@
 <?php
 
 return [
+    'WhoAreYou' => 'คุณคือใคร?',
     'DRAFT' => 'แบบร่าง',
     'APPLIED' => 'ส่งใบสมัคร',
-    'RETURNED' => 'Returned',
+    'RETURNED' => 'ถูกส่งกลับ',
     'APPROVED' => 'ยืนยันเรียบร้อย',
     'QUALIFIED' => 'ตรงตามเงื่อนไข',
     'ID' => 'Reg ID',
@@ -12,7 +13,7 @@ return [
     'Edit' => 'แก้ไขใบสมัคร',
     'NotInRequiredRegions' => 'เขตของคุณไม่เป็นไปตามที่ทางค่ายกำหนด',
     'NotInRequiredPrograms' => 'สายการเรียนของคุณไม่เป็นไปตามที่ทางค่ายกำหนด',
-    'NotEnoughCGPA' => 'เกรดเฉลี่ยสะสม(CGPA)ของคุณไม่เป็นไปตามที่ทางค่ายกำหนด',
+    'NotEnoughCGPA' => 'เกรดเฉลี่ยสะสม (CGPA) ของคุณไม่เป็นไปตามที่ทางค่ายกำหนด',
     'LateApplication' => 'ค่ายนี้ปิดช่วงรับสมัครแล้ว',
     'QuotaExceeded' => 'ค่ายนี้เต็มแล้ว',
     'NotInRequiredRegionsShort' => 'ไม่เปิดรับในเขตของคุณ',

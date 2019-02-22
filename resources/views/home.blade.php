@@ -37,7 +37,7 @@
 
     @component('components.card_carousel', [
         'id' => 'campCategoriesCarousel',
-        'header' => trans('camp.CampCategories'),
+        'header' => trans('camp.CampsByCategory'),
         'objects' => $camp_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
@@ -46,8 +46,8 @@
     @endcomponent
 
     @component('components.card_carousel', [
-        'id' => 'universityCategoriesCarousel',
-        'header' => trans('organization.UniversityCategories'),
+        'id' => 'CampsByUniversityCarousel',
+        'header' => trans('camp.CampsByUniversity'),
         'objects' => $university_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
