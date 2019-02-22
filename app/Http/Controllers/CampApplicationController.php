@@ -72,7 +72,7 @@ class CampApplicationController extends Controller
             } else if ($user->isCamper()) {
                 $registration = $user->getLatestRegistrationForCamp($camp);
                 if ($registration) {
-                    $apply_text = trans('registration.ApplicationStatus');
+                    $apply_text = trans('registration.Status');
                     $route = route('camp_application.status', $registration->id);
                 }
             }
