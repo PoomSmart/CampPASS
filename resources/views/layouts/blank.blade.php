@@ -34,7 +34,7 @@
             @endif
             @yield('content')
         </div>
-        @if (View::hasSection('extra-buttons'))
+        @if (!isset($card) && View::hasSection('extra-buttons'))
             <div class="col-12 my-4 text-center">
                 @yield('extra-buttons')
             </div>
