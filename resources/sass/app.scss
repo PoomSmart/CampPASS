@@ -8,6 +8,17 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+/* ------- customize primary buttons -------- */   
+$main_color: #FB6B0A;
+
+.btn-primary {
+    @include button-variant($main_color, darken($main_color, 7.5%), darken($main_color, 10%), lighten($main_color,5%), lighten($main_color, 10%), darken($main_color,20%));
+}
+
+.btn-outline-primary {
+    @include button-outline-variant($main_color, darken($main_color,4%), lighten($main_color,5%), $main_color);
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
