@@ -9,7 +9,11 @@
     <form method="POST" action="{{ route('camps.store') }}">
         @csrf
         @yield('camp-fields')
-        @component('components.submit')
-        @endcomponent
+        <div class="text-center mt-4">
+            @component('components.submit', [
+                'attributes' => 'w-50',
+            ])
+            @endcomponent
+        </div>
     </form>
 @endsection
