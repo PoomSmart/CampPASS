@@ -10,10 +10,6 @@ use App\Province;
 use App\Program;
 use App\Badge;
 
-use App\Registration;
-use App\Enums\RegistrationStatus;
-use App\BadgeController;
-
 use App\Http\Requests\StoreUserRequest;
 
 use App\Enums\EducationLevel;
