@@ -449,7 +449,7 @@ class DatabaseSeeder extends Seeder
                 continue;
             try {
                 CandidateController::announce($question_set, $void = true);
-                if (Common::randomVeryFrequentHit()) {
+                if (Common::randomFrequentHit()) {
                     foreach ($question_set->camp->registrations->all() as $registration) {
                         if (Common::randomRareHit())
                             continue;
