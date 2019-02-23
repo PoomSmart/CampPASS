@@ -187,17 +187,17 @@ class Camp extends Model
 
     public function getEventStartDate()
     {
-        return Carbon::parse($this->event_start_date)->format('j F Y, H:m');
+        return Carbon::parse($this->event_start_date)->formatLocalized('%d %B %Y, %H:%m');
     }
 
     public function getEventEndDate()
     {
-        return Carbon::parse($this->event_end_date)->format('j F Y, H:m');
+        return Carbon::parse($this->event_end_date)->formatLocalized('%d %B %Y, %H:%m');
     }
 
     public function getCloseDate()
     {
-        return Carbon::parse($this->app_close_date)->format('j F Y');
+        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y');
     }
 
     public function getAcceptablePrograms()

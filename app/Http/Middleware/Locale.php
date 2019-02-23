@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App;
-use Config;
 use Session;
 
 class Locale
@@ -18,12 +17,18 @@ class Locale
      */
     public function handle($request, Closure $next)
     {
-        $raw_locale = Session::get('locale');
-        if (in_array($raw_locale, Config::get('app.locales')))
-            $locale = $raw_locale;
-        else
-            $locale = Config::get('app.locale');
-        App::setLocale($locale);
+        if (Session::has('locale')) {
+            $raw_locale = Session::get('locale');
+            if (in_array($raw_locale, config('app.locales')))
+                $locale = $raw_locale;
+            else
+                $locale = config('app.locale');
+            App::setLocale($locale);
+            // TODO: It requires another page refresh to make Thai localization works
+            // Worse, each refresh will alternate between English and Thai (if Thai has been selected)
+            \Carbon\Carbon::setLocale($locale);
+            setlocale(LC_TIME, "{$locale}.utf8");
+        }
         return $next($request);
     }
 }

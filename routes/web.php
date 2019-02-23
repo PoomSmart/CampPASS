@@ -74,7 +74,9 @@ Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name(
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/language/{locale}', function ($locale) {
-    if (in_array($locale, \Config::get('app.locales')))
+    if (in_array($locale, \Config::get('app.locales'))) {
+        App::setLocale($locale);
         Session::put('locale', $locale);
+    }
     return redirect()->back();
 })->name('locale');
