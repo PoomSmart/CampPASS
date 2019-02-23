@@ -29,7 +29,7 @@
 
     @component('components.card_carousel', [
         'id' => 'myCampsCarousel',
-        'header' => 'Recommended Camps',
+        'header' => trans('camp.RecommendedCamps'),
         'objects' => $popular_camps,
         'component' => 'components.camp_block',
     ])

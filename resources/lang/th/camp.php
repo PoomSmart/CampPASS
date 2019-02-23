@@ -39,4 +39,5 @@ return [
     'CampLocation' => 'สถานที่จัดค่าย',
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
+    'RecommendedCamps' => 'ค่ายที่แนะนำ',
 ];

@@ -3,7 +3,7 @@
         $rows = 1;
     $mod = 3 * $rows;
 @endphp
-<div id="{{ $id }}" class="carousel slide mt-2" data-ride="carousel">
+<div id="{{ $id }}" class="carousel slide mt-4" data-ride="carousel">
     <div class="container mb-2">
         <div class="row justify-content-between no-gutters">
             <div class="col-auto my-auto">
