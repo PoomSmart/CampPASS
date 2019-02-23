@@ -529,7 +529,7 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('camps');
         factory(Camp::class, 600)->create();
         $this->log_seed('users');
-        factory(User::class, 50)->create();
+        factory(User::class, 900)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
