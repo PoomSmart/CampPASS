@@ -64,8 +64,9 @@ class CampApplicationController extends Controller
         $disabled = false;
         $route = null;
         if ($user) {
-            $disabled |= $user->isAdmin() || $user->isCampMaker();
-            $ineligible_reason = $user->getIneligibleReasonForCamp($camp, $short);
+            $non_campers = $user->isAdmin() || $user->isCampMaker();
+            $disabled |= $non_campers;
+            $ineligible_reason = $non_campers ? null : $user->getIneligibleReasonForCamp($camp, $short);
             if ($ineligible_reason) {
                 $disabled = true;
                 $apply_text = $ineligible_reason;
