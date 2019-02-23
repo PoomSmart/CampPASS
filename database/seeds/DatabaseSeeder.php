@@ -203,16 +203,16 @@ class DatabaseSeeder extends Seeder
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
             $done = false;
-            foreach (Camp::get()->filter(function ($camp) use (&$camper) {
+            foreach (Camp::all()->filter(function ($camp) use (&$camper) {
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
                     return false;
                 }
-                return Common::randomFrequentHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
+                return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
-                if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
+                if (Common::randomMediumHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
@@ -265,7 +265,7 @@ class DatabaseSeeder extends Seeder
                 } catch (\Exception $e) {
                     return false;
                 }
-                return true;
+                return Common::randomFrequentHit();
             });
             ++$question_set_id;
             $question_set_has_grade = false;
