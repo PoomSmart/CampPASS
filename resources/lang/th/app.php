@@ -25,6 +25,7 @@ return [
     'Actions' => 'คำสั่ง',
     'Approve' => 'ยอมรับ',
     'Confirm' => 'ยืนยัน',
+    'Confirmed' => 'ยืนยันแล้ว',
     'Confirmation' => 'การยืนยัน',
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',

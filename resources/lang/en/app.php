@@ -25,6 +25,7 @@ return [
     'Actions' => 'Actions',
     'Approve' => 'Approve',
     'Confirm' => 'Confirm',
+    'Confirmed' => 'Confirmed',
     'Confirmation' => 'Confirmation',
     'Unspecified' => 'Unspecified',
     'None' => 'None',
