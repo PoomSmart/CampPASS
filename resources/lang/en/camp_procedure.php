@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'CampProcedure' => 'Registration Type',
+    'CampProcedure' => 'Application Type',
     'Walk-in' => 'Walk-in',
     'QA' => 'QA Only',
     'Deposit' => 'Deposit Only',

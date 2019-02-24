@@ -50,7 +50,7 @@
     'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
     'input_type' => 'select',
     'objects' => $camp_procedures,
-    'placeholder' => isset($update) ? null : 'Select Camp Registration Type...',
+    'placeholder' => isset($update) ? null : 'Select Camp Application Type...',
     'desc' => isset($object) ? $object->camp_procedure->getDescription() : '',
 ])
 @endcomponent

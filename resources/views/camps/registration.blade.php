@@ -23,7 +23,7 @@
         @endif
         <div class="col-12">
             @if ($data && count($data))
-                <h3>@lang('registration.RegisteredCampers')</h3>
+                <h3>@lang('registration.ApplicationForms')</h3>
                 <table class="table table-striped">
                     <thead>
                         <th class="align-middle">@lang('registration.ID')</th>

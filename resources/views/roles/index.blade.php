@@ -5,7 +5,7 @@
 @endsection
 
 @section('extra-buttons')
-    <a class="btn btn-success" href="{{ route('roles.create') }}">@lang('account.CreateRole')</a>
+    <a class="btn btn-success w-50" href="{{ route('roles.create') }}">@lang('account.CreateRole')</a>
 @endsection
 
 @section('content')

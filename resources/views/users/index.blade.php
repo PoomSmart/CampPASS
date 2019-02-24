@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+    <div class="d-flex justify-content-center">
+        {!! $data->links() !!}
+    </div>
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>

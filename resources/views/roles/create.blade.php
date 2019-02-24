@@ -22,7 +22,10 @@
             'columns' => 3,
         ])
         @endcomponent
-        @component('components.submit', ['label' => trans('app.Submit')])
+        @component('components.submit', [
+            'label' => trans('app.Submit'),
+            'attributes' => 'w-50',
+        ])
         @endcomponent
     {!! Form::close() !!}
 @endsection

@@ -21,11 +21,14 @@
         'method' => 'DELETE',
     ])
     @endcomponent
+    <div class="d-flex justify-content-center">
+        {!! $camps->links() !!}
+    </div>
     <table class="table table-striped">
         <thead>
             <th class="align-middle">@lang('app.No_')</th>
             <th class="align-middle">@lang('camp.Name')</th>
-            <th class="align-middle">@lang('registration.RegisteredCampers')</th>
+            <th class="align-middle">@lang('registration.ApplicationForms')</th>
             <th class="align-middle">@lang('camp.GradingType')</th>
             <th class="align-middle">@lang('camp.Status')</th>
             <th class="align-middle" width="250px">@lang('app.Actions')</th>
@@ -43,7 +46,7 @@
                     $registration_count = 0;
             @endphp
             <td class="align-middle"><a href="{{ route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
-            <td class="align-middle">{{ $camp->gradingType() }}</td>
+            <td class="align-middle text-muted">{{ $camp->gradingType() }}</td>
             <td class="align-middle text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
 	        <td class="align-middle">
                 @if (!$camp->approved)

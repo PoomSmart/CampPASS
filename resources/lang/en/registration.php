@@ -24,5 +24,5 @@ return [
     'WillClose' => 'Application will be close on',
     'PayDeposit' => 'Pay Deposit',
     'Status' => 'Application Status',
-    'RegisteredCampers' => 'Registered Campers',
+    'ApplicationForms' => 'Application Forms',
 ];
