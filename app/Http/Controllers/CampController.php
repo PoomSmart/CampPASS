@@ -144,7 +144,7 @@ class CampController extends Controller
         if ($column && $value) {
             $camps = $camps->where($column, $value);
             $result = [];
-            $camps->latest()->chunk(3, function ($chunk) {
+            $camps->latest()->chunk(3, function ($chunk) use (&$result) {
                 foreach ($chunk as $camp) {
                     $result[] = $camp;
                 }
@@ -188,7 +188,7 @@ class CampController extends Controller
     public function by_category(CampCategory $record)
     {
         $camps = $this->get_camps('camp_category_id', $record->id);
-        return view('cams.by_category', compact('camps', 'record'));
+        return view('camps.by_category', compact('camps', 'record'));
     }
 
     public function by_organization(Organization $record)
