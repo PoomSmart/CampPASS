@@ -40,4 +40,6 @@ return [
     'CampFor' => 'Camp For',
     'GradingType' => 'Grading Type',
     'RecommendedCamps' => 'Recommended Camps',
+    'ManageUsers' => 'Manage Users',
+    'ManageRoles' => 'Manage Roles',
 ];

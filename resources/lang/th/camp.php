@@ -40,4 +40,6 @@ return [
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
     'RecommendedCamps' => 'ค่ายที่แนะนำ',
+    'ManageUsers' => 'จัดการผู้ใช้งาน',
+    'ManageRoles' => 'จัดการประเภทผู้ใช้',
 ];
