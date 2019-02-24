@@ -93,8 +93,7 @@ class CampController extends Controller
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
         if (\Auth::user()->hasPermissionTo('camper-list')) {
-            $form_scores = $camp->getFormScores();
-            $data = $form_scores ? $form_scores->paginate($max) : null;
+            $data = $camp->registrations()->paginate($max);
         } else
             $data = null;
         $category = CampCategory::find($camp->camp_category_id);

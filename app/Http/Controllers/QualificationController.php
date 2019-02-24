@@ -26,7 +26,7 @@ class QualificationController extends Controller
      * Grade an application form from a camper (represented by a registration record) and the respective question set
      * 
      */
-    public static function answer_grade(int $registration_id, int $question_set_id, bool $silent = false)
+    public static function answer_grade($registration_id, $question_set_id, bool $silent = false)
     {
         $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($silent) {
@@ -39,7 +39,7 @@ class QualificationController extends Controller
             throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
-        $answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $camper->id);
+        $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
         if (!$answers->exists())
             throw new \CampPASSException('You cannot grade the answers of the application form without questions.');
         $camp = $question_set->camp;
@@ -91,23 +91,22 @@ class QualificationController extends Controller
                 ];
             }
         }
-        if ($silent) {
-            if (!$form_score) {
-                FormScore::updateOrcreate([
-                    'registration_id' => $registration_id,
-                    'question_set_id' => $question_set_id,
-                ], [
-                    'total_score' => $camper_score,
-                    'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
-                ]);
-            }
+        if (!$form_score) {
+            $form_score = FormScore::updateOrCreate([
+                'registration_id' => $registration_id,
+                'question_set_id' => $question_set_id,
+            ], [
+                'total_score' => $camper_score,
+                'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+            ]);
+        }
+        if ($silent)
             return $camper_score;
-        } else
-            $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
+        $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
         return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
     }
 
-    public function save_manual_grade(Request $request, Registration $registration, int $question_set_id)
+    public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
     {
         Common::authenticate_camp(Camp::find($registration->camp_id));
         $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();

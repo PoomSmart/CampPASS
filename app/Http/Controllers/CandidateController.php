@@ -39,10 +39,8 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
         foreach ($form_scores as $form_score) {
             if (is_null($form_score->total_score)) {
-                $registration = $form_score->registration;
-                $question_set = $form_score->question_set;
                 $form_score->update([
-                    'total_score' => QualificationController::answer_grade($registration->id, $question_set->id, $silent = true),
+                    'total_score' => QualificationController::answer_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                 ]);
             }
         }

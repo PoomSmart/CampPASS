@@ -1,3 +1,7 @@
-<button type="submit" class="btn btn-primary{{ isset($attributes) ? ' '.$attributes : null }}{{ isset($disabled) && $disabled ? ' disabled' : null }}">
+<button type="submit" class="btn btn-primary{{ isset($attributes) ? ' '.$attributes : null }}"
+    @if (isset($disabled) && $disabled)
+        disabled
+    @endif
+>
     {{ isset($label) ? $label : trans('app.Submit') }}
 </button>

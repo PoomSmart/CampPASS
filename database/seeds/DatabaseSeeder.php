@@ -260,14 +260,6 @@ class DatabaseSeeder extends Seeder
             if ($camp->question_set)
                 continue;
             $json = [];
-            $eligible_campers = $campers->filter(function ($camper) use (&$camp) {
-                try {
-                    $camper->isEligibleForCamp($camp);
-                } catch (\Exception $e) {
-                    return false;
-                }
-                return Common::randomFrequentHit();
-            });
             ++$question_set_id;
             $question_set_has_grade = false;
             $question_set_has_manual_grade = false;
@@ -349,9 +341,10 @@ class DatabaseSeeder extends Seeder
                 ];
                 if (Common::randomFrequentHit()) {
                     // For each question, all campers who are eligible and registered get a chance to answer
-                    foreach ($eligible_campers as $camper) {
-                        $registration = $camp->getLatestRegistration($camper);
-                        if (!$registration)
+                    foreach ($camp->registrations as $registration) {
+                        // If the registration is in applied state, answers must be there
+                        // If the registration is in draft state, answers may or may not be there
+                        if (!($registration->applied() || (Common::randomRareHit() && $registration->status == RegistrationStatus::DRAFT)))
                             continue;
                         $answer = null;
                         switch ($question_type) {
@@ -380,7 +373,7 @@ class DatabaseSeeder extends Seeder
                         $answers[] = [
                             'question_set_id' => $question_set_id,
                             'question_id' => $question_id,
-                            'camper_id' => $camper->id,
+                            'camper_id' => $registration->camper_id,
                             'registration_id' => $registration->id,
                             'answer' => $answer,
                             // We take only the questions that need to be graded, i.e., full_score is set
@@ -392,7 +385,7 @@ class DatabaseSeeder extends Seeder
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
-            foreach ($camp->registrations()->get() as $registration) {
+            foreach ($camp->registrations->where('status', '>=', RegistrationStatus::APPLIED) as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set_id,

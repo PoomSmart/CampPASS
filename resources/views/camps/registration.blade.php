@@ -34,9 +34,8 @@
                         <th class="align-middle">@lang('qualification.Finalized')</th>
                         <th class="align-middle">@lang('app.Actions')</th>
                     </thead>
-                    @foreach ($data as $key => $form_score)
+                    @foreach ($data as $key => $registration)
                         @php
-                            $registration = $form_score->registration;
                             $camper = $registration->camper;
                         @endphp
                         <tr>
@@ -45,7 +44,10 @@
                             <td class="align-middle">{{ $camper->school }}</td>
                             <td class="align-middle">{{ $camper->program }}</td>
                             <td class="align-middle text-center">{{ $registration->getStatus() }}</td>
-                            @php $not_finalized = $manual_grading_required && !$form_score->finalized; @endphp
+                            @php
+                                $form_score = $registration->form_score;
+                                $not_finalized = $manual_grading_required && ($form_score ? !$form_score->finalized : true);
+                            @endphp
                             <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
                             <td class="align-middle">
                                 @if ($rankable)
