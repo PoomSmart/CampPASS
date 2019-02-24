@@ -41,7 +41,8 @@ class DatabaseSeeder extends Seeder
 {
     private function log(string $message)
     {
-        $this->command->line('<comment>CampPASS: </comment>'.$message);
+        $app = config('app.name');
+        $this->command->line("<comment>{$app}: </comment>{$message}");
     }
 
     private function log_seed(string $message)
@@ -527,9 +528,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 600)->create();
+        factory(Camp::class, 500)->create();
         $this->log_seed('users');
-        factory(User::class, 900)->create();
+        factory(User::class, 500)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
