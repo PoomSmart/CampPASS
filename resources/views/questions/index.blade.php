@@ -30,7 +30,7 @@
         @endcomponent
         <div id="questions" class="mt-4">
             @component('questions.question', [
-                'title' => 'Title',
+                'title' => trans('question.Title'),
                 'label' => trans('question.Question'),
             ]);
             @endcomponent

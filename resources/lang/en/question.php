@@ -21,4 +21,5 @@ return [
     'NoFileUploaded'=> 'No file was uploaded.',
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
+    'Title' => 'Title',
 ];
