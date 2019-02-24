@@ -39,6 +39,7 @@ class BadgeController
     public static function addBadgeIfNeeded(Registration $registration)
     {
         // TODO: Add Pioneer Badge
+        // TODO: Further optimization?
         if ($registration->qualified()) {
             $camper = $registration->camper;
             if (!$camper->badges()->where('badge_category_id', self::getBabyStepBadgeID())->limit(1)->exists()) {
