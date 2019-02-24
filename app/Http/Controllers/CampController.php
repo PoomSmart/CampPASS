@@ -139,22 +139,25 @@ class CampController extends Controller
      */
     public function get_camps($column = null, $value = null)
     {
+        // TODO: Discuss about the order of camps ?
         $camps = Camp::allApproved();
         if ($column && $value) {
             $camps = $camps->where($column, $value);
             $result = [];
-            $camps->latest()->chunk(3, function ($chunk) use (&$result) {
+            $camps->chunk(3, function ($chunk) use (&$result) {
                 foreach ($chunk as $camp) {
                     $result[] = $camp;
                 }
             });
+            // Randomize the order of camps
+            shuffle($result);
             return $result;
         } else {
             $max_fetch = config('const.camp.max_fetch');
             $output_camps = [];
             $category_ids = [];
             $category_count = CampCategory::count();
-            $camps->latest()->chunk(3, function ($chunk) use (&$max_fetch, &$category_count, &$output_camps, &$category_ids) {
+            $camps->chunk(3, function ($chunk) use (&$max_fetch, &$category_count, &$output_camps, &$category_ids) {
                 foreach ($chunk as $camp) {
                     $category = $camp->camp_category;
                     $category_name = $category->getName();
@@ -169,6 +172,12 @@ class CampController extends Controller
                     }
                 }
             });
+            // Sort the camps with their category alphabetically
+            ksort($output_camps);
+            // Randomize the order of camps in each category
+            foreach ($output_camps as &$category) {
+                shuffle($category);
+            }
             return [
                 'categorized_camps' => $output_camps,
                 'category_ids' => $category_ids,
