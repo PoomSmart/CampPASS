@@ -244,7 +244,7 @@ class User extends Authenticatable
     }
 
     // Only accept a valid password and hash a password before saving
-    public function setPasswordAttribute(string $password)
+    public function setPasswordAttribute($password)
     {
         if ($password !== null & $password !== "") {
             $this->attributes['password'] = bcrypt($password);

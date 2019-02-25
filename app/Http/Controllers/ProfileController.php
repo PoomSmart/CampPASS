@@ -70,6 +70,7 @@ class ProfileController extends Controller
 
     public function my_camps(User $user)
     {
+        // TODO: Categorize camps further
         $camps = $user->getBelongingCamps()->latest()->get();
         return view('profiles.my_camps', compact('camps'));
     }
