@@ -183,7 +183,7 @@ class CampApplicationController extends Controller
 
     public function store(Request $request)
     {
-        $camp = $this->authenticate($request['camp_id']);
+        $camp = $this->authenticate(Camp::find($request['camp_id']));
         $user = \Auth::user();
         if (!$user->hasPermissionTo('answer-edit') || !$user->hasPermissionTo('answer-create'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
