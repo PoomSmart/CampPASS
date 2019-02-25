@@ -15,12 +15,11 @@ class CampCategory extends Model
 
     public function __toString()
     {
-        return $this->name;
+        return trans("camp_category.{$this->name}");
     }
 
     public function getName()
     {
-        $name = $this->__toString();
-        return trans("camp_category.{$name}");
+        return $this->__toString();
     }
 }

@@ -15,7 +15,7 @@ return [
     'AcceptablePrograms' => 'สายการเรียนที่ยอมรับ',
     'AcceptableRegions' => 'ภูมิภาคที่ยอมรับ',
     'AcceptableYears' => 'ปีการศึกษาที่ยอมรับ',
-    'Category' => 'ประเภท',
+    'Category' => 'ประเภทค่าย',
     'MinCGPA' => 'เกรดเฉลี่ยสะสม (CGPA) ขั้นต่ำ ',
     'OtherConditions' => 'เงื่อนไขเพิ่มเติม',
     'ApplicationFee' => 'ค่าการรับสมัคร',
