@@ -46,10 +46,10 @@
                         @endcan
                         @if (\Auth::user() && \Auth::user()->isAdmin())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('users.index') }}">@lang('camp.ManageUsers')</a>
+                                <a class="nav-link" href="{{ route('users.index') }}">@lang('account.ManageUsers')</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('roles.index') }}">@lang('camp.ManageRoles')</a>
+                                <a class="nav-link" href="{{ route('roles.index') }}">@lang('account.ManageRoles')</a>
                             </li>
                         @endif
                         <!-- Authentication Links -->

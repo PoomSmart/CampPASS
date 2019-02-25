@@ -5,5 +5,4 @@ return [
     'Senior High School' => 'มัธยมศึกษาตอนปลาย',
     'Primary School' => 'ประถมศึกษาตอนต้น',
     'Secondary School' => 'ประถมศึกษาตอนปลาย',
-   
 ];

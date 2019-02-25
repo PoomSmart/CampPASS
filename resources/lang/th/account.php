@@ -68,4 +68,7 @@ return [
     'Profile' => 'ข้อมูลส่วนตัว',
 
     'CampActivities' => 'ค่ายที่เคยเข้าร่วม',
+
+    'ManageUsers' => 'จัดการผู้ใช้งาน',
+    'ManageRoles' => 'จัดการประเภทผู้ใช้',
 ];

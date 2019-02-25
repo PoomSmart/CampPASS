@@ -69,4 +69,7 @@ return [
     'Profile' => 'Profile',
 
     'CampActivities' => 'Camp Activities',
+
+    'ManageUsers' => 'Manage Users',
+    'ManageRoles' => 'Manage Roles',
 ];
