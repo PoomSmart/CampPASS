@@ -13,7 +13,7 @@
     <div class="row mt-4">
         @if ($camp_procedure->candidate_required)
             <div class="col-md-4">
-                @lang('status.Application Placeholder')
+                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Application.png') }}" alt="Application" height="150" style="padding-bottom:1em">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Application')</h4>
@@ -31,7 +31,7 @@
 
         @if ($camp_procedure->interview_required)
             <div class="col-md-4">
-                @lang('status.Interview Placeholder')
+                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" height="150" style="padding-bottom:1em">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4"> @lang('status.Interview')</h4>
@@ -45,7 +45,7 @@
         @endphp
         @if ($camp_procedure->deposit_required && $applied)
             <div class="col-md-4">
-                @lang('status.Deposit Placeholder')
+                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" height="150" style="padding-bottom:1em">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Deposit')</h4>
@@ -56,7 +56,7 @@
         
         @if ($registration->approved_to_qualified())
             <div class="col-md-4">
-                @lang('status.Qualification Placeholder')
+                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" height="150" style="padding-bottom:1em">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Qualification')</h4>
