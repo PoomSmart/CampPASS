@@ -41,6 +41,7 @@
         'objects' => $camp_categories,
         'component' => 'components.camp_category_block',
         'rows' => 2,
+        'getter' => 'name',
         'folder' => 'camp_categories',
     ])
     @endcomponent
