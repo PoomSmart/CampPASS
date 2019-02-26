@@ -14,10 +14,10 @@
                             <img class="rounded-circle" src="{{ asset('images/profiles/Profile.jpg') }}"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
-                        <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
-                    </div>
+                    <!--<input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>-->
+                    <button class="btn btn-primary w-100 mt-3 mx-2">Upload Picture</button>
+                    <button class="btn btn-danger w-100 mt-3 mx-2">Delete Picture</button>
                 </div>
             </div>
             <div class="col-md-9">
