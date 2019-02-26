@@ -63,6 +63,11 @@ class Common
         return "camps/{$camp_id}";
     }
 
+    public static function userDirectory(int $user_id)
+    {
+        return "users/{$user_id}";
+    }
+
     public static function registrationDirectory(int $camp_id)
     {
         return self::campDirectory($camp_id)."/registrations";
@@ -87,7 +92,7 @@ class Common
         return $value;
     }
 
-    public static function getQuestionJSON(int $camp_id, bool $graded = false)
+    public static function getQuestionJSON($camp_id, bool $graded = false)
     {
         $json_path = self::questionSetDirectory($camp_id).'/questions.json';
         $json = json_decode(Storage::disk('local')->get($json_path), true);

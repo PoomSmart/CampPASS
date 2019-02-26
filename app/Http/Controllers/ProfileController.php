@@ -65,6 +65,9 @@ class ProfileController extends Controller
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $user->update($request->all());
+        if ($request->hasFile('profile_picture')) {
+
+        }
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
