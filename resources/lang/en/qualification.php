@@ -9,4 +9,6 @@ return [
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
     'Announce' => 'Announce',
+    'Grading' => 'Grading'
+
 ];
