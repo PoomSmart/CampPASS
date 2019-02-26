@@ -31,6 +31,7 @@ return [
     'ApproveFirst' => 'This camp must be approved first.',
     'ApproveFirstShort' => 'Not approved',
     'ContactCampMaker' => 'Contact Camp Maker',
+    'CampMakerContactInfo' => 'Camp Maker Contact Info',
     'CampsByCategory' => 'Camps by category',
     'CampsByUniversity' => 'Camps by university',
     'Camps' => 'Camps',

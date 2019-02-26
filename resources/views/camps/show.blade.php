@@ -51,7 +51,7 @@
                     <p class="text-muted">Location X</p>
                 </div>
                 <div class="col-12 col-md-6">
-                    <h5>@lang('account.CampMaker')</h5>
+                    <h5>@lang('organization.Organization')</h5>
                     <p class="text-muted">{{ $camp->organization }}</p>
                 </div>
             </div>
@@ -70,6 +70,10 @@
                 </div>
                 <div class="col-12">
                     <p>{{ $camp->long_description }}</p>
+                </div>
+                <div class="col-12">
+                    <h5>@lang('camp.CampMakerContactInfo')</h5>
+                    <p class="text-muted">{{ $camp->contact_campMaker ? $camp->contact_campMaker : trans('app.None') }}</p>
                 </div>
             </div>
         </div>

@@ -31,6 +31,7 @@ return [
     'ApproveFirst' => 'ค่ายนี้ต้องถูกรับรองก่อน',
     'ApproveFirstShort' => 'ไม่ผ่านการรับรอง',
     'ContactCampMaker' => 'ติดต่อผู้จัดค่าย',
+    'CampMakerContactInfo' => 'ข้อมูลติดต่อผู้จัดค่าย',
     'CampsByCategory' => 'ค่ายแบ่งตามประเภท',
     'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
     'Camps' => 'ค่ายต่างๆ',

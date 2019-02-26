@@ -119,6 +119,13 @@
 @endcomponent
 
 @component('components.input', [
+    'name' => 'contact_campMaker',
+    'label' => trans('camp.CampMakerContactInfo'),
+    'textarea' => 1,
+])
+@endcomponent
+
+@component('components.input', [
     'name' => 'url',
     'label' => trans('camp.URL'),
     'type' => 'url',
