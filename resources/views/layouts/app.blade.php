@@ -113,16 +113,16 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">What's {{ config('app.name') }}</a></li>
-                                    <li><a href="#!">How it works</a></li>
-                                    <li><a href="#!">Becoming a Camp Maker</a></li>
+                                    <li><a href="#!">@lang ("app.What's") {{ config('app.name') }}</a></li>
+                                    <li><a href="#!">@lang ('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
+                                    <li><a href="#!">@lang ('app.Becoming a Camp Maker')</a></li>
                                 </ul>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">About</a></li>
-                                    <li><a href="#!">Help</a></li>
-                                    <li><a href="#!">Terms</a></li>
+                                    <li><a href="#!">@lang ('app.About')</a></li>
+                                    <li><a href="#!">@lang ('app.Help')</a></li>
+                                    <li><a href="#!">@lang ('app.Terms')</a></li>
                                 </ul>
                             </div>
                         </div>

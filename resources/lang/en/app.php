@@ -31,4 +31,11 @@ return [
     'None' => 'None',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
     'Activated' => 'Activated',
+    "What's" => "What's",
+    'How' => 'How',
+    'works' => 'works',
+    'Becoming a Camp Maker' => 'Becoming a Camp Maker',
+    'About' => 'About',
+    'Help' => 'Help',
+    'Terms' => 'Terms',
 ];
