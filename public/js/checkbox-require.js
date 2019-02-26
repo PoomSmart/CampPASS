@@ -8,4 +8,5 @@ jQuery(document).ready(function () {
             self.removeAttr("required");
         jQuery("input:checkbox:not(:checked)").not(this).removeAttr("required");
     });
+    jQuery("input:checkbox:not(:checked)").removeAttr("required");
 });

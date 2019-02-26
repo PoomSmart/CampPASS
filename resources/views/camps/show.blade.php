@@ -66,15 +66,22 @@
                     <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
                         href="{{ $route }}"
                     >{{ $apply_text }}</a>
-                    <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->getURL() }}">@lang('camp.ContactCampMaker')</a>
+                    @if ($camp->url)
+                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->url }}">@lang('camp.URL')</a>
+                    @endif
+                    @if ($camp->fburl)
+                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->fburl }}">@lang('camp.FBURL')</a>
+                    @endif
                 </div>
                 <div class="col-12">
                     <p>{{ $camp->long_description }}</p>
                 </div>
-                <div class="col-12">
-                    <h5>@lang('camp.CampMakerContactInfo')</h5>
-                    <p class="text-muted">{{ $camp->contact_campMaker ? $camp->contact_campMaker : trans('app.None') }}</p>
-                </div>
+                @if ($camp->contact_campmaker)
+                    <div class="col-12">
+                        <h5>@lang('camp.CampMakerContactInfo')</h5>
+                        <p class="text-muted">{{ $camp->contact_campmaker }}</p>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="col-12 col-md-6">

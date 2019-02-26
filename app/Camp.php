@@ -21,14 +21,17 @@ class Camp extends Model
 {
     protected $fillable = [
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
-        'acceptable_regions', 'acceptable_years', 'min_cgpa', 'other_conditions', 'application_fee', 'url', 'fburl', 'app_close_date',
-        'event_start_date', 'event_end_date', 'event_location_lat', 'event_location_long',
-        'quota', 'approved',
+        'acceptable_regions', 'acceptable_years', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
+        'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
+        'interview_date', 'interview_information',
+        'event_location_lat', 'event_location_long',
+        'quota', 'contact_campmaker', 'approved',
     ];
 
     // These attributes require mutators for user-friendly date display
     protected $appends = [
-        'app_close_date', 'event_start_date', 'event_end_date',
+        'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
+        'interview_date',
     ];
 
     protected $casts = [
@@ -197,7 +200,12 @@ class Camp extends Model
 
     public function getCloseDate()
     {
-        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y');
+        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y, %H:%m');
+    }
+
+    public function getInterviewDate()
+    {
+        return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y, %H:%m');
     }
 
     public function getAcceptablePrograms()
@@ -222,36 +230,74 @@ class Camp extends Model
         $this->attributes['acceptable_regions'] = json_encode(array_map('intval', $value));
     }
 
-    public function getAppCloseDateAttribute($value)
+    public function getDateValue($value)
     {
         if (!$value) return null;
         return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+
+    public function setDateValue($value, $attribute)
+    {
+        $this->attributes[$attribute] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+    }
+
+    public function getAppCloseDateAttribute($value)
+    {
+        return $this->getDateValue($value);
     }
 
     public function setAppCloseDateAttribute($value)
     {
-        $this->attributes['app_close_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+        $this->setDateValue($value, 'app_close_date');
+    }
+
+    public function getAnnouncementDateAttribute($value)
+    {
+        return $this->getDateValue($value);
+    }
+
+    public function setAnnouncementDateAttribute($value)
+    {
+        $this->setDateValue($value, 'announcement_date');
+    }
+
+    public function getConfirmationDateAttribute($value)
+    {
+        return $this->getDateValue($value);
+    }
+
+    public function setConfirmationDateAttribute($value)
+    {
+        $this->setDateValue($value, 'confirmation_date');
     }
 
     public function getEventStartDateAttribute($value)
     {
-        if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
+        return $this->getDateValue($value);
     }
 
     public function setEventStartDateAttribute($value)
     {
-        $this->attributes['event_start_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+        $this->setDateValue($value, 'event_start_date');
     }
 
     public function getEventEndDateAttribute($value)
     {
-        if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
+        return $this->getDateValue($value);
     }
 
     public function setEventEndDateAttribute($value)
     {
-        $this->attributes['event_end_date'] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+        $this->setDateValue($value, 'event_end_date');
+    }
+
+    public function getInterviewDateAttribute($value)
+    {
+        return $this->getDateValue($value);
+    }
+
+    public function setInterviewAttribute($value)
+    {
+        $this->setDateValue($value, 'interview_date');
     }
 }

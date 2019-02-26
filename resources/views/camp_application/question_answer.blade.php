@@ -73,7 +73,9 @@
             </div>
         @endforeach
         <div class="text-center">
-            @component('components.submit', ['label' => trans('app.Save')])
+            @component('components.submit', [
+                'label' => trans('app.Save'),
+            ])
             @endcomponent
             <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">@lang('app.Next')</a>
         </div>

@@ -11,15 +11,18 @@
 
 @section('card_content')
     <div class="row mt-4">
+        @php
+            $application_form_accepted = $camp_procedure->candidate_required ? ($registration->approved() || $registration->qualified() || $registration->candidate) : false;
+        @endphp
         @if ($camp_procedure->candidate_required)
             <div class="col-md-4">
-                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Application.png') }}" alt="Application" height="150" style="padding-bottom:1em">
+                <img src="{{ asset('/images/placeholders/Status - Application.png') }}" alt="Application" height="150" class="pb-3">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Application')</h4>
                     @if ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
-                    @elseif ($registration->approved() || $registration->qualified() || $registration->candidate)
+                    @elseif ($application_form_accepted)
                         <p>Congratulations, your application form has been accepted!</p>
                     @elseif ($registration->returned())
                         <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>
@@ -31,21 +34,27 @@
 
         @if ($camp_procedure->interview_required)
             <div class="col-md-4">
-                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" height="150" style="padding-bottom:1em">
+                <img src="{{ asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" height="150" class="pb-3">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4"> @lang('status.Interview')</h4>
-                <p>Do acknowledge that you will be doing an interview.</p>
+                @if ($application_form_accepted && $camp->interview_information)
+                    <p>Interview Date: {{ $camp->getInterviewDate() }}</p>
+                    <p>{{ $camp->interview_information }}</p>
+                @else
+                    <p>Do acknowledge that you will be doing an interview.</p>
+                @endif
             </div>
         @endif
 
         @php
-            $applied = $camp_procedure->candidate_required ? ($registration->applied() || $registration->returned()) : true;
+            // $applied = $camp_procedure->candidate_required ? ($registration->applied() || $registration->returned()) : true;
             // TODO: Deal with the case interview_required = true
+            // Or, tell them here that they only need to upload payment slip if they pass the interview
         @endphp
-        @if ($camp_procedure->deposit_required && $applied)
+        @if ($camp_procedure->deposit_required && $application_form_accepted)
             <div class="col-md-4">
-                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" height="150" style="padding-bottom:1em">
+                <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" height="150" class="pb-3">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Deposit')</h4>
@@ -56,7 +65,7 @@
         
         @if ($registration->approved_to_qualified())
             <div class="col-md-4">
-                <img src="{{ isset($src) ? $src : asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" height="150" style="padding-bottom:1em">
+                <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" height="150" class="pb-3">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Qualification')</h4>

@@ -12,19 +12,24 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'short_description_en',
-    'label' => trans('camp.EnglishShortDescription'),
-    'textarea' => 1,
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'short_description_th',
-    'label' => trans('camp.ThaiShortDescription'),
-    'textarea' => 1,
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'short_description_en',
+            'label' => trans('camp.EnglishShortDescription'),
+            'textarea' => 1,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'short_description_th',
+            'label' => trans('camp.ThaiShortDescription'),
+            'textarea' => 1,
+        ])
+        @endcomponent
+    </div>
+</div>
 
 @component('components.input', [
     'name' => 'long_description',
@@ -43,17 +48,39 @@
 ])
 @endcomponent
 
-<!-- TODO: client-side desc update -->
 @component('components.input', [
     'name' => 'camp_procedure_id',
     'label' => trans('camp_procedure.CampProcedure'),
-    'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
+    'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ' onchange=selectionChanged(this);'),
     'input_type' => 'select',
     'objects' => $camp_procedures,
     'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
-    'desc' => isset($object) ? $object->camp_procedure->getDescription() : '',
+    'desc' => isset($object) ? $object->camp_procedure->getDescription() : null,
+    'desc_objects' => $camp_procedures,
+    'desc_objects_getter' => 'getDescription',
 ])
 @endcomponent
+
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'application_fee',
+            'label' => trans('camp.ApplicationFee'),
+            'type' => 'number',
+            'disabled' => isset($object) && $object->camp_procedure->deposit_required ? 1 : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'deposit',
+            'label' => trans('camp.Deposit'),
+            'type' => 'number',
+            'disabled' => isset($object) && !$object->camp_procedure->deposit_required ? 1 : null,
+        ])
+        @endcomponent
+    </div>
+</div>
 
 @php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); @endphp
 
@@ -112,14 +139,7 @@
 @endcomponent
 
 @component('components.input', [
-    'name' => 'application_fee',
-    'label' => trans('camp.ApplicationFee'),
-    'type' => 'number',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'contact_campMaker',
+    'name' => 'contact_campmaker',
     'label' => trans('camp.CampMakerContactInfo'),
     'textarea' => 1,
 ])
@@ -139,29 +159,69 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'app_close_date',
-    'label' => trans('camp.AppCloseDate'),
-    'type' => 'datetime-local',
-    'attributes' => 'required',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'event_start_date',
-    'label' => trans('camp.EventStartDate'),
-    'type' => 'datetime-local',
-    'attributes' => 'required',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'event_end_date',
-    'label' => trans('camp.EventEndDate'),
-    'type' => 'datetime-local',
-    'attributes' => 'required',
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'app_close_date',
+            'label' => trans('camp.AppCloseDate'),
+            'type' => 'datetime-local',
+            'attributes' => 'required',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'interview_date',
+            'label' => trans('camp.InterviewDate'),
+            'type' => 'datetime-local',
+            'disabled' => isset($object) && !$object->camp_procedure->interview_required ? 1 : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-12">
+        @component('components.input', [
+            'name' => 'interview_information',
+            'label' => trans('camp.InterviewInformation'),
+            'textarea' => 1,
+            'disabled' => isset($object) && !$object->camp_procedure->interview_required ? 1 : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'announcement_date',
+            'label' => trans('camp.AnnouncementDate'),
+            'type' => 'datetime-local',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'confirmation_date',
+            'label' => trans('camp.ConfirmationDate'),
+            'type' => 'datetime-local',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'event_start_date',
+            'label' => trans('camp.EventStartDate'),
+            'type' => 'datetime-local',
+            'attributes' => 'required',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'event_end_date',
+            'label' => trans('camp.EventEndDate'),
+            'type' => 'datetime-local',
+            'attributes' => 'required',
+        ])
+        @endcomponent
+    </div>
+</div>
 
 <!-- TODO: Geolocation -->
 

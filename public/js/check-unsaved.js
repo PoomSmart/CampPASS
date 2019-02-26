@@ -1,4 +1,4 @@
-jQuery(document).ready(function (){
+jQuery(document).ready(function () {
     var form = $('#form'), original = form.serialize();
     form.submit(function () {
         window.onbeforeunload = null;

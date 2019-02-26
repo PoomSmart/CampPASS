@@ -22,7 +22,11 @@
                         if (isset($object)) {
                             $checked = isset($bit) ? $object->{$name} & (1 << $j) : ($checkbox && !is_null($object->{$name}) ? (in_array($j, $object->{$name}, true)) : $object->{$name} == $j);
                         } else {
-                            $checked = $selected_value ? ($checkbox ? in_array($j, $selected_value, true) : $selected_value == $j) : old($name, -1) == $j;
+                            if ($checkbox) {
+                                $checked = in_array($j, $selected_value ? $selected_value : old($name, []), false);
+                            } else {
+                                $checked = $selected_value ? $selected_value == $j : old($name, -1) == $j;
+                            }
                         }
                     @endphp
                     @if ($checked)

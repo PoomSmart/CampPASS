@@ -80,8 +80,15 @@ class CampController extends Controller
         return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
     }
 
+    public function check(Camp $camp)
+    {
+        if (!$camp->approved)
+            throw new \CampPASSException(trans('camp.ApproveFirst'));
+    }
+
     public function show(Camp $camp)
     {
+        $this->check($camp);
         View::share('object', $camp);
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category'));
@@ -89,6 +96,7 @@ class CampController extends Controller
 
     public function registration(Camp $camp)
     {
+        $this->check($camp);
         // TODO: Will we allow users to see this page if the candidates have been announced?
         $max = config('const.app.max_paginate');
         View::share('object', $camp);

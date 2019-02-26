@@ -23,11 +23,15 @@
 @if (isset($input_type))
     @switch ($input_type)
         @case ('select')
-            {!! Form::select($name, $objects, (int)$value - 1, [
-                'class' => 'form-control',
+            @component('components.select', [
+                'name' => $name,
+                'value' => $value,
                 'placeholder' => isset($placeholder) ? $placeholder : null,
+                'objects' => $objects,
+                'attributes' => isset($attributes) ? $attributes : null,
                 'disabled' => $disabled,
-            ]) !!}
+            ])
+            @endcomponent
             @break
         @case ('radio')
         @case ('checkbox')
@@ -47,8 +51,14 @@
             @endcomponent
             @break
     @endswitch
-    @if ($input_type == 'select' && isset($desc))
-        <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
+    @if ($input_type == 'select')
+        @if (isset($desc))
+            <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
+        @elseif (isset($desc_objects))
+            @foreach ($desc_objects as $desc_object)
+                <small id="{{ $name }}-desc-inline-{{ $desc_object->id }}" subvalue="{{ $desc_object->id }}" class="form-text text-muted">{{ isset($desc_objects_getter) ? $desc_object->{$desc_objects_getter}() : $desc_object }}</small>
+            @endforeach
+        @endif
     @endif
 @else
     @if (isset($textarea))

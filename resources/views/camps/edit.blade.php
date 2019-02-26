@@ -1,6 +1,10 @@
 @extends('layouts.card')
 @include('camps.fields', ['update' => 1])
 
+@section('script')
+    <script src="{{ asset('js/checkbox-require.js') }}"></script>
+@endsection
+
 @section('header')
     @lang('app.Edit') {{ $object }}
 @endsection

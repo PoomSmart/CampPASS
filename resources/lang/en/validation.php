@@ -180,6 +180,19 @@ return [
         'education_level' => trans('account.EducationLevel'),
 
         'score_threshold' => trans('camp.ScoreThreshold'),
+        'app_close_date' => trans('camp.AppCloseDate'),
+        'announcement_date' => trans('camp.AnnouncementDate'),
+        'confirmation_date' => trans('camp.ConfirmationDate'),
+        'event_start_date' => trans('camp.EventStartDate'),
+        'event_end_date' => trans('camp.EventEndDate'),
+        'interview_date' => trans('camp.InterviewDate'),
+        'interview_information' => trans('camp.InterviewInformation'),
+        'quota' => trans('camp.Quota'),
+        'url' => trans('camp.URL'),
+        'fburl' => trans('camp.FBURL'),
+        'min_cgpa' => trans('camp.MinCGPA'),
+        'short_description_en' => trans('camp.EnglishShortDescription'),
+        'short_description_th' => trans('camp.ThaiShortDescription'),
     ],
 
 ];
