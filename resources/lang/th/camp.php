@@ -35,9 +35,12 @@ return [
     'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
     'Camps' => 'ค่ายต่างๆ',
     'OrganizeCamps' => 'จัดการค่าย',
-    'BrowseCamps' => 'ค้นหาค่าย',
+    'BrowseCamps' => 'ค่ายทั้งหมด',
     'CampLocation' => 'สถานที่จัดค่าย',
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
     'RecommendedCamps' => 'ค่ายที่แนะนำ',
+    'SelectCampApplication' => 'เลือกคประเภทการสมัครค่าย...',
+    'SelectOrganization' => 'เลือกองค์กร...',
+    'ViewAllCamps' => 'ค่ายทั้งหมด',
 ];

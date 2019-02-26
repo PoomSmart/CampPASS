@@ -40,4 +40,7 @@ return [
     'CampFor' => 'Camp For',
     'GradingType' => 'Grading Type',
     'RecommendedCamps' => 'Recommended Camps',
+    'SelectCampApplication' => 'Select Camp Application Type...',
+    'SelectOrganization' => 'Select Organization...',
+    'ViewAllCamps' => 'View All Camps',
 ];

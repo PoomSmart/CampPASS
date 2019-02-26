@@ -24,7 +24,6 @@ class QuestionSetController extends Controller
         $this->middleware('permission:question-list');
         $this->middleware('permission:question-create', ['only' => ['show', 'store']]);
         $this->middleware('permission:question-edit', ['only' => ['finalize']]);
-        $this->question_types = QuestionType::getLocalizedConstants('question');
     }
     
     public function store(StoreQuestionRequest $request, Camp $camp)
@@ -79,7 +78,8 @@ class QuestionSetController extends Controller
         } else
             $json = [];
         View::share('object', $question_set);
-        View::share('question_types', $this->question_types);
+        $question_types = QuestionType::getLocalizedConstants('question');
+        View::share('question_types', $question_types);
         View::share('camp_id', $camp->id);
         return view('questions.index', compact('json'));
     }

@@ -1,7 +1,7 @@
 @extends('layouts.blank')
 
 @section('header')
-    View All Camps
+    @lang('camp.ViewAllCamps')
 @endsection
 
 @section('content')

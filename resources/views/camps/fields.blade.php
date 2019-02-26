@@ -50,7 +50,7 @@
     'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ''),
     'input_type' => 'select',
     'objects' => $camp_procedures,
-    'placeholder' => isset($update) ? null : 'Select Camp Application Type...',
+    'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
     'desc' => isset($object) ? $object->camp_procedure->getDescription() : '',
 ])
 @endcomponent
@@ -63,7 +63,7 @@
     'attributes' => $can_list_organization ? 'required' : 'disabled',
     'input_type' => 'select',
     'objects' => $organizations,
-    'placeholder' => $can_list_organization && !isset($update) ? 'Select Organization...' : null,
+    'placeholder' => $can_list_organization && !isset($update) ? trans('camp.SelectOrganization') : null,
 ])
 @endcomponent
 
