@@ -30,7 +30,7 @@ return [
     'BelongingCamps' => 'ค่ายที่เข้า',
     'ApproveFirst' => 'ค่ายนี้ต้องถูกรับรองก่อน',
     'ApproveFirstShort' => 'ไม่ผ่านการรับรอง',
-    'ContactCampMaker' => 'ติดต่อพี่ค่าย',
+    'ContactCampMaker' => 'ติดต่อผู้จัดค่าย',
     'CampsByCategory' => 'ค่ายแบ่งตามประเภท',
     'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
     'Camps' => 'ค่ายต่างๆ',
@@ -40,7 +40,7 @@ return [
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
     'RecommendedCamps' => 'ค่ายที่แนะนำ',
-    'SelectCampApplication' => 'เลือกคประเภทการสมัครค่าย...',
+    'SelectCampApplication' => 'เลือกประเภทการสมัครค่าย...',
     'SelectOrganization' => 'เลือกองค์กร...',
     'ViewAllCamps' => 'ค่ายทั้งหมด',
 ];

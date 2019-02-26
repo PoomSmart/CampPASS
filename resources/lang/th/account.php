@@ -27,8 +27,8 @@ return [
     'RequestVerifyLink' => 'คลิกที่นี่เพื่อรับอีเมลการยืนยันตัวตนใหม่',
     'SendPasswordResetLink' => 'ส่งลิงก์สำหรับการเปลี่ยนรหัสผ่าน',
 
-    'Camper' => 'น้องค่าย',
-    'CampMaker' => 'พี่ค่าย',
+    'Camper' => 'ผู้สมัครค่าย',
+    'CampMaker' => 'ผู้จัดค่าย',
 
     'ManageUsers' => 'จัดการผู้ใช้',
     'Username' => 'ชื่อผู้ใช้',

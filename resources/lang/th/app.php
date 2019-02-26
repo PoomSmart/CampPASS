@@ -24,6 +24,7 @@ return [
     'No' => 'ไม่',
     'Actions' => 'คำสั่ง',
     'Approve' => 'ยอมรับ',
+    'Application' => 'การสมัคร',
     'Confirm' => 'ยืนยัน',
     'Confirmed' => 'ยืนยันแล้ว',
     'Confirmation' => 'การยืนยัน',

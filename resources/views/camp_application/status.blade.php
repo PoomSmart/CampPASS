@@ -13,10 +13,10 @@
     <div class="row mt-4">
         @if ($camp_procedure->candidate_required)
             <div class="col-md-4">
-                Application Placeholder
+                @lang('status.Application Placeholder')
             </div>
             <div class="col-md-8">
-                <h4 class="mb-4">Application</h4>
+                <h4 class="mb-4">@lang('status.Application')</h4>
                     @if ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
                     @elseif ($registration->approved() || $registration->qualified() || $registration->candidate)
@@ -31,10 +31,10 @@
 
         @if ($camp_procedure->interview_required)
             <div class="col-md-4">
-                Interview Placeholder
+                @lang('status.Interview Placeholder')
             </div>
             <div class="col-md-8">
-                <h4 class="mb-4">Interview</h4>
+                <h4 class="mb-4"> @lang('status.Interview')</h4>
                 <p>Do acknowledge that you will be doing an interview.</p>
             </div>
         @endif
@@ -45,10 +45,10 @@
         @endphp
         @if ($camp_procedure->deposit_required && $applied)
             <div class="col-md-4">
-                Deposit Placeholder
+                @lang('status.Deposit Placeholder')
             </div>
             <div class="col-md-8">
-                <h4 class="mb-4">Deposit</h4>
+                <h4 class="mb-4">@lang('status.Deposit')</h4>
                 <p>Please upload your payment slip.</p>
                 <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
             </div>
@@ -56,10 +56,10 @@
         
         @if ($registration->approved_to_qualified())
             <div class="col-md-4">
-                Qualification Placeholder
+                @lang('status.Qualification Placeholder')
             </div>
             <div class="col-md-8">
-                <h4 class="mb-4">Qualification</h4>
+                <h4 class="mb-4">@lang('status.Qualification')</h4>
                 <p>Congratulations! Please do acknowledge your attendance by clicking confirm.</p>
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100 mb-4{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
             </div>
