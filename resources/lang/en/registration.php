@@ -7,7 +7,7 @@ return [
     'RETURNED' => 'Returned',
     'APPROVED' => 'Approved',
     'QUALIFIED' => 'Qualified',
-    'ID' => 'Reg ID',
+    'ID' => 'Application ID',
     'Apply' => 'Apply Now',
     'Edit' => 'Edit Application',
     'NotInRequiredRegions' => 'This camp is not open for your region.',

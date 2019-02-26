@@ -6,7 +6,7 @@
 @endsection
 
 @section('header')
-    @lang('xxx.Campers that passed') {{ $camp }} {{ $question_set->announced ? '(Announced)' : null }}
+    @lang('qualification.Campers that passed') {{ $camp }} {{ $question_set->announced ? '('.trans('qualification.Announced').')' : null }}
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
     ])
     @endcomponent
     <div class="d-flex align-items-center mb-2">
-        <span class="mr-3">@lang('question.PassingCriteria')</span>
+        <span class="mr-3">@lang('question.ScoreThreshold')</span>
         <form id="form" class="form-inline" method="POST" action="{{ route('questions.store', $camp->id) }}">
             @csrf
             @component('components.numeric_range', [

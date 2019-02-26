@@ -9,6 +9,8 @@ return [
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
     'Announce' => 'Announce',
-    'Grading' => 'Grading'
+    'Grading' => 'Grading',
+    'Campers that passed' => 'Campers that passed',
+    'Announced' => 'Announced',
 
 ];
