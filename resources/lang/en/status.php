@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'Application Placeholder' => 'Application Placeholder',
     'Application' => 'Application',
     'Interview Placeholder' => 'Interview Placeholder',
@@ -10,5 +9,4 @@ return [
     'Qualification' => 'Qualification',
     'Deposit Placeholder' => 'Deposit Placeholder',
     'Deposit' => 'Deposit',
-
 ];

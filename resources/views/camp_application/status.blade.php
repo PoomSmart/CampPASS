@@ -74,9 +74,11 @@
                         @else
                             <p>@lang('registration.SlipUploaded')</p>
                         @endif
+                    @else
+                        @php $need_upload = true; @endphp
                     @endif
                     @if ($need_upload)
-                        <p>@lang('registration.Please upload your payment slip.')</p>
+                        <p>@lang('registration.UploadPayment')</p>
                         <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
                     @endif
                 @endif
