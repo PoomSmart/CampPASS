@@ -10,4 +10,5 @@ return [
     'StudentCertificate' => 'ปพ. 7',
     'ContactInformation' => 'ข้อมูลการติดต่อ',
     'EmergencyContactInformation' => 'ข้อมูลการติดต่อกรณีฉุกเฉิน',
+    'UpdateProfile' => 'แก้ไขโปรไฟล์',
 ];

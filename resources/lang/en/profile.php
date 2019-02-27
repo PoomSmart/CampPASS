@@ -10,4 +10,5 @@ return [
     'StudentCertificate' => 'Student Certificate',
     'ContactInformation' => 'Contact Information',
     'EmergencyContactInformation' => 'Emergency Contact Information',
+    'UpdateProfile' => 'Update Profile',
 ];
