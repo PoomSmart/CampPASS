@@ -9,9 +9,9 @@ final class ApplicationStatus extends BasicEnum
 {
     const
 		DRAFT = 1,
-		APPLIED = 2,
-		REJECTED = 3,
-		WITHDRAWED = 4,
+		REJECTED = 2,
+		WITHDRAWED = 3,
+		APPLIED = 4,
 		CHOSEN = 5,
 		INTERVIEWED = 6,
 		PAID = 7,

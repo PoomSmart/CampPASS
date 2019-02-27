@@ -62,7 +62,7 @@ class Registration extends Model
 
     public function unsubmitted()
     {
-        return $this->returned || $this->status < ApplicationStatus::APPLIED;
+        return $this->returned || $this->status == ApplicationStatus::DRAFT;
     }
 
     public function rejected()

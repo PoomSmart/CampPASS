@@ -35,7 +35,7 @@ class QualificationController extends Controller
         }
         $registration = Registration::findOrFail($registration_id);
         Common::authenticate_camp(Camp::find($registration->camp_id), $silent = $silent);
-        if ($registration->unsubmitted() && !\Auth::user()->isAdmin())
+        if ($registration->unsubmitted())
             throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
@@ -142,11 +142,14 @@ class QualificationController extends Controller
     public static function form_finalize(FormScore $form_score, $silent = false)
     {
         Common::authenticate_camp(Camp::find($form_score->question_set->camp->id), $silent = $silent);
+        if ($form_score->registration->unsubmitted())
+            throw new \CampPASSException('You cannot finalize unsubmitted application forms.');
         if (!$form_score->finalized) {
             $form_score->update([
                 'finalized' => true,
             ]);
         }
-        return redirect()->back()->with('success', 'This form is finalized.');
+        if (!$silent)
+            return redirect()->back()->with('success', 'This form is finalized.');
     }
 }

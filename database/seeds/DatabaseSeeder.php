@@ -271,7 +271,6 @@ class DatabaseSeeder extends Seeder
             $json['radio_label'] = [];
             $json['checkbox_label'] = [];
             $questions_number = rand($minimum_questions, $maximum_questions);
-            $has_any_answers = false;
             while ($questions_number--) {
                 $question_type = $question_set_try_auto ? QuestionType::CHOICES : QuestionType::any();
                 // Requirement: file upload is always required and graded
@@ -351,7 +350,8 @@ class DatabaseSeeder extends Seeder
                                 $answer = $faker->sentences($nb = rand(2, 5), $asText = true);
                                 break;
                             case QuestionType::CHOICES:
-                                $answer = array_rand($multiple_radio_map[$json_id]);
+                                // A bit of cheating in hope for seeded campers to get more scores
+                                $answer = Common::randomRareHit() ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
                                 break;
                             case QuestionType::CHECKBOXES:
                                 $count = rand(1, count($multiple_checkbox_map[$json_id]));
@@ -365,7 +365,6 @@ class DatabaseSeeder extends Seeder
                         }
                         $answer = Common::encodeIfNeeded($answer, $question_type);
                         $can_manual_grade = $graded;
-                        $has_any_answers = true;
                         $answers[] = [
                             'question_set_id' => $question_set_id,
                             'question_id' => $question_id,
@@ -398,7 +397,7 @@ class DatabaseSeeder extends Seeder
                 'score_threshold' => $question_set_has_grade ? rand(1, 75) / 100.0 : null,
                 'manual_required' => $question_set_has_manual_grade,
                 'total_score' => $question_set_total_score,
-                'finalized' => $has_any_answers || $question_set_try_auto,
+                'finalized' => false,
             ];
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
@@ -429,7 +428,11 @@ class DatabaseSeeder extends Seeder
         // Now we can mark all application forms with manual grading as finalized
         $this->log('-> finalizing respective form scores');
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
-            QualificationController::form_finalize($manual_form_score, $silent = true);
+            try {
+                QualificationController::form_finalize($manual_form_score, $silent = true);
+            } catch (\Exception $e) {
+                continue;
+            }
         }
         unset($manual_grade_question_set_ids);
         unset($faker);

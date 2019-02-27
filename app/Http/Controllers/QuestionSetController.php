@@ -37,31 +37,33 @@ class QuestionSetController extends Controller
         ]);
         // TODO: How much could we allow for camp makers to make changes on the question set beside the score threshold ?
         if (!$question_set->finalized) {
-            $questions = $content['type'];
-            $question_set_total_score = 0;
-            foreach ($questions as $json_id => $type) {
-                $graded = isset($content['question_graded'][$json_id]);
-                $question = Question::updateOrCreate([
-                    'json_id' => $json_id,
-                ], [
-                    'type' => (int)$type,
-                    'full_score' => $graded ? 10.0 : null,
+            if (isset($content['type'])) {
+                $questions = $content['type'];
+                $question_set_total_score = 0;
+                foreach ($questions as $json_id => $type) {
+                    $graded = isset($content['question_graded'][$json_id]);
+                    $question = Question::updateOrCreate([
+                        'json_id' => $json_id,
+                    ], [
+                        'type' => (int)$type,
+                        'full_score' => $graded ? 10.0 : null,
+                    ]);
+                    QuestionSetQuestionPair::updateOrCreate([
+                        'question_set_id' => $question_set->id,
+                        'question_id' => $question->id,
+                    ]);
+                    $question_set_total_score += $question->full_score;
+                }
+                $question_set->update([
+                    'total_score' => $question_set_total_score,
                 ]);
-                QuestionSetQuestionPair::updateOrCreate([
-                    'question_set_id' => $question_set->id,
-                    'question_id' => $question->id,
-                ]);
-                $question_set_total_score += $question->full_score;
+                // We do not need token to be stored
+                unset($content['_token']);
+                $content['camp_id'] = $camp->id;
+                $json = json_encode($content);
+                $directory = Common::questionSetDirectory($camp->id);
+                Storage::disk('local')->put($directory.'/questions.json', $json);
             }
-            $question_set->update([
-                'total_score' => $question_set_total_score,
-            ]);
-            // We do not need token to be stored
-            unset($content['_token']);
-            $content['camp_id'] = $camp->id;
-            $json = json_encode($content);
-            $directory = Common::questionSetDirectory($camp->id);
-            Storage::disk('local')->put($directory.'/questions.json', $json);
             return redirect()->back()->with('success', 'Questions are saved successfully.');
         }
         return redirect()->back()->with('success', 'Score threshold has been changed.');

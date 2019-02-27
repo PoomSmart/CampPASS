@@ -19,7 +19,7 @@ class CandidateController extends Controller
     {
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         if (!$form_scores->exists())
-            throw new \CampPASSException('You cannot rank the application form without questions.');
+            throw new \CampPASSExceptionRedirectBack('No application forms to be ranked.');
         $form_scores = $form_scores->get()->filter(function ($form_score) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
             return $form_score->registration->applied();
@@ -40,7 +40,7 @@ class CandidateController extends Controller
             return $finalized && $passed;
         });
         if ($form_scores->isEmpty())
-            throw new \CampPASSExceptionRedirectBack('No finalized application forms to rank.');
+            throw new \CampPASSExceptionRedirectBack('No finalized application forms to be ranked.');
         if (!$question_set->announced && $form_scores->count() !== $total_registrations)
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
         foreach ($form_scores as $form_score) {

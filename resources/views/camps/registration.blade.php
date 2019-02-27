@@ -51,7 +51,7 @@
                             <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
                             <td class="align-middle">
                                 @if ($rankable)
-                                    <a class="btn btn-info{{ ($registration->unsubmitted() && !\Auth::user()->isAdmin()) ? ' disabled' : '' }}"
+                                    <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
                                         href="{{ route('qualification.answer_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
