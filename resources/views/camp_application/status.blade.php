@@ -39,10 +39,10 @@
             <div class="col-md-8">
                 <h4 class="mb-4"> @lang('status.Interview')</h4>
                 @if ($application_form_accepted && $camp->interview_information)
-                    <p>Interview Date: {{ $camp->getInterviewDate() }}</p>
+                    <p>@lang ('camp.InterviewDate'): {{ $camp->getInterviewDate() }}</p>
                     <p>{{ $camp->interview_information }}</p>
                 @else
-                    <p>Do acknowledge that you will be doing an interview.</p>
+                    <p>@lang ('qualification.AckInterview')</p>
                 @endif
             </div>
         @endif
@@ -58,7 +58,7 @@
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Deposit')</h4>
-                <p>Please upload your payment slip.</p>
+                <p>@lang  ('registration.Please upload your payment slip.')</p>
                 <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
             </div>
         @endif
@@ -69,7 +69,7 @@
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Qualification')</h4>
-                <p>Congratulations! Please do acknowledge your attendance by clicking confirm.</p>
+                <p>@lang ('qualification.AttendanceConfirm')</p>
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100 mb-4{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
             </div>
         @endif

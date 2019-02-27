@@ -24,4 +24,5 @@ return [
     'PayDeposit' => 'Pay Deposit',
     'Status' => 'Application Status',
     'ApplicationForms' => 'Application Forms',
+    'UploadPayment' => 'Please upload your payment slip.',
 ];

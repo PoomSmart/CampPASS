@@ -24,4 +24,5 @@ return [
     'PayDeposit' => 'จ่ายค่าสมัคร',
     'ApplicationForms' => 'ใบสมัครค่าย',
     'Status' => 'สถานะใบสมัคร',
+    'UploadPayment' => 'กรุณาอัพโหลดหลักฐานการชำระเงินของคุณ',
 ];
