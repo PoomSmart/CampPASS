@@ -271,6 +271,7 @@ class DatabaseSeeder extends Seeder
             $json['radio_label'] = [];
             $json['checkbox_label'] = [];
             $questions_number = rand($minimum_questions, $maximum_questions);
+            $has_any_answers = false;
             while ($questions_number--) {
                 $question_type = $question_set_try_auto ? QuestionType::CHOICES : QuestionType::any();
                 // Requirement: file upload is always required and graded
@@ -365,6 +366,7 @@ class DatabaseSeeder extends Seeder
                         }
                         $answer = Common::encodeIfNeeded($answer, $question_type);
                         $can_manual_grade = $graded;
+                        $has_any_answers = true;
                         $answers[] = [
                             'question_set_id' => $question_set_id,
                             'question_id' => $question_id,
@@ -397,7 +399,7 @@ class DatabaseSeeder extends Seeder
                 'score_threshold' => $question_set_has_grade ? rand(1, 75) / 100.0 : null,
                 'manual_required' => $question_set_has_manual_grade,
                 'total_score' => $question_set_total_score,
-                'finalized' => false,
+                'finalized' => $has_any_answers,
             ];
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
