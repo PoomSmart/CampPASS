@@ -23,9 +23,9 @@
                     @if ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
                     @elseif ($application_form_accepted)
-                        <p>Congratulations, your application form has been accepted!</p>
+                        <p>@lang ('qualification.CongratulationsApp')</p>
                     @elseif ($registration->returned())
-                        <p>Your application form has been returned, please check the completeness of the form and resubmit it.</p>
+                        <p>@lang ('qualification.ReturnedApplication')</p>
                     @else
                         <a href="{{ route('camp_application.landing', $camp->id) }}" class="btn btn-primary w-100 mb-4">@lang('registration.Edit')</a>
                     @endif

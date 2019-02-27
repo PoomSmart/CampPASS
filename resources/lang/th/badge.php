@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Badges' => 'Badges',
+    'Badges' => 'ประสบการณ์',
     'PioneerDescription' => '',
     'PremiumDescription' => '',
     'BabyStepDescription' => '',
