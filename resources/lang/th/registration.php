@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'WhoAreYou' => 'คุณคือใคร?',
     'DRAFT' => 'แบบร่าง',
     'APPLIED' => 'ส่งใบสมัคร',
     'RETURNED' => 'ถูกส่งกลับ',
