@@ -16,7 +16,7 @@
         @endphp
         @if ($camp_procedure->candidate_required)
             <div class="col-md-4">
-                <img src="{{ asset('/images/placeholders/Status - Application.png') }}" alt="Application" height="150" class="pb-3">
+                <img src="{{ asset('/images/placeholders/Status - Application.png') }}" alt="Application" class="pb-3 w-100">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Application')</h4>
@@ -34,7 +34,7 @@
 
         @if ($camp_procedure->interview_required)
             <div class="col-md-4">
-                <img src="{{ asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" height="150" class="pb-3">
+                <img src="{{ asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" class="pb-3 w-100">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4"> @lang('status.Interview')</h4>
@@ -54,7 +54,7 @@
         @endphp
         @if ($camp_procedure->deposit_required && $application_form_accepted)
             <div class="col-md-4">
-                <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" height="150" class="pb-3">
+                <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" class="pb-3 w-100">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Deposit')</h4>
@@ -65,7 +65,7 @@
         
         @if ($registration->approved_to_qualified())
             <div class="col-md-4">
-                <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" height="150" class="pb-3">
+                <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" class="pb-3 w-100">
             </div>
             <div class="col-md-8">
                 <h4 class="mb-4">@lang('status.Qualification')</h4>
