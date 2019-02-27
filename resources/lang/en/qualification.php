@@ -4,6 +4,7 @@ return [
     'Rank' => 'Rank',
     'Score' => 'Score',
     'CandidateRanking' => 'Candidate Ranking',
+    'CandidatesAnnouncement'=> 'Candidates Announcement',
     'Passed' => 'Passed',
     'Pending' => 'Pending',
     'Finalize' => 'Finalize',

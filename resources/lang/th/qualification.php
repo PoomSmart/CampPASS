@@ -4,6 +4,7 @@ return [
     'Rank' => 'จัดอันดับ',
     'Score' => 'คะแนน',
     'CandidateRanking' => 'จัดอันดับผู้สมัคร',
+    'CandidatesAnnouncement'=> 'ประกาศผู้ผ่านค่าย',
     'Passed' => 'ผ่าน',
     'Finalized' => 'ตรวจแล้ว',
     'Finalize' => 'ยืนยันการตรวจ',
