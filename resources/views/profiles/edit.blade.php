@@ -7,7 +7,7 @@
         @php $type = \Auth::user()->type @endphp
         <div class="row">
             <div class="col-md-3">
-                <h3 class="mt-4">Profile Picture</h3>
+                <h3 class="mt-4">@lang('profile.ProfilePicture')</h3>
                 <div class="row justify-content-center mt-4">
                     <div class="profile-header-container">
                         <div class="profile-header-img">
@@ -16,8 +16,8 @@
                     </div>
                     <!--<input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
                     <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>-->
-                    <button class="btn btn-primary w-100 mt-3 mx-2">Upload Picture</button>
-                    <button class="btn btn-danger w-100 mt-3 mx-2">Delete Picture</button>
+                    <button class="btn btn-primary w-100 mt-3 mx-2">@lang('profile.UploadPicture')</button>
+                    <button class="btn btn-danger w-100 mt-3 mx-2">@lang('profile.DeletePicture')</button>
                 </div>
             </div>
             <div class="col-md-9">

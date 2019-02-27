@@ -2,7 +2,7 @@
 
 return [
     'UNIVERSITY' => 'มหาวิทยาลัย',
-    'OTHER' => 'อื่น ๆ',
+    'OTHER' => 'อื่นๆ',
     'COMPANY' => 'บริษัท',
     'ASSOCIATION' => 'สมาคม',
     'CLUB' => 'ชมรม',

@@ -1,7 +1,7 @@
 @php
     $camper = $type == config('const.account.camper') ? 1 : null;
 @endphp
-<h3 class="mt-4">About You</h3>
+<h3 class="mt-4">@lang('profile.AboutYou')</h3>
     <div class="row">
         <div class="col-md-6">
             @component('components.input', [
@@ -160,9 +160,9 @@
         </div>
 
         @if (isset($update))
-            <h3 class="mt-4">Student Documents</h3>
+            <h3 class="mt-4">@lang('profile.StudentDocuments')</h3>
             <div class="row">
-                <h4 class="col-12 mt-2">Transcript</h4>
+                <h4 class="col-12 mt-2">@lang('profile.Transcript')</h4>
                 <div class="col-12">
                     <div class="btn-group d-flex justify-content-between" role="group">
                         <a href="" class="btn btn-warning w-100 mx-1">@lang('app.View')</a>
@@ -170,7 +170,7 @@
                         <a href="" class="btn btn-danger w-100 mx-1">@lang('app.Delete')</a>
                     </div>
                 </div>
-                <h4 class="col-12 mt-2">Student Certificate</h4>
+                <h4 class="col-12 mt-2">@lang('profile.StudentCertificate')</h4>
                 <div class="col-12">
                     <div class="btn-group d-flex justify-content-between" role="group">
                         <a href="" class="btn btn-warning w-100 mx-1">@lang('app.View')</a>
@@ -182,7 +182,7 @@
         @endif
     @endif
 
-    <h3 class="mt-4">Contact Information</h3>
+    <h3 class="mt-4">@lang('profile.ContactInformation')</h3>
     <div class="row">
         <div class="col-12">
             @component('components.input', [
@@ -223,7 +223,7 @@
     </div>
 
     @if (isset($camper))
-        <h3 class="mt-4">Emergency Contact Information</h3>
+        <h3 class="mt-4">@lang('profile.EmergencyContactInformation')</h3>
         <div class="row">
             <div class="col-md-6">
                 @component('components.input', [
@@ -275,7 +275,7 @@
         </div>
     @endif
     
-    <h3 class="mt-4">Account</h3>
+    <h3 class="mt-4">@lang('account.Account')</h3>
     <div class="row">
         <div class="col-12">
             @component('components.input', [

@@ -56,11 +56,12 @@ return [
     'Gender' => 'เพศ',
     'Male' => 'ชาย',
     'Female' => 'หญิง',
-    'OtherGender' => 'อื่น ๆ /ไม่ระบุ',
+    'OtherGender' => 'อื่นๆ /ไม่ระบุ',
     'Father' => 'บิดา',
     'Mother' => 'มารดา',
 
     'School' => 'โรงเรียน',
+    'Education' => 'การศึกษา',
     'EducationLevel' => 'ระดับการศึกษา',
 
     'Status' => 'สถานะ',

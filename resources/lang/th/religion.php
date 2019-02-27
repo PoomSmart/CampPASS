@@ -4,5 +4,5 @@ return [
     'Buddhist' => 'พุทธ',
     'Christ' => 'คริสต์',
     'Islamic' => 'อิสลาม',
-    'Other' => 'อื่น ๆ',
+    'Other' => 'อื่นๆ',
 ];
