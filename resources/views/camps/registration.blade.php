@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <p class="text-center">{{ $category->getName() }}</p>
+    <p class="text-center">{{ $category->getName() }} - {{ $camp->camp_procedure }}</p>
     @can('answer-list')
         @php
             $question_set = $camp->question_set;

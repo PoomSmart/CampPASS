@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('application')->group(function () {
         Route::group(['middleware' => ['role:camper']], function () {
             Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
+            Route::get('/questions/{camp}', 'CampApplicationController@prepare_questions_answers')->name('camp_application.prepare_questions_answers');
             Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
             Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
             Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');

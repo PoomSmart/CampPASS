@@ -10,14 +10,14 @@ use App\Certificate;
 use App\FormScore;
 use App\PaymentSlip;
 
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Registration extends Model
 {
     protected $fillable = [
-        'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time',
+        'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time', 'returned',
     ];
 
     public function camp()
@@ -57,41 +57,56 @@ class Registration extends Model
 
     public function getStatus()
     {
-        return trans('registration.'.array_search($this->status, RegistrationStatus::getConstants()));
+        return trans('registration.'.array_search($this->status, ApplicationStatus::getConstants()));
     }
 
     public function unsubmitted()
     {
-        return $this->status <= RegistrationStatus::RETURNED;
+        return $this->returned || $this->status < ApplicationStatus::APPLIED;
     }
 
-    public function returned()
+    public function rejected()
     {
-        return $this->status == RegistrationStatus::RETURNED;
+        return $this->status == ApplicationStatus::REJECTED;
+    }
+
+    public function withdrawed()
+    {
+        return $this->status == ApplicationStatus::WITHDRAWED;
     }
 
     public function applied()
     {
-        return $this->status == RegistrationStatus::APPLIED;
+        return $this->status == ApplicationStatus::APPLIED;
+    }
+
+    public function paid()
+    {
+        return $this->status == ApplicationStatus::PAID;
     }
 
     public function approved()
     {
-        return $this->status == RegistrationStatus::APPROVED;
+        return $this->status == ApplicationStatus::APPROVED;
     }
 
-    public function applied_to_qualified()
+    public function submitted()
     {
-        return $this->status >= RegistrationStatus::APPLIED;
+        return $this->status >= ApplicationStatus::APPLIED;
+    }
+
+    public function chosen()
+    {
+        return $this->status == ApplicationStatus::CHOSEN;
     }
 
     public function approved_to_qualified()
     {
-        return $this->status >= RegistrationStatus::APPROVED;
+        return $this->status >= ApplicationStatus::APPROVED;
     }
 
     public function qualified()
     {
-        return $this->status == RegistrationStatus::QUALIFIED;
+        return $this->status == ApplicationStatus::QUALIFIED;
     }
 }

@@ -3,8 +3,12 @@
 return [
     'DRAFT' => 'Draft',
     'APPLIED' => 'Applied',
-    'RETURNED' => 'Returned',
+    'REJECTED' => 'Rejected',
+    'WITHDRAWED' => 'Withdrawed',
     'APPROVED' => 'Approved',
+    'CHOSEN' => 'Chosen',
+    'INTERVIEWED' => 'Interviewed',
+    'PAID' => 'Paid',
     'QUALIFIED' => 'Qualified',
     'ID' => 'Application ID',
     'Apply' => 'Apply Now',

@@ -41,7 +41,7 @@
             </div>
             <h4 class="mb-4">@lang('camp.Camps')</h4>
             @php
-                $camps = $user->getBelongingCamps($status = \App\Enums\RegistrationStatus::QUALIFIED);
+                $camps = $user->getBelongingCamps($status = \App\Enums\ApplicationStatus::QUALIFIED);
             @endphp
             <div class="row mb-2">
                 <div class="col-md-6">

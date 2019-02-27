@@ -6,7 +6,7 @@ use App\Badge;
 use App\BadgeCategory;
 use App\Registration;
 
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 class BadgeController
 {
@@ -50,7 +50,7 @@ class BadgeController
                     'earned_date' => now(),
                 ]);
             }
-            $registrations = Registration::where('camper_id', $camper->id)->where('status', RegistrationStatus::QUALIFIED);
+            $registrations = Registration::where('camper_id', $camper->id)->where('status', ApplicationStatus::QUALIFIED);
             if ($registrations->count() >= 10) {
                 // Attended 10 camps
                 if (!$camper->badges()->where('badge_category_id', self::getPremiumBadgeID())->limit(1)->exists()) {

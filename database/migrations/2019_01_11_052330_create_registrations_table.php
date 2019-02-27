@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,7 +23,8 @@ class CreateRegistrationsTable extends Migration
             $table->foreign('camper_id')->references('id')->on('users');
             $table->integer('approved_by')->unsigned()->nullable();
             $table->foreign('approved_by')->references('id')->on('users');
-            $table->tinyInteger('status')->default(RegistrationStatus::DRAFT);
+            $table->tinyInteger('status')->default(ApplicationStatus::DRAFT);
+            $table->boolean('returned')->default(false);
             $table->timestamp('submission_time')->nullable();
             $table->timestamps();
         });

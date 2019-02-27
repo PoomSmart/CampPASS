@@ -4,6 +4,8 @@
     Grade Application Form of <a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
+<!-- TODO: Allow camper's student documents to show here -->
+
 @section('card_content')
     <div class="row">
         <div class="col-12 text-muted text-right">

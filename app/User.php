@@ -14,7 +14,7 @@ use App\Registration;
 use App\School;
 
 use App\Enums\Gender;
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 use Carbon\Carbon;
 

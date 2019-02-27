@@ -11,7 +11,7 @@ use App\QuestionSet;
 use App\Registration;
 use App\User;
 
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 use Carbon\Carbon;
 
@@ -149,7 +149,7 @@ class Camp extends Model
      */
     public function isFull()
     {
-        return $this->quota && $this->campers(RegistrationStatus::APPROVED, $higher = true)->count() >= $this->quota;
+        return $this->quota && $this->campers(ApplicationStatus::APPROVED, $higher = true)->count() >= $this->quota;
     }
 
     public function approve()

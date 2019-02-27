@@ -28,7 +28,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\QualificationController;
 
 use App\Enums\QuestionType;
-use App\Enums\RegistrationStatus;
+use App\Enums\ApplicationStatus;
 
 use Spatie\Permission\Models\Role;
 
@@ -217,10 +217,12 @@ class DatabaseSeeder extends Seeder
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
-                if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required)
-                    $status = Common::randomFrequentHit() ? RegistrationStatus::QUALIFIED : RegistrationStatus::DRAFT;
-                else
-                    $status = Common::randomFrequentHit() ? ($camp_procedure->candidate_required ? RegistrationStatus::APPLIED : RegistrationStatus::APPROVED) : RegistrationStatus::DRAFT;
+                if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
+                    $status = Common::randomFrequentHit() ? ApplicationStatus::QUALIFIED : ApplicationStatus::DRAFT;
+                else if ($camp_procedure->deposit_required) // Deposit Only
+                    $status = ApplicationStatus::DRAFT; // TODO: We have yet to seed payment slips
+                else // Anything else with QA
+                    $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
@@ -251,13 +253,7 @@ class DatabaseSeeder extends Seeder
         $question_set_id = 0;
         $question_id = 0;
         foreach (Camp::allApproved()->cursor() as $camp) {
-            if (!$camp->camp_procedure->candidate_required) {
-                // Clean up all registrations that should not exist in this case
-                Registration::where('camp_id', $camp->id)->delete();
-                continue;
-            }
-            // If there is already the question set for the camp, we already seeded questions and answers
-            if ($camp->question_set)
+            if (!$camp->camp_procedure->candidate_required)
                 continue;
             $json = [];
             ++$question_set_id;
@@ -344,7 +340,7 @@ class DatabaseSeeder extends Seeder
                     foreach ($camp->registrations as $registration) {
                         // If the registration is in applied state, answers must be there
                         // If the registration is in draft state, answers may or may not be there
-                        if (!($registration->applied() || (Common::randomRareHit() && $registration->status == RegistrationStatus::DRAFT)))
+                        if (!($registration->applied() || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
                             continue;
                         $answer = null;
                         switch ($question_type) {
@@ -385,7 +381,8 @@ class DatabaseSeeder extends Seeder
                 unset($multiple_radio_map);
                 unset($multiple_checkbox_map);
             }
-            foreach ($camp->registrations->where('status', '>=', RegistrationStatus::APPLIED) as $registration) {
+            // We wouldn't normally create a form score record for any draft application forms
+            foreach ($camp->registrations->where('status', ApplicationStatus::APPLIED) as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set_id,
@@ -401,7 +398,7 @@ class DatabaseSeeder extends Seeder
                 'score_threshold' => $question_set_has_grade ? rand(1, 75) / 100.0 : null,
                 'manual_required' => $question_set_has_manual_grade,
                 'total_score' => $question_set_total_score,
-                'finalized' => $has_any_answers,
+                'finalized' => $has_any_answers || $question_set_try_auto,
             ];
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
@@ -521,9 +518,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 500)->create();
+        factory(Camp::class, 400)->create();
         $this->log_seed('users');
-        factory(User::class, 500)->create();
+        factory(User::class, 400)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
