@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'WhoAreYou' => 'Who are you?',
     'DRAFT' => 'Draft',
     'APPLIED' => 'Applied',
     'RETURNED' => 'Returned',

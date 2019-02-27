@@ -5,7 +5,7 @@ return [
     'CurrentPassword' => 'รหัสผ่านปัจจุบัน',
     'ConfirmPassword' => 'ยืนยันรหัสผ่าน',
     'ResetPassword' => 'เปลี่ยนรหัสผ่าน',
-    'ForgotYourPassword' => 'ลืมรหัสผ่านหรือไม่ ?',
+    'ForgotYourPassword' => 'ลืมรหัสผ่านใช่ไหม ?',
 
     'Register' => 'สมัครใช้งาน',
     'LoggedIn' => 'เข้าสู่ระบบแล้ว',
