@@ -80,6 +80,11 @@ class Registration extends Model
         return $this->status == ApplicationStatus::APPLIED;
     }
 
+    public function interviewed()
+    {
+        return $this->status == ApplicationStatus::INTERVIEWED;
+    }
+
     public function paid()
     {
         return $this->status == ApplicationStatus::PAID;

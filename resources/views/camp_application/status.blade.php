@@ -36,7 +36,7 @@
             <div class="col-md-8">
                 <h4 class="mb-4"> @lang('status.Interview')</h4>
                 @if ($registration->chosen())
-                    @if ($registration->interviewed)
+                    @if ($registration->interviewed())
                         <p>@lang('qualification.CongratulationsInterview')</p>
                     @elseif ($camp->interview_information)
                         <p>@lang('camp.InterviewDate'): {{ $camp->getInterviewDate() }}</p>
@@ -52,7 +52,17 @@
             </div>
         @endif
 
-        @if ($camp_procedure->deposit_required)
+        @php
+            $should_show_deposit = false;
+            if ($camp_procedure->deposit_required) {
+                if ($camp_procedure->interview_required)
+                    $should_show_deposit = $registration->interviewed();
+                else if ($camp_procedure->candidate_required)
+                    $should_show_deposit = $registration->chosen();
+            }
+        @endphp
+
+        @if ($camp_procedure->deposit_required && $should_show_deposit)
             <div class="col-md-4">
                 <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" class="pb-3 w-100">
             </div>
