@@ -10,6 +10,7 @@ return [
     'INTERVIEWED' => 'Interviewed',
     'PAID' => 'Paid',
     'QUALIFIED' => 'Qualified',
+    'Withdraw' => 'Withdraw',
     'ID' => 'Application ID',
     'Apply' => 'Apply Now',
     'Edit' => 'Edit Application',
