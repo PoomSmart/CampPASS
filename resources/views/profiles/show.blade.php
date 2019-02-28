@@ -80,7 +80,7 @@
                 @endif
             </div>
             {{-- Badges --}}
-            @if ($badges->isNotEmpty())
+            @if ($badges && $badges->isNotEmpty())
                 <h4 class="mb-4">@lang('badge.Badges')</h4>
                 <div class="row">
                     @foreach ($badges as $badge)
