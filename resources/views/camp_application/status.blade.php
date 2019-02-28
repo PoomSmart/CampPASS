@@ -118,7 +118,7 @@
             @endif
             @php
                 if (!$disable_confirm)
-                    $disable_confirm = $registration->qualified();
+                    $disable_confirm = $registration->qualified() || $registration->withdrawed();
             @endphp
             <div class="d-flex">
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-50 mx-1 mb-4{{ $disable_confirm ? ' disabled' : null }}">
