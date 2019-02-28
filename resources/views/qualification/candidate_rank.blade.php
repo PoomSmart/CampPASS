@@ -43,6 +43,9 @@
             @endcomponent
         </form>
     </div>
+    <div class="d-flex justify-content-center">
+        {!! $form_scores->links() !!}
+    </div>
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -74,6 +77,9 @@
             @endforeach
         @endif
     </table>
+    <div class="d-flex justify-content-center">
+        {!! $form_scores->links() !!}
+    </div>
 @endsection
 
 @section('extra-buttons')

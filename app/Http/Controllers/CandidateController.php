@@ -20,45 +20,43 @@ class CandidateController extends Controller
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         if (!$form_scores->exists())
             throw new \CampPASSExceptionRedirectBack('No application forms to be ranked.');
-        $form_scores = $form_scores->get()->filter(function ($form_score) {
+        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
-            return $form_score->registration->applied();
+            $query->where('status', ApplicationStatus::APPLIED);
         });
         $total_registrations = $form_scores->count();
-        $form_scores = $form_scores->filter(function ($form_score) use (&$question_set) {
-            // We would not grade unfinalized answers
-            $passed = $question_set->announced ? ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold) : true;
-            if ($question_set->manual_required)
-                $finalized = $form_score->finalized;
-            else {
-                // If the question set can be entirely automatically graded, we say it is finalized
-                $form_score->update([
-                    'finalized' => true,
-                ]);
-                $finalized = true;
-            }
-            return $finalized && $passed;
-        });
-        if ($form_scores->isEmpty())
+        if ($question_set->manual_required)
+            $form_scores = $form_scores->where('finalized', true); // We would not grade unfinalized answers
+        else {
+            // If the question set can be entirely automatically graded, we say it is finalized
+            $form_scores->update([
+                'finalized' => true,
+            ]);
+        }
+        if ($question_set->announced) {
+            $minimum_score = $question_set->total_score * $question_set->score_threshold;
+            $form_scores = $form_scores->where(function ($query) use (&$question_set, &$minimum_score) {
+                $query->where('total_score', '>='. $minimum_score);
+            });
+        }
+        if (!$form_scores->exists())
             throw new \CampPASSExceptionRedirectBack('No finalized application forms to be ranked.');
         if (!$question_set->announced && $form_scores->count() !== $total_registrations)
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
-        foreach ($form_scores as $form_score) {
+        foreach ($form_scores->get() as $form_score) {
             if (is_null($form_score->total_score)) {
                 $form_score->update([
                     'total_score' => QualificationController::answer_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                 ]);
             }
         }
-        $form_scores = $form_scores->sortByDesc(function ($form_score) {
-            return $form_score->total_score;
-        });
+        $form_scores = $form_scores->orderByDesc('total_score');
         if ($list)
-            return $form_scores;
+            return $form_scores->get();
         $camp = $question_set->camp;
-        // $max = config('const.app.max_paginate');
-        // TODO: pagination ?
-        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp'))/*->with('i', ($request->input('page', 1) - 1) * $max)*/;
+        $max = config('const.app.max_paginate');
+        $form_scores = $form_scores->paginate($max);
+        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
     public static function announce(QuestionSet $question_set, bool $void = false)
