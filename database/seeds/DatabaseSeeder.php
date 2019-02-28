@@ -213,7 +213,7 @@ class DatabaseSeeder extends Seeder
                 return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
-                if (Common::randomVeryFrequentHit()) // Say some campers have yet to apply for some camps
+                if (Common::randomFrequentHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
