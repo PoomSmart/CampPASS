@@ -15,7 +15,7 @@ return [
     'Delete' => 'ลบ',
     'Close' => 'ปิด',
     'Update' => 'อัพเดต',
-    'Upload' => 'อัปโหลด',
+    'Upload' => 'อัพโหลด',
     'Submit' => 'ส่ง',
     'Save' => 'บันทึก',
     'Required' => 'จำเป็น',

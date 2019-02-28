@@ -18,7 +18,7 @@ return [
     'ScoreThreshold' => 'เกณฑ์คะแนนผ่าน',
     'EnterThreshold' => 'กำหนดค่าเกณฑ์คะแนนขั้นต่ำในการได้รับคัดเลือก',
     'EditScoreThreshold' => 'แก้ไขเกณฑ์คะแนนใหม่',
-    'NoFileUploaded'=> 'ไม่มีไฟล์อัปโหลด',
+    'NoFileUploaded'=> 'ไม่มีไฟล์อัพโหลด',
     'Finalize' => 'ยืนยันความถูกต้อง',
     'Finalized' => 'ยืนยันความถูกต้องแล้ว',
     'Title' => 'หัวข้อ',

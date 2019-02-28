@@ -130,7 +130,7 @@ class RegisterController extends Controller
             logger()->error($exception);
             throw new \CampPASSException($exception->getMessage());
         }
-        return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
+        return redirect()->back()->with('message', trans ('message.NewAccountCreated'));
     }
 
     /**
@@ -143,7 +143,7 @@ class RegisterController extends Controller
         try {
             $user = app(User::class)->where('activation_code', $activationCode)->first();
             if (!$user)
-                throw new \CampPASSExpcetion('The code does not exist for any user in our system.');
+                throw new \CampPASSExpcetion(trans ('exception.CodeNotExist'));
             $user->activate();
             auth()->login($user);
         } catch (\Exception $exception) {

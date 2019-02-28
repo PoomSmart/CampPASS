@@ -106,7 +106,7 @@ class CampApplicationController extends Controller
         $registration = $camp->getLatestRegistration($user);
         if ($registration) {
             if ($registration->qualified())
-                throw new \CampPASSException('You already have applied for this camp.');
+                throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
             if ($status != ApplicationStatus::DRAFT) {
                 $registration->update([
                     'status' => $status,
@@ -135,7 +135,7 @@ class CampApplicationController extends Controller
         $question_set = $camp->question_set;
         $pairs = $question_set ? $question_set->pairs()->get() : null;
         if (!isset($pairs) || $pairs->isEmpty())
-            throw new \CampPASSException('There are no questions in here.');
+            throw new \CampPASSException(trans('exception.NoQuestion'));
         $user = \Auth::user();
         $answers = [];
         $json = Common::getQuestionJSON($camp->id);
@@ -231,7 +231,7 @@ class CampApplicationController extends Controller
         $json = Common::getQuestionJSON($question_set->camp_id);
         $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
         if ($answers->isEmpty())
-            throw new \CampPASSExceptionRedirectBack('You have not answered anything.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
         foreach ($answers as $answer) {
             $question = $answer->question;
             $data[] = [

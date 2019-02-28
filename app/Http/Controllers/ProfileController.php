@@ -75,8 +75,15 @@ class ProfileController extends Controller
         if (!$user->isCamper())
             throw new \CampPASSException(trans('app.UnavailableFeature'));
         $this->authenticate($user, $me = true);
-        // TODO: Categorize camps further
-        $camps = $user->getBelongingCamps()->latest()->get();
-        return view('profiles.my_camps', compact('camps'));
+        // TODO: Categorize camps further 
+        $output_registrations = [];
+        foreach ($user->registrations as $registration) {
+            $status = $registration->getStatus();
+            if (!isset($output_registrations[$status])) {
+                $output_registrations[$status] = [];
+            }
+            $output_registrations[$status][] = $registration;
+        }
+        return view('profiles.my_camps', compact('output_registrations'));
     }
 }

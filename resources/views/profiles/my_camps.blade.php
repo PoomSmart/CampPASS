@@ -5,9 +5,15 @@
 @endsection
 
 @section('content')
-    @component('components.card_columns', [
-        'objects' => $camps,
-        'component' => 'components.camp_block',
-    ])
-    @endcomponent
+    @foreach ($output_registrations as $status => $registrations)
+        <div class="container mt-4">
+            <h3 class="mb-4">{{ $status }}</h3>
+            @component('components.card_columns', [
+                'objects' => $registrations,
+                'getter' => 'camp',
+                'component' => 'components.camp_block',
+            ])
+            @endcomponent
+        </div>
+    @endforeach
 @endsection
