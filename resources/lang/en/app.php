@@ -24,6 +24,7 @@ return [
     'No' => 'No',
     'Actions' => 'Actions',
     'Approve' => 'Approve',
+    'Application' => 'Application',
     'Confirm' => 'Confirm',
     'Confirmed' => 'Confirmed',
     'Confirmation' => 'Confirmation',
@@ -37,6 +38,9 @@ return [
     'About' => 'About',
     'Help' => 'Help',
     'Terms' => 'Terms',
+    'Manual' => 'Manual',
+    'Auto' => 'Auto',
+    'N/A' => 'N/A',
 
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
     'UnavailableFeature' => "This feature isn't available for you.",

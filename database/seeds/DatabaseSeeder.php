@@ -427,8 +427,8 @@ class DatabaseSeeder extends Seeder
         foreach (array_chunk($answers, 1000) as $chunk)
             Answer::insert($chunk);
         unset($answers);
-        // Now we can mark all application forms with manual grading as finalized
-        $this->log('-> finalizing respective form scores');
+        // Now we can mark the application forms with manual grading as finalized
+        $this->log('-> finalizing some manually-graded form scores');
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
             try {
                 QualificationController::form_finalize($manual_form_score, $silent = true);
@@ -469,12 +469,12 @@ class DatabaseSeeder extends Seeder
         $candidate = User::campers(true)->get()->sortByDesc(function ($camper) {
             return $camper->badges->count();
         })->first();
-        $candidate->activate();
         $candidate->update([
             'username' => 'camper',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
             'type' => config('const.account.camper'),
         ]);
+        $candidate->activate();
     }
 
     private function alter_campmakers()

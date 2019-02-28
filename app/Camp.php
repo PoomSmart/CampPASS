@@ -184,7 +184,7 @@ class Camp extends Model
         if (!$this->camp_procedure->candidate_required)
             return 'N/A';
         if ($this->question_set || (!is_null($this->question_set) && !empty($this->question_set)))
-            return $this->question_set->manual_required ? 'Manual' : 'Auto';
+            return $this->question_set->manual_required ? trans('app.Manual') : trans('app.Auto');
         return 'N/A';
     }
 
