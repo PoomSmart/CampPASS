@@ -8,7 +8,7 @@
     <div class="card-columns">
         @foreach ($chunk as $object)
             @component($component, [
-                'object' => $object,
+                'object' => isset($getter) ? $object->{$getter} : $object,
             ])
             @endcomponent
         @endforeach
