@@ -30,7 +30,7 @@ return [
     'Confirmation' => 'การยืนยัน',
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',
-    'Activated' => 'Activated',
+    'Activated' => 'ยืนยันแล้ว',
     "What's" => 'อะไรคือ',
     'How' => '',
     'works' => 'ทำงานอย่างไร',
