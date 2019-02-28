@@ -124,8 +124,8 @@
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-50 mx-1 mb-4{{ $disable_confirm ? ' disabled' : null }}">
                     {{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}
                 </a>
-                <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4{{ $registration->qualified() || $registration->withdrawed() ? ' disabled' : null }}">
-                    {{ $registration->withdrawed() ? trans('registration.Withdrawed') : trans('registration.Withdraw') }}
+                <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4" {{ $registration->qualified() || $registration->withdrawed() ? 'disabled' : null }}>
+                    {{ $registration->withdrawed() ? $registration->getStatus() : trans('registration.Withdraw') }}
                 </button>
             </div>
         </div>
