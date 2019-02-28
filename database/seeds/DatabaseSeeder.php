@@ -473,6 +473,7 @@ class DatabaseSeeder extends Seeder
         $candidate->update([
             'username' => 'camper',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
+            'type' => config('const.account.camper'),
         ]);
     }
 
@@ -484,6 +485,7 @@ class DatabaseSeeder extends Seeder
         })->first();
         $candidate->update([
             'username' => 'campmaker',
+            'type' => config('const.account.campmaker'),
         ]);
         $candidate->activate();
     }

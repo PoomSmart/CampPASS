@@ -43,8 +43,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
         $this->authenticate($user);
-        if ($user->isCamper())
-            $badges = $user->badges;
+        $badges = $user->isCamper() ? $user->badges : null;
         return view('profiles.show', compact('user', 'badges'));
     }
 
@@ -73,6 +72,9 @@ class ProfileController extends Controller
 
     public function my_camps(User $user)
     {
+        if (!$user->isCamper())
+            throw new \CampPASSException(trans('app.UnavailableFeature'));
+        $this->authenticate($user, $me = true);
         // TODO: Categorize camps further
         $camps = $user->getBelongingCamps()->latest()->get();
         return view('profiles.my_camps', compact('camps'));

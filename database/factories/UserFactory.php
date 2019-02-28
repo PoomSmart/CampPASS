@@ -14,7 +14,8 @@ use Faker\Generator as Faker;
 
 class User_Randomizer
 {
-    protected static $CAMPER, $CAMPMAKER;
+    protected static $CAMPER = null;
+    protected static $CAMPMAKER = null;
 
     /**
      * Randomize Thai citizen ID (Only for testing purpose).

@@ -29,7 +29,6 @@ return [
     'Confirmation' => 'Confirmation',
     'Unspecified' => 'Unspecified',
     'None' => 'None',
-    'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
     'Activated' => 'Activated',
     "What's" => "What's",
     'How' => 'How',
@@ -38,4 +37,7 @@ return [
     'About' => 'About',
     'Help' => 'Help',
     'Terms' => 'Terms',
+
+    'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
+    'UnavailableFeature' => "This feature isn't available for you.",
 ];

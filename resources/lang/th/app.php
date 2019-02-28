@@ -30,7 +30,6 @@ return [
     'Confirmation' => 'การยืนยัน',
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',
-    'NoPermissionError' => "คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้",
     'Activated' => 'Activated',
     "What's" => 'อะไรคือ',
     'How' => '',
@@ -40,4 +39,6 @@ return [
     'Help' => 'ช่วยเหลือ',
     'Terms' => 'เงื่อนไขและข้อกำหนด',
 
+    'NoPermissionError' => 'คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้',
+    'UnavailableFeature' => 'ฟังก์ชั่นนี้ไม่ได้เปิดให้คุณใช้งาน',
 ];
