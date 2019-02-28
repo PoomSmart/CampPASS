@@ -1,7 +1,6 @@
 @extends('layouts.card')
 
 @section('script')
-    <script src="{{ asset('js/modal.js') }}"></script>
     <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 

@@ -5,6 +5,10 @@
     $camp_procedure = $camp->camp_procedure;
 @endphp
 
+@section('script')
+    <script src="{{ asset('js/modal.js') }}"></script>
+@endsection
+
 @section('header')
     @lang('registration.Status')
 @endsection
@@ -14,6 +18,12 @@
 @endsection
 
 @section('card_content')
+    @component('components.dialog', [
+        'body' => 'If you withdrawed from this camp, you would no longer be able to apply for this camp. Are you sure you want to withdraw from this camp?',
+        'confirm_label' => trans('app.Yes'),
+        'confirm_type' => 'danger',
+    ])
+    @endcomponent
     <div class="row mt-4">
         @if ($camp_procedure->candidate_required)
             <div class="col-md-4">
@@ -94,15 +104,30 @@
             </div>
         @endif
         
-        @if ($registration->approved_to_qualified())
-            <div class="col-md-4">
-                <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" class="pb-3 w-100">
-            </div>
-            <div class="col-md-8">
-                <h4 class="mb-4">@lang('status.Qualification')</h4>
+        <div class="col-md-4">
+            <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" class="pb-3 w-100">
+        </div>
+        <div class="col-md-8">
+            <h4 class="mb-4">@lang('status.Qualification')</h4>
+            @if ($registration->approved_to_qualified())
                 <p>@lang('qualification.AttendanceConfirm')</p>
-                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100 mb-4{{ $registration->qualified() ? ' disabled' : null }}">{{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}</a>
+            @else
+                @php
+                    $disable_confirm = true;
+                @endphp
+            @endif
+            @php
+                if (!$disable_confirm)
+                    $disable_confirm = $registration->qualified();
+            @endphp
+            <div class="d-flex">
+                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-50 mx-1 mb-4{{ $disable_confirm ? ' disabled' : null }}">
+                    {{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}
+                </a>
+                <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4{{ $registration->qualified() || $registration->withdrawed() ? ' disabled' : null }}">
+                    {{ $registration->withdrawed() ? trans('registration.Withdrawed') : trans('registration.Withdraw') }}
+                </button>
             </div>
-        @endif
+        </div>
     </div>
 @endsection

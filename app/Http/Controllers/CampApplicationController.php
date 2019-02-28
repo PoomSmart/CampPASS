@@ -262,16 +262,32 @@ class CampApplicationController extends Controller
 
     public static function confirm(Registration $registration, bool $void = false)
     {
-        self::authenticate($registration->camp);
+        $camp = $registration->camp;
+        self::authenticate($camp);
         self::authenticate_registration($registration, $silent = $void);
-        if ($registration->status == ApplicationStatus::QUALIFIED)
-            throw new \CampPASSExceptionRedirectBack('You already confirmed attending this camp.');
+        if ($registration->qualified())
+            throw new \CampPASSExceptionRedirectBack("You already confirmed attending {$camp}.");
         $registration->update([
             'status' => ApplicationStatus::QUALIFIED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)
-            return redirect()->back()->with('success', 'You are fully qualified for this camp.');
+            return redirect()->back()->with('success', "You are fully qualified for {$camp}.");
+    }
+
+    public static function withdraw(Registration $registration)
+    {
+        $camp = $registration->camp;
+        self::authenticate($camp);
+        self::authenticate_registration($registration);
+        if ($registration->qualified())
+            throw new \CampPASSException("You cannot withdraw the camp you already confirmed the attendance.");
+        if ($registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack("You already withdrawed from {$camp}.");
+        $registration->update([
+            'status' => ApplicationStatus::WITHDRAWED,
+        ]);
+        return redirect()->back()->with('success', "You withdrawed from {$camp}.");
     }
 
     /**
