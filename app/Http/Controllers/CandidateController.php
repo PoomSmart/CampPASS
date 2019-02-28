@@ -42,7 +42,8 @@ class CandidateController extends Controller
             $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
         $average_score = 0;
         $total_candidates = 0;
-        foreach ($form_scores->get() as $form_score) {
+        $form_scores_get = $form_scores->get();
+        foreach ($form_scores_get as $form_score) {
             if (is_null($form_score->total_score)) {
                 $form_score->update([
                     'total_score' => QualificationController::answer_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
@@ -54,7 +55,7 @@ class CandidateController extends Controller
         }
         $form_scores = $form_scores->orderByDesc('total_score');
         if ($list)
-            return $form_scores->get();
+            return $form_scores_get;
         $average_score /= $total_registrations;
         if ($question_set->announced)
             $summary = "Total: {$total_candidates} / Average Score: {$average_score}";

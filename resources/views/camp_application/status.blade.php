@@ -6,7 +6,11 @@
 @endphp
 
 @section('header')
-    @lang('registration.Status') - {{ $camp }}
+    @lang('registration.Status')
+@endsection
+
+@section('subheader')
+    {{ $camp }}
 @endsection
 
 @section('card_content')
@@ -52,17 +56,7 @@
             </div>
         @endif
 
-        @php
-            $should_show_deposit = false;
-            if ($camp_procedure->deposit_required) {
-                if ($camp_procedure->interview_required)
-                    $should_show_deposit = $registration->interviewed();
-                else if ($camp_procedure->candidate_required)
-                    $should_show_deposit = $registration->chosen();
-            }
-        @endphp
-
-        @if ($camp_procedure->deposit_required && $should_show_deposit)
+        @if ($camp_procedure->deposit_required)
             <div class="col-md-4">
                 <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" class="pb-3 w-100">
             </div>
@@ -74,9 +68,6 @@
                     @php $need_upload = false; @endphp
                     @if ($registration->rejected())
                         <p>@lang('qualification.Rejected')</p>
-                    @elseif ($registration->chosen())
-                        <p>@lang('registration.AckSlip')</p>
-                        @php $need_upload = true; @endphp
                     @elseif ($registration->paid())
                         @if ($registration->returned)
                             <p>@lang('registration.PleaseRecheckSlip')</p>
@@ -84,12 +75,20 @@
                         @else
                             <p>@lang('registration.SlipUploaded')</p>
                         @endif
-                    @else
-                        @php $need_upload = true; @endphp
+                    @elseif ($registration->chosen())
+                        @php
+                            $need_upload = true;
+                            if ($camp_procedure->deposit_required) {
+                                if ($camp_procedure->interview_required)
+                                    $need_upload = $registration->interviewed();
+                            }
+                        @endphp
                     @endif
                     @if ($need_upload)
                         <p>@lang('registration.UploadPayment')</p>
                         <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
+                    @else
+                        <p>@lang('registration.AckSlip')</p>
                     @endif
                 @endif
             </div>

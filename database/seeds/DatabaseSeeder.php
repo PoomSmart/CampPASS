@@ -220,7 +220,7 @@ class DatabaseSeeder extends Seeder
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
                     $status = Common::randomFrequentHit() ? ApplicationStatus::QUALIFIED : ApplicationStatus::DRAFT;
                 else if ($camp_procedure->deposit_required) // Deposit Only
-                    $status = ApplicationStatus::DRAFT; // TODO: We have yet to seed payment slips
+                    $status = ApplicationStatus::CHOSEN; // TODO: We have yet to seed payment slips
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 $registrations[] = [
