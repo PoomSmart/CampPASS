@@ -42,7 +42,7 @@ class BadgeController
         // TODO: Further optimization?
         if ($registration->qualified()) {
             $camper = $registration->camper;
-            if (!$camper->badges()->where('badge_category_id', self::getBabyStepBadgeID())->limit(1)->exists()) {
+            if ($camper->badges()->where('badge_category_id', self::getBabyStepBadgeID())->limit(1)->doesntExist()) {
                 // Attended the first camp via CampPASS
                 Badge::create([
                     'badge_category_id' => self::getBabyStepBadgeID(),
@@ -50,10 +50,10 @@ class BadgeController
                     'earned_date' => now(),
                 ]);
             }
-            $registrations = Registration::where('camper_id', $camper->id)->where('status', ApplicationStatus::QUALIFIED);
+            $registrations = $camper->registrations()->where('status', ApplicationStatus::QUALIFIED);
             if ($registrations->count() >= 10) {
                 // Attended 10 camps
-                if (!$camper->badges()->where('badge_category_id', self::getPremiumBadgeID())->limit(1)->exists()) {
+                if ($camper->badges()->where('badge_category_id', self::getPremiumBadgeID())->limit(1)->doesntExist()) {
                     Badge::create([
                         'badge_category_id' => self::getPremiumBadgeID(),
                         'camper_id' => $camper->id,

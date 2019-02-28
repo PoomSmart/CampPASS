@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Common;
 use App\User;
 use App\Answer;
+use App\QuestionManager;
 
 use App\Enums\QuestionType;
 
@@ -119,7 +119,7 @@ class UserController extends Controller
                 if ($question->type == QuestionType::FILE) {
                     $registration = $answer->registration;
                     $camp = $registration->camp;
-                    $directory = Common::questionSetDirectory($camp->id);
+                    $directory = QuestionManager::questionSetDirectory($camp->id);
                     Storage::disk('local')->delete("{$directory}/{$question->json_id}/{$user->id}");
                 }
             }

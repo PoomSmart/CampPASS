@@ -18,6 +18,7 @@ use App\Organization;
 use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
+use App\QuestionManager;
 use App\Year;
 
 use App\Imports\ProvincesImport;
@@ -34,7 +35,6 @@ use Spatie\Permission\Models\Role;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
@@ -324,7 +324,7 @@ class DatabaseSeeder extends Seeder
                         break;
                 }
                 ++$question_id;
-                $question_full_score = 10; // TODO: user-specified?
+                $question_full_score = 10;
                 $questions[] = [
                     'json_id' => $json_id,
                     'type' => $question_type,
@@ -364,7 +364,7 @@ class DatabaseSeeder extends Seeder
 
                                 break;
                         }
-                        $answer = Common::encodeIfNeeded($answer, $question_type);
+                        $answer = QuestionManager::encodeIfNeeded($answer, $question_type);
                         $can_manual_grade = $graded;
                         $has_any_answers = true;
                         $answers[] = [
@@ -408,8 +408,7 @@ class DatabaseSeeder extends Seeder
                 if (empty($value))
                     unset($json[$key]);
             }
-            $directory = Common::questionSetDirectory($camp->id);
-            Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
+            QuestionManager::writeQuestionJSON($camp->id, $json);
             unset($json);
         }
         foreach (array_chunk($questions, 1000) as $chunk)

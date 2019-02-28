@@ -10,6 +10,7 @@ use App\Registration;
 use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
+use App\QuestionManager;
 
 use App\BadgeController;
 use App\Http\Controllers\QuestionSetController;
@@ -138,14 +139,14 @@ class CampApplicationController extends Controller
             throw new \CampPASSException(trans('exception.NoQuestion'));
         $user = \Auth::user();
         $answers = [];
-        $json = Common::getQuestionJSON($camp->id);
+        $json = QuestionManager::getQuestionJSON($camp->id);
         $json['answer'] = [];
         $json['answer_id'] = [];
         $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
         foreach ($pre_answers as $pre_answer) {
             $question = Question::find($id = $pre_answer->question_id);
             $key = $question->json_id;
-            $json['answer'][$key] = Common::decodeIfNeeded($pre_answer->answer, $question->type);
+            $json['answer'][$key] = QuestionManager::decodeIfNeeded($pre_answer->answer, $question->type);
             $json['answer_id'][$key] = $pre_answer->id;
         }
         return view('camp_application.question_answer', compact('camp', 'json', 'question_set'));
@@ -198,11 +199,11 @@ class CampApplicationController extends Controller
                     $file_post = $request->file($json_id);
                     $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
-                    $directory = Common::questionSetDirectory($camp->id);
+                    $directory = QuestionManager::questionSetDirectory($camp->id);
                     Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
                 }
             } else
-                $answer_content = Common::encodeIfNeeded($request[$json_id], $question->type);
+                $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);
             if ($question->type == QuestionType::FILE && !$answer_content)
                 continue;
             Answer::updateOrCreate([
@@ -228,7 +229,7 @@ class CampApplicationController extends Controller
         $camper = \Auth::user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
-        $json = Common::getQuestionJSON($question_set->camp_id);
+        $json = QuestionManager::getQuestionJSON($question_set->camp_id);
         $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
         if ($answers->isEmpty())
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
@@ -236,7 +237,7 @@ class CampApplicationController extends Controller
             $question = $answer->question;
             $data[] = [
                 'question' => $question,
-                'answer' => Common::decodeIfNeeded($answer->answer, $question->type),
+                'answer' => QuestionManager::decodeIfNeeded($answer->answer, $question->type),
             ];
         }
         return view('camp_application.answer_view', compact('data', 'json', 'camp'));
@@ -319,7 +320,7 @@ class CampApplicationController extends Controller
         $question_set = $question->pair->question_set;
         $camp = $question_set->camp;
         $camper_id = $answer->camper_id;
-        $directory = Common::questionSetDirectory($camp->id);
+        $directory = QuestionManager::questionSetDirectory($camp->id);
         $filepath = "{$directory}/{$json_id}/{$camper_id}/{$json_id}.pdf";
         return $filepath;
     }

@@ -8,6 +8,7 @@ use App\Common;
 use App\FormScore;
 use App\QuestionSet;
 use App\Registration;
+use App\QuestionManager;
 
 use App\Enums\QuestionType;
 
@@ -40,12 +41,12 @@ class QualificationController extends Controller
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
-        if (!$answers->exists())
+        if ($answers->doesntExist())
             throw new \CampPASSException('You cannot grade the answers of the application form without questions.');
         $camp = $question_set->camp;
         $answers = $answers->get();
         $data = [];
-        $json = Common::getQuestionJSON($question_set->camp_id, $graded = true);
+        $json = QuestionManager::getQuestionJSON($question_set->camp_id, $graded = true);
         if (!$silent) {
             $json['question_scored'] = [];
             $json['question_lock'] = [];
@@ -87,7 +88,7 @@ class QualificationController extends Controller
                 $json['question_full_score'][$question->json_id] = $question->full_score;
                 $data[] = [
                     'question' => $question,
-                    'answer' => Common::decodeIfNeeded($answer_value, $question->type),
+                    'answer' => QuestionManager::decodeIfNeeded($answer_value, $question->type),
                 ];
             }
         }
@@ -117,7 +118,7 @@ class QualificationController extends Controller
         unset($form_data['_token']);
         $camper = $registration->camper;
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
-        if (!$answers->exists())
+        if ($answers->doesntExist())
             throw new \CampPASSException('No answers to be saved.');
         // For all answers given, update all scores of those that will be manually graded
         $answers = $answers->get();
