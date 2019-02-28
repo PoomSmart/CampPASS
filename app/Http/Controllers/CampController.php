@@ -101,11 +101,15 @@ class CampController extends Controller
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
         if (\Auth::user()->hasPermissionTo('camper-list')) {
-            $data = $camp->registrations()->paginate($max);
-        } else
+            $registrations = $camp->registrations();
+            $total_registrations = $registrations->count();
+            $data = $registrations->paginate($max);
+        } else {
             $data = null;
+            $total_registrations = 0;
+        }
         $category = CampCategory::find($camp->camp_category_id);
-        return view('camps.registration', compact('camp', 'category', 'data'))->with('i', (request()->input('page', 1) - 1) * $max);
+        return view('camps.registration', compact('camp', 'category', 'data', 'total_registrations'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
     
     public function edit(Camp $camp)

@@ -23,7 +23,7 @@
         @endif
         <div class="col-12">
             @if ($data && count($data))
-                <h3>@lang('registration.ApplicationForms')</h3>
+                <h3>@lang('registration.ApplicationForms') ({{ $total_registrations }})</h3>
                 <table class="table table-striped">
                     <thead>
                         <th>@lang('registration.ID')</th>
@@ -46,9 +46,9 @@
                             <td class="text-center">{{ $registration->getStatus() }}</td>
                             @php
                                 $form_score = $registration->form_score;
-                                $not_finalized = $manual_grading_required && ($form_score ? !$form_score->finalized : true);
+                                $finalized = $form_score ? $form_score->finalized : false;
                             @endphp
-                            <td class="text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
+                            <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
                             <td>
                                 @if ($rankable)
                                     <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
