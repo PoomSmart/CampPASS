@@ -31,7 +31,9 @@
                         <th>@lang('account.School')</th>
                         <th>@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
-                        <th>@lang('qualification.Finalized')</th>
+                        @if (isset($question_set) && $question_set->candidate_required())
+                            <th>@lang('qualification.Finalized')</th>
+                        @endif
                         <th>@lang('app.Actions')</th>
                     </thead>
                     @foreach ($data as $key => $registration)
@@ -48,7 +50,9 @@
                                 $form_score = $registration->form_score;
                                 $finalized = $form_score ? $form_score->finalized : false;
                             @endphp
-                            <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
+                            @if (isset($question_set) && $question_set->candidate_required())
+                                <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
+                            @endif
                             <td>
                                 @if ($rankable)
                                     <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
