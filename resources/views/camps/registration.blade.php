@@ -26,30 +26,30 @@
                 <h3>@lang('registration.ApplicationForms')</h3>
                 <table class="table table-striped">
                     <thead>
-                        <th class="align-middle">@lang('registration.ID')</th>
-                        <th class="align-middle">@lang('account.Name')</th>
-                        <th class="align-middle">@lang('account.School')</th>
-                        <th class="align-middle">@lang('camper.Program')</th>
-                        <th class="align-middle">@lang('registration.Status')</th>
-                        <th class="align-middle">@lang('qualification.Finalized')</th>
-                        <th class="align-middle">@lang('app.Actions')</th>
+                        <th>@lang('registration.ID')</th>
+                        <th>@lang('account.Name')</th>
+                        <th>@lang('account.School')</th>
+                        <th>@lang('camper.Program')</th>
+                        <th>@lang('registration.Status')</th>
+                        <th>@lang('qualification.Finalized')</th>
+                        <th>@lang('app.Actions')</th>
                     </thead>
                     @foreach ($data as $key => $registration)
                         @php
                             $camper = $registration->camper;
                         @endphp
                         <tr>
-                            <th class="align-middle" scope="row">{{ $registration->id }}</th>
-                            <th class="align-middle"><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
-                            <td class="align-middle">{{ $camper->school }}</td>
-                            <td class="align-middle">{{ $camper->program }}</td>
-                            <td class="align-middle text-center">{{ $registration->getStatus() }}</td>
+                            <th scope="row">{{ $registration->id }}</th>
+                            <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                            <td>{{ $camper->school }}</td>
+                            <td>{{ $camper->program }}</td>
+                            <td class="text-center">{{ $registration->getStatus() }}</td>
                             @php
                                 $form_score = $registration->form_score;
                                 $not_finalized = $manual_grading_required && ($form_score ? !$form_score->finalized : true);
                             @endphp
-                            <td class="align-middle text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
-                            <td class="align-middle">
+                            <td class="text-center{{ $not_finalized ? ' text-danger table-danger' : ' text-success table-success' }}">{{ $not_finalized ? trans('app.No') : trans('app.Yes')  }}</td>
+                            <td>
                                 @if ($rankable)
                                     <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
                                         href="{{ route('qualification.answer_grade', [

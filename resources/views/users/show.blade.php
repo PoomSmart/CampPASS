@@ -33,13 +33,13 @@
         <strong>@lang('camp.BelongingCamps')</strong>
         <table class="table table-striped">
             <thead>
-                <th class="align-middle">@lang('app.ID')</th>
-                <th class="align-middle">@lang('account.Name')</th>
+                <th>@lang('app.ID')</th>
+                <th>@lang('account.Name')</th>
             </thead>
             @foreach ($data as $key => $camp)
                 <tr>
-                    <th class="align-middle" scope="row">{{ $camp->id }}</th>
-                    <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></th>
+                    <th scope="row">{{ $camp->id }}</th>
+                    <th><a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a></th>
                 </tr>
             @endforeach
         </table>

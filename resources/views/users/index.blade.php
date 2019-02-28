@@ -10,29 +10,29 @@
     </div>
     <table class="table table-striped">
         <thead>
-            <th class="align-middle">@lang('app.No_')</th>
-            <th class="align-middle">@lang('account.Username')</th>
-            <th class="align-middle">@lang('account.FullName')</th>
-            <th class="align-middle">@lang('account.Email')</th>
-            <th class="align-middle">@lang('account.Roles')</th>
-            <th class="align-middle">@lang('app.Activated')</th>
-            <th class="align-middle" width="240px">@lang('app.Actions')</th>
+            <th>@lang('app.No_')</th>
+            <th>@lang('account.Username')</th>
+            <th>@lang('account.FullName')</th>
+            <th>@lang('account.Email')</th>
+            <th>@lang('account.Roles')</th>
+            <th>@lang('app.Activated')</th>
+            <th width="240px">@lang('app.Actions')</th>
         </thead>
         @foreach ($data as $key => $user)
             <tr>
-                <th class="align-middle" scope="row">{{ ++$i }}</th>
-                <th class="align-middle">{{ $user->username }}</th>
-                <th class="align-middle"><a href="{{ route('profiles.show', $user->id) }}" target="_blank">{{ $user->getFullName() }}</a></th>
-                <td class="align-middle">{{ $user->email }}</td>
-                <td class="align-middle">
+                <th scope="row">{{ ++$i }}</th>
+                <th>{{ $user->username }}</th>
+                <th><a href="{{ route('profiles.show', $user->id) }}" target="_blank">{{ $user->getFullName() }}</a></th>
+                <td>{{ $user->email }}</td>
+                <td>
                     @if (!empty($user->getRoleNames()))
                         @foreach ($user->getRoleNames() as $v)
                             <label class="badge badge-success">{{ $v }}</label>
                         @endforeach
                     @endif
                 </td>
-                <td class="align-middle text-center{{ $user->isActivated() ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $user->isActivated() ? trans('app.Yes') : trans('app.No') }}</td>
-                <td class="align-middle">
+                <td class="text-center{{ $user->isActivated() ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $user->isActivated() ? trans('app.Yes') : trans('app.No') }}</td>
+                <td>
                     <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">@lang('app.View')</a>
                     <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">@lang('app.Edit')</a>
                     {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}

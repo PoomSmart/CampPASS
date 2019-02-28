@@ -39,10 +39,10 @@
     </div>
     <table class="table table-striped">
         <thead>
-            <th class="align-middle">@lang('app.No_')</th>
-            <th class="align-middle">@lang('account.FullName')</th>
-            <th class="align-middle">@lang('qualification.Score')</th>
-            <th class="align-middle">@lang('qualification.Passed')</th>
+            <th>@lang('app.No_')</th>
+            <th>@lang('account.FullName')</th>
+            <th>@lang('qualification.Score')</th>
+            <th>@lang('qualification.Passed')</th>
         </thead>
         @php
             $i = $passed = 0;
@@ -56,9 +56,9 @@
                     $camper = $registration->camper;
                 @endphp
                 <tr>
-                    <th class="align-middle" scope="row">{{ ++$i }}</th>
-                    <th class="align-middle"><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
-                    <td class="align-middle">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+                    <th scope="row">{{ ++$i }}</th>
+                    <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
+                    <td>{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                     @php
                         $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
                     @endphp

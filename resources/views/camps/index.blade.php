@@ -26,18 +26,18 @@
     </div>
     <table class="table table-striped">
         <thead>
-            <th class="align-middle">@lang('app.No_')</th>
-            <th class="align-middle">@lang('camp.Name')</th>
-            <th class="align-middle">@lang('registration.ApplicationForms')</th>
-            <th class="align-middle">@lang('camp.GradingType')</th>
-            <th class="align-middle">@lang('camp.Status')</th>
-            <th class="align-middle">@lang('qualification.IsAnnounced')</th>
-            <th class="align-middle" width="250px">@lang('app.Actions')</th>
+            <th>@lang('app.No_')</th>
+            <th>@lang('camp.Name')</th>
+            <th>@lang('registration.ApplicationForms')</th>
+            <th>@lang('camp.GradingType')</th>
+            <th>@lang('camp.Status')</th>
+            <th>@lang('qualification.IsAnnounced')</th>
+            <th width="250px">@lang('app.Actions')</th>
         </thead>
 	    @foreach ($camps as $camp)
 	    <tr>
-	        <th scope="row" class="align-middle">{{ ++$i }}</th>
-	        <th class="align-middle"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
+	        <th scope="row">{{ ++$i }}</th>
+	        <th><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->campers()->count();
@@ -46,11 +46,11 @@
                 } else
                     $registration_count = 0;
             @endphp
-            <td class="align-middle"><a href="{{ route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
-            <td class="align-middle text-muted">{{ $camp->gradingType() }}</td>
-            <td class="align-middle text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
-            <td class="align-middle text-center{{ $camp->question_set ? ($camp->question_set->announced ? ' text-success table-success' : ' table-danger') : null }}">{{ $camp->question_set ? ($camp->question_set->announced ? trans('app.Yes') : trans('app.No')) : 'N/A' }}</td>
-            <td class="align-middle">
+            <td><a href="{{ route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td class="text-muted">{{ $camp->gradingType() }}</td>
+            <td class="text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
+            <td class="text-center{{ $camp->question_set ? ($camp->question_set->announced ? ' text-success table-success' : ' table-danger') : null }}">{{ $camp->question_set ? ($camp->question_set->announced ? trans('app.Yes') : trans('app.No')) : 'N/A' }}</td>
+            <td>
                 @if (!$camp->approved)
                     @can('camp-approve')
                         <form class="d-inline-block" action="{{ route('camps.approve', $camp->id) }}" method="PATCH">

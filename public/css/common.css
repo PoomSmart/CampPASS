@@ -93,3 +93,7 @@ a:hover {
   color: gray;
   text-decoration: none;
 }
+
+td, th {
+  vertical-align: middle !important;
+}
