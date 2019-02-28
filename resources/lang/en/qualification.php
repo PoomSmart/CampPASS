@@ -11,7 +11,7 @@ return [
     'Finalized' => 'Finalized',
     'Announce' => 'Announce',
     'Grading' => 'Grading',
-    'Campers that passed' => 'Campers that passed',
+    'PassedCampers' => 'Passed Campers',
     'Announced' => 'Announced',
     'IsAnnounced' => 'Announced',
     'CongratulationsApp' => 'Congratulations, your application form has been accepted!',

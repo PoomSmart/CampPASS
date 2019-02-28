@@ -1,7 +1,11 @@
 @extends('layouts.card')
 
 @section('header')
-    Grade Application Form of <a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a>
+    Application Form Grading
+@endsection
+
+@section('subheader')
+    <a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
 <!-- TODO: Allow camper's student documents to show here -->

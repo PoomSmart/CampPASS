@@ -27,7 +27,7 @@
                 <table class="table table-striped">
                     <thead>
                         <th>@lang('registration.ID')</th>
-                        <th>@lang('account.Name')</th>
+                        <th>@lang('account.FullName')</th>
                         <th>@lang('account.School')</th>
                         <th>@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>

@@ -36,6 +36,7 @@
             'type' => 'number',
             'value' => $value,
             'required' => $required,
+            'class' => isset($input_class) ? $input_class : null,
             'attributes' => "min={$min} max={$max} step={$step} oninput=document.getElementById('{$name_range}').value=this.value".($readonly ? " readonly disabled" : ""),
         ])
         @endcomponent
@@ -47,6 +48,7 @@
             'name' => $name_range,
             'type' => 'range',
             'value' => $value,
+            'class' => isset($range_class) ? $range_class : null,
             'attributes' => "min={$min} max={$max} step={$step} oninput=document.getElementById('{$real_name}').value=this.value".($readonly ? " disabled" : ""),
         ])
         @endcomponent

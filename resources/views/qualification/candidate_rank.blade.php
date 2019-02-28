@@ -6,7 +6,11 @@
 @endsection
 
 @section('header')
-    @lang('qualification.Campers that passed') {{ $camp }} {{ $question_set->announced ? '('.trans('qualification.Announced').')' : null }}
+    @lang('qualification.PassedCampers')
+@endsection
+
+@section('subheader')
+    {{ $camp }} {{ $question_set->announced ? '('.trans('qualification.Announced').')' : null }}
 @endsection
 
 @section('content')
@@ -29,6 +33,8 @@
                 'step' => 0.01,
                 'object' => $question_set,
                 'nowrapper' => 1,
+                'input_class' => 'mr-3',
+                'range_class' => 'mr-3',
             ])
             @endcomponent
             @component('components.submit', [

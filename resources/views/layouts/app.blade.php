@@ -98,7 +98,11 @@
         
         @if (View::hasSection('header'))
             <div class="container-fluid text-center" id="header">
-                <h2 class="mb-0">@yield('header')</h2>
+                <h2 class="mb-0"><b>@yield('header')</b>
+                    @if (View::hasSection('subheader'))
+                     - @yield('subheader')
+                    @endif
+                </h2>
             </div>
         @endif
 
