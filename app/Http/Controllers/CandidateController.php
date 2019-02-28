@@ -33,30 +33,39 @@ class CandidateController extends Controller
                 'finalized' => true,
             ]);
         }
-        if ($question_set->announced) {
-            $minimum_score = $question_set->total_score * $question_set->score_threshold;
-            $form_scores = $form_scores->where(function ($query) use (&$question_set, &$minimum_score) {
-                $query->where('total_score', '>='. $minimum_score);
-            });
-        }
         if (!$form_scores->exists())
             throw new \CampPASSExceptionRedirectBack('No finalized application forms to be ranked.');
         if (!$question_set->announced && $form_scores->count() !== $total_registrations)
             throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
+        $minimum_score = $question_set->total_score * $question_set->score_threshold;
+        if ($question_set->announced)
+            $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
+        $average_score = 0;
+        $total_candidates = 0;
         foreach ($form_scores->get() as $form_score) {
             if (is_null($form_score->total_score)) {
                 $form_score->update([
                     'total_score' => QualificationController::answer_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                 ]);
             }
+            if ($form_score->total_score >= $minimum_score)
+                ++$total_candidates;
+            $average_score += $form_score->total_score;
         }
         $form_scores = $form_scores->orderByDesc('total_score');
         if ($list)
             return $form_scores->get();
+        $average_score /= $total_registrations;
+        if ($question_set->announced)
+            $summary = "Total: {$total_candidates} / Average Score: {$average_score}";
+        else {
+            $total_failed = $total_registrations - $total_candidates;
+            $summary = "Total: {$total_registrations} / Passed: {$total_candidates} / Failed: {$total_failed} / Average Score: {$average_score}";
+        }
         $camp = $question_set->camp;
         $max = config('const.app.max_paginate');
         $form_scores = $form_scores->paginate($max);
-        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp'))->with('i', (request()->input('page', 1) - 1) * $max);
+        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary'))->with('i', (request()->input('page', 1) - 1) * $max);
     }
 
     public static function announce(QuestionSet $question_set, bool $void = false)

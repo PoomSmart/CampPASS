@@ -43,6 +43,9 @@
             @endcomponent
         </form>
     </div>
+    <div class="d-flex">
+        <span class="text-muted">{{ $summary }}</span>
+    </div>
     <div class="d-flex justify-content-center">
         {!! $form_scores->links() !!}
     </div>
