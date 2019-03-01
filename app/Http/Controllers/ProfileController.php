@@ -66,11 +66,11 @@ class ProfileController extends Controller
         $this->authenticate($user, $me = true);
         $user->update($request->all());
         if ($request->hasFile('transcript')) {
-            $directory = self::fileDirectory($user->id);
+            $directory = Common::fileDirectory($user->id);
             $path = Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
         }
         if ($request->hasFile('certificate')) {
-            $directory = self::fileDirectory($user->id);
+            $directory = Common::fileDirectory($user->id);
             $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
         }
         return redirect()->back()->with('success', 'Profile updated successfully.');
@@ -99,18 +99,19 @@ class ProfileController extends Controller
 
     public function document_download(User $user, $type)
     {
-        $directory = self::fileDirectory($user->id);
-        return Storage::download("{$directory}/{$type}.pdf");
+        $directory = Common::fileDirectory($user->id);
+        try {
+            return Storage::download("{$directory}/{$type}.pdf");
+        } catch (\Exception $e) {
+            throw new \CampPASSExceptionRedirectBack('The specified document could not be found.');
+        }
     }
 
     public function document_delete(User $user, $type)
     {
-        $directory = self::fileDirectory($user->id);
-        return Storage::delete("{$directory}/{$type}.pdf");
-    }
-
-    public static function fileDirectory(int $user_id)
-    {
-        return Common::userDirectory($user_id)."/files";
+        $directory = Common::fileDirectory($user->id);
+        if (!Storage::delete("{$directory}/{$type}.pdf"))
+            throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
+        return redirect()->back()->with('success', 'The specified document has been removed.');
     }
 }

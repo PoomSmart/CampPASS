@@ -68,6 +68,11 @@ class Common
         return "users/{$user_id}";
     }
 
+    public static function fileDirectory(int $user_id)
+    {
+        return self::userDirectory($user_id)."/files";
+    }
+
     public static function registrationDirectory(int $camp_id)
     {
         return self::campDirectory($camp_id)."/registrations";
