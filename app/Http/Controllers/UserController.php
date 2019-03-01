@@ -62,7 +62,7 @@ class UserController extends Controller
             logger()->error($exception);
             return redirect()->route('users.index');
         }
-        return redirect()->route('users.index')->with('message', 'User created successfully. Activation awaits.');
+        return redirect()->route('users.index')->with('message', trans('message.UserSuccessActivation'));
     }
 
     /**

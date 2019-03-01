@@ -50,11 +50,11 @@ class UserRegisteredSuccessfully extends Notification
 
         return (new MailMessage)
                     ->from(env('ADMIN_MAIL'))
-                    ->subject('Successfully created new account')
-                    ->greeting(sprintf('Hello %s', $user->getFullName()))
-                    ->line('You have successfully registered to our system. Please activate your account.')
-                    ->action('Click Here', route('activate.user', $user->activation_code))
-                    ->line('Thank you for using our application!');
+                    ->subject(trans('message.SuccessfullyNewAccount'))
+                    ->greeting(sprintf(trans('message.Hello %s', $user->getFullName())))
+                    ->line(trans('message.SuccessfulRegisterActivateAccount'))
+                    ->action(trans('message.Click Here', route('activate.user', $user->activation_code)))
+                    ->line(trans('message.ThankYouUsing'));
     }
 
     /**

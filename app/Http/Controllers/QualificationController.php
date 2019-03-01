@@ -37,12 +37,12 @@ class QualificationController extends Controller
         $registration = Registration::findOrFail($registration_id);
         Common::authenticate_camp(Camp::find($registration->camp_id), $silent = $silent);
         if ($registration->unsubmitted())
-            throw new \CampPASSException('You cannot grade the answers of an unsubmitted form.');
+            throw new \CampPASSException(trans('exception.CannotGradeUnsubmittedForm'));
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
         if ($answers->doesntExist())
-            throw new \CampPASSException('You cannot grade the answers of the application form without questions.');
+            throw new \CampPASSException(trans('exception.CannotGradeFormWithoutQuestions'));
         $camp = $question_set->camp;
         $answers = $answers->get();
         $data = [];
@@ -112,14 +112,14 @@ class QualificationController extends Controller
         Common::authenticate_camp(Camp::find($registration->camp_id));
         $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($form_score->finalized)
-            throw new \CampPASSExceptionRedirectBack('You cannot update the finalized application form.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CannotUpdateFinalizedForm'));
         $form_data = $request->all();
         // We don't need token
         unset($form_data['_token']);
         $camper = $registration->camper;
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
         if ($answers->doesntExist())
-            throw new \CampPASSException('No answers to be saved.');
+            throw new \CampPASSException(trans('exception.NoAnswersSaved'));
         // For all answers given, update all scores of those that will be manually graded
         $answers = $answers->get();
         foreach ($form_data as $id => $value) {
@@ -144,7 +144,7 @@ class QualificationController extends Controller
     {
         Common::authenticate_camp(Camp::find($form_score->question_set->camp->id), $silent = $silent);
         if ($form_score->registration->unsubmitted())
-            throw new \CampPASSException('You cannot finalize unsubmitted application forms.');
+            throw new \CampPASSException(trans('exception.CannotFinalizeUnsubmitForm'));
         if (!$form_score->finalized) {
             $form_score->update([
                 'finalized' => true,

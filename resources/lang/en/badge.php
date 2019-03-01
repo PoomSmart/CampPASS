@@ -2,7 +2,7 @@
 
 return [
     'Badges' => 'Badges',
-    'PioneerDescription' => '',
+    'PioneerDescription' => '1st Generation Member',
     'PremiumDescription' => '',
     'BabyStepDescription' => '',
     '3StarsEngineerDescription' => '',
