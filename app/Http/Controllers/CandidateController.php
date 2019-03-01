@@ -56,7 +56,7 @@ class CandidateController extends Controller
         }
         if ($form_scores->doesntExist()) {
             if ($list) return null;
-            throw new \CampPASSException(trans('exception.NoFinalApplicationRank'));
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
         }
         if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
             if ($list) return null;
@@ -109,7 +109,7 @@ class CandidateController extends Controller
             });
         }
         if (!$no_passed)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounce'));
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));
         $candidates = [];
         $camp_procedure = $question_set->camp->camp_procedure;
         foreach ($form_scores as $form_score) {
@@ -126,6 +126,7 @@ class CandidateController extends Controller
                     'status' => ApplicationStatus::REJECTED,
                 ]);
             }
+            // Let campers know their application status
             $registration->camper->notify(new ApplicationStatusUpdated($registration));
             $candidates[] = [
                 'registration_id' => $form_score->registration_id,

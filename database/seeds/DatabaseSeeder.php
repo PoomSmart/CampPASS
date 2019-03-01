@@ -304,7 +304,7 @@ class DatabaseSeeder extends Seeder
                     case QuestionType::CHOICES:
                         $choices_number = rand($maximum_choices / 2, $maximum_choices);
                         $json['radio_label'][$json_id] = [];
-                        for ($i = 1; $i <= $choices_number; $i++) {
+                        for ($i = 1; $i <= $choices_number; ++$i) {
                             $choice_id = $this->randomID($camp->id);
                             $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 40);
                         }
@@ -316,7 +316,7 @@ class DatabaseSeeder extends Seeder
                         if ($graded) $question_set_has_manual_grade = true;
                         $checkboxes_number = rand($maximum_checkboxes / 2, $maximum_checkboxes);
                         $json['checkbox_label'][$json_id] = [];
-                        for ($i = 1; $i <= $checkboxes_number; $i++) {
+                        for ($i = 1; $i <= $checkboxes_number; ++$i) {
                             $checkbox_id = $this->randomID($camp->id);
                             $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
                         }
@@ -338,9 +338,9 @@ class DatabaseSeeder extends Seeder
                 if (Common::randomFrequentHit()) {
                     // For each question, all campers who are eligible and registered get a chance to answer
                     foreach ($camp->registrations as $registration) {
-                        // If the registration is in applied state, answers must be there
+                        // If the registration is in applied or chosen state, answers must be there
                         // If the registration is in draft state, answers may or may not be there
-                        if (!($registration->applied() || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
+                        if (!(($registration->applied() || $registration->chosen()) || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
                             continue;
                         $answer = null;
                         switch ($question_type) {

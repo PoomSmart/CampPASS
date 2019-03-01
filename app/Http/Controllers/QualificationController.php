@@ -41,7 +41,7 @@ class QualificationController extends Controller
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
         $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
-        if ($answers->doesntExist())
+        if ($answers->doesntExist()) // This should not happen
             throw new \CampPASSException(trans('exception.CannotGradeFormWithoutQuestions'));
         $camp = $question_set->camp;
         $answers = $answers->get();

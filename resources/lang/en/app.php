@@ -40,7 +40,7 @@ return [
     'Terms' => 'Terms',
     'Manual' => 'Manual',
     'Auto' => 'Auto',
-    'N/A' => 'N/A',
+    'N/A' => '-',
     'Camp Application Form' => 'Camp Application Form',
 
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
