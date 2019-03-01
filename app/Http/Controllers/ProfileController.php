@@ -70,6 +70,11 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
+    /* public function notifications()
+    {
+        return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
+    } */
+
     public function my_camps(User $user)
     {
         if (!$user->isCamper())
@@ -82,6 +87,7 @@ class ProfileController extends Controller
                 $categorized_registrations[$status] = [];
             $categorized_registrations[$status][] = $registration;
         }
+        ksort($categorized_registrations);
         return view('profiles.my_camps', compact('categorized_registrations'));
     }
 
