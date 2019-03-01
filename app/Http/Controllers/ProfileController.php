@@ -36,7 +36,7 @@ class ProfileController extends Controller
         if ($me && $user->id != \Auth::user()->id)
             throw new \CampPASSExceptionPermission();
         if (!$user->isActivated() && (!\Auth::user() || !\Auth::user()->isAdmin()))
-            throw new \CampPASSException(trans('exception.AccountNotActivate'));
+            throw new \CampPASSException(trans('exception.AccountNotActivated'));
         if ($user->isAdmin())
             throw new \CampPASSException(trans('exception.ErrorDisplayUser'));
     }

@@ -16,7 +16,7 @@ return [
     'AllApplicationFinalRank' => 'All application forms must be finalized before ranking.',
     'CandidatesAnnounced' => 'Candidates for this camp are already announced.',
     'NoCamperAnnounce' => 'There are no campers to announce to.',
-    'AccountNotActivate' => 'This account has not been activated.',
+    'AccountNotActivated' => 'This account has not been activated.',
     'ErrorDisplayUser' => 'Error displaying the user.',
     'CannotGradeUnsubmittedForm' => 'You cannot grade the answers of an unsubmitted form.',
     'CannotGradeFormWithoutQuestions' => 'You cannot grade the answers of the application form without questions.',
