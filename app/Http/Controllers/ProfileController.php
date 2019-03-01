@@ -67,7 +67,7 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_picture')) {
 
         }
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
     public function my_camps(User $user)
@@ -84,5 +84,18 @@ class ProfileController extends Controller
             $output_registrations[$status][] = $registration;
         }
         return view('profiles.my_camps', compact('output_registrations'));
+    }
+
+    public function document_upload(Request $request)
+    {
+        dd($request);
+    }
+
+    public function document_download($document)
+    {
+    }
+
+    public function document_delete($document)
+    {
     }
 }

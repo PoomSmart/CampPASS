@@ -61,11 +61,14 @@
                             ])
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::FILE)
-                            @if ($value)
-                                <a href="{{ route('camp_application.answer_file_download', $json['answer_id'][$key]) }}">{{ $value }}</a>
-                                <a class="btn btn-danger" href="{{ route('camp_application.answer_file_delete', $json['answer_id'][$key]) }}">@lang('app.Delete')</a>
-                            @endif
-                            <input type="file" class="form-control-file" name="{{ $key }}">
+                            @component('components.file_upload', [
+                                'value' => $value,
+                                'key' => $value ? $json['answer_id'][$key] : null,
+                                'upload' => 1,
+                                'download_route' => $value ? 'camp_application.answer_file_download' : null,
+                                'delete_route' => $value ? 'camp_application.answer_file_delete' : null,
+                            ])
+                            @endcomponent
                         @endif
                     </div>
                 </div>
