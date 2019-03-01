@@ -18,4 +18,5 @@ return [
     'AckInterview' => 'ค่ายนี้มีรอบสัมภาษณ์',
     'AttendanceConfirm' => 'ยินดีด้วย! กรุณาคลิกปุ่ม ยืนยัน เพื่อยืนยันการเข้าร่วมค่ายนี้',
     'ThankCampApply' => 'ขอบคุณที่สมัครค่ายกับเรา',
+    'TotalPassedFailedAvgScore' => 'จำนวนทั้งหมด: :total_registrations / ผ่าน: :total_candidates / ตก: :total_failed / คะแนนเฉลี่ย: :average_score',
 ];

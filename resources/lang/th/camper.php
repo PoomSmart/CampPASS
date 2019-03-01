@@ -19,4 +19,5 @@ return [
     'MyCamps' => 'ค่ายของคุณ',
     'CamperSince' => 'เข้าร่วมค่ายตั้งแต่',
     'CampsJoined' => 'จำนวนค่ายที่เคยเข้าร่วม',
+    'CamperActivities' => 'ค่ายที่เคยเข้าร่วม',
 ];

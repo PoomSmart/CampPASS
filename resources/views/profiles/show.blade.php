@@ -68,7 +68,13 @@
                 </div>
                 @if ($camps->count())
                     <div class="col-12 mt-2">
-                        <h5>@lang('account.CampActivities')</h5>
+                        <h5>
+                            @if ($camper)
+                                @lang('camper.CamperActivities')
+                            @else
+                                @lang('campmaker.CampMakerActivities')
+                            @endif
+                        </h5>
                             <div class="row">
                                 @foreach ($camps->get() as $camp)
                                     <div class="col-md-6">

@@ -19,4 +19,5 @@ return [
     'AckInterview' => 'Do acknowledge that you will be doing an interview.',
     'AttendanceConfirm' => 'Congratulations! Please do acknowledge your attendance by clicking confirm.',
     'ThankCampApply' => 'Thank you for applying for the camp.',
+    'TotalPassedFailedAvgScore' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed / Average Score: :average_score',
 ];
