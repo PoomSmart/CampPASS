@@ -18,7 +18,7 @@ class CandidateController extends Controller
     public static function rank(QuestionSet $question_set, bool $list = false)
     {
         $form_scores = FormScore::where('question_set_id', $question_set->id);
-        if (!$form_scores->exists())
+        if ($form_scores->doesntExist())
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all

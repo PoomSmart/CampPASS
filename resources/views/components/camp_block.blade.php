@@ -9,15 +9,20 @@
                 <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>
                 <span class="text-muted"><i class="fas fa-globe-asia mr-2"></i>Location X</span>
             </div>
+            @if (!\Auth::user() || \Auth::user()->isCamper())
+                @php
+                    $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true);
+                    $apply_text = $info['text'];
+                    $disabled = $info['disabled'];
+                    $route = $info['route'];
+                @endphp
+                <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
+            @endif
             @php
-                $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true);
-                $apply_text = $info['text'];
-                $disabled = $info['disabled'];
-                $route = $info['route'];
+                $close_date = $object->getCloseDate();
             @endphp
-            <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
-            @if ($object->getCloseDate())
-                <p class="card-text text-center mt-2"><small class="text-muted">@lang('registration.WillClose') {{ $object->getCloseDate() }}</small></p>
+            @if ($close_date)
+                <p class="card-text text-center mt-2"><small class="text-muted">@lang('registration.WillClose') {{ $close_date }}</small></p>
             @endif
         </div>
     </a>

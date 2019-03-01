@@ -73,37 +73,6 @@ class Common
         return self::campDirectory($camp_id)."/registrations";
     }
 
-    public static function questionSetDirectory(int $camp_id)
-    {
-        return self::campDirectory($camp_id)."/questions";
-    }
-
-    public static function encodeIfNeeded($value, $question_type)
-    {
-        if ($question_type == QuestionType::CHECKBOXES)
-            return json_encode($value);
-        return $value;
-    }
-
-    public static function decodeIfNeeded($value, $question_type)
-    {
-        if ($question_type == QuestionType::CHECKBOXES)
-            return json_decode($value);
-        return $value;
-    }
-
-    public static function getQuestionJSON($camp_id, bool $graded = false)
-    {
-        $json_path = self::questionSetDirectory($camp_id).'/questions.json';
-        $json = json_decode(Storage::disk('local')->get($json_path), true);
-        if (!is_null($graded) && !$graded) {
-            // Remove solutions from the questions before responding back to campers
-            unset($json['radio']);
-            unset($json['checkbox']);
-        }
-        return $json;
-    }
-
     public static function randomString(int $length = 6)
     {
         return bin2hex(random_bytes($length / 2));

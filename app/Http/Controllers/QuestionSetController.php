@@ -7,6 +7,7 @@ use App\Camp;
 use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
+use App\QuestionManager;
 
 use App\Http\Requests\StoreQuestionRequest;
 
@@ -15,7 +16,6 @@ use App\Enums\QuestionType;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Storage;
 
 class QuestionSetController extends Controller
 {
@@ -60,9 +60,7 @@ class QuestionSetController extends Controller
                 // We do not need token to be stored
                 unset($content['_token']);
                 $content['camp_id'] = $camp->id;
-                $json = json_encode($content);
-                $directory = Common::questionSetDirectory($camp->id);
-                Storage::disk('local')->put($directory.'/questions.json', $json);
+                QuestionManager::writeQuestionJSON($camp->id, $content);
             }
             return redirect()->back()->with('success', 'Questions are saved successfully.');
         }
@@ -73,12 +71,7 @@ class QuestionSetController extends Controller
     {
         Common::authenticate_camp($camp);
         $question_set = $camp->question_set;
-        if ($question_set) {
-            // Questions for this camp exist in the database
-            $json_path = Common::questionSetDirectory($camp->id).'/questions.json';
-            $json = json_encode(Storage::disk('local')->get($json_path));
-        } else
-            $json = [];
+        $json = $question_set ? QuestionManager::getQuestionJSON($camp->id, $encode = true) : [];
         View::share('object', $question_set);
         $question_types = QuestionType::getLocalizedConstants('question');
         View::share('question_types', $question_types);

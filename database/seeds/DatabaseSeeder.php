@@ -18,6 +18,7 @@ use App\Organization;
 use App\Question;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
+use App\QuestionManager;
 use App\Year;
 
 use App\Imports\ProvincesImport;
@@ -34,7 +35,6 @@ use Spatie\Permission\Models\Role;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
@@ -213,7 +213,7 @@ class DatabaseSeeder extends Seeder
                 return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
-                if (Common::randomMediumHit()) // Say some campers have yet to apply for some camps
+                if (Common::randomFrequentHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
@@ -324,7 +324,7 @@ class DatabaseSeeder extends Seeder
                         break;
                 }
                 ++$question_id;
-                $question_full_score = 10; // TODO: user-specified?
+                $question_full_score = 10;
                 $questions[] = [
                     'json_id' => $json_id,
                     'type' => $question_type,
@@ -364,7 +364,7 @@ class DatabaseSeeder extends Seeder
 
                                 break;
                         }
-                        $answer = Common::encodeIfNeeded($answer, $question_type);
+                        $answer = QuestionManager::encodeIfNeeded($answer, $question_type);
                         $can_manual_grade = $graded;
                         $has_any_answers = true;
                         $answers[] = [
@@ -408,8 +408,7 @@ class DatabaseSeeder extends Seeder
                 if (empty($value))
                     unset($json[$key]);
             }
-            $directory = Common::questionSetDirectory($camp->id);
-            Storage::disk('local')->put($directory.'/questions.json', json_encode($json));
+            QuestionManager::writeQuestionJSON($camp->id, $json);
             unset($json);
         }
         foreach (array_chunk($questions, 1000) as $chunk)
@@ -427,8 +426,8 @@ class DatabaseSeeder extends Seeder
         foreach (array_chunk($answers, 1000) as $chunk)
             Answer::insert($chunk);
         unset($answers);
-        // Now we can mark all application forms with manual grading as finalized
-        $this->log('-> finalizing respective form scores');
+        // Now we can mark the application forms with manual grading as finalized
+        $this->log('-> finalizing some manually-graded form scores');
         foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
             try {
                 QualificationController::form_finalize($manual_form_score, $silent = true);
@@ -469,12 +468,12 @@ class DatabaseSeeder extends Seeder
         $candidate = User::campers(true)->get()->sortByDesc(function ($camper) {
             return $camper->badges->count();
         })->first();
-        $candidate->activate();
         $candidate->update([
             'username' => 'camper',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
             'type' => config('const.account.camper'),
         ]);
+        $candidate->activate();
     }
 
     private function alter_campmakers()

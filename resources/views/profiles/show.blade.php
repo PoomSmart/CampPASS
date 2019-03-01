@@ -19,8 +19,10 @@
         <div class="col-md-4 text-center">
             @php
                 $alt = 'Profile Picture of '.$user->getFullName();
+                $genders = [ 'M', 'F' ];
+                $gender = $genders[$user->gender % 2];
             @endphp
-            <img src="{{ asset('images/profiles/Profile.jpg') }}" alt="{{ $alt }}" title="{{ $alt }}" class="img-circle">
+            <img src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}" alt="{{ $alt }}" title="{{ $alt }}" class="img-circle">
         </div>
         <div class="col-md-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>
@@ -64,19 +66,21 @@
                     </h5>
                         <h6>{{ $camps->count() }}</h6>
                 </div>
-                <div class="col-12 mt-2">
-                    <h5>@lang('account.CampActivities')</h5>
-                        <div class="row">
-                            @foreach ($camps->get() as $camp)
-                                <div class="col-md-6">
-                                    <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
-                                </div>
-                            @endforeach
-                        </div>
-                </div>
+                @if ($camps->count())
+                    <div class="col-12 mt-2">
+                        <h5>@lang('account.CampActivities')</h5>
+                            <div class="row">
+                                @foreach ($camps->get() as $camp)
+                                    <div class="col-md-6">
+                                        <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
+                                    </div>
+                                @endforeach
+                            </div>
+                    </div>
+                @endif
             </div>
             {{-- Badges --}}
-            @if (!empty($badges))
+            @if ($badges && $badges->isNotEmpty())
                 <h4 class="mb-4">@lang('badge.Badges')</h4>
                 <div class="row">
                     @foreach ($badges as $badge)

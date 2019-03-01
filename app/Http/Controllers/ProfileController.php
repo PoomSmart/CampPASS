@@ -75,7 +75,6 @@ class ProfileController extends Controller
         if (!$user->isCamper())
             throw new \CampPASSException(trans('app.UnavailableFeature'));
         $this->authenticate($user, $me = true);
-        // TODO: Categorize camps further 
         $output_registrations = [];
         foreach ($user->registrations as $registration) {
             $status = $registration->getStatus();
