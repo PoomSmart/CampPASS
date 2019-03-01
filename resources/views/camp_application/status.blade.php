@@ -33,11 +33,13 @@
                 <div class="col-md-8">
                     <h4 class="mb-4">@lang('status.Application')</h4>
                     @if ($registration->returned)
-                        <p>@lang ('qualification.ReturnedApplication')</p>
+                        <p>@lang('qualification.ReturnedApplication')</p>
+                    @elseif ($registration->rejected())
+                        <p>@lang('qualification.RejectedApplication')</p>
                     @elseif ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
                     @elseif ($registration->chosen() || $registration->approved())
-                        <p>@lang ('qualification.CongratulationsApp')</p>
+                        <p>@lang('qualification.CongratulationsApp')</p>
                     @else
                         <div class="mx-1">
                             <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-primary w-100 mb-4">@lang('registration.Edit')</a>
@@ -126,13 +128,14 @@
             @endif
             @php
                 if (!isset($disable_confirm) || !$disable_confirm)
-                    $disable_confirm = $registration->qualified() || $registration->withdrawed();
+                    $disable_confirm = $registration->qualified() || $registration->withdrawed() || $registration->rejected();
+                $disable_withdraw = $registration->qualified() || $registration->withdrawed() || $registration->rejected();
             @endphp
             <div class="d-flex">
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-50 mx-1 mb-4{{ $disable_confirm ? ' disabled' : null }}">
                     {{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}
                 </a>
-                <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4" {{ $registration->qualified() || $registration->withdrawed() ? 'disabled' : null }}>
+                <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4" {{ $disable_withdraw ? 'disabled' : null }}>
                     {{ $registration->withdrawed() ? $registration->getStatus() : trans('registration.Withdraw') }}
                 </button>
             </div>

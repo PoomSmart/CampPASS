@@ -16,7 +16,8 @@
 @section('content')
     @component('components.dialog', [
         'title' => trans('qualification.CandidatesAnnouncement'),
-        'body' => 'Once the candidates are announced, you will no longer be able to make changes. Continue?',
+        'body' => 'Once the candidates are announced, you will no longer be able to make changes.
+            The candidates will also be notified, and they have a right to withdraw until they explicitly confirmed the attendance. Continue?',
         'confirm_type' => 'danger',
         'confirm_label' => trans('app.Yes'),
     ])

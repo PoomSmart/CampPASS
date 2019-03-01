@@ -38,7 +38,7 @@ function showNotifications(notifications, target) {
         jQuery(target + 'Menu').html(htmlElements.join(''));
         jQuery(target).addClass('has-notifications')
     } else {
-        jQuery(target + 'Menu').html('<li class="dropdown-header">No notifications</li>');
+        jQuery(target + 'Menu').html(`<li class="dropdown-header">${Laravel.no_notification_text}</li>`);
         jQuery(target).removeClass('has-notifications');
     }
 }
@@ -46,7 +46,7 @@ function showNotifications(notifications, target) {
 function makeNotification(notification) {
     var to = routeNotification(notification);
     var notificationText = makeNotificationText(notification);
-    return '<li class="nav-link"><a class="nav-link" href="' + to + '">' + notificationText + '</a></li>';
+    return `<li class="nav-link"><a class="nav-link" href="${to}">${notificationText}</a></li>`;
 }
 
 function routeNotification(notification) {

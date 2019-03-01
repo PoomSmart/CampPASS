@@ -15,6 +15,7 @@
     @if (!auth()->guest())
         <script>
             window.Laravel.userId = {!! auth()->user()->id; !!};
+            window.Laravel.no_notification_text = "{!! trans('app.NoNotifications') !!}";
         </script>
     @endif
     <script src="{{ asset('js/app.js') }}"></script>
@@ -81,7 +82,7 @@
                                 </li>
                             @endrole
                             <li class="nav-item dropdown my-auto">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ \Auth::user()->getFullName() }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -97,7 +98,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown my-auto">
-                                <a class="nav-link dropdown-toggle text-muted" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" v-pre>
+                                <a class="nav-link dropdown-toggle" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fas fa-bell"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" id="notificationsMenu" style="min-width: 35rem;">
@@ -137,16 +138,16 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang ("app.What's") {{ config('app.name') }}</a></li>
-                                    <li><a href="#!">@lang ('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
-                                    <li><a href="#!">@lang ('app.Becoming a Camp Maker')</a></li>
+                                    <li><a href="#!">@lang("app.What's") {{ config('app.name') }}</a></li>
+                                    <li><a href="#!">@lang('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
+                                    <li><a href="#!">@lang('app.Becoming a Camp Maker')</a></li>
                                 </ul>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang ('app.About')</a></li>
-                                    <li><a href="#!">@lang ('app.Help')</a></li>
-                                    <li><a href="#!">@lang ('app.Terms')</a></li>
+                                    <li><a href="#!">@lang('app.About')</a></li>
+                                    <li><a href="#!">@lang('app.Help')</a></li>
+                                    <li><a href="#!">@lang('app.Terms')</a></li>
                                 </ul>
                             </div>
                         </div>

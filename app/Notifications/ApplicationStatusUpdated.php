@@ -32,7 +32,9 @@ class ApplicationStatusUpdated extends Notification implements ShouldQueue
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
             case ApplicationStatus::APPROVED:
-                return "Congratulations! You are chosen for {$registration->camp}";
+                return "Congratulations! You are chosen for {$registration->camp}.";
+            case ApplicationStatus::REJECTED:
+                return "Sorry, you are disqualified for {$registration->camp}.";
             default:
                 return "Undefined";
         }
