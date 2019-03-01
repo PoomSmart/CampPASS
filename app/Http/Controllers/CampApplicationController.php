@@ -267,13 +267,13 @@ class CampApplicationController extends Controller
         self::authenticate($camp);
         self::authenticate_registration($registration, $silent = $void);
         if ($registration->qualified())
-            throw new \CampPASSExceptionRedirectBack("You already confirmed attending {$camp}.");
+            throw new \CampPASSExceptionRedirectBack(trans("exception.ConfirmedAttending", ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::QUALIFIED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)
-            return redirect()->back()->with('success', "You are fully qualified for {$camp}.");
+            return redirect()->back()->with('success', trans("exception.FullyQualified", ['camp' => $camp]));
     }
 
     public static function withdraw(Registration $registration)
@@ -282,9 +282,9 @@ class CampApplicationController extends Controller
         self::authenticate($camp);
         self::authenticate_registration($registration);
         if ($registration->qualified())
-            throw new \CampPASSException("You cannot withdraw the camp you already confirmed the attendance.");
+            throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
-            throw new \CampPASSExceptionRedirectBack("You already withdrawed from {$camp}.");
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
@@ -346,9 +346,9 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         $filepath = $this->get_answer_file_path($answer);
         if (!$filepath)
-            return redirect()->back()->with('error', 'Error deleting the file.');
+            return redirect()->back()->with('error', 'message.ErrorDelete');
         Storage::disk('local')->delete($filepath);
         $answer->delete();
-        return redirect()->back()->with('success', 'File deleted successfully.');
+        return redirect()->back()->with('success', 'message.SuccessDelete');
     }
 }

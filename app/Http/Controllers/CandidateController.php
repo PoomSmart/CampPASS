@@ -19,7 +19,7 @@ class CandidateController extends Controller
     {
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         if ($form_scores->doesntExist())
-            throw new \CampPASSExceptionRedirectBack('No application forms to be ranked.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
             $query->where('status', ApplicationStatus::APPLIED);
@@ -33,10 +33,10 @@ class CandidateController extends Controller
                 'finalized' => true,
             ]);
         }
-        if ($form_scores->doesntExist())
-            throw new \CampPASSExceptionRedirectBack('No finalized application forms to be ranked.');
+        if (!$form_scores->exists())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
         if (!$question_set->announced && $form_scores->count() !== $total_registrations)
-            throw new \CampPASSExceptionRedirectBack('All application forms must be finalized before ranking.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         $minimum_score = $question_set->total_score * $question_set->score_threshold;
         if ($question_set->announced)
             $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
@@ -72,7 +72,7 @@ class CandidateController extends Controller
     public static function announce(QuestionSet $question_set, bool $void = false)
     {
         if ($question_set->announced)
-            throw new \CampPASSExceptionRedirectBack('Candidates for this camp are already announced.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score passing the criteria
         $no_passed = 0;
         $form_scores = self::rank($question_set, $list = true);
@@ -81,7 +81,7 @@ class CandidateController extends Controller
                 ++$no_passed;
         });
         if (!$no_passed)
-            throw new \CampPASSExceptionRedirectBack('There are no campers to announce to.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounce'));
         $candidates = [];
         $camp_procedure = $question_set->camp->camp_procedure;
         foreach ($form_scores as $form_score) {
