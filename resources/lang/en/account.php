@@ -28,7 +28,10 @@ return [
     'SendPasswordResetLink' => 'Send Password Reset Link',
 
     'Camper' => 'Camper',
+    'camper' => 'camper',
     'CampMaker' => 'Camp Maker',
+    'campmaker' => 'campmaker',
+    'admin' => 'admin',
 
     'ManageUsers' => 'Manage Users',
     'Username' => 'Username',

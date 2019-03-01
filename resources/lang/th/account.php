@@ -28,7 +28,10 @@ return [
     'SendPasswordResetLink' => 'ส่งลิงก์สำหรับการเปลี่ยนรหัสผ่าน',
 
     'Camper' => 'ผู้สมัครค่าย',
+    'camper' => 'ผู้สมัครค่าย',
     'CampMaker' => 'ผู้จัดค่าย',
+    'campmaker' => 'ผู้จัดค่าย',
+    'admin' => 'ผู้ดูแลระบบ',
 
     'ManageUsers' => 'จัดการผู้ใช้',
     'Username' => 'ชื่อผู้ใช้',
