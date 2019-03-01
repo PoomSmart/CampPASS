@@ -7,6 +7,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
     <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]); !!};
+    </script>
+    @if (!auth()->guest())
+        <script>
+            window.Laravel.userId = {!! auth()->user()->id; !!};
+        </script>
+    @endif
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/checkbox-require.js') }}"></script>
     <!-- Favicon -->
@@ -70,7 +80,7 @@
                                     <a class="nav-link" href="{{ route('profiles.my_camps', \Auth::user()) }}">@lang('camper.MyCamps')</a>
                                 </li>
                             @endrole
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown my-auto">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ \Auth::user()->getFullName() }} <span class="caret"></span>
                                 </a>
@@ -85,6 +95,14 @@
                                         @csrf
                                     </form>
                                 </div>
+                            </li>
+                            <li class="nav-item dropdown my-auto">
+                                <a class="nav-link dropdown-toggle text-muted" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" v-pre>
+                                    <i class="fas fa-bell"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" id="notificationsMenu" style="min-width: 35rem;">
+                                    <li class="dropdown-header">@lang('app.NoNotifications')</li>
+                                </ul>
                             </li>
                         @endguest
                         <li class="nav-item my-auto">

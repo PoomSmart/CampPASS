@@ -11,18 +11,39 @@ use App\Http\Controllers\QualificationController;
 
 use App\Enums\ApplicationStatus;
 
+use App\Notifications\ApplicationStatusUpdated;
+
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
 {
+    public function result(QuestionSet $question_set)
+    {
+        $form_scores = FormScore::with('registration')->where('question_set_id', $question_set->id)->where('finalized', true)->whereHas('registration', function ($query) {
+           $query->where('registrations.status', '>=', ApplicationStatus::APPROVED);
+        });
+        if ($form_scores->doesntExist())
+            throw new \CampPASSException();
+        $total = $form_scores->count();
+        $summary = "Total: {$total}";
+        $camp = $question_set->camp;
+        $max = config('const.app.max_paginate');
+        $form_scores = $form_scores->paginate($max);
+        return view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary'))->with('i', (request()->input('page', 1) - 1) * $max);
+    }
+
     public static function rank(QuestionSet $question_set, bool $list = false)
     {
+        if ($question_set->announced)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         $form_scores = FormScore::where('question_set_id', $question_set->id);
-        if ($form_scores->doesntExist())
+        if ($form_scores->doesntExist()) {
+            if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
+        }
         $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
-            $query->where('status', ApplicationStatus::APPLIED);
+            $query->where('registrations.status', ApplicationStatus::APPLIED);
         });
         $total_registrations = $form_scores->count();
         if ($question_set->manual_required)
@@ -33,10 +54,14 @@ class CandidateController extends Controller
                 'finalized' => true,
             ]);
         }
-        if (!$form_scores->exists())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
-        if (!$question_set->announced && $form_scores->count() !== $total_registrations)
+        if ($form_scores->doesntExist()) {
+            if ($list) return null;
+            throw new \CampPASSException(trans('exception.NoFinalApplicationRank'));
+        }
+        if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
+            if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
+        }
         $minimum_score = $question_set->total_score * $question_set->score_threshold;
         if ($question_set->announced)
             $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
@@ -57,12 +82,8 @@ class CandidateController extends Controller
         if ($list)
             return $form_scores_get;
         $average_score /= $total_registrations;
-        if ($question_set->announced)
-            $summary = "Total: {$total_candidates} / Average Score: {$average_score}";
-        else {
-            $total_failed = $total_registrations - $total_candidates;
-            $summary = "Total: {$total_registrations} / Passed: {$total_candidates} / Failed: {$total_failed} / Average Score: {$average_score}";
-        }
+        $total_failed = $total_registrations - $total_candidates;
+        $summary = "Total: {$total_registrations} / Passed: {$total_candidates} / Failed: {$total_failed} / Average Score: {$average_score}";
         $camp = $question_set->camp;
         $max = config('const.app.max_paginate');
         $form_scores = $form_scores->paginate($max);
@@ -76,10 +97,12 @@ class CandidateController extends Controller
         // The qualified campers are those that have form score passing the criteria
         $no_passed = 0;
         $form_scores = self::rank($question_set, $list = true);
-        $form_scores->each(function ($form_score) use (&$question_set) {
-            if ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold)
-                ++$no_passed;
-        });
+        if ($form_scores) {
+            $form_scores->each(function ($form_score) use (&$question_set, &$no_passed) {
+                if ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold)
+                    ++$no_passed;
+            });
+        }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounce'));
         $candidates = [];
@@ -98,18 +121,19 @@ class CandidateController extends Controller
                     'status' => ApplicationStatus::REJECTED,
                 ]);
             }
+            $registration->camper->notify(new ApplicationStatusUpdated($registration));
             $candidates[] = [
                 'registration_id' => $form_score->registration_id,
                 'total_score' => $form_score->total_score,
             ];
         }
         Candidate::insert($candidates);
-        // TODO: somehow notify these candidates
+        unset($candidates);
         // Candidates are finalized, this question set will no longer be editable
         $question_set->update([
             'announced' => true,
         ]);
         if (!$void)
-            return redirect()->back()->with('success', 'Candidates are announced.');
+            return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', 'Candidates are announced.');
     }
 }

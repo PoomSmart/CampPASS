@@ -10,7 +10,7 @@
 @endsection
 
 @section('subheader')
-    {{ $camp }} {{ $question_set->announced ? '('.trans('qualification.Announced').')' : null }}
+    {{ $camp }}
 @endsection
 
 @section('content')

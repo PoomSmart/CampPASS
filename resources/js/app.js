@@ -7,27 +7,61 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+window._ = require('lodash');
+window.$ = window.jQuery = require('jquery');
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+var notifications = [];
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+const NOTIFICATION_TYPES = {
+    application_status: 'App\\Notifications\\ApplicationStatusUpdated'
+};
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#app'
+jQuery(document).ready(function () {
+    if (Laravel.userId) {
+        jQuery.get('/profile/notifications', function (data) {
+            addNotifications(data, "#notifications");
+        });
+    }
 });
+
+function addNotifications(newNotifications, target) {
+    notifications = _.concat(notifications, newNotifications);
+    notifications.slice(0, 5);
+    showNotifications(notifications, target);
+}
+
+function showNotifications(notifications, target) {
+    if (notifications.length) {
+        var htmlElements = notifications.map(function (notification) {
+            return makeNotification(notification);
+        });
+        jQuery(target + 'Menu').html(htmlElements.join(''));
+        jQuery(target).addClass('has-notifications')
+    } else {
+        jQuery(target + 'Menu').html('<li class="dropdown-header">No notifications</li>');
+        jQuery(target).removeClass('has-notifications');
+    }
+}
+
+function makeNotification(notification) {
+    var to = routeNotification(notification);
+    var notificationText = makeNotificationText(notification);
+    return '<li class="nav-link"><a class="nav-link" href="' + to + '">' + notificationText + '</a></li>';
+}
+
+function routeNotification(notification) {
+    var to = '?read=' + notification.id;
+    if (notification.type === NOTIFICATION_TYPES.application_status) {
+        to = 'profile/notifications' + to;
+    }
+    return '/' + to;
+}
+
+function makeNotificationText(notification) {
+    var text = '';
+    if (notification.type === NOTIFICATION_TYPES.application_status) {
+        const content = notification.data.content;
+        text += '<strong>' + content + '</strong>';
+    }
+    return text;
+}

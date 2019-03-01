@@ -14,7 +14,7 @@
 @endsection
 
 @section('subheader')
-    {{ $camp }}
+    <a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a>
 @endsection
 
 @section('card_content')
@@ -36,7 +36,7 @@
                         <p>@lang ('qualification.ReturnedApplication')</p>
                     @elseif ($registration->applied())
                         <p>@lang('qualification.Grading')</p>
-                    @elseif ($registration->chosen())
+                    @elseif ($registration->chosen() || $registration->approved())
                         <p>@lang ('qualification.CongratulationsApp')</p>
                     @else
                         <div class="mx-1">
@@ -115,7 +115,9 @@
         </div>
         <div class="col-md-8">
             <h4 class="mb-4">@lang('status.Qualification')</h4>
-            @if ($registration->approved_to_qualified())
+            @if ($registration->approved_to_qualified()
+                && ($camp_procedure->interview_required ? $registration->interviewed() : true)
+                && ($camp_procedure->deposit_required ? $registration->paid() : true))
                 <p>@lang('qualification.AttendanceConfirm')</p>
             @else
                 @php

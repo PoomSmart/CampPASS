@@ -70,10 +70,10 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
-    /* public function notifications()
+    public function notifications()
     {
         return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
-    } */
+    }
 
     public function my_camps(User $user)
     {

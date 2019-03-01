@@ -97,7 +97,9 @@ class CampController extends Controller
     public function registration(Camp $camp)
     {
         $this->check($camp);
-        // TODO: Will we allow users to see this page if the candidates have been announced?
+        $question_set = $camp->question_set;
+        if ($question_set && $question_set->announced)
+            return redirect()->route('qualification.candidate_result', $question_set->id);
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
         if (\Auth::user()->hasPermissionTo('camper-list')) {
