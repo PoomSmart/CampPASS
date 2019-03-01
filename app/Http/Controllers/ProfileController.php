@@ -103,7 +103,7 @@ class ProfileController extends Controller
         try {
             return Storage::download("{$directory}/{$type}.pdf");
         } catch (\Exception $e) {
-            throw new \CampPASSExceptionRedirectBack('The specified document could not be found.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.FileNotFound'));
         }
     }
 

@@ -26,6 +26,7 @@ return [
     'QuestionSetFinalize' => 'This question set has been finalized.',
     'NoQuestionsSave' => 'There are no questions to be saved.',
     'QuestionSetAlreadyFinalize' => 'This question set has already been finalized.',
+    'FileNotFound' => 'ไม่พบไฟล์ที่ต้องการ',
     '' => '',
 
 ];

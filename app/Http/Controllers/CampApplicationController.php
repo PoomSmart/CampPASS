@@ -267,13 +267,13 @@ class CampApplicationController extends Controller
         self::authenticate($camp);
         self::authenticate_registration($registration, $silent = $void);
         if ($registration->qualified())
-            throw new \CampPASSExceptionRedirectBack(trans("exception.ConfirmedAttending", ['camp' => $camp]));
+            throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::QUALIFIED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)
-            return redirect()->back()->with('success', trans("exception.FullyQualified", ['camp' => $camp]));
+            return redirect()->back()->with('success', trans('exception.FullyQualified', ['camp' => $camp]));
     }
 
     public static function withdraw(Registration $registration)
@@ -332,8 +332,11 @@ class CampApplicationController extends Controller
     public function answer_file_download(Answer $answer)
     {
         $filepath = $this->get_answer_file_path($answer);
-        // TODO: check if fallback works properly
-        return $filepath ? Storage::download($filepath) : response()->toJson();
+        try {
+            return Storage::download($filepath);
+        } catch (\Exception $e) {
+            throw new \CampPASSExceptionRedirectBack(trans('exception.FileNotFound'));
+        }
     }
 
     /**
