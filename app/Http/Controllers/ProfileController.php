@@ -16,6 +16,7 @@ use App\Enums\EducationLevel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -64,9 +65,19 @@ class ProfileController extends Controller
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $user->update($request->all());
-        if ($request->hasFile('--document--key--')) {
-
+        
+        // Transcript
+        if ($request->hasFile('transcript')) {
+            $directory = self::fileDirectory($user->id);
+            $path = Storage::disk('local')->putFileAs($directory, $request->file('transcript'), "transcript.pdf");
         }
+
+        // Certificate
+        if ($request->hasFile('certificate')) {
+            $directory = self::fileDirectory($user->id);
+            $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), "certificate.pdf");
+        }
+
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -85,11 +96,20 @@ class ProfileController extends Controller
         return view('profiles.my_camps', compact('categorized_registrations'));
     }
 
-    public function document_download($document)
+    public function document_download(User $user, $type)
     {
+        $directory = self::fileDirectory($user->id);
+        return Storage::download("{$directory}/{$type}.pdf");
     }
 
-    public function document_delete($document)
+    public function document_delete(User $user, $type)
     {
+        $directory = self::fileDirectory($user->id);
+        return Storage::delete("{$directory}/{$type}.pdf");
+    }
+
+    public static function fileDirectory(int $user_id)
+    {
+        return Common::userDirectory($user_id)."/files";
     }
 }

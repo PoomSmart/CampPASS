@@ -166,11 +166,15 @@
                 <div class="col-12">
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
-                        'key' => 'xyz',
+                        'args' => [
+                            'user' => \Auth::user()->id,
+                            'type' => 'transcript',
+                        ],
                         'upload' => 1,
                         'download_route' => 'camp_application.document_download',
                         'delete_route' => 'camp_application.document_delete',
                         'full_width' => 1,
+                        'name' => 'transcript',
                     ])
                     @endcomponent
                 </div>
@@ -178,11 +182,16 @@
                 <div class="col-12">
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
-                        'key' => 'xyz2',
+                        'args' => [
+                            'user' => \Auth::user()->id,
+                            'type' => 'certificate',
+                        ],
                         'upload' => 1,
                         'download_route' => 'camp_application.document_download',
                         'delete_route' => 'camp_application.document_delete',
                         'full_width' => 1,
+                        'name' => 'certificate',
+
                     ])
                     @endcomponent
                 </div>
