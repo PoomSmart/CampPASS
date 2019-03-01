@@ -64,7 +64,7 @@ class ProfileController extends Controller
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $user->update($request->all());
-        if ($request->hasFile('profile_picture')) {
+        if ($request->hasFile('--document--key--')) {
 
         }
         return redirect()->back()->with('success', 'Profile updated successfully.');
@@ -83,11 +83,6 @@ class ProfileController extends Controller
             $categorized_registrations[$status][] = $registration;
         }
         return view('profiles.my_camps', compact('categorized_registrations'));
-    }
-
-    public function document_upload(Request $request)
-    {
-        dd($request);
     }
 
     public function document_download($document)
