@@ -15,6 +15,7 @@
     <div class="row">
         @php
             $manual_grading_required = $question_set && $question_set->manual_required && !$question_set->announced;
+            $candidate_required = $question_set && $question_set->camp->camp_procedure->candidate_required;
         @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
@@ -31,7 +32,7 @@
                         <th>@lang('account.School')</th>
                         <th>@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
-                        @if (isset($question_set) && $question_set->candidate_required())
+                        @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
                         @endif
                         <th>@lang('app.Actions')</th>
@@ -50,7 +51,7 @@
                                 $form_score = $registration->form_score;
                                 $finalized = $form_score ? $form_score->finalized : false;
                             @endphp
-                            @if (isset($question_set) && $question_set->candidate_required())
+                            @if ($candidate_required)
                                 <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
                             <td>

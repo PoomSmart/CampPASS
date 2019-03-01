@@ -41,6 +41,7 @@ return [
     'Manual' => 'กึ่งอัตโนมัติ',
     'Auto' => 'อัตโนมัติ',
     'N/A' => '-',
+    'Camp Application Form' => 'ใบสมัครค่าย',
 
     'NoPermissionError' => 'คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้',
     'UnavailableFeature' => 'ฟังก์ชั่นนี้ไม่ได้เปิดให้คุณใช้งาน',

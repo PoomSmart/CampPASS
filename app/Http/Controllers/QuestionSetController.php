@@ -62,9 +62,9 @@ class QuestionSetController extends Controller
                 $content['camp_id'] = $camp->id;
                 QuestionManager::writeQuestionJSON($camp->id, $content);
             }
-            return redirect()->back()->with('success', 'Questions are saved successfully.');
+            return redirect()->back()->with('success', trans('message.QuestionsSaved'));
         }
-        return redirect()->back()->with('success', 'Score threshold has been changed.');
+        return redirect()->back()->with('success', trans('message.ScoreThresholdChanged'));
     }
 
     public function show(Camp $camp)
@@ -84,12 +84,12 @@ class QuestionSetController extends Controller
         Common::authenticate_camp($camp);
         $question_set = $camp->question_set;
         if (!$question_set || $question_set->pairs->isEmpty())
-            throw new \CampPASSExceptionRedirectBack('There are no questions to be saved.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoQuestionsSave'));
         if ($question_set->finalized)
-            throw new \CampPASSExceptionRedirectBack('This question set has already been finalized.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.QuestionSetAlreadyFinalize'));
         $question_set->update([
             'finalized' => true,
         ]);
-        return redirect()->back()->with('success', 'This question set has been finalized.');
+        return redirect()->back()->with('success', trans('exception.QuestionSetFinalize'));
     }
 }

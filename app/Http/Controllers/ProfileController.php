@@ -36,9 +36,9 @@ class ProfileController extends Controller
         if ($me && $user->id != \Auth::user()->id)
             throw new \CampPASSExceptionPermission();
         if (!$user->isActivated() && (!\Auth::user() || !\Auth::user()->isAdmin()))
-            throw new \CampPASSException('This account has not been activated.');
+            throw new \CampPASSException(trans('exception.AccountNotActivate'));
         if ($user->isAdmin())
-            throw new \CampPASSException('Error displaying the user.');
+            throw new \CampPASSException(trans('exception.ErrorDisplayUser'));
     }
 
     public function show(User $user)
@@ -81,6 +81,11 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
+    /* public function notifications()
+    {
+        return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
+    } */
+
     public function my_camps(User $user)
     {
         if (!$user->isCamper())
@@ -93,6 +98,7 @@ class ProfileController extends Controller
                 $categorized_registrations[$status] = [];
             $categorized_registrations[$status][] = $registration;
         }
+        ksort($categorized_registrations);
         return view('profiles.my_camps', compact('categorized_registrations'));
     }
 

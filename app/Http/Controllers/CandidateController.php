@@ -61,7 +61,7 @@ class CandidateController extends Controller
             $summary = "Total: {$total_candidates} / Average Score: {$average_score}";
         else {
             $total_failed = $total_registrations - $total_candidates;
-            $summary = "Total: {$total_registrations} / Passed: {$total_candidates} / Failed: {$total_failed} / Average Score: {$average_score}";
+            $summary = trans("qualification.TotalPassedFailedAvgScore",['total_registrations' => $total_registrations, 'total_candidates' => $total_candidates, 'total_failed' => $total_failed, 'average_score' => $average_score]);
         }
         $camp = $question_set->camp;
         $max = config('const.app.max_paginate');
