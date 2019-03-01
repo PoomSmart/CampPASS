@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
 use App\User;
 use App\Answer;
 use App\QuestionManager;
@@ -36,9 +37,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $max = config('const.app.max_paginate');
-        $data = User::orderBy('username')->paginate($max);
-        return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * $max);
+        $data = User::orderBy('username')->paginate(Common::maxPagination());
+        return Common::withPagination(view('users.index', compact('data')), $request);
     }
     
     public function create()

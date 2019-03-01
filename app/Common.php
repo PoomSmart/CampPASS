@@ -125,4 +125,17 @@ class Common
             $user->canManageCamp($camp);
         }
     }
+
+    public static function maxPagination()
+    {
+        return config('const.app.max_paginate');
+    }
+
+    public static function withPagination($view, $request = null)
+    {
+        $max = self::maxPagination();
+        if (!$request)
+            $request = request();
+        return $view->with('i', ($request->input('page', 1) - 1) * $max);
+    }
 }

@@ -9,6 +9,9 @@
 @endsection
 
 <!-- TODO: Allow camper's student documents to show here -->
+@section('card_content_top')
+    Show Payment Slip - Finalize button disabled until it is uploaded
+@endsection
 
 @section('card_content')
     <div class="row">

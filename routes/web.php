@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
             Route::get('/questions/{camp}', 'CampApplicationController@prepare_questions_answers')->name('camp_application.prepare_questions_answers');
             Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
-            Route::get('/view-answers/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
+            Route::get('/answers-view/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
             Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
             Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
             Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
@@ -51,9 +51,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::resource('qualification', 'QualificationController');
     Route::prefix('qualification')->group(function () {
-        Route::get('/grade-answers/{registration}/{question_set}', 'QualificationController@answer_grade')->name('qualification.answer_grade');
+        Route::get('/form-grade/{registration}/{question_set}', 'QualificationController@form_grade')->name('qualification.form_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
-        Route::get('/finalize-form/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
+        Route::get('/form-finalize/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');

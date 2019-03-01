@@ -1,7 +1,14 @@
 @extends('layouts.blank', ['card' => 1])
 
 @section('content')
-    <div class="card">
+    @if (View::hasSection('card_content_top'))
+        <div class="card mb-4">
+            <div class="card-body">
+                @yield('card_content_top')
+            </div>
+        </div>
+    @endif
+    <div class="card mb-4">
         <div class="card-body">
             @yield('card_content')
             @if (View::hasSection('extra-buttons'))
@@ -11,4 +18,11 @@
             @endif
         </div>
     </div>
+    @if (View::hasSection('card_content_bottom'))
+        <div class="card mb-4">
+            <div class="card-body">
+                @yield('card_content_bottom')
+            </div>
+        </div>
+    @endif
 @endsection

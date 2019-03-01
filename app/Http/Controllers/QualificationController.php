@@ -19,7 +19,7 @@ class QualificationController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:answer-grade', ['only' => ['answer_grade', 'save_manual_grade', 'form_finalize']]);
+        $this->middleware('permission:answer-grade', ['only' => ['form_grade', 'save_manual_grade', 'form_finalize']]);
         $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
     }
 
@@ -27,7 +27,7 @@ class QualificationController extends Controller
      * Grade an application form from a camper (represented by a registration record) and the respective question set
      * 
      */
-    public static function answer_grade($registration_id, $question_set_id, bool $silent = false)
+    public static function form_grade($registration_id, $question_set_id, bool $silent = false)
     {
         $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
         if ($silent) {
@@ -104,7 +104,7 @@ class QualificationController extends Controller
         if ($silent)
             return $camper_score;
         $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
-        return view('qualification.answer_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
+        return view('qualification.form_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
     }
 
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)

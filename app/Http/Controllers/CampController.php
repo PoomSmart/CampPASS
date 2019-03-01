@@ -47,10 +47,9 @@ class CampController extends Controller
 
     public function index()
     {
-        $max = config('const.app.max_paginate');
         $camps = \Auth::user()->isAdmin() ? Camp::latest() : \Auth::user()->getBelongingCamps()->latest();
-        $camps = $camps->paginate($max);
-        return view('camps.index', compact('camps'))->with('i', (request()->input('page', 1) - 1) * $max);
+        $camps = $camps->paginate(Common::maxPagination());
+        return Common::withPagination(view('camps.index', compact('camps')));
     }
 
     public function create()
@@ -105,13 +104,13 @@ class CampController extends Controller
         if (\Auth::user()->hasPermissionTo('camper-list')) {
             $registrations = $camp->registrations();
             $total_registrations = $registrations->count();
-            $data = $registrations->paginate($max);
+            $data = $registrations->paginate(Common::maxPagination());
         } else {
             $data = null;
             $total_registrations = 0;
         }
         $category = CampCategory::find($camp->camp_category_id);
-        return view('camps.registration', compact('camp', 'category', 'data', 'total_registrations'))->with('i', (request()->input('page', 1) - 1) * $max);
+        return Common::withPagination(view('camps.registration', compact('camp', 'category', 'data', 'total_registrations')));
     }
     
     public function edit(Camp $camp)

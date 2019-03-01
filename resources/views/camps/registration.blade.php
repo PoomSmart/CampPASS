@@ -57,7 +57,7 @@
                             <td>
                                 @if ($rankable)
                                     <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
-                                        href="{{ route('qualification.answer_grade', [
+                                        href="{{ route('qualification.form_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
                                         ]) }}">@lang('app.View')</a>

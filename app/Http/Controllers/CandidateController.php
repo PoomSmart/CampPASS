@@ -27,9 +27,8 @@ class CandidateController extends Controller
         $total = $form_scores->count();
         $summary = "Total: {$total}";
         $camp = $question_set->camp;
-        $max = config('const.app.max_paginate');
-        $form_scores = $form_scores->paginate($max);
-        return view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary'))->with('i', (request()->input('page', 1) - 1) * $max);
+        $form_scores = $form_scores->paginate(Common::maxPagination());
+        return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
     public static function rank(QuestionSet $question_set, bool $list = false)
@@ -58,7 +57,7 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
         }
-        if (!$question_set->announced && $form_scores->count() !== $total_registrations) {
+        if ($form_scores->count() !== $total_registrations) {
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
@@ -71,7 +70,7 @@ class CandidateController extends Controller
         foreach ($form_scores_get as $form_score) {
             if (is_null($form_score->total_score)) {
                 $form_score->update([
-                    'total_score' => QualificationController::answer_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
+                    'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                 ]);
             }
             if ($form_score->total_score >= $minimum_score)
@@ -90,9 +89,8 @@ class CandidateController extends Controller
             'average_score' => $average_score
         ]);
         $camp = $question_set->camp;
-        $max = config('const.app.max_paginate');
-        $form_scores = $form_scores->paginate($max);
-        return view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary'))->with('i', (request()->input('page', 1) - 1) * $max);
+        $form_scores = $form_scores->paginate(Common::maxPagination());
+        return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
     public static function announce(QuestionSet $question_set, bool $void = false)
