@@ -46,7 +46,7 @@ class QualificationController extends Controller
         $camp = $question_set->camp;
         $answers = $answers->get();
         $data = [];
-        $json = QuestionManager::getQuestionJSON($question_set->camp_id, $graded = true);
+        $json = QuestionManager::getQuestionJSON($question_set->camp_id, $encode = false, $graded = true);
         if (!$silent) {
             $json['question_scored'] = [];
             $json['question_lock'] = [];
