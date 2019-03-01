@@ -1,5 +1,5 @@
 # CampPASS
-Web-based Application and Management System for Thai camps.
+Web-based Thai Student Camp Registration and Management System.
 
 ## Configuration
 - Get yourself the `.env` file
