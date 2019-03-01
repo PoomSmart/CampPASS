@@ -215,7 +215,7 @@ class CampApplicationController extends Controller
                 'answer' => $answer_content,
             ]);
         }
-        return redirect()->back()->with('success', 'Answers are saved.');
+        return redirect()->back()->with('success', trans('message.AnswerSaved'));
     }
 
     /**

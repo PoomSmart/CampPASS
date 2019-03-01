@@ -4,7 +4,7 @@ return [
     'CodeNotExist' => 'The code does not exist for any user in our system.',
     'AlreadyAppliedCamp' => 'You already have applied for this camp.',
     'NoQuestion' => 'There are no questions in here.',
-    'NoAnswered' => 'You have not answered anything.',
+    'NoAnswer' => 'You have not answered anything.',
     'ConfirmedAttending' => 'You already confirmed attending:camp.',
     'FullyQualified' => 'You are fully qualified for',
     'You cannot withdraw the camp you already confirmed the attendance.',

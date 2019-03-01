@@ -62,9 +62,9 @@ class QuestionSetController extends Controller
                 $content['camp_id'] = $camp->id;
                 QuestionManager::writeQuestionJSON($camp->id, $content);
             }
-            return redirect()->back()->with('success', 'Questions are saved successfully.');
+            return redirect()->back()->with('success', trans('message.QuestionsSaved'));
         }
-        return redirect()->back()->with('success', 'Score threshold has been changed.');
+        return redirect()->back()->with('success', trans('message.ScoreThresholdChanged'));
     }
 
     public function show(Camp $camp)

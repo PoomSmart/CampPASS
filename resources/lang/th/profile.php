@@ -11,4 +11,7 @@ return [
     'ContactInformation' => 'ข้อมูลการติดต่อ',
     'EmergencyContactInformation' => 'ข้อมูลการติดต่อกรณีฉุกเฉิน',
     'UpdateProfile' => 'แก้ไขโปรไฟล์',
+    'SelectYourProvince' => 'เลือกจังหวัดของคุณ...',
+    'SelectYourSchool' => 'เลือกโรงเรียนของคุณ...',
+
 ];

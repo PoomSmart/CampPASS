@@ -19,4 +19,5 @@ return [
     'MyCamps' => 'My Camps',
     'CamperSince' => 'Camper Since',
     'CampsJoined' => 'Camps Joined',
+    'CamperActivities' => 'Camp Activities',
 ];

@@ -46,9 +46,6 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
             Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
-            Route::post('/document-upload', 'CampApplicationController@document_upload')->name('camp_application.document_upload');
-            Route::post('/document-download/{document}', 'CampApplicationController@document_download')->name('camp_application.document_download');
-            Route::post('/document-delete/{document}', 'CampApplicationController@document_delete')->name('camp_application.document_delete');
         });
         Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
@@ -63,6 +60,13 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::prefix('profile')->group(function () {
         Route::get('/notifications', 'ProfileController@notifications')->name('profiles.notifications');
+    });
+});
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
+        Route::get('/document-delete/{user}/{type}', 'ProfileController@document_delete')->name('camp_application.document_delete');
     });
 });
 
