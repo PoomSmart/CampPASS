@@ -164,19 +164,27 @@
             <div class="row">
                 <h4 class="col-12 mt-2">@lang('profile.Transcript')</h4>
                 <div class="col-12">
-                    <div class="btn-group d-flex justify-content-between" role="group">
-                        <a href="" class="btn btn-warning w-100 mx-1">@lang('app.View')</a>
-                        <a href="" class="btn btn-primary w-100 mx-1">@lang('app.Upload')</a>
-                        <a href="" class="btn btn-danger w-100 mx-1">@lang('app.Delete')</a>
-                    </div>
+                    @component('components.file_upload', [
+                        'value' => trans('app.View'),
+                        'key' => 'xyz',
+                        'upload' => 1,
+                        'download_route' => 'camp_application.document_download',
+                        'delete_route' => 'camp_application.document_delete',
+                        'full_width' => 1,
+                    ])
+                    @endcomponent
                 </div>
                 <h4 class="col-12 mt-2">@lang('profile.StudentCertificate')</h4>
                 <div class="col-12">
-                    <div class="btn-group d-flex justify-content-between" role="group">
-                        <a href="" class="btn btn-warning w-100 mx-1">@lang('app.View')</a>
-                        <a href="" class="btn btn-primary w-100 mx-1">@lang('app.Upload')</a>
-                        <a href="" class="btn btn-danger w-100 mx-1">@lang('app.Delete')</a>
-                    </div>
+                    @component('components.file_upload', [
+                        'value' => trans('app.View'),
+                        'key' => 'xyz2',
+                        'upload' => 1,
+                        'download_route' => 'camp_application.document_download',
+                        'delete_route' => 'camp_application.document_delete',
+                        'full_width' => 1,
+                    ])
+                    @endcomponent
                 </div>
             </div>
         @endif

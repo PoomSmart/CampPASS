@@ -11,7 +11,11 @@
                 <div class="row justify-content-center mt-4">
                     <div class="profile-header-container">
                         <div class="profile-header-img">
-                            <img class="rounded-circle" src="{{ asset('images/profiles/Profile.jpg') }}"/>
+                            @php
+                                $genders = [ 'M', 'F' ];
+                                $gender = $genders[$user->gender % 2];
+                            @endphp
+                            <img class="rounded-circle" src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}"/>
                         </div>
                     </div>
                     <!--<input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">

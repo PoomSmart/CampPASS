@@ -64,10 +64,10 @@ class ProfileController extends Controller
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $user->update($request->all());
-        if ($request->hasFile('profile_picture')) {
+        if ($request->hasFile('--document--key--')) {
 
         }
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
     public function my_camps(User $user)
@@ -75,14 +75,21 @@ class ProfileController extends Controller
         if (!$user->isCamper())
             throw new \CampPASSException(trans('app.UnavailableFeature'));
         $this->authenticate($user, $me = true);
-        $output_registrations = [];
+        $categorized_registrations = [];
         foreach ($user->registrations as $registration) {
             $status = $registration->getStatus();
-            if (!isset($output_registrations[$status])) {
-                $output_registrations[$status] = [];
-            }
-            $output_registrations[$status][] = $registration;
+            if (!isset($categorized_registrations[$status]))
+                $categorized_registrations[$status] = [];
+            $categorized_registrations[$status][] = $registration;
         }
-        return view('profiles.my_camps', compact('output_registrations'));
+        return view('profiles.my_camps', compact('categorized_registrations'));
+    }
+
+    public function document_download($document)
+    {
+    }
+
+    public function document_delete($document)
+    {
     }
 }
