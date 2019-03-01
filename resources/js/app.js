@@ -52,7 +52,7 @@ function makeNotification(notification) {
 function routeNotification(notification) {
     var to = '?read=' + notification.id;
     if (notification.type === NOTIFICATION_TYPES.application_status) {
-        to = 'profile/notifications' + to;
+        to = `application/status/${notification.data.registration_id}${to}`
     }
     return '/' + to;
 }
