@@ -288,7 +288,7 @@ class CampApplicationController extends Controller
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
-        return redirect()->back()->with('success', "You withdrawed from {$camp}.");
+        return redirect()->back()->with('success', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
     /**
