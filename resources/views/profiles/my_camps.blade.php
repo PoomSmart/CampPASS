@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @foreach ($output_registrations as $status => $registrations)
+    @foreach ($categorized_registrations as $status => $registrations)
         <div class="container mt-4">
             <h3 class="mb-4">{{ $status }}</h3>
             @component('components.card_columns', [
