@@ -29,7 +29,7 @@
             $value = old($real_name, isset($object) ? $object->{$real_name} : '');
     @endphp
     @if (!$nowrapper)
-        <div class="col-md-6">
+        <div class="col-sm-6">
     @endif
         @component('components.input', [
             'name' => $real_name,
@@ -42,7 +42,7 @@
         @endcomponent
     @if (!$nowrapper)
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
     @endif
         @component('components.input', [
             'name' => $name_range,
