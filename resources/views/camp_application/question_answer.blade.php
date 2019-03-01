@@ -63,7 +63,7 @@
                         @elseif ($type == \App\Enums\QuestionType::FILE)
                             @component('components.file_upload', [
                                 'value' => $value,
-                                'key' => $value ? $json['answer_id'][$key] : null,
+                                'args' => $value ? $json['answer_id'][$key] : null,
                                 'upload' => 1,
                                 'download_route' => $value ? 'camp_application.answer_file_download' : null,
                                 'delete_route' => $value ? 'camp_application.answer_file_delete' : null,
