@@ -12,4 +12,5 @@ return [
     'ThankYouUsing' => 'Thank you for using our application!',
     'ScoreThresholdChanged' => 'เกณฑ์คะแนนใหม่ถูกบันทึกแล้ว',
     'QuestionsSaved' => 'คำถามถูกบันทึกแล้ว',
+    'AnswerSaved' => 'คำตอบถูกบันทึกแล้ว',
 ];

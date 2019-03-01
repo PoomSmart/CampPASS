@@ -12,5 +12,6 @@ return [
     'ThankYouUsing' => 'Thank you for using our application!',
     'ScoreThresholdChanged' => 'Score threshold has been changed.',
     'QuestionsSaved' => 'Questions are saved successfully.',
+    'AnswerSaved' => 'Answers are saved.',
 
 ];

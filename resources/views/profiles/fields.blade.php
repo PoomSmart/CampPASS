@@ -118,7 +118,7 @@
                     'attributes' => 'required',
                     'input_type' => 'select',
                     'objects' => $schools,
-                    'placeholder' => 'Select your school...',
+                    'placeholder' => trans('profile.SelectYourSchool'),
                 ])
                 @endcomponent
             </div>
@@ -216,7 +216,7 @@
                 'attributes' => 'required',
                 'input_type' => 'select',
                 'objects' => $provinces,
-                'placeholder' => 'Select your province...',
+                'placeholder' => trans('profile.SelectYourProvince'),
             ])
             @endcomponent
         </div>

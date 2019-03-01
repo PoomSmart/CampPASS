@@ -11,4 +11,6 @@ return [
     'ContactInformation' => 'Contact Information',
     'EmergencyContactInformation' => 'Emergency Contact Information',
     'UpdateProfile' => 'Update Profile',
+    'SelectYourProvince' => 'Select your province...',
+    'SelectYourSchool' => 'Select your school...',
 ];
