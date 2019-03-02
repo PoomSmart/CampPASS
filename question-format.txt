@@ -1,0 +1,64 @@
+// Question JSON Format
+
+// <question-type> : Type of the question
+// - Short Answer (Text)
+// - Paragraph
+// - Multiple choices
+// - Multiple checkboxes
+// - File
+
+{
+	"camp_id": <camp-id>,
+	// "type": Question IDs -> Question types
+	"type": {
+		"<camp-id>-<unique-id-1>": <question-type>,
+		"<camp-id>-<unique-id-2>": <question-type>,
+		"<camp-id>-<unique-id-3>": <question-type>,
+		...
+		"<camp-id>-<unique-id-n>": <question-type>
+	},
+	// "question": Question IDs -> Question titles
+	"question": {
+		"<camp-id>-<unique-id-1>": "Question 1 What is CampPASS",
+		"<camp-id>-<unique-id-2>": "Question 2 Introduce yourself",
+		"<camp-id>-<unique-id-3>": "Question 3 Choose the correct one",
+		...
+		"<camp-id>-<unique-id-n>": "Question n Anything you wanna say"
+	},
+	// "question_required": Question IDs -> Is question required?
+	"question_required": {
+		"<camp-id>-<unique-id-1>": "1",
+		"<camp-id>-<unique-id-1>": "1"
+	},
+	// "question_graded": Question IDs -> Must question be graded?
+	"question_graded": {
+		"<camp-id>-<unique-id-3>": "1",
+	},
+	// "radio": Question IDs (multiple choices) -> Correct choice IDs
+	"radio": {
+        "<camp-id>-<unique-id-3>": "<camp-id>-<unique-id-3.1>"
+    },
+	// "radio_label": Question IDs (multiple choices) -> Array of (Choice IDs -> Choice content)
+    "radio_label": {
+        "<camp-id>-<unique-id-3>": {
+            "<camp-id>-<unique-id-3.1>": "Choice 1",
+            "<camp-id>-<unique-id-3.2>": "Choice 2",
+            "<camp-id>-<unique-id-3.3>": "Choice 3"
+        },
+		...
+    },
+	// "radio_label": Question IDs (checkboxes) -> Array of (Checkbox IDs -> Checkbox content)
+    "checkbox_label": {
+        "<camp-id>-<unique-id-x>": {
+            "<camp-id>-<unique-id-x.1>": "Option 1",
+            "<camp-id>-<unique-id-x.2>": "Option 2",
+            "<camp-id>-<unique-id-x.3>": "Option 3"
+        },
+		...
+    }
+
+}
+
+// If a question must be graded, it must also be required
+// If a question is not required, don't need to put that in "question_required"
+// If a question doesn't need to be graded, don't need to put that in "question_graded"
