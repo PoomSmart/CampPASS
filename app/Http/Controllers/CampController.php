@@ -16,6 +16,7 @@ use App\Http\Requests\StoreCampRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 
 class CampController extends Controller
 {
@@ -150,12 +151,19 @@ class CampController extends Controller
      * Return the camps (filtered by column-value or neither) as a sort of array.
      * 
      */
-    public function get_camps($column = null, $value = null)
+    public function get_camps($query_pairs = null, bool $categorized = false)
     {
-        // TODO: Discuss about the order of camps ?
         $camps = Camp::allApproved();
-        if ($column && $value) {
-            $camps = $camps->where($column, $value);
+        if ($query_pairs) {
+            // Apply search query right away if there are any
+            $pair = $query_pairs[0];
+            $camps = $camps->where($pair[0], $pair[2] ? $pair[2] : '=', $pair[2] ? "%{$pair[1]}%" : $pair[1]);
+            unset($query_pairs[0]);
+            foreach ($query_pairs as $pair) {
+                $camps = $camps->orWhere($pair[0], $pair[2] ? $pair[2] : '=', $pair[2] ? "%{$pair[1]}%" : $pair[1]);
+            }
+        }
+        if (!$categorized) {
             $result = [];
             $camps->chunk(3, function ($chunk) use (&$result) {
                 foreach ($chunk as $camp) {
@@ -170,6 +178,8 @@ class CampController extends Controller
             $output_camps = [];
             $category_ids = [];
             $category_count = CampCategory::count();
+            // The maximum number that should not exceed, or we would otherwise do unnecessary work
+            $camps = $camps->limit($max_fetch * $category_count);
             $camps->chunk(3, function ($chunk) use (&$max_fetch, &$category_count, &$output_camps, &$category_ids) {
                 foreach ($chunk as $camp) {
                     $category = $camp->camp_category;
@@ -200,7 +210,11 @@ class CampController extends Controller
     
     public function browser()
     {
-        $data = $this->get_camps();
+        $query = Input::get('query', null);
+        $data = $this->get_camps($query_pairs = $query ? [
+            [ 'name_en', $query, 'LIKE', ],
+            [ 'name_th', $query, 'LIKE', ],
+        ] : null, $categorized = true);
         $categorized_camps = $data['categorized_camps'];
         $category_ids = $data['category_ids'];
         return view('camps.browser', compact('categorized_camps', 'category_ids'));
@@ -208,13 +222,17 @@ class CampController extends Controller
 
     public function by_category(CampCategory $record)
     {
-        $camps = $this->get_camps('camp_category_id', $record->id);
+        $camps = $this->get_camps($query_pairs = [
+            'camp_category_id', $record->id, null,
+        ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
 
     public function by_organization(Organization $record)
     {
-        $camps = $this->get_camps('organization_id', $record->id);
+        $camps = $this->get_camps($query_pairs = [
+            'organization_id', $record->id, null,
+        ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
 }
