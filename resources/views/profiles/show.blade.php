@@ -78,7 +78,7 @@
                             <div class="row">
                                 @foreach ($camps->get() as $camp)
                                     <div class="col-md-6">
-                                        <a href="{{ route ('camps.show', $camp) }}">{{ $camp }}</a>
+                                        <a href="{{ route('camps.show', $camp) }}">{{ $camp }}</a>
                                     </div>
                                 @endforeach
                             </div>
