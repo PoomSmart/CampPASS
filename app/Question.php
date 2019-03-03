@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'json_id', 'full_score', 'type',
+        'id', 'json_id', 'full_score', 'type',
     ];
 
     public function pair()

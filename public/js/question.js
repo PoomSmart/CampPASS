@@ -75,7 +75,7 @@ function readJSON(json) {
             case QuestionType.CHOICES:
                 if (id in json.radio_label) {
                     var choice_texts = json.radio_label[id];
-                    var selection = json.radio[id];
+                    var selection = json.radio && id in json.radio ? json.radio[id] : null;
                     addAdditionalContent(block, add, question_type, id, choice_texts, selection);
                 }
                 break;

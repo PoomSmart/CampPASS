@@ -42,7 +42,7 @@ class CandidateController extends Controller
         }
         $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
              // These unsubmitted forms by common sense should be rejected from the grading process at all
-            $query->where('registrations.status', ApplicationStatus::APPLIED);
+            $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
         });
         $total_registrations = $form_scores->count();
         if ($question_set->manual_required)
