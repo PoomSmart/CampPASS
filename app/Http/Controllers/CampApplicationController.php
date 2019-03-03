@@ -186,6 +186,8 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // A registration record will be created if not already
         $registration = $this->register($camp, $user);
+        if ($registration->rejected() || $registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = QuestionSet::where('camp_id', $camp->id)->first();
         $question_ids = $question_set->pairs()->get(['question_id']);
@@ -266,6 +268,8 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp);
         self::authenticate_registration($registration, $silent = $void);
+        if ($registration->rejected() || $registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->qualified())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
         $registration->update([
@@ -285,6 +289,8 @@ class CampApplicationController extends Controller
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
+        if ($registration->rejected())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
