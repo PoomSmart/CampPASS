@@ -1,7 +1,17 @@
 @extends('layouts.card')
 
+@section('script')
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("input[name='cgpa']").inputSpinner();
+        });
+    </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+@endsection
+
 @section('card_content')
-    <form method="POST" action="{{ route('profiles.update', \Auth::user()->id) }}" enctype="multipart/form-data">
+    <form id="form" method="POST" action="{{ route('profiles.update', \Auth::user()->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @php $type = \Auth::user()->type @endphp

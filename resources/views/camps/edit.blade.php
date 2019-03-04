@@ -5,8 +5,10 @@
     <script src="{{ asset('js/checkbox-require.js') }}"></script>
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
-        jQuery("input[name='min_cgpa']").inputSpinner();
-        jQuery("input[name='quota']").inputSpinner();
+        jQuery(document).ready(function () {
+            jQuery("input[name='min_cgpa']").inputSpinner();
+            jQuery("input[name='quota']").inputSpinner();
+        });
     </script>
 @endsection
 
