@@ -17,13 +17,19 @@ use Illuminate\Http\Request;
 
 class CandidateController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:camper-list');
+        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce']]);
+    }
+
     public function result(QuestionSet $question_set)
     {
         $form_scores = FormScore::with('registration')->where('question_set_id', $question_set->id)->where('finalized', true)->whereHas('registration', function ($query) {
-           $query->where('registrations.status', '>=', ApplicationStatus::APPROVED);
+           $query->where('status', '>=', ApplicationStatus::APPROVED);
         });
         if ($form_scores->doesntExist())
-            throw new \CampPASSException();
+            throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         $total = $form_scores->count();
         $summary = "Total: {$total}";
         $camp = $question_set->camp;
@@ -33,6 +39,8 @@ class CandidateController extends Controller
 
     public static function rank(QuestionSet $question_set, bool $list = false)
     {
+        if (!$question_set->finalized)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         $form_scores = FormScore::where('question_set_id', $question_set->id);
@@ -95,6 +103,8 @@ class CandidateController extends Controller
 
     public static function announce(QuestionSet $question_set, bool $void = false)
     {
+        if (!$question_set->finalized)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score passing the criteria

@@ -49,7 +49,6 @@ Route::group(['middleware' => ['auth']], function () {
         });
         Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
-    Route::resource('qualification', 'QualificationController');
     Route::prefix('qualification')->group(function () {
         Route::get('/form-grade/{registration}/{question_set}', 'QualificationController@form_grade')->name('qualification.form_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
