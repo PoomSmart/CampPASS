@@ -121,15 +121,29 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'min_cgpa',
-    'label' => trans('camp.MinCGPA'),
-    'type' => 'number',
-    'no_form_control_class' => 1,
-    'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
-    'object' => isset($object) ? $object : null,
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'min_cgpa',
+            'label' => trans('camp.MinCGPA'),
+            'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
+            'object' => isset($object) ? $object : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'quota',
+            'label' => trans('camp.Quota'),
+            'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=0 step=1',
+        ])
+        @endcomponent
+    </div>
+</div>
 
 @component('components.input', [
     'name' => 'other_conditions',
@@ -225,13 +239,4 @@
 
 <!-- TODO: Geolocation -->
 
-@component('components.input', [
-    'name' => 'quota',
-    'label' => trans('camp.Quota'),
-    'type' => 'number',
-    'no_form_control_class' => 1,
-    'attributes' => 'min=0 step=1',
-])
-@endcomponent
-
-@stop
+@endsection
