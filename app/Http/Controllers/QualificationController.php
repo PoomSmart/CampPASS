@@ -123,8 +123,8 @@ class QualificationController extends Controller
         // For all answers given, update all scores of those that will be manually graded
         $answers = $answers->get();
         foreach ($form_data as $id => $value) {
-            if (substr($id, 0, 19) === 'manual_score_range_') {
-                $key = substr($id, 19);
+            if (substr($id, 0, 13) === 'manual_score_') {
+                $key = substr($id, 13);
                 $answer = $answers->filter(function ($answer) use (&$key) {
                     return $answer->question->json_id == $key;
                 })->first();

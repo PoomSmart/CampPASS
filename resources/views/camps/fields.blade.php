@@ -121,12 +121,12 @@
 ])
 @endcomponent
 
-@component('components.numeric_range', [
+@component('components.input', [
     'name' => 'min_cgpa',
     'label' => trans('camp.MinCGPA'),
-    'min' => 1.0,
-    'max' => 4.0,
-    'step' => 0.01,
+    'type' => 'number',
+    'no_form_control_class' => 1,
+    'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
     'object' => isset($object) ? $object : null,
 ])
 @endcomponent
@@ -229,6 +229,8 @@
     'name' => 'quota',
     'label' => trans('camp.Quota'),
     'type' => 'number',
+    'no_form_control_class' => 1,
+    'attributes' => 'min=0 step=1',
 ])
 @endcomponent
 

@@ -2,8 +2,14 @@
 
 @section('script')
     <script src="{{ asset('js/question.js') }}"></script>
-    <script src="{{ asset('js/check-unsaved.js') }}"></script>
     <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("input[name='score_threshold']").inputSpinner();
+        });
+    </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
 @section('header')
@@ -18,13 +24,13 @@
     @endcomponent
     <form id="form" method="POST" action="{{ route('questions.store', $camp_id) }}">
         @csrf
-        @component('components.numeric_range', [
+        @component('components.input', [
             'name' => 'score_threshold',
             'label' => trans('question.ScoreThreshold'),
+            'type' => 'number',
             'placeholder' => trans('question.EnterThreshold'),
-            'min' => 0.01,
-            'max' => 1.0,
-            'step' => 0.01,
+            'no_form_control_class' => 1,
+            'attributes' => 'min=0.01 max=1.0 step=0.01 data-decimals=2',
             'object' => isset($object) ? $object : null,
         ])
         @endcomponent

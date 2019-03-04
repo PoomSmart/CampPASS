@@ -146,13 +146,13 @@
                 @endcomponent
             </div>
             <div class="col-12">
-                @component('components.numeric_range', [
+                @component('components.input', [
                     'name' => 'cgpa',
                     'label' => trans('camper.CGPA'),
+                    'type' => 'number',
                     'required' => 1,
-                    'min' => 1.0,
-                    'max' => 4.0,
-                    'step' => 0.01,
+                    'no_form_control_class' => 1,
+                    'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
                     'object' => isset($object) ? $object : null,
                 ])
                 @endcomponent

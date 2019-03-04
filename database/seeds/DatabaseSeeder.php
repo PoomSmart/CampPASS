@@ -188,10 +188,56 @@ class DatabaseSeeder extends Seeder
         return $camp_id.'-'.Common::randomString(10);
     }
 
+    private function generate_answers(&$camp, &$json, $json_id, $question_type, $question_set_id, $question_id, $question_full_score, $graded, &$answers, &$has_any_answers, &$can_manual_grade, &$multiple_radio_map, &$multiple_checkbox_map, &$faker)
+    {
+        // For each question, all campers who are eligible and registered get a chance to answer
+        foreach ($camp->registrations as $registration) {
+            // If the registration is in applied or chosen state, answers must be there
+            // If the registration is in draft state, answers may or may not be there
+            if (!(($registration->applied() || $registration->chosen()) || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
+                continue;
+            $answer = null;
+            switch ($question_type) {
+                case QuestionType::TEXT:
+                    $answer = $faker->text($maxNbChars = 15);
+                    break;
+                case QuestionType::PARAGRAPH:
+                    $answer = $faker->sentences($nb = rand(2, 4), $asText = true);
+                    break;
+                case QuestionType::CHOICES:
+                    // A bit of cheating in hope for seeded campers to get more scores
+                    $answer = Common::randomRareHit() && $graded ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
+                    break;
+                case QuestionType::CHECKBOXES:
+                    $count = rand(1, count($multiple_checkbox_map[$json_id]));
+                    $answer = array_rand($multiple_checkbox_map[$json_id], $count);
+                    if ($count == 1)
+                        $answer = [ $answer ];
+                    break;
+                case QuestionType::FILE:
+
+                    break;
+            }
+            $answer = QuestionManager::encodeIfNeeded($answer, $question_type);
+            $can_manual_grade = $graded;
+            $has_any_answers = true;
+            $answers[] = [
+                'question_set_id' => $question_set_id,
+                'question_id' => $question_id,
+                'camper_id' => $registration->camper_id,
+                'registration_id' => $registration->id,
+                'answer' => $answer,
+                // We take only the questions that need to be graded, i.e., full_score is set
+                // If the answer does not exist, this as much is of file type and we have yet to "seed" that
+                'score' => $answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score) : 0.0,
+            ];
+        }
+    }
+
     private function registrations_and_questions_and_answers()
     {
-        $minimum_questions = 6;
-        $maximum_questions = 15;
+        $minimum_questions = 5;
+        $maximum_questions = 10;
         $maximum_choices = 6;
         $maximum_checkboxes = 6;
         $faker = Faker\Factory::create();
@@ -263,6 +309,8 @@ class DatabaseSeeder extends Seeder
             $question_set_total_score = 0;
             $has_any_answers = false;
             $question_set_try_auto = false;
+            $multiple_radio_map = [];
+            $multiple_checkbox_map = [];
             if (Common::randomRareHit()) {
                 // Use the real question sets
                 $json_path = $question_set_seed_path.'/pre-puey-2.json';
@@ -281,16 +329,24 @@ class DatabaseSeeder extends Seeder
                         if ($key == 'checkbox_label' || $key == 'radio_label') {
                             foreach ($json[$key] as $id => $options) {
                                 $json[$key][$id] = array_combine(array_map(function($k) use (&$camp) { return "{$camp->id}-{$k}"; }, array_keys($json[$key][$id])), $json[$key][$id]);
+                                if ($key == 'radio_label')
+                                    $multiple_radio_map[$id] = $json[$key][$id];
+                                else
+                                    $multiple_checkbox_map[$id] = $json[$key][$id];
                             }
                         }
                     }
                 }
+                $self_question_id = $question_id;
                 QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? rand(1, 75) / 100.0 : null, $extra_question_set_info = [
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
                     'finalized' => $has_any_answers,
                 ], $question_id);
-                // TODO: Randomize answers for these real question sets?
+                foreach ($json['type'] as $json_id => $question_type) {
+                    $graded = isset($json['question_graded'][$json_id]);
+                    $this->generate_answers($camp, $json, $json_id, $question_type, $question_set_id, ++$self_question_id, $question_full_score, $graded, $answers, $has_any_answers, $can_manual_grade, $multiple_radio_map, $multiple_checkbox_map, $faker);
+                }
             } else {
                 $json = [];
                 // Biased setting to have some entirely auto-gradable question sets
@@ -324,8 +380,6 @@ class DatabaseSeeder extends Seeder
                         $json['question_required'][$json_id] = '1';
                     if ($graded)
                         $json['question_graded'][$json_id] = '1';
-                    $multiple_radio_map = [];
-                    $multiple_checkbox_map = [];
                     switch ($question_type) {
                         case QuestionType::TEXT:
                             if ($graded) $question_set_has_manual_grade = true;
@@ -338,7 +392,7 @@ class DatabaseSeeder extends Seeder
                             $json['radio_label'][$json_id] = [];
                             for ($i = 1; $i <= $choices_number; ++$i) {
                                 $choice_id = $this->randomID($camp->id);
-                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 40);
+                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 30);
                             }
                             $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
                             $correct_choice = array_rand($json['radio_label'][$json_id]);
@@ -350,7 +404,7 @@ class DatabaseSeeder extends Seeder
                             $json['checkbox_label'][$json_id] = [];
                             for ($i = 1; $i <= $checkboxes_number; ++$i) {
                                 $checkbox_id = $this->randomID($camp->id);
-                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 40);
+                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 30);
                             }
                             $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
                             break;
@@ -367,52 +421,7 @@ class DatabaseSeeder extends Seeder
                         'question_set_id' => $question_set_id,
                         'question_id' => $question_id,
                     ];
-                    if (Common::randomFrequentHit()) {
-                        // For each question, all campers who are eligible and registered get a chance to answer
-                        foreach ($camp->registrations as $registration) {
-                            // If the registration is in applied or chosen state, answers must be there
-                            // If the registration is in draft state, answers may or may not be there
-                            if (!(($registration->applied() || $registration->chosen()) || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
-                                continue;
-                            $answer = null;
-                            switch ($question_type) {
-                                case QuestionType::TEXT:
-                                    $answer = $faker->text($maxNbChars = 20);
-                                    break;
-                                case QuestionType::PARAGRAPH:
-                                    $answer = $faker->sentences($nb = rand(2, 5), $asText = true);
-                                    break;
-                                case QuestionType::CHOICES:
-                                    // A bit of cheating in hope for seeded campers to get more scores
-                                    $answer = Common::randomRareHit() ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
-                                    break;
-                                case QuestionType::CHECKBOXES:
-                                    $count = rand(1, count($multiple_checkbox_map[$json_id]));
-                                    $answer = array_rand($multiple_checkbox_map[$json_id], $count);
-                                    if ($count == 1)
-                                        $answer = [ $answer ];
-                                    break;
-                                case QuestionType::FILE:
-
-                                    break;
-                            }
-                            $answer = QuestionManager::encodeIfNeeded($answer, $question_type);
-                            $can_manual_grade = $graded;
-                            $has_any_answers = true;
-                            $answers[] = [
-                                'question_set_id' => $question_set_id,
-                                'question_id' => $question_id,
-                                'camper_id' => $registration->camper_id,
-                                'registration_id' => $registration->id,
-                                'answer' => $answer,
-                                // We take only the questions that need to be graded, i.e., full_score is set
-                                // If the answer does not exist, this as much is of file type and we have yet to "seed" that
-                                'score' => $answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score) : 0.0,
-                            ];
-                        }
-                    }
-                    unset($multiple_radio_map);
-                    unset($multiple_checkbox_map);
+                    $this->generate_answers($camp, $json, $json_id, $question_type, $question_set_id, $question_id, $question_full_score, $graded, $answers, $has_any_answers, $can_manual_grade, $multiple_radio_map, $multiple_checkbox_map, $faker);
                 }
                 $question_sets[] = [
                     'id' => $question_set_id,
@@ -430,6 +439,8 @@ class DatabaseSeeder extends Seeder
                 QuestionManager::writeQuestionJSON($camp->id, $json);
                 unset($json);
             }
+            unset($multiple_radio_map);
+            unset($multiple_checkbox_map);
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
             // We wouldn't normally create a form score record for any draft application forms

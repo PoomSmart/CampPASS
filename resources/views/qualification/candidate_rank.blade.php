@@ -1,8 +1,14 @@
 @extends('layouts.blank')
 
 @section('script')
-    <script src="{{ asset('js/check-unsaved.js') }}"></script>
     <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("input[name='score_threshold']").inputSpinner();
+        });
+    </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
 @section('header')
@@ -26,16 +32,15 @@
         <span class="mr-3">@lang('question.ScoreThreshold')</span>
         <form id="form" class="form-inline" method="POST" action="{{ route('questions.store', $camp->id) }}">
             @csrf
-            @component('components.numeric_range', [
+            @component('components.input', [
                 'name' => 'score_threshold',
+                'type' => 'number',
                 'placeholder' => trans('question.EnterThreshold'),
-                'min' => 0.01,
-                'max' => 1.0,
-                'step' => 0.01,
+                'no_form_control_class' => 1,
+                'attributes' => 'min=0.01 max=1.0 step=0.01 data-decimals=2',
                 'object' => $question_set,
                 'nowrapper' => 1,
-                'input_class' => 'mr-3',
-                'range_class' => 'mr-3',
+                'class' => 'mr-3',
             ])
             @endcomponent
             @component('components.submit', [

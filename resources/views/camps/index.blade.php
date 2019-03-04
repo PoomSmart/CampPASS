@@ -48,7 +48,7 @@
                     $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td><a href="{{ $question_set && $question_set->announced ? route('qualification.candidate_announce', $camp->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td><a href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $camp->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
             <td class="text-muted">{{ $camp->camp_procedure }}</td>
             <td class="text-muted">{{ $camp->gradingType() }}</td>
             <td class="text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>

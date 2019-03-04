@@ -1,5 +1,14 @@
 @extends('layouts.card')
 
+@section('script')
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("input[name^='manual_score_']").inputSpinner();
+        });
+    </script>
+@endsection
+
 @section('header')
     Application Form Grading
 @endsection
@@ -99,12 +108,11 @@
                             $full_score = $json['question_full_score'][$key];
                             $score = isset($json['question_scored'][$key]) ? $json['question_scored'][$key] : null;
                         @endphp
-                        @component('components.numeric_range', [
-                            'name' => 'manual_score',
-                            'range_id' => $key,
-                            'min' => 0.0,
-                            'max' => $full_score,
-                            'step' => 0.1,
+                        @component('components.input', [
+                            'name' => "manual_score_{$key}",
+                            'type' => 'number',
+                            'no_form_control_class' => 1,
+                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1",
                             'value' => $graded ? $score : null,
                             'readonly' => isset($json['question_lock'][$key]),
                             'object' => isset($object) ? $object : null,

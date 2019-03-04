@@ -3,6 +3,11 @@
 
 @section('script')
     <script src="{{ asset('js/checkbox-require.js') }}"></script>
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery("input[name='min_cgpa']").inputSpinner();
+        jQuery("input[name='quota']").inputSpinner();
+    </script>
 @endsection
 
 @section('header')
