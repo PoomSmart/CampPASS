@@ -51,8 +51,8 @@
         <div class="text-center">
             @component('components.submit', ['label' => trans('app.Save')])
             @endcomponent
-            <button class="btn btn-danger{{ isset($object) && $object->finalized ? ' disabled' : '' }}" type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}">{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
-            <button class="btn btn-success{{ isset($object) && $object->finalized ? ' disabled' : '' }}" type="button" onclick="addQuestion();">@lang('question.AddMoreQuestion')</button>
+            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}">{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
+            <button class="btn btn-success" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" onclick="addQuestion();">@lang('question.AddMoreQuestion')</button>
             <a class="btn btn-secondary" href="{{ route('camps.index') }}">@lang('app.Back')</a>
         </div>
     </form>
