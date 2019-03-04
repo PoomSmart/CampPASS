@@ -160,12 +160,21 @@ class Camp extends Model
     }
 
     /**
-     * Fetch all camps that have been approved.
+     * Fetch all the camps that have been approved.
      * 
      */
     public static function allApproved()
     {
         return self::where('approved', true);
+    }
+
+    /**
+     * Fetch all the camps that have not been approved.
+     * 
+     */
+    public static function allNotApproved()
+    {
+        return self::where('approved', false);
     }
 
     public static function popularCamps()

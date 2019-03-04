@@ -13,7 +13,8 @@ window.$ = window.jQuery = require('jquery');
 var notifications = [];
 
 const NOTIFICATION_TYPES = {
-    application_status: 'App\\Notifications\\ApplicationStatusUpdated'
+    application_status: 'App\\Notifications\\ApplicationStatusUpdated',
+    new_camp: 'App\\Notifications\\NewCampRegistered'
 };
 
 jQuery(document).ready(function () {
@@ -51,17 +52,21 @@ function makeNotification(notification) {
 
 function routeNotification(notification) {
     var to = '?read=' + notification.id;
-    if (notification.type === NOTIFICATION_TYPES.application_status) {
-        to = `application/status/${notification.data.registration_id}${to}`
+    switch (notification.type) {
+        case NOTIFICATION_TYPES.application_status:
+            to = `application/status/${notification.data.registration_id}${to}`;
+            break;
+        case NOTIFICATION_TYPES.new_camp:
+            // TODO: Should we rather filter camps.index to only have unapproved camps?
+            to = `camps${to}`;
+            break;
     }
     return '/' + to;
 }
 
 function makeNotificationText(notification) {
     var text = '';
-    if (notification.type === NOTIFICATION_TYPES.application_status) {
-        const content = notification.data.content;
-        text += '<strong>' + content + '</strong>';
-    }
+    const content = notification.data.content;
+    text += '<strong>' + content + '</strong>';
     return text;
 }

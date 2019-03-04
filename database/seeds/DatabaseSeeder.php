@@ -23,6 +23,8 @@ use App\Year;
 
 use App\Imports\ProvincesImport;
 
+use App\Notifications\NewCampRegistered;
+
 use App\BadgeController;
 use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\CandidateController;
@@ -547,6 +549,10 @@ class DatabaseSeeder extends Seeder
             'organization_id' => null,
         ]);
         $admin->activate();
+        // Notify the admin about unapproved camps
+        foreach (Camp::allNotApproved()->cursor() as $camp) {
+            $admin->notify(new NewCampRegistered($camp));
+        }
     }
 
     /**

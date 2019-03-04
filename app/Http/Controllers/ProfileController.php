@@ -78,7 +78,7 @@ class ProfileController extends Controller
 
     public function notifications()
     {
-        return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
+        return \Auth::user()->unreadNotifications()->limit(5)->get()->toArray();
     }
 
     public function my_camps(User $user)

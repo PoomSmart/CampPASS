@@ -1,7 +1,10 @@
 <?php
 
 use App\User;
+use App\Common;
+
 use Illuminate\Database\Seeder;
+
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -115,7 +118,7 @@ class PermissionTableSeeder extends Seeder
     public function setAdmin()
     {
         $role = Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());
-        $admin = User::where('type', config('const.account.admin'))->limit(1)->first();
+        $admin = Common::admin();
         $admin->assignRole('admin');
         $admin->save();
     }

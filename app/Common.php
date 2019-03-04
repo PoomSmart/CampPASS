@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\User;
+
 use App\Enums\QuestionType;
 
 use Illuminate\Support\Arr;
@@ -137,5 +139,10 @@ class Common
         if (!$request)
             $request = request();
         return $view->with('i', ($request->input('page', 1) - 1) * $max);
+    }
+
+    public static function admin()
+    {
+        return User::where('type', config('const.account.admin'))->limit(1)->first();
     }
 }

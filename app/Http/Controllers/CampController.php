@@ -12,6 +12,8 @@ use App\Region;
 use App\User;
 use App\Year;
 
+use App\Notifications\NewCampRegistered;
+
 use App\Http\Requests\StoreCampRequest;
 
 use Illuminate\Http\Request;
@@ -73,6 +75,8 @@ class CampController extends Controller
             $camp = Camp::create($request->all());
             if ($user->isAdmin())
                 $camp->approve();
+            else
+                Common::admin()->notify(new NewCampRegistered($camp));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', 'Camp failed to create.');
