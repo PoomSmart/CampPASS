@@ -10,6 +10,7 @@
             jQuery("input[name='quota']").inputSpinner();
         });
     </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
 @section('header')
@@ -17,7 +18,7 @@
 @endsection
 
 @section('card_content')
-    <form action="{{ route('camps.update', $object->id) }}" method="POST">
+    <form id="form" action="{{ route('camps.update', $object->id) }}" method="POST">
         @csrf
         @method('PUT')
         @yield('camp-fields')
