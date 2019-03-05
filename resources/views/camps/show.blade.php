@@ -57,6 +57,11 @@
             </div>
             <div class="row">
                 <div class="col-12">
+                    @if (!$camp->approved)
+                        @can('camp-approve')
+                            <a class="btn btn-warning w-100 mb-3" href="{{ route('camps.approve', $camp->id) }}">@lang('app.Approve')</a>
+                        @endcan
+                    @endif
                     @php
                         $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
                         $apply_text = $info['text'];

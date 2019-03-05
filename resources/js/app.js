@@ -47,7 +47,7 @@ function showNotifications(notifications, target) {
 function makeNotification(notification) {
     var to = routeNotification(notification);
     var notificationText = makeNotificationText(notification);
-    return `<li class="nav-link"><a class="nav-link" href="${to}">${notificationText}</a></li>`;
+    return `<li class="nav-link"><a class="nav-link" target="_blank" href="${to}">${notificationText}</a></li>`;
 }
 
 function routeNotification(notification) {
@@ -57,8 +57,7 @@ function routeNotification(notification) {
             to = `application/status/${notification.data.registration_id}${to}`;
             break;
         case NOTIFICATION_TYPES.new_camp:
-            // TODO: Should we rather filter camps.index to only have unapproved camps?
-            to = `camps${to}`;
+            to = `camps/${notification.data.camp_id}${to}`;
             break;
     }
     return '/' + to;

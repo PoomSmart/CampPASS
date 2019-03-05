@@ -60,10 +60,7 @@
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
-                        <form class="d-inline-block" action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
-                            @csrf
-                            <button type="submit" class="btn btn-warning">@lang('app.Approve')</button>
-                        </form>
+                        <a class="btn btn-warning" href="{{ route('camps.approve', $camp->id) }}">@lang('app.Approve')</a>
                     @endcan
                 @else
                     @can('question-edit')

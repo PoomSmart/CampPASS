@@ -84,15 +84,15 @@ class CampController extends Controller
         return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
     }
 
-    public function check(Camp $camp)
+    public function check(Camp $camp, bool $skip_check = false)
     {
-        if (!$camp->approved)
+        if (!$skip_check && !$camp->approved)
             throw new \CampPASSException(trans('camp.ApproveFirst'));
     }
 
     public function show(Camp $camp)
     {
-        $this->check($camp);
+        $this->check($camp, $skip_check = \Auth::user() && \Auth::user()->isAdmin());
         View::share('object', $camp);
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category'));
