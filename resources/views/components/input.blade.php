@@ -66,7 +66,7 @@
     @else
         <input type="{{ isset($type) ? $type : 'text' }}" value="{{ $value }}"
     @endif
-        id="{{ $name }}" 
+        id="{{ isset($id) ? $id : $name }}" 
         class="{{ !isset($no_form_control_class) ? 'form-control'.(isset($type) ? ' form-control-'.$type : '') : '' }}{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
         name="{{ $name }}"
         @if (isset($placeholder))

@@ -57,7 +57,7 @@
             <td class="text-muted">{{ $camp->gradingType() }}</td>
             <td class="text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
             <td class="text-center{{ $question_set ? ($question_set->announced ? ' text-success table-success' : ' text-danger table-danger') : null }}">{{ $question_set ? ($question_set->announced ? trans('app.Yes') : trans('app.No')) : trans('app.N/A') }}</td>
-            <td>
+            <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
                         <form class="d-inline-block" action="{{ route('camps.approve', $camp->id) }}" method="PATCH">
