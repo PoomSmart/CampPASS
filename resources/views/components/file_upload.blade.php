@@ -3,7 +3,9 @@
         <a class="btn btn-primary mx-1{{ isset($full_width) && $full_width ? ' w-100' : null }}" href="{{ route($download_route, $args) }}">{{ isset($value) ? $value : $key }}</a>
     @endif
     @if (isset($upload) && $upload)
-        <input type="file" class="form-control-file" name="{{ $name }}">
+        <label class="btn btn-secondary mb-0 mx-1{{ isset($full_width) && $full_width ? ' w-100' : null }}">
+            @lang('app.Upload') <input type="file" id="{{ $name }}" name="{{ $name }}" hidden>
+        </label>
     @endif
     @if (isset($delete_route))
         <a class="btn btn-danger mx-1{{ isset($full_width) && $full_width ? ' w-100' : null }}" href="{{ route($delete_route, $args) }}">@lang('app.Delete')</a>

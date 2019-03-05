@@ -10,7 +10,7 @@
     @if (isset($disabled) && $disabled)
         <script>
             jQuery(document).ready(function () {
-                jQuery(':input').attr('disabled', true);
+                jQuery('input:not(#transcript):not(#certificate)').attr('disabled', true);
             });
         </script>
     @else
