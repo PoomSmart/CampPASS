@@ -37,7 +37,7 @@
             <th>@lang('camp.GradingType')</th>
             <th>@lang('camp.Status')</th>
             <th>@lang('qualification.IsAnnounced')</th>
-            <th width="250px">@lang('app.Actions')</th>
+            <th>@lang('app.Actions')</th>
         </thead>
 	    @foreach ($camps as $camp)
 	    <tr>

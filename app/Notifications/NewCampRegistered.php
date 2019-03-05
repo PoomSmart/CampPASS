@@ -30,18 +30,22 @@ class NewCampRegistered extends Notification
         return "{$camp} is waiting for your approval.";
     }
 
+    public function toURL(Camp $camp)
+    {
+        return route('camps.show', $camp->id);
+    }
+
     public function toDatabase($notifiable)
     {
         return [
             'camp_id' => $this->camp->id,
             'content' => $this->toText($this->camp),
+            'url' => $this->toURL($this->camp),
         ];
     }
 
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        return $this->toDatabase($notifiable);
     }
 }

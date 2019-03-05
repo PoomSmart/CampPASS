@@ -101,8 +101,9 @@
                                 <a class="nav-link dropdown-toggle" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fas fa-bell"></i>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" id="notificationsMenu" style="min-width: 35rem;">
-                                    <li class="dropdown-header">@lang('app.NoNotifications')</li>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" style="min-width: 35rem;">
+                                    <div id="notificationsMenu"></div>
+                                    <li class="nav-link text-center"><a href="{{ route('notifications.index') }}"><strong>@lang('notification.SeeAllNotifications')</strong></a></li>
                                 </ul>
                             </li>
                         @endguest

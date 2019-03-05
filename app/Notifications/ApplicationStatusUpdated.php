@@ -39,6 +39,11 @@ class ApplicationStatusUpdated extends Notification implements ShouldQueue
                 return "Undefined";
         }
     }
+
+    public function toURL(Registration $registration)
+    {
+        return route('camp_application.status', $registration->id);
+    }
     
     public function toDatabase($notifiable)
     {
@@ -46,6 +51,7 @@ class ApplicationStatusUpdated extends Notification implements ShouldQueue
             'registration_id' => $this->registration->id,
             'status' => $this->registration->status,
             'content' => $this->toText($this->registration),
+            'url' => $this->toURL($this->registration),
         ];
     }
 

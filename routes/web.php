@@ -26,6 +26,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('users', 'UserController');
         Route::resource('roles', 'RoleController');
     });
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', 'NotificationController@index')->name('notifications.index');
+        Route::get('/notifications', 'NotificationController@notifications')->name('profiles.notifications');
+        Route::get('/all-notifications', 'NotificationController@all_notifications')->name('notifications.all_notifications');
+    });
     Route::prefix('camps')->group(function () {
         Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
         Route::get('/registration/{camp}', 'CampController@registration')->name('camps.registration');
@@ -59,7 +64,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/full-profile/{user}', 'ProfileController@show_detailed')->name('qualification.show_profile_detailed');
     });
     Route::prefix('profile')->group(function () {
-        Route::get('/notifications', 'ProfileController@notifications');
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
         Route::get('/document-delete/{user}/{type}', 'ProfileController@document_delete')->name('camp_application.document_delete');
     });
