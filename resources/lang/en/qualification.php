@@ -22,4 +22,7 @@ return [
     'FormSummary' => 'Total :camper_score/:total_score',
     'FormSummaryAuto' => 'Auto-gradable :auto_gradable/:total_auto_gradable - Total :camper_score/:total_score',
     'TotalPassedFailedAvgScore' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed / Average Score: :average_score',
+    'ViewDocuments' => 'View Documents',
+    'ReturnForm' => 'Return',
+    'ReturnFormFull' => 'Return the application form to the camper in case of document errors.',
 ];

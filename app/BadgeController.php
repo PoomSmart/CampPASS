@@ -50,7 +50,7 @@ class BadgeController
                     'earned_date' => now(),
                 ]);
             }
-            $registrations = $camper->registrations()->where('status', ApplicationStatus::QUALIFIED);
+            $registrations = $camper->registrations()->where('status', ApplicationStatus::CONFIRMED);
             if ($registrations->count() >= 10) {
                 // Attended 10 camps
                 if ($camper->badges()->where('badge_category_id', self::getPremiumBadgeID())->limit(1)->doesntExist()) {

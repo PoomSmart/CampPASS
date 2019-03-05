@@ -266,7 +266,7 @@ class DatabaseSeeder extends Seeder
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
-                    $status = Common::randomFrequentHit() ? ApplicationStatus::QUALIFIED : ApplicationStatus::DRAFT;
+                    $status = Common::randomFrequentHit() ? ApplicationStatus::CONFIRMED : ApplicationStatus::DRAFT;
                 else if ($camp_procedure->deposit_required) // Deposit Only
                     $status = ApplicationStatus::CHOSEN; // TODO: We have yet to seed payment slips
                 else // Anything else with QA
@@ -340,15 +340,17 @@ class DatabaseSeeder extends Seeder
                     }
                 }
                 $self_question_id = $question_id;
-                QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? rand(1, 75) / 100.0 : null, $extra_question_set_info = [
+                $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? rand(1, 75) / 100.0 : null, $extra_question_set_info = [
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
-                    'finalized' => $has_any_answers,
                 ], $question_id);
                 foreach ($json['type'] as $json_id => $question_type) {
                     $graded = isset($json['question_graded'][$json_id]);
                     $this->generate_answers($camp, $json, $json_id, $question_type, $question_set_id, ++$self_question_id, $question_full_score, $graded, $answers, $has_any_answers, $can_manual_grade, $multiple_radio_map, $multiple_checkbox_map, $faker);
                 }
+                $question_set->update([
+                    'finalized' => $has_any_answers,
+                ]);
             } else {
                 $json = [];
                 // Biased setting to have some entirely auto-gradable question sets

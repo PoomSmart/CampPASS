@@ -24,7 +24,7 @@
         @endcomponent
         @component('components.submit', [
             'label' => trans('app.Submit'),
-            'attributes' => 'w-50',
+            'class' => 'w-50',
         ])
         @endcomponent
     {!! Form::close() !!}

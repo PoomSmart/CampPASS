@@ -27,7 +27,7 @@
         <div class="text-center">
             @component('components.submit', [
                 'label' => trans('app.Submit'),
-                'attributes' => 'w-50 mt-4',
+                'class' => 'w-50 mt-4',
             ])
             @endcomponent
         </div>

@@ -10,7 +10,7 @@
             <div class="col-12 col-sm-12 col-md-9">
                 <div class="form-group row">
                     <label for="question-type" class="col-12 col-sm-2 col-md-2 col-form-label text-sm-left text-md-right">@lang('question.Type')</label>
-                    <div class="col-sm-10 col-md-10">    
+                    <div class="col-sm-10 col-md-10">
                         <div class="input-group">
                             @component('components.select', [
                                 'id' => 'question-type',
@@ -21,11 +21,19 @@
                                 'disabled' => $finalized,
                             ])
                             @endcomponent
-                            @if (!$finalized)
-                                <div class="input-group-append">
-                                    <a href="#" id="question-delete" class="btn btn-danger" onclick="return deleteQuestion(this);">@lang('app.Delete')</a>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id="question-required" name="question_required[{{ $camp_id }}-00000]" aria-label="Check to require answer for this question">
+                                    <span class="ml-1">@lang('app.Required')</span>
                                 </div>
-                            @endif
+                                <div class="input-group-text">
+                                    <input type="checkbox" id="question-graded" name="question_graded[{{ $camp_id }}-00000]" aria-label="Check to require this question to be graded">
+                                    <span class="ml-1">@lang('question.GradingRequired')</span>
+                                </div>
+                                @if (!$finalized)
+                                    <a href="#" id="question-delete" class="btn btn-danger" onclick="return deleteQuestion(this);">@lang('app.Delete')</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,19 +43,16 @@
         <div class="form-group row">
             <label for="question" class="col-sm-12 col-md-3 col-form-label">{{ $label }}</label>
             <div class="col-sm-12 col-md-9">
-                <div class="input-group">
-                    <input type="text" required {{ $finalized ? 'disabled' : null }} autocomplete="disabled" class="form-control" id="question" name="question[{{ $camp_id }}-00000]" placeholder="@lang('question.EnterQuestionPlaceholder')">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <input type="checkbox" id="question-required" name="question_required[{{ $camp_id }}-00000]" aria-label="Check to require answer for this question">
-                            <span class="ml-1">@lang('app.Required')</span>
-                        </div>
-                        <div class="input-group-text">
-                            <input type="checkbox" id="question-graded" name="question_graded[{{ $camp_id }}-00000]" aria-label="Check to require this question to be graded">
-                            <span class="ml-1">@lang('question.GradingRequired')</span>
-                        </div>
-                    </div>
-                </div>
+                @component('components.input', [
+                    'name' => "question[{$camp_id}-00000]",
+                    'id' => 'question',
+                    'textarea' => 1,
+                    'required' => 1,
+                    'disabled' => $finalized,
+                    'attributes' => 'autocomplete="disabled"',
+                    'placeholder' => trans('question.EnterQuestionPlaceholder'),
+                ])
+                @endcomponent
             </div>
         </div>
         <script>

@@ -37,7 +37,7 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_returned = true)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -48,8 +48,10 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         }
-        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) {
-             // These unsubmitted forms by common sense should be rejected from the grading process at all
+        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) use (&$with_returned) {
+            // These unsubmitted forms by common sense should be rejected from the grading process at all
+            if (!$with_returned)
+                $query->where('registrations.returned', false);
             $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
         });
         $total_registrations = $form_scores->count();
@@ -89,6 +91,7 @@ class CandidateController extends Controller
         if ($list)
             return $form_scores_get;
         $average_score /= $total_registrations;
+        $average_score = number_format($average_score, 2);
         $total_failed = $total_registrations - $total_candidates;
         $summary = trans('qualification.TotalPassedFailedAvgScore', [
             'total_registrations' => $total_registrations,
@@ -109,7 +112,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score passing the criteria
         $no_passed = 0;
-        $form_scores = self::rank($question_set, $list = true);
+        $form_scores = self::rank($question_set, $list = true, $with_returned = false);
         if ($form_scores) {
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed) {
                 if ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold)

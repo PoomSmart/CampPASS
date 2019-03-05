@@ -74,10 +74,9 @@ class QuestionManager
                     unset($content['_token']);
                 $content['camp_id'] = $camp->id;
                 self::writeQuestionJSON($camp->id, $content);
-                return true;
             }
         }
-        return false;
+        return $question_set;
     }
 
     public static function getQuestionJSON($camp_id, bool $encode = false, bool $graded = false)

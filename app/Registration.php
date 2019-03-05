@@ -112,6 +112,6 @@ class Registration extends Model
 
     public function qualified()
     {
-        return $this->status == ApplicationStatus::QUALIFIED;
+        return $this->status == ApplicationStatus::CONFIRMED;
     }
 }

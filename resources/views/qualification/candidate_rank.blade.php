@@ -40,11 +40,11 @@
                 'attributes' => 'min=0.01 max=1.0 step=0.01 data-decimals=2',
                 'object' => $question_set,
                 'nowrapper' => 1,
-                'class' => 'mr-3',
             ])
             @endcomponent
             @component('components.submit', [
                 'label' => trans('app.Save'),
+                'class' => 'ml-3',
             ])
             @endcomponent
         </form>
@@ -60,7 +60,8 @@
             <th>@lang('app.No_')</th>
             <th>@lang('account.FullName')</th>
             <th>@lang('qualification.Score')</th>
-            <th>@lang('qualification.Passed')</th>
+            <th class="fit">@lang('qualification.Passed')</th>
+            <th>@lang('app.Actions')</th>
         </thead>
         @php
             $i = $passed = 0;
@@ -79,9 +80,13 @@
                     <td>{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                     @php
                         $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
+                        if ($camper_passed) ++$passed;
                     @endphp
                     <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $camper_passed ? trans('app.Yes') : trans('app.No') }}</td>
-                    @php if ($camper_passed) ++$passed; @endphp
+                    <td class="fit">
+                        <a href="#" class="btn btn-info">@lang('qualification.ViewDocuments')</a>
+                        <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                    </td>
                 </tr>
             @endforeach
         @endif

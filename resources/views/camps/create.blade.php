@@ -23,7 +23,7 @@
         @yield('camp-fields')
         <div class="text-center mt-4">
             @component('components.submit', [
-                'attributes' => 'w-50',
+                'class' => 'w-50',
             ])
             @endcomponent
         </div>

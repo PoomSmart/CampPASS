@@ -16,6 +16,6 @@ final class ApplicationStatus extends BasicEnum
 			INTERVIEWED = 6,
 			PAID = 7,
 			APPROVED = 8,
-			QUALIFIED = 9
+			CONFIRMED = 9
     ;
 }

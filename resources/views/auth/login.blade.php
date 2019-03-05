@@ -30,7 +30,9 @@
             <label class="form-check-label" for="remember">@lang('account.RememberMe')</label>
         </div>
         <div class="text-center">
-            @component('components.submit', ['label' => trans('app.Login')])
+            @component('components.submit', [
+                'label' => trans('app.Login'),
+            ])
             @endcomponent
             @if (Route::has('password.request'))
                 <a class="btn btn-link" href="{{ route('password.request') }}">@lang('account.ForgotYourPassword')</a>
