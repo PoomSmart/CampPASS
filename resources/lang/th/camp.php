@@ -44,7 +44,6 @@ return [
     'RecommendedCamps' => 'ค่ายที่แนะนำ',
     'SelectCampApplication' => 'เลือกประเภทการสมัครค่าย...',
     'SelectOrganization' => 'เลือกองค์กร...',
-    'ViewAllCamps' => 'ค่ายทั้งหมด',
     'InterviewDate' => 'วันสัมภาษณ์',
     'InterviewInformation' => 'รายละเอียดการสัมภาษณ์',
     'AnnouncementDate' => 'วันประกาศผล',

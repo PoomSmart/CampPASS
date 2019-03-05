@@ -44,7 +44,6 @@ return [
     'RecommendedCamps' => 'Recommended Camps',
     'SelectCampApplication' => 'Select Camp Application Type...',
     'SelectOrganization' => 'Select Organization...',
-    'ViewAllCamps' => 'View All Camps',
     'InterviewDate' => 'Interview Date',
     'InterviewInformation' => 'Interview Information',
     'AnnouncementDate' => 'Announcement Date',
