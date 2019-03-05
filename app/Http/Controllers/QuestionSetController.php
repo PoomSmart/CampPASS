@@ -27,8 +27,8 @@ class QuestionSetController extends Controller
     {
         Common::authenticate_camp($camp);
         $content = $request->all();
-        QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('score_threshold'));
-        if (!$question->finalized)
+        $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('score_threshold'));
+        if (!$question_set->finalized)
             return redirect()->back()->with('success', trans('message.QuestionsSaved'));
         return redirect()->back()->with('success', trans('message.ScoreThresholdChanged'));
     }
