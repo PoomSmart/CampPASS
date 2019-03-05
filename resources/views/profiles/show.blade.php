@@ -22,7 +22,7 @@
                 $genders = [ 'M', 'F' ];
                 $gender = $genders[$user->gender % 2];
             @endphp
-            <img src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}" alt="{{ $alt }}" title="{{ $alt }}" class="img-circle">
+            <img src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}" alt="{{ $alt }}" title="{{ $alt }}" class="rounded-circle">
         </div>
         <div class="col-md-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>

@@ -22,7 +22,7 @@ return [
     'FormSummary' => 'คะแนนรวม :camper_score จาก :total_score คะแนน',
     'FormSummaryAuto' => 'ตรวจอัตโนมัติ :auto_gradable จาก :total_auto_gradable - คะแนนรวม :camper_score จาก :total_score คะแนน',
     'TotalPassedFailedAvgScore' => 'จำนวนทั้งหมด: :total_registrations / ผ่าน: :total_candidates / ตก: :total_failed / คะแนนเฉลี่ย: :average_score',
-    'ViewDocuments' => 'ดูเอกสาร',
+    'ViewProfile' => 'ดูโปรไฟล์',
     'ReturnForm' => 'ส่งกลับ',
     'ReturnFormFull' => 'ส่งฟอร์มกลับในกรณีที่มีความผิดพลาดเกี่ยวกับเอกสารที่จำเป็นจากผู้เข้าค่าย',
 ];

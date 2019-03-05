@@ -76,7 +76,7 @@
                 @endphp
                 <tr>
                     <th scope="row">{{ ++$i }}</th>
-                    <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
+                    <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                     <td>{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                     @php
                         $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold);
@@ -84,7 +84,7 @@
                     @endphp
                     <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $camper_passed ? trans('app.Yes') : trans('app.No') }}</td>
                     <td class="fit">
-                        <a href="#" class="btn btn-info">@lang('qualification.ViewDocuments')</a>
+                        <a href="{{ route('profiles.show', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
                         <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
                     </td>
                 </tr>
