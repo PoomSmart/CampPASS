@@ -40,11 +40,11 @@
                 'attributes' => 'min=0.01 max=1.0 step=0.01 data-decimals=2',
                 'object' => $question_set,
                 'nowrapper' => 1,
-                'class' => 'mr-3',
             ])
             @endcomponent
             @component('components.submit', [
                 'label' => trans('app.Save'),
+                'class' => 'ml-3',
             ])
             @endcomponent
         </form>

@@ -43,7 +43,7 @@
                 <div class="text-center mt-4">
                     @component('components.submit', [
                         'label' => trans('app.Update'),
-                        'attributes' => 'w-50',
+                        'class' => 'w-50',
                     ])
                     @endcomponent
                 </div>
