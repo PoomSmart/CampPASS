@@ -8,6 +8,7 @@ return [
     'FILE' => 'File upload',
     'Type' => 'Type',
     'Graded' => 'Graded',
+    'GradingRequired' => 'Gradable',
     'Question' => 'Question',
     'Questions' => 'Questions',
     'CreateQuestions' => 'Create Questions',

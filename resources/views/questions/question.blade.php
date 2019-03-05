@@ -44,7 +44,7 @@
                         </div>
                         <div class="input-group-text">
                             <input type="checkbox" id="question-graded" name="question_graded[{{ $camp_id }}-00000]" aria-label="Check to require this question to be graded">
-                            <span class="ml-1">@lang('question.Graded')</span>
+                            <span class="ml-1">@lang('question.GradingRequired')</span>
                         </div>
                     </div>
                 </div>

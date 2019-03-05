@@ -8,6 +8,7 @@ return [
     'FILE' => 'อัปโหลดไฟล์',
     'Type' => 'ประเภท',
     'Graded' => 'ตรวจแล้ว',
+    'GradingRequired' => 'ต้องตรวจ',
     'Question' => 'คำถาม',
     'Questions' => 'คำถาม',
     'CreateQuestions' => 'สร้างคำถาม',
