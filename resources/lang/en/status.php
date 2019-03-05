@@ -5,8 +5,8 @@ return [
     'Application' => 'Application',
     'Interview Placeholder' => 'Interview Placeholder',
     'Interview' => 'Interview',
-    'Qualification Placeholder' => 'Qualification Placeholder',
-    'Qualification' => 'Qualification',
+    'Confirmation Placeholder' => 'Confirmation Placeholder',
+    'Confirmation' => 'Confirmation',
     'Deposit Placeholder' => 'Deposit Placeholder',
     'Deposit' => 'Deposit',
 ];

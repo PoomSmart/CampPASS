@@ -266,7 +266,7 @@ class DatabaseSeeder extends Seeder
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
-                    $status = Common::randomFrequentHit() ? ApplicationStatus::QUALIFIED : ApplicationStatus::DRAFT;
+                    $status = Common::randomFrequentHit() ? ApplicationStatus::CONFIRMED : ApplicationStatus::DRAFT;
                 else if ($camp_procedure->deposit_required) // Deposit Only
                     $status = ApplicationStatus::CHOSEN; // TODO: We have yet to seed payment slips
                 else // Anything else with QA

@@ -175,7 +175,7 @@ class CampApplicationController extends Controller
             return self::status($registration);
         }
         // Stage: Apply (right away)
-        return self::submit_application_form($camp, $status = ApplicationStatus::QUALIFIED);
+        return self::submit_application_form($camp, $status = ApplicationStatus::CONFIRMED);
     }
 
     public function store(Request $request)
@@ -273,7 +273,7 @@ class CampApplicationController extends Controller
         if ($registration->qualified())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
         $registration->update([
-            'status' => ApplicationStatus::QUALIFIED,
+            'status' => ApplicationStatus::CONFIRMED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)

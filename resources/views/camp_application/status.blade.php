@@ -113,10 +113,10 @@
         @endif
         
         <div class="col-md-4">
-            <img src="{{ asset('/images/placeholders/Status - Qualification.png') }}" alt="Qualification" class="pb-3 w-100">
+            <img src="{{ asset('/images/placeholders/Status - Confirmation.png') }}" alt={{ trans('status.Confirmation') }} class="pb-3 w-100">
         </div>
         <div class="col-md-8">
-            <h4 class="mb-4">@lang('status.Qualification')</h4>
+            <h4 class="mb-4">@lang('status.Confirmation')</h4>
             @if ($registration->approved_to_qualified()
                 && ($camp_procedure->interview_required ? $registration->interviewed() : true)
                 && ($camp_procedure->deposit_required ? $registration->paid() : true))

@@ -9,7 +9,7 @@ return [
     'CHOSEN' => 'Chosen',
     'INTERVIEWED' => 'Interviewed',
     'PAID' => 'Paid',
-    'QUALIFIED' => 'Qualified',
+    'CONFIRMED' => 'Confirmed',
     'Withdraw' => 'Withdraw',
     'ID' => 'Application ID',
     'Apply' => 'Apply Now',
