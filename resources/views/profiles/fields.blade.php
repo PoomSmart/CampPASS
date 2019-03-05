@@ -194,7 +194,6 @@
                         'delete_route' => $disabled ? null : 'camp_application.document_delete',
                         'full_width' => 1,
                         'name' => 'certificate',
-
                     ])
                     @endcomponent
                 </div>

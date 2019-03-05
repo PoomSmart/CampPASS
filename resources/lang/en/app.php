@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'You' => 'You',
     'OK' => 'OK',
     'ID' => 'ID',
     'No_' => 'No.',
