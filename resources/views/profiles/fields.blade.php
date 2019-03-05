@@ -1,7 +1,10 @@
 @php
     $camper = $type == config('const.account.camper') ? 1 : null;
+    $disabled = isset($disabled) && $disabled;
 @endphp
-<h3 class="mt-4">@lang('profile.AboutYou')</h3>
+<h3 class="mt-4">@lang('profile.About', [
+        'entity' => $object->id == \Auth::user()->id ? trans('app.You') : $object->getFullName(),
+    ])</h3>
     <div class="row">
         <div class="col-md-6">
             @component('components.input', [
@@ -83,7 +86,7 @@
             ])
             @endcomponent
         </div>
-        @if (isset($camper))
+        @if (isset($camper) || $disabled)
             <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'blood_group',
@@ -108,7 +111,7 @@
         </div>
     </div>
 
-    @if (isset($camper))
+    @if (isset($camper) || $disabled)
         <h3 class="mt-4">@lang('account.Education')</h3>
         <div class="row">
             <div class="col-12">
@@ -159,7 +162,7 @@
             </div>
         </div>
 
-        @if (isset($update))
+        @if (isset($update) || $disabled)
             <h3 class="mt-4">@lang('profile.StudentDocuments')</h3>
             <div class="row">
                 <h4 class="col-12 mt-2">@lang('profile.Transcript')</h4>
@@ -239,7 +242,7 @@
         </div>
     </div>
 
-    @if (isset($camper))
+    @if (isset($camper) || $disabled)
         <h3 class="mt-4">@lang('profile.EmergencyContactInformation')</h3>
         <div class="row">
             <div class="col-md-6">
@@ -291,51 +294,53 @@
             </div>
         </div>
     @endif
-    
-    <h3 class="mt-4">@lang('account.Account')</h3>
-    <div class="row">
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'username',
-                'label' => trans('account.Username'),
-                'attributes' => 'required',
-            ])
-            @endcomponent
-        </div>
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'email',
-                'label' => trans('account.Email'),
-                'type' => 'email',
-                'attributes' => 'required',
-            ])
-            @endcomponent
-        </div>
-        @if (isset($update))
+
+    @role('camper')
+        <h3 class="mt-4">@lang('account.Account')</h3>
+        <div class="row">
             <div class="col-12">
                 @component('components.input', [
-                    'name' => 'current_password',
-                    'label' => trans('account.CurrentPassword'),
+                    'name' => 'username',
+                    'label' => trans('account.Username'),
+                    'attributes' => 'required',
+                ])
+                @endcomponent
+            </div>
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'email',
+                    'label' => trans('account.Email'),
+                    'type' => 'email',
+                    'attributes' => 'required',
+                ])
+                @endcomponent
+            </div>
+            @if (isset($update))
+                <div class="col-12">
+                    @component('components.input', [
+                        'name' => 'current_password',
+                        'label' => trans('account.CurrentPassword'),
+                        'type' => 'password',
+                    ])
+                    @endcomponent
+                </div>
+            @endif
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'password',
+                    'label' => trans('account.Password'),
+                    'type' => 'password',
+                    'value' => '',
+                ])
+                @endcomponent
+            </div>
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'password_confirmation',
+                    'label' => trans('account.ConfirmPassword'),
                     'type' => 'password',
                 ])
                 @endcomponent
             </div>
-        @endif
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'password',
-                'label' => trans('account.Password'),
-                'type' => 'password',
-                'value' => '',
-            ])
-            @endcomponent
         </div>
-        <div class="col-12">
-            @component('components.input', [
-                'name' => 'password_confirmation',
-                'label' => trans('account.ConfirmPassword'),
-                'type' => 'password',
-            ])
-            @endcomponent
-        </div>
-    </div>
+    @endif

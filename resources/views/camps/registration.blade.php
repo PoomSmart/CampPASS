@@ -54,13 +54,13 @@
                             @if ($candidate_required)
                                 <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
-                            <td>
+                            <td class="fit">
                                 @if ($rankable)
                                     <a class="btn btn-info{{ (!$registration->submitted() && !\Auth::user()->isAdmin()) ? ' disabled' : null }}"
                                         href="{{ route('qualification.form_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
-                                        ]) }}">@lang('app.View')</a>
+                                        ]) }}">@lang('qualification.ViewForm')</a>
                                 @endif
                             </td>
                         </tr>

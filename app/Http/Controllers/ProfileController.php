@@ -22,7 +22,7 @@ class ProfileController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth', ['only' => ['index', 'edit', 'update', 'my_camps']]);
+        $this->middleware('auth', ['only' => ['index', 'edit', 'update', 'my_camps', 'show_detailed']]);
         $this->organizations = null;
     }
 
@@ -48,9 +48,17 @@ class ProfileController extends Controller
         return view('profiles.show', compact('user', 'badges'));
     }
 
-    public function edit(User $user)
+    public function show_detailed(User $user)
     {
-        $this->authenticate($user, $me = true);
+        if (\Auth::user()->isCamper())
+            throw new \CampPASSExceptionPermission();
+        View::share('disabled', true);
+        return $this->edit($user, $me = false);
+    }
+
+    public function edit(User $user, bool $me = true)
+    {
+        $this->authenticate($user, $me = $me);
         $religions = Common::values(Religion::class);
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);

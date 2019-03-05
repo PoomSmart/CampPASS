@@ -7,7 +7,15 @@
             jQuery("input[name='cgpa']").inputSpinner();
         });
     </script>
-    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @if (isset($disabled) && $disabled)
+        <script>
+            jQuery(document).ready(function () {
+                jQuery(':input').attr('disabled', true);
+            });
+        </script>
+    @else
+        <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @endif
 @endsection
 
 @section('card_content')
@@ -28,8 +36,10 @@
                             <img class="rounded-circle" src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}"/>
                         </div>
                     </div>
-                    <button class="btn btn-primary w-100 mt-3 mx-2">@lang('profile.UploadPicture')</button>
-                    <button class="btn btn-danger w-100 mt-3 mx-2">@lang('profile.DeletePicture')</button>
+                    @role('camper')
+                        <button class="btn btn-primary w-100 mt-3 mx-2">@lang('profile.UploadPicture')</button>
+                        <button class="btn btn-danger w-100 mt-3 mx-2">@lang('profile.DeletePicture')</button>
+                    @endrole
                 </div>
             </div>
             <div class="col-md-9">
@@ -38,13 +48,15 @@
                     'type' => $type,
                     'update' => 1,
                 ])
-                <div class="text-center mt-4">
-                    @component('components.submit', [
-                        'label' => trans('app.Update'),
-                        'class' => 'w-50',
-                    ])
-                    @endcomponent
-                </div>
+                @role('camper')
+                    <div class="text-center mt-4">
+                        @component('components.submit', [
+                            'label' => trans('app.Update'),
+                            'class' => 'w-50',
+                        ])
+                        @endcomponent
+                    </div>
+                @endrole
             </div>
         </div>
     </form>

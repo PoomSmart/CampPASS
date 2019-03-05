@@ -4,7 +4,7 @@ return [
     'ProfilePicture' => 'รูปโปรไฟล์',
     'UploadPicture' => 'อัพโหลดรูป',
     'DeletePicture' => 'ลบรูป',
-    'AboutYou' => 'เกี่ยวกับคุณ',
+    'About' => 'เกี่ยวกับ :entity',
     'StudentDocuments' => 'เอกสารต่างๆ',
     'Transcript' => 'ปพ. 1',
     'StudentCertificate' => 'ปพ. 7',
@@ -13,5 +13,4 @@ return [
     'UpdateProfile' => 'แก้ไขโปรไฟล์',
     'SelectYourProvince' => 'เลือกจังหวัดของคุณ...',
     'SelectYourSchool' => 'เลือกโรงเรียนของคุณ...',
-
 ];

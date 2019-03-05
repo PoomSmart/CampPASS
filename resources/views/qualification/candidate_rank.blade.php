@@ -84,7 +84,7 @@
                     @endphp
                     <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $camper_passed ? trans('app.Yes') : trans('app.No') }}</td>
                     <td class="fit">
-                        <a href="{{ route('profiles.show', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                        <a href="{{ route('qualification.show_profile_detailed', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
                         <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
                     </td>
                 </tr>
