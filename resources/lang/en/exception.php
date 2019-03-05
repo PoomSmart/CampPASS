@@ -21,11 +21,10 @@ return [
     'CannotGradeUnsubmittedForm' => 'You cannot grade the answers of an unsubmitted form.',
     'CannotGradeFormWithoutQuestions' => 'You cannot grade the answers of the application form without questions.',
     'CannotUpdateFinalizedForm' => 'You cannot update the finalized application form.',
-    'NoAnswersSaved' => 'ไม่มีคำตอบเพื่อบันทีก',
+    'NoAnswersSaved' => 'No answers to be saved.',
     'CannotFinalizeUnsubmitForm' => 'You cannot finalize unsubmitted application forms.',
     'QuestionSetFinalize' => 'This question set has been finalized.',
     'NoQuestionsSave' => 'There are no questions to be saved.',
     'QuestionSetAlreadyFinalize' => 'This question set has already been finalized.',
     'FileNotFound' => 'The specified file could not be found.',
-    '' => '',
 ];

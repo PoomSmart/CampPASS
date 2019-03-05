@@ -173,9 +173,9 @@
                             'user' => \Auth::user()->id,
                             'type' => 'transcript',
                         ],
-                        'upload' => 1,
+                        'upload' => !$disabled,
                         'download_route' => 'camp_application.document_download',
-                        'delete_route' => 'camp_application.document_delete',
+                        'delete_route' => $disabled ? null : 'camp_application.document_delete',
                         'full_width' => 1,
                         'name' => 'transcript',
                     ])
@@ -189,9 +189,9 @@
                             'user' => \Auth::user()->id,
                             'type' => 'certificate',
                         ],
-                        'upload' => 1,
+                        'upload' => !$disabled,
                         'download_route' => 'camp_application.document_download',
-                        'delete_route' => 'camp_application.document_delete',
+                        'delete_route' => $disabled ? null : 'camp_application.document_delete',
                         'full_width' => 1,
                         'name' => 'certificate',
 
