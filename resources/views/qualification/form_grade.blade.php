@@ -39,7 +39,7 @@
                 $answer = $pair['answer'];
             @endphp
             <div class="row mb-3">
-                <div class="col-md-8">
+                <div class="col-lg-8">
                     <div class="row">
                         <div class="col-12">
                             <h4 id="question-title">{{ $json['question'][$key] }}</h4>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 my-auto">
+                <div class="col-lg-4 my-auto">
                     @if (isset($json['question_graded'][$key]))
                         @php
                             $full_score = $json['question_full_score'][$key];
