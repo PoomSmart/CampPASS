@@ -61,7 +61,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'surname_en' => $surname,
         'nickname_en' => $faker->word,
         'nationality' => rand(0, 1),
-        'gender' => Common::randomMediumHit() ? Gender::FEMALE : Gender::any(),
+        'gender' => Common::randomRareHit() ? Gender::FEMALE : Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
         'street_address' => $faker->address,

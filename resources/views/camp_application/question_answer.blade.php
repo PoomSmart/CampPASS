@@ -62,6 +62,7 @@
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::FILE)
                             @component('components.file_upload', [
+                                'name' => $key,
                                 'value' => $value,
                                 'args' => $value ? $json['answer_id'][$key] : null,
                                 'upload' => 1,
