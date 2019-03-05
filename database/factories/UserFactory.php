@@ -51,13 +51,14 @@ class User_Randomizer
 
 $factory->define(App\User::class, function (Faker $faker) {
     $name = $faker->unique()->firstName;
+    $surname = $faker->lastName;
     $type = Common::randomFrequentHit() ? User_Randomizer::camper() : User_Randomizer::campmaker();
     $dob = $type == User_Randomizer::camper() ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
     $province = Province::inRandomOrder()->get()->first();
     $data = [
         'username' => strtolower($name),
         'name_en' => $name,
-        'surname_en' => $faker->lastName,
+        'surname_en' => $surname,
         'nickname_en' => $faker->word,
         'nationality' => rand(0, 1),
         'gender' => Common::randomMediumHit() ? Gender::FEMALE : Gender::any(),
@@ -82,7 +83,7 @@ $factory->define(App\User::class, function (Faker $faker) {
             'school_id' => rand(1, School::count()),
             'program_id' => rand(1, Program::count()),
             'guardian_name' => $faker->firstName,
-            'guardian_surname' => $faker->lastName,
+            'guardian_surname' => $surname,
             'guardian_role' => Common::randomMediumHit(),
             'guardian_mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         ];

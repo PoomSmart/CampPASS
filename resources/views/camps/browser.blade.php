@@ -20,8 +20,10 @@
         </select>-->
         @component('components.submit', [
             'label' => trans('app.Search'),
+            'class' => 'mr-2',
         ])
         @endcomponent
+        <a href="{{ route('camps.browser') }}" class="btn btn-outline-info">@lang('app.ClearFilters')</a>
     </form>
     @foreach ($categorized_camps as $category => $camps)
         <div class="container mt-4">
