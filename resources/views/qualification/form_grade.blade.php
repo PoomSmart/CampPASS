@@ -38,7 +38,7 @@
                 $key = $question->json_id;
                 $answer = $pair['answer'];
             @endphp
-            <div class="row mb-4">
+            <div class="row mb-3">
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-12">
@@ -112,7 +112,7 @@
                             'name' => "manual_score_{$key}",
                             'type' => 'number',
                             'no_form_control_class' => 1,
-                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix={$full_score} buttonsClass='disabled'",
+                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score} buttonsClass='disabled'",
                             'value' => $graded ? $score : null,
                             'readonly' => isset($json['question_lock'][$key]),
                             'object' => isset($object) ? $object : null,
@@ -121,6 +121,7 @@
                     @endif
                 </div>
             </div>
+            <hr>
         @endforeach
         <div class="text-center">
             @component('components.submit', [
