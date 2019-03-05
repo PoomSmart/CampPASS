@@ -23,7 +23,7 @@ return [
     'Yes' => 'ใช่',
     'No' => 'ไม่',
     'Actions' => 'คำสั่ง',
-    'Approve' => 'รับรองความถูกต้อง',
+    'Approve' => 'รับรอง',
     'Application' => 'การสมัคร',
     'Confirm' => 'ยืนยัน',
     'Confirmed' => 'ยืนยันแล้ว',

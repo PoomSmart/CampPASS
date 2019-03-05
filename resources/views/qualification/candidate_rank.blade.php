@@ -60,7 +60,7 @@
             <th>@lang('app.No_')</th>
             <th>@lang('account.FullName')</th>
             <th>@lang('qualification.Score')</th>
-            <th>@lang('qualification.Passed')</th>
+            <th class="fit">@lang('qualification.Passed')</th>
         </thead>
         @php
             $i = $passed = 0;

@@ -89,6 +89,7 @@ class CandidateController extends Controller
         if ($list)
             return $form_scores_get;
         $average_score /= $total_registrations;
+        $average_score = number_format($average_score, 2);
         $total_failed = $total_registrations - $total_candidates;
         $summary = trans('qualification.TotalPassedFailedAvgScore', [
             'total_registrations' => $total_registrations,

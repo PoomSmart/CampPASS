@@ -5,7 +5,7 @@ return [
     'Score' => 'คะแนน',
     'CandidateRanking' => 'จัดอันดับผู้สมัคร',
     'CandidatesAnnouncement'=> 'ประกาศผู้ผ่านค่าย',
-    'Passed' => 'ผ่าน',
+    'Passed' => 'ผ่านการคัดเลือก',
     'Pending' => 'อยู่ในระหว่างการพิจารณา',
     'Finalize' => 'ยืนยันการตรวจ',
     'Finalized' => 'ตรวจแล้ว',

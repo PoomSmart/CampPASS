@@ -97,3 +97,9 @@ a:hover {
 td, th {
   vertical-align: middle !important;
 }
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
