@@ -238,6 +238,8 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
+        $real_question_sets_seed_path = base_path().'/database/seeds/questions';
+        $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array('..', '.'));
         $minimum_questions = 5;
         $maximum_questions = 10;
         $maximum_choices = 6;
@@ -301,7 +303,6 @@ class DatabaseSeeder extends Seeder
         $question_set_id = 0;
         $question_id = 0;
         $question_full_score = 10;
-        $question_set_seed_path = base_path().'/database/seeds/questions';
         foreach (Camp::allApproved()->cursor() as $camp) {
             if (!$camp->camp_procedure->candidate_required)
                 continue;
@@ -315,7 +316,8 @@ class DatabaseSeeder extends Seeder
             $multiple_checkbox_map = [];
             if (Common::randomRareHit()) {
                 // Use the real question sets
-                $json_path = $question_set_seed_path.'/pre-puey-2.json';
+                $real_question_set = $real_question_sets[array_rand($real_question_sets)];
+                $json_path = "{$real_question_sets_seed_path}/{$real_question_set}";
                 $json = json_decode(file_get_contents($json_path), true);
                 // Append the camp ID to every question ID
                 foreach (['type', 'question', 'question_required', 'question_graded', 'radio', 'radio_label', 'checkbox_label'] as $key) {
