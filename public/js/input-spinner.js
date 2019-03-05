@@ -65,6 +65,8 @@
             var $buttonIncrement = $inputGroup.find(".btn-increment")
             var $input = $inputGroup.find("input")
             $input.attr("name", $original.attr("name"))
+            $input.attr("readonly", $original.attr("readonly"))
+            $input.attr("disabled", $original.attr("disabled"))
 
             var min = parseFloat($original.prop("min")) || 0
             var max = isNaN($original.prop("max")) || $original.prop("max") === "" ? Infinity : parseFloat($original.prop("max"))

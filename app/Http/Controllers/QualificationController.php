@@ -58,6 +58,8 @@ class QualificationController extends Controller
         $total_score = 0;
         foreach ($answers as $answer) {
             $question = $answer->question;
+            if ($question_set->finalized)
+                $json['question_lock'][$question->json_id] = 1;
             $answer_score = $answer->score;
             $answer_value = $answer->answer;
             // Grade the questions that need to be graded and are of choice type
@@ -103,7 +105,18 @@ class QualificationController extends Controller
         }
         if ($silent)
             return $camper_score;
-        $score_report = "Auto-gradable {$auto_gradable_score}/{$total_auto_gradable_score} - Total {$camper_score}/{$total_score}";
+        if ($question_set->manual_required)
+            $score_report = trans('qualification.FormSummary', [
+                'camper_score' => $camper_score,
+                'total_score' => $total_score,
+            ]);
+        else
+            $score_report = trans('qualification.FormSummaryAuto', [
+                'auto_gradable' => $auto_gradable_score,
+                'total_auto_gradable' => $total_auto_gradable_score,
+                'camper_score' => $camper_score,
+                'total_score' => $total_score,
+            ]);
         return view('qualification.form_grade', compact('camp', 'camper', 'data', 'json', 'score_report', 'form_score'));
     }
 

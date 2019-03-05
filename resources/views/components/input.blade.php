@@ -75,6 +75,9 @@
         @if ($disabled)
             disabled
         @endif
+        @if (isset($readonly) && $readonly == 1)
+            readonly
+        @endif
         @if ($required)
             required
         @endif

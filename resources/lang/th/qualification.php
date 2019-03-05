@@ -7,8 +7,8 @@ return [
     'CandidatesAnnouncement'=> 'ประกาศผู้ผ่านค่าย',
     'Passed' => 'ผ่าน',
     'Pending' => 'อยู่ในระหว่างการพิจารณา',
-    'Finalized' => 'ตรวจแล้ว',
     'Finalize' => 'ยืนยันการตรวจ',
+    'Finalized' => 'ตรวจแล้ว',
     'Announce' => 'ประกาศผล',
     'Grading' => 'กำลังตรวจใบสมัคร',
     'PassedCampers' => 'ผู้ที่ผ่านการคัดเลือก',
@@ -19,5 +19,7 @@ return [
     'AckInterview' => 'ค่ายนี้มีรอบสัมภาษณ์',
     'AttendanceConfirm' => 'ยินดีด้วย! กรุณาคลิกปุ่ม ยืนยัน เพื่อยืนยันการเข้าร่วมค่ายนี้',
     'ThankCampApply' => 'ขอบคุณที่สมัครค่ายกับเรา',
+    'FormSummary' => 'คะแนนรวม :camper_score จาก :total_score คะแนน',
+    'FormSummaryAuto' => 'ตรวจอัตโนมัติ :auto_gradable จาก :total_auto_gradable - คะแนนรวม :camper_score จาก :total_score คะแนน',
     'TotalPassedFailedAvgScore' => 'จำนวนทั้งหมด: :total_registrations / ผ่าน: :total_candidates / ตก: :total_failed / คะแนนเฉลี่ย: :average_score',
 ];

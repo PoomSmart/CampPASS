@@ -112,13 +112,12 @@
                             'name' => "manual_score_{$key}",
                             'type' => 'number',
                             'no_form_control_class' => 1,
-                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1",
+                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix={$full_score} buttonsClass='disabled'",
                             'value' => $graded ? $score : null,
                             'readonly' => isset($json['question_lock'][$key]),
                             'object' => isset($object) ? $object : null,
                         ])
                         @endcomponent
-                        <p class="text-center text-muted mt-1">{{ "Out of {$full_score}" }}</p>
                     @endif
                 </div>
             </div>
