@@ -4,6 +4,10 @@
     @lang('camp.BrowseCamps')
 @endsection
 
+@section('custom-width')
+    <div class="col-12">
+@endsection
+
 @section('content')
     <form class="form-inline" action="{{ route('camps.browser') }}" method="GET">
         @component('components.input', [
