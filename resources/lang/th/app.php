@@ -44,7 +44,11 @@ return [
     'N/A' => '-',
     'More' => 'ดูทั้งหมด',
     'Camp Application Form' => 'ใบสมัครค่าย',
+    'GotoCampHub' => 'ไปที่ CampHub.in.th',
 
     'NoPermissionError' => 'คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้',
     'UnavailableFeature' => 'ฟังก์ชั่นนี้ไม่ได้เปิดให้คุณใช้งาน',
+    'SearchCampByName' => 'ค้นหาชื่อค่าย',
+    'Search' => 'ค้นหา',
+    'ClearFilters' => 'ล้างตัวคัดกรอง',
 ];
