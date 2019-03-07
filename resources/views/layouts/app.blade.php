@@ -44,9 +44,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -82,8 +79,8 @@
                                 </li>
                             @endrole
                             <li class="nav-item dropdown my-auto">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ \Auth::user()->getFullName() }} <span class="caret"></span>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ \Auth::user()->getFullName() }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
@@ -98,8 +95,8 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown my-auto">
-                                <a class="nav-link dropdown-toggle" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fas fa-bell"></i>
+                                <a class="nav-link dropdown-toggle" id="notifications" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell my-auto"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" style="min-width: 35rem;">
                                     <div id="notificationsMenu"></div>
@@ -115,7 +112,6 @@
                 </div>
             </div>
         </nav>
-        
         @if (View::hasSection('header'))
             <div class="container-fluid text-center" id="header">
                 <h2 class="mb-0">@yield('header')
@@ -125,7 +121,6 @@
                 </h2>
             </div>
         @endif
-
         <main class="py-4">
             <div class="container">
                 @yield('outer_content')
