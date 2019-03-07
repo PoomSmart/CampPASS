@@ -1,5 +1,30 @@
+@font-face {
+  font-family: dbsathornnow;
+  src: url('/fonts/DBSathornNowBold.ttf');
+  font-weight: 700;
+}
+@font-face {
+  font-family: dbsathornnow;
+  src: url('/fonts/DBSathornNowMed.ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: dbsathornnow;
+  src: url('/fonts/DBSathornNow.ttf');
+  font-weight: normal;
+}
+
 * {
   box-sizing: border-box;
+  font-family: dbsathornnow;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+}
+
+h5, h6 {
+  font-weight: 600;
 }
 
 *:before, *:after {

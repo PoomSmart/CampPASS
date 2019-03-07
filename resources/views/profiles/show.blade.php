@@ -30,15 +30,15 @@
                 <div class="col-md-6">
                     @if ($camper)
                         <h5>@lang('account.School')</h5>
-                        <h6>{{ $user->school }}</h6>
+                        <p>{{ $user->school }}</p>
                     @else
                         <h5>@lang('organization.Organization')</h5>
-                        <h6>{{ $user->organization }}</h6>
+                        <p>{{ $user->organization }}</p>
                     @endif
                 </div>
                 <div class="col-md-6">
                     <h5>@lang('camper.Program')</h5>
-                    <h6>{{ $user->program }}</h6>
+                    <p>{{ $user->program }}</p>
                 </div>
             </div>
             <h4 class="mb-4">@lang('camp.Camps')</h4>
@@ -54,7 +54,7 @@
                             @lang('campmaker.CampMakerSince')
                         @endif
                     </h5>
-                        <h6>{{ strftime('%d %B %Y', date_create($user->email_verified_at)->getTimestamp()) }}</h6>
+                        <p>{{ strftime('%d %B %Y', date_create($user->email_verified_at)->getTimestamp()) }}</p>
                 </div>
                 <div class="col-md-6">
                     <h5>
@@ -64,7 +64,7 @@
                             @lang('campmaker.CampsManaged')
                         @endif
                     </h5>
-                        <h6>{{ $camps->count() }}</h6>
+                        <p>{{ $camps->count() }}</p>
                 </div>
                 @if ($camps->count())
                     <div class="col-12 mt-2">
