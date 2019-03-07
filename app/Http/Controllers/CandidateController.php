@@ -31,7 +31,11 @@ class CandidateController extends Controller
         if ($form_scores->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         $total = $form_scores->count();
-        $summary = "Total: {$total}";
+        $summary = trans('qualification.TotalCandidates', [ 'total' => $total ]);
+        $locale = \App::getLocale();
+        // TODO: Check whether this is efficient (and secure) enough for production
+        $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
+            ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderBy("users.name_{$locale}");
         $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));

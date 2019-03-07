@@ -21,6 +21,7 @@ return [
     'ThankCampApply' => 'Thank you for applying for the camp.',
     'FormSummary' => 'Total :camper_score/:total_score',
     'FormSummaryAuto' => 'Auto-gradable :auto_gradable/:total_auto_gradable - Total :camper_score/:total_score',
+    'TotalCandidates' => 'Total: :total people',
     'TotalPassedFailedAvgScore' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed / Average Score: :average_score',
     'ViewProfile' => 'View Profile',
     'ViewForm' => 'View Form',

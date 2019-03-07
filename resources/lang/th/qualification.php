@@ -21,6 +21,7 @@ return [
     'ThankCampApply' => 'ขอบคุณที่สมัครค่ายกับเรา',
     'FormSummary' => 'คะแนนรวม :camper_score จาก :total_score คะแนน',
     'FormSummaryAuto' => 'ตรวจอัตโนมัติ :auto_gradable จาก :total_auto_gradable - คะแนนรวม :camper_score จาก :total_score คะแนน',
+    'TotalCandidates' => 'ทั้งหมด :total คน',
     'TotalPassedFailedAvgScore' => 'จำนวนทั้งหมด: :total_registrations / ผ่าน: :total_candidates / ตก: :total_failed / คะแนนเฉลี่ย: :average_score',
     'ViewProfile' => 'ดูโปรไฟล์',
     'ViewForm' => 'ดูใบสมัคร',
