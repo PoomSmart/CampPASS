@@ -587,9 +587,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 50)->create();
+        factory(Camp::class, 320)->create();
         $this->log_seed('users');
-        factory(User::class, 50)->create();
+        factory(User::class, 320)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
