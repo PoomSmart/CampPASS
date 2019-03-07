@@ -25,8 +25,8 @@ function addNotifications(newNotifications, target) {
 }
 
 function showNotifications(notifications, target) {
+    var menu = jQuery(target + 'Menu');
     if (notifications.length) {
-        var menu = jQuery(target + 'Menu');
         notifications.forEach(function (notification) {
             menu.append(jQuery.parseHTML(makeNotification(notification)));
         });

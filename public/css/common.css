@@ -3,11 +3,13 @@
   src: url('/fonts/DBSathornNowBold.ttf');
   font-weight: 700;
 }
+
 @font-face {
   font-family: dbsathornnow;
   src: url('/fonts/DBSathornNowMed.ttf');
   font-weight: 600;
 }
+
 @font-face {
   font-family: dbsathornnow;
   src: url('/fonts/DBSathornNow.ttf');
@@ -51,6 +53,10 @@ footer {
   width: 100%;
   color: white;
   background-color: #FB6B0A;
+}
+
+a {
+  color: #FB6B0A;
 }
 
 .footer a {
@@ -123,8 +129,7 @@ td, th {
   vertical-align: middle !important;
 }
 
-.table td.fit, 
-.table th.fit {
-    white-space: nowrap;
-    width: 1%;
+.table td.fit, .table th.fit {
+  white-space: nowrap;
+  width: 1%;
 }
