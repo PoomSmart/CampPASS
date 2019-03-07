@@ -3,7 +3,9 @@
         <img class="card-img-top" src="{{ isset($src) ? $src : asset('/images/placeholders/Camp '.\App\Common::randomInt10().'.png') }}" alt="Image of {{ $object }}">
         <div class="card-body">
             <h5 class="card-title text-truncate" title="{{ $object }}">{{ $object }}</h5>
-            <h6 class="text-muted">({{ $object->camp_procedure }})</h6>
+            @foreach ($object->camp_procedure->getTags() as $tag)
+                <label class="badge badge-success font-weight-normal">{{ $tag }}</label>
+            @endforeach
             <p class="text-muted text-truncate mb-0" title="{{ $object->organization }}">@lang('app.By') {{ $object->organization }}</p>
             <div class="my-2 list-group">
                 <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>

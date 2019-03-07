@@ -10,7 +10,7 @@ return [
     'LongDescription' => 'คำอธิบายยาว',
     'Status' => 'สถานะ',
     'ApprovalPending' => 'รอดำเนินการ',
-    'Approved' => 'รับรองความถูกต้องแล้ว',
+    'Approved' => 'รับรองแล้ว',
     'AcceptableProgramsShort' => 'สายการเรียนที่ยอมรับ',
     'AcceptablePrograms' => 'สายการเรียนที่ยอมรับ',
     'AcceptableRegions' => 'ภูมิภาคที่ยอมรับ',
