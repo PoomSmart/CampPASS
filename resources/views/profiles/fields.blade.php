@@ -315,7 +315,7 @@
     @if (!\Auth::user() || \Auth::user()->isCamper() || (!\Auth::user()->isCamper() && !$disabled))
         <h3 class="mt-4">@lang('account.Account')</h3>
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'username',
                     'label' => trans('account.Username'),
@@ -323,7 +323,7 @@
                 ])
                 @endcomponent
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'email',
                     'label' => trans('account.Email'),
@@ -342,7 +342,7 @@
                     @endcomponent
                 </div>
             @endif
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'password',
                     'label' => trans('account.Password'),
@@ -351,7 +351,7 @@
                 ])
                 @endcomponent
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'password_confirmation',
                     'label' => trans('account.ConfirmPassword'),
