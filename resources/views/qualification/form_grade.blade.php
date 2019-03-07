@@ -17,13 +17,6 @@
     <a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a>
 @endsection
 
-<!-- TODO: Allow camper's student documents to show here -->
-@if ($camp->camp_procedure->deposit_required)
-    @section('card_content_top')
-        Show Payment Slip - Finalize button disabled until it is uploaded
-    @endsection
-@endif
-
 @section('card_content')
     <div class="row">
         <div class="col-12 text-muted text-right">

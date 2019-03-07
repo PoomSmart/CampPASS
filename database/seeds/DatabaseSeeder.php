@@ -208,7 +208,7 @@ class DatabaseSeeder extends Seeder
                     break;
                 case QuestionType::CHOICES:
                     // A bit of cheating in hope for seeded campers to get more scores
-                    $answer = Common::randomRareHit() && $graded && isset($json['radio']) ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
+                    $answer = $graded && Common::randomRareHit() && isset($json['radio']) ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
                     break;
                 case QuestionType::CHECKBOXES:
                     $count = rand(1, count($multiple_checkbox_map[$json_id]));
