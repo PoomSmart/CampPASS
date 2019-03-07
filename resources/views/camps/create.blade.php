@@ -2,7 +2,6 @@
 @include('camps.fields')
 
 @section('script')
-    <script src="{{ asset('js/checkbox-require.js') }}"></script>
     <script src="{{ asset('js/camp-fields.js') }}"></script>
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>

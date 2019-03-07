@@ -2,7 +2,6 @@
 @include('camps.fields', ['update' => 1])
 
 @section('script')
-    <script src="{{ asset('js/checkbox-require.js') }}"></script>
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {

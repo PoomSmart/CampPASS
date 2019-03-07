@@ -90,6 +90,11 @@ class Common
         return rand(1, 10);
     }
 
+    public static function randomElement(array $array)
+    {
+        return $array[array_rand($array)];
+    }
+
     public static function getLocalizedName($record, string $attribute = 'name')
     {
         $th = $record->{"{$attribute}_th"};

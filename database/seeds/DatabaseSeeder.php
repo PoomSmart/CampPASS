@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
         return $camp_id.'-'.Common::randomString(10);
     }
 
-    private function generate_answers(&$camp, &$json, $json_id, $question_type, $question_set_id, $question_id, $question_full_score, $graded, &$answers, &$has_any_answers, &$can_manual_grade, &$multiple_radio_map, &$multiple_checkbox_map, &$faker)
+    private function generate_answers(&$camp, &$json, $json_id, $question_type, $question_set_id, $question_id, $question_full_score, $graded, &$answers, &$has_any_answers, &$can_manual_grade, &$multiple_radio_map, &$multiple_checkbox_map, &$faker, $real_answers_json = null)
     {
         // For each question, all campers who are eligible and registered get a chance to answer
         foreach ($camp->registrations as $registration) {
@@ -201,10 +201,10 @@ class DatabaseSeeder extends Seeder
             $answer = null;
             switch ($question_type) {
                 case QuestionType::TEXT:
-                    $answer = $faker->text($maxNbChars = 15);
+                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->text($maxNbChars = 15);
                     break;
                 case QuestionType::PARAGRAPH:
-                    $answer = $faker->sentences($nb = rand(2, 4), $asText = true);
+                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->sentences($nb = rand(2, 4), $asText = true);
                     break;
                 case QuestionType::CHOICES:
                     // A bit of cheating in hope for seeded campers to get more scores
@@ -239,6 +239,7 @@ class DatabaseSeeder extends Seeder
     private function registrations_and_questions_and_answers()
     {
         $real_question_sets_seed_path = base_path().'/database/seeds/questions';
+        $real_answers_seed_path = base_path().'/database/seeds/answers';
         $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array('..', '.'));
         $minimum_questions = 5;
         $maximum_questions = 10;
@@ -314,9 +315,9 @@ class DatabaseSeeder extends Seeder
             $question_set_try_auto = false;
             $multiple_radio_map = [];
             $multiple_checkbox_map = [];
-            if (Common::randomRareHit()) {
+            if (Common::randomMediumHit()) {
                 // Use the real question sets
-                $real_question_set = $real_question_sets[array_rand($real_question_sets)];
+                $real_question_set = Common::randomElement($real_question_sets);
                 $json_path = "{$real_question_sets_seed_path}/{$real_question_set}";
                 $json = json_decode(file_get_contents($json_path), true);
                 // Append the camp ID to every question ID
@@ -346,13 +347,20 @@ class DatabaseSeeder extends Seeder
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
                 ], $question_id);
+                $real_answers_json_path = "{$real_answers_seed_path}/{$real_question_set}";
+                $real_answers_json = file_exists($real_answers_json_path) ? json_decode(file_get_contents($real_answers_json_path), true) : null;
+                if ($real_answers_json) {
+                    $real_answers_json['answer'] = array_combine(array_map(function($k) use (&$camp) { return "{$camp->id}-{$k}"; }, array_keys($real_answers_json['answer'])), $real_answers_json['answer']);
+                    $real_answers_json = $real_answers_json['answer'];
+                }
                 foreach ($json['type'] as $json_id => $question_type) {
                     $graded = isset($json['question_graded'][$json_id]);
-                    $this->generate_answers($camp, $json, $json_id, $question_type, $question_set_id, ++$self_question_id, $question_full_score, $graded, $answers, $has_any_answers, $can_manual_grade, $multiple_radio_map, $multiple_checkbox_map, $faker);
+                    $this->generate_answers($camp, $json, $json_id, $question_type, $question_set_id, ++$self_question_id, $question_full_score, $graded, $answers, $has_any_answers, $can_manual_grade, $multiple_radio_map, $multiple_checkbox_map, $faker, $real_answers_json);
                 }
                 $question_set->update([
                     'finalized' => $has_any_answers,
                 ]);
+                unset($json);
             } else {
                 $json = [];
                 // Biased setting to have some entirely auto-gradable question sets
@@ -579,9 +587,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 350)->create();
+        factory(Camp::class, 50)->create();
         $this->log_seed('users');
-        factory(User::class, 350)->create();
+        factory(User::class, 50)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
