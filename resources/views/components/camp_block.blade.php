@@ -19,10 +19,10 @@
                 <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
             @endif
             @php
-                $close_date = $object->getCloseDate();
+                $close_date = $object->getCloseDateHuman();
             @endphp
             @if ($close_date)
-                <p class="card-text text-center mt-2"><small class="text-muted">@lang('registration.WillClose') {{ $close_date }}</small></p>
+                <p class="card-text text-center mt-2"><small class="text-muted">{{ $close_date }}</small></p>
             @endif
         </div>
     </a>

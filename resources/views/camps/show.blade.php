@@ -6,11 +6,14 @@
 
 @section('card_content')
     <div class="row">
-        <div class="col-12">
-            <p>{{ $category->getName() }} - {{ $camp->getShortDescription() }}</p>
+        <div class="col-12 text-center">
+            <p>{{ $category->getName() }}</p>
         </div>
-        <div class="col-12 mb-4">
+        <div class="col-12 mb-2">
             <img class="img-fluid" src="http://placehold.it/880x600/{{ \App\Common::randomString(6) }}">
+        </div>
+        <div class="col-12 text-center mb-3">
+            <p>{{ $camp->getShortDescription() }}</p>
         </div>
         <div class="col-12 col-md-6">
             <h4>@lang ('camp.Details')</h4>

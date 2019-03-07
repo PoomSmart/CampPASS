@@ -7,5 +7,5 @@ return [
     'ASSOCIATION' => 'สมาคม',
     'CLUB' => 'ชมรม',
     'GROUP' => 'กลุ่ม',
-    'Organization' => 'องค์กร',
+    'Organization' => 'ผู้จัด',
 ];

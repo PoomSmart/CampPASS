@@ -209,7 +209,19 @@ class Camp extends Model
 
     public function getCloseDate()
     {
+        if (!$this->app_close_date)
+            return null;
         return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y, %H:%m');
+    }
+
+    public function getCloseDateHuman()
+    {
+        if (!$this->app_close_date)
+            return null;
+        $date = Carbon::parse($this->app_close_date);
+        if (Carbon::now()->diffInDays($date) < 0)
+            return trans('camp.AlreadyClosed');
+        return trans('registration.WillClose').' '.$date->formatLocalized('%d %B %Y, %H:%m');
     }
 
     public function getInterviewDate()
