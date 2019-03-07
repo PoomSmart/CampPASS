@@ -26,4 +26,5 @@ return [
     'ViewForm' => 'View Form',
     'ReturnForm' => 'Return',
     'ReturnFormFull' => 'Return the application form to the camper in case of document errors.',
+    'RejectedApplication' => 'Rejected Application',
 ];

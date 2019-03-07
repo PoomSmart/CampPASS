@@ -139,8 +139,8 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang("app.What's") {{ config('app.name') }}</a></li>
-                                    <li><a href="#!">@lang('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
+                                    <li><a href="#!">@lang("app.What's",['entity' => config('app.name')])</a></li>
+                                    <li><a href="#!">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
                                     <li><a href="#!">@lang('app.Becoming a Camp Maker')</a></li>
                                 </ul>
                             </div>
@@ -158,7 +158,7 @@
                             <i class="fab fa-twitter"></i>
                             <i class="fab fa-facebook-f"></i>
                         </ul>
-                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th/">@lang('app.GotoCampHub') <i class="fas fa-paper-plane"></i></a></button>
+                        <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHub') <i class="fas fa-paper-plane"></i></a>
                     </div>
                 </div>
             </div>
