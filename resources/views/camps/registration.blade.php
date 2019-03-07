@@ -35,7 +35,7 @@
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
                         @endif
-                        <th>@lang('app.Actions')</th>
+                        <th class="fit">@lang('app.Actions')</th>
                     </thead>
                     @foreach ($data as $key => $registration)
                         @php
