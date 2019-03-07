@@ -44,6 +44,7 @@
                 'idx' => isset($idx) ? $idx : null,
                 'columns' => isset($columns) ? $columns : null,
                 'value' => isset($value) ? $value : null,
+                'radio_class' => isset($radio_class) ? $radio_class : null,
             ])
             @slot('append_last')
                 {{ isset($append_last) ? $append_last : null }}

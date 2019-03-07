@@ -18,6 +18,7 @@ use App\Notifications\UserRegisteredSuccessfully;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -66,6 +67,7 @@ class RegisterController extends Controller
     public function camper()
     {
         $type = $this->CAMPER;
+        View::share('type', $type);
         $religions = $this->religions;
         $programs = $this->programs;
         $schools = $this->schools;
@@ -83,8 +85,10 @@ class RegisterController extends Controller
     {
         if (is_null($this->organizations))
             $this->organizations = Organization::all();
+        $type = $this->CAMPMAKER;
+        View::share('type', $type);
         return view('auth.register', [
-            'type' => $this->CAMPMAKER,
+            'type' => $type,
             'religions' => $this->religions,
             'provinces' => $this->provinces,
             'organizations' => $this->organizations,

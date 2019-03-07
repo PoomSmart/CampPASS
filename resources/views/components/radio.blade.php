@@ -8,10 +8,10 @@
                 $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
                 $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
             @endphp
-            <div class="form-check{{ !isset($noinline) ? ' form-check-inline' : '' }}">
+            <div class="form-check form-check-inline{{ isset($radio_class) ? ' '.$radio_class : null }}">
                 <input class="form-check-input"
                     type="{{ isset($type) ? $type : 'radio' }}"
-                    name="{{ $name }}{{ ($checkbox ? "[]" : "") }}"
+                    name="{{ $name }}{{ ($checkbox ? "[]" : null) }}"
                     id="{{ $id }}"
                     value="{{ $j }}"
                     @if (isset($required) && $required == 1)
@@ -37,14 +37,13 @@
                     {{ isset($correct_answer) && $correct_answer == $j ?
                         $j == $selected_value ? " font-weight-bold text-success"
                         : " font-weight-bold text-danger"
-                        : "" }}"
+                        : null }}"
                     for="{{ $id }}"
                 >{{ (isset($getter) ? $obj->{$getter} : $obj) }}</label>
                 @if ($i == count($objects) - 1 && isset($append_last))
                     {{ $append_last }}
                 @endif
             </div>
-            <!-- TODO: make this thing shows -->
             @if ($i == count($objects) - 1)
                 <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
             @endif

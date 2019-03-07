@@ -1,9 +1,10 @@
 @php
     $camper = $type == config('const.account.camper') ? 1 : null;
+    $campmaker = $type == config('const.account.campmaker') ? 1 : null;
     $disabled = isset($disabled) && $disabled;
 @endphp
 <h3 class="mt-4">@lang('profile.About', [
-        'entity' => $object->id == \Auth::user()->id ? trans('app.You') : $object->getFullName(),
+        'entity' => !isset($object) || $object->id == \Auth::user()->id ? trans('app.You') : $object->getFullName(),
     ])</h3>
     <div class="row">
         <div class="col-md-6">
@@ -111,7 +112,7 @@
         </div>
     </div>
 
-    @if (isset($camper) || $disabled)
+    @if ($camper || $disabled)
         <h3 class="mt-4">@lang('account.Education')</h3>
         <div class="row">
             <div class="col-12">
@@ -135,7 +136,6 @@
                 ])
                 @endcomponent
             </div>
-            <!-- TODO: This is all in one-line, should we comply with XD -->
             <div class="col-12">
                 @component('components.input', [
                     'name' => 'education_level',
@@ -145,6 +145,7 @@
                     'objects' => $education_levels,
                     'getter' => 'name',
                     'columns' => 3,
+                    'radio_class' => 'w-25',
                 ])
                 @endcomponent
             </div>
@@ -199,6 +200,23 @@
                 </div>
             </div>
         @endif
+    @endif
+
+    @if ($campmaker)
+        <h3 class="mt-4">@lang('campmaker.Organization')</h3>
+        <div class="row">
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'organization_id',
+                    'label' => trans('campmaker.Organization'),
+                    'attributes' => 'required',
+                    'input_type' => 'select',
+                    'objects' => $organizations,
+                    'placeholder' => trans('campmaker.SelectYourOrganization'),
+                ])
+                @endcomponent
+            </div>
+        </div>
     @endif
 
     <h3 class="mt-4">@lang('profile.ContactInformation')</h3>
@@ -294,7 +312,7 @@
         </div>
     @endif
 
-    @role('camper')
+    @if (!\Auth::user() || \Auth::user()->isCamper() || (!\Auth::user()->isCamper() && !$disabled))
         <h3 class="mt-4">@lang('account.Account')</h3>
         <div class="row">
             <div class="col-12">
