@@ -44,7 +44,11 @@ return [
     'N/A' => '-',
     'More' => 'More',
     'Camp Application Form' => 'Camp Application Form',
+    'GotoCampHub' => 'Go to CampHub.in.th',
 
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
     'UnavailableFeature' => "This feature isn't available for you.",
+    'SearchCampByName' => "Search camp name here",
+    'Search' => 'Search',
+    'ClearFilters' => 'Clear Filter',
 ];

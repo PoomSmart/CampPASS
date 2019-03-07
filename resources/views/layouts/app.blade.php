@@ -158,7 +158,7 @@
                             <i class="fab fa-twitter"></i>
                             <i class="fab fa-facebook-f"></i>
                         </ul>
-                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th/">Go to CampHub.in.th <i class="fas fa-paper-plane"></i></a></button>
+                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th/">@lang('app.GotoCampHub') <i class="fas fa-paper-plane"></i></a></button>
                     </div>
                 </div>
             </div>
