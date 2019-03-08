@@ -36,8 +36,6 @@
                             <img class="rounded-circle" src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}"/>
                         </div>
                     </div>
-
-                    <!-- Test -->
                     @role('camper')
                         @component('components.profile_upload', [
                             'value' => trans('app.View'),

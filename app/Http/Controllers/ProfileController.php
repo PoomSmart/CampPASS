@@ -130,7 +130,7 @@ class ProfileController extends Controller
     {
         $directory = Common::fileDirectory($user->id);
         if (!Storage::delete("{$directory}/{$type}.png"))
-            throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
-        return redirect()->back()->with('success', 'The specified document has been removed.');
+            throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
+        return redirect()->back()->with('success', 'The profile picture has been removed.');
     }
 }
