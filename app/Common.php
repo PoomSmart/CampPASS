@@ -67,7 +67,7 @@ class Common
 
     public static function userDirectory(int $user_id)
     {
-        return "users/{$user_id}";
+        return "public/users/{$user_id}";
     }
 
     public static function fileDirectory(int $user_id)

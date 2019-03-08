@@ -75,20 +75,13 @@ class ProfileController extends Controller
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $user->update($request->all());
-        if ($request->hasFile('transcript')) {
-            $directory = Common::fileDirectory($user->id);
-            $path = Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
-        }
-        if ($request->hasFile('certificate')) {
-            $directory = Common::fileDirectory($user->id);
-            $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
-        }
-
-        if ($request->hasFile('profile')) {
-            $directory = Common::fileDirectory($user->id);
-            $path = Storage::disk('local')->putFileAs($directory, $request->file('profile'), 'profile.png');
-        }
-
+        $directory = Common::fileDirectory($user->id);
+        if ($request->hasFile('transcript'))
+            Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
+        if ($request->hasFile('certificate'))
+            Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
+        if ($request->hasFile('profile'))
+            Storage::disk('local')->putFileAs($directory, $request->file('profile'), 'profile.png');
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -121,15 +114,24 @@ class ProfileController extends Controller
     public function document_delete(User $user, $type)
     {
         $directory = Common::fileDirectory($user->id);
-        if (!Storage::delete("{$directory}/{$type}.pdf"))
+        if (!Storage::disk('local')->delete("{$directory}/{$type}.pdf"))
             throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The specified document has been removed.');
     }
 
-    public function profile_delete(User $user, $type)
+    public static function profile_picture_path(User $user, bool $actual = false, bool $display = true)
     {
         $directory = Common::fileDirectory($user->id);
-        if (!Storage::delete("{$directory}/{$type}.png"))
+        $path = "{$directory}/profile.png";
+        if (Storage::disk('local')->exists($path))
+            return $display ? Storage::url($path) : $path;
+        return $actual ? null : asset('images/profiles/Profile_'.[ 'M', 'F' ][$user->gender % 2].'.jpg');
+    }
+
+    public function profile_picture_delete(User $user)
+    {
+        $path = $this->profile_picture_path($user, $actual = true, $display = false);
+        if (!Storage::disk('local')->delete($path))
             throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The profile picture has been removed.');
     }

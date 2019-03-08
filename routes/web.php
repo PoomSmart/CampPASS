@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
         Route::get('/document-delete/{user}/{type}', 'ProfileController@document_delete')->name('camp_application.document_delete');
-        Route::get('/profile-delete/{user}/{type}', 'ProfileController@profile_delete')->name('camp_application.profile_delete');
+        Route::get('/profile-delete/{user}', 'ProfileController@profile_picture_delete')->name('camp_application.profile_picture_delete');
     });
 });
 

@@ -29,11 +29,7 @@
                 <div class="row justify-content-center mt-4">
                     <div class="profile-header-container">
                         <div class="profile-header-img">
-                            @php
-                                $genders = [ 'M', 'F' ];
-                                $gender = $genders[$user->gender % 2];
-                            @endphp
-                            <img class="rounded-circle" src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}"/>
+                            <img class="rounded-circle mw-100 p-4" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path(\Auth::user()) }}"/>
                         </div>
                     </div>
                     @role('camper')
@@ -41,9 +37,8 @@
                             'value' => trans('app.View'),
                             'args' => [
                                 'user' => \Auth::user()->id,
-                                'type' => 'profile',
                             ],
-                            'delete_route' => 'camp_application.profile_delete',
+                            'delete_route' => 'camp_application.profile_picture_delete',
                             'name' => 'profile',
                         ])
                         @endcomponent

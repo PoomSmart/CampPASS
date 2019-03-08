@@ -17,12 +17,7 @@
 @section('card_content')
     <div class="row mt-4">
         <div class="col-md-4 text-center">
-            @php
-                $alt = 'Profile Picture of '.$user->getFullName();
-                $genders = [ 'M', 'F' ];
-                $gender = $genders[$user->gender % 2];
-            @endphp
-            <img src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}" alt="{{ $alt }}" title="{{ $alt }}" class="rounded-circle">
+            <img src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}" class="rounded-circle mw-100 p-4">
         </div>
         <div class="col-md-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>
