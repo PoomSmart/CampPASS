@@ -26,7 +26,7 @@ class CandidateController extends Controller
     public function result(QuestionSet $question_set)
     {
         $form_scores = FormScore::with('registration')->where('question_set_id', $question_set->id)->where('finalized', true)->whereHas('registration', function ($query) {
-           $query->where('status', '>=', ApplicationStatus::APPROVED);
+           $query->where('status', '>=', ApplicationStatus::CHOSEN); // TODO: Is this correct?
         });
         if ($form_scores->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
@@ -101,7 +101,7 @@ class CandidateController extends Controller
             'total_registrations' => $total_registrations,
             'total_candidates' => $total_candidates,
             'total_failed' => $total_failed,
-            'average_score' => $average_score
+            'average_score' => $average_score,
         ]);
         $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());
