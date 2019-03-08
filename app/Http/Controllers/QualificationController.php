@@ -155,7 +155,8 @@ class QualificationController extends Controller
 
     public static function form_finalize(FormScore $form_score, $silent = false)
     {
-        Common::authenticate_camp(Camp::find($form_score->question_set->camp->id), $silent = $silent);
+        if (!$silent)
+            Common::authenticate_camp(Camp::find($form_score->question_set->camp->id));
         if ($form_score->registration->unsubmitted())
             throw new \CampPASSException(trans('exception.CannotFinalizeUnsubmitForm'));
         if (!$form_score->finalized) {

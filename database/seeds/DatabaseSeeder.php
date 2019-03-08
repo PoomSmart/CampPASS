@@ -348,6 +348,8 @@ class DatabaseSeeder extends Seeder
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
                 ], $question_id);
+                if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
+                    $manual_grade_question_set_ids[] = $question_set->id;
                 $real_answers_json_path = "{$real_answers_seed_path}/{$real_question_set}";
                 $real_answers_json = file_exists($real_answers_json_path) ? json_decode(file_get_contents($real_answers_json_path), true) : null;
                 if ($real_answers_json) {
@@ -458,18 +460,18 @@ class DatabaseSeeder extends Seeder
             unset($multiple_checkbox_map);
             if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
                 $manual_grade_question_set_ids[] = $question_set_id;
-            // We wouldn't normally create a form score record for any draft application forms
-            foreach ($camp->registrations->where('status', ApplicationStatus::APPLIED) as $registration) {
-                $form_scores[] = [
-                    'registration_id' => $registration->id,
-                    'question_set_id' => $question_set_id,
-                    // We cannot calculate the total score right now
-                    'total_score' => null,
-                    // Form scores are finalized as we say every question can be auto-graded
-                    // However, this must mean there are no manual graded questions
-                    'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
-                ];
-            }
+        }
+        // We wouldn't normally create a form score record for any draft application forms
+        foreach ($camp->registrations->where('status', ApplicationStatus::APPLIED) as $registration) {
+            $form_scores[] = [
+                'registration_id' => $registration->id,
+                'question_set_id' => $question_set_id,
+                // We cannot calculate the total score right now
+                'total_score' => null,
+                // Form scores are finalized as we say every question can be auto-graded
+                // However, this must mean there are no manual graded questions
+                'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
+            ];
         }
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);

@@ -80,7 +80,6 @@
                     @if ($registration->approved())
                         <p>@lang('registration.SlipApproved')</p>
                     @else
-                        @php $need_upload = false; @endphp
                         @if ($registration->rejected())
                             <p>@lang('qualification.Rejected')</p>
                         @elseif ($registration->paid())
@@ -99,7 +98,7 @@
                                 }
                             @endphp
                         @endif
-                        @if ($need_upload)
+                        @if (isset($need_upload) && $need_upload)
                             <p>@lang('registration.UploadPayment')</p>
                             <div class="mx-1">
                                 <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
