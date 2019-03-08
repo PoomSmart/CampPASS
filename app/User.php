@@ -200,7 +200,7 @@ class User extends Authenticatable
         if (!$camp->approved)
             return trans('camp.ApproveFirst'.$suffix);
         // Campers with unacceptable year could not join the camp
-        if (!in_array(self::$education_level_to_year[$this->education_level], $camp->acceptable_years, false))
+        if ($this->program->isBasic() && !in_array(self::$education_level_to_year[$this->education_level], $camp->acceptable_years, false))
             return trans('registration.NotInRequiredYears'.$suffix);
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
