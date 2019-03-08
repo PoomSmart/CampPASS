@@ -139,10 +139,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_seed('years');
         Year::insert([
-            [ 'name' => 'Primary School' ],
-            [ 'name' => 'Secondary School' ],
-            [ 'name' => 'Junior High School' ],
-            [ 'name' => 'Senior High School' ],
+            [ 'name' => 'Primary School', 'short_name' => 'Primary' ],
+            [ 'name' => 'Secondary School', 'short_name' => 'Secondary' ],
+            [ 'name' => 'Junior High School', 'short_name' => 'Junior' ],
+            [ 'name' => 'Senior High School', 'short_name' => 'Senior' ],
+            [ 'name' => 'University', 'short_name' => 'University' ],
         ]);
     }
 

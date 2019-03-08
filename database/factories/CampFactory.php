@@ -27,7 +27,7 @@ class Camp_Randomizer
     {
         if (!self::$years)
             self::$years = Year::pluck('id')->toArray();
-        return array_rand(array_flip(self::$years), rand(3, count(self::$years)));
+        return array_rand(array_flip(self::$years), rand(2, count(self::$years)));
     }
 
     public static function regions()

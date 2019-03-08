@@ -63,7 +63,7 @@ class ProfileController extends Controller
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);
         $programs = Common::values(Program::class);
-        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        $education_levels = EducationLevel::getLocalizedConstants('year');
         View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
     }

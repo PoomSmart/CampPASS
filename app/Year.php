@@ -12,4 +12,9 @@ class Year extends Model
     {
         return trans("year.{$this->name}");
     }
+
+    public function getShortName()
+    {
+        return trans("year.{$this->short_name}");
+    }
 }

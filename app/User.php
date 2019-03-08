@@ -185,6 +185,8 @@ class User extends Authenticatable
         return null;
     }
 
+    private static $education_level_to_year = [ 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
+
     /**
      * Get the reason for why this user cannot apply for the given camp, if any.
      * 
@@ -197,6 +199,9 @@ class User extends Authenticatable
         // An access to unapproved camps should not exist
         if (!$camp->approved)
             return trans('camp.ApproveFirst'.$suffix);
+        // Campers with unacceptable year could not join the camp
+        if (!in_array($this->education_level_to_year[$this->education_level], $camp->acceptable_years))
+            return trans('registration.NotInRequiredYears'.$suffix);
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
             return trans('registration.NotInRequiredPrograms'.$suffix);

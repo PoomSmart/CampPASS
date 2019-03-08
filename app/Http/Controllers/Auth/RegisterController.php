@@ -72,7 +72,7 @@ class RegisterController extends Controller
         $programs = $this->programs;
         $schools = $this->schools;
         $provinces = $this->provinces;
-        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        $education_levels = EducationLevel::getLocalizedConstants('year');
         return view('auth.register', compact('type', 'religions', 'programs', 'schools', 'provinces', 'education_levels'));
     }
 

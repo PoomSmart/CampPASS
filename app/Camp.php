@@ -229,6 +229,13 @@ class Camp extends Model
         return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y, %H:%m');
     }
 
+    public function getAcceptableYears()
+    {
+        return implode(', ', array_map(function ($year) {
+            return Year::find($year)->getShortName();
+        }, $this->acceptable_years));
+    }
+
     public function getAcceptablePrograms()
     {
         return implode(', ', array_map(function ($program) {

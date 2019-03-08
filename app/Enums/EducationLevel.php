@@ -8,12 +8,13 @@ final class EducationLevel extends BasicEnum
 {
     const
         P = 0,
-        M1 = 1,
-        M2 = 2,
-        M3 = 3,
-        M4 = 4,
-        M5 = 5,
-        M6 = 6,
-        U = 7
+        S = 1,
+        M1 = 2,
+        M2 = 3,
+        M3 = 4,
+        M4 = 5,
+        M5 = 6,
+        M6 = 7,
+        U = 8
     ;
 }
