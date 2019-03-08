@@ -2,6 +2,7 @@
 @include('camps.fields', ['update' => 1])
 
 @section('script')
+    <script src="{{ asset('js/camp-fields.js') }}"></script>
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {

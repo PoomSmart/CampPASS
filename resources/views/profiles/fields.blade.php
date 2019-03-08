@@ -347,6 +347,7 @@
                     'name' => 'password',
                     'label' => trans('account.Password'),
                     'type' => 'password',
+                    'required' => isset($update) ? null : 1,
                     'value' => '',
                 ])
                 @endcomponent
@@ -356,6 +357,7 @@
                     'name' => 'password_confirmation',
                     'label' => trans('account.ConfirmPassword'),
                     'type' => 'password',
+                    'required' => isset($update) ? null : 1,
                 ])
                 @endcomponent
             </div>

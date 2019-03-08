@@ -47,6 +47,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     $now = Carbon::now()->format('Y-m-d H:i:s');
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
+    $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;
     $announcement_date = $camp_procedure->candidate_required ? Camp_Randomizer::date_range_forward($faker, $app_close_date, '+2 months') : null;
     $interview_date = $camp_procedure->interview_required && $announcement_date ? Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks') : null;
     $confirmation_date = null;
@@ -81,6 +82,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'confirmation_date' => $confirmation_date,
         'event_start_date' => $event_start_date,
         'event_end_date' => $event_end_date,
+        'deposit' => $deposit,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'approved' => Common::randomVeryFrequentHit(),
