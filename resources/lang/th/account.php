@@ -7,7 +7,7 @@ return [
     'ResetPassword' => 'เปลี่ยนรหัสผ่าน',
     'ForgotYourPassword' => 'ลืมรหัสผ่านใช่ไหม ?',
 
-    'Register' => 'สมัครใช้งาน',
+    'Register' => 'สมัครสมาชิก',
     'LoggedIn' => 'เข้าสู่ระบบแล้ว',
     'RememberMe' => "ให้ลงชื่อเข้าใช้เสมอ",
 

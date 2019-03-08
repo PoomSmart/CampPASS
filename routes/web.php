@@ -92,3 +92,25 @@ Route::get('/language/{locale}', function ($locale) {
     }
     return redirect()->back();
 })->name('locale');
+
+/* About */
+
+Route::get('/what-is-camppass', function () {
+    return view('about.what_is_camppass');
+});
+
+Route::get('/how-camppass-works', function () {
+    return view('about.how_camppass_works');
+});
+
+Route::get('/about-us', function () {
+    return view('about.about_us');
+});
+
+Route::get('/terms-of-services', function () {
+    return view('about.terms_of_services');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('about.privacy_policy');
+});

@@ -134,26 +134,22 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang("app.What's") {{ config('app.name') }}</a></li>
-                                    <li><a href="#!">@lang('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
-                                    <li><a href="#!">@lang('app.Becoming a Camp Maker')</a></li>
+                                    <li><a href="what-is-camppass">@lang("app.What's")</a></li>
+                                    <li><a href="how-camppass-works">@lang('app.How') {{ config('app.name') }} @lang('app.works')</a></li>
+                                    <li><a href="register-campmaker">@lang('app.Becoming a Camp Maker')</a></li>
                                 </ul>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang('app.About')</a></li>
-                                    <li><a href="#!">@lang('app.Help')</a></li>
-                                    <li><a href="#!">@lang('app.Terms')</a></li>
+                                    <li><a href="about-us">@lang('app.About')</a></li>
+                                    <li><a href="terms-of-services">@lang('app.Terms')</a></li>
+                                    <li><a href="privacy-policy">@lang('app.Policy')</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <ul class="list-unstyled list-inline social text-right">
-                            <i class="fab fa-twitter"></i>
-                            <i class="fab fa-facebook-f"></i>
-                        </ul>
-                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th/">@lang('app.GotoCampHub') <i class="fas fa-paper-plane"></i></a></button>
+                        <button type="button" class="btn btn-outline-light float-right"><a href="https://www.camphub.in.th">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane"></i></a></button>
                     </div>
                 </div>
             </div>
