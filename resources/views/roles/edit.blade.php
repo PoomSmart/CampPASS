@@ -20,8 +20,9 @@
             'objects' => $permission,
             'value' => $rolePermissions,
             'required' => 1,
+            'radio_class' => 'mr-0',
+            'radio_attributes' => 'style=min-width:24%;',
             'getter' => 'name',
-            'columns' => 3,
         ])
         @endcomponent
         <div class="text-center">

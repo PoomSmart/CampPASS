@@ -43,7 +43,6 @@
                 'required' => $required,
                 'getter' => isset($getter) ? $getter : null,
                 'idx' => isset($idx) ? $idx : null,
-                'columns' => isset($columns) ? $columns : null,
                 'value' => isset($value) ? $value : null,
                 'radio_class' => isset($radio_class) ? $radio_class : null,
                 'radio_attributes' => isset($radio_attributes) ? $radio_attributes : null,

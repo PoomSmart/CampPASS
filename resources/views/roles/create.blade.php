@@ -18,8 +18,9 @@
             'required' => 1,
             'input_type' => 'checkbox',
             'objects' => $permission,
+            'radio_class' => 'mr-0',
+            'radio_attributes' => 'style=min-width:24%;',
             'getter' => 'name',
-            'columns' => 3,
         ])
         @endcomponent
         @component('components.submit', [
