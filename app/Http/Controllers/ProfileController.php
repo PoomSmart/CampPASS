@@ -63,7 +63,7 @@ class ProfileController extends Controller
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);
         $programs = Common::values(Program::class);
-        $education_levels = EducationLevel::getLocalizedConstants('year');
+        $education_levels = EducationLevel::getLocalizedConstants('camper');
         View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
     }
@@ -81,6 +81,12 @@ class ProfileController extends Controller
             $directory = Common::fileDirectory($user->id);
             $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
         }
+
+        if ($request->hasFile('profile')) {
+            $directory = Common::fileDirectory($user->id);
+            $path = Storage::disk('local')->putFileAs($directory, $request->file('profile'), 'profile.png');
+        }
+
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -114,6 +120,14 @@ class ProfileController extends Controller
     {
         $directory = Common::fileDirectory($user->id);
         if (!Storage::delete("{$directory}/{$type}.pdf"))
+            throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
+        return redirect()->back()->with('success', 'The specified document has been removed.');
+    }
+
+    public function profile_delete(User $user, $type)
+    {
+        $directory = Common::fileDirectory($user->id);
+        if (!Storage::delete("{$directory}/{$type}.png"))
             throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The specified document has been removed.');
     }

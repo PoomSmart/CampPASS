@@ -36,9 +36,19 @@
                             <img class="rounded-circle" src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}"/>
                         </div>
                     </div>
+
+                    <!-- Test -->
                     @role('camper')
-                        <button class="btn btn-primary w-100 mt-3 mx-2">@lang('profile.UploadPicture')</button>
-                        <button class="btn btn-danger w-100 mt-3 mx-2">@lang('profile.DeletePicture')</button>
+                        @component('components.profile_upload', [
+                            'value' => trans('app.View'),
+                            'args' => [
+                                'user' => \Auth::user()->id,
+                                'type' => 'profile',
+                            ],
+                            'delete_route' => 'camp_application.profile_delete',
+                            'name' => 'profile',
+                        ])
+                        @endcomponent
                     @endrole
                 </div>
             </div>
