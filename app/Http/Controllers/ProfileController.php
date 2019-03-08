@@ -83,6 +83,12 @@ class ProfileController extends Controller
             $directory = Common::fileDirectory($user->id);
             $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
         }
+
+        if ($request->hasFile('profile')) {
+            $directory = Common::fileDirectory($user->id);
+            $path = Storage::disk('local')->putFileAs($directory, $request->file('profile'), 'profile.png');
+        }
+
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -118,5 +124,13 @@ class ProfileController extends Controller
         if (!Storage::delete("{$directory}/{$type}.pdf"))
             throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The specified document has been removed.');
+    }
+
+    public function profile_delete(User $user, $type)
+    {
+        $directory = Common::fileDirectory($user->id);
+        if (!Storage::delete("{$directory}/{$type}.png"))
+            throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
+        return redirect()->back()->with('success', 'The profile picture has been removed.');
     }
 }
