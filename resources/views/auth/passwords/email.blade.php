@@ -11,12 +11,12 @@
             'name' => 'email',
             'label' => trans('account.Email'),
             'type' => 'email',
-            'attributes' => 'required',
+            'required' => 1,
         ])
         @endcomponent
         <div class="text-center mt-2">
             @component('components.submit', [
-                'label' => trans('account.SendPasswordResetLink')
+                'label' => trans('account.SendPasswordResetLink'),
             ])
             @endcomponent
         </div>

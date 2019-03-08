@@ -1,6 +1,6 @@
 @php
-    $required = isset($required) && $required == 1;
-    if (!isset($disabled)) $disabled = false;
+    $required = isset($required) && $required;
+    $disabled = isset($disabled) && $disabled;
     if (isset($attributes)) {
         if (strpos($attributes, 'required') !== false)
             $required = true;
@@ -29,6 +29,7 @@
                 'placeholder' => isset($placeholder) ? $placeholder : null,
                 'objects' => $objects,
                 'attributes' => isset($attributes) ? $attributes : null,
+                'required' => $required,
                 'disabled' => $disabled,
             ])
             @endcomponent
@@ -42,9 +43,9 @@
                 'required' => $required,
                 'getter' => isset($getter) ? $getter : null,
                 'idx' => isset($idx) ? $idx : null,
-                'columns' => isset($columns) ? $columns : null,
                 'value' => isset($value) ? $value : null,
                 'radio_class' => isset($radio_class) ? $radio_class : null,
+                'radio_attributes' => isset($radio_attributes) ? $radio_attributes : null,
             ])
             @slot('append_last')
                 {{ isset($append_last) ? $append_last : null }}
@@ -68,7 +69,7 @@
         <input type="{{ isset($type) ? $type : 'text' }}" value="{{ $value }}"
     @endif
         id="{{ isset($id) ? $id : $name }}" 
-        class="{{ !isset($no_form_control_class) ? 'form-control'.(isset($type) ? ' form-control-'.$type : '') : '' }}{{ isset($class) ? ' '.$class : ''}}{{ $errors->has($name) ? ' is-invalid' : '' }}"
+        class="{{ !isset($no_form_control_class) ? 'form-control'.(isset($type) ? ' form-control-'.$type : null) : null }}{{ isset($class) ? ' '.$class : null }}{{ $errors->has($name) ? ' is-invalid' : null }}"
         name="{{ $name }}"
         @if (isset($placeholder))
             placeholder="{{ $placeholder }}"
@@ -85,7 +86,7 @@
         @if (isset($desc))
             aria-describedby="{{ $name }}-desc-inline"
         @endif
-            {{ isset($attributes) ? $attributes : '' }}
+            {{ isset($attributes) ? $attributes : null }}
         @if (isset($textarea))
             >{{ $value }}</textarea>
         @else

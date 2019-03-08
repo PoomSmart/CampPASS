@@ -8,6 +8,7 @@ use App\Religion;
 use App\School;
 use App\Province;
 use App\Program;
+use App\Organization;
 use App\Badge;
 
 use App\Http\Requests\StoreUserRequest;
@@ -63,9 +64,10 @@ class ProfileController extends Controller
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);
         $programs = Common::values(Program::class);
-        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        $education_levels = EducationLevel::getLocalizedConstants('year');
+        $organizations = $user->isCamper() ? null : \Auth::user()->isAdmin() ? Organization::all() : [ $user->organization ];
         View::share('object', $user);
-        return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
+        return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels', 'organizations'));
     }
 
     public function update(StoreUserRequest $request, User $user)

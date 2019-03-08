@@ -17,7 +17,8 @@
                                 'name' => "type[{$camp_id}-00000]",
                                 'isform' => 0,
                                 'objects' => $question_types,
-                                'attributes' => 'required onchange=selectionChanged(this);',
+                                'required' => 1,
+                                'attributes' => 'onchange=selectionChanged(this);',
                                 'disabled' => $finalized,
                             ])
                             @endcomponent
