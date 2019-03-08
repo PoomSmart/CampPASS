@@ -1,6 +1,5 @@
 <div class="row">
-    <div class="col-12 align-content-start">
-        @php if (isset($columns)) $col_width = 12 / $columns @endphp
+    <div class="col-12">
         @foreach ($objects as $i => $obj)
             @php
                 $j = isset($idx) && $idx == 1 ? $i : $obj->id;
@@ -8,10 +7,12 @@
                 $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
                 $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
             @endphp
-            <div class="form-check form-check-inline{{ isset($radio_class) ? ' '.$radio_class : null }}">
+            <div class="form-check form-check-inline{{ isset($radio_class) ? ' '.$radio_class : null }}"
+                {{ isset($radio_attributes) ? $radio_attributes : null }}
+            >
                 <input class="form-check-input"
                     type="{{ isset($type) ? $type : 'radio' }}"
-                    name="{{ $name }}{{ ($checkbox ? "[]" : null) }}"
+                    name="{{ $name }}{{ ($checkbox ? '[]' : null) }}"
                     id="{{ $id }}"
                     value="{{ $j }}"
                     @if (isset($required) && $required == 1)

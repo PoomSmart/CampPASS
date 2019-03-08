@@ -209,10 +209,10 @@
                 @component('components.input', [
                     'name' => 'organization_id',
                     'label' => trans('campmaker.Organization'),
-                    'attributes' => 'required',
                     'input_type' => 'select',
                     'objects' => $organizations,
-                    'placeholder' => trans('campmaker.SelectYourOrganization'),
+                    'disabled' => isset($update),
+                    'placeholder' => isset($update) ? null : trans('campmaker.SelectYourOrganization'),
                 ])
                 @endcomponent
             </div>

@@ -1,11 +1,11 @@
 <label
     for="{{ $name }}"
     @if (isset($required) && $required)
-        @php $label_attributes = 'required' @endphp
+        required
     @endif
     @if (isset($label_attributes))
         {{ $label_attributes }}
     @endif
-    class="col-form-label {{ isset($label_class) ? $label_class : '' }}">
+    class="col-form-label {{ isset($label_class) ? $label_class : null }}">
     {{ $label }}
 </label>

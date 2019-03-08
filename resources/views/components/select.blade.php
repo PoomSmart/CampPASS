@@ -1,6 +1,9 @@
 <select name="{{ $name }}" id="{{ isset($id) ? $id : $name }}" class="form-control"
-    @if (isset($disabled) && $disabled == true)
+    @if (isset($disabled) && $disabled)
         disabled
+    @endif
+    @if (isset($required) && $required)
+        required
     @endif
     @if (isset($attributes))
         {{ $attributes }}

@@ -9,17 +9,17 @@
         @component('components.input', [
             'name' => 'name',
             'label' => trans('app.Name'),
-            'attributes' => 'required',
+            'required' => 1,
             'object' => $role,
         ])
         @endcomponent
         @component('components.input', [
             'name' => 'permission',
             'label' => trans('account.Permissions'),
-            'attributes' => 'required',
             'input_type' => 'checkbox',
             'objects' => $permission,
             'value' => $rolePermissions,
+            'required' => 1,
             'getter' => 'name',
             'columns' => 3,
         ])
