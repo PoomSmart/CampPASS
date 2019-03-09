@@ -39,7 +39,7 @@ class BadgeController
     public static function addBadgeIfNeeded(Registration $registration)
     {
         // TODO: Add Pioneer Badge
-        if ($registration->qualified()) {
+        if ($registration->confirmed()) {
             $camper = $registration->camper;
             // Attended the first camp via CampPASS
             Badge::firstOrCreate([

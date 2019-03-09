@@ -106,7 +106,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSException($ineligible_reason);
         $registration = $camp->getLatestRegistration($user);
         if ($registration) {
-            if ($registration->qualified())
+            if ($registration->confirmed())
                 throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
             if ($status != ApplicationStatus::DRAFT) {
                 $registration->update([
@@ -270,7 +270,7 @@ class CampApplicationController extends Controller
         self::authenticate_registration($registration, $silent = $void);
         if ($registration->rejected() || $registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
-        if ($registration->qualified())
+        if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
@@ -285,7 +285,7 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp);
         self::authenticate_registration($registration);
-        if ($registration->qualified())
+        if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
