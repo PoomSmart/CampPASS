@@ -64,6 +64,15 @@ class User extends Authenticatable
         'type', 'password', 'remember_token',
     ];
 
+    /**
+     * The attributes that should be set once.
+     * 
+     * @var array
+     */
+    public static $once = [
+        'citizen_id', 'gender', 'dob',
+    ];
+
     public function isCamper()
     {
         return $this->type == config('const.account.camper');

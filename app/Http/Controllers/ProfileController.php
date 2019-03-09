@@ -74,7 +74,8 @@ class ProfileController extends Controller
     {
         // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
-        $user->update($request->all());
+        $input = $request->except(User::$once);
+        $user->update($input);
         $directory = Common::fileDirectory($user->id);
         if ($request->hasFile('transcript'))
             Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');

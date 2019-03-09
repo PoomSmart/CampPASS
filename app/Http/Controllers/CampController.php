@@ -140,8 +140,9 @@ class CampController extends Controller
     public function update(StoreCampRequest $request, Camp $camp)
     {
         \Auth::user()->canManageCamp($camp);
-        $camp->update($request->all());
-        return redirect()->route('camps.index')->with('success', "Camp {$camp} has been updated successfully.");
+        $input = $request->except(Camp::$once);
+        $camp->update($input);
+        return redirect()->back()->with('success', "Camp {$camp} has been updated successfully.");
     }
 
     public function destroy(Camp $camp)

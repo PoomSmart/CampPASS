@@ -49,6 +49,15 @@ class Camp extends Model
         'app_close_date', 'event_start_date', 'event_end_date',
     ];
 
+    /**
+     * The attributes that should be set once.
+     * 
+     * @var array
+     */
+    public static $once = [
+        'camp_category_id',
+    ];
+
     public function registrations()
     {
         return $this->hasMany(Registration::class);

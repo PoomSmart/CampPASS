@@ -128,7 +128,6 @@
         </div>
     </form>
     <script>
-        jQuery(':radio').attr('disabled', true);
-        jQuery(':checkbox').attr('disabled', true);
+        jQuery(":radio,:checkbox").attr("disabled", true);
     </script>
 @endsection

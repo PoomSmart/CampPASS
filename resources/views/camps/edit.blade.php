@@ -6,8 +6,8 @@
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='min_cgpa']").inputSpinner();
-            jQuery("input[name='quota']").inputSpinner();
+            jQuery("input[name='min_cgpa'],input[name='quota']").inputSpinner();
+            jQuery("[id^=camp_category_id]").attr("disabled", true);
         });
     </script>
     <script src="{{ asset('js/check-unsaved.js') }}"></script>

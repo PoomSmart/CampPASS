@@ -4,6 +4,10 @@
     {{ $camp }}
 @endsection
 
+@section('custom-width')
+    <div class="col-12">
+@endsection
+
 @section('content')
     <p class="text-center">{{ $category->getName() }} - {{ $camp->camp_procedure }}</p>
     @can('answer-list')
@@ -30,7 +34,7 @@
                         <th>@lang('registration.ID')</th>
                         <th>@lang('account.FullName')</th>
                         <th>@lang('account.School')</th>
-                        <th>@lang('camper.Program')</th>
+                        <th class="fit">@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
@@ -46,7 +50,7 @@
                             <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                             <td>{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
-                            <td class="text-center">{{ $registration->getStatus() }}</td>
+                            <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @php
                                 $form_score = $registration->form_score;
                                 $finalized = $form_score ? $form_score->finalized : false;
