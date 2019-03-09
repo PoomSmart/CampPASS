@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89ae69a6e71868856153a8afd91656e6",
+    "content-hash": "fc54f68161cd4a9fc49a5bb4016a8a50",
     "packages": [
         {
             "name": "camppass/laravel-csv-seeder",
