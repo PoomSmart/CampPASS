@@ -9,25 +9,36 @@
 @endsection
 
 @section('content')
-    <form class="form-inline" action="{{ route('camps.browser') }}" method="GET">
-        @component('components.input', [
-            'name' => 'query',
-            'value' => Request::get('query'),
-            'label' => trans('app.SearchCampByName'),
-            'label_class' => 'mr-2',
-            'class' => 'mr-2 w-50',
-        ])
-        @endcomponent
-        <!--<select name="category" id="">
-            <option value="auto">Auto</option>
-            <option value="moto">Moto</option>
-        </select>-->
-        @component('components.submit', [
-            'label' => trans('app.Search'),
-            'class' => 'mr-2',
-        ])
-        @endcomponent
-        <a href="{{ route('camps.browser') }}" class="btn btn-outline-info">@lang('app.ClearFilters')</a>
+    <form class="row form" action="{{ route('camps.browser') }}" method="GET">
+        <div class="col-md-8">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <span>@lang('app.SearchCampByName')</span>
+                    </div>
+                </div>
+                @component('components.input', [
+                    'name' => 'query',
+                    'value' => Request::get('query'),
+                ])
+                @endcomponent
+            </div>
+            @component('components.input', [
+                'name' => 'test',
+                'input_type' => 'checkbox',
+                'idx' => 1,
+                'objects' => [ '1', '2', '3' ],
+            ])
+            @endcomponent
+        </div>
+        <div class="col-md-4">
+            @component('components.submit', [
+                'label' => trans('app.Search'),
+                'class' => 'mr-2',
+            ])
+            @endcomponent
+            <a href="{{ route('camps.browser') }}" class="btn btn-outline-info">@lang('app.ClearFilters')</a>
+        </div>
     </form>
     @foreach ($categorized_camps as $category => $camps)
         <div class="container mt-4">
