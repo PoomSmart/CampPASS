@@ -228,7 +228,7 @@ class CampController extends Controller
     public function by_category(CampCategory $record)
     {
         $camps = $this->get_camps($query_pairs = [
-            'camp_category_id', $record->id, null,
+            [ 'camp_category_id', $record->id, null, ],
         ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
@@ -236,7 +236,7 @@ class CampController extends Controller
     public function by_organization(Organization $record)
     {
         $camps = $this->get_camps($query_pairs = [
-            'organization_id', $record->id, null,
+            [ 'organization_id', $record->id, null, ],
         ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
