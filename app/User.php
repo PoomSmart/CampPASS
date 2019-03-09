@@ -40,6 +40,7 @@ class User extends Authenticatable
         'nationality', 'religion_id', 'citizen_id', 'gender', 'dob', 'allergy',
         'street_address', 'province_id', 'zipcode', 'mobile_no', 'email',
         'username', 'password', 'status', 'activation_code', 'type',
+        'avatar',
         // camper
         'cgpa',
         'short_biography',

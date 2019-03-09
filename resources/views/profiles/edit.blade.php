@@ -24,13 +24,11 @@
         @method('PUT')
         @php $type = \Auth::user()->type @endphp
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3">  
                 <h3 class="mt-4">@lang('profile.ProfilePicture')</h3>
-                <div class="row justify-content-center mt-4">
-                    <div class="profile-header-container">
-                        <div class="profile-header-img">
-                            <img class="rounded-circle mw-100 p-4" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path(\Auth::user()) }}"/>
-                        </div>
+                <div class="row justify-content-center">
+                    <div class="container-fluid no-gutters text-center p-lg-4">
+                        <img id="profile-preview" class="rounded-circle img-fluid w-100" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path(\Auth::user()) }}"/>
                     </div>
                     @role('camper')
                         @component('components.profile_upload', [
@@ -42,6 +40,15 @@
                             'name' => 'profile',
                         ])
                         @endcomponent
+                        <script>
+                            document.getElementById("profile").onchange = function () {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    document.getElementById("profile-preview").src = e.target.result;
+                                };
+                                reader.readAsDataURL(this.files[0]);
+                            };
+                        </script>
                     @endrole
                 </div>
             </div>

@@ -80,8 +80,13 @@ class ProfileController extends Controller
             Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
         if ($request->hasFile('certificate'))
             Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
-        if ($request->hasFile('profile'))
-            Storage::disk('local')->putFileAs($directory, $request->file('profile'), 'profile.png');
+        if ($request->hasFile('profile')) {
+            $name = "profile.{$request->profile->getClientOriginalExtension()}";
+            $user->update([
+                'avatar' => $name,
+            ]);
+            Storage::disk('local')->putFileAs($directory, $request->file('profile'), $name);
+        }
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -122,7 +127,7 @@ class ProfileController extends Controller
     public static function profile_picture_path(User $user, bool $actual = false, bool $display = true)
     {
         $directory = Common::fileDirectory($user->id);
-        $path = "{$directory}/profile.png";
+        $path = "{$directory}/{$user->avatar}";
         if (Storage::disk('local')->exists($path))
             return $display ? Storage::url($path) : $path;
         return $actual ? null : asset('images/profiles/Profile_'.[ 'M', 'F' ][$user->gender % 2].'.jpg');

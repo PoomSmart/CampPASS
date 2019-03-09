@@ -59,6 +59,7 @@ class StoreUserRequest extends FormRequest
             'zipcode' => [
                 'required', 'digits:5', new ThaiZipCode,
             ],
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'cgpa' => "nullable|required_if:type,{$CAMPER}|numeric|min:1.0|max:4.0",
