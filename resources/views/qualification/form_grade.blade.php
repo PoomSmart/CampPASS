@@ -100,14 +100,15 @@
                         @php
                             $full_score = $json['question_full_score'][$key];
                             $score = isset($json['question_scored'][$key]) ? $json['question_scored'][$key] : null;
+                            $readonly = isset($json['question_lock'][$key]) && $json['question_lock'][$key];
                         @endphp
                         @component('components.input', [
                             'name' => "manual_score_{$key}",
                             'type' => 'number',
                             'no_form_control_class' => 1,
-                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score} buttonsClass='disabled'",
+                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score}".($readonly ? " buttonsClass='disabled'" : null),
                             'value' => $graded ? $score : null,
-                            'readonly' => isset($json['question_lock'][$key]),
+                            'readonly' => $readonly,
                             'object' => isset($object) ? $object : null,
                         ])
                         @endcomponent
