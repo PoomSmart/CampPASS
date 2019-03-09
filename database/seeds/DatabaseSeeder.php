@@ -458,6 +458,7 @@ class DatabaseSeeder extends Seeder
             }
             unset($multiple_radio_map);
             unset($multiple_checkbox_map);
+            // We wouldn't normally create a form score record for any draft application forms
             foreach ($camp->registrations->where('status', '>=', ApplicationStatus::APPLIED) as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
@@ -472,7 +473,6 @@ class DatabaseSeeder extends Seeder
         }
         if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
             $manual_grade_question_set_ids[] = $question_set_id;
-        // We wouldn't normally create a form score record for any draft application forms
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);
         unset($questions);
@@ -590,7 +590,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 320)->create();
+        factory(Camp::class, 600)->create();
         $this->log_seed('users');
         factory(User::class, 320)->create();
         $this->registrations_and_questions_and_answers();
