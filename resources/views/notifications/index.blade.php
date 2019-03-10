@@ -17,7 +17,7 @@
 	    @foreach ($notifications as $notification)
             <tr>
                 <th scope="row">{{ ++$i }}</th>
-                <td><a href="{{ $notification->data['url'] }}">{{ $notification->data['content'] }}</a></td>
+                <td><a href="{{ $notification->data['url'] }}">{{ $notification->data['content'][app()->getLocale()] }}</a></td>
                 <td>
                     {{-- TODO: Mark as read (AJAX?) --}}
                 </td>

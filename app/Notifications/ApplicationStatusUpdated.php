@@ -6,15 +6,8 @@ use App\Registration;
 
 use App\Enums\ApplicationStatus;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-
-class ApplicationStatusUpdated extends Notification implements ShouldQueue
+class ApplicationStatusUpdated extends LocalizableNotification
 {
-    use Queueable;
-
     protected $registration;
 
     public function __construct(Registration $registration)
@@ -22,21 +15,16 @@ class ApplicationStatusUpdated extends Notification implements ShouldQueue
         $this->registration = $registration;
     }
 
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
     public function toText(Registration $registration)
     {
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
             case ApplicationStatus::APPROVED:
-                return "Congratulations! You are chosen for {$registration->camp}.";
+                return trans('qualification.AttendanceConfirm', ['camp' => $registration->camp]);
             case ApplicationStatus::REJECTED:
-                return "Sorry, you are disqualified for {$registration->camp}.";
+                return trans('qualification.Disqualified', ['camp' => $registration->camp]);
             default:
-                return "Undefined";
+                return 'Undefined';
         }
     }
 
@@ -50,13 +38,8 @@ class ApplicationStatusUpdated extends Notification implements ShouldQueue
         return [
             'registration_id' => $this->registration->id,
             'status' => $this->registration->status,
-            'content' => $this->toText($this->registration),
+            'content' => $this->toLocalizedText($this->registration),
             'url' => $this->toURL($this->registration),
         ];
-    }
-
-    public function toArray($notifiable)
-    {
-        return $this->toDatabase($notifiable);
     }
 }

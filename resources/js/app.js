@@ -51,7 +51,7 @@ window.routeNotification = routeNotification;
 
 function makeNotificationText(notification) {
     var text = '';
-    const content = notification.data.content;
+    const content = notification.data.content[`${window.Laravel.lang}`];
     text += '<strong>' + content + '</strong>';
     return text;
 }

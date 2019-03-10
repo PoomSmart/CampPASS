@@ -4,25 +4,13 @@ namespace App\Notifications;
 
 use App\Camp;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-
-class NewCampRegistered extends Notification
+class NewCampRegistered extends LocalizableNotification
 {
-    use Queueable;
-
     protected $camp;
 
     public function __construct(Camp $camp)
     {
         $this->camp = $camp;
-    }
-
-    public function via($notifiable)
-    {
-        return ['database'];
     }
 
     public function toText(Camp $camp)
@@ -39,13 +27,8 @@ class NewCampRegistered extends Notification
     {
         return [
             'camp_id' => $this->camp->id,
-            'content' => $this->toText($this->camp),
+            'content' => $this->toLocalizedText($this->camp),
             'url' => $this->toURL($this->camp),
         ];
-    }
-
-    public function toArray($notifiable)
-    {
-        return $this->toDatabase($notifiable);
     }
 }

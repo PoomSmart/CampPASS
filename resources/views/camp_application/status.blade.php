@@ -119,7 +119,7 @@
             @if ($registration->approved_to_confirmed()
                 && ($camp_procedure->interview_required ? $registration->interviewed() : true)
                 && ($camp_procedure->deposit_required ? $registration->paid() : true))
-                <p>@lang('qualification.AttendanceConfirm')</p>
+                <p>@lang('qualification.AttendanceConfirm', ['camp' => $camp])</p>
             @else
                 @php
                     $disable_confirm = true;
