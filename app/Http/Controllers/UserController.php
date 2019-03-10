@@ -25,7 +25,7 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('permission:user-list');
-        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
@@ -40,18 +40,7 @@ class UserController extends Controller
         $data = User::orderBy('username')->paginate(Common::maxPagination());
         return Common::withPagination(view('users.index', compact('data')), $request);
     }
-    
-    public function create()
-    {
-        return null;
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\StoreUserRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreUserRequest $request)
     {
         try {
@@ -65,24 +54,12 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('message', trans('message.UserSuccessActivation'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         $data = $user->getBelongingCamps()->orderBy('id')->get();
         return view('users.show', compact('user', 'data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         $roles = Role::pluck('name', 'name')->all();
@@ -90,13 +67,6 @@ class UserController extends Controller
         return view('users.edit', compact('user', 'roles', 'userRole'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\StoreUserRequest $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(StoreUserRequest $request, User $user)
     {
         $user->update($request->all());
@@ -105,12 +75,6 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         if ($user->isCamper()) {
@@ -124,6 +88,7 @@ class UserController extends Controller
                 }
             }
         }
+        Storage::disk('local')->delete(Common::fileDirectory($user->id));
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }

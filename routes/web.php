@@ -23,7 +23,7 @@ Route::prefix('browse-camps')->group(function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role:admin']], function () {
-        Route::resource('users', 'UserController');
+        Route::resource('users', 'UserController')->except('create');
         Route::resource('roles', 'RoleController');
     });
     Route::prefix('notifications')->group(function () {
