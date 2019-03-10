@@ -95,7 +95,8 @@ class RegisterController extends Controller
         ]);
     }
 
-    /* Create a new user instance after a valid registration.
+    /**
+     * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
@@ -116,7 +117,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Register new account.
+     * Register a new account.
      *
      * @param \App\StoreUserRequest $request
      * @return \Illuminate\Http\Response
