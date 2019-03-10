@@ -72,7 +72,6 @@ class ProfileController extends Controller
 
     public function update(StoreUserRequest $request, User $user)
     {
-        // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
         $input = $request->except(User::$once);
         $user->update($input);
@@ -88,6 +87,7 @@ class ProfileController extends Controller
             ]);
             Storage::disk('local')->putFileAs($directory, $request->file('profile'), $name);
         }
+        \Auth::login($user);
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
