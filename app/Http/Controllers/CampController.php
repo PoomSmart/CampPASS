@@ -40,17 +40,17 @@ class CampController extends Controller
     private function getOrganizationsIfNeeded()
     {
         if (is_null($this->organizations)) {
-            if (\Auth::user()->hasPermissionTo('organization-list'))
+            if (auth()->user()->hasPermissionTo('organization-list'))
                 $this->organizations = Common::values(Organization::class);
             else
-                $this->organizations = array(Organization::find($id = \Auth::user()->organization_id));
+                $this->organizations = array(Organization::find($id = auth()->user()->organization_id));
         }
         return $this->organizations;
     }
 
     public function index()
     {
-        $camps = \Auth::user()->isAdmin() ? Camp::latest() : \Auth::user()->getBelongingCamps()->latest();
+        $camps = auth()->user()->isAdmin() ? Camp::latest() : auth()->user()->getBelongingCamps()->latest();
         $camps = $camps->paginate(Common::maxPagination());
         return Common::withPagination(view('camps.index', compact('camps')));
     }
@@ -69,7 +69,7 @@ class CampController extends Controller
     public function store(StoreCampRequest $request)
     {
         try {
-            $user = \Auth::user();
+            $user = auth()->user();
             if ($user->isCampMaker())
                 $request->merge(['organization_id' => $user->organization_id]);
             $camp = Camp::create($request->all());
@@ -92,7 +92,7 @@ class CampController extends Controller
 
     public function show(Camp $camp)
     {
-        $this->check($camp, $skip_check = \Auth::user() && \Auth::user()->isAdmin());
+        $this->check($camp, $skip_check = auth()->user() && auth()->user()->isAdmin());
         View::share('object', $camp);
         $category = CampCategory::find($camp->camp_category_id);
         return view('camps.show', compact('camp', 'category'));
@@ -106,7 +106,7 @@ class CampController extends Controller
             return redirect()->route('qualification.candidate_result', $question_set->id);
         $max = config('const.app.max_paginate');
         View::share('object', $camp);
-        if (\Auth::user()->hasPermissionTo('camper-list')) {
+        if (auth()->user()->hasPermissionTo('camper-list')) {
             $registrations = $camp->registrations();
             $total_registrations = $registrations->count();
             $data = $registrations->paginate(Common::maxPagination());
@@ -120,7 +120,7 @@ class CampController extends Controller
     
     public function edit(Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        auth()->user()->canManageCamp($camp);
         View::share('object', $camp);
         $programs = $this->programs;
         $categories = $this->categories;
@@ -139,7 +139,7 @@ class CampController extends Controller
     
     public function update(StoreCampRequest $request, Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        auth()->user()->canManageCamp($camp);
         $input = $request->except(Camp::$once);
         $camp->update($input);
         return redirect()->back()->with('success', "Camp {$camp} has been updated successfully.");
@@ -147,7 +147,7 @@ class CampController extends Controller
 
     public function destroy(Camp $camp)
     {
-        \Auth::user()->canManageCamp($camp);
+        auth()->user()->canManageCamp($camp);
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

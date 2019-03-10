@@ -10,6 +10,7 @@
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
+            'lang' => app()->getLocale(),
         ]); !!};
     </script>
     @if (!auth()->guest())
@@ -54,7 +55,7 @@
                                 <a class="nav-link" href="{{ route('camps.index') }}">@lang('camp.OrganizeCamps')</a>
                             </li>
                         @endcan
-                        @if (\Auth::user() && \Auth::user()->isAdmin())
+                        @if (auth()->user() && auth()->user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">@lang('account.ManageUsers')</a>
                             </li>
@@ -75,12 +76,12 @@
                         @else
                             @role('camper')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profiles.my_camps', \Auth::user()) }}">@lang('camper.MyCamps')</a>
+                                    <a class="nav-link" href="{{ route('profiles.my_camps', auth()->user()) }}">@lang('camper.MyCamps')</a>
                                 </li>
                             @endrole
                             <li class="nav-item dropdown my-auto">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ \Auth::user()->getFullName() }}
+                                    {{ auth()->user()->getFullName() }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>

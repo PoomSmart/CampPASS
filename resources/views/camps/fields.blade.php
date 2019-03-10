@@ -53,7 +53,7 @@
     'name' => 'camp_procedure_id',
     'label' => trans('camp_procedure.CampProcedure'),
     'required' => 1,
-    'attributes' => !\Auth::user()->isAdmin() && isset($update) ? 'disabled' : ' onchange=selectionChanged(this);',
+    'attributes' => !auth()->user()->isAdmin() && isset($update) ? 'disabled' : ' onchange=selectionChanged(this);',
     'input_type' => 'select',
     'objects' => $camp_procedures,
     'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
@@ -84,7 +84,7 @@
     </div>
 </div>
 
-@php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); @endphp
+@php $can_list_organization = auth()->user()->hasPermissionTo('organization-list'); @endphp
 
 @component('components.input', [
     'name' => 'organization_id',

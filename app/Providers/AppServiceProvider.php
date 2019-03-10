@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // "Current password" validation rule
         Validator::extend('current_password', function ($attribute, $value, $parameters, $validator) {
-            return Hash::check($value, \Auth::user()->password);
+            return Hash::check($value, auth()->user()->password);
         });
     }
 

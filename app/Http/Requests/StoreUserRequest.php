@@ -76,7 +76,7 @@ class StoreUserRequest extends FormRequest
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         if ($method == 'PUT' || $method == 'PATCH') {
-            $user = \Auth::user();
+            $user = auth()->user();
             $rules += [
                 'citizen_id' => [
                     'required', 'digits:13', Rule::unique('users')->ignore($user->citizen_id, 'citizen_id'), new ThaiCitizenID,

@@ -4,7 +4,7 @@
     $disabled = isset($disabled) && $disabled;
 @endphp
 <h3 class="mt-4">@lang('profile.About', [
-        'entity' => !isset($object) || $object->id == \Auth::user()->id ? trans('app.You') : $object->getFullName(),
+        'entity' => !isset($object) || $object->id == auth()->user()->id ? trans('app.You') : $object->getFullName(),
     ])</h3>
     <div class="row">
         <div class="col-md-6">
@@ -171,7 +171,7 @@
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
                         'args' => [
-                            'user' => \Auth::user()->id,
+                            'user' => auth()->user()->id,
                             'type' => 'transcript',
                         ],
                         'upload' => !$disabled,
@@ -187,7 +187,7 @@
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
                         'args' => [
-                            'user' => \Auth::user()->id,
+                            'user' => auth()->user()->id,
                             'type' => 'certificate',
                         ],
                         'upload' => !$disabled,
@@ -312,7 +312,7 @@
         </div>
     @endif
 
-    @if (!\Auth::user() || \Auth::user()->isCamper() || (!\Auth::user()->isCamper() && !$disabled))
+    @if (!auth()->user() || auth()->user()->isCamper() || (!auth()->user()->isCamper() && !$disabled))
         <h3 class="mt-4">@lang('account.Account')</h3>
         <div class="row">
             <div class="col-md-6">

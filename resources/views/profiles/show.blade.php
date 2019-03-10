@@ -8,9 +8,9 @@
     {{ $user->getFullName() }}
 @endsection
 
-@if (\Auth::user() && \Auth::user()->id == $user->id)
+@if (auth()->user() && auth()->user()->id == $user->id)
     @section('extra-buttons')
-        <a href="{{ route('profiles.edit', \Auth::user()->id) }}" class="btn btn-primary w-50">@lang ('profile.UpdateProfile')</a>
+        <a href="{{ route('profiles.edit', auth()->user()->id) }}" class="btn btn-primary w-50">@lang ('profile.UpdateProfile')</a>
     @endsection
 @endif
 

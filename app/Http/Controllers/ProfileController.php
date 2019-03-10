@@ -29,14 +29,14 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return $this->show(\Auth::user());
+        return $this->show(auth()->user());
     }
 
     public function authenticate(User $user, bool $me = false)
     {
-        if ($me && $user->id != \Auth::user()->id)
+        if ($me && $user->id != auth()->user()->id)
             throw new \CampPASSExceptionPermission();
-        if (!$user->isActivated() && (!\Auth::user() || !\Auth::user()->isAdmin()))
+        if (!$user->isActivated() && (!auth()->user() || !auth()->user()->isAdmin()))
             throw new \CampPASSException(trans('exception.AccountNotActivated'));
         if ($user->isAdmin())
             throw new \CampPASSException(trans('exception.ErrorDisplayUser'));
@@ -51,7 +51,7 @@ class ProfileController extends Controller
 
     public function show_detailed(User $user)
     {
-        if (\Auth::user()->isCamper())
+        if (auth()->user()->isCamper())
             throw new \CampPASSExceptionPermission();
         View::share('disabled', true);
         return $this->edit($user, $me = false);
@@ -65,7 +65,7 @@ class ProfileController extends Controller
         $provinces = Common::values(Province::class);
         $programs = Common::values(Program::class);
         $education_levels = EducationLevel::getLocalizedConstants('year');
-        $organizations = $user->isCamper() ? null : \Auth::user()->isAdmin() ? Organization::all() : [ $user->organization ];
+        $organizations = $user->isCamper() ? null : auth()->user()->isAdmin() ? Organization::all() : [ $user->organization ];
         View::share('object', $user);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels', 'organizations'));
     }
@@ -87,7 +87,7 @@ class ProfileController extends Controller
             ]);
             Storage::disk('local')->putFileAs($directory, $request->file('profile'), $name);
         }
-        \Auth::login($user);
+        auth()->login($user);
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 

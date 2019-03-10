@@ -10,7 +10,7 @@ class NotificationController extends Controller
 {
     public function db_notifications()
     {
-        return \Auth::user()->unreadNotifications();
+        return auth()->user()->unreadNotifications();
     }
 
     public function all_notifications()

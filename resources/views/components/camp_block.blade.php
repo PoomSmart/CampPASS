@@ -11,7 +11,7 @@
                 <span class="text-muted"><i class="fa fa-calendar mr-2"></i>{{ $object->getEventStartDate() }}</span>
                 <span class="text-muted"><i class="fas fa-globe-asia mr-2"></i>Location X</span>
             </div>
-            @if (!\Auth::user() || \Auth::user()->isCamper())
+            @if (!auth()->user() || auth()->user()->isCamper())
                 @php
                     $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true);
                     $apply_text = $info['text'];
