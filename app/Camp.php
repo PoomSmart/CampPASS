@@ -208,19 +208,19 @@ class Camp extends Model
 
     public function getEventStartDate()
     {
-        return Carbon::parse($this->event_start_date)->formatLocalized('%d %B %Y, %H:%m');
+        return Carbon::parse($this->event_start_date)->formatLocalized('%d %B %Y');
     }
 
     public function getEventEndDate()
     {
-        return Carbon::parse($this->event_end_date)->formatLocalized('%d %B %Y, %H:%m');
+        return Carbon::parse($this->event_end_date)->formatLocalized('%d %B %Y');
     }
 
     public function getCloseDate()
     {
         if (!$this->app_close_date)
             return null;
-        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y, %H:%m');
+        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y');
     }
 
     public function getCloseDateHuman()
@@ -230,12 +230,12 @@ class Camp extends Model
         $date = Carbon::parse($this->app_close_date);
         if (Carbon::now()->diffInDays($date) < 0)
             return trans('camp.AlreadyClosed');
-        return trans('registration.WillClose').' '.$date->formatLocalized('%d %B %Y, %H:%m');
+        return trans('registration.WillClose').' '.$date->formatLocalized('%d %B %Y');
     }
 
     public function getInterviewDate()
     {
-        return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y, %H:%m');
+        return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y');
     }
 
     public function getAcceptableYears()
