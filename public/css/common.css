@@ -125,8 +125,10 @@ a:hover {
   text-decoration: none;
 }
 
-td, th {
+.table td, .table th {
   vertical-align: middle !important;
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
 }
 
 .table td.fit, .table th.fit {
