@@ -51,4 +51,5 @@ return [
     'CampDate' => 'วันจัดค่าย',
     'Details' => 'รายละเอียด',
     'Poster' => 'โปสเตอร์',
+    'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',
 ];

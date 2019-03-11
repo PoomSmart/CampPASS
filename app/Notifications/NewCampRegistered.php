@@ -15,7 +15,7 @@ class NewCampRegistered extends LocalizableNotification
 
     public function toText(Camp $camp)
     {
-        return "{$camp} is waiting for your approval.";
+        return trans('camp.WaitForApproval', ['camp' => $camp]);
     }
 
     public function toURL(Camp $camp)
