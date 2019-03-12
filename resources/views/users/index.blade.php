@@ -14,7 +14,7 @@
             <th>@lang('account.Username')</th>
             <th>@lang('account.FullName')</th>
             <th>@lang('account.Email')</th>
-            <th>@lang('account.Roles')</th>
+            <th class="fit">@lang('account.Roles')</th>
             <th>@lang('app.Activated')</th>
             <th>@lang('app.Actions')</th>
         </thead>
@@ -22,7 +22,7 @@
             <tr>
                 <th scope="row">{{ ++$i }}</th>
                 <th>{{ $user->username }}</th>
-                <th><a href="{{ route('profiles.show', $user->id) }}" target="_blank">{{ $user->getFullName() }}</a></th>
+                <th class="fit"><a href="{{ route('profiles.show', $user->id) }}" target="_blank">{{ $user->getFullName() }}</a></th>
                 <td>{{ $user->email }}</td>
                 <td>
                     @if (!empty($user->getRoleNames()))

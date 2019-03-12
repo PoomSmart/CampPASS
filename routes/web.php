@@ -23,7 +23,7 @@ Route::prefix('browse-camps')->group(function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role:admin']], function () {
-        Route::resource('users', 'UserController');
+        Route::resource('users', 'UserController')->except('create');
         Route::resource('roles', 'RoleController');
     });
     Route::prefix('notifications')->group(function () {
@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
         Route::get('/document-delete/{user}/{type}', 'ProfileController@document_delete')->name('camp_application.document_delete');
+        Route::get('/profile-delete/{user}', 'ProfileController@profile_picture_delete')->name('camp_application.profile_picture_delete');
     });
 });
 
@@ -86,9 +87,31 @@ Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name(
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/language/{locale}', function ($locale) {
-    if (in_array($locale, \Config::get('app.locales'))) {
+    if (in_array($locale, config('app.locales'))) {
         App::setLocale($locale);
         Session::put('locale', $locale);
     }
     return redirect()->back();
 })->name('locale');
+
+/* About */
+
+Route::get('/what-is-camppass', function () {
+    return view('about.what_is_camppass');
+});
+
+Route::get('/how-camppass-works', function () {
+    return view('about.how_camppass_works');
+});
+
+Route::get('/about-us', function () {
+    return view('about.about_us');
+});
+
+Route::get('/terms-of-services', function () {
+    return view('about.terms_of_services');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('about.privacy_policy');
+});

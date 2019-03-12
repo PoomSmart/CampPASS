@@ -1,5 +1,9 @@
 @extends('layouts.blank')
 
+@section('custom-width')
+    <div class="col-md-11">
+@endsection
+
 @section('content')
     <div id="highlightCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->

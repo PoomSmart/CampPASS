@@ -10,7 +10,7 @@ return [
     'LongDescription' => 'คำอธิบายยาว',
     'Status' => 'สถานะ',
     'ApprovalPending' => 'รอดำเนินการ',
-    'Approved' => 'รับรองความถูกต้องแล้ว',
+    'Approved' => 'รับรองแล้ว',
     'AcceptableProgramsShort' => 'สายการเรียนที่ยอมรับ',
     'AcceptablePrograms' => 'สายการเรียนที่ยอมรับ',
     'AcceptableRegions' => 'ภูมิภาคที่ยอมรับ',
@@ -51,4 +51,5 @@ return [
     'CampDate' => 'วันจัดค่าย',
     'Details' => 'รายละเอียด',
     'Poster' => 'โปสเตอร์',
+    'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',
 ];

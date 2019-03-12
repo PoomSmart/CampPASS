@@ -18,6 +18,7 @@ use App\Notifications\UserRegisteredSuccessfully;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -66,11 +67,12 @@ class RegisterController extends Controller
     public function camper()
     {
         $type = $this->CAMPER;
+        View::share('type', $type);
         $religions = $this->religions;
         $programs = $this->programs;
         $schools = $this->schools;
         $provinces = $this->provinces;
-        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        $education_levels = EducationLevel::getLocalizedConstants('year');
         return view('auth.register', compact('type', 'religions', 'programs', 'schools', 'provinces', 'education_levels'));
     }
 
@@ -83,15 +85,18 @@ class RegisterController extends Controller
     {
         if (is_null($this->organizations))
             $this->organizations = Organization::all();
+        $type = $this->CAMPMAKER;
+        View::share('type', $type);
         return view('auth.register', [
-            'type' => $this->CAMPMAKER,
+            'type' => $type,
             'religions' => $this->religions,
             'provinces' => $this->provinces,
             'organizations' => $this->organizations,
         ]);
     }
 
-    /* Create a new user instance after a valid registration.
+    /**
+     * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
@@ -112,7 +117,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Register new account.
+     * Register a new account.
      *
      * @param \App\StoreUserRequest $request
      * @return \Illuminate\Http\Response

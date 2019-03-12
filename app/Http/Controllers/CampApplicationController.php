@@ -30,16 +30,16 @@ class CampApplicationController extends Controller
      */
     public static function authenticate(Camp $camp, bool $eligible_check = false)
     {
-        $user = \Auth::user();
+        $user = auth()->user();
         if (!$user)
             throw new \CampPASSExceptionPermission();
         if (!$user->hasPermissionTo('answer-list'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // Campers would not submit the answers to the questions of such non-approved camps
-        if (!$camp->approved && !\Auth::user()->isAdmin())
+        if (!$camp->approved && !auth()->user()->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
         if ($eligible_check)
-            \Auth::user()->isEligibleForCamp($camp);
+            auth()->user()->isEligibleForCamp($camp);
         return $camp;
     }
 
@@ -50,7 +50,7 @@ class CampApplicationController extends Controller
      */
     public static function authenticate_registration(Registration $registration, bool $silent = false)
     {
-        if (!$silent && $registration->camper->id != \Auth::user()->id)
+        if (!$silent && $registration->camper->id != auth()->user()->id)
             throw new \CampPASSExceptionPermission();
     }
 
@@ -61,7 +61,7 @@ class CampApplicationController extends Controller
     public static function getApplyButtonInformation(Camp $camp, bool $short = false)
     {
         $apply_text = null;
-        $user = \Auth::user();
+        $user = auth()->user();
         $disabled = false;
         $route = null;
         if ($user) {
@@ -106,7 +106,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSException($ineligible_reason);
         $registration = $camp->getLatestRegistration($user);
         if ($registration) {
-            if ($registration->qualified())
+            if ($registration->confirmed())
                 throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
             if ($status != ApplicationStatus::DRAFT) {
                 $registration->update([
@@ -137,7 +137,7 @@ class CampApplicationController extends Controller
         $pairs = $question_set ? $question_set->pairs()->get() : null;
         if (!isset($pairs) || $pairs->isEmpty())
             throw new \CampPASSException(trans('exception.NoQuestion'));
-        $user = \Auth::user();
+        $user = auth()->user();
         $answers = [];
         $json = QuestionManager::getQuestionJSON($camp->id);
         $json['answer'] = [];
@@ -155,7 +155,7 @@ class CampApplicationController extends Controller
     public static function landing(Camp $camp, Registration $registration = null)
     {
         self::authenticate($camp);
-        $user = \Auth::user();
+        $user = auth()->user();
         if (!$registration)
             $registration = self::register($camp, $user);
         $camp_procedure = $camp->camp_procedure;
@@ -181,7 +181,7 @@ class CampApplicationController extends Controller
     public function store(Request $request)
     {
         $camp = $this->authenticate(Camp::find($request['camp_id']));
-        $user = \Auth::user();
+        $user = auth()->user();
         if (!$user->hasPermissionTo('answer-edit') || !$user->hasPermissionTo('answer-create'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // A registration record will be created if not already
@@ -228,7 +228,7 @@ class CampApplicationController extends Controller
     {
         $camp = $question_set->camp;
         $this->authenticate($camp, $eligible_check = true);
-        $camper = \Auth::user();
+        $camper = auth()->user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
         $json = QuestionManager::getQuestionJSON($question_set->camp_id);
@@ -252,7 +252,7 @@ class CampApplicationController extends Controller
     public static function submit_application_form(Camp $camp, $status = ApplicationStatus::APPLIED)
     {
         self::authenticate($camp);
-        self::register($camp, $user = \Auth::user(), $status = $status, $badge_check = true);
+        self::register($camp, $user = auth()->user(), $status = $status, $badge_check = true);
         return view('camp_application.done');
     }
 
@@ -270,7 +270,7 @@ class CampApplicationController extends Controller
         self::authenticate_registration($registration, $silent = $void);
         if ($registration->rejected() || $registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
-        if ($registration->qualified())
+        if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
@@ -285,7 +285,7 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp);
         self::authenticate_registration($registration);
-        if ($registration->qualified())
+        if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
@@ -303,7 +303,7 @@ class CampApplicationController extends Controller
      */
     public function canAccessAnswer(Answer $answer)
     {
-        $user = \Auth::user();
+        $user = auth()->user();
         if ($user->isAdmin())
             return;
         if ($user->isCamper() && $answer->camper->id != $user->id)
@@ -351,7 +351,7 @@ class CampApplicationController extends Controller
      */
     public function answer_file_delete(Answer $answer)
     {
-        if (!\Auth::user()->hasPermissionTo('answer-delete'))
+        if (!auth()->user()->hasPermissionTo('answer-delete'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         $filepath = $this->get_answer_file_path($answer);
         if (!$filepath)

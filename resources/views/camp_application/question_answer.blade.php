@@ -45,8 +45,8 @@
                                 'value' => $value,
                                 'objects' => $json['radio_label'][$key],
                                 'idx' => 1,
-                                'noinline' => 1,
                                 'required' => $required ? 'required' : '',
+                                'radio_class' => 'w-100',
                             ])
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
@@ -56,8 +56,8 @@
                                 'type' => 'checkbox',
                                 'objects' => $json['checkbox_label'][$key],
                                 'idx' => 1,
-                                'noinline' => 1,
                                 'required' => $required ? 'required' : '',
+                                'radio_class' => 'w-100',
                             ])
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::FILE)

@@ -80,7 +80,6 @@
                     @if ($registration->approved())
                         <p>@lang('registration.SlipApproved')</p>
                     @else
-                        @php $need_upload = false; @endphp
                         @if ($registration->rejected())
                             <p>@lang('qualification.Rejected')</p>
                         @elseif ($registration->paid())
@@ -99,7 +98,7 @@
                                 }
                             @endphp
                         @endif
-                        @if ($need_upload)
+                        @if (isset($need_upload) && $need_upload)
                             <p>@lang('registration.UploadPayment')</p>
                             <div class="mx-1">
                                 <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
@@ -117,10 +116,10 @@
         </div>
         <div class="col-md-8">
             <h4 class="mb-4">@lang('status.Confirmation')</h4>
-            @if ($registration->approved_to_qualified()
+            @if ($registration->approved_to_confirmed()
                 && ($camp_procedure->interview_required ? $registration->interviewed() : true)
                 && ($camp_procedure->deposit_required ? $registration->paid() : true))
-                <p>@lang('qualification.AttendanceConfirm')</p>
+                <p>@lang('qualification.AttendanceConfirm', ['camp' => $camp])</p>
             @else
                 @php
                     $disable_confirm = true;
@@ -128,12 +127,12 @@
             @endif
             @php
                 if (!isset($disable_confirm) || !$disable_confirm)
-                    $disable_confirm = $registration->qualified() || $registration->withdrawed() || $registration->rejected();
-                $disable_withdraw = $registration->qualified() || $registration->withdrawed() || $registration->rejected();
+                    $disable_confirm = $registration->confirmed() || $registration->withdrawed() || $registration->rejected();
+                $disable_withdraw = $registration->confirmed() || $registration->withdrawed() || $registration->rejected();
             @endphp
             <div class="d-flex">
                 <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-50 mx-1 mb-4{{ $disable_confirm ? ' disabled' : null }}">
-                    {{ $registration->qualified() ? trans('app.Confirmed') : trans('app.Confirm') }}
+                    {{ $registration->confirmed() ? trans('app.Confirmed') : trans('app.Confirm') }}
                 </a>
                 <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-50 mx-1 mb-4" {{ $disable_withdraw ? 'disabled' : null }}>
                     {{ $registration->withdrawed() ? $registration->getStatus() : trans('registration.Withdraw') }}

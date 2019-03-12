@@ -41,17 +41,19 @@
 @component('components.input', [
     'name' => 'camp_category_id',
     'label' => trans('camp.Category'),
-    'attributes' => 'required',
     'input_type' => 'radio',
+    'radio_class' => 'mr-0',
+    'radio_attributes' => 'style=min-width:24%;',
     'objects' => $categories,
-    'columns' => 4,
+    'required' => 1,
 ])
 @endcomponent
 
 @component('components.input', [
     'name' => 'camp_procedure_id',
     'label' => trans('camp_procedure.CampProcedure'),
-    'attributes' => 'required'.(!\Auth::user()->isAdmin() && isset($update) ? ' disabled' : ' onchange=selectionChanged(this);'),
+    'required' => 1,
+    'attributes' => !auth()->user()->isAdmin() && isset($update) ? 'disabled' : ' onchange=selectionChanged(this);',
     'input_type' => 'select',
     'objects' => $camp_procedures,
     'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
@@ -82,14 +84,15 @@
     </div>
 </div>
 
-@php $can_list_organization = \Auth::user()->hasPermissionTo('organization-list'); @endphp
+@php $can_list_organization = auth()->user()->hasPermissionTo('organization-list'); @endphp
 
 @component('components.input', [
     'name' => 'organization_id',
     'label' => trans('organization.Organization'),
-    'attributes' => $can_list_organization ? 'required' : 'disabled',
     'input_type' => 'select',
     'objects' => $organizations,
+    'required' => $can_list_organization,
+    'disabled' => !$can_list_organization,
     'placeholder' => $can_list_organization && !isset($update) ? trans('camp.SelectOrganization') : null,
 ])
 @endcomponent
@@ -97,27 +100,27 @@
 @component('components.input',[
     'name' => 'acceptable_years',
     'label' => trans('camp.AcceptableYears'),
-    'attributes' => 'required',
     'input_type' => 'checkbox',
     'objects' => $years,
+    'required' => 1,
 ])
 @endcomponent
 
 @component('components.input', [
     'name' => 'acceptable_regions',
     'label' => trans('camp.AcceptableRegions'),
-    'attributes' => 'required',
     'input_type' => 'checkbox',
     'objects' => $regions,
+    'required' => 1,
 ])
 @endcomponent
 
 @component('components.input', [
     'name' => 'acceptable_programs',
     'label' => trans('camp.AcceptablePrograms'),
-    'attributes' => 'required',
     'input_type' => 'checkbox',
     'objects' => $programs,
+    'required' => 1,
 ])
 @endcomponent
 
@@ -179,7 +182,7 @@
             'name' => 'app_close_date',
             'label' => trans('camp.AppCloseDate'),
             'type' => 'datetime-local',
-            'attributes' => 'required',
+            'required' => 1,
         ])
         @endcomponent
     </div>
@@ -222,7 +225,7 @@
             'name' => 'event_start_date',
             'label' => trans('camp.EventStartDate'),
             'type' => 'datetime-local',
-            'attributes' => 'required',
+            'required' => 1,
         ])
         @endcomponent
     </div>
@@ -231,7 +234,7 @@
             'name' => 'event_end_date',
             'label' => trans('camp.EventEndDate'),
             'type' => 'datetime-local',
-            'attributes' => 'required',
+            'required' => 1,
         ])
         @endcomponent
     </div>

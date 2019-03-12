@@ -8,6 +8,7 @@ use App\Religion;
 use App\School;
 use App\Province;
 use App\Program;
+use App\Organization;
 use App\Badge;
 
 use App\Http\Requests\StoreUserRequest;
@@ -28,14 +29,14 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return $this->show(\Auth::user());
+        return $this->show(auth()->user());
     }
 
     public function authenticate(User $user, bool $me = false)
     {
-        if ($me && $user->id != \Auth::user()->id)
+        if ($me && $user->id != auth()->user()->id)
             throw new \CampPASSExceptionPermission();
-        if (!$user->isActivated() && (!\Auth::user() || !\Auth::user()->isAdmin()))
+        if (!$user->isActivated() && (!auth()->user() || !auth()->user()->isAdmin()))
             throw new \CampPASSException(trans('exception.AccountNotActivated'));
         if ($user->isAdmin())
             throw new \CampPASSException(trans('exception.ErrorDisplayUser'));
@@ -50,7 +51,7 @@ class ProfileController extends Controller
 
     public function show_detailed(User $user)
     {
-        if (\Auth::user()->isCamper())
+        if (auth()->user()->isCamper())
             throw new \CampPASSExceptionPermission();
         View::share('disabled', true);
         return $this->edit($user, $me = false);
@@ -63,24 +64,30 @@ class ProfileController extends Controller
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);
         $programs = Common::values(Program::class);
-        $education_levels = EducationLevel::getLocalizedConstants('camper');
+        $education_levels = EducationLevel::getLocalizedConstants('year');
+        $organizations = $user->isCamper() ? null : auth()->user()->isAdmin() ? Organization::all() : [ $user->organization ];
         View::share('object', $user);
-        return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels'));
+        return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels', 'organizations'));
     }
 
     public function update(StoreUserRequest $request, User $user)
     {
-        // TODO: It seems that the user will get logged out after updating their password
         $this->authenticate($user, $me = true);
-        $user->update($request->all());
-        if ($request->hasFile('transcript')) {
-            $directory = Common::fileDirectory($user->id);
-            $path = Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
+        $input = $request->except(User::$once);
+        $user->update($input);
+        $directory = Common::fileDirectory($user->id);
+        if ($request->hasFile('transcript'))
+            Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
+        if ($request->hasFile('certificate'))
+            Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
+        if ($request->hasFile('profile')) {
+            $name = "profile.{$request->profile->getClientOriginalExtension()}";
+            $user->update([
+                'avatar' => $name,
+            ]);
+            Storage::disk('local')->putFileAs($directory, $request->file('profile'), $name);
         }
-        if ($request->hasFile('certificate')) {
-            $directory = Common::fileDirectory($user->id);
-            $path = Storage::disk('local')->putFileAs($directory, $request->file('certificate'), 'certificate.pdf');
-        }
+        auth()->login($user);
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
@@ -113,8 +120,25 @@ class ProfileController extends Controller
     public function document_delete(User $user, $type)
     {
         $directory = Common::fileDirectory($user->id);
-        if (!Storage::delete("{$directory}/{$type}.pdf"))
+        if (!Storage::disk('local')->delete("{$directory}/{$type}.pdf"))
             throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The specified document has been removed.');
+    }
+
+    public static function profile_picture_path(User $user, bool $actual = false, bool $display = true)
+    {
+        $directory = Common::fileDirectory($user->id);
+        $path = "{$directory}/{$user->avatar}";
+        if (Storage::disk('local')->exists($path))
+            return $display ? Storage::url($path) : $path;
+        return $actual ? null : asset('images/profiles/Profile_'.[ 'M', 'F' ][$user->gender % 2].'.jpg');
+    }
+
+    public function profile_picture_delete(User $user)
+    {
+        $path = $this->profile_picture_path($user, $actual = true, $display = false);
+        if (!Storage::disk('local')->delete($path))
+            throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
+        return redirect()->back()->with('success', 'The profile picture has been removed.');
     }
 }

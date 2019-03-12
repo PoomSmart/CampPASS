@@ -70,7 +70,7 @@
                                         'correct_answer' => $graded ? $json['radio'][$key] : null,
                                         'idx' => 1,
                                         'simple_id' => 1,
-                                        'noinline' => 1,
+                                        'radio_class' => 'w-100',
                                     ])
                                     @endcomponent
                                 @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
@@ -81,7 +81,7 @@
                                         'objects' => $json['checkbox_label'][$key],
                                         'idx' => 1,
                                         'simple_id' => 1,
-                                        'noinline' => 1,
+                                        'radio_class' => 'w-100',
                                     ])
                                     @endcomponent
                                 @elseif ($type == \App\Enums\QuestionType::FILE)
@@ -100,14 +100,15 @@
                         @php
                             $full_score = $json['question_full_score'][$key];
                             $score = isset($json['question_scored'][$key]) ? $json['question_scored'][$key] : null;
+                            $readonly = isset($json['question_lock'][$key]) && $json['question_lock'][$key];
                         @endphp
                         @component('components.input', [
                             'name' => "manual_score_{$key}",
                             'type' => 'number',
                             'no_form_control_class' => 1,
-                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score} buttonsClass='disabled'",
+                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score}".($readonly ? " buttonsClass='disabled'" : null),
                             'value' => $graded ? $score : null,
-                            'readonly' => isset($json['question_lock'][$key]),
+                            'readonly' => $readonly,
                             'object' => isset($object) ? $object : null,
                         ])
                         @endcomponent
@@ -127,7 +128,6 @@
         </div>
     </form>
     <script>
-        jQuery(':radio').attr('disabled', true);
-        jQuery(':checkbox').attr('disabled', true);
+        jQuery(":radio,:checkbox").attr("disabled", true);
     </script>
 @endsection

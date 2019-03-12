@@ -40,6 +40,7 @@ class User extends Authenticatable
         'nationality', 'religion_id', 'citizen_id', 'gender', 'dob', 'allergy',
         'street_address', 'province_id', 'zipcode', 'mobile_no', 'email',
         'username', 'password', 'status', 'activation_code', 'type',
+        'avatar',
         // camper
         'cgpa',
         'short_biography',
@@ -61,6 +62,15 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'type', 'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be set once.
+     * 
+     * @var array
+     */
+    public static $once = [
+        'citizen_id', 'gender', 'dob',
     ];
 
     public function isCamper()
@@ -185,6 +195,8 @@ class User extends Authenticatable
         return null;
     }
 
+    private static $education_level_to_year = [ 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
+
     /**
      * Get the reason for why this user cannot apply for the given camp, if any.
      * 
@@ -197,6 +209,9 @@ class User extends Authenticatable
         // An access to unapproved camps should not exist
         if (!$camp->approved)
             return trans('camp.ApproveFirst'.$suffix);
+        // Campers with unacceptable year could not join the camp
+        if ($this->program->isBasic() && !in_array(self::$education_level_to_year[$this->education_level], $camp->acceptable_years, false))
+            return trans('registration.NotInRequiredYears'.$suffix);
         // Campers with incompatible program could not join the camp
         if (!in_array($this->program_id, $camp->acceptable_programs))
             return trans('registration.NotInRequiredPrograms'.$suffix);

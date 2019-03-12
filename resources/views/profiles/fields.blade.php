@@ -1,9 +1,10 @@
 @php
     $camper = $type == config('const.account.camper') ? 1 : null;
+    $campmaker = $type == config('const.account.campmaker') ? 1 : null;
     $disabled = isset($disabled) && $disabled;
 @endphp
 <h3 class="mt-4">@lang('profile.About', [
-        'entity' => $object->id == \Auth::user()->id ? trans('app.You') : $object->getFullName(),
+        'entity' => !isset($object) || $object->id == auth()->user()->id ? trans('app.You') : $object->getFullName(),
     ])</h3>
     <div class="row">
         <div class="col-md-6">
@@ -45,7 +46,7 @@
                 'name' => 'dob',
                 'label' => trans('account.DOB'),
                 'type' => 'date',
-                'attributes' => 'required',
+                'required' => 1,
             ])
             @endcomponent
         </div>
@@ -53,7 +54,7 @@
             @component('components.input', [
                 'name' => 'citizen_id',
                 'label' => trans('account.CitizenID'),
-                'attributes' => 'required',
+                'required' => 1,
             ])
             @endcomponent
         </div>
@@ -61,7 +62,7 @@
             @component('components.input', [
                 'name' => 'nationality',
                 'label' => trans('account.Nationality'),
-                'attributes' => 'required',
+                'required' => 1,
                 'input_type' => 'radio',
                 'objects' => [
                     trans('account.Thai'),
@@ -75,7 +76,7 @@
             @component('components.input', [
                 'name' => 'gender',
                 'label' => trans('account.Gender'),
-                'attributes' => 'required',
+                'required' => 1,
                 'input_type' => 'radio',
                 'objects' => [
                     trans('account.Male'),
@@ -91,7 +92,7 @@
                 @component('components.input', [
                     'name' => 'blood_group',
                     'label' => trans('account.BloodGroup'),
-                    'attributes' => 'required',
+                    'required' => 1,
                     'input_type' => 'radio',
                     'objects' => ['A', 'O', 'B', 'AB'],
                     'idx' => 1,
@@ -103,7 +104,7 @@
             @component('components.input', [
                 'name' => 'religion_id',
                 'label' => trans('account.Religion'),
-                'attributes' => 'required',
+                'required' => 1,
                 'input_type' => 'radio',
                 'objects' => $religions,
             ])
@@ -111,14 +112,14 @@
         </div>
     </div>
 
-    @if (isset($camper) || $disabled)
+    @if ($camper || $disabled)
         <h3 class="mt-4">@lang('account.Education')</h3>
         <div class="row">
             <div class="col-12">
                 @component('components.input', [
                     'name' => 'school_id',
                     'label' => trans('account.School'),
-                    'attributes' => 'required',
+                    'required' => 1,
                     'input_type' => 'select',
                     'objects' => $schools,
                     'placeholder' => trans('profile.SelectYourSchool'),
@@ -129,13 +130,12 @@
                 @component('components.input', [
                     'name' => 'program_id',
                     'label' => trans('camper.Program'),
-                    'attributes' => 'required',
+                    'required' => 1,
                     'input_type' => 'radio',
                     'objects' => $programs,
                 ])
                 @endcomponent
             </div>
-            <!-- TODO: This is all in one-line, should we comply with XD -->
             <div class="col-12">
                 @component('components.input', [
                     'name' => 'education_level',
@@ -144,7 +144,8 @@
                     'input_type' => 'radio',
                     'objects' => $education_levels,
                     'getter' => 'name',
-                    'columns' => 3,
+                    'radio_class' => 'mr-0',
+                    'radio_attributes' => 'style=min-width:24%;',
                 ])
                 @endcomponent
             </div>
@@ -170,7 +171,7 @@
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
                         'args' => [
-                            'user' => \Auth::user()->id,
+                            'user' => auth()->user()->id,
                             'type' => 'transcript',
                         ],
                         'upload' => !$disabled,
@@ -186,7 +187,7 @@
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
                         'args' => [
-                            'user' => \Auth::user()->id,
+                            'user' => auth()->user()->id,
                             'type' => 'certificate',
                         ],
                         'upload' => !$disabled,
@@ -201,6 +202,23 @@
         @endif
     @endif
 
+    @if ($campmaker)
+        <h3 class="mt-4">@lang('campmaker.Organization')</h3>
+        <div class="row">
+            <div class="col-12">
+                @component('components.input', [
+                    'name' => 'organization_id',
+                    'label' => trans('campmaker.Organization'),
+                    'input_type' => 'select',
+                    'objects' => $organizations,
+                    'disabled' => isset($update),
+                    'placeholder' => isset($update) ? null : trans('campmaker.SelectYourOrganization'),
+                ])
+                @endcomponent
+            </div>
+        </div>
+    @endif
+
     <h3 class="mt-4">@lang('profile.ContactInformation')</h3>
     <div class="row">
         <div class="col-12">
@@ -208,7 +226,7 @@
                 'name' => 'mobile_no',
                 'label' => trans('account.MobileNo'),
                 'type' => 'tel',
-                'attributes' => 'required',
+                'required' => 1,
             ])
             @endcomponent
         </div>
@@ -216,7 +234,7 @@
             @component('components.input', [
                 'name' => 'street_address',
                 'label' => trans('account.StreetAddress'),
-                'attributes' => 'required',
+                'required' => 1,
             ])
             @endcomponent
         </div>
@@ -224,7 +242,7 @@
             @component('components.input', [
                 'name' => 'province_id',
                 'label' => trans('account.Province'),
-                'attributes' => 'required',
+                'required' => 1,
                 'input_type' => 'select',
                 'objects' => $provinces,
                 'placeholder' => trans('profile.SelectYourProvince'),
@@ -235,7 +253,7 @@
             @component('components.input', [
                 'name' => 'zipcode',
                 'label' => trans('account.ZipCode'),
-                'attributes' => 'required',
+                'required' => 1,
             ])
             @endcomponent
         </div>
@@ -248,7 +266,7 @@
                 @component('components.input', [
                     'name' => 'guardian_name',
                     'label' => trans('camper.GuardianName'),
-                    'attributes' => 'required',
+                    'required' => 1,
                 ])
                 @endcomponent
             </div>
@@ -256,7 +274,7 @@
                 @component('components.input', [
                     'name' => 'guardian_surname',
                     'label' => trans('camper.GuardianSurname'),
-                    'attributes' => 'required',
+                    'required' => 1,
                 ])
                 @endcomponent
             </div>
@@ -264,7 +282,7 @@
                 @component('components.input', [
                     'name' => 'guardian_role',
                     'label' => trans('camper.GuardianRole'),
-                    'attributes' => 'required',
+                    'required' => 1,
                     'input_type' => 'radio',
                     'objects' => [
                         trans('account.Father'),
@@ -286,7 +304,7 @@
                 @component('components.input', [
                     'name' => 'guardian_mobile_no',
                     'label' => trans('camper.GuardianMobileNo'),
-                    'attributes' => 'required',
+                    'required' => 1,
                     'type' => 'tel',
                 ])
                 @endcomponent
@@ -294,23 +312,23 @@
         </div>
     @endif
 
-    @role('camper')
+    @if (!auth()->user() || auth()->user()->isCamper() || (!auth()->user()->isCamper() && !$disabled))
         <h3 class="mt-4">@lang('account.Account')</h3>
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'username',
                     'label' => trans('account.Username'),
-                    'attributes' => 'required',
+                    'required' => 1,
                 ])
                 @endcomponent
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'email',
                     'label' => trans('account.Email'),
                     'type' => 'email',
-                    'attributes' => 'required',
+                    'required' => 1,
                 ])
                 @endcomponent
             </div>
@@ -324,20 +342,22 @@
                     @endcomponent
                 </div>
             @endif
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'password',
                     'label' => trans('account.Password'),
                     'type' => 'password',
+                    'required' => isset($update) ? null : 1,
                     'value' => '',
                 ])
                 @endcomponent
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'password_confirmation',
                     'label' => trans('account.ConfirmPassword'),
                     'type' => 'password',
+                    'required' => isset($update) ? null : 1,
                 ])
                 @endcomponent
             </div>

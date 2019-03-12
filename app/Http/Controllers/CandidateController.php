@@ -26,12 +26,16 @@ class CandidateController extends Controller
     public function result(QuestionSet $question_set)
     {
         $form_scores = FormScore::with('registration')->where('question_set_id', $question_set->id)->where('finalized', true)->whereHas('registration', function ($query) {
-           $query->where('status', '>=', ApplicationStatus::APPROVED);
+           $query->where('status', '>=', ApplicationStatus::CHOSEN); // TODO: Is this correct?
         });
         if ($form_scores->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         $total = $form_scores->count();
-        $summary = "Total: {$total}";
+        $summary = trans('qualification.TotalCandidates', [ 'total' => $total ]);
+        $locale = \App::getLocale();
+        // TODO: Check whether this is efficient (and secure) enough for production
+        $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
+            ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderBy("users.name_{$locale}");
         $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));
@@ -97,7 +101,7 @@ class CandidateController extends Controller
             'total_registrations' => $total_registrations,
             'total_candidates' => $total_candidates,
             'total_failed' => $total_failed,
-            'average_score' => $average_score
+            'average_score' => $average_score,
         ]);
         $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());

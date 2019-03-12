@@ -19,4 +19,9 @@ class Program extends Model
     {
         return trans("program.{$this->name}");
     }
+
+    public function isBasic()
+    {
+        return $this->id == 1 || $this->id == 2;
+    }
 }

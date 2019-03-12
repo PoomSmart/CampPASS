@@ -25,8 +25,8 @@ function addNotifications(newNotifications, target) {
 }
 
 function showNotifications(notifications, target) {
+    var menu = jQuery(target + 'Menu');
     if (notifications.length) {
-        var menu = jQuery(target + 'Menu');
         notifications.forEach(function (notification) {
             menu.append(jQuery.parseHTML(makeNotification(notification)));
         });
@@ -40,7 +40,7 @@ function showNotifications(notifications, target) {
 function makeNotification(notification) {
     var to = routeNotification(notification);
     var notificationText = makeNotificationText(notification);
-    return `<li class="nav-link"><a target="_blank" href="${to}">${notificationText}</a></li>`;
+    return `<li class="nav-link ml-2"><a target="_blank" href="${to}">${notificationText}</a></li>`;
 }
 
 function routeNotification(notification) {
@@ -51,7 +51,7 @@ window.routeNotification = routeNotification;
 
 function makeNotificationText(notification) {
     var text = '';
-    const content = notification.data.content;
+    const content = notification.data.content[`${window.Laravel.lang}`];
     text += '<strong>' + content + '</strong>';
     return text;
 }

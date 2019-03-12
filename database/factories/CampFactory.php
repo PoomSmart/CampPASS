@@ -27,7 +27,7 @@ class Camp_Randomizer
     {
         if (!self::$years)
             self::$years = Year::pluck('id')->toArray();
-        return array_rand(array_flip(self::$years), rand(3, count(self::$years)));
+        return array_rand(array_flip(self::$years), rand(2, count(self::$years)));
     }
 
     public static function regions()
@@ -47,6 +47,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     $now = Carbon::now()->format('Y-m-d H:i:s');
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
+    $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;
     $announcement_date = $camp_procedure->candidate_required ? Camp_Randomizer::date_range_forward($faker, $app_close_date, '+2 months') : null;
     $interview_date = $camp_procedure->interview_required && $announcement_date ? Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks') : null;
     $confirmation_date = null;
@@ -57,7 +58,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     } else if ($announcement_date)
         $confirmation_date = Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks');
     $event_start_date = Camp_Randomizer::date_range_forward($faker, $confirmation_date ? $confirmation_date : $app_close_date, '+3 months');
-    $event_end_date = Camp_Randomizer::date_range_forward($faker, $event_start_date, '+3 months');
+    $event_end_date = Camp_Randomizer::date_range_forward($faker, $event_start_date, '+1 month');
     $camp_name = $faker->unique()->company;
     // TODO: Fake locations
     return [
@@ -81,6 +82,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'confirmation_date' => $confirmation_date,
         'event_start_date' => $event_start_date,
         'event_end_date' => $event_end_date,
+        'deposit' => $deposit,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'approved' => Common::randomVeryFrequentHit(),

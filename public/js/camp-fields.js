@@ -66,8 +66,5 @@ function selectionChanged(select) {
 
 jQuery(document).ready(function () {
     jQuery("[id^=camp_procedure_id-desc-inline]").hide();
-    var interview_date = jQuery("#interview_date");
-    var interview_info = jQuery("#interview_information");
-    disable(interview_date);
-    disable(interview_info);
+    jQuery("#camp_procedure_id").change();
 });

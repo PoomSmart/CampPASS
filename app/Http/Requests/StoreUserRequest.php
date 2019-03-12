@@ -59,6 +59,7 @@ class StoreUserRequest extends FormRequest
             'zipcode' => [
                 'required', 'digits:5', new ThaiZipCode,
             ],
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             // camper
             'school_id' => "nullable|required_if:type,{$CAMPER}|exists:schools,id",
             'cgpa' => "nullable|required_if:type,{$CAMPER}|numeric|min:1.0|max:4.0",
@@ -75,7 +76,7 @@ class StoreUserRequest extends FormRequest
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         if ($method == 'PUT' || $method == 'PATCH') {
-            $user = \Auth::user();
+            $user = auth()->user();
             $rules += [
                 'citizen_id' => [
                     'required', 'digits:13', Rule::unique('users')->ignore($user->citizen_id, 'citizen_id'), new ThaiCitizenID,

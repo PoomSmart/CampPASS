@@ -139,10 +139,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_seed('years');
         Year::insert([
-            [ 'name' => 'Primary School' ],
-            [ 'name' => 'Secondary School' ],
-            [ 'name' => 'Junior High School' ],
-            [ 'name' => 'Senior High School' ],
+            [ 'name' => 'Primary School', 'short_name' => 'Primary' ],
+            [ 'name' => 'Secondary School', 'short_name' => 'Secondary' ],
+            [ 'name' => 'Junior High School', 'short_name' => 'Junior' ],
+            [ 'name' => 'Senior High School', 'short_name' => 'Senior' ],
+            [ 'name' => 'University', 'short_name' => 'University' ],
         ]);
     }
 
@@ -199,6 +200,7 @@ class DatabaseSeeder extends Seeder
             if (!(($registration->applied() || $registration->chosen()) || (Common::randomRareHit() && $registration->status == ApplicationStatus::DRAFT)))
                 continue;
             $answer = null;
+            $score = null;
             switch ($question_type) {
                 case QuestionType::TEXT:
                     $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->text($maxNbChars = 15);
@@ -209,6 +211,7 @@ class DatabaseSeeder extends Seeder
                 case QuestionType::CHOICES:
                     // A bit of cheating in hope for seeded campers to get more scores
                     $answer = $graded && Common::randomRareHit() && isset($json['radio']) ? $json['radio'][$json_id] : array_rand($multiple_radio_map[$json_id]);
+                    $score = $graded && isset($json['radio']) && $answer == $json['radio'][$json_id] ? $question_full_score : 0.0;
                     break;
                 case QuestionType::CHECKBOXES:
                     $count = rand(1, count($multiple_checkbox_map[$json_id]));
@@ -229,9 +232,8 @@ class DatabaseSeeder extends Seeder
                 'camper_id' => $registration->camper_id,
                 'registration_id' => $registration->id,
                 'answer' => $answer,
-                // We take only the questions that need to be graded, i.e., full_score is set
                 // If the answer does not exist, this as much is of file type and we have yet to "seed" that
-                'score' => $answer ? $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score) : 0.0,
+                'score' => is_null($answer) ? 0.0: !is_null($score) ? $score : $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score),
             ];
         }
     }
@@ -251,6 +253,7 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('registrations');
         $registrations = [];
         $form_scores = [];
+        $manual_grade_question_set_ids = [];
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
@@ -312,7 +315,7 @@ class DatabaseSeeder extends Seeder
             $question_set_has_manual_grade = false;
             $question_set_total_score = 0;
             $has_any_answers = false;
-            $question_set_try_auto = false;
+            $question_set_try_auto = null;
             $multiple_radio_map = [];
             $multiple_checkbox_map = [];
             if (Common::randomMediumHit()) {
@@ -455,10 +458,8 @@ class DatabaseSeeder extends Seeder
             }
             unset($multiple_radio_map);
             unset($multiple_checkbox_map);
-            if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
-                $manual_grade_question_set_ids[] = $question_set_id;
             // We wouldn't normally create a form score record for any draft application forms
-            foreach ($camp->registrations->where('status', ApplicationStatus::APPLIED) as $registration) {
+            foreach ($camp->registrations->where('status', '>=', ApplicationStatus::APPLIED) as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set_id,
@@ -466,10 +467,12 @@ class DatabaseSeeder extends Seeder
                     'total_score' => null,
                     // Form scores are finalized as we say every question can be auto-graded
                     // However, this must mean there are no manual graded questions
-                    'finalized' => $question_set_try_auto && !$question_set_has_manual_grade,
+                    'finalized' => (!is_null($question_set_try_auto) ? $question_set_try_auto : true) && !$question_set_has_manual_grade,
                 ];
             }
         }
+        if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
+            $manual_grade_question_set_ids[] = $question_set_id;
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);
         unset($questions);
@@ -587,7 +590,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 320)->create();
+        factory(Camp::class, 600)->create();
         $this->log_seed('users');
         factory(User::class, 320)->create();
         $this->registrations_and_questions_and_answers();

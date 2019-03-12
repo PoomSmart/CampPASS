@@ -51,4 +51,5 @@ return [
     'CampDate' => 'Camp Date',
     'Details' => 'Details',
     'Poster' => 'Poster',
+    'WaitForApproval' => ':camp is waiting for your approval.',
 ];

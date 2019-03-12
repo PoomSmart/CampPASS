@@ -5,7 +5,7 @@
 @endsection
 
 @section('subheader')
-    {{ $camp }} (@lang('qualification.Announced'))
+    {{ $camp }}
 @endsection
 
 @section('content')

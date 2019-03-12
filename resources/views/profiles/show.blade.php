@@ -8,23 +8,18 @@
     {{ $user->getFullName() }}
 @endsection
 
-@if (\Auth::user() && \Auth::user()->id == $user->id)
+@if (auth()->user() && auth()->user()->id == $user->id)
     @section('extra-buttons')
-        <a href="{{ route('profiles.edit', \Auth::user()->id) }}" class="btn btn-primary w-50">@lang ('profile.UpdateProfile')</a>
+        <a href="{{ route('profiles.edit', auth()->user()->id) }}" class="btn btn-primary w-50">@lang ('profile.UpdateProfile')</a>
     @endsection
 @endif
 
 @section('card_content')
     <div class="row mt-4">
-        <div class="col-md-4 text-center">
-            @php
-                $alt = 'Profile Picture of '.$user->getFullName();
-                $genders = [ 'M', 'F' ];
-                $gender = $genders[$user->gender % 2];
-            @endphp
-            <img src="{{ asset("images/profiles/Profile_{$gender}.jpg") }}" alt="{{ $alt }}" title="{{ $alt }}" class="rounded-circle">
+        <div class="col-lg-4 text-center">
+            <img src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}" class="rounded-circle img-fluid w-75 p-2">
         </div>
-        <div class="col-md-8"> 
+        <div class="col-lg-8"> 
             <h4 class="mb-4">@lang('account.Education')</h4>
             <div class="row mb-2">
                 <div class="col-md-6">

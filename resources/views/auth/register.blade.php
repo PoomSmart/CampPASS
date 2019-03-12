@@ -4,6 +4,16 @@
 
 @extends('layouts.card')
 
+@section('script')
+    <script src="{{ asset('js/input-spinner.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("input[name='cgpa']").inputSpinner();
+        });
+    </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+@endsection
+
 @section('header')
     @lang('account.Register')
 @endsection

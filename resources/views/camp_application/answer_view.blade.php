@@ -46,8 +46,8 @@
                             'objects' => $json['radio_label'][$key],
                             'idx' => 1,
                             'simple_id' => 1,
-                            'noinline' => 1,
                             'required' => 1,
+                            'radio_class' => 'w-100',
                         ])
                         @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::CHECKBOXES)
@@ -58,8 +58,8 @@
                             'objects' => $json['checkbox_label'][$key],
                             'idx' => 1,
                             'simple_id' => 1,
-                            'noinline' => 1,
                             'required' => 1,
+                            'radio_class' => 'w-100',
                         ])
                         @endcomponent
                     @elseif ($type == \App\Enums\QuestionType::FILE)
@@ -74,8 +74,7 @@
         </div>
     @endforeach
     <script>
-        jQuery(':radio').attr('disabled', true);
-        jQuery(':checkbox').attr('disabled', true);
+        jQuery(":radio,:checkbox").attr("disabled", true);
     </script>
     <div class="form-group row mb-0">
         <div class="col-12 text-center">

@@ -20,11 +20,6 @@ class RoleController extends Controller
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $max = config('const.app.max_paginate');
@@ -32,23 +27,12 @@ class RoleController extends Controller
         return view('roles.index', compact('roles'))->with('i', ($request->input('page', 1) - 1) * $max);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $permission = Permission::get();
         return view('roles.create', compact('permission'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -60,12 +44,6 @@ class RoleController extends Controller
         return redirect()->route('roles.index')->with('success', 'Role created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Spatie\Permission\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function show(Role $role)
     {
         $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
@@ -73,12 +51,6 @@ class RoleController extends Controller
         return view('roles.show', compact('role', 'rolePermissions'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Spatie\Permission\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Role $role)
     {
         $permission = Permission::get();
@@ -87,13 +59,6 @@ class RoleController extends Controller
         return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Spatie\Permission\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Role $role)
     {
         $this->validate($request, [
@@ -106,13 +71,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
         return redirect()->route('roles.index')->with('success', 'Role updated successfully');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Spatie\Permission\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy(Role $role)
     {
         $role->delete();

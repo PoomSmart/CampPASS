@@ -10,6 +10,7 @@
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
+            'lang' => app()->getLocale(),
         ]); !!};
     </script>
     @if (!auth()->guest())
@@ -44,9 +45,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -57,7 +55,7 @@
                                 <a class="nav-link" href="{{ route('camps.index') }}">@lang('camp.OrganizeCamps')</a>
                             </li>
                         @endcan
-                        @if (\Auth::user() && \Auth::user()->isAdmin())
+                        @if (auth()->user() && auth()->user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">@lang('account.ManageUsers')</a>
                             </li>
@@ -78,12 +76,12 @@
                         @else
                             @role('camper')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profiles.my_camps', \Auth::user()) }}">@lang('camper.MyCamps')</a>
+                                    <a class="nav-link" href="{{ route('profiles.my_camps', auth()->user()) }}">@lang('camper.MyCamps')</a>
                                 </li>
                             @endrole
                             <li class="nav-item dropdown my-auto">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ \Auth::user()->getFullName() }} <span class="caret"></span>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ auth()->user()->getFullName() }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
@@ -98,8 +96,8 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown my-auto">
-                                <a class="nav-link dropdown-toggle" id="notifications" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fas fa-bell"></i>
+                                <a class="nav-link dropdown-toggle" id="notifications" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell my-auto"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsMenu" style="min-width: 35rem;">
                                     <div id="notificationsMenu"></div>
@@ -115,17 +113,15 @@
                 </div>
             </div>
         </nav>
-        
         @if (View::hasSection('header'))
             <div class="container-fluid text-center" id="header">
-                <h2 class="mb-0"><b>@yield('header')</b>
+                <h2 class="mb-0">@yield('header')
                     @if (View::hasSection('subheader'))
-                     - @yield('subheader')
+                     <span class="font-weight-normal">- @yield('subheader')</span>
                     @endif
                 </h2>
             </div>
         @endif
-
         <main class="py-4">
             <div class="container">
                 @yield('outer_content')
@@ -146,9 +142,9 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang('app.About')</a></li>
-                                    <li><a href="#!">@lang('app.Help')</a></li>
-                                    <li><a href="#!">@lang('app.Terms')</a></li>
+                                    <li><a href="about-us">@lang('app.About')</a></li>
+                                    <li><a href="terms-of-services">@lang('app.Terms')</a></li>
+                                    <li><a href="privacy-policy">@lang('app.Policy')</a></li>
                                 </ul>
                             </div>
                         </div>

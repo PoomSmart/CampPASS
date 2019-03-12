@@ -3,6 +3,9 @@
 return [
     'CampProcedure' => 'Application Type',
     'Walk-in' => 'Walk-in',
+    'InterviewTag' => 'Interview',
+    'DepositTag' => 'Deposit',
+    'QATag' => 'QA',
     'QA' => 'QA Only',
     'Deposit' => 'Deposit Only',
     'QA-Deposit' => 'QA and Deposit',

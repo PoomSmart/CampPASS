@@ -67,7 +67,7 @@ class Common
 
     public static function userDirectory(int $user_id)
     {
-        return "users/{$user_id}";
+        return "public/users/{$user_id}";
     }
 
     public static function fileDirectory(int $user_id)
@@ -126,7 +126,7 @@ class Common
     public static function authenticate_camp(Camp $camp, bool $silent = false)
     {
         if (!$silent) {
-            $user = \Auth::user();
+            $user = auth()->user();
             if (!$camp->approved && !$user->hasRole('admin'))
                 throw new \App\Exceptions\ApproveCampException();
             $user->canManageCamp($camp);
