@@ -1,10 +1,13 @@
+@php
+    $nolabel = isset($nolabel) && $nolabel;
+@endphp
 <div class="row">
     <div class="col-12">
         @foreach ($objects as $i => $obj)
             @php
-                $j = isset($idx) && $idx == 1 ? $i : $obj->id;
+                $j = isset($idx) && $idx ? $i : $obj->id;
                 $checkbox = isset($type) && $type == 'checkbox';
-                $id = isset($simple_id) && $simple_id === 1 ? $j : $name.'_'.$j;
+                $id = isset($simple_id) && $simple_id ? $j : $name.'_'.$j;
                 $selected_value = isset($bit) ? null : (isset($value) ? $value : null);
             @endphp
             <div class="form-check form-check-inline{{ isset($radio_class) ? ' '.$radio_class : null }}"
@@ -15,7 +18,7 @@
                     name="{{ $name }}{{ ($checkbox ? '[]' : null) }}"
                     id="{{ $id }}"
                     value="{{ $j }}"
-                    @if (isset($required) && $required == 1)
+                    @if (isset($required) && $required)
                         required
                     @endif
                     @php
@@ -34,13 +37,15 @@
                         checked
                     @endif
                 />
-                <label class="form-check-label
-                    {{ isset($correct_answer) && $correct_answer == $j ?
-                        $j == $selected_value ? " font-weight-bold text-success"
-                        : " font-weight-bold text-danger"
-                        : null }}"
-                    for="{{ $id }}"
-                >{{ (isset($getter) ? $obj->{$getter} : $obj) }}</label>
+                @if (!$nolabel)
+                    <label class="form-check-label
+                        {{ isset($correct_answer) && $correct_answer == $j ?
+                            $j == $selected_value ? " font-weight-bold text-success"
+                            : " font-weight-bold text-danger"
+                            : null }}"
+                        for="{{ $id }}"
+                    >{{ (isset($getter) ? $obj->{$getter} : $obj) }}</label>
+                @endif
                 @if ($i == count($objects) - 1 && isset($append_last))
                     {{ $append_last }}
                 @endif

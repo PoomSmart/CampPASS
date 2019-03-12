@@ -75,40 +75,54 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
-        $minimum_score = $question_set->total_score * $question_set->score_threshold;
-        if ($question_set->announced)
-            $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
         $average_score = 0;
         $total_candidates = 0;
-        $form_scores_get = $form_scores->get();
-        foreach ($form_scores_get as $form_score) {
-            if (is_null($form_score->total_score)) {
-                $form_score->update([
-                    'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
-                ]);
+        if ($question_set->total_score) {
+            $minimum_score = $question_set->total_score * $question_set->score_threshold;
+            if ($question_set->announced)
+                $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
+            foreach ($form_scores->get() as $form_score) {
+                if (is_null($form_score->total_score)) {
+                    $form_score->update([
+                        'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
+                    ]);
+                }
+                if ($form_score->total_score >= $minimum_score)
+                    ++$total_candidates;
+                $average_score += $form_score->total_score;
             }
-            if ($form_score->total_score >= $minimum_score)
-                ++$total_candidates;
-            $average_score += $form_score->total_score;
+            $form_scores = $form_scores->orderByDesc('total_score');
+        } else {
+            $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
+                ->orderBy('registrations.submission_time');
         }
-        $form_scores = $form_scores->orderByDesc('total_score');
         if ($list)
-            return $form_scores_get;
-        $average_score /= $total_registrations;
-        $average_score = number_format($average_score, 2);
-        $total_failed = $total_registrations - $total_candidates;
-        $summary = trans('qualification.TotalPassedFailedAvgScore', [
-            'total_registrations' => $total_registrations,
-            'total_candidates' => $total_candidates,
-            'total_failed' => $total_failed,
-            'average_score' => $average_score,
-        ]);
+            return $form_scores->get();
+        if ($question_set->total_score) {
+            $average_score /= $total_registrations;
+            $average_score = number_format($average_score, 2);
+            $total_failed = $total_registrations - $total_candidates;
+            $summary = trans('qualification.TotalPassedFailedAvgScore', [
+                'total_registrations' => $total_registrations,
+                'total_candidates' => $total_candidates,
+                'total_failed' => $total_failed,
+                'average_score' => $average_score,
+            ]);
+        } else {
+            $total_candidates = $total_registrations;
+            $total_failed = $total_registrations - $total_candidates;
+            $summary = trans('qualification.TotalPassedFailed', [
+                'total_registrations' => $total_registrations,
+                'total_candidates' => $total_candidates,
+                'total_failed' => $total_failed,
+            ]);
+        }
         $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function announce(QuestionSet $question_set, bool $void = false)
+    public static function announce(QuestionSet $question_set, bool $void = false, $form_scores = null)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -116,10 +130,10 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score passing the criteria
         $no_passed = 0;
-        $form_scores = self::rank($question_set, $list = true, $with_returned = false);
+        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_returned = false);
         if ($form_scores) {
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed) {
-                if ($form_score->total_score / $question_set->total_score >= $question_set->score_threshold)
+                if ($form_score->checked && $form_score->total_score / $question_set->total_score >= $question_set->score_threshold)
                     ++$no_passed;
             });
         }

@@ -1,4 +1,5 @@
 @php
+    $textarea = isset($textarea) && $textarea;
     $required = isset($required) && $required;
     $disabled = isset($disabled) && $disabled;
     if (isset($attributes)) {
@@ -43,6 +44,7 @@
                 'required' => $required,
                 'getter' => isset($getter) ? $getter : null,
                 'idx' => isset($idx) ? $idx : null,
+                'nolabel' => isset($nolabel) ? $nolabel : null,
                 'value' => isset($value) ? $value : null,
                 'radio_class' => isset($radio_class) ? $radio_class : null,
                 'radio_attributes' => isset($radio_attributes) ? $radio_attributes : null,
@@ -63,7 +65,7 @@
         @endif
     @endif
 @else
-    @if (isset($textarea))
+    @if ($textarea)
         <textarea
     @else
         <input type="{{ isset($type) ? $type : 'text' }}" value="{{ $value }}"
@@ -87,7 +89,7 @@
             aria-describedby="{{ $name }}-desc-inline"
         @endif
             {{ isset($attributes) ? $attributes : null }}
-        @if (isset($textarea))
+        @if ($textarea)
             >{{ $value }}</textarea>
         @else
             >

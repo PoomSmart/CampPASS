@@ -12,6 +12,8 @@ use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 use App\QuestionManager;
 
+use Carbon\Carbon;
+
 use App\BadgeController;
 use App\Http\Controllers\QuestionSetController;
 
@@ -272,6 +274,8 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
+        if ($camp->confirmation_date && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) < 0)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
         ]);

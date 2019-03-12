@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
         if (self.is(":checked"))
             self.attr("required", "required");
         else
-            self.removeAttr("required");
+            self.removeAttr("required").removeAttr("checked");
         jQuery("input:checkbox:not(:checked)").not(this).removeAttr("required");
     });
     jQuery("input:checkbox:not(:checked)").removeAttr("required");

@@ -233,7 +233,7 @@ class DatabaseSeeder extends Seeder
                 'registration_id' => $registration->id,
                 'answer' => $answer,
                 // If the answer does not exist, this as much is of file type and we have yet to "seed" that
-                'score' => is_null($answer) ? 0.0: !is_null($score) ? $score : $faker->randomFloat($nbMaxDecimals = 2, $min = 0.0, $max = $question_full_score),
+                'score' => is_null($answer) ? 0.0: !is_null($score) ? $score : 0.5 * rand(0, $question_full_score / 0.5),
             ];
         }
     }
@@ -505,7 +505,11 @@ class DatabaseSeeder extends Seeder
             if (Common::randomRareHit())
                 continue;
             try {
-                CandidateController::announce($question_set, $void = true);
+                $form_scores = CandidateController::rank($question_set, $list = true, $with_returned = false);
+                foreach ($form_scores as $form_score) {
+                    QualificationController::form_check_real($form_score = $form_score);
+                }
+                CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
                 if (Common::randomFrequentHit()) {
                     foreach ($question_set->camp->registrations->all() as $registration) {
                         if (Common::randomRareHit())

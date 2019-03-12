@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/form-grade/{registration}/{question_set}', 'QualificationController@form_grade')->name('qualification.form_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/form-finalize/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
+        Route::post('/form-check', 'QualificationController@form_check')->name('qualification.form_check');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');

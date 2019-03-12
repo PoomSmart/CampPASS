@@ -16,6 +16,9 @@ jQuery(document).ready(function () {
             addNotifications(data, "#notifications");
         });
     }
+    jQuery('#app').on('change keyup keydown paste cut', 'textarea', function () {
+        jQuery(this).height(0).height(this.scrollHeight);
+    }).find('textarea').change();
 });
 
 function addNotifications(newNotifications, target) {

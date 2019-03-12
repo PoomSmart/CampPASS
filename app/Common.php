@@ -123,10 +123,10 @@ class Common
      * Check whether the given camp can be manipulated by the current user.
      * 
      */
-    public static function authenticate_camp(Camp $camp, bool $silent = false)
+    public static function authenticate_camp(Camp $camp)
     {
-        if (!$silent) {
-            $user = auth()->user();
+        $user = auth()->user();
+        if ($user) {
             if (!$camp->approved && !$user->hasRole('admin'))
                 throw new \App\Exceptions\ApproveCampException();
             $user->canManageCamp($camp);

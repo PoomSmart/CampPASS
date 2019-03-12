@@ -106,7 +106,7 @@
                             'name' => "manual_score_{$key}",
                             'type' => 'number',
                             'no_form_control_class' => 1,
-                            'attributes' => "min=0.0 max={$full_score} step=0.1 data-decimals=1 data-suffix=/{$full_score}".($readonly ? " buttonsClass='disabled'" : null),
+                            'attributes' => "min=0.0 max={$full_score} step=0.5 data-decimals=1 data-suffix=/{$full_score}".($readonly ? " buttonsClass='disabled'" : null),
                             'value' => $graded ? $score : null,
                             'readonly' => $readonly,
                             'object' => isset($object) ? $object : null,
@@ -124,7 +124,6 @@
             ])
             @endcomponent
             <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">{{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}</a>
-            <a class="btn btn-secondary" href="{{ route('camps.registration', $camp->id) }}">@lang('app.Back')</a>
         </div>
     </form>
     <script>

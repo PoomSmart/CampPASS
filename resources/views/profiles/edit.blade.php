@@ -68,6 +68,12 @@
                         @endcomponent
                     </div>
                 @endrole
+                <div class="text-center mt-4">
+                    @can('candidate-edit')
+                        <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
+                        <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                    @endcan
+                </div>
             </div>
         </div>
     </form>

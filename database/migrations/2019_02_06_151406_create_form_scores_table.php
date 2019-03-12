@@ -20,7 +20,8 @@ class CreateFormScoresTable extends Migration
             $table->integer('question_set_id')->unsigned();
             $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
             $table->double('total_score')->nullable();
-            $table->boolean('finalized')->default(false);
+            $table->boolean('finalized')->default(false); // Whether the grading is done
+            $table->boolean('checked')->default(false); // Whether the document checking is done
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@ return [
     'Pending' => 'Pending',
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
+    'Checked' => 'Checked',
     'Announce' => 'Announce',
     'Grading' => 'Grading',
     'PassedCampers' => 'Passed Campers',
@@ -25,8 +26,10 @@ return [
     'FormSummaryAuto' => 'Auto-gradable :auto_gradable/:total_auto_gradable - Total :camper_score/:total_score',
     'TotalCandidates' => 'Total: :total people',
     'TotalPassedFailedAvgScore' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed / Average Score: :average_score',
+    'TotalPassedFailed' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed',
     'ViewProfile' => 'View Profile',
     'ViewForm' => 'View Form',
     'ReturnForm' => 'Return',
     'ReturnFormFull' => 'Return the application form to the camper in case of document errors.',
+    'SubmissionTime' => 'Submission Time',
 ];

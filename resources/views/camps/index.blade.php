@@ -42,7 +42,7 @@
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <th scope="row">{{ ++$i }}</th>
-	        <th><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
+	        <td class="fit"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->campers()->count();
@@ -59,7 +59,7 @@
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
-            <td class="text-center{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
+            <td class="text-center fit{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
             <td class="text-center{{ $question_set ? ($question_set->announced ? ' text-success table-success' : ' text-danger table-danger') : null }}">{{ $question_set ? ($question_set->announced ? trans('app.Yes') : trans('app.No')) : trans('app.N/A') }}</td>
             <td class="fit">
                 @if (!$camp->approved)
