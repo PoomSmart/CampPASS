@@ -135,9 +135,9 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <ul class="list-unstyled">    
-                                    <li><a href="#!">@lang("app.What's",['entity' => config('app.name')])</a></li>
-                                    <li><a href="#!">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
-                                    <li><a href="#!">@lang('app.Becoming a Camp Maker')</a></li>
+                                    <li><a href="{{ route('what-is-camppass') }}">@lang("app.What's",['entity' => config('app.name')])</a></li>
+                                    <li><a href="{{ route('how-camppass-works') }}">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
+                                    <li><a href="{{ route('register-campmaker') }}">@lang('app.Becoming a Camp Maker')</a></li>
                                 </ul>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -154,7 +154,7 @@
                             <i class="fab fa-twitter"></i>
                             <i class="fab fa-facebook-f"></i>
                         </ul>
-                        <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHub') <i class="fas fa-paper-plane"></i></a>
+                        <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane"></i></a>
                     </div>
                 </div>
             </div>

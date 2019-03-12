@@ -32,7 +32,7 @@ return [
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',
     'Activated' => 'ยืนยันแล้ว',
-    "What's" => ':entity อะไรคือ',
+    "What's" => 'อะไรคือ :entity ',
     'HowWork' => ':entity ทำงานอย่างไร',
     'Becoming a Camp Maker' => 'สมัครเป็นผู้จัดค่าย',
     'About' => 'เกี่ยวกับเรา',
