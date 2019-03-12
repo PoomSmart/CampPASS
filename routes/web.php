@@ -99,15 +99,15 @@ Route::get('/language/{locale}', function ($locale) {
 
 Route::get('/what-is-camppass', function () {
     return view('about.what_is_camppass');
-});
+})->name('what-is-camppass');
 
 Route::get('/how-camppass-works', function () {
     return view('about.how_camppass_works');
-});
+})->name('how-camppass-works');
 
 Route::get('/about-us', function () {
     return view('about.about_us');
-});
+})->name('about-us');
 
 Route::get('/terms-of-services', function () {
     return view('about.terms_of_services');

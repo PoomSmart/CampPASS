@@ -20,7 +20,7 @@
             @endphp
             <div class="row">
                 <div class="col-12">
-                    <h3 id="question-title">{{ $text }}</h2>
+                    <h5 id="question-title">{{ $text }}</h5>
                 </div>
                 <div class="col-12">
                     <div class="mb-4">

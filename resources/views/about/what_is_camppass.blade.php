@@ -1,17 +1,23 @@
 @extends('layouts.card')
 
 @section('header')
-    @lang("app.What's")
+    @lang("app.What's",['entity' => config('app.name')])
 @endsection
 
 @section('card_content')
+    <h4 class="mb-4">@lang('about.About1Heading')</h4>
+    <p>@lang('about.About1Paragraph')</p>
+    
     <div class="row mt-4">
-        <div class="col-md-4">
-            <img src="{{ asset('/images/logo.png') }}" alt="CampPASS" class="pb-3 w-100">
+        <div class="col-md-6 text-center">
+            <img src="/images/placeholders/ChildonLaptop.png" alt="1" class="img-fluid w-50 p-2">
+            <h4 class="mb-4 text-center">@lang('about.AboutWhy')</h4>
+            <p class= text-left>@lang('about.About1Paragraph')</p>
         </div>
-        <div class="col-md-8">
-            <h4 class="mb-4">{{ config('app.name') }}</h4>
-            <p>@lang('about.AboutCampPASS')</p>
+        <div class="col-md-6 text-center">
+            <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
+            <h4 class="mb-4 text-center">@lang('about.AboutWhoUse')</h4>
+            <p class= text-left>@lang('about.About1Paragraph')</p>
         </div>
     </div>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    @lang('app.How') {{ config('app.name') }} @lang('app.works')
+    @lang('app.HowWork',['entity' => config('app.name')])
 @endsection
 
 @section('card_content')

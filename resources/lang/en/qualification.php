@@ -32,4 +32,5 @@ return [
     'ReturnForm' => 'Return',
     'ReturnFormFull' => 'Return the application form to the camper in case of document errors.',
     'SubmissionTime' => 'Submission Time',
+    'RejectedApplication' => 'Rejected Application',
 ];
