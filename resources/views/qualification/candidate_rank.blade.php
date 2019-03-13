@@ -1,11 +1,12 @@
 @extends('layouts.blank')
 
 @section('script')
+    @php
+        $rank_by_score = $question_set->total_score;
+    @endphp
     <script src="{{ asset('js/modal.js') }}"></script>
-    <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='score_threshold']").inputSpinner();
             jQuery("input:checkbox").change(function () {
                 var self = jQuery(this);
                 var form_score_id = self.attr("id");
@@ -30,16 +31,26 @@
                 jQuery.ajax({
                     type: 'POST',
                     url: url,
-                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    headers: { 'X-CSRF-TOKEN': window.Laravel.csrfToken },
                     contentType: "json",
                     processData: false,
                     data: JSON.stringify(data),
-                    success: function (data) {}
+                    success: function (data) {
+                        console.log(data);
+                    }
                 });
             });
         });
     </script>
-    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @if ($rank_by_score)
+        <script src="{{ asset('js/input-spinner.js') }}"></script>
+        <script>
+            jQuery(document).ready(function () {
+                jQuery("input[name='score_threshold']").inputSpinner();
+            });
+        </script>
+        <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @endif
 @endsection
 
 @section('header')
@@ -65,7 +76,6 @@
     @endcomponent
     @php
         $i = $passed = 0;
-        $rank_by_score = $question_set->total_score;
     @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
@@ -120,10 +130,6 @@
                 <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
                     <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
-                    @php
-                        $camper_passed = $question_set->announced || ($camper_pass = $form_score->passed);
-                        if ($camper_passed) ++$passed;
-                    @endphp
                 @else
                     <td>{{ $registration->submission_time }}</td>
                 @endif
@@ -151,6 +157,7 @@
                         <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                     @endrole
                 </td>
+                @php if ($form_score->passed) ++$passed @endphp
             </tr>
         @endforeach
     </table>

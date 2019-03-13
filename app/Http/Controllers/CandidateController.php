@@ -99,10 +99,14 @@ class CandidateController extends Controller
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
+            $form_scores_get = $form_scores->get();
         } else {
-            $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
-                ->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
-            foreach ($form_scores->get() as $form_score) {
+            // TODO: We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
+            //$form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
+                //->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
+            $form_scores = $form_scores->orderBy('submission_time');
+            $form_scores_get = $form_scores->get();
+            foreach ($form_scores_get as $form_score) {
                 $withdrawed = $form_score->registration->withdrawed();
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
@@ -123,7 +127,7 @@ class CandidateController extends Controller
             'auto_ranked' => true,
         ]);
         if ($list)
-            return $form_scores->get();
+            return $form_scores_get;
         if ($question_set->total_score) {
             $average_score = number_format($average_score / $total_registrations, 2);
             $total_failed = $total_registrations - $total_candidates;

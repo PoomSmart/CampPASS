@@ -101,6 +101,7 @@ class QualificationController extends Controller
             ], [
                 'total_score' => $camper_score,
                 'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+                'submission_time' => $registration->submission_time,
             ]);
         }
         if ($silent)
@@ -201,7 +202,6 @@ class QualificationController extends Controller
         $form_score->update([
             'passed' => $checked == 'true',
         ]);
-        logger()->debug($form_score->passed);
     }
 
     public static function form_pass(Request $request)
