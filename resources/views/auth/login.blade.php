@@ -5,7 +5,7 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-sm-9 col-md-6">
+    <div class="col-sm-9 col-md-6 col-lg-5">
 @endsection
 
 @section('card_content')

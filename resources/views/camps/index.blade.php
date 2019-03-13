@@ -8,6 +8,10 @@
     <script src="{{ asset('js/modal.js') }}"></script>
 @endsection
 
+@section('custom-width')
+    <div class="col-12 col-sm-10">
+@endsection
+
 @can('camp-create')
     @section('extra-buttons')
         <a class="btn btn-success w-50" href="{{ route('camps.create') }}">@lang('camp.CreateCamp')</a>
