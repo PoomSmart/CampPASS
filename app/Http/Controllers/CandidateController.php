@@ -41,7 +41,7 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_returned = true, bool $auto_set_passed = true)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_withdrawed = true, bool $with_returned = true)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -52,11 +52,13 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         }
-        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) use (&$with_returned) {
+        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) use (&$with_withdrawed, &$with_returned) {
             // These unsubmitted forms by common sense should be rejected from the grading process at all
             if (!$with_returned)
                 $query->where('registrations.returned', false);
             $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
+            if ($with_withdrawed)
+                $query->orWhere('registrations.status', ApplicationStatus::WITHDRAWED);
         });
         $total_registrations = $form_scores->count();
         if ($question_set->manual_required)
@@ -75,19 +77,21 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
-        $average_score = 0;
-        $total_candidates = 0;
+        $average_score = $total_withdrawed = $total_candidates = 0;
         if ($question_set->total_score) {
             $minimum_score = $question_set->total_score * $question_set->score_threshold;
-            if ($question_set->announced)
-                $form_scores = $form_scores->where('total_score', '>=', $minimum_score);
             foreach ($form_scores->get() as $form_score) {
+                $withdrawed = $form_score->registration->withdrawed();
+                if ($withdrawed) {
+                    ++$total_withdrawed;
+                    continue;
+                }
                 if (is_null($form_score->total_score)) {
                     $form_score->update([
                         'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                     ]);
                 }
-                if ($auto_set_passed) {
+                if (!$question_set->auto_ranked) {
                     $form_score->update([
                         'passed' => $form_score->total_score >= $minimum_score && ++$total_candidates,
                     ]);
@@ -96,27 +100,46 @@ class CandidateController extends Controller
             }
             $form_scores = $form_scores->orderByDesc('total_score');
         } else {
+            foreach ($form_scores->get() as $form_score) {
+                $withdrawed = $form_score->registration->withdrawed();
+                if (!$question_set->auto_ranked) {
+                    $form_score->update([
+                        'passed' => !$withdrawed,
+                    ]);
+                }
+                if ($withdrawed) {
+                    $form_score->update([
+                        'checked' => true,
+                    ]);
+                    ++$total_withdrawed;
+                } else if ($form_score->passed)
+                    ++$total_candidates;
+            }
             $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
-                ->orderBy('registrations.submission_time');
+                ->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
         }
+        // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
+        $question_set->update([
+            'auto_ranked' => true,
+        ]);
         if ($list)
             return $form_scores->get();
         if ($question_set->total_score) {
-            $average_score /= $total_registrations;
-            $average_score = number_format($average_score, 2);
+            $average_score = number_format($average_score / $total_registrations, 2);
             $total_failed = $total_registrations - $total_candidates;
             $summary = trans('qualification.TotalPassedFailedAvgScore', [
                 'total_registrations' => $total_registrations,
                 'total_candidates' => $total_candidates,
+                'total_withdrawed' => $total_withdrawed,
                 'total_failed' => $total_failed,
                 'average_score' => $average_score,
             ]);
         } else {
-            $total_candidates = $total_registrations;
-            $total_failed = $total_registrations - $total_candidates;
+            $total_failed = $total_registrations - $total_candidates - $total_withdrawed;
             $summary = trans('qualification.TotalPassedFailed', [
                 'total_registrations' => $total_registrations,
                 'total_candidates' => $total_candidates,
+                'total_withdrawed' => $total_withdrawed,
                 'total_failed' => $total_failed,
             ]);
         }
@@ -133,7 +156,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the threshold
         $no_passed = $no_checked = $total_ranked = 0;
-        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_returned = false, $auto_set_passed = false);
+        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
         if ($form_scores) {
             $total_ranked = $form_scores->count();
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {

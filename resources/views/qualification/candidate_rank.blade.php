@@ -12,18 +12,28 @@
                 var checked = self.is(":checked");
                 var name = self.attr("name");
                 var url = "";
-                if (name.indexOf("checked") !== -1)
+                var data = null;
+                if (name.indexOf("checked") !== -1) {
                     url = "{!! route('qualification.form_check') !!}";
-                else if (name.indexOf("passed") !== -1)
+                    data = {
+                        "form_score_id" : form_score_id,
+                        "checked" : checked
+                    };
+                }
+                else if (name.indexOf("passed") !== -1) {
                     url = "{!! route('qualification.form_pass') !!}";
+                    data = {
+                        "form_score_id" : form_score_id,
+                        "passed" : checked
+                    };
+                }
                 jQuery.ajax({
                     type: 'POST',
                     url: url,
                     headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    data: {
-                        "form_score_id" : form_score_id,
-                        "checked" : checked
-                    },
+                    contentType: "json",
+                    processData: false,
+                    data: JSON.stringify(data),
                     success: function (data) {}
                 });
             });
@@ -96,9 +106,7 @@
                 <th>@lang('qualification.SubmissionTime')</th>
             @endif
             <th>@lang('registration.Status')</th>
-            @if ($rank_by_score)
-                <th>@lang('qualification.Passed')</th>
-            @endif
+            <th>@lang('qualification.Passed')</th>
             <th>@lang('qualification.Checked')</th>
             <th>@lang('app.Actions')</th>
         </thead>
@@ -120,17 +128,18 @@
                     <td>{{ $registration->submission_time }}</td>
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
-                @if ($rank_by_score)
-                    <td class="text-center">
-                        <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                            @if ($form_score->passed)
-                                checked
-                            @endif
-                        >
-                    </td>
-                @endif
+                <td class="text-center">
+                    <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                        @if ($form_score->passed)
+                            checked
+                        @endif
+                    >
+                </td>
                 <td class="text-center">
                     <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                        @if ($registration->withdrawed())
+                            disabled
+                        @endif
                         @if ($form_score->checked)
                             checked
                         @endif
@@ -138,6 +147,9 @@
                 </td>
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                    @role('admin')
+                        <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                    @endrole
                 </td>
             </tr>
         @endforeach

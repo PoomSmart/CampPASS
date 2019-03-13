@@ -52,6 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
             Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
         });
+        Route::group(['middleware' => ['role:admin']], function () {
+            Route::get('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
+        });
         Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
     Route::prefix('qualification')->group(function () {
