@@ -56,7 +56,7 @@ class CandidateController extends Controller
             // These unsubmitted forms by common sense should be rejected from the grading process at all
             if (!$with_returned)
                 $query->where('registrations.returned', false);
-            $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
+            $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::APPROVED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
             if ($with_withdrawed)
                 $query->orWhere('registrations.status', ApplicationStatus::WITHDRAWED);
         });
@@ -100,6 +100,8 @@ class CandidateController extends Controller
             }
             $form_scores = $form_scores->orderByDesc('total_score');
         } else {
+            $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
+                ->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
             foreach ($form_scores->get() as $form_score) {
                 $withdrawed = $form_score->registration->withdrawed();
                 if (!$question_set->auto_ranked) {
@@ -115,8 +117,6 @@ class CandidateController extends Controller
                 } else if ($form_score->passed)
                     ++$total_candidates;
             }
-            $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
-                ->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
         }
         // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
         $question_set->update([

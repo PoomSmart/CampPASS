@@ -201,8 +201,11 @@ class Camp extends Model
     {
         if (!$this->camp_procedure->candidate_required)
             return trans('app.N/A');
-        if ($this->question_set || (!is_null($this->question_set) && !empty($this->question_set)))
-            return $this->question_set->manual_required ? trans('app.Manual') : trans('app.Auto');
+        $question_set = $this->question_set;
+        if ($question_set && !$question_set->total_score)
+            return trans('app.Time');
+        if ($question_set || (!is_null($question_set) && !empty($question_set)))
+            return $question_set->manual_required ? trans('app.Manual') : trans('app.Auto');
         return trans('app.N/A');
     }
 

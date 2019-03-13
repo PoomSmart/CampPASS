@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Common;
 use App\Camp;
+use App\QuestionSet;
 use App\QuestionManager;
 
 use App\Http\Requests\StoreQuestionRequest;
@@ -28,6 +29,7 @@ class QuestionSetController extends Controller
         Common::authenticate_camp($camp);
         $content = $request->all();
         $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('score_threshold'));
+        $this->question_set_auto_ranked($question_set);
         if (!$question_set->finalized)
             return redirect()->back()->with('success', trans('message.QuestionsSaved'));
         return redirect()->back()->with('success', trans('message.ScoreThresholdChanged'));
@@ -43,6 +45,13 @@ class QuestionSetController extends Controller
         View::share('question_types', $question_types);
         View::share('camp_id', $camp->id);
         return view('questions.index', compact('json'));
+    }
+
+    public function question_set_auto_ranked(QuestionSet $question_set)
+    {
+        $question_set->update([
+            'auto_ranked' => false,
+        ]);
     }
 
     public function finalize(Camp $camp)

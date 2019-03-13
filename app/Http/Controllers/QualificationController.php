@@ -170,11 +170,11 @@ class QualificationController extends Controller
             return redirect()->back()->with('success', 'This form is finalized.');
     }
 
-    public static function form_check_real(FormScore $form_score, bool $checked)
+    public static function form_check_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
         $form_score->update([
-            'checked' => $checked,
+            'checked' => $checked == 'true',
         ]);
     }
 
@@ -184,7 +184,7 @@ class QualificationController extends Controller
         try {
             $content = json_decode($request->getContent(), true);
             $form_score = FormScore::findOrFail($content['form_score_id']);
-            self::form_check_real($form_score, $content['checked']);
+            self::form_check_real($form_score, $content['checked'] ? 'true' : 'false');
         } catch (\Exception $e) {
             $success = false;
         }
@@ -195,12 +195,13 @@ class QualificationController extends Controller
         ]);
     }
 
-    public static function form_pass_real(FormScore $form_score, bool $checked)
+    public static function form_pass_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
         $form_score->update([
-            'passed' => $checked,
+            'passed' => $checked == 'true',
         ]);
+        logger()->debug($form_score->passed);
     }
 
     public static function form_pass(Request $request)
@@ -209,7 +210,7 @@ class QualificationController extends Controller
         try {
             $content = json_decode($request->getContent(), true);
             $form_score = FormScore::findOrFail($content['form_score_id']);
-            self::form_pass_real($form_score, $content['passed']);
+            self::form_pass_real($form_score, $content['passed'] ? 'true' : 'false');
         } catch (\Exception $e) {
             $success = false;
         }
