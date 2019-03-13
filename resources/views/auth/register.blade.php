@@ -1,8 +1,13 @@
-@php if (empty($type)) {
-    die("An internal error has occurred");
-}@endphp
+@php
+    if (empty($type))
+        die("An internal error has occurred");
+@endphp
 
 @extends('layouts.card')
+
+@section('custom-width')
+    <div class="col-12 col-sm-9 col-xl-6">
+@endsection
 
 @section('script')
     <script src="{{ asset('js/input-spinner.js') }}"></script>

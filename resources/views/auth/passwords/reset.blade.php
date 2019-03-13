@@ -4,6 +4,10 @@
     @lang('account.ResetPassword')
 @endsection
 
+@section('custom-width')
+    <div class="col-12 col-sm-9 col-xl-6">
+@endsection
+
 <!--TODO: Simplify -->
 @section('card_content')
     <form method="POST" action="{{ route('password.update') }}">

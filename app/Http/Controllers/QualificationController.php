@@ -194,4 +194,29 @@ class QualificationController extends Controller
             ]
         ]);
     }
+
+    public static function form_pass_real($form_score, $checked)
+    {
+        Common::authenticate_camp($form_score->question_set->camp);
+        $form_score->update([
+            'passed' => $checked,
+        ]);
+    }
+
+    public static function form_pass(Request $request)
+    {
+        $success = true;
+        try {
+            $form_score = FormScore::find($request->get('form_score_id'));
+            $checked = filter_var($request->get('checked'), FILTER_VALIDATE_BOOLEAN);
+            self::form_pass_real($form_score, $checked);
+        } catch (\Exception $e) {
+            $success = false;
+        }
+        return response()->json([
+            'data' => [
+                'success' => $success,
+            ]
+        ]);
+    }
 }

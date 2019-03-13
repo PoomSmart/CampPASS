@@ -123,7 +123,7 @@
             </div>
         @endif
         <main class="py-4">
-            <div class="container">
+            <div class="container-fluid">
                 @yield('outer_content')
             </div>
         </main>

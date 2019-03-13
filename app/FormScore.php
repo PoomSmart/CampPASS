@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class FormScore extends Model
 {
     protected $fillable = [
-        'registration_id', 'question_set_id', 'total_score', 'finalized', 'checked',
+        'registration_id', 'question_set_id', 'total_score', 'finalized', 'checked', 'passed',
     ];
 
     public function registration()

@@ -4,6 +4,10 @@
     @lang('app.Terms')
 @endsection
 
+@section('custom-width')
+    <div class="col-12 col-sm-9 col-xl-6">
+@endsection
+
 @section('card_content')
     <h4 class="mb-4">@lang('about.Term1Heading')</h4>
     <p>@lang('about.Term1Paragraph')</p>

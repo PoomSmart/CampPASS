@@ -4,10 +4,6 @@
     {{ $camp }}
 @endsection
 
-@section('custom-width')
-    <div class="col-12">
-@endsection
-
 @section('content')
     <p class="text-center">{{ $category->getName() }} - {{ $camp->camp_procedure }}</p>
     @can('answer-list')

@@ -5,7 +5,7 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-12">
+    <div class="col-sm-12 col-lg-10 col-xl-7">
 @endsection
 
 @section('content')
@@ -41,7 +41,7 @@
         </div>
     </form>
     @foreach ($categorized_camps as $category => $camps)
-        <div class="container mt-4">
+        <div class="container-fluid mt-4">
             <h3 class="mb-4 d-inline-block">{{ $category }}</h3>
             <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', $category_ids[$category]) }}">@lang('app.More')</a>
             @component('components.card_columns', [

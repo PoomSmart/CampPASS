@@ -1,7 +1,7 @@
 @extends('layouts.blank')
 
 @section('custom-width')
-    <div class="col-md-11">
+    <div class="col-sm-12 col-lg-9 col-xl-7">
 @endsection
 
 @section('content')

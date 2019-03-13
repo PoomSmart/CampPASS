@@ -4,10 +4,6 @@
     @lang('camp.Camps')
 @endsection
 
-@section('custom-width')
-    <div class="col-12">
-@endsection
-
 @section('script')
     <script src="{{ asset('js/modal.js') }}"></script>
 @endsection

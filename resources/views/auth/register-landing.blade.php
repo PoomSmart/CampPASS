@@ -4,6 +4,10 @@
     @lang('auth.WhoAreYou')
 @endsection
 
+@section('custom-width')
+    <div class="col-sm-9 col-md-6">
+@endsection
+
 @section('card_content')
     <div class="row">
         <div class="col-md-6 text-center">

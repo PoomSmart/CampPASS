@@ -41,7 +41,7 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_returned = true)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_returned = true, bool $auto_set_passed = true)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -87,8 +87,11 @@ class CandidateController extends Controller
                         'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
                     ]);
                 }
-                if ($form_score->total_score >= $minimum_score)
-                    ++$total_candidates;
+                if ($auto_set_passed) {
+                    $form_score->update([
+                        'passed' => $form_score->total_score >= $minimum_score && ++$total_candidates,
+                    ]);
+                }
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
@@ -128,23 +131,27 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
-        // The qualified campers are those that have form score passing the criteria
-        $no_passed = 0;
-        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_returned = false);
+        // The qualified campers are those that have form score checked and passing the threshold
+        $no_passed = $no_checked = $total_ranked = 0;
+        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_returned = false, $auto_set_passed = false);
         if ($form_scores) {
-            $form_scores->each(function ($form_score) use (&$question_set, &$no_passed) {
-                if ($form_score->checked && $form_score->total_score / $question_set->total_score >= $question_set->score_threshold)
+            $total_ranked = $form_scores->count();
+            $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
+                if ($form_score->checked)
+                    ++$no_checked;
+                if ($form_score->checked && $form_score->passed)
                     ++$no_passed;
             });
         }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));
+        if ($total_ranked != $no_checked)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AllFormsMustBeChecked'));
         $candidates = [];
         $camp_procedure = $question_set->camp->camp_procedure;
         foreach ($form_scores as $form_score) {
             $registration = $form_score->registration;
-            $passed = $form_score->total_score / $question_set->total_score >= $question_set->score_threshold;
-            if ($passed) {
+            if ($form_score->passed) {
                 // The application form can be approved now if they do not need to pay the deposit
                 $registration->update([
                     'status' => $camp_procedure->deposit_required ? ApplicationStatus::CHOSEN : ApplicationStatus::APPROVED,

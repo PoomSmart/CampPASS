@@ -10,17 +10,21 @@
                 var self = jQuery(this);
                 var form_score_id = self.attr("id");
                 var checked = self.is(":checked");
+                var name = self.attr("name");
+                var url = "";
+                if (name.indexOf("checked") !== -1)
+                    url = "{!! route('qualification.form_check') !!}";
+                else if (name.indexOf("passed") !== -1)
+                    url = "{!! route('qualification.form_pass') !!}";
                 jQuery.ajax({
                     type: 'POST',
-                    url: "{!! route('qualification.form_check') !!}",
+                    url: url,
                     headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     data: {
                         "form_score_id" : form_score_id,
                         "checked" : checked
                     },
-                    success: function (data) {
-                        if (data.data.success) {}
-                    }
+                    success: function (data) {}
                 });
             });
         });
@@ -37,7 +41,7 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-12">
+    <div class="col-12 col-md-9">
 @endsection
 
 @section('content')
@@ -52,10 +56,6 @@
     @php
         $i = $passed = 0;
         $rank_by_score = $question_set->total_score;
-        if ($rank_by_score)
-            $minimum_score = $question_set->score_threshold * $question_set->total_score;
-        else
-            $minimum_score = 0;
     @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
@@ -111,9 +111,9 @@
                 <th scope="row">{{ ++$i }}</th>
                 <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
-                    <td>{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+                    <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                     @php
-                        $camper_passed = $question_set->announced || ($camper_pass = $form_score->total_score >= $minimum_score);
+                        $camper_passed = $question_set->announced || ($camper_pass = $form_score->passed);
                         if ($camper_passed) ++$passed;
                     @endphp
                 @else
@@ -121,7 +121,13 @@
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
                 @if ($rank_by_score)
-                    <td class="text-center{{ $camper_passed ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $camper_passed ? trans('app.Yes') : trans('app.No') }}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                            @if ($form_score->passed)
+                                checked
+                            @endif
+                        >
+                    </td>
                 @endif
                 <td class="text-center">
                     <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
@@ -142,5 +148,6 @@
 @endsection
 
 @section('extra-buttons')
+    {{-- TODO: Make it work with zero-total-score question sets --}}
     <button class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
 @endsection
