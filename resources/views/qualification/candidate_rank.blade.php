@@ -29,15 +29,13 @@
                     };
                 }
                 jQuery.ajax({
-                    type: 'POST',
+                    type: "POST",
                     url: url,
-                    headers: { 'X-CSRF-TOKEN': window.Laravel.csrfToken },
+                    headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
                     contentType: "json",
                     processData: false,
                     data: JSON.stringify(data),
-                    success: function (data) {
-                        console.log(data);
-                    }
+                    success: function (data) {}
                 });
             });
         });
@@ -124,8 +122,15 @@
             @php
                 $registration = $form_score->registration;
                 $camper = $registration->camper;
+                $withdrawed = $registration->withdrawed();
+                if ($form_score->passed)
+                    ++$passed;
             @endphp
-            <tr>
+            <tr
+                @if ($withdrawed)
+                    class="table-danger"
+                @endif
+            >
                 <th scope="row">{{ ++$i }}</th>
                 <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
@@ -136,6 +141,9 @@
                 <td>{{ $registration->getStatus() }}</td>
                 <td class="text-center">
                     <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                        @if ($withdrawed)
+                            disabled
+                        @endif
                         @if ($form_score->passed)
                             checked
                         @endif
@@ -143,7 +151,7 @@
                 </td>
                 <td class="text-center">
                     <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($registration->withdrawed())
+                        @if ($withdrawed)
                             disabled
                         @endif
                         @if ($form_score->checked)
@@ -154,10 +162,11 @@
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
                     @role('admin')
-                        <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                        @if (!$withdrawed)
+                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                        @endif
                     @endrole
                 </td>
-                @php if ($form_score->passed) ++$passed @endphp
             </tr>
         @endforeach
     </table>

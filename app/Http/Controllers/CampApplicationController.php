@@ -296,6 +296,9 @@ class CampApplicationController extends Controller
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
+        $registration->form_score->update([
+            'passed' => false,
+        ]);
         return redirect()->back()->with('success', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
