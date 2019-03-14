@@ -222,7 +222,7 @@ class CandidateController extends Controller
         }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));
-        if ($no_passed != $no_checked)
+        if (!$void && $no_passed != $no_checked)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllPassedFormsMustBeChecked'));
         $candidates = [];
         $camp_procedure = $question_set->camp->camp_procedure;

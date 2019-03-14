@@ -510,6 +510,10 @@ class DatabaseSeeder extends Seeder
                 ]);
             if (Common::randomRareHit())
                 continue;
+            // Question sets must be finalized first before the ranking could happen
+            $question_set->update([
+                'finalized' => true,
+            ]);
             try {
                 $form_scores = CandidateController::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
                 if ($form_scores) {
