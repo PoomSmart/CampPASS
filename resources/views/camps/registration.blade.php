@@ -4,6 +4,10 @@
     {{ $camp }}
 @endsection
 
+@section('custom-width')
+    <div class="col-12 col-lg-10">
+@endsection
+
 @section('content')
     <p class="text-center">{{ $category->getName() }} - {{ $camp->camp_procedure }}</p>
     @can('answer-list')
@@ -44,7 +48,7 @@
                         <tr>
                             <th scope="row">{{ $registration->id }}</th>
                             <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
-                            <td>{{ $camper->school }}</td>
+                            <td class="fit">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @php
