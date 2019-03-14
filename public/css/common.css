@@ -17,8 +17,16 @@
 }
 
 * {
-  box-sizing: border-box;
   font-family: dbsathornnow;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#side .nav-link.active, #side .nav-link:hover, #side .nav-link:focus {
+  color: #111;
+  background-color: lightsalmon;
 }
 
 h1, h2, h3, h4 {
@@ -29,28 +37,11 @@ h5, h6 {
   font-weight: 600;
 }
 
-*:before, *:after {
-  box-sizing: border-box;
-}
-
 html, body {
-  height: 100%;
-  position: relative;
   background-color: whitesmoke;
 }
 
-#app {
-  min-height: 100vh;
-  overflow: hidden;
-  display: block;
-  position: relative;
-  padding-bottom: 120px;
-}
-
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
   color: white;
   background-color: #FB6B0A;
 }
@@ -136,5 +127,3 @@ a:hover {
   white-space: nowrap;
   width: 1%;
 }
-
-

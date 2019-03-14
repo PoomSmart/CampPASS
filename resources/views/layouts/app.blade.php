@@ -36,7 +36,11 @@
     <!-- Additional Scripts -->
     @yield('script')
 </head>
-<body>
+<body
+    @if (View::hasSection('sidebar-items'))
+        data-spy="scroll" data-target="#side"
+    @endif
+>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
@@ -122,43 +126,62 @@
                 </h2>
             </div>
         @endif
-        <main class="py-4" style="margin-bottom: 100px !important;">
-            <div class="container-fluid">
-                @yield('outer_content')
-            </div>
-        </main>
-        <footer class="footer">
-            <div class="container pt-4">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <h6 class="text-left"><b>{{ config('app.name') }}</b></h6>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <ul class="list-unstyled">    
-                                    <li><a href="{{ route('what-is-camppass') }}">@lang("app.What's",['entity' => config('app.name')])</a></li>
-                                    <li><a href="{{ route('how-camppass-works') }}">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
-                                    <li><a href="{{ route('register-campmaker') }}">@lang('app.Becoming a Camp Maker')</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <ul class="list-unstyled">    
-                                    <li><a href="about-us">@lang('app.About')</a></li>
-                                    <li><a href="terms-of-services">@lang('app.Terms')</a></li>
-                                    <li><a href="privacy-policy">@lang('app.Policy')</a></li>
-                                </ul>
-                            </div>
+        @if (View::hasSection('sidebar-items'))
+            <div class="container-fluid position-relative" id="content">
+                <div class="row justify-content-center h-100">
+                    <aside class="col-md-2" id="left">
+                        <div class="mt-5 mb-3 sticky-top" id="side">
+                            <ul class="nav flex-md-column flex-row justify-content-between" id="sidenav">
+                                @yield('sidebar-items')
+                            </ul>
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <ul class="list-unstyled list-inline social text-right">
-                            <i class="fab fa-twitter"></i>
-                            <i class="fab fa-facebook-f"></i>
-                        </ul>
-                        <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane"></i></a>
-                    </div>
+                    </aside>
+                    <main class="col-md-10 py-4">
+                        <div class="container-fluid">
+                            @yield('outer_content')
+                        </div>
+                    </main>
                 </div>
             </div>
-        </footer>
+        @else
+            <main class="py-4">
+                <div class="container-fluid">
+                    @yield('outer_content')
+                </div>
+            </main>
+        @endif
     </div>
+    <footer class="footer">
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <h6 class="text-left"><b>{{ config('app.name') }}</b></h6>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-unstyled">    
+                                <li><a href="{{ route('what-is-camppass') }}">@lang("app.What's",['entity' => config('app.name')])</a></li>
+                                <li><a href="{{ route('how-camppass-works') }}">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
+                                <li><a href="{{ route('register-campmaker') }}">@lang('app.Becoming a Camp Maker')</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-unstyled">    
+                                <li><a href="about-us">@lang('app.About')</a></li>
+                                <li><a href="terms-of-services">@lang('app.Terms')</a></li>
+                                <li><a href="privacy-policy">@lang('app.Policy')</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <ul class="list-unstyled list-inline social text-right">
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-facebook-f"></i>
+                    </ul>
+                    <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

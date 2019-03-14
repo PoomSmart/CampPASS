@@ -19,6 +19,10 @@ jQuery(document).ready(function () {
     jQuery('#app').on('change keyup keydown paste cut', 'textarea', function () {
         jQuery(this).height(0).height(this.scrollHeight);
     }).find('textarea').change();
+    jQuery('#sidenav .nav-link' ).on('click', function () {
+        jQuery('#sidenav').find('.nav-link.active').removeClass('active');
+        jQuery(this).addClass('active');
+    });
 });
 
 function addNotifications(newNotifications, target) {
