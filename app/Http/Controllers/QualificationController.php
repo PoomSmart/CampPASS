@@ -199,6 +199,8 @@ class QualificationController extends Controller
     public static function form_pass_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
+        if ($form_score->registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack();
         $form_score->update([
             'passed' => $checked == 'true',
         ]);
