@@ -29,8 +29,9 @@ class CampApplicationController extends Controller
      * Check whether the given camp can be manipulated by the current user.
      * 
      */
-    public static function authenticate(Camp $camp)
+    public static function authenticate(Camp $camp, bool $silent = false)
     {
+        if ($silent) return;
         $user = auth()->user();
         if (!$user)
             throw new \CampPASSExceptionPermission();
@@ -266,7 +267,7 @@ class CampApplicationController extends Controller
     public static function confirm(Registration $registration, bool $void = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp);
+        self::authenticate($camp, $silent = $void);
         self::authenticate_registration($registration, $silent = $void);
         if ($registration->rejected() || $registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));

@@ -253,6 +253,6 @@ class CandidateController extends Controller
             'announced' => true,
         ]);
         if (!$void)
-            return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', 'Candidates are announced.');
+            return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', trans('qualification.CandidatesAnnounced'));
     }
 }

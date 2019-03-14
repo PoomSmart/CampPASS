@@ -494,6 +494,7 @@ class DatabaseSeeder extends Seeder
             try {
                 QualificationController::form_finalize($manual_form_score, $silent = true);
             } catch (\Exception $e) {
+                logger()->debug("Manual Form Marking: {$e}");
                 continue;
             }
         }
@@ -511,18 +512,21 @@ class DatabaseSeeder extends Seeder
                 continue;
             try {
                 $form_scores = CandidateController::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
-                foreach ($form_scores as $form_score) {
-                    QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
-                }
-                CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
-                if (Common::randomFrequentHit()) {
-                    foreach ($camp->registrations->all() as $registration) {
-                        if (Common::randomRareHit())
-                            continue;
-                        CampApplicationController::confirm($registration, $void = true);
+                if ($form_scores) {
+                    foreach ($form_scores as $form_score) {
+                        QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
+                    }
+                    CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
+                    if (Common::randomFrequentHit()) {
+                        foreach ($camp->registrations->all() as $registration) {
+                            if (Common::randomRareHit())
+                                continue;
+                            CampApplicationController::confirm($registration, $void = true);
+                        }
                     }
                 }
             } catch (\Exception $e) {
+                logger()->debug("Announcement/Confirmation Simulation: {$e}");
                 continue;
             }
         }
