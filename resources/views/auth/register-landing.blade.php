@@ -1,22 +1,26 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('header')
     @lang('auth.WhoAreYou')
 @endsection
 
-@section('card_content')
-    <div class="row">
-        <div class="col-md-6 text-center">
-            <a href="{{ route('register-camper') }}">
-                <img src="{{ asset('images/camper.png') }}" class="w-50" title="{{ trans('account.Camper') }}"/>
-                <h2>@lang('account.Camper')</h2>
-            </a>
+@section('content')
+<div class="row">
+    <div class="col-md-6 text-center">
+        <div class="card" id="{{ isset($border) ? 'card-border' : null }}">
+                <a href="{{ route('register-camper') }}">
+                    <img class="card-img-top w-50" src={{ asset('images/camper.png') }}>
+                    <h4>@lang('account.Camper')</h4>
+                </a>
         </div>
-        <div class="col-md-6 text-center">
-            <a href="{{ route('register-campmaker') }}">
-                <img src="{{ asset('images/campmaker.png') }}" class="w-50" title="{{ trans('account.CampMaker') }}"/>
-                <h2>@lang('account.CampMaker')</h2>
-            </a>
-        </div>
+    </div>  
+    <div class="col-md-6 text-center">
+            <div class="card" id="{{ isset($border) ? 'card-border' : null }}">
+                <a href="{{ route('register-campmaker') }}">
+                    <img class="card-img-top w-50" src={{ asset('images/CampMaker.png') }}>
+                    <h4>@lang('account.CampMaker')</h4>
+                </a>
+            </div>
+        </div>      
     </div>
 @endsection
