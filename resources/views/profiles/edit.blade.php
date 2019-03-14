@@ -68,12 +68,14 @@
                         @endcomponent
                     </div>
                 @endrole
-                <div class="text-center mt-4">
-                    @can('candidate-edit')
-                        <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
-                        <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
-                    @endcan
-                </div>
+                @can('candidate-edit')
+                    @if (!isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
+                        <div class="text-center mt-4">
+                            <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
+                            <a href="#" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                        </div>
+                    @endif
+                @endcan
             </div>
         </div>
     </form>

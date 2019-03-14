@@ -13,6 +13,7 @@ use App\QuestionManager;
 use App\Enums\QuestionType;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class QualificationController extends Controller
 {
@@ -155,6 +156,14 @@ class QualificationController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Scores are updated successfully.');
+    }
+
+    public function show_detailed(Registration $registration)
+    {
+        if (auth()->user()->isCamper())
+            throw new \CampPASSExceptionPermission();
+        View::share('disabled', true);
+        return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)

@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');
-        Route::get('/full-profile/{user}', 'ProfileController@show_detailed')->name('qualification.show_profile_detailed');
+        Route::get('/full-profile/{registration}', 'QualificationController@show_detailed')->name('qualification.show_profile_detailed');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
