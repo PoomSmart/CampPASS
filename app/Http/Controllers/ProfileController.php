@@ -32,7 +32,7 @@ class ProfileController extends Controller
         return $this->show(auth()->user());
     }
 
-    public function authenticate(User $user, bool $me = false)
+    public static function authenticate(User $user, bool $me = false)
     {
         if ($me && $user->id != auth()->user()->id)
             throw new \CampPASSExceptionPermission();
@@ -49,17 +49,9 @@ class ProfileController extends Controller
         return view('profiles.show', compact('user', 'badges'));
     }
 
-    public function show_detailed(User $user)
+    public static function edit(User $user, bool $me = true, bool $no_extra_button = false)
     {
-        if (auth()->user()->isCamper())
-            throw new \CampPASSExceptionPermission();
-        View::share('disabled', true);
-        return $this->edit($user, $me = false);
-    }
-
-    public function edit(User $user, bool $me = true)
-    {
-        $this->authenticate($user, $me = $me);
+        self::authenticate($user, $me = $me);
         $religions = Common::values(Religion::class);
         $schools = Common::values(School::class);
         $provinces = Common::values(Province::class);
@@ -67,6 +59,8 @@ class ProfileController extends Controller
         $education_levels = EducationLevel::getLocalizedConstants('year');
         $organizations = $user->isCamper() ? null : auth()->user()->isAdmin() ? Organization::all() : [ $user->organization ];
         View::share('object', $user);
+        if ($no_extra_button)
+            View::share('no_extra_button', true);
         return view('profiles.edit', compact('user', 'religions', 'schools', 'provinces', 'programs', 'education_levels', 'organizations'));
     }
 

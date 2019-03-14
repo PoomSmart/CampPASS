@@ -13,6 +13,7 @@ use App\QuestionManager;
 use App\Enums\QuestionType;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class QualificationController extends Controller
 {
@@ -101,6 +102,7 @@ class QualificationController extends Controller
             ], [
                 'total_score' => $camper_score,
                 'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+                'submission_time' => $registration->submission_time,
             ]);
         }
         if ($silent)
@@ -156,6 +158,14 @@ class QualificationController extends Controller
         return redirect()->back()->with('success', 'Scores are updated successfully.');
     }
 
+    public function show_detailed(Registration $registration)
+    {
+        if (auth()->user()->isCamper())
+            throw new \CampPASSExceptionPermission();
+        View::share('disabled', true);
+        return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
+    }
+
     public static function form_finalize(FormScore $form_score, bool $silent = false)
     {
         Common::authenticate_camp($form_score->question_set->camp);
@@ -170,11 +180,11 @@ class QualificationController extends Controller
             return redirect()->back()->with('success', 'This form is finalized.');
     }
 
-    public static function form_check_real($form_score, $checked)
+    public static function form_check_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
         $form_score->update([
-            'checked' => $checked,
+            'checked' => $checked == 'true',
         ]);
     }
 
@@ -182,9 +192,9 @@ class QualificationController extends Controller
     {
         $success = true;
         try {
-            $form_score = FormScore::find($request->get('form_score_id'));
-            $checked = filter_var($request->get('checked'), FILTER_VALIDATE_BOOLEAN);
-            self::form_check_real($form_score, $checked);
+            $content = json_decode($request->getContent(), true);
+            $form_score = FormScore::findOrFail($content['form_score_id']);
+            self::form_check_real($form_score, $content['checked'] ? 'true' : 'false');
         } catch (\Exception $e) {
             $success = false;
         }
@@ -195,11 +205,13 @@ class QualificationController extends Controller
         ]);
     }
 
-    public static function form_pass_real($form_score, $checked)
+    public static function form_pass_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
+        if ($form_score->registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack();
         $form_score->update([
-            'passed' => $checked,
+            'passed' => $checked == 'true',
         ]);
     }
 
@@ -207,9 +219,9 @@ class QualificationController extends Controller
     {
         $success = true;
         try {
-            $form_score = FormScore::find($request->get('form_score_id'));
-            $checked = filter_var($request->get('checked'), FILTER_VALIDATE_BOOLEAN);
-            self::form_pass_real($form_score, $checked);
+            $content = json_decode($request->getContent(), true);
+            $form_score = FormScore::findOrFail($content['form_score_id']);
+            self::form_pass_real($form_score, $content['passed'] ? 'true' : 'false');
         } catch (\Exception $e) {
             $success = false;
         }

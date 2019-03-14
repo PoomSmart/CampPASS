@@ -27,7 +27,6 @@ class CampApplicationController extends Controller
 {
     /**
      * Check whether the given camp can be manipulated by the current user.
-     * The function returns the camp object if the user can.
      * 
      */
     public static function authenticate(Camp $camp, bool $eligible_check = false)
@@ -38,11 +37,10 @@ class CampApplicationController extends Controller
         if (!$user->hasPermissionTo('answer-list'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // Campers would not submit the answers to the questions of such non-approved camps
-        if (!$camp->approved && !auth()->user()->isAdmin())
+        if (!$camp->approved && !$user->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
         if ($eligible_check)
-            auth()->user()->isEligibleForCamp($camp);
-        return $camp;
+            $user->isEligibleForCamp($camp);
     }
 
     /**
@@ -52,7 +50,7 @@ class CampApplicationController extends Controller
      */
     public static function authenticate_registration(Registration $registration, bool $silent = false)
     {
-        if (!$silent && $registration->camper->id != auth()->user()->id)
+        if (!$silent && $registration->camper->id != auth()->user()->id && !auth()->user()->isAdmin())
             throw new \CampPASSExceptionPermission();
     }
 
@@ -182,7 +180,7 @@ class CampApplicationController extends Controller
 
     public function store(Request $request)
     {
-        $camp = $this->authenticate(Camp::find($request['camp_id']));
+        $this->authenticate($camp = Camp::find($request['camp_id']));
         $user = auth()->user();
         if (!$user->hasPermissionTo('answer-edit') || !$user->hasPermissionTo('answer-create'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
@@ -287,7 +285,7 @@ class CampApplicationController extends Controller
     public static function withdraw(Registration $registration)
     {
         $camp = $registration->camp;
-        self::authenticate($camp);
+        self::authenticate($camp, $eligible_check = true);
         self::authenticate_registration($registration);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
@@ -297,6 +295,9 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
+        ]);
+        $registration->form_score->update([
+            'passed' => false,
         ]);
         return redirect()->back()->with('success', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }

@@ -23,6 +23,7 @@ class CreateFormScoresTable extends Migration
             $table->boolean('finalized')->default(false); // Whether the grading is done
             $table->boolean('checked')->default(false); // Whether the document checking is done
             $table->boolean('passed')->default(false); // Whether the form score is passed
+            $table->timestamp('submission_time')->nullable();
             $table->timestamps();
         });
     }

@@ -505,9 +505,9 @@ class DatabaseSeeder extends Seeder
             if (Common::randomRareHit())
                 continue;
             try {
-                $form_scores = CandidateController::rank($question_set, $list = true, $with_returned = false);
+                $form_scores = CandidateController::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
                 foreach ($form_scores as $form_score) {
-                    QualificationController::form_check_real($form_score = $form_score, $checked = true);
+                    QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
                 }
                 CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
                 if (Common::randomFrequentHit()) {

@@ -4,10 +4,6 @@
     @lang('app.HowWork', ['entity' => config('app.name')])
 @endsection
 
-@section('custom-width')
-    <div class="col-12 col-sm-9 col-xl-6">
-@endsection
-
 @section('card_content')
 <div class="row mt-4">
     <div class="col-md-6 text-center">

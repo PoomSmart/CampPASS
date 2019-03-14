@@ -5,7 +5,7 @@
         @if (View::hasSection('custom-width'))
             @yield('custom-width')
         @else
-            <div class="col-sm-12 col-md-10">
+            <div class="col-12 col-sm-10 col-lg-8 col-xl-7">
         @endif
             @if ($message = Session::get('message'))
                 <div class="alert alert-info text-center">

@@ -1,35 +1,54 @@
 @extends('layouts.blank')
 
 @section('script')
+    @php
+        $rank_by_score = $question_set->total_score;
+    @endphp
     <script src="{{ asset('js/modal.js') }}"></script>
-    <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='score_threshold']").inputSpinner();
             jQuery("input:checkbox").change(function () {
                 var self = jQuery(this);
                 var form_score_id = self.attr("id");
                 var checked = self.is(":checked");
                 var name = self.attr("name");
                 var url = "";
-                if (name.indexOf("checked") !== -1)
+                var data = null;
+                if (name.indexOf("checked") !== -1) {
                     url = "{!! route('qualification.form_check') !!}";
-                else if (name.indexOf("passed") !== -1)
-                    url = "{!! route('qualification.form_pass') !!}";
-                jQuery.ajax({
-                    type: 'POST',
-                    url: url,
-                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    data: {
+                    data = {
                         "form_score_id" : form_score_id,
                         "checked" : checked
-                    },
+                    };
+                }
+                else if (name.indexOf("passed") !== -1) {
+                    url = "{!! route('qualification.form_pass') !!}";
+                    data = {
+                        "form_score_id" : form_score_id,
+                        "passed" : checked
+                    };
+                }
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
+                    contentType: "json",
+                    processData: false,
+                    data: JSON.stringify(data),
                     success: function (data) {}
                 });
             });
         });
     </script>
-    <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @if ($rank_by_score)
+        <script src="{{ asset('js/input-spinner.js') }}"></script>
+        <script>
+            jQuery(document).ready(function () {
+                jQuery("input[name='score_threshold']").inputSpinner();
+            });
+        </script>
+        <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @endif
 @endsection
 
 @section('header')
@@ -55,7 +74,6 @@
     @endcomponent
     @php
         $i = $passed = 0;
-        $rank_by_score = $question_set->total_score;
     @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
@@ -96,9 +114,7 @@
                 <th>@lang('qualification.SubmissionTime')</th>
             @endif
             <th>@lang('registration.Status')</th>
-            @if ($rank_by_score)
-                <th>@lang('qualification.Passed')</th>
-            @endif
+            <th>@lang('qualification.Passed')</th>
             <th>@lang('qualification.Checked')</th>
             <th>@lang('app.Actions')</th>
         </thead>
@@ -106,38 +122,50 @@
             @php
                 $registration = $form_score->registration;
                 $camper = $registration->camper;
+                $withdrawed = $registration->withdrawed();
+                if ($form_score->passed)
+                    ++$passed;
             @endphp
-            <tr>
+            <tr
+                @if ($withdrawed)
+                    class="table-danger"
+                @endif
+            >
                 <th scope="row">{{ ++$i }}</th>
                 <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
                     <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
-                    @php
-                        $camper_passed = $question_set->announced || ($camper_pass = $form_score->passed);
-                        if ($camper_passed) ++$passed;
-                    @endphp
                 @else
                     <td>{{ $registration->submission_time }}</td>
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
-                @if ($rank_by_score)
-                    <td class="text-center">
-                        <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                            @if ($form_score->passed)
-                                checked
-                            @endif
-                        >
-                    </td>
-                @endif
+                <td class="text-center">
+                    <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                        @if ($withdrawed)
+                            disabled
+                        @endif
+                        @if ($form_score->passed)
+                            checked
+                        @endif
+                    >
+                </td>
                 <td class="text-center">
                     <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
+                        @if ($withdrawed)
+                            disabled
+                        @endif
                         @if ($form_score->checked)
                             checked
                         @endif
                     >
                 </td>
                 <td class="fit">
-                    <a href="{{ route('qualification.show_profile_detailed', $camper->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                    <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                    @role('admin')
+                        @if (!$withdrawed)
+                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                        @endif
+                    @endrole
                 </td>
             </tr>
         @endforeach
