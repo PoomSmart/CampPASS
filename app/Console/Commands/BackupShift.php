@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Camp;
 use App\Candidate;
 
+use Carbon\Carbon;
+
 use App\Notifications\ApplicationStatusUpdated;
 
 use Illuminate\Console\Command;
@@ -42,10 +44,13 @@ class BackupShift extends Command
      */
     public function handle()
     {
+        // TODO: Test this
         $camps = Camp::allApproved()->where('candidate_required', true)->get();
         foreach ($camps as $camp) {
             $question_set = $camp->question_set;
-            if (!$question_set->total_score)
+            if (!$question_set->total_score || !$camp->confirmation_date)
+                continue;
+            if (Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
             $form_scores = $camp->getFormScores()->where('backup', true)->orderByDesc('total_score');
             if ($camp->backup_limit)
