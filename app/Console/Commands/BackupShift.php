@@ -52,9 +52,25 @@ class BackupShift extends Command
                 continue;
             if (Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
+            // Reject all the passed campers who have not confirmed their attendance
+            $passed_form_scores = $camp->getFormScores()->where('passed', true);
+            $no_longer_passed = 0;
+            foreach ($passed_form_scores as $passed_form_score) {
+                $registration = $form_score->registration;
+                if (!$registration->confirmed()) {
+                    $form_score->update([
+                        'passed' => false,
+                    ]);
+                    $registration->update([
+                        'status' => ApplicationStatus::REJECTED,
+                    ]);
+                    ++$no_longer_passed;
+                }
+            }
+            // Shift the equal amount of backups up
             $form_scores = $camp->getFormScores()->where('backup', true)->orderByDesc('total_score');
             if ($camp->backup_limit)
-                $form_scores = $form_scores->limit($camp->backup_limit);
+                $form_scores = $form_scores->limit(min($no_longer_passed, $camp->backup_limit));
             $candidates = [];
             foreach ($form_scores as $form_score) {
                 $form_score->makeBackupPassed();
