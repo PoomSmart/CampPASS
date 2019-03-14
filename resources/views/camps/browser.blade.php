@@ -5,7 +5,7 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-sm-12 col-lg-10 col-xl-7">
+    <div class="col-12 col-xl-10">
 @endsection
 
 @section('content')
@@ -40,9 +40,10 @@
             <a href="{{ route('camps.browser') }}" class="btn btn-outline-info">@lang('app.ClearFilters')</a>
         </div>
     </form>
+    @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
         <div class="container-fluid mt-4">
-            <h3 class="mb-4 d-inline-block">{{ $category }}</h3>
+            <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
             <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', $category_ids[$category]) }}">@lang('app.More')</a>
             @component('components.card_columns', [
                 'objects' => $camps,
@@ -50,5 +51,12 @@
             ])
             @endcomponent
         </div>
+    @endforeach
+@endsection
+
+@section('sidebar-items')
+    @php $i = 0 @endphp
+    @foreach ($categorized_camps as $category => $camps)
+        <li class="nav-item"><a class="nav-link rounded pl-2{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $category }}</b></a></li>
     @endforeach
 @endsection
