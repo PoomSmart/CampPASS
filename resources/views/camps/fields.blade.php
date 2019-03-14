@@ -64,7 +64,7 @@
 @endcomponent
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         @component('components.input', [
             'name' => 'application_fee',
             'label' => trans('camp.ApplicationFee'),
@@ -73,12 +73,21 @@
         ])
         @endcomponent
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         @component('components.input', [
             'name' => 'deposit',
             'label' => trans('camp.Deposit'),
             'type' => 'number',
             'disabled' => isset($object) && !$object->camp_procedure->deposit_required ? 1 : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-4">
+        @component('components.input', [
+            'name' => 'backup_limit',
+            'label' => trans('camp.BackupLimit'),
+            'type' => 'number',
+            'disabled' => isset($object) && !$object->camp_procedure->candidate_required ? 1 : null,
         ])
         @endcomponent
     </div>

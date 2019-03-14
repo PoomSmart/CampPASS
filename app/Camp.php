@@ -25,7 +25,7 @@ class Camp extends Model
         'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date', 'interview_information',
         'event_location_lat', 'event_location_long',
-        'quota', 'contact_campmaker', 'approved',
+        'quota', 'contact_campmaker', 'backup_limit', 'approved',
     ];
 
     // These attributes require mutators for user-friendly date display

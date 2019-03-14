@@ -164,10 +164,9 @@ class CandidateController extends Controller
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the threshold
-        $no_passed = $no_checked = $total_ranked = 0;
+        $no_passed = $no_checked = 0;
         $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
         if ($form_scores) {
-            $total_ranked = $form_scores->count();
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
                 if ($form_score->checked)
                     ++$no_checked;
@@ -177,8 +176,8 @@ class CandidateController extends Controller
         }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));
-        if ($total_ranked != $no_checked)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.AllFormsMustBeChecked'));
+        if ($no_passed != $no_checked)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AllPassedFormsMustBeChecked'));
         $candidates = [];
         $camp_procedure = $question_set->camp->camp_procedure;
         foreach ($form_scores as $form_score) {

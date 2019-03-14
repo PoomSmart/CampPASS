@@ -21,6 +21,7 @@
             <th>@lang('account.FullName')</th>
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
+            <th>@lang('registration.Status')</th>
         </thead>
         @php
             $i = 0;
@@ -35,6 +36,7 @@
                 <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
                 <td>{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
+                <td>{{ $registration->getStatus() }}</td>
             </tr>
         @endforeach
     </table>

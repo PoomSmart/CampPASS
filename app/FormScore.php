@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class FormScore extends Model
 {
     protected $fillable = [
-        'registration_id', 'question_set_id', 'total_score', 'finalized', 'checked', 'passed', 'submission_time',
+        'registration_id', 'question_set_id', 'total_score', 'submission_time',
+        'finalized', 'checked', 'passed', 'backup',
     ];
 
     public function registration()
@@ -21,5 +22,15 @@ class FormScore extends Model
     public function question_set()
     {
         return $this->belongsTo(QuestionSet::class);
+    }
+
+    public function makeBackupPassed()
+    {
+        if (!$this->backup)
+            return;
+        $this->update([
+            'backup' => false,
+            'passed' => true,
+        ]);
     }
 }

@@ -24,6 +24,7 @@ function selectionChanged(select) {
         var fee = form.find("#application_fee");
         var interview_date = form.find("#interview_date");
         var interview_info = form.find("#interview_information");
+        var backup_limit = form.find("#backup_limit");
         // Deposit and Application Fee
         switch (value) {
             case CampProcedure.WALK_IN:
@@ -51,6 +52,18 @@ function selectionChanged(select) {
             default:
                 disable(interview_date);
                 disable(interview_info);
+                break;
+        }
+        // Backup limit
+        switch (value) {
+            case CampProcedure.QA:
+            case CampProcedure.QA_DEPOSIT:
+            case CampProcedure.QA_INTERVIEW:
+            case CampProcedure.QA_INTERVIEW_DEPOSIT:
+                enable(backup_limit);
+                break;
+            default:
+                disable(backup_limit);
                 break;
         }
         descs.each(function(index, element) {

@@ -272,8 +272,16 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
-        if ($camp->confirmation_date && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) < 0)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
+        if ($camp->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($camp->confirmation_date)) < 0) {
+            $form_score = $registration->form_score;
+            $prevent = true;
+            if ($form_score->backup) {
+                $extended_confirmation_date = $confirmation_date->addDays(3);
+                $prevent = Carbon::now()->diffInDays($extended_confirmation_date) < 0;
+            }
+            if ($prevent)
+                throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
+        }
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
         ]);
