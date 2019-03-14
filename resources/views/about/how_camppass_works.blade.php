@@ -9,13 +9,21 @@
 @endsection
 
 @section('card_content')
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <img src="{{ asset('/images/logo.png') }}" alt="{{ config('app.name') }}" class="pb-3 w-100">
-        </div>
-        <div class="col-md-8">
-            <h4 class="mb-4">{{ config('app.name') }}</h4>
-            <p>@lang('about.AboutCampPASS')</p>
-        </div>
+<div class="row mt-4">
+    <div class="col-md-6 text-center">
+        <h4 class="mb-4">@lang('about.Term1Heading')</h4>
+        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
+        <p>@lang('about.Term1Paragraph')</p>
     </div>
+    <div class="col-md-6 text-center">
+        <h4 class="mb-4">@lang('about.Term2Heading')</h4>
+        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
+        <p>@lang('about.Term2Paragraph')</p>
+    </div>
+    <div class="col-md-6 text-center">
+        <h4 class="mb-4">@lang('about.Term3Heading')</h4>
+        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
+        <p>@lang('about.Term3Paragraph')</p>
+    </div>
+</div>
 @endsection
