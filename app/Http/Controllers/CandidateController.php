@@ -75,10 +75,8 @@ class CandidateController extends Controller
                     'passed' => false,
                 ]);
                 $backups[] = $form_score;
-                $registration = $form_score->registration;
-                $registration->camper->notify(new ApplicationStatusUpdated($registration));
                 $candidates[] = [
-                    'registration_id' => $registration->id,
+                    'registration_id' => $form_score->registration_id,
                     'total_score' => $form_score->total_score,
                 ];
             }
