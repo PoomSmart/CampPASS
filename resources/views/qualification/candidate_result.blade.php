@@ -50,16 +50,17 @@
                 <td class="text-truncate">{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
                 <td class="fit">{{ $registration->getStatus() }}</td>
-                @role('admin')
-                    <td class="fit">
+                <td class="fit">
+                    <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                    @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                         @endif
                         @if (!$confirmed)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                         @endif
-                    </td>
-                @endrole
+                    @endrole
+                </td>
             </tr>
         @endforeach
     </table>
