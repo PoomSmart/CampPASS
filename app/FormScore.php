@@ -26,8 +26,6 @@ class FormScore extends Model
 
     public function makeBackupPassed()
     {
-        if (!$this->backup)
-            return;
         $this->update([
             'backup' => false,
             'passed' => true,
