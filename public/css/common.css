@@ -41,6 +41,14 @@ html, body {
   background-color: whitesmoke;
 }
 
+body, #app {
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
 footer {
   color: white;
   background-color: #FB6B0A;

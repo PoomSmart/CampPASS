@@ -41,7 +41,7 @@
         data-spy="scroll" data-target="#side"
     @endif
 >
-    <div id="app">
+    <div id="app" class="d-flex flex-column">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}"><img class="img-fluid" style="width: 90px;" src={{ asset("/images/logo.png") }}></a>

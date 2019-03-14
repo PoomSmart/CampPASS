@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="container pt-0 carousel-inner px-0">
+    <div class="container pt-0 carousel-inner px-2 py-2">
         @foreach (array_chunk($objects, $mod, true) as $index => $chunk)
             <div class="row align-items-start card-columns no-gutters carousel-item{{ $index == 0 ? ' active' : ''}}">
                 @foreach ($chunk as $object)
