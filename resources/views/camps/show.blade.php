@@ -9,7 +9,7 @@
         <div class="col-12 text-center">
             <p>{{ $category->getName() }}</p>
         </div>
-        <div class="col-12 mb-2">
+        <div class="col-12 mb-2 text-center">
             <img class="img-fluid" src="http://placehold.it/880x600/{{ \App\Common::randomString(6) }}">
         </div>
         <div class="col-12 text-center mb-3">
