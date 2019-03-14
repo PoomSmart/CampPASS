@@ -47,6 +47,7 @@ class CreateCampsTable extends Migration
             $table->double('event_location_lat')->nullable(); // event place may be undecided
             $table->double('event_location_long')->nullable(); // same as above
             $table->smallInteger('quota')->unsigned()->nullable();
+            $table->tinyInteger('backup_limit')->unsigned()->nullable();
             $table->text('contact_campmaker')->nullable();
             $table->boolean('approved')->default(false); // every camp needs approval
             $table->timestamps();

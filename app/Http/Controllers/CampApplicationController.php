@@ -29,7 +29,7 @@ class CampApplicationController extends Controller
      * Check whether the given camp can be manipulated by the current user.
      * 
      */
-    public static function authenticate(Camp $camp, bool $eligible_check = false)
+    public static function authenticate(Camp $camp)
     {
         $user = auth()->user();
         if (!$user)
@@ -39,7 +39,7 @@ class CampApplicationController extends Controller
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !$user->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
-        if ($eligible_check)
+        if (!$user->isAdmin())
             $user->isEligibleForCamp($camp);
     }
 
@@ -227,7 +227,7 @@ class CampApplicationController extends Controller
     public function answer_view(QuestionSet $question_set)
     {
         $camp = $question_set->camp;
-        $this->authenticate($camp, $eligible_check = true);
+        $this->authenticate($camp);
         $camper = auth()->user();
         $pairs = $question_set ? $question_set->pairs()->get() : [];
         $data = [];
@@ -272,20 +272,28 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
-        if ($camp->confirmation_date && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) < 0)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
+        if ($camp->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($camp->confirmation_date)) < 0) {
+            $form_score = $registration->form_score;
+            $prevent = true;
+            if ($form_score->backup) {
+                $extended_confirmation_date = $confirmation_date->addDays(3);
+                $prevent = Carbon::now()->diffInDays($extended_confirmation_date) < 0;
+            }
+            if ($prevent)
+                throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
+        }
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)
-            return redirect()->back()->with('success', trans('exception.FullyQualified', ['camp' => $camp]));
+            return redirect()->back()->with('success', trans('message.FullyQualified', ['camp' => $camp]));
     }
 
     public static function withdraw(Registration $registration)
     {
         $camp = $registration->camp;
-        self::authenticate($camp, $eligible_check = true);
+        self::authenticate($camp);
         self::authenticate_registration($registration);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
@@ -296,6 +304,7 @@ class CampApplicationController extends Controller
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
+        // The corresponding registration record will be automatically marked as not passed, as they lost their chance to join the camp
         $registration->form_score->update([
             'passed' => false,
         ]);

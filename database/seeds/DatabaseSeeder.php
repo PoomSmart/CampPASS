@@ -502,6 +502,11 @@ class DatabaseSeeder extends Seeder
         // At this point, we simulate candidates announcement and attendance confirmation
         $this->log('-> simulating candidates announcement and attendance confirmation');
         foreach (QuestionSet::all() as $question_set) {
+            $camp = $question_set->camp;
+            if (!$question_set->total_score)
+                $camp->update([
+                    'backup_limit' => null,
+                ]);
             if (Common::randomRareHit())
                 continue;
             try {
@@ -511,7 +516,7 @@ class DatabaseSeeder extends Seeder
                 }
                 CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
                 if (Common::randomFrequentHit()) {
-                    foreach ($question_set->camp->registrations->all() as $registration) {
+                    foreach ($camp->registrations->all() as $registration) {
                         if (Common::randomRareHit())
                             continue;
                         CampApplicationController::confirm($registration, $void = true);

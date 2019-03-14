@@ -22,7 +22,8 @@ class CreateFormScoresTable extends Migration
             $table->double('total_score')->nullable();
             $table->boolean('finalized')->default(false); // Whether the grading is done
             $table->boolean('checked')->default(false); // Whether the document checking is done
-            $table->boolean('passed')->default(false); // Whether the form score is passed
+            $table->boolean('passed')->default(false); // Whether the camper is passed
+            $table->boolean('backup')->default(false); // Whether the camper is a backup
             $table->timestamp('submission_time')->nullable();
             $table->timestamps();
         });

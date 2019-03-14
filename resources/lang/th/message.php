@@ -13,4 +13,5 @@ return [
     'ScoreThresholdChanged' => 'เกณฑ์คะแนนใหม่ถูกบันทึกแล้ว',
     'QuestionsSaved' => 'คำถามถูกบันทึกแล้ว',
     'AnswerSaved' => 'คำตอบถูกบันทึกแล้ว',
+    'FullyQualified' => 'คุณมีสิทธิ์เข้าค่าย :camp',
 ];

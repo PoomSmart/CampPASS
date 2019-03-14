@@ -13,5 +13,6 @@ return [
     'ScoreThresholdChanged' => 'Score threshold has been changed.',
     'QuestionsSaved' => 'Questions are saved successfully.',
     'AnswerSaved' => 'Answers are saved.',
+    'FullyQualified' => 'You are fully qualified for :camp',
 
 ];

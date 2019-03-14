@@ -85,6 +85,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'deposit' => $deposit,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
+        'backup_limit' => $camp_procedure->candidate_required ? 5 : null,
         'approved' => Common::randomVeryFrequentHit(),
     ];
 });
