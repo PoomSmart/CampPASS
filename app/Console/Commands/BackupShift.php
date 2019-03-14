@@ -7,6 +7,8 @@ use App\Candidate;
 
 use Carbon\Carbon;
 
+use App\Enums\ApplicationStatus;
+
 use App\Notifications\ApplicationStatusUpdated;
 
 use Illuminate\Console\Command;
@@ -45,14 +47,16 @@ class BackupShift extends Command
     public function handle()
     {
         // TODO: Test this
-        $camps = Camp::allApproved()->where('candidate_required', true)->get();
+        $camps = Camp::allApproved()->with('camp_procedure')->whereHas('camp_procedure', function ($query) {
+            $query->where('candidate_required', true);
+        })->get();
         foreach ($camps as $camp) {
             $question_set = $camp->question_set;
             if (!$question_set->total_score || !$camp->confirmation_date)
                 continue;
             if (Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
-            // Reject all the passed campers who have not confirmed their attendance
+            logger()->info("Rejecting all the passed campers who have not confirmed their attendance for the camp {$camp}");
             $passed_form_scores = $camp->getFormScores()->where('passed', true);
             $no_longer_passed = 0;
             foreach ($passed_form_scores as $passed_form_score) {
@@ -67,7 +71,7 @@ class BackupShift extends Command
                     ++$no_longer_passed;
                 }
             }
-            // Shift the equal amount of backups up
+            logger()->info("Shifting the equal amount of backups up");
             $form_scores = $camp->getFormScores()->where('backup', true)->orderByDesc('total_score');
             if ($camp->backup_limit)
                 $form_scores = $form_scores->limit(min($no_longer_passed, $camp->backup_limit));
@@ -75,6 +79,9 @@ class BackupShift extends Command
             foreach ($form_scores as $form_score) {
                 $form_score->makeBackupPassed();
                 $registration = $form_score->registration;
+                $registration->update([
+                    'status' => ApplicationStatus::CHOSEN,
+                ]);
                 $form_score->camper->notify(new ApplicationStatusUpdated($registration));
                 $candidates[] = [
                     'registration_id' => $registration->id,
