@@ -5,21 +5,43 @@
 @endsection
 
 @section('card_content')
+
+<h3 class="mb-4">สร้างค่ายโดย CampPASS</h3>
 <div class="row mt-4">
-    <div class="col-md-6 text-center">
-        <h4 class="mb-4">@lang('about.Term1Heading')</h4>
-        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
-        <p>@lang('about.Term1Paragraph')</p>
+    <div class="col-md-4">
+        <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">
     </div>
-    <div class="col-md-6 text-center">
-        <h4 class="mb-4">@lang('about.Term2Heading')</h4>
-        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
-        <p>@lang('about.Term2Paragraph')</p>
+    <div class="col-md-8">
+        <h4 class="mb-4">1. Create Camp</h4>
+        <p>Customize the application form</p>
     </div>
-    <div class="col-md-6 text-center">
-        <h4 class="mb-4">@lang('about.Term3Heading')</h4>
-        <img src="/images/placeholders/ChildQuestion.png" alt="1" class="img-fluid w-50 p-2">
-        <p>@lang('about.Term3Paragraph')</p>
+    <div class="col-md-4">
+        <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">
+    </div>
+    <div class="col-md-8">
+        <h4 class="mb-4">2. Camper apply for camp online</h4>
+        <p>- Upload document once - Attach payment slip</p>
+    </div>
+    <div class="col-md-4">
+        <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">
+    </div>
+    <div class="col-md-8">
+        <h4 class="mb-4">3. Grade Camp Application</h4>
+        <p>-Rank Camper application form -Approve payment slips</p>
+    </div>
+    <div class="col-md-4">
+        <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">
+    </div>
+    <div class="col-md-8">
+        <h4 class="mb-4">4. Heading</h4>
+        <p>@lang('about.AboutCampPASS')</p>
+    </div>
+    <div class="col-md-4">
+        <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">
+    </div>
+    <div class="col-md-8">
+        <h4 class="mb-4">5. Heading</h4>
+        <p>@lang('about.AboutCampPASS')</p>
     </div>
 </div>
 @endsection
