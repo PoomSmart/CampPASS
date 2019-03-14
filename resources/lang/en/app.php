@@ -50,4 +50,6 @@ return [
     'SearchCampByName' => "Search camp name here",
     'Search' => 'Search',
     'ClearFilters' => 'Clear Filter',
+
+    'NoNotifications' => 'No Notifications',
 ];

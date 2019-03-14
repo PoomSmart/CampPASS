@@ -7,12 +7,14 @@ return [
     'AboutWhy' => 'Why create CampPASS?',
     'AboutWhoUse' => 'Who use CampPASS?',
 
+    'CreateCamp' => 'Create Camp with CampPASS',
+
     'Term1Heading' => 'Term 1 Heading',
     'Term1Paragraph' => 'Term 1 Paragraph',
     'Term2Heading' => 'Term 2 Heading',
     'Term2Paragraph' => 'Term 2 Paragraph',
     'Term3Heading' => 'Term 3 Heading',
-    'Term4Paragraph' => 'Term 3 Paragraph',
+    'Term3Paragraph' => 'Term 3 Paragraph',
 
 
     'Policy1Heading' => 'Policy 1 Heading',

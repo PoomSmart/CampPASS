@@ -50,4 +50,6 @@ return [
     'SearchCampByName' => 'ค้นหาชื่อค่าย',
     'Search' => 'ค้นหา',
     'ClearFilters' => 'ล้างตัวคัดกรอง',
+
+    'NoNotifications' => 'ไม่มีแจ้งเตือน',
 ];
