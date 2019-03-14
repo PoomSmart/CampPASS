@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Candidate extends Model
 {
     protected $fillable = [
-        'registration_id', 'total_score', 'status',
+        'registration_id', 'total_score',
     ];
 
     public function registration()
