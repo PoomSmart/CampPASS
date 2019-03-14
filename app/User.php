@@ -235,7 +235,7 @@ class User extends Authenticatable
      */
     public function isEligibleForCamp(Camp $camp)
     {
-        if (auth()->user() && auth()->user()->isAdmin())
+        if ($this->isAdmin())
             return true;
         $error = $this->getIneligibleReasonForCamp($camp);
         if ($error)
