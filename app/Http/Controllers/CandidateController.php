@@ -44,6 +44,7 @@ class CandidateController extends Controller
         $summary = trans('qualification.TotalCandidates', [
             'total' => $total,
             'confirmed' => $confirmed,
+            'not_confirmed' => $total - $confirmed - $withdrawed,
             'withdrawed' => $withdrawed,
         ]);
         $locale = \App::getLocale();
