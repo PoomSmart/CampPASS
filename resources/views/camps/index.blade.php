@@ -9,7 +9,7 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-12 col-sm-10">
+    <div class="col-12">
 @endsection
 
 @can('camp-create')
