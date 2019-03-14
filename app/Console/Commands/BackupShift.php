@@ -56,9 +56,9 @@ class BackupShift extends Command
             $passed_form_scores = $camp->getFormScores()->where('passed', true);
             $no_longer_passed = 0;
             foreach ($passed_form_scores as $passed_form_score) {
-                $registration = $form_score->registration;
+                $registration = $passed_form_score->registration;
                 if (!$registration->confirmed()) {
-                    $form_score->update([
+                    $passed_form_score->update([
                         'passed' => false,
                     ]);
                     $registration->update([
