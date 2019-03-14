@@ -22,7 +22,7 @@ class QualificationController extends Controller
         $this->middleware('permission:camper-list');
         $this->middleware('permission:answer-grade', ['only' => ['form_grade', 'save_manual_grade', 'form_finalize']]);
         $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['form_check']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'show_profile_detailed']]);
     }
 
     /**
@@ -158,12 +158,24 @@ class QualificationController extends Controller
         return redirect()->back()->with('success', 'Scores are updated successfully.');
     }
 
-    public function show_detailed(Registration $registration)
+    public function show_profile_detailed(FormScore $form_score)
     {
-        if (auth()->user()->isCamper())
-            throw new \CampPASSExceptionPermission();
+        $registration = $form_score->registration;
+        View::share('form_score', $form_score);
         View::share('disabled', true);
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
+    }
+
+    public function form_return(FormScore $form_score)
+    {
+        $registration = $form_score->registration;
+        $form_score->update([
+            'checked' => false,
+        ]);
+        $registration->update([
+            'returned' => true,
+        ]);
+        return redirect()->back();
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)
@@ -183,6 +195,8 @@ class QualificationController extends Controller
     public static function form_check_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
+        if ($form_score->registration->returned)
+            throw new \CampPASSExceptionRedirectBack();
         $form_score->update([
             'checked' => $checked == 'true',
         ]);

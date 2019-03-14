@@ -123,12 +123,15 @@
                 $registration = $form_score->registration;
                 $camper = $registration->camper;
                 $withdrawed = $registration->withdrawed();
+                $returned = $registration->returned;
                 if ($form_score->passed)
                     ++$passed;
             @endphp
             <tr
                 @if ($withdrawed)
                     class="table-danger"
+                @elseif ($returned)
+                    class="table-warning"
                 @endif
             >
                 <th scope="row">{{ ++$i }}</th>
@@ -151,7 +154,7 @@
                 </td>
                 <td class="text-center">
                     <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($withdrawed)
+                        @if ($withdrawed || $returned)
                             disabled
                         @endif
                         @if ($form_score->checked)
@@ -165,6 +168,7 @@
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                         @endif
+                        <a href="{{ route('qualification.form_return', $registration->id) }}" class="btn btn-warning">T Return</a>
                     @endrole
                 </td>
             </tr>
@@ -176,6 +180,5 @@
 @endsection
 
 @section('extra-buttons')
-    {{-- TODO: Make it work with zero-total-score question sets --}}
     <button class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
 @endsection

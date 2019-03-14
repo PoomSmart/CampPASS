@@ -107,13 +107,18 @@ class CandidateController extends Controller
             $form_scores = $form_scores->orderBy('submission_time');
             $form_scores_get = $form_scores->get();
             foreach ($form_scores_get as $form_score) {
-                $withdrawed = $form_score->registration->withdrawed();
+                $registration = $form_score->registration;
+                $withdrawed = $registration->withdrawed();
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
                         'passed' => !$withdrawed,
                     ]);
                 }
-                if ($withdrawed) {
+                if ($registration->returned) {
+                    $form_score->update([
+                        'checked' => false,
+                    ]);
+                } else if ($withdrawed) {
                     $form_score->update([
                         'checked' => true,
                     ]);

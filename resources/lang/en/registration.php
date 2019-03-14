@@ -8,6 +8,7 @@ return [
     'APPROVED' => 'Approved',
     'CHOSEN' => 'Chosen',
     'INTERVIEWED' => 'Interviewed',
+    'Returned' => 'Returned',
     'PAID' => 'Paid',
     'CONFIRMED' => 'Confirmed',
     'Withdraw' => 'Withdraw',

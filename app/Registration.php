@@ -57,7 +57,7 @@ class Registration extends Model
 
     public function getStatus()
     {
-        return trans('registration.'.array_search($this->status, ApplicationStatus::getConstants()));
+        return $this->returned ? trans('registration.Returned') : trans('registration.'.array_search($this->status, ApplicationStatus::getConstants()));
     }
 
     public function unsubmitted()
