@@ -4,8 +4,6 @@ namespace App;
 
 use App\Registration;
 
-use App\Enums\CandidateStatus;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Candidate extends Model

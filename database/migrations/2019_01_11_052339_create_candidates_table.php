@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\CandidateStatus;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,8 +17,7 @@ class CreateCandidatesTable extends Migration
             $table->increments('id');
             $table->integer('registration_id')->unsigned();
             $table->foreign('registration_id')->references('id')->on('registrations');
-            $table->smallInteger('total_score')->default(0);
-            $table->tinyInteger('status')->default(CandidateStatus::CHOSEN);
+            $table->smallInteger('total_score')->nullable();
             $table->timestamps();
         });
     }
