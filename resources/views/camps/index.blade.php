@@ -33,8 +33,10 @@
             <th>@lang('app.No_')</th>
             <th>@lang('camp.Name')</th>
             <th>@lang('registration.ApplicationForms')</th>
+            <th>@lang('camp.Category')</th>
             <th>@lang('camp_procedure.CampProcedure')</th>
             <th>@lang('camp.GradingType')</th>
+            <th>@lang('camp.AcceptableRegions')</th>
             <th>@lang('camp.Status')</th>
             <th>@lang('qualification.IsAnnounced')</th>
             <th>@lang('app.Actions')</th>
@@ -53,12 +55,18 @@
                 $question_set = $camp->question_set;
             @endphp
             <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->camp_procedure->getTags() as $tag)
                     <label class="badge badge-secondary font-weight-normal">{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
+            <td>
+                @foreach ($camp->getAcceptableRegions($string = false) as $region)
+                    <label class="badge badge-dark font-weight-normal">{{ $region }}</label>
+                @endforeach
+            </td>
             <td class="fit">
                 <label class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</label>
             </td>

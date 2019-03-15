@@ -8,6 +8,7 @@ use App\CertificateTemplate;
 use App\FormScore;
 use App\Organization;
 use App\QuestionSet;
+use App\Region;
 use App\Registration;
 use App\User;
 
@@ -261,18 +262,28 @@ class Camp extends Model
         return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y');
     }
 
-    public function getAcceptableYears()
+    public function getAcceptableRegions(bool $string = true)
     {
-        return implode(', ', array_map(function ($year) {
-            return Year::find($year)->getShortName();
-        }, $this->acceptable_years));
+        $regions = array_map(function ($region) {
+            return Region::find($region)->getShortName();
+        }, $this->acceptable_regions);
+        return $string ? implode(', ', $regions) : $regions;
     }
 
-    public function getAcceptablePrograms()
+    public function getAcceptableYears(bool $string = true)
     {
-        return implode(', ', array_map(function ($program) {
+        $years = array_map(function ($year) {
+            return Year::find($year)->getShortName();
+        }, $this->acceptable_years);
+        return $string ? implode(', ', $years) : $years;
+    }
+
+    public function getAcceptablePrograms(bool $string = true)
+    {
+        $programs = array_map(function ($program) {
             return Program::find($program);
-        }, $this->acceptable_programs));
+        }, $this->acceptable_programs);
+        return $string ? implode(', ', $programs) : $programs;
     }
 
     public function setAcceptableProgramsAttribute($value)
