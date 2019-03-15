@@ -93,7 +93,7 @@
     </div>
 </div>
 
-@php $can_list_organization = auth()->user()->hasPermissionTo('organization-list'); @endphp
+@php $can_list_organization = auth()->user()->can('organization-list'); @endphp
 
 @component('components.input', [
     'name' => 'organization_id',

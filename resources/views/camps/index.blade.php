@@ -42,7 +42,7 @@
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <th scope="row">{{ ++$i }}</th>
-	        <td class="fit"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
+	        <td class="fit"><a target="_blank" href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->campers()->count();
@@ -52,7 +52,7 @@
                     $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td class="fit"><a href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->camp_procedure->getTags() as $tag)
                     <label class="badge badge-success font-weight-normal">{{ $tag }}</label>

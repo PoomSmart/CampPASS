@@ -35,7 +35,7 @@ class CampApplicationController extends Controller
         $user = auth()->user();
         if (!$user)
             throw new \CampPASSExceptionPermission();
-        if (!$user->hasPermissionTo('answer-list'))
+        if (!$user->can('answer-list'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !$user->isAdmin())
@@ -183,7 +183,7 @@ class CampApplicationController extends Controller
     {
         $this->authenticate($camp = Camp::find($request['camp_id']));
         $user = auth()->user();
-        if (!$user->hasPermissionTo('answer-edit') || !$user->hasPermissionTo('answer-create'))
+        if (!$user->can('answer-edit') || !$user->can('answer-create'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         // A registration record will be created if not already
         $registration = $this->register($camp, $user);
@@ -366,7 +366,7 @@ class CampApplicationController extends Controller
      */
     public function answer_file_delete(Answer $answer)
     {
-        if (!auth()->user()->hasPermissionTo('answer-delete'))
+        if (!auth()->user()->can('answer-delete'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         $filepath = $this->get_answer_file_path($answer);
         if (!$filepath)
