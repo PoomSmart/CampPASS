@@ -6,7 +6,6 @@ return [
     'NoQuestion' => 'There are no questions in here.',
     'NoAnswer' => 'You have not answered anything.',
     'ConfirmedAttending' => 'You already confirmed attending :camp.',
-    'You cannot withdraw the camp you already confirmed the attendance.',
     'AlreadyWithdrawed' => "You already withdrawed from :camp.",
     'WithdrawedFrom' => 'You withdrawed from :camp.',
     'WithdrawAttendance' => 'You cannot withdraw the camp you already confirmed the attendance.',
