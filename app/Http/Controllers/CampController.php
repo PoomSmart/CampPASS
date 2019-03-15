@@ -86,8 +86,14 @@ class CampController extends Controller
 
     public function check(Camp $camp, bool $skip_check = false)
     {
-        if (!$skip_check && !$camp->approved)
-            throw new \CampPASSException(trans('camp.ApproveFirst'));
+        if (!$skip_check && !$camp->approved) {
+            $prevent = true;
+            $user = auth()->user();
+            if ($user && $user->isCampMaker())
+                $prevent = !$user->canManageCamp($camp);
+            if ($prevent)
+                throw new \CampPASSException(trans('camp.ApproveFirst'));
+        }
     }
 
     public function show(Camp $camp)

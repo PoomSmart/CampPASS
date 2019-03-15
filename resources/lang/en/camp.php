@@ -11,6 +11,7 @@ return [
     'Status' => 'Status',
     'ApprovalPending' => 'Pending',
     'Approved' => 'Approved',
+    'Unapproved' => 'Unapproved',
     'AcceptableProgramsShort' => 'Acceptable Programs',
     'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',

@@ -5,6 +5,11 @@
 @endsection
 
 @section('card_content')
+    @if (!$camp->approved)
+        <div class="alert alert-warning text-center">
+            <h3 class="mb-0">@lang('camp.Unapproved')</h3>
+        </div>
+    @endif
     <div class="row">
         <div class="col-12 text-center">
             <p>{{ $category->getName() }}</p>
