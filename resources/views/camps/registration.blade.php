@@ -23,7 +23,7 @@
         @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
-                <b class="text-info">** Manual Grading required. **</b>
+                <b class="text-info">@lang('qualification.ManualGradingRequired')</b>
             </div>
         @endif
         <div class="col-12">

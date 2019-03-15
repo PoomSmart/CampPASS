@@ -12,14 +12,10 @@
     <form class="row form" action="{{ route('camps.browser') }}" method="GET">
         <div class="col-md-8">
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <span>@lang('app.SearchCampByName')</span>
-                    </div>
-                </div>
                 @component('components.input', [
                     'name' => 'query',
                     'value' => Request::get('query'),
+                    'placeholder' => trans('app.SearchCampByName'),
                 ])
                 @endcomponent
             </div>
