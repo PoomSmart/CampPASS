@@ -12,7 +12,7 @@ return [
     'Checked' => 'ตรวจทานแล้ว',
     'Announce' => 'ประกาศผล',
     'Grading' => 'กำลังตรวจใบสมัคร',
-    'PassedCampers' => 'ผู้ที่ผ่านการเกณฑ์',
+    'PassedCampers' => 'ผู้ที่ผ่านเกณฑ์',
     'Candidates' => 'ผู้ที่ผ่านการคัดเลือก',
     'Backups' => 'ตัวสำรอง',
     'Announced' => 'ประกาศแล้ว',

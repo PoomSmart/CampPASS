@@ -214,10 +214,11 @@ class CandidateController extends Controller
         $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
         if ($form_scores) {
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
-                if ($form_score->checked)
-                    ++$no_checked;
-                if ($form_score->checked && $form_score->passed)
+                if ($form_score->passed) {
                     ++$no_passed;
+                    if ($form_score->checked)
+                        ++$no_checked;
+                }
             });
         }
         if (!$no_passed)

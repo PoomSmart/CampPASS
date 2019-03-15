@@ -171,7 +171,7 @@ class User extends Authenticatable
      */
     public function canManageCamp(Camp $camp)
     {
-        $value = $this->hasPermissionTo('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->limit(1)->exists());
+        $value = $this->can('camp-edit') && ($this->isAdmin() || $this->getBelongingCamps()->where('id', $camp->id)->limit(1)->exists());
         if (!$value)
             throw new \CampPASSExceptionPermission();
         return $value;
@@ -207,7 +207,7 @@ class User extends Authenticatable
     {
         $suffix = $short ? 'Short' : '';
         // An access to unapproved camps should not exist
-        if (!$camp->approved)
+        if (!$camp->approved && !$skip_approved)
             return trans('camp.ApproveFirst'.$suffix);
         // Campers with unacceptable year could not join the camp
         if ($this->program->isBasic() && !in_array(self::$education_level_to_year[$this->education_level], $camp->acceptable_years, false))

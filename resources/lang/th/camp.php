@@ -11,6 +11,7 @@ return [
     'Status' => 'สถานะ',
     'ApprovalPending' => 'รอดำเนินการ',
     'Approved' => 'รับรองแล้ว',
+    'Unapproved' => 'ยังไม่ผ่านการรับรอง',
     'AcceptableProgramsShort' => 'สายการเรียนที่ยอมรับ',
     'AcceptablePrograms' => 'สายการเรียนที่ยอมรับ',
     'AcceptableRegions' => 'ภูมิภาคที่ยอมรับ',
