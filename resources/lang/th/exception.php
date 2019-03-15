@@ -25,4 +25,5 @@ return [
     'NoQuestionsSave' => 'ไม่มีคำถามเพื่อบันทึก',
     'QuestionSetAlreadyFinalize' => 'ชุดคำถามถูกยืนยันไปแล้ว',
     'FileNotFound' => 'ไม่พบไฟล์ที่ต้องการ',
+    'AllPassedFormsMustBeChecked' => 'ใบสมัครที่ผ่านการคัดเลือกต้องถูกตรวจทานแล้วทั้งหมด',
 ];

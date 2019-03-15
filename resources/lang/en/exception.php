@@ -25,4 +25,5 @@ return [
     'NoQuestionsSave' => 'There are no questions to be saved.',
     'QuestionSetAlreadyFinalize' => 'This question set has already been finalized.',
     'FileNotFound' => 'The specified file could not be found.',
+    'AllPassedFormsMustBeChecked' => 'All passed forms must be checked',
 ];

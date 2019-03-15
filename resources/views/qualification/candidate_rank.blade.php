@@ -66,7 +66,7 @@
 @section('content')
     @component('components.dialog', [
         'title' => trans('qualification.CandidatesAnnouncement'),
-        'body' => trans('qualification.Continuennounced'),
+        'body' => trans('qualification.ContinueAnnounced'),
         'confirm_type' => 'danger',
         'confirm_label' => trans('app.Yes'),
     ])
