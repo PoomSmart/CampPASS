@@ -163,6 +163,7 @@ class QualificationController extends Controller
         $registration = $form_score->registration;
         View::share('form_score', $form_score);
         View::share('disabled', true);
+        View::share('deposit_required', $registration->camp->camp_procedure->deposit_required);
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }
 

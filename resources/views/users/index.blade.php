@@ -4,6 +4,10 @@
     @lang('account.ManageUsers')
 @endsection
 
+@section('custom-width')
+    <div class="col-12">
+@endsection
+
 @section('content')
     <div class="d-flex justify-content-center">
         {!! $data->links() !!}
