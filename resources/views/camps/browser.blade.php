@@ -33,7 +33,7 @@
                 'class' => 'mr-2',
             ])
             @endcomponent
-            <a href="{{ route('camps.browser') }}" class="btn btn-outline-info">@lang('app.ClearFilters')</a>
+            <a href="{{ route('camps.browser') }}" class="btn btn-secondary">@lang('app.ClearFilters')</a>
         </div>
     </form>
     @php $i = 0 @endphp
