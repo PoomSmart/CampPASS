@@ -120,7 +120,7 @@ class StoreUserRequest extends FormRequest
     {
         $rules = [
             'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer',
-            'numeric', 'before', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
+            'numeric', 'before', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes', 'regex',
             'min.numeric', 'min.string', 'max.numeric', 'max.string',
         ];
         $messages = [];

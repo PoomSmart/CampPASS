@@ -34,6 +34,8 @@ class ThaiCitizenID implements Rule
      */
     public function message()
     {
-        return trans('validation.regex');
+        return trans('validation.regex', [
+            'attribute' => trans('account.CitizenID')
+        ]);
     }
 }

@@ -31,7 +31,7 @@ return [
     'citizen_id' => trans('account.CitizenID'),
     'religion_id' => trans('account.Religion'),
     'school_id' => trans('account.School'),
-    'organization_id' => trans('account.Organization'),
+    'organization_id' => trans('campmaker.Organization'),
     'education_level' => trans('account.EducationLevel'),
 
     'score_threshold' => trans('camp.ScoreThreshold'),

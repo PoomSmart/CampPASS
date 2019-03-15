@@ -211,6 +211,7 @@
                     'label' => trans('campmaker.Organization'),
                     'input_type' => 'select',
                     'objects' => $organizations,
+                    'required' => 1,
                     'disabled' => isset($update),
                     'placeholder' => isset($update) ? null : trans('campmaker.SelectYourOrganization'),
                 ])
