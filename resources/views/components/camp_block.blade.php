@@ -1,5 +1,5 @@
 <div class="card">
-    <a href="{{ route('camps.show', $object->id) }}">
+    <a target="_blank" href="{{ route('camps.show', $object->id) }}">
         <img class="card-img-top" src="{{ isset($src) ? $src : asset('/images/placeholders/Camp '.\App\Common::randomInt10().'.png') }}" alt="Image of {{ $object }}">
         <div class="card-body">
             <h5 class="card-title text-truncate" title="{{ $object }}">{{ $object }}</h5>
@@ -18,7 +18,7 @@
                     $disabled = $info['disabled'];
                     $route = $info['route'];
                 @endphp
-                <a class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
+                <a target="_blank" class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
             @endif
             @php
                 $close_date = $object->getCloseDateHuman();
