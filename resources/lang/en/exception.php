@@ -6,7 +6,6 @@ return [
     'NoQuestion' => 'There are no questions in here.',
     'NoAnswer' => 'You have not answered anything.',
     'ConfirmedAttending' => 'You already confirmed attending :camp.',
-    'You cannot withdraw the camp you already confirmed the attendance.',
     'AlreadyWithdrawed' => "You already withdrawed from :camp.",
     'WithdrawedFrom' => 'You withdrawed from :camp.',
     'WithdrawAttendance' => 'You cannot withdraw the camp you already confirmed the attendance.',
@@ -26,4 +25,5 @@ return [
     'NoQuestionsSave' => 'There are no questions to be saved.',
     'QuestionSetAlreadyFinalize' => 'This question set has already been finalized.',
     'FileNotFound' => 'The specified file could not be found.',
+    'AllPassedFormsMustBeChecked' => 'All passed forms must be checked',
 ];

@@ -27,7 +27,7 @@ return [
     'NotEnoughCGPAShort' => 'เกรดเฉลี่ยต่ำเกินไป',
     'LateApplicationShort' => 'ปิดรับสมัคร',
     'QuotaExceededShort' => 'เต็ม',
-    'EmptyRegistration' => 'ยังไม่มีใครลงทะเบียนสำหรับค่ายนี้',
+    'EmptyRegistration' => 'ยังไม่มีใครสมัครค่ายนี้',
     'WillClose' => 'ปิดรับสมัครวันที่ ',
     'PayDeposit' => 'จ่ายค่าสมัคร',
     'ApplicationForms' => 'ใบสมัครค่าย',
