@@ -32,4 +32,21 @@ class StoreQuestionRequest extends FormRequest
         ];
         return $rules;
     }
+
+    /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $rules = [
+            'numeric', 'between',
+        ];
+        $messages = [];
+        foreach ($rules as $rule) {
+            $messages["score_threshold.{$rule}"] = trans("validation.{$rule}", ['attribute' => trans("attributes.score_threshold")]);
+        }
+        return $messages;
+    }
 }

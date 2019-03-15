@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\User;
-
 use App\Enums\EducationLevel;
 
 use App\Rules\ThaiCitizenID;
@@ -11,6 +9,7 @@ use App\Rules\ThaiZipCode;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -110,5 +109,26 @@ class StoreUserRequest extends FormRequest
                 $validator->errors()->add('current_password', trans('validation.current_password', ['attribute' => trans('validation.attributes.current_password')]));
             }
         });
+    }
+
+    /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $rules = [
+            'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer',
+            'numeric', 'before', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
+            'min.numeric', 'min.string', 'max.numeric', 'max.string',
+        ];
+        $messages = [];
+        foreach (Schema::getColumnListing('users') as $attribute) {
+            foreach ($rules as $rule) {
+                $messages["{$attribute}.{$rule}"] = trans("validation.{$rule}", ['attribute' => trans("attributes.{$attribute}")]);
+            }
+        }
+        return $messages;
     }
 }

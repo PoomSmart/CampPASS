@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Common;
-use App\Organization;
-
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCampRequest extends FormRequest
@@ -72,5 +70,26 @@ class StoreCampRequest extends FormRequest
             ];
         }
         return $rules;
+    }
+
+    /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $rules = [
+            'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer', 'between',
+            'numeric', 'before', 'after', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
+            'min.numeric', 'min.string', 'max.numeric', 'max.string',
+        ];
+        $messages = [];
+        foreach (Schema::getColumnListing('camps') as $attribute) {
+            foreach ($rules as $rule) {
+                $messages["{$attribute}.{$rule}"] = trans("validation.{$rule}", ['attribute' => trans("attributes.{$attribute}")]);
+            }
+        }
+        return $messages;
     }
 }
