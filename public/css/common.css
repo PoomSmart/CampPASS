@@ -20,6 +20,10 @@
   font-family: dbsathornnow;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -43,6 +47,12 @@ html, body {
 
 body, #app {
   min-height: 100vh;
+}
+
+#sidenav {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 100vh;
 }
 
 main {
