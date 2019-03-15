@@ -18,7 +18,7 @@
                     $disabled = $info['disabled'];
                     $route = $info['route'];
                 @endphp
-                <a class="btn btn-primary mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
+                <a class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
             @endif
             @php
                 $close_date = $object->getCloseDateHuman();
