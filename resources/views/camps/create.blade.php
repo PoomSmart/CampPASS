@@ -16,7 +16,7 @@
 @endsection
 
 @section('card_content')
-    <form method="POST" action="{{ route('camps.store') }}">
+    <form method="POST" action="{{ route('camps.store') }}" enctype="multipart/form-data">
         @csrf
         @yield('camp-fields')
         <div class="text-center mt-4">

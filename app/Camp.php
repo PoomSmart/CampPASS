@@ -213,7 +213,7 @@ class Camp extends Model
 
     public function getBannerPath(bool $actual = false, bool $display = true)
     {
-        $directory = Common::campDirectory($this->id);
+        $directory = Common::publicCampDirectory($this->id);
         $path = "{$directory}/{$this->banner}";
         if (Storage::disk('local')->exists($path))
             return $display ? Storage::url($path) : $path;
@@ -222,7 +222,7 @@ class Camp extends Model
 
     public function getPosterPath(bool $actual = false, bool $display = true)
     {
-        $directory = Common::campDirectory($this->id);
+        $directory = Common::publicCampDirectory($this->id);
         $path = "{$directory}/{$this->poster}";
         if (Storage::disk('local')->exists($path))
             return $display ? Storage::url($path) : $path;

@@ -81,7 +81,7 @@ class CampController extends Controller
 
     public function parseFiles($request, Camp $camp)
     {
-        $directory = Common::campDirectory($camp->id);
+        $directory = Common::publicCampDirectory($camp->id);
         if ($request->hasFile('banner')) {
             $name = "banner.{$request->banner->getClientOriginalExtension()}";
             $camp->update([
@@ -177,6 +177,7 @@ class CampController extends Controller
     {
         auth()->user()->canManageCamp($camp);
         Storage::disk('local')->delete(Common::campDirectory($camp->id));
+        Storage::disk('local')->delete(Common::publicCampDirectory($camp->id));
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

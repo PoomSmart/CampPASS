@@ -65,6 +65,11 @@ class Common
         return "camps/{$camp_id}";
     }
 
+    public static function publicCampDirectory(int $camp_id)
+    {
+        return "public/camps/{$camp_id}";
+    }
+
     public static function userDirectory(int $user_id)
     {
         return "public/users/{$user_id}";

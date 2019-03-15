@@ -56,8 +56,8 @@ class StoreCampRequest extends FormRequest
             'event_end_date' => 'nullable|date|after_or_equal:event_start_date',
             'event_location_lat' => 'nullable|numeric|between:-90,90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|between:-180,180',
-            'banner' => 'required|image|mimes:jpeg,png,jpg|max:10240',
-            'poster' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'banner' => 'required|image|mimes:jpeg,png,jpg|max:8192',
+            'poster' => 'required|image|mimes:jpeg,png,jpg|max:8192',
             'quota' => 'nullable|integer|min:0',
             'backup_limit' => 'nullable|integer|min:1',
             'approved' => 'nullable|boolean|false', // We prevent camps that try to approve themselves

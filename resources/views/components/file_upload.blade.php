@@ -5,14 +5,7 @@
     @if (isset($upload) && $upload)
         <label class="btn btn-secondary mb-0 mx-1{{ isset($full_width) && $full_width ? ' w-100' : null }}">
             @lang('app.Upload')
-            <input type="file"
-                id="{{ $name }}"
-                name="{{ $name }}"
-                @if (isset($required) && $required)
-                    required
-                @endif
-                hidden
-            >
+            <input type="file" id="{{ $name }}" name="{{ $name }}" hidden>
         </label>
     @endif
     @if (isset($delete_route))

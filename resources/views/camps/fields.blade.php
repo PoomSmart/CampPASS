@@ -183,8 +183,8 @@
         @component('components.file_upload', [
             'name' => 'banner',
             'upload' => 1,
+            'value' => trans('app.View'),
             'full_width' => 1,
-            'required' => 1,
             'download_route' => null,
         ])
         @endcomponent
@@ -199,8 +199,8 @@
         @component('components.file_upload', [
             'name' => 'poster',
             'upload' => 1,
+            'value' => trans('app.View'),
             'full_width' => 1,
-            'required' => 1,
             'download_route' => null,
         ])
         @endcomponent

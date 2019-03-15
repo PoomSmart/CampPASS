@@ -18,7 +18,7 @@
 @endsection
 
 @section('card_content')
-    <form id="form" action="{{ route('camps.update', $object->id) }}" method="POST">
+    <form id="form" action="{{ route('camps.update', $object->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @yield('camp-fields')
