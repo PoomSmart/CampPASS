@@ -26,6 +26,6 @@
 @section('sidebar-items')
     @php $i = 0 @endphp
     @foreach ($categorized_registrations as $status => $registrations)
-        <li class="nav-item"><a class="nav-link rounded pl-2{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $status }}</b></a></li>
+        <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $status }}</b></a></li>
     @endforeach
 @endsection

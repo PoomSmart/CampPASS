@@ -55,6 +55,12 @@ body, #app {
   max-height: 100vh;
 }
 
+@media (min-width: 992px) {
+  #sidenav {
+      flex-wrap: nowrap;
+  }
+}
+
 main {
   flex: 1;
 }

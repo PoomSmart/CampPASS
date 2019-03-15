@@ -131,7 +131,7 @@
                 <div class="row justify-content-center h-100">
                     <aside class="col-md-2" id="left">
                         <div class="mt-5 mb-3 sticky-top" id="side">
-                            <ul class="nav flex-nowrap flex-md-column flex-row justify-content-between" id="sidenav">
+                            <ul class="nav flex-md-column flex-row justify-content-between" id="sidenav">
                                 @yield('sidebar-items')
                             </ul>
                         </div>
