@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-with-shadow">
     <a href="{{ route('camps.show', $object->id) }}">
         <img class="card-img-top" src="{{ isset($src) ? $src : asset('/images/placeholders/Camp '.\App\Common::randomInt10().'.png') }}" alt="Image of {{ $object }}">
         <div class="card-body">
