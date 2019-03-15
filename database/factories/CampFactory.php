@@ -82,6 +82,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'confirmation_date' => $confirmation_date,
         'event_start_date' => $event_start_date,
         'event_end_date' => $event_end_date,
+        'contact_campmaker' => $faker->address,
         'deposit' => $deposit,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,

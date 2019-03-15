@@ -46,6 +46,8 @@ class CreateCampsTable extends Migration
             $table->dateTime('event_end_date');
             $table->double('event_location_lat')->nullable(); // event place may be undecided
             $table->double('event_location_long')->nullable(); // same as above
+            $table->string('banner')->default('banner.jpg');
+            $table->string('poster')->default('poster.jpg');
             $table->smallInteger('quota')->unsigned()->nullable();
             $table->tinyInteger('backup_limit')->unsigned()->nullable();
             $table->text('contact_campmaker')->nullable();

@@ -16,6 +16,7 @@ use App\Enums\ApplicationStatus;
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Camp extends Model
 {
@@ -25,6 +26,7 @@ class Camp extends Model
         'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date', 'interview_information',
         'event_location_lat', 'event_location_long',
+        'banner', 'poster',
         'quota', 'contact_campmaker', 'backup_limit', 'approved',
     ];
 
@@ -207,6 +209,24 @@ class Camp extends Model
         if ($question_set || (!is_null($question_set) && !empty($question_set)))
             return $question_set->manual_required ? trans('app.Manual') : trans('app.Auto');
         return trans('app.N/A');
+    }
+
+    public function getBannerPath(bool $actual = false, bool $display = true)
+    {
+        $directory = Common::campDirectory($this->id);
+        $path = "{$directory}/{$this->banner}";
+        if (Storage::disk('local')->exists($path))
+            return $display ? Storage::url($path) : $path;
+        return $actual ? null : asset('/images/placeholders/Camp '.Common::randomInt10().'.png');
+    }
+
+    public function getPosterPath(bool $actual = false, bool $display = true)
+    {
+        $directory = Common::campDirectory($this->id);
+        $path = "{$directory}/{$this->poster}";
+        if (Storage::disk('local')->exists($path))
+            return $display ? Storage::url($path) : $path;
+        return $actual ? null : "http://placehold.it/440x600/".Common::randomString(6);
     }
 
     public function getEventStartDate()

@@ -19,6 +19,7 @@ use App\Http\Requests\StoreCampRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class CampController extends Controller
 {
@@ -35,6 +36,18 @@ class CampController extends Controller
         $this->camp_procedures = Common::values(CampProcedure::class);
         $this->regions = Common::values(Region::class);
         $this->years = Common::values(Year::class);
+    }
+
+    public function check(Camp $camp, bool $skip_check = false)
+    {
+        if (!$skip_check && !$camp->approved) {
+            $prevent = true;
+            $user = auth()->user();
+            if ($user && $user->can('camp-edit'))
+                $prevent = !$user->canManageCamp($camp);
+            if ($prevent)
+                throw new \CampPASSException(trans('camp.ApproveFirst'));
+        }
     }
 
     private function getOrganizationsIfNeeded()
@@ -66,6 +79,25 @@ class CampController extends Controller
         return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 
+    public function parseFiles($request, Camp $camp)
+    {
+        $directory = Common::campDirectory($camp->id);
+        if ($request->hasFile('banner')) {
+            $name = "banner.{$request->banner->getClientOriginalExtension()}";
+            $camp->update([
+                'banner' => $name,
+            ]);
+            Storage::disk('local')->putFileAs($directory, $request->file('banner'), $name);
+        }
+        if ($request->hasFile('poster')) {
+            $name = "poster.{$request->poster->getClientOriginalExtension()}";
+            $camp->update([
+                'poster' => $name,
+            ]);
+            Storage::disk('local')->putFileAs($directory, $request->file('poster'), $name);
+        }
+    }
+
     public function store(StoreCampRequest $request)
     {
         try {
@@ -77,6 +109,7 @@ class CampController extends Controller
                 $camp->approve();
             else
                 Common::admin()->notify(new NewCampRegistered($camp));
+            $this->parseFiles($request, $camp);
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', 'Camp failed to create.');
@@ -84,16 +117,13 @@ class CampController extends Controller
         return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
     }
 
-    public function check(Camp $camp, bool $skip_check = false)
+    public function update(StoreCampRequest $request, Camp $camp)
     {
-        if (!$skip_check && !$camp->approved) {
-            $prevent = true;
-            $user = auth()->user();
-            if ($user && $user->can('camp-edit'))
-                $prevent = !$user->canManageCamp($camp);
-            if ($prevent)
-                throw new \CampPASSException(trans('camp.ApproveFirst'));
-        }
+        auth()->user()->canManageCamp($camp);
+        $input = $request->except(Camp::$once);
+        $camp->update($input);
+        $this->parseFiles($request, $camp);
+        return redirect()->back()->with('success', "Camp {$camp} has been updated successfully.");
     }
 
     public function show(Camp $camp)
@@ -142,18 +172,11 @@ class CampController extends Controller
         $camp->approve();
         return redirect()->back()->with('success', "Camp {$camp} has been approved.");
     }
-    
-    public function update(StoreCampRequest $request, Camp $camp)
-    {
-        auth()->user()->canManageCamp($camp);
-        $input = $request->except(Camp::$once);
-        $camp->update($input);
-        return redirect()->back()->with('success', "Camp {$camp} has been updated successfully.");
-    }
 
     public function destroy(Camp $camp)
     {
         auth()->user()->canManageCamp($camp);
+        Storage::disk('local')->delete(Common::campDirectory($camp->id));
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

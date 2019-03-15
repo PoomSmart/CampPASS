@@ -46,7 +46,7 @@ class StoreCampRequest extends FormRequest
             'deposit' => 'nullable|integer|min:0',
             'url' => 'nullable|url|max:150',
             'fburl' => 'nullable|url|max:150',
-            'contact_campmaker' => 'nullable|string|max:65536',
+            'contact_campmaker' => 'required|string|max:65536',
             'interview_information' => 'nullable|string|max:65536',
             'app_close_date' => 'nullable|date|after:today',
             'announcement_date' => 'nullable|date|after:app_close_date',
@@ -56,6 +56,8 @@ class StoreCampRequest extends FormRequest
             'event_end_date' => 'nullable|date|after_or_equal:event_start_date',
             'event_location_lat' => 'nullable|numeric|between:-90,90', // TODO: Figure out how can they input
             'event_location_long' => 'nullable|numeric|between:-180,180',
+            'banner' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'poster' => 'required|image|mimes:jpeg,png,jpg|max:10240',
             'quota' => 'nullable|integer|min:0',
             'backup_limit' => 'nullable|integer|min:1',
             'approved' => 'nullable|boolean|false', // We prevent camps that try to approve themselves

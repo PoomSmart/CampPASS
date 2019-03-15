@@ -15,7 +15,7 @@
             <p>{{ $category->getName() }}</p>
         </div>
         <div class="col-12 mb-2 text-center">
-            <img class="img-fluid" src="http://placehold.it/880x600/{{ \App\Common::randomString(6) }}">
+            <img class="img-fluid" style="height: 400px; max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
         </div>
         <div class="col-12 text-center mb-3">
             <p>{{ $camp->getShortDescription() }}</p>
@@ -100,6 +100,9 @@
         </div>
         <div class="col-12 col-md-6">
             <h4>@lang ('camp.Poster')</h4>
+            <div class="text-center">
+                <img class="img-fluid" src="{{ $camp->getPosterPath($actual = false, $display = true) }}">
+            </div>
         </div>
     </div>
 @endsection

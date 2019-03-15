@@ -81,7 +81,7 @@
                 'objects' => [
                     trans('account.Male'),
                     trans('account.Female'),
-                    trans('account.OtherGender')
+                    trans('account.OtherGender'),
                 ],
                 'idx' => 1,
             ])

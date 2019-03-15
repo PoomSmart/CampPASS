@@ -168,8 +168,44 @@
     'name' => 'contact_campmaker',
     'label' => trans('camp.CampMakerContactInfo'),
     'textarea' => 1,
+    'required' => 1,
 ])
 @endcomponent
+
+<div class="row">
+    <div class="col-md-6">
+        @component('components.label', [
+            'name' => 'banner',
+            'required' => 1,
+            'label' => trans('camp.Banner'),
+        ])
+        @endcomponent
+        @component('components.file_upload', [
+            'name' => 'banner',
+            'upload' => 1,
+            'full_width' => 1,
+            'required' => 1,
+            'download_route' => null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.label', [
+            'name' => 'poster',
+            'required' => 1,
+            'label' => trans('camp.Poster'),
+        ])
+        @endcomponent
+        @component('components.file_upload', [
+            'name' => 'poster',
+            'upload' => 1,
+            'full_width' => 1,
+            'required' => 1,
+            'download_route' => null,
+        ])
+        @endcomponent
+    </div>
+</div>
 
 @component('components.input', [
     'name' => 'url',
