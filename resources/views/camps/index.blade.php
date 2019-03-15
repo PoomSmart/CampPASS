@@ -55,12 +55,20 @@
             <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->camp_procedure->getTags() as $tag)
-                    <label class="badge badge-success font-weight-normal">{{ $tag }}</label>
+                    <label class="badge badge-secondary font-weight-normal">{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
-            <td class="text-center fit{{ $camp->approved ? ' text-success table-success' : ' table-warning' }}">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</td>
-            <td class="text-center{{ $question_set ? ($question_set->announced ? ' text-success table-success' : ' text-danger table-danger') : null }}">{{ $question_set ? ($question_set->announced ? trans('app.Yes') : trans('app.No')) : trans('app.N/A') }}</td>
+            <td class="fit">
+                <label class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</label>
+            </td>
+            <td>
+                @if ($question_set)
+                    <label class="badge badge-{{ $question_set->announced ? 'success' : 'danger' }} font-weight-normal">{{ $question_set->announced ? trans('app.Yes') : trans('app.No') }}</label>
+                @else
+                    @lang('app.N/A')
+                @endif
+            </td>
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
