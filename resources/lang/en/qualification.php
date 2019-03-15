@@ -31,6 +31,8 @@ return [
     'TotalPassedFailed' => 'Total: :total_registrations / Passed: :total_candidates / Failed: :total_failed / Withdrawed: :total_withdrawed',
     'ViewProfile' => 'View Profile',
     'ViewForm' => 'View Form',
+    'ApproveForm' => 'Approve Form',
+    'ViewPaymentSlip' => 'View Payment Slip',
     'ReturnForm' => 'Return',
     'ReturnFormFull' => 'Return the application form to the camper in case of document errors.',
     'SubmissionTime' => 'Submission Time',

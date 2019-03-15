@@ -71,6 +71,9 @@
                 @can('candidate-edit')
                     @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
                         <div class="text-center mt-4">
+                            @if ($deposit_required)
+                                <a href="#" class="btn btn-secondary">@lang('qualification.ViewPaymentSlip')</a>
+                            @endif
                             <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
                             <a href="{{ route('qualification.form_return', $form_score->id) }}" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
                         </div>
