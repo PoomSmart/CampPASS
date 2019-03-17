@@ -59,7 +59,7 @@ class CampApplicationController extends Controller
      * Given a camp and the current user, determine the registration status and return the apply button's status and availability.
      * 
      */
-    public static function getApplyButtonInformation(Camp $camp, bool $short = false)
+    public static function getApplyButtonInformation(Camp $camp, bool $short = false, bool $auth_check = false)
     {
         $apply_text = null;
         $user = auth()->user();
@@ -87,7 +87,7 @@ class CampApplicationController extends Controller
                 $apply_text = "{$apply_text} (QA)";
         }
         if (!$route)
-            $route = route('camp_application.landing', $camp->id);
+            $route = route($auth_check ? 'camps.show' : 'camp_application.landing', $camp->id);
         return [
             'text' => $apply_text,
             'disabled' => $disabled,

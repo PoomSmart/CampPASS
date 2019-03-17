@@ -13,12 +13,16 @@
             </div>
             @if (!auth()->user() || auth()->user()->isCamper())
                 @php
-                    $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true);
+                    $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($object, $short = true, $auth_check = true);
                     $apply_text = $info['text'];
                     $disabled = $info['disabled'];
                     $route = $info['route'];
                 @endphp
-                <a target="_blank" class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
+                <a
+                    @auth
+                        target="_blank"
+                    @endauth
+                    class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
             @endif
             @php
                 $close_date = $object->getCloseDateHuman();
