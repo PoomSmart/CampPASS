@@ -10,7 +10,7 @@
 
 @section('content')
     <form class="row form" action="{{ route('camps.browser') }}" method="GET">
-        <div class="col-md-8">
+        <div class="col-lg-8">
             <div class="input-group">
                 @component('components.input', [
                     'name' => 'query',
@@ -20,14 +20,14 @@
                 @endcomponent
             </div>
             @component('components.input', [
-                'name' => 'test',
-                'input_type' => 'checkbox',
-                'idx' => 1,
-                'objects' => [ '1', '2', '3' ],
+                'name' => 'year',
+                'input_type' => 'radio',
+                'objects' => $years,
+                'value' => $year,
             ])
             @endcomponent
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4">
             @component('components.submit', [
                 'label' => trans('app.Search'),
                 'class' => 'mr-2',

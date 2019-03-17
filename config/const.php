@@ -7,7 +7,7 @@ return [
         'admin' => 3,
     ],
     'camp' => [
-        'max_fetch' => 6,
+        'max_fetch' => 3,
     ],
     'app' => [
         'max_paginate' => 15,

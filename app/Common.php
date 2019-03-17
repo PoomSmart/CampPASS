@@ -109,7 +109,7 @@ class Common
         return $en ? $en : "<blank>";
     }
 
-    public static function values($clazz, string $column = null, string $value = null, string $group = null)
+    public static function unsortedValues($clazz, string $column = null, string $value = null, string $group = null)
     {
         if ($column && $value) {
             $values = $clazz::where($column, $value);
@@ -117,9 +117,14 @@ class Common
                 $values = $values->where($group, '<>', '')->get()->unique($group);
             else
                 $values = $values->get();
-        }else
+        } else
             $values = $clazz::all();
-        return Arr::sort($values, function($record) {
+        return $values;
+    }
+
+    public static function values($clazz, string $column = null, string $value = null, string $group = null)
+    {
+        return Arr::sort(self::unsortedValues($clazz, $column, $value, $group), function($record) {
             return $record->__toString();
         });
     }

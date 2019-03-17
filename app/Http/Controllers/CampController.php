@@ -35,7 +35,7 @@ class CampController extends Controller
         $this->organizations = null;
         $this->camp_procedures = Common::values(CampProcedure::class);
         $this->regions = Common::values(Region::class);
-        $this->years = Common::values(Year::class);
+        $this->years = Common::unsortedValues(Year::class);
     }
 
     public function check(Camp $camp, bool $skip_check = false)
@@ -191,11 +191,17 @@ class CampController extends Controller
         $camps = Camp::allApproved();
         if ($query_pairs) {
             // Apply search query right away if there are any
-            $pair = $query_pairs[0];
-            $camps = $camps->where($pair[0], $pair[2] ? $pair[2] : '=', $pair[2] ? "%{$pair[1]}%" : $pair[1]);
-            unset($query_pairs[0]);
             foreach ($query_pairs as $pair) {
-                $camps = $camps->orWhere($pair[0], $pair[2] ? $pair[2] : '=', $pair[2] ? "%{$pair[1]}%" : $pair[1]);
+                $column = $pair[0];
+                $value = $pair[1];
+                $method = $pair[2];
+                $comparator = $pair[3];
+                if ($comparator == 'LIKE')
+                    $value = "%{$pair[1]}%";
+                if ($method == 'whereJsonContains')
+                    $camps = $camps->{$method}($column, $value);
+                else
+                    $camps = $camps->{$method}($column, $comparator ? $comparator : '=', $value);
             }
         }
         if (!$categorized) {
@@ -246,13 +252,21 @@ class CampController extends Controller
     public function browser()
     {
         $query = Input::get('query', null);
-        $data = $this->get_camps($query_pairs = $query ? [
-            [ 'name_en', $query, 'LIKE', ],
-            [ 'name_th', $query, 'LIKE', ],
-        ] : null, $categorized = true);
+        $query_pairs = $query ? [
+            [ 'name_en', $query, 'where', 'LIKE', ],
+            [ 'name_th', $query, 'orWhere', 'LIKE', ],
+        ] : [];
+        $year = Input::get('year', null);
+        if ($year) {
+            $query_pairs[] = [
+                'acceptable_years', (int)$year, 'whereJsonContains', null,
+            ];
+        }
+        $data = $this->get_camps($query_pairs, $categorized = true);
         $categorized_camps = $data['categorized_camps'];
         $category_ids = $data['category_ids'];
-        return view('camps.browser', compact('categorized_camps', 'category_ids'));
+        $years = $this->years;
+        return view('camps.browser', compact('categorized_camps', 'category_ids', 'years', 'year'));
     }
 
     public function by_category(CampCategory $record)
