@@ -161,6 +161,11 @@ class Camp extends Model
         return $form_scores;
     }
 
+    public function isCamperPassed(User $camper)
+    {
+        return $this->candidates->keyBy('camper_id')->get($camper->id);
+    }
+
     /**
      * Check if the number of registered and approved campers exceeds the quota.
      * 

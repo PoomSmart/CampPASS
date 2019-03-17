@@ -269,7 +269,7 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp, $silent = $void);
         self::authenticate_registration($registration, $silent = $void);
-        if ($registration->rejected() || $registration->withdrawed())
+        if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
@@ -300,8 +300,6 @@ class CampApplicationController extends Controller
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
-        if ($registration->rejected())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
@@ -309,7 +307,7 @@ class CampApplicationController extends Controller
         $registration->form_score->update([
             'passed' => false,
         ]);
-        return redirect()->back()->with('success', trans('exception.WithdrawedFrom', ['camp' => $camp]));
+        return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
     /**

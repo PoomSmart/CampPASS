@@ -70,6 +70,9 @@
         @if ($backups->isEmpty())
             @lang('app.None')
         @else
+            <div class="d-flex">
+                <span class="text-muted">{{ $backup_summary }}</span>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <th>@lang('app.No_')</th>
@@ -88,11 +91,14 @@
                     @php
                         $registration = $candidate->registration;
                         $camper = $candidate->camper;
+                        $withdrawed = $registration->withdrawed();
                         $confirmed = $registration->confirmed();
                     @endphp
                     <tr
                         @if ($confirmed)
                             class="table-success"
+                        @elseif ($withdrawed)
+                            class="table-danger"
                         @endif
                     >
                         <th scope="row">{{ ++$i }}</th>
@@ -100,13 +106,15 @@
                         <td class="text-truncate">{{ $camper->school }}</td>
                         <td>{{ $camper->program }}</td>
                         <td class="fit">{{ $registration->getStatus() }}</td>
-                        @role('admin')
-                            <td class="fit">
-                                @if (!$confirmed)
+                        <td class="fit">
+                            <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
+                            @role('admin')
+                                @if (!$withdrawed && !$confirmed)
+                                    <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                                     <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                                 @endif
-                            </td>
-                        @endrole
+                            @endrole
+                        </td>
                     </tr>
                 @endforeach
             </table>
