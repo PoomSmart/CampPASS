@@ -47,7 +47,7 @@
             >
                 <th scope="row">{{ ++$i }}</th>
                 <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
-                <td class="text-truncate">{{ $camper->school }}</td>
+                <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
                 <td class="fit">{{ $registration->getStatus() }}</td>
                 <td class="fit">
@@ -103,7 +103,7 @@
                     >
                         <th scope="row">{{ ++$i }}</th>
                         <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
-                        <td class="text-truncate">{{ $camper->school }}</td>
+                        <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                         <td>{{ $camper->program }}</td>
                         <td class="fit">{{ $registration->getStatus() }}</td>
                         <td class="fit">

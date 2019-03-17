@@ -159,3 +159,7 @@ a:hover {
   white-space: nowrap;
   width: 1%;
 }
+
+.text-truncate-450 {
+  max-width: 450px !important;
+}

@@ -48,7 +48,7 @@
                         <tr>
                             <th scope="row">{{ $registration->id }}</th>
                             <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
-                            <td class="fit">{{ $camper->school }}</td>
+                            <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @php
