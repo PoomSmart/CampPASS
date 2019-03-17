@@ -238,9 +238,12 @@ class CampController extends Controller
             });
             // Sort the camps with their category alphabetically
             ksort($output_camps);
-            // Randomize the order of camps in each category
-            foreach ($output_camps as &$category) {
-                shuffle($category);
+            // Randomize the order of camps in each category, or remove the category entirely if there is no such camps there
+            foreach ($output_camps as $category_name => &$category) {
+                if (empty($output_camps[$category_name]))
+                    unset($output_camps[$category_name]);
+                else
+                    shuffle($category);
             }
             return [
                 'categorized_camps' => $output_camps,
