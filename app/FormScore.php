@@ -11,7 +11,7 @@ class FormScore extends Model
 {
     protected $fillable = [
         'registration_id', 'question_set_id', 'total_score', 'submission_time',
-        'finalized', 'checked', 'passed', 'backup',
+        'finalized', 'checked', 'passed',
     ];
 
     public function registration()
@@ -27,7 +27,6 @@ class FormScore extends Model
     public function makeBackupPassed()
     {
         $this->update([
-            'backup' => false,
             'passed' => true,
         ]);
     }

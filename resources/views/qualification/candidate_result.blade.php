@@ -31,10 +31,10 @@
         @php
             $i = 0;
         @endphp
-        @foreach ($form_scores as $form_score)
+        @foreach ($candidates as $candidate)
             @php
-                $registration = $form_score->registration;
-                $camper = $registration->camper;
+                $registration = $candidate->registration;
+                $camper = $candidate->camper;
                 $withdrawed = $registration->withdrawed();
                 $confirmed = $registration->confirmed();
             @endphp
@@ -53,10 +53,8 @@
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-info">@lang('qualification.ViewProfile')</a>
                     @role('admin')
-                        @if (!$withdrawed)
+                        @if (!$withdrawed && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
-                        @endif
-                        @if (!$confirmed)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                         @endif
                     @endrole
@@ -65,49 +63,53 @@
         @endforeach
     </table>
     <div class="d-flex justify-content-center">
-        {!! $form_scores->links() !!}
+        {!! $candidates->links() !!}
     </div>
     @if ($camp->question_set->total_score)
         <h2>@lang('qualification.Backups')</h2>
-        <table class="table table-striped">
-            <thead>
-                <th>@lang('app.No_')</th>
-                <th>@lang('account.FullName')</th>
-                <th>@lang('account.School')</th>
-                <th>@lang('camper.Program')</th>
-                <th>@lang('registration.Status')</th>
-                @role('admin')
-                    <th>@lang('app.Actions')</th>
-                @endrole
-            </thead>
-            @php
-                $i = 0;
-            @endphp
-            @foreach ($backups as $form_score)
-                @php
-                    $registration = $form_score->registration;
-                    $camper = $registration->camper;
-                    $confirmed = $registration->confirmed();
-                @endphp
-                <tr
-                    @if ($confirmed)
-                        class="table-success"
-                    @endif
-                >
-                    <th scope="row">{{ ++$i }}</th>
-                    <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
-                    <td class="text-truncate">{{ $camper->school }}</td>
-                    <td>{{ $camper->program }}</td>
-                    <td class="fit">{{ $registration->getStatus() }}</td>
+        @if ($backups->isEmpty())
+            @lang('app.None')
+        @else
+            <table class="table table-striped">
+                <thead>
+                    <th>@lang('app.No_')</th>
+                    <th>@lang('account.FullName')</th>
+                    <th>@lang('account.School')</th>
+                    <th>@lang('camper.Program')</th>
+                    <th>@lang('registration.Status')</th>
                     @role('admin')
-                        <td class="fit">
-                            @if (!$confirmed)
-                                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
-                            @endif
-                        </td>
+                        <th>@lang('app.Actions')</th>
                     @endrole
-                </tr>
-            @endforeach
-        </table>
+                </thead>
+                @php
+                    $i = 0;
+                @endphp
+                @foreach ($backups as $candidate)
+                    @php
+                        $registration = $candidate->registration;
+                        $camper = $candidate->camper;
+                        $confirmed = $registration->confirmed();
+                    @endphp
+                    <tr
+                        @if ($confirmed)
+                            class="table-success"
+                        @endif
+                    >
+                        <th scope="row">{{ ++$i }}</th>
+                        <th><a href="{{ route('profiles.show', $camper->id) }}">{{ $camper->getFullName() }}</a></th>
+                        <td class="text-truncate">{{ $camper->school }}</td>
+                        <td>{{ $camper->program }}</td>
+                        <td class="fit">{{ $registration->getStatus() }}</td>
+                        @role('admin')
+                            <td class="fit">
+                                @if (!$confirmed)
+                                    <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
+                                @endif
+                            </td>
+                        @endrole
+                    </tr>
+                @endforeach
+            </table>
+        @endif
     @endif
 @endsection

@@ -57,12 +57,13 @@ class BackupShift extends Command
             if (Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
             logger()->info("Rejecting all the passed campers who have not confirmed their attendance for the camp {$camp}");
-            $passed_form_scores = $camp->getFormScores()->where('passed', true);
+            $passed_candidates = $camp->candidates()->where('backup', false);
             $no_longer_passed = 0;
-            foreach ($passed_form_scores as $passed_form_score) {
-                $registration = $passed_form_score->registration;
+            foreach ($passed_candidates as $passed_candidate) {
+                $registration = $passed_candidate->registration;
                 if (!$registration->confirmed()) {
-                    $passed_form_score->update([
+                    $form_score = $passed_candidate->form_score;
+                    $form_score->update([
                         'passed' => false,
                     ]);
                     $registration->update([
@@ -72,24 +73,17 @@ class BackupShift extends Command
                 }
             }
             logger()->info("Shifting the equal amount of backups up");
-            $form_scores = $camp->getFormScores()->where('backup', true)->orderByDesc('total_score');
+            $candidates = $camp->candidates()->where('backup', true)->orderByDesc('total_score');
             if ($camp->backup_limit)
-                $form_scores = $form_scores->limit(min($no_longer_passed, $camp->backup_limit));
-            $candidates = [];
-            foreach ($form_scores as $form_score) {
-                $form_score->makeBackupPassed();
-                $registration = $form_score->registration;
+                $candidates = $candidates->limit(min($no_longer_passed, $camp->backup_limit));
+            foreach ($candidates as $candidate) {
+                $candidate->form_score->makeBackupPassed();
+                $registration = $candidate->registration;
                 $registration->update([
                     'status' => ApplicationStatus::CHOSEN,
                 ]);
-                $form_score->camper->notify(new ApplicationStatusUpdated($registration));
-                $candidates[] = [
-                    'registration_id' => $registration->id,
-                    'total_score' => $form_score->total_score,
-                ];
+                $candidate->camper->notify(new ApplicationStatusUpdated($registration));
             }
-            Candidate::insert($candidates);
-            unset($candidates);
         }
     }
 }

@@ -26,16 +26,14 @@ class CandidateController extends Controller
     public function result(QuestionSet $question_set)
     {
         $rank_by_score = $question_set->total_score;
-        $form_scores = FormScore::with('registration')->where('question_set_id', $question_set->id)->where('finalized', true)->whereHas('registration', function ($query) {
-           $query->where('status', '>=', ApplicationStatus::CHOSEN); // TODO: Is this correct?
-           $query->orWhere('status', ApplicationStatus::WITHDRAWED);
-        });
-        if ($form_scores->doesntExist())
+        $camp = $question_set->camp;
+        $candidates = $camp->candidates()->where('backup', false);
+        if ($candidates->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
-        $total = $form_scores->count();
+        $total = $candidates->count();
         $confirmed = $withdrawed = 0;
-        foreach ($form_scores->get() as $form_score) {
-            $registration = $form_score->registration;
+        foreach ($candidates->get() as $candidate) {
+            $registration = $candidate->registration;
             if ($registration->confirmed())
                 ++$confirmed;
             else if ($registration->withdrawed())
@@ -49,42 +47,13 @@ class CandidateController extends Controller
         ]);
         $locale = \App::getLocale();
         // TODO: Check whether this is efficient (and secure) enough for production
-        $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
-            ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderBy("users.name_{$locale}");
+        $candidates = $candidates->leftJoin('users', 'users.id', '=', 'candidates.camper_id')->orderBy("users.name_{$locale}");
         $camp = $question_set->camp;
-        $backups = !$rank_by_score ? null : $form_scores->get()->filter(function ($form_score) {
-            return $form_score->backup;
+        $backups = !$rank_by_score ? null : $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) {
+            return $candidate->form_score->total_score;
         });
-        if ($backups && $backups->isEmpty()) {
-            $rejected = FormScore::where('question_set_id', $question_set->id)->where('finalized', true)->get()->filter(function ($form_score) {
-                return $form_score->registration->rejected();
-            })->sortByDesc(function ($form_score) {
-                return $form_score->total_score;
-            });
-            $camp = $question_set->camp;
-            if (!$camp->backup_limit) {
-                $camp->update([
-                    'backup_limit' => 5,
-                ]);
-            }
-            $rejected->slice($camp->backup_limit);
-            $candidates = [];
-            foreach ($rejected as $form_score) {
-                $form_score->update([
-                    'backup' => true,
-                    'passed' => false,
-                ]);
-                $backups[] = $form_score;
-                $candidates[] = [
-                    'registration_id' => $form_score->registration_id,
-                    'total_score' => $form_score->total_score,
-                ];
-            }
-            Candidate::insert($candidates);
-            unset($candidates);
-        }
-        $form_scores = $form_scores->paginate(Common::maxPagination());
-        return Common::withPagination(view('qualification.candidate_result', compact('form_scores', 'question_set', 'camp', 'summary', 'backups')));
+        $candidates = $candidates->paginate(Common::maxPagination());
+        return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backups')));
     }
 
     public static function rank(QuestionSet $question_set, bool $list = false, bool $with_withdrawed = true, bool $with_returned = true)
@@ -226,8 +195,11 @@ class CandidateController extends Controller
         if (!$void && $no_passed != $no_checked)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllPassedFormsMustBeChecked'));
         $candidates = [];
-        $camp_procedure = $question_set->camp->camp_procedure;
+        $camp = $question_set->camp;
+        $camp_procedure = $camp->camp_procedure;
+        $backup_count = 0;
         foreach ($form_scores as $form_score) {
+            $backup = false;
             $registration = $form_score->registration;
             if ($form_score->passed) {
                 // The application form can be approved now if they do not need to pay the deposit
@@ -239,12 +211,20 @@ class CandidateController extends Controller
                 $registration->update([
                     'status' => ApplicationStatus::REJECTED,
                 ]);
+                if (++$backup_count <= $camp->backup_limit)
+                    $backup = true;
             }
+            $camper = $registration->camper;
             // Let campers know their application status
-            $registration->camper->notify(new ApplicationStatusUpdated($registration));
+            if (!$backup)
+                $camper->notify(new ApplicationStatusUpdated($registration));
             $candidates[] = [
+                'camper_id' => $camper->id,
+                'camp_id' => $camp->id,
                 'registration_id' => $form_score->registration_id,
+                'form_score_id' => $form_score->id,
                 'total_score' => $form_score->total_score,
+                'backup' => $backup,
             ];
         }
         Candidate::insert($candidates);

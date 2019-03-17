@@ -4,6 +4,7 @@ namespace App;
 
 use App\CampCategory;
 use App\CampProcedure;
+use App\Candidate;
 use App\CertificateTemplate;
 use App\FormScore;
 use App\Organization;
@@ -64,6 +65,11 @@ class Camp extends Model
     public function registrations()
     {
         return $this->hasMany(Registration::class);
+    }
+
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
     }
 
     public function certificate_templates()
