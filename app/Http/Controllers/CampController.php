@@ -195,7 +195,7 @@ class CampController extends Controller
                 $column = $pair[0];
                 $value = $pair[1];
                 $method = $pair[2];
-                $comparator = $pair[3];
+                $comparator = isset($pair[3]) ? $pair[3] : null;
                 if ($comparator == 'LIKE')
                     $value = "%{$pair[1]}%";
                 if ($method == 'whereJsonContains')
@@ -259,7 +259,7 @@ class CampController extends Controller
         $year = Input::get('year', null);
         if ($year) {
             $query_pairs[] = [
-                'acceptable_years', (int)$year, 'whereJsonContains', null,
+                'acceptable_years', (int)$year, 'whereJsonContains',
             ];
         }
         $data = $this->get_camps($query_pairs, $categorized = true);
@@ -272,7 +272,7 @@ class CampController extends Controller
     public function by_category(CampCategory $record)
     {
         $camps = $this->get_camps($query_pairs = [
-            [ 'camp_category_id', $record->id, null, ],
+            [ 'camp_category_id', $record->id, 'where', ],
         ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
@@ -280,7 +280,7 @@ class CampController extends Controller
     public function by_organization(Organization $record)
     {
         $camps = $this->get_camps($query_pairs = [
-            [ 'organization_id', $record->id, null, ],
+            [ 'organization_id', $record->id, 'where', ],
         ]);
         return view('camps.by_category', compact('camps', 'record'));
     }
