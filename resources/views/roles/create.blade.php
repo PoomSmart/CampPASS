@@ -23,10 +23,12 @@
             'getter' => 'name',
         ])
         @endcomponent
-        @component('components.submit', [
-            'label' => trans('app.Submit'),
-            'class' => 'w-50',
-        ])
-        @endcomponent
+        <div class="text-center mt-2">
+            @component('components.submit', [
+                'label' => trans('app.Submit'),
+                'class' => 'w-50',
+            ])
+            @endcomponent
+        </div>
     {!! Form::close() !!}
 @endsection
