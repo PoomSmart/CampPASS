@@ -269,19 +269,28 @@ class CampController extends Controller
         return view('camps.browser', compact('categorized_camps', 'category_ids', 'years', 'year'));
     }
 
-    public function by_category(CampCategory $record)
+    public function by_category(CampCategory $record, Year $year = null)
     {
-        $camps = $this->get_camps($query_pairs = [
+        $query_pairs = [
             [ 'camp_category_id', $record->id, 'where', ],
-        ]);
+        ];
+        if ($year) {
+            $query_pairs[] = [
+                'acceptable_years', $year->id, 'whereJsonContains',
+            ];
+            View::share('year', $year);
+        }
+        $camps = $this->get_camps($query_pairs);
         return view('camps.by_category', compact('camps', 'record'));
     }
 
     public function by_organization(Organization $record)
     {
-        $camps = $this->get_camps($query_pairs = [
+        $data = $this->get_camps($query_pairs = [
             [ 'organization_id', $record->id, 'where', ],
-        ]);
-        return view('camps.by_category', compact('camps', 'record'));
+        ], $categorized = true);
+        $categorized_camps = $data['categorized_camps'];
+        $category_ids = $data['category_ids'];
+        return view('camps.by_category', compact('categorized_camps', 'category_ids', 'record'));
     }
 }

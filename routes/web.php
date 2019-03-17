@@ -19,6 +19,7 @@ Route::prefix('browse-camps')->group(function () {
     Route::get('/', 'CampController@browser')->name('camps.browser');
     Route::get('/organization/{record}', 'CampController@by_organization')->name('camps.by_organization');
     Route::get('/category/{record}', 'CampController@by_category')->name('camps.by_category');
+    Route::get('/category/{record}/{year}', 'CampController@by_category')->name('camps.by_category_year');
 });
 
 Route::group(['middleware' => ['auth']], function () {

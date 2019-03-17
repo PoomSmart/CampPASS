@@ -40,7 +40,7 @@
     @foreach ($categorized_camps as $category => $camps)
         <div class="container-fluid mt-4">
             <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
-            <a target="_blank" class="ml-3 d-inline-block" href="{{ route('camps.by_category', $category_ids[$category]) }}">@lang('app.More')</a>
+            <a target="_blank" class="ml-3 d-inline-block" href="{{ route('camps.by_category_year', ['record' => $category_ids[$category], 'year' => $year]) }}">@lang('app.More')</a>
             @component('components.card_columns', [
                 'objects' => $camps,
                 'component' => 'components.camp_block',
