@@ -12,7 +12,7 @@ function enable(element) {
 }
 
 function disable(element) {
-    element.prop("disabled", true).text("").removeAttr("required");
+    element.prop("disabled", true).val("").removeAttr("required");
 }
 
 function selectionChanged(select) {

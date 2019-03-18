@@ -70,6 +70,7 @@
             'label' => trans('camp.ApplicationFee'),
             'type' => 'number',
             'disabled' => isset($object) && $object->camp_procedure->deposit_required ? 1 : null,
+            'desc' => trans('camp.ApplicationFeeDesc'),
         ])
         @endcomponent
     </div>
@@ -161,6 +162,7 @@
     'name' => 'other_conditions',
     'label' => trans('camp.OtherConditions'),
     'textarea' => 1,
+    'desc' => trans('camp.OtherConditionsDesc'),
 ])
 @endcomponent
 
@@ -169,6 +171,7 @@
     'label' => trans('camp.CampMakerContactInfo'),
     'textarea' => 1,
     'required' => 1,
+    'desc' => trans('camp.CampMakerContactInfoDesc'),
 ])
 @endcomponent
 
