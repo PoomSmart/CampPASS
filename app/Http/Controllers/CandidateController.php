@@ -23,52 +23,57 @@ class CandidateController extends Controller
         $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce']]);
     }
 
-    public function result(QuestionSet $question_set)
+    public function result(QuestionSet $question_set, bool $export = false)
     {
         $rank_by_score = $question_set->total_score;
         $camp = $question_set->camp;
         $candidates = $camp->candidates()->where('backup', false);
-        if ($candidates->doesntExist())
+        if ($candidates->doesntExist()) {
+            if ($export) return [];
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
-        $total = $candidates->count();
-        $confirmed = $withdrawed = 0;
-        foreach ($candidates->get() as $candidate) {
-            $registration = $candidate->registration;
-            if ($registration->confirmed())
-                ++$confirmed;
-            else if ($registration->withdrawed())
-                ++$withdrawed;
         }
-        $summary = trans('qualification.TotalCandidates', [
-            'total' => $total,
-            'confirmed' => $confirmed,
-            'not_confirmed' => $total - $confirmed - $withdrawed,
-            'withdrawed' => $withdrawed,
-        ]);
-        $locale = \App::getLocale();
-        $candidates = $candidates->leftJoin('users', 'users.id', '=', 'candidates.camper_id')->orderBy("users.name_{$locale}");
-        $camp = $question_set->camp;
-        if ($rank_by_score) {
-            $backup_confirmed = $backup_withdrawed = 0;
-            $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
+        if (!$export) {
+            $total = $candidates->count();
+            $confirmed = $withdrawed = 0;
+            foreach ($candidates->get() as $candidate) {
                 $registration = $candidate->registration;
                 if ($registration->confirmed())
-                    ++$backup_confirmed;
+                    ++$confirmed;
                 else if ($registration->withdrawed())
-                    ++$backup_withdrawed;
-                return $candidate->form_score->total_score;
-            });
-            $backup_total = $backups->count();
-            $backup_summary = trans('qualification.TotalCandidates', [
-                'total' => $backup_total,
-                'confirmed' => $backup_confirmed,
-                'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
-                'withdrawed' => $backup_withdrawed,
+                    ++$withdrawed;
+            }
+            $summary = trans('qualification.TotalCandidates', [
+                'total' => $total,
+                'confirmed' => $confirmed,
+                'not_confirmed' => $total - $confirmed - $withdrawed,
+                'withdrawed' => $withdrawed,
             ]);
-        } else {
-            $backups = null;
-            $backup_summary = null;
+            if ($rank_by_score) {
+                $backup_confirmed = $backup_withdrawed = 0;
+                $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
+                    $registration = $candidate->registration;
+                    if ($registration->confirmed())
+                        ++$backup_confirmed;
+                    else if ($registration->withdrawed())
+                        ++$backup_withdrawed;
+                    return $candidate->form_score->total_score;
+                });
+                $backup_total = $backups->count();
+                $backup_summary = trans('qualification.TotalCandidates', [
+                    'total' => $backup_total,
+                    'confirmed' => $backup_confirmed,
+                    'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
+                    'withdrawed' => $backup_withdrawed,
+                ]);
+            } else {
+                $backups = null;
+                $backup_summary = null;
+            }
         }
+        $locale = app()->getLocale();
+        $candidates = $candidates->leftJoin('users', 'users.id', '=', 'candidates.camper_id')->orderBy("users.name_{$locale}");
+        if ($export)
+            return $candidates->get();
         $candidates = $candidates->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups')));
     }
