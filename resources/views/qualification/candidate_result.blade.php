@@ -24,9 +24,7 @@
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
             <th>@lang('registration.Status')</th>
-            @role('admin')
-                <th>@lang('app.Actions')</th>
-            @endrole
+            <th>@lang('app.Actions')</th>
         </thead>
         @php
             $i = 0;
