@@ -1,8 +1,10 @@
 @php
     $nolabel = isset($nolabel) && $nolabel;
 @endphp
+@if (!isset($nowrapper))
 <div class="row">
     <div class="col-12">
+@endif
         @foreach ($objects as $i => $obj)
             @php
                 $j = isset($idx) && $idx ? $i : $obj->id;
@@ -54,5 +56,7 @@
                 <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
             @endif
         @endforeach
+@if (!isset($nowrapper))
     </div>
 </div>
+@endif

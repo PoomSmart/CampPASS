@@ -19,13 +19,6 @@
                 ])
                 @endcomponent
             </div>
-            @component('components.input', [
-                'name' => 'year',
-                'input_type' => 'radio',
-                'objects' => $years,
-                'value' => $year,
-            ])
-            @endcomponent
         </div>
         <div class="col-lg-4">
             @component('components.submit', [
@@ -34,6 +27,28 @@
             ])
             @endcomponent
             <a href="{{ route('camps.browser') }}" class="btn btn-secondary">@lang('app.ClearFilters')</a>
+        </div>
+        <div class="col-12">
+            <div class="form-group d-inline-flex mt-2">
+                <div class="d-inline-block mr-4">
+                    @component('components.label', [
+                        'name' => 'year',
+                        'label' => trans('camp.CampFor'),
+                        'label_class' => 'py-0 font-weight-bold',
+                    ])
+                    @endcomponent
+                </div>
+                <div class="d-inline-block my-auto">
+                    @component('components.input', [
+                        'name' => 'year',
+                        'input_type' => 'radio',
+                        'objects' => $years,
+                        'value' => $year,
+                        'nowrapper' => 1,
+                    ])
+                    @endcomponent
+                </div>
+            </div>
         </div>
     </form>
     @php $i = 0 @endphp

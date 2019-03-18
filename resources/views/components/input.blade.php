@@ -45,6 +45,7 @@
                 'getter' => isset($getter) ? $getter : null,
                 'idx' => isset($idx) ? $idx : null,
                 'nolabel' => isset($nolabel) ? $nolabel : null,
+                'nowrapper' => isset($nowrapper) ? $nowrapper : null,
                 'value' => isset($value) ? $value : null,
                 'radio_class' => isset($radio_class) ? $radio_class : null,
                 'radio_attributes' => isset($radio_attributes) ? $radio_attributes : null,
