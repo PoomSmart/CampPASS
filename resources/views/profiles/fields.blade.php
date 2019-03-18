@@ -41,7 +41,7 @@
             ])
             @endcomponent
         </div>
-        <div class="col-12">
+        <div class="col-md-6">
             @component('components.input', [
                 'name' => 'dob',
                 'label' => trans('account.DOB'),
@@ -50,7 +50,7 @@
             ])
             @endcomponent
         </div>
-        <div class="col-12">
+        <div class="col-md-6">
             @component('components.input', [
                 'name' => 'citizen_id',
                 'label' => trans('account.CitizenID'),
@@ -158,6 +158,7 @@
                     'no_form_control_class' => 1,
                     'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
                     'object' => isset($object) ? $object : null,
+                    'desc' => trans('camper.CGPADesc'),
                 ])
                 @endcomponent
             </div>
@@ -263,7 +264,7 @@
     @if (isset($camper) || $disabled)
         <h3 class="mt-4">@lang('profile.EmergencyContactInformation')</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 @component('components.input', [
                     'name' => 'guardian_name',
                     'label' => trans('camper.GuardianName'),
@@ -271,11 +272,20 @@
                 ])
                 @endcomponent
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 @component('components.input', [
                     'name' => 'guardian_surname',
                     'label' => trans('camper.GuardianSurname'),
                     'required' => 1,
+                ])
+                @endcomponent
+            </div>
+            <div class="col-md-4">
+                @component('components.input', [
+                    'name' => 'guardian_mobile_no',
+                    'label' => trans('camper.GuardianMobileNo'),
+                    'required' => 1,
+                    'type' => 'tel',
                 ])
                 @endcomponent
             </div>
@@ -299,15 +309,6 @@
                     ])
                     @endcomponent
                 @endslot
-                @endcomponent
-            </div>
-            <div class="col-12">
-                @component('components.input', [
-                    'name' => 'guardian_mobile_no',
-                    'label' => trans('camper.GuardianMobileNo'),
-                    'required' => 1,
-                    'type' => 'tel',
-                ])
                 @endcomponent
             </div>
         </div>

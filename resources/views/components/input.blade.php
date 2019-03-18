@@ -79,13 +79,13 @@
         @if ($disabled)
             disabled
         @endif
-        @if (isset($readonly) && $readonly == 1)
+        @if (isset($readonly) && $readonly)
             readonly
         @endif
         @if ($required)
             required
         @endif
-        @if (isset($desc))
+        @if (isset($desc) && !$disabled)
             aria-describedby="{{ $name }}-desc-inline"
         @endif
             {{ isset($attributes) ? $attributes : null }}
@@ -94,7 +94,7 @@
         @else
             >
         @endif
-        @if (isset($desc))
+        @if (isset($desc) && !$disabled)
             <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
         @endif
     @if ($errors->has($name))

@@ -4,7 +4,7 @@ return [
     'ProfilePicture' => 'รูปโปรไฟล์',
     'UploadPicture' => 'อัพโหลดรูป',
     'DeletePicture' => 'ลบรูป',
-    'About' => 'เกี่ยวกับ :entity',
+    'About' => 'เกี่ยวกับ:entity',
     'StudentDocuments' => 'เอกสารต่างๆ',
     'Transcript' => 'ปพ. 1',
     'StudentCertificate' => 'ปพ. 7',

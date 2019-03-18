@@ -57,4 +57,5 @@ return [
     'Poster' => 'โปสเตอร์',
     'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',
     'BackupLimit' => 'จำนวนตัวสำรองสูงสุด',
+    'Banner' => 'แบนเนอร์',
 ];
