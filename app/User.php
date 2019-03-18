@@ -70,7 +70,7 @@ class User extends Authenticatable
      * @var array
      */
     public static $once = [
-        'citizen_id', 'gender', 'dob',
+        'citizen_id', 'gender', 'dob', 'blood_group',
     ];
 
     public function isCamper()

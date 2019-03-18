@@ -6,6 +6,7 @@
         jQuery(document).ready(function () {
             jQuery("input[name='cgpa']").inputSpinner();
             jQuery("#citizen_id,#gender,#dob").attr("readonly", "readonly");
+            jQuery("input[name='blood_group'],input[name='gender']").attr("disabled", true);
         });
     </script>
     @if (isset($disabled) && $disabled)
