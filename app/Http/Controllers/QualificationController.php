@@ -158,9 +158,9 @@ class QualificationController extends Controller
         return redirect()->back()->with('success', 'Scores are updated successfully.');
     }
 
-    public function show_profile_detailed(FormScore $form_score)
+    public function show_profile_detailed(Registration $registration)
     {
-        $registration = $form_score->registration;
+        $form_score = $registration->form_score;
         View::share('form_score', $form_score);
         View::share('disabled', true);
         View::share('deposit_required', $registration->camp->camp_procedure->deposit_required);

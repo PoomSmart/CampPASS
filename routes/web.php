@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');
-        Route::get('/profile-qualification/{form_score}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
+        Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
         Route::get('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');
     });
     Route::prefix('profile')->group(function () {
