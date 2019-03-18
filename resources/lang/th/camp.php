@@ -56,4 +56,5 @@ return [
     'Details' => 'รายละเอียด',
     'Poster' => 'โปสเตอร์',
     'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',
+    'BackupLimit' => 'จำนวนตัวสำรองสูงสุด',
 ];

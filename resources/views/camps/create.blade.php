@@ -6,7 +6,7 @@
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='min_cgpa'],input[name='quota']").inputSpinner();
+            jQuery("input[name='min_cgpa'],input[name='quota'],input[name='backup_limit']").inputSpinner();
         });
     </script>
 @endsection

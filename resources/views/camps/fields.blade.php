@@ -88,6 +88,8 @@
             'name' => 'backup_limit',
             'label' => trans('camp.BackupLimit'),
             'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=0 step=1',
             'disabled' => isset($object) && !$object->camp_procedure->candidate_required ? 1 : null,
         ])
         @endcomponent
@@ -208,21 +210,23 @@
         ])
         @endcomponent
     </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'url',
+            'label' => trans('camp.URL'),
+            'type' => 'url',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'fburl',
+            'label' => trans('camp.FBURL'),
+            'type' => 'url',
+        ])
+        @endcomponent
+    </div>
 </div>
-
-@component('components.input', [
-    'name' => 'url',
-    'label' => trans('camp.URL'),
-    'type' => 'url',
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'fburl',
-    'label' => trans('camp.FBURL'),
-    'type' => 'url',
-])
-@endcomponent
 
 <div class="row">
     <div class="col-md-6">

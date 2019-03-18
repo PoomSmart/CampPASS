@@ -56,4 +56,5 @@ return [
     'Details' => 'Details',
     'Poster' => 'Poster',
     'WaitForApproval' => ':camp is waiting for your approval.',
+    'BackupLimit' => 'Backup Limit',
 ];
