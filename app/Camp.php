@@ -217,7 +217,7 @@ class Camp extends Model
             return trans('app.N/A');
         $question_set = $this->question_set;
         if ($question_set && !$question_set->total_score)
-            return trans('app.Time');
+            return trans('app.SortedByTime');
         if ($question_set || (!is_null($question_set) && !empty($question_set)))
             return $question_set->manual_required ? trans('app.Manual') : trans('app.Auto');
         return trans('app.N/A');

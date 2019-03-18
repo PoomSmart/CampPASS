@@ -42,6 +42,7 @@ return [
     'Auto' => 'อัตโนมัติ',
     'N/A' => '-',
     'More' => 'ดูทั้งหมด',
+    'SortedByTime' => 'เรียงตามเวลาสมัคร',
     'Camp Application Form' => 'ใบสมัครค่าย',
     'GotoCampHUB' => 'ไปที่ CampHUB.in.th',
 

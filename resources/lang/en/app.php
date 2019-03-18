@@ -42,6 +42,7 @@ return [
     'Auto' => 'Auto',
     'N/A' => '-',
     'More' => 'More',
+    'SortedByTime' => 'Sorted By Time',
     'Camp Application Form' => 'Camp Application Form',
     'GotoCampHUB' => 'Go to CampHUB.in.th',
 
