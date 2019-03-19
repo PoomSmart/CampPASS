@@ -19,7 +19,7 @@
         <div class="row">
             @if ($camp->hasPayment())
                 <div class="col-4 text-center mb-3">
-                    <input type="checkbox" name="checked[]">
+                    <input type="checkbox" name="payment">
                 </div>
                 <div class="col-8 text-left">
                     <p>@lang('qualification.AllPaymentSlip')</p>
@@ -27,13 +27,13 @@
             @endif
             @if ($camp_procedure->candidate_required)
                 <div class="col-4 text-center mb-3">
-                    <input type="checkbox" name="checked[]">
+                    <input type="checkbox" name="submitted-form">
                 </div>
                 <div class="col-8 text-left">
                     <p>@lang('qualification.SubmittedApplicationForms')</p>
                 </div>
                 <div class="col-4 text-center mb-3">
-                    <input type="checkbox" name="checked[]">
+                    <input type="checkbox" name="consent-form">
                 </div>
                 <div class="col-8 text-left">
                     <p>@lang('qualification.ParentConsentForms')</p>
@@ -43,13 +43,13 @@
         <h3 class="ml-2">@lang('profile.StudentDocuments')</h3>
         <div class="row">
             <div class="col-4 text-center mb-3">
-                <input type="checkbox" name="checked[]">
+                <input type="checkbox" name="transcript">
             </div>
             <div class="col-8 text-left">
                 <p>@lang('profile.Transcript')</p>
             </div>
             <div class="col-4 text-center mb-3">
-                <input type="checkbox" name="checked[]">
+                <input type="checkbox" name="certificate">
             </div>
             <div class="col-8 text-left">
                 <p>@lang('profile.StudentCertificate')</p>
