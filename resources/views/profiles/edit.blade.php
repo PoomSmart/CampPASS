@@ -74,10 +74,12 @@
                     @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
                         <div class="text-center mt-4">
                             @if ($has_payment)
-                                <a href="#" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
+                                <a href="{{ route('camp_application.payment_download', $registration->id) }}" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
                             @endif
-                            <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
-                            <a href="{{ route('qualification.form_return', $form_score->id) }}" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                            @if (!$registration->confirmed() && !$registration->withdrawed())
+                                <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
+                                <a href="{{ route('qualification.form_return', $form_score->id) }}" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                            @endif
                         </div>
                     @endif
                 @endcan

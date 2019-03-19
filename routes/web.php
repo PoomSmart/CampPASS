@@ -48,10 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
             Route::get('/answers-view/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
             Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
-            Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
+            Route::get('/answer-file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
             Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
             Route::post('/payment-upload/{registration}', 'CampApplicationController@payment_upload')->name('camp_application.payment_upload');
-            Route::get('/payment-download/{registration}', 'CampApplicationController@payment_download')->name('camp_application.payment_download');
             Route::get('/payment-delete/{registration}', 'CampApplicationController@payment_delete')->name('camp_application.payment_delete');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
             Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
@@ -60,7 +59,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
         });
-        Route::get('/file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
+        Route::get('/payment-download/{registration}', 'CampApplicationController@payment_download')->name('camp_application.payment_download');
+        Route::get('/answer-file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
     Route::prefix('qualification')->group(function () {
         Route::get('/form-grade/{registration}/{question_set}', 'QualificationController@form_grade')->name('qualification.form_grade');

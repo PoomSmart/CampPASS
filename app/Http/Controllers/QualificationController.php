@@ -161,6 +161,7 @@ class QualificationController extends Controller
     public function show_profile_detailed(Registration $registration)
     {
         $form_score = $registration->form_score;
+        View::share('registration', $registration);
         View::share('form_score', $form_score);
         View::share('disabled', true);
         View::share('has_payment', $registration->camp->hasPayment());

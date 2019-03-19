@@ -60,6 +60,21 @@ class CampApplicationController extends Controller
     }
 
     /**
+     * Make sure the only resource owner and respective camp makers can access it.
+     *
+     */
+    public function canAccessResource($resource_owner_id, $camp_id)
+    {
+        $user = auth()->user();
+        if ($user->isAdmin())
+            return;
+        if ($user->isCamper() && $resource_owner_id != $user->id)
+            throw new \CampPASSExceptionPermission();
+        else if ($user->isCampMaker() && !$user->canManageCamp(Camp::findOrFail($camp_id)))
+            throw new \CampPASSExceptionPermission();
+    }
+
+    /**
      * Given a camp and the current user, determine the registration status and return the apply button's status and availability.
      *
      */
@@ -267,6 +282,11 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
+    public function canAccessPayment(Registration $registration)
+    {
+        return $this->canAccessResource($registration->camper_id, $registration->camp_id);
+    }
+
     public function payment_upload(StorePDFRequest $request, Registration $registration)
     {
         self::authenticate($registration->camp);
@@ -281,7 +301,7 @@ class CampApplicationController extends Controller
     public function payment_download(Registration $registration)
     {
         self::authenticate($registration->camp);
-        self::authenticate_registration($registration);
+        $this->canAccessPayment($registration);
         $directory = Common::paymentDirectory($registration->camp_id);
         $path = "{$directory}/payment_{$registration->id}.pdf";
         return Common::downloadFile($path);
@@ -349,19 +369,9 @@ class CampApplicationController extends Controller
         return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
-    /**
-     * Make sure the only answer owner and respective camp makers can access the answer file.
-     *
-     */
     public function canAccessAnswer(Answer $answer)
     {
-        $user = auth()->user();
-        if ($user->isAdmin())
-            return;
-        if ($user->isCamper() && $answer->camper->id != $user->id)
-            throw new \CampPASSExceptionPermission();
-        else if ($user->isCampMaker() && !$user->canManageCamp($answer->question_set->camp))
-            throw new \CampPASSExceptionPermission();
+        return $this->canAccessResource($answer->camper_id, $answer->question_set->camp_id);
     }
 
     /**
