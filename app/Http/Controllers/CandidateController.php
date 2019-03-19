@@ -23,7 +23,7 @@ class CandidateController extends Controller
         $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export', 'data_download']]);
     }
 
-    public function data_download(QuestionSet $question_set)
+    public function data_download(Request $request, QuestionSet $question_set)
     {
         $result = $this->result($question_set, $export = true);
         return $result;
