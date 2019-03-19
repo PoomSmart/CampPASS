@@ -5,10 +5,9 @@
 @endsection
 
 @section('card_content')
-    <p>@lang('qualification.DataExportInfo')</p>
     <form method="GET" action="{{ route('qualification.data_download', $question_set->id) }}">
         @csrf
-        <h3>@lang('app.CampApplicationForm')</h3>
+        <h3 class="ml-2">@lang('app.CampApplicationForm')</h3>
         <div class="row">
             <div class="col-4 text-center mb-3">
                 <h5>@lang('qualification.Checkbox')</h5>
@@ -41,7 +40,7 @@
                 </div>
             @endif
         </div>
-        <h3>@lang('profile.StudentDocuments')</h3>
+        <h3 class="ml-2">@lang('profile.StudentDocuments')</h3>
         <div class="row">
             <div class="col-4 text-center mb-3">
                 <input type="checkbox" name="checked[]">
@@ -62,5 +61,6 @@
             'glyph' => 'fa fa-download',
         ])
         @endcomponent
+        <p class="text-center text-muted mb-0">@lang('qualification.DataExportInfo')</p>
     </form>
 @endsection
