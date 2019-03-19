@@ -42,4 +42,11 @@ return [
     'ScoresUpdated' => 'คะแนนได้ถูกบันทึกเรียบร้อยแล้ว',
     'FormFinalized' => "ใบสมัครของ:candidateได้รับการยืนยันการตรวจแล้ว",
     'FormReturned' => "ใบสมัครของ:candidateได้ถูกส่งกลับแล้ว",
+    'DataExportInfo' => 'เอกสารที่ถูกเลือกทั้งหมดจะถูกดาวน์โหลดแบบ .zip',
+    'ExportAllDocument' => 'ดาวน์โหลดเอกสาร',
+    'ParentConsentForms'=> 'ใบขออนุญาตผู้ปกครอง',
+    'SubmittedApplicationForms'=> 'ใบสมัคร',
+    'AllPaymentSlip' => 'หลักฐานการชำระเงิน',
+    'Documents' => 'รายการเอกสาร',
+    'Checkbox' => 'เลือก',
 ];

@@ -6,7 +6,7 @@
 
 @section('card_content')
 
-<h3 class="mb-4">สร้างค่ายโดย CampPASS</h3>
+<h3 class="mb-4">@lang('about.CreateCamp')</h3>
 <div class="row mt-4">
     <div class="col-md-4">
         <img src="/images/camper.png" alt="{{ config('app.name') }}" class="pb-3 w-100">

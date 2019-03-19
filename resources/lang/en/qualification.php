@@ -42,4 +42,11 @@ return [
     'ScoresUpdated' => 'Scores are updated successfully.',
     'FormFinalized' => ":candidate's form is finalized.",
     'FormReturned' => ":candidate's form is returned.",
+    'DataExportInfo' => 'The selected documents will be downloaded as zips.',
+    'ExportAllDocument' => 'Download All Documents',
+    'ParentConsentForms'=> 'All Parent Consent Forms',
+    'SubmittedApplicationForms'=> 'All Submitted Application Forms',
+    'AllPaymentSlip' => 'All Payment Slip',
+    'Documents' => 'Document',
+    'Checkbox' => 'Checkbox',
 ];

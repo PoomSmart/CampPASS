@@ -43,14 +43,13 @@ return [
     'N/A' => '-',
     'More' => 'More',
     'SortedByTime' => 'Sorted By Time',
-    'Camp Application Form' => 'Camp Application Form',
+    'CampApplicationForm' => 'Camp Application Form',
     'GotoCampHUB' => 'Go to CampHUB.in.th',
-
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
     'UnavailableFeature' => "This feature isn't available for you.",
     'SearchCampByName' => "Search camp name here",
     'Search' => 'Search',
     'ClearFilters' => 'Clear Filter',
-
     'NoNotifications' => 'No Notifications',
+    'Download' => 'Download',
 ];
