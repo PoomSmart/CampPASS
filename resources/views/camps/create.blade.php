@@ -21,7 +21,8 @@
         @yield('camp-fields')
         <div class="text-center mt-4">
             @component('components.submit', [
-                'class' => 'w-50',
+                'class' => 'btn btn-primary w-50',
+                'glyph' => 'fas fa-upload mr-2 fa-xs'
             ])
             @endcomponent
         </div>

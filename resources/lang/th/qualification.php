@@ -49,4 +49,6 @@ return [
     'AllPaymentSlip' => 'หลักฐานการชำระเงิน',
     'Documents' => 'รายการเอกสาร',
     'Checkbox' => 'เลือก',
+    'CandidatesAnnounced' => 'ประกาศผู้ผ่านการคัดเลือกของค่ายนี้แล้ว',
+    'DownloadData' => 'ดาวน์โหลดเอกสาร'
 ];

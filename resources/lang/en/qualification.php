@@ -49,4 +49,6 @@ return [
     'AllPaymentSlip' => 'All Payment Slip',
     'Documents' => 'Document',
     'Checkbox' => 'Checkbox',
+    'CandidatesAnnounced' => 'Candidates for this camp are already announced.',
+    'DownloadData' => 'Download All Documents'
 ];
