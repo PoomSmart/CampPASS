@@ -2,32 +2,17 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreCampRequest extends FormRequest
+class StoreCampRequest extends CampPASSFormRequest
 {
-    /**
-     * Determine if the camp is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+    protected static $rules = [
+        'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer', 'between',
+        'numeric', 'before', 'after', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
+        'min.numeric', 'min.string', 'max.numeric', 'max.string',
+    ];
+    protected static $table = 'camps';
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function true_rules()
     {
-        $method = $this->method();
-        if ($method == 'GET' || $method == 'DELETE') {
-            return [];
-        }
         $rules = [
             'name_en' => 'nullable|string|required_without:name_th',
             'name_th' => 'nullable|string|required_without:name_en',
@@ -60,6 +45,7 @@ class StoreCampRequest extends FormRequest
             'backup_limit' => 'nullable|integer|min:1',
             'approved' => 'nullable|boolean|false', // We prevent camps that try to approve themselves
         ];
+        $method = $this->method;
         if (auth()->user()->isAdmin() && $method == 'POST')
             $rules += [ 'organization_id' => 'required|exists:organizations,id', ];
         if ($method != 'PUT' && $method != 'PATCH') {
@@ -70,26 +56,5 @@ class StoreCampRequest extends FormRequest
             ];
         }
         return $rules;
-    }
-
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        $rules = [
-            'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer', 'between',
-            'numeric', 'before', 'after', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
-            'min.numeric', 'min.string', 'max.numeric', 'max.string',
-        ];
-        $messages = [];
-        foreach (Schema::getColumnListing('camps') as $attribute) {
-            foreach ($rules as $rule) {
-                $messages["{$attribute}.{$rule}"] = trans("validation.{$rule}", ['attribute' => trans("attributes.{$attribute}")]);
-            }
-        }
-        return $messages;
     }
 }

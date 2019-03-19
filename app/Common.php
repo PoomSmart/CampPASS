@@ -105,6 +105,23 @@ class Common
         return $array[array_rand($array)];
     }
 
+    public static function downloadFile($path)
+    {
+        try {
+            return Storage::download($path);
+        } catch (\Exception $e) {
+            throw new \CampPASSExceptionRedirectBack(trans('exception.FileNotFound'));
+        }
+    }
+
+    public static function deleteFile($path, $filename = null)
+    {
+        if (!$filename) $filename = trans('app.SpecifiedDocument');
+        if (!Storage::disk('local')->delete($path))
+            throw new \CampPASSExceptionRedirectBack(trans('app.FileNotRemoved', ['filename' => $filename]));
+        return redirect()->back()->with('success', trans('app.FileRemoved'). ['filename' => $filename]);
+    }
+
     public static function getLocalizedName($record, string $attribute = 'name')
     {
         $th = $record->{"{$attribute}_th"};

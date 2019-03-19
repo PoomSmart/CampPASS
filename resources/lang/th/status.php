@@ -8,5 +8,4 @@ return [
     'Confirmation Placeholder' => 'สถานะยืนยัน',
     'Confirmation' => 'ยืนยันการมาค่าย',
     'Deposit Placeholder' => 'สถานะการชำระเงินมัดจำ',
-    'Deposit' => 'การมัดจำ',
 ];
