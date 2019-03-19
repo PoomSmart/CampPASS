@@ -50,7 +50,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
             Route::get('/file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
             Route::get('/status/{registration}', 'CampApplicationController@status')->name('camp_application.status');
-            Route::post('/payment-upload', 'CampApplicationController@payment_upload')->name('camp_application.payment_upload');
+            Route::post('/payment-upload/{registration}', 'CampApplicationController@payment_upload')->name('camp_application.payment_upload');
+            Route::get('/payment-download/{registration}', 'CampApplicationController@payment_download')->name('camp_application.payment_download');
+            Route::get('/payment-delete/{registration}', 'CampApplicationController@payment_delete')->name('camp_application.payment_delete');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
             Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
         });

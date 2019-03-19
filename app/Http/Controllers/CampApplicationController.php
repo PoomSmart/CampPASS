@@ -267,14 +267,33 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
-    public function payment_upload(StorePDFRequest $request)
+    public function payment_upload(StorePDFRequest $request, Registration $registration)
     {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
         if (!$request->hasFile('pdf'))
             throw new \CampPASSExceptionNoFileUploaded();
-        $registration = Registration::findOrFail($request->registration_id);
         $directory = Common::paymentDirectory($registration->camp_id);
         Storage::disk('local')->putFileAs($directory, $request->file('pdf'), "payment_{$registration->id}.pdf");
         return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
+    }
+
+    public function payment_download(Registration $registration)
+    {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
+        $directory = Common::paymentDirectory($registration->camp_id);
+        $path = "{$directory}/payment_{$registration->id}.pdf";
+        return Common::downloadFile($path);
+    }
+
+    public function payment_delete(Registration $registration)
+    {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
+        $directory = Common::paymentDirectory($registration->camp_id);
+        $path = "{$directory}/payment_{$registration->id}.pdf";
+        return Common::deleteFile($path);
     }
 
     public static function status(Registration $registration)

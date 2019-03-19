@@ -104,19 +104,15 @@ class ProfileController extends Controller
     public function document_download(User $user, $type)
     {
         $directory = Common::fileDirectory($user->id);
-        try {
-            return Storage::download("{$directory}/{$type}.pdf");
-        } catch (\Exception $e) {
-            throw new \CampPASSExceptionRedirectBack(trans('exception.FileNotFound'));
-        }
+        $path = "{$directory}/{$type}.pdf";
+        return Common::downloadFile($path);
     }
 
     public function document_delete(User $user, $type)
     {
         $directory = Common::fileDirectory($user->id);
-        if (!Storage::disk('local')->delete("{$directory}/{$type}.pdf"))
-            throw new \CampPASSExceptionRedirectBack('The specified document cannot be removed (or already has been removed).');
-        return redirect()->back()->with('success', 'The specified document has been removed.');
+        $path = "{$directory}/{$type}.pdf";
+        return Common::deleteFile($path);
     }
 
     public static function profile_picture_path(User $user, bool $actual = false, bool $display = true)

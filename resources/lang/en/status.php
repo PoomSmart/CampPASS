@@ -8,5 +8,4 @@ return [
     'Confirmation Placeholder' => 'Confirmation Placeholder',
     'Confirmation' => 'Confirmation',
     'Deposit Placeholder' => 'Deposit Placeholder',
-    'Deposit' => 'Deposit',
 ];

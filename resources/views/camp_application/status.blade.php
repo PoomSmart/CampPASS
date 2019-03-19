@@ -76,7 +76,13 @@
                     <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" class="pb-3 w-100">
                 </div>
                 <div class="col-md-8">
-                    <h4 class="mb-4">@lang('status.Deposit')</h4>
+                    <h4 class="mb-4">
+                        @if ($camp_procedure->deposit_required)
+                            @lang('camp.Deposit')
+                        @else
+                            @lang('camp.ApplicationFee')
+                        @endif
+                    </h4>
                     @if ($registration->approved())
                         <p>@lang('registration.SlipApproved')</p>
                     @else
@@ -100,15 +106,19 @@
                         @endif
                         @if (isset($need_upload) && $need_upload)
                             <p>@lang('registration.UploadPayment')</p>
-                            <div class="mx-1">
-                                <form action="{{ route('camp_application.payment_upload') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="number" name="registration_id" value="{{ $registration->id }}" hidden>
-                                    <label class="btn btn-primary w-100 mb-4">
-                                        @lang('registration.UploadPaymentSlip') <input type="file" name="pdf" onchange="form.submit()" hidden>
-                                    </label>
-                                </form>
-                            </div>
+                            <form action="{{ route('camp_application.payment_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @component('components.file_upload', [
+                                    'value' => trans('app.View'),
+                                    'args' => $registration->id,
+                                    'upload' => 1,
+                                    'download_route' => 'camp_application.payment_download',
+                                    'delete_route' => 'camp_application.payment_delete',
+                                    'full_width' => 1,
+                                    'name' => 'pdf',
+                                ])
+                                @endcomponent
+                            </form>
                         @else
                             <p>@lang('registration.AckSlip')</p>
                         @endif
