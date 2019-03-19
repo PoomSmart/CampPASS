@@ -103,8 +103,9 @@
                             <div class="mx-1">
                                 <form action="{{ route('camp_application.payment_upload') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <input type="number" name="registration_id" value="{{ $registration->id }}" hidden>
                                     <label class="btn btn-primary w-100 mb-4">
-                                        @lang('registration.UploadPaymentSlip') <input type="file" name="payment" onchange="form.submit()" hidden>
+                                        @lang('registration.UploadPaymentSlip') <input type="file" name="pdf" onchange="form.submit()" hidden>
                                     </label>
                                 </form>
                             </div>

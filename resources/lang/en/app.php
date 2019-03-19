@@ -53,4 +53,5 @@ return [
     'ClearFilters' => 'Clear Filter',
     'NoNotifications' => 'No Notifications',
     'Download' => 'Download',
+    'pdf' => 'Document',
 ];

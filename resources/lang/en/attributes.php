@@ -48,4 +48,6 @@ return [
     'min_cgpa' => trans('camp.MinCGPA'),
     'short_description_en' => trans('camp.EnglishShortDescription'),
     'short_description_th' => trans('camp.ThaiShortDescription'),
+
+    'pdf' => trans('app.pdf'),
 ];

@@ -53,4 +53,5 @@ return [
     'ClearFilters' => 'ล้างตัวคัดกรอง',
     'NoNotifications' => 'ไม่มีแจ้งเตือน',
     'Download' => 'ดาวน์โหลด',
+    'pdf' => 'ไฟล์เอกสาร',
 ];

@@ -8,33 +8,18 @@ use App\Rules\ThaiCitizenID;
 use App\Rules\ThaiZipCode;
 
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class StoreUserRequest extends CampPASSFormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+    protected $rules = [
+        'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer',
+        'numeric', 'before', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes', 'regex',
+        'min.numeric', 'min.string', 'max.numeric', 'max.string',
+    ];
+    protected $table = 'users';
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function true_rules()
     {
-        $method = $this->method();
-        if ($method == 'GET' || $method == 'DELETE') {
-            return [];
-        }
         $CAMPER = config('const.account.camper');
         $CAMPMAKER = config('const.account.campmaker');
         $education_levels = array_values(EducationLevel::getConstants());
@@ -74,6 +59,7 @@ class StoreUserRequest extends FormRequest
             // camp maker
             'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
+        $method = $this->method;
         if ($method == 'PUT' || $method == 'PATCH') {
             $user = auth()->user();
             $rules += [
@@ -109,26 +95,5 @@ class StoreUserRequest extends FormRequest
                 $validator->errors()->add('current_password', trans('validation.current_password', ['attribute' => trans('validation.attributes.current_password')]));
             }
         });
-    }
-
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        $rules = [
-            'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer',
-            'numeric', 'before', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes', 'regex',
-            'min.numeric', 'min.string', 'max.numeric', 'max.string',
-        ];
-        $messages = [];
-        foreach (Schema::getColumnListing('users') as $attribute) {
-            foreach ($rules as $rule) {
-                $messages["{$attribute}.{$rule}"] = trans("validation.{$rule}", ['attribute' => trans("attributes.{$attribute}")]);
-            }
-        }
-        return $messages;
     }
 }

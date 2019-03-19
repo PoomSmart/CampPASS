@@ -236,6 +236,7 @@ return [
         'CampPASSException' => App\Exceptions\CampPASSException::class,
         'CampPASSExceptionPermission' => App\Exceptions\CampPASSExceptionPermission::class,
         'CampPASSExceptionRedirectBack' => App\Exceptions\CampPASSExceptionRedirectBack::class,
+        'CampPASSExceptionNoFileUploaded' => App\Exceptions\CampPASSExceptionNoFileUploaded::class,
     ],
 
 ];

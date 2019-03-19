@@ -22,6 +22,8 @@ use App\Enums\ApplicationStatus;
 
 use App\Notifications\NewCamperApplied;
 
+use App\Http\Requests\StorePDFRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -265,10 +267,13 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
-    public function payment_upload(Request $request)
+    public function payment_upload(StorePDFRequest $request)
     {
-        if (!$request->hasFile('payment'))
+        if (!$request->hasFile('pdf'))
             throw new \CampPASSExceptionNoFileUploaded();
+        $registration = Registration::findOrFail($request->registration_id);
+        $directory = Common::paymentDirectory($registration->camp_id);
+        Storage::disk('local')->putFileAs($directory, $request->file('pdf'), "payment_{$registration->id}.pdf");
         return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
     }
 
