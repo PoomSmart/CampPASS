@@ -19,7 +19,7 @@
         <div class="col-lg-4 text-center">
             <img src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}" class="rounded-circle img-fluid w-75 p-2">
         </div>
-        <div class="col-lg-8"> 
+        <div class="col-lg-8">
             <h4 class="mb-4">@lang('account.Education')</h4>
             <div class="row mb-2">
                 <div class="col-md-6">

@@ -23,7 +23,7 @@ class QuestionSetController extends Controller
         $this->middleware('permission:question-create', ['only' => ['show', 'store']]);
         $this->middleware('permission:question-edit', ['only' => ['finalize']]);
     }
-    
+
     public function store(StoreQuestionRequest $request, Camp $camp)
     {
         Common::authenticate_camp($camp);

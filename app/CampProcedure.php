@@ -31,18 +31,4 @@ class CampProcedure extends Model
     {
         return trans("camp_procedure.{$this->description}");
     }
-
-    public function getTags()
-    {
-        $tags = [];
-        if ($this->interview_required)
-            $tags[] = trans('camp_procedure.InterviewTag');
-        if ($this->deposit_required)
-            $tags[] = trans('camp_procedure.DepositTag');
-        if ($this->candidate_required)
-            $tags[] = trans('camp_procedure.QATag');
-        if (empty($tags))
-            $tags[] = trans('camp_procedure.Walk-in');
-        return $tags;
-    }
 }

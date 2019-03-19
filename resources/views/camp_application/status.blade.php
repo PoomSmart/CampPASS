@@ -110,7 +110,7 @@
                 </div>
             @endif
         @endif
-        
+
         <div class="col-md-4">
             <img src="{{ asset('/images/placeholders/Status - Confirmation.png') }}" alt={{ trans('status.Confirmation') }} class="pb-3 w-100">
         </div>

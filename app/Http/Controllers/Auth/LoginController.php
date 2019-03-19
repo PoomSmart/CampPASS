@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     /**
      * Override the username for accepting both username and email for authentication.
-     * 
+     *
      * @return string
      */
     public function username()

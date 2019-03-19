@@ -16,7 +16,7 @@ class CsvRowParser
     private $value;
 
     private $parsedRow;
-    
+
     /**
      * Set the header and possible options to add or parse a row
      *
@@ -51,11 +51,11 @@ class CsvRowParser
         foreach( $this->header as $this->key => $this->name )
         {
             if( ! array_key_exists($this->key, $row) ) continue;
-            
+
             $this->value = $row[ $this->key ];
-            
+
             $this->isEmptyValue();
-            
+
             $this->doEncode();
 
             $this->doHashable();
@@ -63,7 +63,7 @@ class CsvRowParser
             $this->addParsed();
 
             $this->addDefaults();
-    
+
             $this->addTimestamps();
         }
 
@@ -72,7 +72,7 @@ class CsvRowParser
 
     /**
      * Clear the parsed row
-     * 
+     *
      * @return void
      */
     private function init()
@@ -96,17 +96,17 @@ class CsvRowParser
 
     /**
      * Encode the value to UTF8
-     * 
+     *
      * @return void
      */
     private function doEncode()
     {
         if( is_string($this->value) ) $this->value = mb_convert_encoding( $this->value, 'UTF-8' );
     }
-   
+
     /**
      * Hash the value of given column(s), default: password
-     * 
+     *
      * @return void
      */
     private function doHashable()
@@ -120,7 +120,7 @@ class CsvRowParser
 
     /**
      * Add the parsed value to the parsed row
-     * 
+     *
      * @return void
      */
     private function addParsed()
@@ -130,7 +130,7 @@ class CsvRowParser
 
     /**
      * Add a default column with value to parsed row
-     * 
+     *
      * @return void
      */
     private function addDefaults()
@@ -142,10 +142,10 @@ class CsvRowParser
             $this->parsedRow[ $key ] = $value;
         }
     }
-    
+
     /**
      * Add timestamp to the parsed row
-     * 
+     *
      * @return void
      */
     private function addTimestamps()
@@ -156,6 +156,6 @@ class CsvRowParser
 
         $this->parsedRow[ 'created_at' ] = $this->timestamps;
         $this->parsedRow[ 'updated_at' ] = $this->timestamps;
-    }   
+    }
 
 }

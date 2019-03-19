@@ -59,7 +59,7 @@
             <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             <td><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
-                @foreach ($camp->camp_procedure->getTags() as $tag)
+                @foreach ($camp->getTags() as $tag)
                     <label class="badge badge-secondary font-weight-normal">{{ $tag }}</label>
                 @endforeach
             </td>

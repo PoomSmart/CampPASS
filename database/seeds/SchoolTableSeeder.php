@@ -14,7 +14,7 @@ class SchoolTableSeeder extends CsvSeeder
         $this->delimiter = ',';
         $this->table = 'schools';
     }
-    
+
     /**
      * Run the database seeds.
      *

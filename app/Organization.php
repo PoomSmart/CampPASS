@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     public $timestamps = false;
-    
+
     protected $fillable = [
         'name_en', 'name_th', 'address', 'zipcode', 'type', 'subtype', 'image',
     ];

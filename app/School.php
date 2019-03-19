@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class School extends Model
 {
     public $timestamps = false;
-    
+
     protected $fillable = [
         'name_en', 'name_th', 'address', 'zipcode', 'type',
     ];

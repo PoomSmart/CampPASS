@@ -13,7 +13,7 @@
                     <h4>@lang('account.Camper')</h4>
                 </a>
         </div>
-    </div>  
+    </div>
     <div class="col-md-6 text-center">
             <div class="card card-with-shadow" id="{{ isset($border) ? 'card-border' : null }}">
                 <a href="{{ route('register-campmaker') }}">
@@ -21,6 +21,6 @@
                     <h4>@lang('account.CampMaker')</h4>
                 </a>
             </div>
-        </div>      
+        </div>
     </div>
 @endsection

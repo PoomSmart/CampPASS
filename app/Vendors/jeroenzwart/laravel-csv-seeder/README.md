@@ -29,7 +29,7 @@ class UsersTableSeeder extends CsvSeeder
     {
         $this->file = '/database/seeds/csvs/users.csv';
     }
-    
+
     /**
      * Run the database seeds.
      *
@@ -96,7 +96,7 @@ Map the CSV headers to table columns, with the following CSV;
     1,Foo,Bar
     2,John,Doe
 
-Handle like this;    
+Handle like this;
 ```php
 	public function __construct()
 	{

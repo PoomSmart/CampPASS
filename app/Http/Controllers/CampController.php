@@ -153,7 +153,7 @@ class CampController extends Controller
         $category = CampCategory::find($camp->camp_category_id);
         return Common::withPagination(view('camps.registration', compact('camp', 'category', 'data', 'total_registrations')));
     }
-    
+
     public function edit(Camp $camp)
     {
         auth()->user()->canManageCamp($camp);
@@ -184,7 +184,7 @@ class CampController extends Controller
 
     /**
      * Return the camps (filtered by column-value or neither) as a sort of array.
-     * 
+     *
      */
     public function get_camps($query_pairs = null, bool $categorized = false)
     {
@@ -251,7 +251,7 @@ class CampController extends Controller
             ];
         }
     }
-    
+
     public function browser()
     {
         $query = Input::get('query', null);

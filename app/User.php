@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be set once.
-     * 
+     *
      * @var array
      */
     public static $once = [
@@ -147,10 +147,10 @@ class User extends Authenticatable
      * Get all the camps where the given user belongs.
      * If campers, return all the camps that they registered.
      * If camp makers, return all the camps that they can manage.
-     * 
+     *
      * @return Collection
      * @return Builder
-     * 
+     *
      */
     public function getBelongingCamps($status = null)
     {
@@ -167,7 +167,7 @@ class User extends Authenticatable
 
     /**
      * Check if this user can manage the given camp.
-     * 
+     *
      */
     public function canManageCamp(Camp $camp)
     {
@@ -199,9 +199,9 @@ class User extends Authenticatable
 
     /**
      * Get the reason for why this user cannot apply for the given camp, if any.
-     * 
+     *
      * @return string
-     * 
+     *
      */
     public function getIneligibleReasonForCamp(Camp $camp, bool $short = false)
     {
@@ -231,7 +231,7 @@ class User extends Authenticatable
 
     /**
      * Tell if this user is eligible for the camp before doing anything further.
-     * 
+     *
      */
     public function isEligibleForCamp(Camp $camp)
     {

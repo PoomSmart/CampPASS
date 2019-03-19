@@ -29,7 +29,7 @@ class CampApplicationController extends Controller
 {
     /**
      * Check whether the given camp can be manipulated by the current user.
-     * 
+     *
      */
     public static function authenticate(Camp $camp, bool $silent = false)
     {
@@ -49,7 +49,7 @@ class CampApplicationController extends Controller
     /**
      * Check whether the current user can manipulate the given registration record.
      * That is, only the owner can make changes.
-     * 
+     *
      */
     public static function authenticate_registration(Registration $registration, bool $silent = false)
     {
@@ -59,7 +59,7 @@ class CampApplicationController extends Controller
 
     /**
      * Given a camp and the current user, determine the registration status and return the apply button's status and availability.
-     * 
+     *
      */
     public static function getApplyButtonInformation(Camp $camp, bool $short = false, bool $auth_check = false)
     {
@@ -100,7 +100,7 @@ class CampApplicationController extends Controller
     /**
      * Create a registration record given the user and the camp with an optional parameter, registration status,
      * in case we know exactly the registration status to set.
-     * 
+     *
      */
     public static function register(Camp $camp, User $user, $status = ApplicationStatus::DRAFT, bool $badge_check = false)
     {
@@ -138,7 +138,7 @@ class CampApplicationController extends Controller
 
     /**
      * For the camps that include questions, we fetch those questions and respective answers for campers (if any) and return as JSON.
-     * 
+     *
      */
     public static function prepare_questions_answers(Camp $camp)
     {
@@ -231,7 +231,7 @@ class CampApplicationController extends Controller
 
     /**
      * Display the review answer page for campers.
-     * 
+     *
      */
     public function answer_view(QuestionSet $question_set)
     {
@@ -256,7 +256,7 @@ class CampApplicationController extends Controller
 
     /**
      * Directly apply for a camp and respond back with the done page.
-     * 
+     *
      */
     public static function submit_application_form(Camp $camp, $status = ApplicationStatus::APPLIED)
     {
@@ -320,7 +320,7 @@ class CampApplicationController extends Controller
 
     /**
      * Make sure the only answer owner and respective camp makers can access the answer file.
-     * 
+     *
      */
     public function canAccessAnswer(Answer $answer)
     {
@@ -335,7 +335,7 @@ class CampApplicationController extends Controller
 
     /**
      * Get the respective file path of the given answer.
-     * 
+     *
      */
     public function get_answer_file_path(Answer $answer)
     {
@@ -354,7 +354,7 @@ class CampApplicationController extends Controller
 
     /**
      * Download the answer of type file.
-     * 
+     *
      */
     public function answer_file_download(Answer $answer)
     {
@@ -368,7 +368,7 @@ class CampApplicationController extends Controller
 
     /**
      * Delete the answer of type file.
-     * 
+     *
      */
     public function answer_file_delete(Answer $answer)
     {
