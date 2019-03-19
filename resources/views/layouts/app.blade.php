@@ -178,7 +178,7 @@
                         <a href="https://www.camphub.in.th/"<i class="fab fa-twitter ml-2"></i></a>
                         <a href="https://www.camphub.in.th/"<i class="fab fa-facebook-f ml-2"></i></a>
                     </ul>
-                    <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane ml-2"></i></a>
+                    <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane ml-1"></i></a>
                 </div>
             </div>
         </div>

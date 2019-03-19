@@ -1,11 +1,11 @@
-<button type="submit" class="btn btn-primary{{ isset($class) ? ' '.$class : null }}"
+<button type="submit" class="{{ isset($class) ? $class : 'btn btn-primary' }}"
     @if (isset($disabled) && $disabled)
         disabled
     @endif
     {{ isset($attributes) ? $attributes : null }}
 >
     @if (isset($glyph))
-        <i class="{{ $glyph }} mr-1"></i>
+        <i class="mr-1 {{ $glyph }}"></i>
     @endif
     {{ isset($label) ? $label : trans('app.Submit') }}
 </button>

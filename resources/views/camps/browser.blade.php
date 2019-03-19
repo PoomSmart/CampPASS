@@ -10,7 +10,7 @@
 
 @section('content')
     <form class="row form" action="{{ route('camps.browser') }}" method="GET">
-        <div class="col-lg-8">
+        <div class="col-lg-8 px-0">
             <div class="input-group">
                 @component('components.input', [
                     'name' => 'query',
@@ -23,12 +23,13 @@
         <div class="col-lg-4">
             @component('components.submit', [
                 'label' => trans('app.Search'),
-                'class' => 'mr-2',
+                'class' => 'btn btn-primary mr-2',
+                'glyph' => 'fas fa-search fa-xs ',
             ])
             @endcomponent
-            <a href="{{ route('camps.browser') }}" class="btn btn-secondary">@lang('app.ClearFilters')</a>
+            <a href="{{ route('camps.browser') }}" class="btn btn-secondary"><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</a>
         </div>
-        <div class="col-12">
+        <div class="col-12 px-0">
             <div class="form-group d-inline-flex mt-2">
                 <div class="d-inline-block mr-4">
                     @component('components.label', [

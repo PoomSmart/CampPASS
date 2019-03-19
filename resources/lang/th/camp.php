@@ -24,7 +24,7 @@ return [
     'ApplicationFeeDesc' => 'ระบุค่าธรรมเนียมที่ผู้เข้าค่ายต้องจ่ายเมื่อทำการสมัครค่ายนี้',
     'Deposit' => 'ค่ามัดจำ',
     'URL' => 'URL',
-    'FBURL' => 'Facebook URL',
+    'FBURL' => 'สอบถามผู้จัดค่ายทาง Facebook',
     'AppCloseDate' => 'วันปิดรับสมัคร',
     'EventStartDate' => 'วันเริ่มการจัดค่าย',
     'EventEndDate' => 'วันสิ้นสุดการจัดค่าย',

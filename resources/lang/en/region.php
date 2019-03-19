@@ -7,4 +7,10 @@ return [
     'Northen Thailand' => 'Northen Thailand',
     'Southern Thailand' => 'Southern Thailand',
     'Western Thailand' => 'Western Thailand',
+    'C' => 'C',
+    'E' => 'E',
+    'NE' => 'NE',
+    'N' => 'N',
+    'S' => 'S',
+    'W' => 'W',
 ];

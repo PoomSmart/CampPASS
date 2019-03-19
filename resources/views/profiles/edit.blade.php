@@ -64,7 +64,8 @@
                     <div class="text-center mt-4">
                         @component('components.submit', [
                             'label' => trans('app.Update'),
-                            'class' => 'w-50',
+                            'class' => 'btn btn-primary w-50',
+                            'glyph' => 'fas fa-pencil-alt fa-xs',
                         ])
                         @endcomponent
                     </div>
@@ -73,7 +74,7 @@
                     @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
                         <div class="text-center mt-4">
                             @if ($has_payment)
-                                <a href="#" class="btn btn-secondary">@lang('qualification.ViewPaymentSlip')</a>
+                                <a href="#" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
                             @endif
                             <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
                             <a href="{{ route('qualification.form_return', $form_score->id) }}" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>

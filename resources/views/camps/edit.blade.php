@@ -25,7 +25,8 @@
         <div class="mt-4 text-center">
             @component('components.submit', [
                 'label' => trans('app.Update'),
-                'class' => 'w-50',
+                'class' => 'btn btn-primary w-50',
+                'glyph' => 'fas fa-pencil-alt fa-xs',
             ])
             @endcomponent
         </div>
