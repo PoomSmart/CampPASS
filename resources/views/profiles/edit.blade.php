@@ -32,7 +32,7 @@
                     <div class="container-fluid no-gutters text-center p-lg-4">
                         <img id="profile-preview" class="rounded-circle img-fluid w-100" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}"/>
                     </div>
-                    @role('camper')
+                    @if (!isset($disabled) || isset($disabled) && !$disabled)
                         @component('components.profile_upload', [
                             'value' => trans('app.View'),
                             'args' => [
@@ -51,7 +51,7 @@
                                 reader.readAsDataURL(this.files[0]);
                             };
                         </script>
-                    @endrole
+                    @endif
                 </div>
             </div>
             <div class="col-md-9">
@@ -60,7 +60,7 @@
                     'type' => $type,
                     'update' => 1,
                 ])
-                @role('camper')
+                @if (!isset($disabled) || isset($disabled) && !$disabled)
                     <div class="text-center mt-4">
                         @component('components.submit', [
                             'label' => trans('app.Update'),
@@ -68,7 +68,7 @@
                         ])
                         @endcomponent
                     </div>
-                @endrole
+                @endif
                 @can('candidate-edit')
                     @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
                         <div class="text-center mt-4">
