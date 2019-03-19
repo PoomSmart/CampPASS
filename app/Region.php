@@ -15,6 +15,6 @@ class Region extends Model
 
     public function getShortName()
     {
-        return $this->short_name;
+        return trans("region.{$this->short_name}");
     }
 }

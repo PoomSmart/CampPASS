@@ -10,7 +10,7 @@ return [
     'Graded' => 'Graded',
     'GradingRequired' => 'Gradable',
     'Question' => 'Question',
-    'Questions' => 'Questions',
+    'Questions' => 'QA',
     'CreateQuestions' => 'Create Questions',
     'EnterQuestionPlaceholder' => 'Enter question here',
     'AddMoreQuestion' => 'Add More Question',
