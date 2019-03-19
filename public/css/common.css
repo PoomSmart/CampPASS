@@ -61,7 +61,7 @@ body, #app {
 
 @media (min-width: 992px) {
   #sidenav {
-      flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
 }
 
@@ -126,8 +126,7 @@ label[required]::after {
 }
 
 .card-with-shadow:hover {
-  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
-
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
 }
 
 @media (max-width: 992px) {
@@ -175,12 +174,4 @@ a:hover {
 
 .download-btn:hover {
   background-color: gray;
-}
-
-.fa-fr {
-  margin-right: 5px;
-}
-
-.fa-fl {
-  margin-left: 5px;
 }

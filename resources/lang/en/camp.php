@@ -37,6 +37,7 @@ return [
     'ContactCampMaker' => 'Contact Camp Maker',
     'CampMakerContactInfo' => 'Camp Maker Contact Info',
     'CampMakerContactInfoDesc' => 'Please provide the contact information that campers can use to ask further questions.',
+    'CampMakerCount' => 'No. Camp Makers',
     'CampsByCategory' => 'Camps by category',
     'CampsByUniversity' => 'Camps by university',
     'Camps' => 'Camps',

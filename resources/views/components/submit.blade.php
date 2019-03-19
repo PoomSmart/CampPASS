@@ -4,5 +4,8 @@
     @endif
     {{ isset($attributes) ? $attributes : null }}
 >
+    @if (isset($glyph))
+        <i class="{{ $glyph }} mr-1"></i>
+    @endif
     {{ isset($label) ? $label : trans('app.Submit') }}
 </button>

@@ -26,7 +26,7 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
-            
+
             // camp management
             'camp-list',
             'camp-create',
@@ -190,6 +190,8 @@ class PermissionTableSeeder extends Seeder
             'payment-status',
         ]);
         foreach (User::campMakers()->cursor() as $campmaker) {
+            if (Common::randomFrequentHit())
+                $campmaker->activate();
             $campmaker->assignRole('campmaker');
             $campmaker->save();
         }

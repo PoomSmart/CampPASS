@@ -68,7 +68,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');
-        Route::get('/data_export/{question_set}', 'CandidateController@data_export')->name('qualification.data_export');
+        Route::get('/data-export-selection/{question_set}', 'CandidateController@data_export_selection')->name('qualification.data_export_selection');
+        Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
         Route::get('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');
     });

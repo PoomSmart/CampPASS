@@ -27,7 +27,7 @@ class QualificationController extends Controller
 
     /**
      * Grade an application form from a camper (represented by a registration record) and the respective question set
-     * 
+     *
      */
     public static function form_grade($registration_id, $question_set_id, bool $silent = false)
     {

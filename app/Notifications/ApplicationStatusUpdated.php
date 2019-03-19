@@ -32,7 +32,7 @@ class ApplicationStatusUpdated extends LocalizableNotification
     {
         return route('camp_application.status', $registration->id);
     }
-    
+
     public function toDatabase($notifiable)
     {
         return [

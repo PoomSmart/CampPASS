@@ -158,14 +158,14 @@
                     <h6 class="text-left"><b>{{ config('app.name') }}</b></h6>
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            <ul class="list-unstyled">    
+                            <ul class="list-unstyled">
                                 <li><a href="{{ route('what-is-camppass') }}">@lang("app.What's",['entity' => config('app.name')])</a></li>
                                 <li><a href="{{ route('how-camppass-works') }}">@lang('app.HowWork',['entity' => config('app.name')])</a></li>
                                 <li><a href="{{ route('register-campmaker') }}">@lang('app.Becoming a Camp Maker')</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <ul class="list-unstyled">    
+                            <ul class="list-unstyled">
                                 <li><a href="about-us">@lang('app.About')</a></li>
                                 <li><a href="terms-of-services">@lang('app.Terms')</a></li>
                                 <li><a href="privacy-policy">@lang('app.Policy')</a></li>

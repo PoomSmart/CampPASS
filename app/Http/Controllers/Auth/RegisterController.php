@@ -61,7 +61,7 @@ class RegisterController extends Controller
 
     /**
      * Show the registration page for campers
-     * 
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function camper()
@@ -78,7 +78,7 @@ class RegisterController extends Controller
 
     /**
      * Show the registration page for camp makers
-     * 
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function campmaker()

@@ -55,7 +55,7 @@ class Camp extends Model
 
     /**
      * The attributes that should be set once.
-     * 
+     *
      * @var array
      */
     public static $once = [
@@ -109,7 +109,7 @@ class Camp extends Model
 
     /**
      * Get such URL where guests can enter to contact the camp makers.
-     * 
+     *
      */
     public function getURL()
     {
@@ -118,7 +118,7 @@ class Camp extends Model
 
     /**
      * Return the campers that belong to the given camp, given the status.
-     * 
+     *
      * @return array
      */
     public function campers($status = null, bool $higher = false, int $paginate = 0)
@@ -134,6 +134,16 @@ class Camp extends Model
         return $campers;
     }
 
+    /**
+     * Return the camp makers that belong to the given camp
+     *
+     * @return array
+     */
+    public function camp_makers()
+    {
+        return User::campMakers()->where('status', 1)->where('organization_id', $this->organization_id)->get();
+    }
+
     public function getRegistrations(User $user)
     {
         return $this->registrations()->where('camper_id', $user->id);
@@ -142,9 +152,9 @@ class Camp extends Model
     /**
      * Get the most current registration record of the camper.
      * TODO: Is it really okay to not take into account the status of the registration?
-     * 
+     *
      * @return \App\Registration
-     * 
+     *
      */
     public function getLatestRegistration(User $user)
     {
@@ -152,7 +162,7 @@ class Camp extends Model
         return $registrations->exists() ? $registrations->first() : null;
     }
 
-    public function getFormScores()
+    public function form_scores()
     {
         $question_set = $this->question_set;
         if (!$question_set)
@@ -168,11 +178,33 @@ class Camp extends Model
 
     /**
      * Check if the number of registered and approved campers exceeds the quota.
-     * 
+     *
      */
     public function isFull()
     {
         return $this->quota && $this->campers(ApplicationStatus::APPROVED, $higher = true)->count() >= $this->quota;
+    }
+
+    public function getTags()
+    {
+        $tags = [];
+        $camp_procedure = $this->camp_procedure;
+        if ($camp_procedure->interview_required)
+            $tags[] = trans('camp_procedure.InterviewTag');
+        if ($camp_procedure->deposit_required)
+            $tags[] = trans('camp_procedure.DepositTag');
+        if ($this->application_fee)
+            $tags[] = trans('camp_procedure.ApplicationFeeTag');
+        if ($camp_procedure->candidate_required)
+            $tags[] = trans('camp_procedure.QATag');
+        if (empty($tags))
+            $tags[] = trans('camp_procedure.Walk-in');
+        return $tags;
+    }
+
+    public function hasPayment()
+    {
+        return $this->camp_procedure->deposit_required || $this->application_fee;
     }
 
     public function approve()
@@ -184,7 +216,7 @@ class Camp extends Model
 
     /**
      * Fetch all the camps that have been approved.
-     * 
+     *
      */
     public static function allApproved()
     {
@@ -193,7 +225,7 @@ class Camp extends Model
 
     /**
      * Fetch all the camps that have not been approved.
-     * 
+     *
      */
     public static function allNotApproved()
     {
@@ -209,7 +241,7 @@ class Camp extends Model
 
     /**
      * Determine the question grading type of the camp whenever possible.
-     * 
+     *
      */
     public function gradingType()
     {

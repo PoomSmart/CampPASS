@@ -131,7 +131,7 @@ class Common
 
     /**
      * Check whether the given camp can be manipulated by the current user.
-     * 
+     *
      */
     public static function authenticate_camp(Camp $camp)
     {

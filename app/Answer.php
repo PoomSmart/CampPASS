@@ -14,7 +14,7 @@ class Answer extends Model
     protected $fillable = [
         'question_set_id', 'question_id', 'camper_id', 'registration_id', 'answer', 'score',
     ];
-    
+
     public function camper()
     {
         return $this->belongsTo(User::class);

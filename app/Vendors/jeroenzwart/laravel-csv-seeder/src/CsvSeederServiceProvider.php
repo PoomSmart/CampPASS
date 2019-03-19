@@ -12,7 +12,7 @@ class CsvSeederServiceProvider extends ServiceProvider
 	 * @var bool
 	 */
     protected $defer = false;
-    
+
     /**
      * Bootstrap services.
      *

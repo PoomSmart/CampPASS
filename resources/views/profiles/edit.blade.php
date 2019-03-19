@@ -26,7 +26,7 @@
         @method('PUT')
         @php $type = $user->type @endphp
         <div class="row">
-            <div class="col-md-3">  
+            <div class="col-md-3">
                 <h3 class="mt-4">@lang('profile.ProfilePicture')</h3>
                 <div class="row justify-content-center">
                     <div class="container-fluid no-gutters text-center p-lg-4">

@@ -5,7 +5,7 @@ return [
     'UploadPicture' => 'อัพโหลดรูป',
     'DeletePicture' => 'ลบรูป',
     'About' => 'เกี่ยวกับ:entity',
-    'StudentDocuments' => 'เอกสารต่างๆ',
+    'StudentDocuments' => 'เอกสารทางการศึกษา',
     'Transcript' => 'ปพ. 1',
     'StudentCertificate' => 'ปพ. 7',
     'ContactInformation' => 'ข้อมูลการติดต่อ',

@@ -19,7 +19,7 @@
                 <th scope="row">{{ ++$i }}</th>
                 <td class="text-truncate"><a href="{{ $notification->data['url'] }}?read={{ $notification->id }}">{{ $notification->data['content'][app()->getLocale()] }}</a></td>
                 <td class="fit">
-                    
+
                 </td>
             </tr>
         @endforeach

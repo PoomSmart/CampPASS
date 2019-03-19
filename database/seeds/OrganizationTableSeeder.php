@@ -19,7 +19,7 @@ class OrganizationTableSeeder extends CsvSeeder
             'type' => OrganizationType::UNIVERSITY,
         ];
     }
-    
+
     /**
      * Run the database seeds.
      *

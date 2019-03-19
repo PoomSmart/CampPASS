@@ -7,7 +7,7 @@
 @section('card_content')
     <h4 class="mb-4">@lang('about.About1Heading')</h4>
     <p>@lang('about.About1Paragraph')</p>
-    
+
     <div class="row mt-4">
         <div class="col-md-6 text-center">
             <img src="/images/placeholders/ChildonLaptop.png" alt="1" class="img-fluid w-50 p-2">
