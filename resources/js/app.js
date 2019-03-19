@@ -7,7 +7,8 @@ var notifications = [];
 
 const NOTIFICATION_TYPES = {
     application_status: 'App\\Notifications\\ApplicationStatusUpdated',
-    new_camp: 'App\\Notifications\\NewCampRegistered'
+    new_camp: 'App\\Notifications\\NewCampRegistered',
+    new_camper: 'App\\Notifications\\NewCamperApplied'
 };
 
 jQuery(document).ready(function () {

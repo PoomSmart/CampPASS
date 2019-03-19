@@ -190,6 +190,8 @@ class PermissionTableSeeder extends Seeder
             'payment-status',
         ]);
         foreach (User::campMakers()->cursor() as $campmaker) {
+            if (Common::randomFrequentHit())
+                $campmaker->activate();
             $campmaker->assignRole('campmaker');
             $campmaker->save();
         }

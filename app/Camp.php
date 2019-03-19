@@ -134,6 +134,16 @@ class Camp extends Model
         return $campers;
     }
 
+    /**
+     * Return the camp makers that belong to the given camp
+     * 
+     * @return array
+     */
+    public function camp_makers()
+    {
+        return User::campMakers()->where('status', 1)->where('organization_id', $this->organization_id)->get();
+    }
+
     public function getRegistrations(User $user)
     {
         return $this->registrations()->where('camper_id', $user->id);
@@ -152,7 +162,7 @@ class Camp extends Model
         return $registrations->exists() ? $registrations->first() : null;
     }
 
-    public function getFormScores()
+    public function form_scores()
     {
         $question_set = $this->question_set;
         if (!$question_set)

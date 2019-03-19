@@ -20,6 +20,8 @@ use App\Http\Controllers\QuestionSetController;
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
 
+use App\Notifications\NewCamperApplied;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -122,6 +124,12 @@ class CampApplicationController extends Controller
                 'status' => $status,
                 'submission_time' => now(),
             ]);
+        }
+        // Notify all camp makers of this camp for this new application
+        if ($status >= ApplicationStatus::APPLIED) {
+            foreach ($camp->camp_makers() as $campmaker) {
+                $campmaker->notify(new NewCamperApplied($registration));
+            }
         }
         if ($badge_check)
             BadgeController::addBadgeIfNeeded($registration);

@@ -37,6 +37,7 @@ return [
     'ContactCampMaker' => 'ติดต่อผู้จัดค่าย',
     'CampMakerContactInfo' => 'ข้อมูลติดต่อผู้จัดค่าย',
     'CampMakerContactInfoDesc' => 'โปรดระบุข้อมูลติดต่อของผู้จัดค่าย ที่ผู้เข้าค่ายสามารถใช้ติดต่อสอบถามเพิ่มเติมข้อมูลเกี่ยวกับค่ายได้',
+    'CampMakerCount' => 'จำนวนผู้จัดค่าย',
     'CampsByCategory' => 'ค่ายแบ่งตามประเภท',
     'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
     'Camps' => 'ค่ายต่างๆ',

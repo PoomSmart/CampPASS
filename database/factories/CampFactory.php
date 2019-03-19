@@ -66,7 +66,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'name_th' => "ค่าย {$camp_name}",
         'camp_category_id' => rand(1, CampCategory::count()),
         'camp_procedure_id' => $camp_procedure->id,
-        'organization_id' => rand(1, Organization::count()),
+        'organization_id' => Common::randomFrequentHit() ? rand(1, 5) : rand(1, Organization::count()),
         'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 80, $variableNbWords = true),

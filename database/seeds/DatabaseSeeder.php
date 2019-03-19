@@ -24,6 +24,7 @@ use App\Year;
 use App\Imports\ProvincesImport;
 
 use App\Notifications\NewCampRegistered;
+use App\Notifications\NewCamperApplied;
 
 use App\BadgeController;
 use App\Http\Controllers\CampApplicationController;
@@ -254,6 +255,8 @@ class DatabaseSeeder extends Seeder
         $registrations = [];
         $form_scores = [];
         $manual_grade_question_set_ids = [];
+        $camp_maker_notifications = [];
+        $registration_id = 0;
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
@@ -277,12 +280,18 @@ class DatabaseSeeder extends Seeder
                     $status = ApplicationStatus::CHOSEN; // TODO: We have yet to seed payment slips
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
+                ++$registration_id;
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
                     'status' => $status,
                     'submission_time' => now(),
                 ];
+                if ($status >= ApplicationStatus::APPLIED) {
+                    if (!isset($camp_maker_notifications[$camp->id]))
+                        $camp_maker_notifications[$camp->id] = [];
+                    $camp_maker_notifications[$camp->id][] = $registration_id;
+                }
                 // Camps with registrations must obviously be approved first
                 if (!$camp->approved) {
                     $camp->update([
@@ -298,6 +307,13 @@ class DatabaseSeeder extends Seeder
         foreach (array_chunk($registrations, 1000) as $chunk)
             Registration::insert($chunk);
         unset($registrations);
+        // Notify all the camp makers about all campers that applied for their camp
+        foreach ($camp_maker_notifications as $camp_id => $registrations) {
+            foreach (Camp::find($camp_id)->camp_makers() as $campmaker) {
+                $campmaker->notify(new NewCamperApplied($registration));
+            }
+        }
+        unset($camp_maker_notifications);
         // Fake questions of several types for the camps that require
         $this->log_seed('questions and answers');
         $answers = [];
@@ -607,9 +623,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('camps');
-        factory(Camp::class, 600)->create();
+        factory(Camp::class, 80)->create();
         $this->log_seed('users');
-        factory(User::class, 320)->create();
+        factory(User::class, 450)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();

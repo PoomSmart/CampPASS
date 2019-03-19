@@ -98,7 +98,7 @@ $factory->define(App\User::class, function (Faker $faker) {
     $name_en = $faker->unique()->firstName;
     $surname_en = $faker->lastName;
     $token = User_Randomizer::randFullNameTH($faker);
-    $type = Common::randomFrequentHit() ? User_Randomizer::camper() : User_Randomizer::campmaker();
+    $type = Common::randomMediumHit() ? User_Randomizer::camper() : User_Randomizer::campmaker();
     $dob = $type == User_Randomizer::camper() ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
     $province = Province::inRandomOrder()->get()->first();
     $data = [
@@ -137,7 +137,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         ];
     } else {
         $data += [
-            'organization_id' => rand(1, Organization::count()),
+            'organization_id' => Common::randomFrequentHit() ? rand(1, 5) : rand(1, Organization::count()),
         ];
     }
     return $data;
