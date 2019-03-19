@@ -155,7 +155,7 @@ class QualificationController extends Controller
                 ]);
             }
         }
-        return redirect()->back()->with('success', 'Scores are updated successfully.');
+        return redirect()->back()->with('success', trans('qualification.ScoresUpdated'));
     }
 
     public function show_profile_detailed(Registration $registration)
@@ -176,7 +176,7 @@ class QualificationController extends Controller
         $registration->update([
             'returned' => true,
         ]);
-        return redirect()->back();
+        return redirect()->back()->with('success', trans('qualification.FormReturned', [ 'candidate' => $registration->camper ]));
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)
@@ -190,7 +190,7 @@ class QualificationController extends Controller
             'finalized' => true,
         ]);
         if (!$silent)
-            return redirect()->back()->with('success', 'This form is finalized.');
+            return redirect()->back()->with('success', trans('qualification.FormFinalized', [ 'candidate' => $registration->camper ]));
     }
 
     public static function form_check_real(FormScore $form_score, $checked)

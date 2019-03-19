@@ -39,4 +39,7 @@ return [
     'RejectedApplication' => 'Rejected Application',
     'ContinueAnnounced' => 'Once the candidates are announced, you will no longer be able to make changes. The candidates will also be notified, and they have a right to withdraw until they explicitly confirmed the attendance. Continue?',
     'ManualGradingRequired' => 'Manual Grading required.',
+    'ScoresUpdated' => 'Scores are updated successfully.',
+    'FormFinalized' => ":candidate's form is finalized.",
+    'FormReturned' => ":candidate's form is returned.",
 ];

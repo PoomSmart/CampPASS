@@ -20,7 +20,13 @@ class CandidateController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce']]);
+        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export']]);
+    }
+
+    public function data_export(QuestionSet $question_set)
+    {
+        $result = $this->result($question_set, $export = true);
+        return $result;
     }
 
     public function result(QuestionSet $question_set, bool $export = false)

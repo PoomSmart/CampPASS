@@ -63,7 +63,8 @@
     <div class="d-flex justify-content-center">
         {!! $candidates->links() !!}
     </div>
-    @if ($camp->question_set->total_score)
+    @php $question_set = $camp->question_set @endphp
+    @if ($question_set->total_score)
         <h2>@lang('qualification.Backups')</h2>
         @if ($backups->isEmpty())
             @lang('app.None')
@@ -118,4 +119,7 @@
             </table>
         @endif
     @endif
+    <div class="text-center mt-4">
+        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_export', $question_set->id) }}">@lang('qualification.ExportData')</a>
+    </div>
 @endsection
