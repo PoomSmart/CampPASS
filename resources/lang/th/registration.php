@@ -32,5 +32,7 @@ return [
     'PayDeposit' => 'จ่ายค่าสมัคร',
     'ApplicationForms' => 'ใบสมัครค่าย',
     'Status' => 'สถานะใบสมัคร',
+    'UploadPaymentSlip' => 'อัพโหลดหลักฐานการชำระเงิน',
     'UploadPayment' => 'กรุณาอัพโหลดหลักฐานการชำระเงินของคุณ',
+    'PaymentUploaded' => 'ทำการอัพโหลดหลักฐานการชำระเงินแล้ว',
 ];

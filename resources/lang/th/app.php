@@ -46,6 +46,7 @@ return [
     'CampApplicationForm' => 'ใบสมัครค่าย',
     'GotoCampHUB' => 'ไปที่ CampHUB.in.th',
     'NoPermissionError' => 'คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้',
+    'NoFileUploaded' => 'ไม่มีไฟล์ใดถูกอัพโหลด',
     'UnavailableFeature' => 'ฟังก์ชั่นนี้ไม่ได้เปิดให้คุณใช้งาน',
     'SearchCampByName' => 'ค้นหาชื่อค่าย',
     'Search' => 'ค้นหา',

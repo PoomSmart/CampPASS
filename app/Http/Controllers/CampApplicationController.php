@@ -265,6 +265,13 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
+    public function payment_upload(Request $request)
+    {
+        if (!$request->hasFile('payment'))
+            throw new \CampPASSExceptionNoFileUploaded();
+        return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
+    }
+
     public static function status(Registration $registration)
     {
         self::authenticate($registration->camp);

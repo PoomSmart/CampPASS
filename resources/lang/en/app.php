@@ -46,6 +46,7 @@ return [
     'CampApplicationForm' => 'Camp Application Form',
     'GotoCampHUB' => 'Go to CampHUB.in.th',
     'NoPermissionError' => "You don't have a permission to perform this operation or access this functionality.",
+    'NoFileUploaded' => 'No file was uploaded',
     'UnavailableFeature' => "This feature isn't available for you.",
     'SearchCampByName' => "Search camp name here",
     'Search' => 'Search',
