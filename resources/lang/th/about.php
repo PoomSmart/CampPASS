@@ -11,6 +11,8 @@ return [
     'ThatchaponU' => 'ธัชพล อั๋นประเสริฐ',
     'NutchaH' => 'นัชชา เหตระกูล',
 
+    'CreateCamp' => 'สร้างค่ายโดย CampPASS',
+
     'Term1Heading' => 'Term 1 Heading',
     'Term1Paragraph' => 'Term 1 Paragraph',
     'Term2Heading' => 'Term 2 Heading',

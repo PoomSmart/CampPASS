@@ -43,14 +43,13 @@ return [
     'N/A' => '-',
     'More' => 'ดูทั้งหมด',
     'SortedByTime' => 'เรียงตามเวลาสมัคร',
-    'Camp Application Form' => 'ใบสมัครค่าย',
+    'CampApplicationForm' => 'ใบสมัครค่าย',
     'GotoCampHUB' => 'ไปที่ CampHUB.in.th',
-
     'NoPermissionError' => 'คุณไม่มีสิทธิ์ในการเข้าถึงฟังก์ชั่นนี้',
     'UnavailableFeature' => 'ฟังก์ชั่นนี้ไม่ได้เปิดให้คุณใช้งาน',
     'SearchCampByName' => 'ค้นหาชื่อค่าย',
     'Search' => 'ค้นหา',
     'ClearFilters' => 'ล้างตัวคัดกรอง',
-
     'NoNotifications' => 'ไม่มีแจ้งเตือน',
+    'Download' => 'ดาวน์โหลด',
 ];

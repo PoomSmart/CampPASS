@@ -26,7 +26,7 @@ class CandidateController extends Controller
     public function data_export(QuestionSet $question_set)
     {
         $result = $this->result($question_set, $export = true);
-        return $result;
+        return view('qualification.data_export');
     }
 
     public function result(QuestionSet $question_set, bool $export = false)

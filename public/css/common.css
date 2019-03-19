@@ -163,3 +163,24 @@ a:hover {
 .text-truncate-450 {
   max-width: 450px !important;
 }
+
+.download-btn {
+  background-color: yellowgreen;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.download-btn:hover {
+  background-color: gray;
+}
+
+.fa-fr {
+  margin-right: 5px;
+}
+
+.fa-fl {
+  margin-left: 5px;
+}
