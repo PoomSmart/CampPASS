@@ -58,7 +58,7 @@
         </div>
         @component('components.submit', [
             'label' => trans('app.Download'),
-            'class' => 'download-btn w-100',
+            'class' => 'btn download-btn w-100',
             'glyph' => 'fa fa-download',
         ])
         @endcomponent
