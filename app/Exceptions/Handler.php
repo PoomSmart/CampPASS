@@ -52,6 +52,8 @@ class Handler extends ExceptionHandler
             return redirect('/')->with('error', $exception->getMessage());
         if ($exception instanceof \CampPASSExceptionRedirectBack)
             return redirect()->back()->with('error', $exception->getMessage());
+        if ($exception instanceof \CampPASSExceptionNoFileUploaded)
+            return redirect()->back()->with('error', trans('app.NoFileUploaded'));
         return parent::render($request, $exception);
     }
 }

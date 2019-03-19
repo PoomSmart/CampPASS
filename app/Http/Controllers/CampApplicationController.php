@@ -267,6 +267,8 @@ class CampApplicationController extends Controller
 
     public function payment_upload(Request $request)
     {
+        if (!$request->hasFile('payment'))
+            throw new \CampPASSExceptionNoFileUploaded();
         return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
     }
 
