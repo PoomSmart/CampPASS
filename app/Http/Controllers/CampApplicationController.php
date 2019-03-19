@@ -265,6 +265,11 @@ class CampApplicationController extends Controller
         return view('camp_application.done');
     }
 
+    public function payment_upload(Request $request)
+    {
+        return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
+    }
+
     public static function status(Registration $registration)
     {
         self::authenticate($registration->camp);

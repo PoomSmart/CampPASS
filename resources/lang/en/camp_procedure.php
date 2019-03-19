@@ -6,6 +6,7 @@ return [
     'InterviewTag' => 'Interview',
     'DepositTag' => 'Deposit',
     'QATag' => 'QA',
+    'ApplicationFeeTag' => 'Application Fee',
     'QA' => 'QA Only',
     'Deposit' => 'Deposit Only',
     'QA-Deposit' => 'QA and Deposit',

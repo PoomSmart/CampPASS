@@ -13,6 +13,8 @@ use App\Enums\ApplicationStatus;
 
 use App\Notifications\ApplicationStatusUpdated;
 
+use Chumper\Zipper\Zipper;
+
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
@@ -25,8 +27,13 @@ class CandidateController extends Controller
 
     public function data_download(Request $request, QuestionSet $question_set)
     {
+        $camp = $question_set->camp;
         $result = $this->result($question_set, $export = true);
-        return $result;
+        $download_path = public_path("{$camp}_data.zip");
+        $zipper = new Zipper;
+        $zipper->make($download_path);
+        $zipper->close();
+        return response()->download($download_path);
     }
 
     public function data_export_selection(QuestionSet $question_set)

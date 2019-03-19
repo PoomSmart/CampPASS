@@ -71,7 +71,7 @@
                 </div>
             @endif
 
-            @if ($camp_procedure->deposit_required)
+            @if ($camp->hasPayment())
                 <div class="col-md-4">
                     <img src="{{ asset('/images/placeholders/Status - Deposit.png') }}" alt="Deposit" class="pb-3 w-100">
                 </div>
@@ -85,7 +85,7 @@
                         @elseif ($registration->paid())
                             @if ($registration->returned)
                                 <p>@lang('registration.PleaseRecheckSlip')</p>
-                                @php $need_upload = true; @endphp
+                                @php $need_upload = true @endphp
                             @else
                                 <p>@lang('registration.SlipUploaded')</p>
                             @endif
@@ -101,7 +101,12 @@
                         @if (isset($need_upload) && $need_upload)
                             <p>@lang('registration.UploadPayment')</p>
                             <div class="mx-1">
-                                <a href="" class="btn btn-primary w-100 mb-4">Upload Payment Slip</a>
+                                <form action="{{ route('camp_application.payment_upload') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <label class="btn btn-primary w-100 mb-4">
+                                        @lang('registration.UploadPaymentSlip') <input type="file" name="payment" onchange="form.submit()" hidden>
+                                    </label>
+                                </form>
                             </div>
                         @else
                             <p>@lang('registration.AckSlip')</p>
@@ -118,7 +123,7 @@
             <h4 class="mb-4">@lang('status.Confirmation')</h4>
             @if ($registration->approved_to_confirmed()
                 && ($camp_procedure->interview_required ? $registration->interviewed() : true)
-                && ($camp_procedure->deposit_required ? $registration->paid() : true))
+                && ($camp->hasPayment() ? $registration->paid() : true))
                 <p>@lang('qualification.AttendanceConfirm', ['camp' => $camp])</p>
             @else
                 @php

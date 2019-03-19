@@ -65,6 +65,11 @@ class Common
         return "camps/{$camp_id}";
     }
 
+    public static function paymentDirectory(int $camp_id)
+    {
+        return self::campDirectory($camp_id).'/payments';
+    }
+
     public static function publicCampDirectory(int $camp_id)
     {
         return "public/camps/{$camp_id}";
@@ -77,12 +82,12 @@ class Common
 
     public static function fileDirectory(int $user_id)
     {
-        return self::userDirectory($user_id)."/files";
+        return self::userDirectory($user_id).'/files';
     }
 
     public static function registrationDirectory(int $camp_id)
     {
-        return self::campDirectory($camp_id)."/registrations";
+        return self::campDirectory($camp_id).'/registrations';
     }
 
     public static function randomString(int $length = 6)

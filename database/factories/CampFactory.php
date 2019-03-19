@@ -84,6 +84,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'event_end_date' => $event_end_date,
         'contact_campmaker' => $faker->address,
         'deposit' => $deposit,
+        'application_fee' => $deposit ? null : rand(100, 500),
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'backup_limit' => $camp_procedure->candidate_required ? 5 : null,
