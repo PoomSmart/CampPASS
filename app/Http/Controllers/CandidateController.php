@@ -20,15 +20,20 @@ class CandidateController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export']]);
+        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export', 'data_download']]);
     }
 
-    public function data_export(QuestionSet $question_set)
+    public function data_download(QuestionSet $question_set)
     {
-        // $result = $this->result($question_set, $export = true);
+        $result = $this->result($question_set, $export = true);
+        return $result;
+    }
+
+    public function data_export_selection(QuestionSet $question_set)
+    {
         $camp = $question_set->camp;
         $camp_procedure = $camp->camp_procedure;
-        return view('qualification.data_export', compact('camp', 'camp_procedure'));
+        return view('qualification.data_export_selection', compact('question_set', 'camp', 'camp_procedure'));
     }
 
     public function result(QuestionSet $question_set, bool $export = false)

@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-    @lang ('app.CampApplicationForm')
+    @lang('app.CampApplicationForm')
 @endsection
 
 @section('card_content')

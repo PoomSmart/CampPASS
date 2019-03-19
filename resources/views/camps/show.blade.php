@@ -21,10 +21,10 @@
             <p>{{ $camp->getShortDescription() }}</p>
         </div>
         <div class="col-12 col-md-6">
-            <h4>@lang ('camp.Details')</h4>
+            <h4>@lang('camp.Details')</h4>
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <h5>@lang ('camp.CampDate')</h5>
+                    <h5>@lang('camp.CampDate')</h5>
                     <p class="text-muted">{{ $camp->getEventStartDate() }} -<br>{{ $camp->getEventEndDate() }}</p>
                 </div>
                 <div class="col-12 col-md-6">
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <h4>@lang ('camp.Poster')</h4>
+            <h4>@lang('camp.Poster')</h4>
             <div class="text-center">
                 <img class="img-fluid" src="{{ $camp->getPosterPath($actual = false, $display = true) }}">
             </div>
