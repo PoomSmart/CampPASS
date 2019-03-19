@@ -64,7 +64,7 @@
                                         href="{{ route('qualification.form_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
-                                        ]) }}">@lang('qualification.ViewForm')</a>
+                                        ]) }}"><i class="fas fa-search mr-2 fa-xs"></i>@lang('qualification.ViewForm')</a>
                                 @endif
                             </td>
                         </tr>

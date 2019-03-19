@@ -90,11 +90,11 @@
                     @endcan
                 @endif
                 @can('camp-edit')
-                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}">@lang('app.Edit')</a>
+                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-2 fa-xs"></i>@lang('app.Edit')</a>
                 @endcan
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
-                        @lang('app.Delete')
+                        <i class="fas fa-trash-alt mr-2 fa-xs"></i>@lang('app.Delete')
                     </button>
                 @endcan
             </td>

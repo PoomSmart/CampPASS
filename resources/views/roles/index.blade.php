@@ -20,9 +20,9 @@
                     <th scope="row">{{ ++$i }}</th>
                     <th>{{ $role->name }}</th>
                     <td class="fit">
-                        <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">@lang('app.View')</a>
+                        <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}"><i class="far fa-eye mr-2 fa-xs"></i>@lang('app.View')</a>
                         @can('role-edit')
-                            <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">@lang('app.Edit')</a>
+                            <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}"><i class="fas fa-pencil-alt mr-2 fa-xs"></i>@lang('app.Edit')</a>
                         @endcan
                         @can('role-delete')
                             {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}

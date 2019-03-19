@@ -175,10 +175,10 @@
                 </div>
                 <div class="col-12 col-sm-6">
                     <ul class="list-unstyled list-inline social text-right">
-                        <i class="fab fa-twitter fa-fl"></i>
-                        <i class="fab fa-facebook-f fa-fl"></i>
+                        <a href="https://www.camphub.in.th/"<i class="fab fa-twitter ml-2"></i></a>
+                        <a href="https://www.camphub.in.th/"<i class="fab fa-facebook-f ml-2"></i></a>
                     </ul>
-                    <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane fa-fl"></i></a>
+                    <a class="btn btn-outline-light float-right" href="https://www.camphub.in.th/">@lang('app.GotoCampHUB') <i class="fas fa-paper-plane ml-2"></i></a>
                 </div>
             </div>
         </div>
