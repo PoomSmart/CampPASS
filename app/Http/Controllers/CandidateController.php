@@ -106,7 +106,7 @@ class CandidateController extends Controller
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
+            throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $form_scores = FormScore::where('question_set_id', $question_set->id);
         if ($form_scores->doesntExist()) {
             if ($list) return null;
@@ -222,7 +222,7 @@ class CandidateController extends Controller
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.CandidatesAnnounced'));
+            throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the threshold
         $no_passed = $no_checked = 0;
         $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);

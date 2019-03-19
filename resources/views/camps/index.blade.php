@@ -70,7 +70,7 @@
                 @endforeach
             </td>
             <td class="fit">
-                <label class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal">{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</label>
+                <label class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} mr-1 fa-xs"></i>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</label>
             </td>
             <td>
                 @if ($question_set)
