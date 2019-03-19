@@ -79,12 +79,12 @@
                     @endphp
                     <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
                         href="{{ $route }}"
-                    >{{ $apply_text }}</a>
+                    ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
                     @if ($camp->url)
-                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->url }}">@lang('camp.URL')</a>
+                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->url }}"><i class="fas fa-external-link-alt fa-xs mr-2"></i>@lang('camp.URL')</a>
                     @endif
                     @if ($camp->fburl)
-                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->fburl }}">@lang('camp.FBURL')</a>
+                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->fburl }}"><i class="fab fa-facebook fa-sm mr-2"></i>@lang('camp.FBURL')</a>
                     @endif
                 </div>
                 <div class="col-12">
