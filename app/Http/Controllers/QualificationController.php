@@ -163,7 +163,7 @@ class QualificationController extends Controller
         $form_score = $registration->form_score;
         View::share('registration', $registration);
         View::share('form_score', $form_score);
-        View::share('disabled', true);
+        View::share('fields_disabled', true);
         View::share('has_payment', $registration->camp->hasPayment());
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }

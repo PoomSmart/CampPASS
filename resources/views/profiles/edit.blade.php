@@ -1,5 +1,10 @@
 @extends('layouts.card')
 
+@php
+    $readonly = isset($fields_disabled) && $fields_disabled;
+    $not_readonly = !isset($fields_disabled) || isset($fields_disabled) && !$fields_disabled;
+@endphp
+
 @section('script')
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
@@ -9,7 +14,7 @@
             jQuery("input[name='blood_group'],input[name='gender']").attr("disabled", true);
         });
     </script>
-    @if (isset($disabled) && $disabled)
+    @if ($readonly)
         <script>
             jQuery(document).ready(function () {
                 jQuery("input:not(#transcript):not(#certificate)").attr("disabled", true);
@@ -20,6 +25,18 @@
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
 @endsection
+
+@if ($readonly)
+    @component('components.dialog', [
+        'confirm_type' => 'warning',
+        'confirm_label' => trans('qualification.ReturnForm'),
+        'title' => trans('qualification.ReturnFormTitle'),
+    ])
+    @slot('custom_body')
+        <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
+    @endslot
+    @endcomponent
+@endif
 
 @section('card_content')
     <form id="form" method="POST" action="{{ route('profiles.update', $user) }}" enctype="multipart/form-data">
@@ -33,7 +50,7 @@
                     <div class="container-fluid no-gutters text-center p-lg-4">
                         <img id="profile-preview" class="rounded-circle img-fluid w-100" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}"/>
                     </div>
-                    @if (!isset($disabled) || isset($disabled) && !$disabled)
+                    @if ($not_readonly)
                         @component('components.profile_upload', [
                             'value' => trans('app.View'),
                             'args' => [
@@ -61,7 +78,7 @@
                     'type' => $type,
                     'update' => 1,
                 ])
-                @if (!isset($disabled) || isset($disabled) && !$disabled)
+                @if ($not_readonly)
                     <div class="text-center mt-4">
                         @component('components.submit', [
                             'label' => trans('app.Update'),
@@ -79,7 +96,9 @@
                             @endif
                             @if (!$registration->confirmed() && !$registration->withdrawed())
                                 <a href="#" class="btn btn-success" title={{ trans('qualification.ApproveFormFull') }}>@lang('qualification.ApproveForm')</a>
-                                <a href="{{ route('qualification.form_return', $form_score->id) }}" class="btn btn-warning" title={{ trans('qualification.ReturnFormFull') }}>@lang('qualification.ReturnForm')</a>
+                                <button type="button" class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}" data-action="{{ route('qualification.form_return', $form_score->id) }}" data-toggle="modal" data-target="#modal">
+                                    <i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')
+                                </button>
                             @endif
                         </div>
                     @endif

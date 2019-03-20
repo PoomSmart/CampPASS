@@ -8,17 +8,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>{{ $body }}</p>
+                @if (isset($custom_body))
+                    {{ $custom_body }}
+                @elseif (isset($body))
+                    <p>{{ $body }}</p>
+                @endif
             </div>
             <div class="modal-footer">
-                <form id="confirm-form" action="" method="POST">
+                <form id="confirm-form" class="mb-0" action="" method="POST">
                     @csrf
                     @if (isset($method) && $method == 'DELETE')
                         @method('DELETE')
                     @endif
-                    <button type="submit" class="btn btn-{{ isset($confirm_type) ? $confirm_type : 'primary' }}">{{ isset($confirm_label) ? $confirm_label : trans('app.Confirm') }}</button>
+                    @component('components.submit', [
+                        'label' => isset($confirm_label) ? $confirm_label : trans('app.Confirm'),
+                        'class' => 'btn btn-'.(isset($confirm_type) ? $confirm_type : 'primary'),
+                        'glyph' => 'fas fa-undo fa-xs',
+                    ])
+                    @endcomponent
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2 fa-xs"></i>@lang('app.Close')
+                    </button>
                 </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('app.Close')</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<button type="submit" class="{{ isset($class) ? $class : 'btn btn-primary' }}"
+<button type="submit" id="submit" class="{{ isset($class) ? $class : 'btn btn-primary' }}"
     @if (isset($disabled) && $disabled)
         disabled
     @endif
