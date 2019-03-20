@@ -183,19 +183,19 @@
                     ])
                     @endcomponent
                 </div>
-                <h4 class="col-12 mt-2">@lang('profile.StudentCertificate')</h4>
+                <h4 class="col-12 mt-2">@lang('profile.StudentConfirmationLetter')</h4>
                 <div class="col-12">
                     @component('components.file_upload', [
                         'value' => trans('app.View'),
                         'args' => [
                             'user' => auth()->user()->id,
-                            'type' => 'certificate',
+                            'type' => 'confirmationletter',
                         ],
                         'upload' => !$disabled,
                         'download_route' => 'camp_application.document_download',
                         'delete_route' => $disabled ? null : 'camp_application.document_delete',
                         'full_width' => 1,
-                        'name' => 'certificate',
+                        'name' => 'confirmationletter',
                     ])
                     @endcomponent
                 </div>

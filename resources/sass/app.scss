@@ -11,23 +11,6 @@ $main_color: #FB6B0A;
   @include button-variant($main_color, darken($main_color, 7.5%), darken($main_color, 10%), lighten($main_color,5%), lighten($main_color, 10%), darken($main_color,20%));
 }
 
-.btn-outline-primary {
-  @include button-outline-variant($main_color, darken($main_color,4%), lighten($main_color,5%), $main_color);
-}
-
-.download-btn {
-  background-color: yellowgreen;
-  border: none;
-  color: white;
-  padding: 12px 30px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.download-btn:hover {
-  background-color: gray;
-}
-
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

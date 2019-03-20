@@ -31,6 +31,7 @@ html {
 #side .nav-link.active, #side .nav-link:hover, #side .nav-link:focus {
   color: #111;
   background-color: lightsalmon;
+
 }
 
 h1, h2, h3, h4 {
@@ -167,15 +168,12 @@ a:hover {
   max-width: 450px !important;
 }
 
-.download-btn {
-  background-color: yellowgreen;
-  border: none;
+.btn-fb {
+  background-color: #3B5998;
   color: white;
-  padding: 12px 30px;
-  cursor: pointer;
-  font-size: 20px;
 }
 
-.download-btn:hover {
-  background-color: gray;
+.btn-fb:hover {
+  color: white;
+  background-color: rgb(47, 70, 119); 
 }
