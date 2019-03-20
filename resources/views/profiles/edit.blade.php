@@ -17,28 +17,45 @@
     @if ($readonly)
         <script>
             jQuery(document).ready(function () {
-                jQuery("input:not(#transcript):not(#certificate)").attr("disabled", true);
+                jQuery("#form").find("input,select").attr("disabled", true);
                 jQuery("label").removeAttr("required");
             });
         </script>
+        <script src="{{ asset('js/modal.js') }}"></script>
     @else
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
 @endsection
 
-@if ($readonly)
-    @component('components.dialog', [
-        'confirm_type' => 'warning',
-        'confirm_label' => trans('qualification.ReturnForm'),
-        'title' => trans('qualification.ReturnFormTitle'),
-    ])
-    @slot('custom_body')
-        <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
-    @endslot
-    @endcomponent
-@endif
-
 @section('card_content')
+    @if ($readonly)
+        @component('components.dialog', [
+            'confirm_type' => 'warning',
+            'confirm_label' => trans('qualification.ReturnForm'),
+            'title' => trans('qualification.ReturnFormTitle'),
+        ])
+        @slot('custom_body')
+            <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
+            @component('components.radio', [
+                'name' => 'reasons',
+                'type' => 'checkbox',
+                'object' => null,
+                'objects' => $return_reasons,
+                'required' => 1,
+                'idx' => 1,
+                'radio_class' => 'w-100',
+            ])
+            @endcomponent
+            @component('components.input', [
+                'name' => 'remark',
+                'label' => trans('qualification.Remark'),
+                'textarea' => 1,
+                'class' => 'h-auto',
+            ])
+            @endcomponent
+        @endslot
+        @endcomponent
+    @endif
     <form id="form" method="POST" action="{{ route('profiles.update', $user) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')

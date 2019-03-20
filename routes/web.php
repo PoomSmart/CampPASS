@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/data-export-selection/{question_set}', 'CandidateController@data_export_selection')->name('qualification.data_export_selection');
         Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
-        Route::get('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');
+        Route::post('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');

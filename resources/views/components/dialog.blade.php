@@ -7,19 +7,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                @if (isset($custom_body))
-                    {{ $custom_body }}
-                @elseif (isset($body))
-                    <p>{{ $body }}</p>
+            <form id="confirm-form" class="mb-0" action="" method="POST">
+                @csrf
+                @if (isset($method) && $method == 'DELETE')
+                    @method('DELETE')
                 @endif
-            </div>
-            <div class="modal-footer">
-                <form id="confirm-form" class="mb-0" action="" method="POST">
-                    @csrf
-                    @if (isset($method) && $method == 'DELETE')
-                        @method('DELETE')
+                <div class="modal-body">
+                    @if (isset($custom_body))
+                        {{ $custom_body }}
+                    @elseif (isset($body))
+                        <p>{{ $body }}</p>
                     @endif
+                </div>
+                <div class="modal-footer">
                     @component('components.submit', [
                         'label' => isset($confirm_label) ? $confirm_label : trans('app.Confirm'),
                         'class' => 'btn btn-'.(isset($confirm_type) ? $confirm_type : 'primary'),
@@ -29,8 +29,8 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         <i class="fas fa-times mr-2 fa-xs"></i>@lang('app.Close')
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -9,7 +9,6 @@ use App\CampProcedure;
 use App\Common;
 use App\FormScore;
 use App\User;
-use App\PaymentSlip;
 use App\Program;
 use App\Registration;
 use App\Region;
@@ -256,7 +255,6 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('registrations');
         $registrations = [];
         $form_scores = [];
-        $payments = [];
         $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
@@ -296,9 +294,6 @@ class DatabaseSeeder extends Seeder
                         $camp_maker_notifications[$camp->id] = [];
                     $camp_maker_notifications[$camp->id][] = $registration_id;
                     if ($camp->hasPayment()) {
-                        $payments[] = [
-                            'registration_id' => $registration_id,
-                        ];
                         $payment_directory = Common::paymentDirectory($camp->id);
                         Storage::disk('local')->putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
                     }
@@ -500,8 +495,6 @@ class DatabaseSeeder extends Seeder
         }
         if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
             $manual_grade_question_set_ids[] = $question_set_id;
-        foreach (array_chunk($payments, 1000) as $chunk)
-            PaymentSlip::insert($chunk);
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);
         unset($questions);

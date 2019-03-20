@@ -165,11 +165,23 @@ class QualificationController extends Controller
         View::share('form_score', $form_score);
         View::share('fields_disabled', true);
         View::share('has_payment', $registration->camp->hasPayment());
+        View::share('return_reasons', [
+            'payment' => trans('qualification.PaymentSlipIssue'),
+            'document' => trans('qualification.StudentDocumentIssue'),
+            'profile' => trans('qualification.ProfileIssue'),
+        ]);
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }
 
-    public function form_return(FormScore $form_score)
+    public function form_return(Request $request, FormScore $form_score)
     {
+        $this->validate($request, [
+            'reasons' => 'min:1',
+            'reasons.*' => 'in:payment,document,profile',
+            'remark' => 'nullable|string',
+        ]);
+        $reasons = $request->reasons;
+        // TODO: Notify the camper
         $registration = $form_score->registration;
         $form_score->update([
             'checked' => false,
@@ -177,7 +189,7 @@ class QualificationController extends Controller
         $registration->update([
             'returned' => true,
         ]);
-        return redirect()->back()->with('success', trans('qualification.FormReturned', [ 'candidate' => $registration->camper ]));
+        return redirect()->back()->with('info', trans('qualification.FormReturned', [ 'candidate' => $registration->camper ]));
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)
