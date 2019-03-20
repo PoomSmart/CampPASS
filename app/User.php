@@ -148,9 +148,6 @@ class User extends Authenticatable
      * If campers, return all the camps that they registered.
      * If camp makers, return all the camps that they can manage.
      *
-     * @return Collection
-     * @return Builder
-     *
      */
     public function getBelongingCamps($status = null)
     {
@@ -177,6 +174,24 @@ class User extends Authenticatable
         return $value;
     }
 
+    public function region()
+    {
+        $prefix = (int)substr($this->zipcode, 0, 2);
+        if (in_array($prefix, Common::$west_region))
+            return Region::where('short_name', 'W')->limit(1)->first();
+        if (in_array($prefix, Common::$east_region))
+            return Region::where('short_name', 'E')->limit(1)->first();
+        if (in_array($prefix, Common::$north_region))
+            return Region::where('short_name', 'N')->limit(1)->first();
+        if (in_array($prefix, Common::$south_region))
+            return Region::where('short_name', 'S')->limit(1)->first();
+        if (in_array($prefix, Common::$central_region))
+            return Region::where('short_name', 'C')->limit(1)->first();
+        if (in_array($prefix, Common::$northeast_region))
+            return Region::where('short_name', 'NE')->limit(1)->first();
+        return null;
+    }
+
     private static $education_level_to_year = [ 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
 
     /**
@@ -201,7 +216,8 @@ class User extends Authenticatable
         if ($camp->min_cgpa > $this->cgpa)
             return trans('registration.NotEnoughCGPA'.$suffix);
         // Campers outside of the specified regions cannot participate
-        if (!in_array($this->region_id, $camp->acceptable_regions))
+        $region = $this->region();
+        if ($region && !in_array($region->id, $camp->acceptable_regions))
             return trans('registration.NotInRequiredRegions'.$suffix);
         if (Carbon::now()->diffInDays(Carbon::parse($camp->app_close_date)) < 0)
             return trans('registration.LateApplication'.$suffix);

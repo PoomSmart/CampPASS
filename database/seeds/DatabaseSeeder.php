@@ -267,6 +267,7 @@ class DatabaseSeeder extends Seeder
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
+                    logger()->debug("Camp Eligibility Checking: {$e}");
                     return false;
                 }
                 return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
