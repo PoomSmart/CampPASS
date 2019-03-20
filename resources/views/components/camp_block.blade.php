@@ -22,7 +22,7 @@
                     @auth
                         target="_blank"
                     @endauth
-                    class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}">{{ $apply_text }}</a>
+                    class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}"><i class="far fa-file-alt mr-2 fa-xs"></i>{{ $apply_text }}</a>
             @endif
             @php
                 $close_date = $object->getCloseDateHuman();
