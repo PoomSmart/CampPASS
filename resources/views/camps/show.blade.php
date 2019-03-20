@@ -71,15 +71,17 @@
                             <a class="btn btn-warning w-100 mb-3" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check"></i>@lang('app.Approve')</a>
                         @endcan
                     @endif
-                    @php
-                        $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
-                        $apply_text = $info['text'];
-                        $disabled = $info['disabled'];
-                        $route = $info['route'];
-                    @endphp
-                    <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
-                        href="{{ $route }}"
-                    ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
+                    @role('camper')
+                        @php
+                            $info = \App\Http\Controllers\CampApplicationController::getApplyButtonInformation($camp);
+                            $apply_text = $info['text'];
+                            $disabled = $info['disabled'];
+                            $route = $info['route'];
+                        @endphp
+                        <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
+                            href="{{ $route }}"
+                        ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
+                    @endrole
                     @if ($camp->url)
                         <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->url }}"><i class="fas fa-external-link-alt fa-xs mr-2"></i>@lang('camp.URL')</a>
                     @endif
