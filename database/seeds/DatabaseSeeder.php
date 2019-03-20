@@ -547,7 +547,10 @@ class DatabaseSeeder extends Seeder
                         foreach ($camp->registrations->all() as $registration) {
                             if (Common::randomRareHit())
                                 continue;
-                            CampApplicationController::confirm($registration, $void = true);
+                            if (Common::randomVeryFrequentHit())
+                                CampApplicationController::confirm($registration, $void = true);
+                            else
+                                CampApplicationController::withdraw($registration, $void = true);
                         }
                     }
                 }

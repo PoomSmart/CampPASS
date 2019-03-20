@@ -17,6 +17,8 @@ class ApplicationStatusUpdated extends LocalizableNotification
 
     public function toText(Registration $registration)
     {
+        if ($registration->returned)
+            return trans('qualification.ApplicationFormReturned', ['camp' => $registration->camp]);
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
             case ApplicationStatus::APPROVED:

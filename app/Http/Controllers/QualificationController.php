@@ -12,6 +12,8 @@ use App\QuestionManager;
 
 use App\Enums\QuestionType;
 
+use App\Notifications\ApplicationStatusUpdated;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -181,7 +183,6 @@ class QualificationController extends Controller
             'remark' => 'nullable|string',
         ]);
         $reasons = $request->reasons;
-        // TODO: Notify the camper
         $registration = $form_score->registration;
         $form_score->update([
             'checked' => false,
@@ -189,7 +190,9 @@ class QualificationController extends Controller
         $registration->update([
             'returned' => true,
         ]);
-        return redirect()->back()->with('info', trans('qualification.FormReturned', [ 'candidate' => $registration->camper ]));
+        $candidate = $registration->camper;
+        $candidate->notify(new ApplicationStatusUpdated($registration));
+        return redirect()->back()->with('info', trans('qualification.FormReturned', [ 'candidate' => $candidate ]));
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)

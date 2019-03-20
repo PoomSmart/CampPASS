@@ -351,11 +351,11 @@ class CampApplicationController extends Controller
             return redirect()->back()->with('success', trans('message.FullyQualified', ['camp' => $camp]));
     }
 
-    public static function withdraw(Registration $registration)
+    public static function withdraw(Registration $registration, bool $void = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp);
-        self::authenticate_registration($registration);
+        self::authenticate($camp, $silent = $void);
+        self::authenticate_registration($registration, $silent = $void);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
@@ -367,7 +367,8 @@ class CampApplicationController extends Controller
         $registration->form_score->update([
             'passed' => false,
         ]);
-        return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
+        if (!$void)
+            return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
     public function canAccessAnswer(Answer $answer)
