@@ -364,9 +364,12 @@ class CampApplicationController extends Controller
             'status' => ApplicationStatus::WITHDRAWED,
         ]);
         // The corresponding registration record will be automatically marked as not passed, as they lost their chance to join the camp
-        $registration->form_score->update([
-            'passed' => false,
-        ]);
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'passed' => false,
+            ]);
+        }
         if (!$void)
             return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
