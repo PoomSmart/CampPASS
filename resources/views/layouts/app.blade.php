@@ -49,7 +49,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('camps.browser') }}">@lang('camp.BrowseCamps')</a>
@@ -67,7 +66,6 @@
                                 <a class="nav-link" href="{{ route('roles.index') }}">@lang('account.ManageRoles')</a>
                             </li>
                         @endif
-                        <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">@lang('app.Login')</a>
@@ -88,7 +86,9 @@
                                     {{ auth()->user()->getFullName() }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
+                                    @if (!auth()->user()->isAdmin())
+                                        <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

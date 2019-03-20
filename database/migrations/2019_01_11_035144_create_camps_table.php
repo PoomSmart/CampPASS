@@ -51,6 +51,7 @@ class CreateCampsTable extends Migration
             $table->smallInteger('quota')->unsigned()->nullable();
             $table->tinyInteger('backup_limit')->unsigned()->nullable();
             $table->text('contact_campmaker')->nullable();
+            $table->string('account_no')->nullable();
             $table->boolean('approved')->default(false); // every camp needs approval
             $table->timestamps();
         });

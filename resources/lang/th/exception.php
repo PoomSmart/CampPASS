@@ -5,7 +5,7 @@ return [
     'AlreadyAppliedCamp' => 'คุณได้สมัครเข้าค่ายนี้ไปแล้ว',
     'NoQuestion' => 'ไม่มีคำถามในหน้านี้',
     'NoAnswer' => 'คุณยังไม่ได้ตอบคำถาม',
-    'ConfirmedAttending' => 'คุณยืนยันที่จะเข้าร่วม :camp.',
+    'AlreadyConfirmed' => 'คุณยืนยันที่จะเข้าร่วม :camp.',
     'AlreadyWithdrawed' => "คุณสละสิทธิ์ค่าย :camp แล้ว",
     'WithdrawedFrom' => 'คุณสละสิทธิ์ค่าย :camp.',
     'WithdrawAttendance' => 'คุณไม่สามารถสละสิทธิ์ค่ายที่คุณยืนยันที่จะเข้าร่วม',

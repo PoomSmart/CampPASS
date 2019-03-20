@@ -17,7 +17,6 @@ class CreatePaymentSlipsTable extends Migration
             $table->increments('id');
             $table->integer('registration_id')->unsigned();
             $table->foreign('registration_id')->references('id')->on('registrations');
-            $table->string('account_no');
             $table->boolean('rejected')->default(false);
             $table->timestamps();
         });

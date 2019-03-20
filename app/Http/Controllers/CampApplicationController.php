@@ -328,10 +328,11 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp, $silent = $void);
         self::authenticate_registration($registration, $silent = $void);
+        // Campers who withdrawed from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
         if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.ConfirmedAttending', ['camp' => $camp]));
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyConfirmed', ['camp' => $camp]));
         if ($camp->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($camp->confirmation_date)) < 0) {
             $form_score = $registration->form_score;
             $prevent = true;

@@ -9,6 +9,7 @@ use App\CampProcedure;
 use App\Common;
 use App\FormScore;
 use App\User;
+use App\PaymentSlip;
 use App\Program;
 use App\Registration;
 use App\Region;
@@ -36,6 +37,7 @@ use App\Enums\ApplicationStatus;
 
 use Spatie\Permission\Models\Role;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -254,9 +256,11 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('registrations');
         $registrations = [];
         $form_scores = [];
+        $payments = [];
         $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
+        $dummy_payment = UploadedFile::fake()->create('dummy.pdf', 100);
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
@@ -270,14 +274,14 @@ class DatabaseSeeder extends Seeder
                 return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
             }) as $camp) {
                 $done = true;
-                if (Common::randomFrequentHit()) // Say some campers have yet to apply for some camps
+                if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
                     $status = Common::randomFrequentHit() ? ApplicationStatus::CONFIRMED : ApplicationStatus::DRAFT;
                 else if ($camp_procedure->deposit_required && !$camp_procedure->candidate_required) // Deposit Only
-                    $status = ApplicationStatus::CHOSEN; // TODO: We have yet to seed payment slips
+                    $status = ApplicationStatus::CHOSEN;
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 ++$registration_id;
@@ -291,6 +295,13 @@ class DatabaseSeeder extends Seeder
                     if (!isset($camp_maker_notifications[$camp->id]))
                         $camp_maker_notifications[$camp->id] = [];
                     $camp_maker_notifications[$camp->id][] = $registration_id;
+                    if ($camp->hasPayment()) {
+                        $payments[] = [
+                            'registration_id' => $registration_id,
+                        ];
+                        $payment_directory = Common::paymentDirectory($camp->id);
+                        Storage::disk('local')->putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
+                    }
                 }
                 // Camps with registrations must obviously be approved first
                 if (!$camp->approved) {
@@ -489,6 +500,8 @@ class DatabaseSeeder extends Seeder
         }
         if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
             $manual_grade_question_set_ids[] = $question_set_id;
+        foreach (array_chunk($payments, 1000) as $chunk)
+            PaymentSlip::insert($chunk);
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);
         unset($questions);

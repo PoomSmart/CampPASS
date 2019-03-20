@@ -5,7 +5,7 @@ return [
     'AlreadyAppliedCamp' => 'You already have applied for this camp.',
     'NoQuestion' => 'There are no questions in here.',
     'NoAnswer' => 'You have not answered anything.',
-    'ConfirmedAttending' => 'You already confirmed attending :camp.',
+    'AlreadyConfirmed' => 'You already confirmed attending :camp.',
     'AlreadyWithdrawed' => "You already withdrawed from :camp.",
     'WithdrawedFrom' => 'You withdrawed from :camp.',
     'WithdrawAttendance' => 'You cannot withdraw the camp you already confirmed the attendance.',

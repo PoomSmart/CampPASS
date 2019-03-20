@@ -48,6 +48,8 @@ $factory->define(App\Camp::class, function (Faker $faker) {
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
     $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;
+    $application_fee = $deposit ? null : Common::randomMediumHit() ? rand(100, 500) : null;
+    $has_payment = $deposit || $application_fee;
     $announcement_date = $camp_procedure->candidate_required ? Camp_Randomizer::date_range_forward($faker, $app_close_date, '+2 months') : null;
     $interview_date = $camp_procedure->interview_required && $announcement_date ? Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks') : null;
     $confirmation_date = null;
@@ -84,7 +86,8 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'event_end_date' => $event_end_date,
         'contact_campmaker' => $faker->address,
         'deposit' => $deposit,
-        'application_fee' => $deposit ? null : rand(100, 500),
+        'application_fee' => $application_fee,
+        'account_no' => $has_payment ? $faker->unique()->bankAccountNumber : null,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'backup_limit' => $camp_procedure->candidate_required ? 5 : null,

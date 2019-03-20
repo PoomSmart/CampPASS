@@ -148,6 +148,10 @@ a:hover {
   text-decoration: none;
 }
 
+.table {
+  max-width: 100% !important;
+}
+
 .table td, .table th {
   vertical-align: middle !important;
   padding-top: 0.35rem !important;

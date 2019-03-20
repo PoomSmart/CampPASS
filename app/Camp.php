@@ -26,7 +26,7 @@ class Camp extends Model
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
         'acceptable_regions', 'acceptable_years', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
         'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
-        'interview_date', 'interview_information',
+        'interview_date', 'interview_information', 'account_no',
         'event_location_lat', 'event_location_long',
         'banner', 'poster',
         'quota', 'contact_campmaker', 'backup_limit', 'approved',
