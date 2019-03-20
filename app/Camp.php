@@ -177,12 +177,12 @@ class Camp extends Model
     }
 
     /**
-     * Check if the number of registered and approved campers exceeds the quota.
+     * Check if the number of applied campers exceeds the quota.
      *
      */
     public function isFull()
     {
-        return $this->quota && $this->campers(ApplicationStatus::APPROVED, $higher = true)->count() >= $this->quota;
+        return $this->quota && $this->campers(ApplicationStatus::APPLIED, $higher = true)->count() >= $this->quota;
     }
 
     public function getTags()
