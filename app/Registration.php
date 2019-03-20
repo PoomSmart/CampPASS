@@ -8,7 +8,6 @@ use App\Camp;
 use App\Candidate;
 use App\Certificate;
 use App\FormScore;
-use App\PaymentSlip;
 
 use App\Enums\ApplicationStatus;
 
@@ -43,11 +42,6 @@ class Registration extends Model
     public function certificate()
     {
         return $this->hasOne(Certificate::class);
-    }
-
-    public function payment_slips()
-    {
-        return $this->hasMany(PaymentSlip::class);
     }
 
     public function answers()
