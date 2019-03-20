@@ -20,9 +20,9 @@ class UserRegisteredSuccessfully extends LocalizableNotification
 
         return (new MailMessage)
                     ->from(env('ADMIN_MAIL'))
-                    ->subject(trans('message.SuccessfullyNewAccount'))
+                    ->subject(trans('account.SuccessfullyCreatedAccountTitle'))
                     ->greeting(sprintf(trans('message.Hello %s', $user->getFullName())))
-                    ->line(trans('message.SuccessfulRegisterActivateAccount'))
+                    ->line(trans('account.NewAccountCreated'))
                     ->action(trans('message.Click Here', route('activate.user', $user->activation_code)))
                     ->line(trans('message.ThankYouUsing'));
     }

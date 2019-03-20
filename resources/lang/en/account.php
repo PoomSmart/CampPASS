@@ -27,6 +27,9 @@ return [
     'RequestVerifyLink' => 'click here to request another',
     'SentPasswordLink' => 'Sent password link',
     'ResetPasswordInfo' => "Enter your email and we'll email you a link to change your password.",
+    'NewAccountCreated' => 'Successfully created a new account. Please check your email and activate your account.',
+    'UserSuccessActivation' => 'User created successfully. Activation awaits.',
+    'SuccessfullyCreatedAccountTitle' => 'Successfully created new account',
 
     'Camper' => 'Camper',
     'camper' => 'camper',

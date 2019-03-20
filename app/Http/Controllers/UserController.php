@@ -51,7 +51,7 @@ class UserController extends Controller
             logger()->error($exception);
             return redirect()->route('users.index');
         }
-        return redirect()->route('users.index')->with('message', trans('message.UserSuccessActivation'));
+        return redirect()->route('users.index')->with('success', trans('account.UserSuccessActivation'));
     }
 
     public function show(User $user)

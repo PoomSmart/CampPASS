@@ -23,4 +23,6 @@ return [
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
     'Title' => 'Title',
+    'QuestionsSaved' => 'Questions are saved successfully.',
+    'ScoreThresholdChanged' => 'Score threshold has been changed.',
 ];

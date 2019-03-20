@@ -135,7 +135,7 @@ class RegisterController extends Controller
             logger()->error($exception);
             throw new \CampPASSException($exception->getMessage());
         }
-        return redirect()->back()->with('message', trans ('message.NewAccountCreated'));
+        return redirect()->back()->with('success', trans ('account.NewAccountCreated'));
     }
 
     /**

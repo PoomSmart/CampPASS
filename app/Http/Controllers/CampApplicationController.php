@@ -348,7 +348,7 @@ class CampApplicationController extends Controller
         ]);
         BadgeController::addBadgeIfNeeded($registration);
         if (!$void)
-            return redirect()->back()->with('success', trans('message.FullyQualified', ['camp' => $camp]));
+            return redirect()->back()->with('success', trans('qualification.FullyQualified', ['camp' => $camp]));
     }
 
     public static function withdraw(Registration $registration, bool $void = false)
@@ -404,12 +404,7 @@ class CampApplicationController extends Controller
      */
     public function answer_file_download(Answer $answer)
     {
-        $filepath = $this->get_answer_file_path($answer);
-        try {
-            return Storage::download($filepath);
-        } catch (\Exception $e) {
-            throw new \CampPASSExceptionRedirectBack(trans('exception.FileNotFound'));
-        }
+        return Common::downloadFile($this->get_answer_file_path($answer));
     }
 
     /**
@@ -421,10 +416,7 @@ class CampApplicationController extends Controller
         if (!auth()->user()->can('answer-delete'))
             throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
         $filepath = $this->get_answer_file_path($answer);
-        if (!$filepath)
-            return redirect()->back()->with('error', 'message.ErrorDelete');
-        Storage::disk('local')->delete($filepath);
         $answer->delete();
-        return redirect()->back()->with('success', 'message.SuccessDelete');
+        return Common::deleteFile($filepath);
     }
 }

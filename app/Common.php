@@ -116,9 +116,10 @@ class Common
 
     public static function deleteFile($path, $filename = null)
     {
-        if (!$filename) $filename = trans('app.SpecifiedDocument');
-        if (!Storage::disk('local')->delete($path))
+        if (!$path || !Storage::disk('local')->delete($path)) {
+            if (!$filename) $filename = trans('app.SpecifiedDocument');
             throw new \CampPASSExceptionRedirectBack(trans('app.FileNotRemoved', ['filename' => $filename]));
+        }
         return redirect()->back()->with('success', trans('app.FileRemoved'). ['filename' => $filename]);
     }
 

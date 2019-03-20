@@ -50,5 +50,6 @@ return [
     'Documents' => 'รายการเอกสาร',
     'Checkbox' => 'เลือก',
     'CandidatesAnnounced' => 'ประกาศผู้ผ่านการคัดเลือกของค่ายนี้แล้ว',
-    'DownloadData' => 'ดาวน์โหลดเอกสาร'
+    'DownloadData' => 'ดาวน์โหลดเอกสาร',
+    'FullyQualified' => 'คุณมีสิทธิ์เข้าค่าย :camp',
 ];

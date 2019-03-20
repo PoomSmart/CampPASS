@@ -31,8 +31,8 @@ class QuestionSetController extends Controller
         $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('score_threshold'));
         $this->question_set_auto_ranked($question_set);
         if (!$question_set->finalized)
-            return redirect()->back()->with('success', trans('message.QuestionsSaved'));
-        return redirect()->back()->with('success', trans('message.ScoreThresholdChanged'));
+            return redirect()->back()->with('success', trans('question.QuestionsSaved'));
+        return redirect()->back()->with('success', trans('question.ScoreThresholdChanged'));
     }
 
     public function show(Camp $camp)

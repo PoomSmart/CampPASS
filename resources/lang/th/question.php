@@ -23,4 +23,6 @@ return [
     'Finalize' => 'ยืนยันความถูกต้อง',
     'Finalized' => 'ยืนยันความถูกต้องแล้ว',
     'Title' => 'หัวข้อ',
+    'QuestionsSaved' => 'คำถามถูกบันทึกแล้ว',
+    'ScoreThresholdChanged' => 'เกณฑ์คะแนนใหม่ถูกบันทึกแล้ว',
 ];

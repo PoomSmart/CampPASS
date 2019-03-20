@@ -50,5 +50,6 @@ return [
     'Documents' => 'Document',
     'Checkbox' => 'Checkbox',
     'CandidatesAnnounced' => 'Candidates for this camp are already announced.',
-    'DownloadData' => 'Download All Documents'
+    'DownloadData' => 'Download All Documents',
+    'FullyQualified' => 'You are fully qualified for :camp',
 ];

@@ -27,6 +27,9 @@ return [
     'RequestVerifyLink' => 'คลิกที่นี่เพื่อรับอีเมลการยืนยันตัวตนใหม่',
     'SentPasswordLink' => 'ส่งลิงก์',
     'ResetPasswordInfo' => "เราจะทำการส่งลิงก์สำหรับเปลี่ยนรหัสผ่านไปที่ที่อยู่อีเมลของคุณ",
+    'NewAccountCreated' => 'Successfully created a new account. Please check your email and activate your account.',
+    'UserSuccessActivation' => 'User created successfully. Activation awaits.',
+    'SuccessfullyCreatedAccountTitle' => 'Successfully created new account',
 
     'Camper' => 'ผู้สมัครค่าย',
     'camper' => 'ผู้สมัครค่าย',
