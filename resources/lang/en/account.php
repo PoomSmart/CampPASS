@@ -25,7 +25,8 @@ return [
     'VerificationLinkSent' => 'A fresh verification link has been sent to your email address.',
     'IfNotReceiveEmail' => 'If you did not receive the email',
     'RequestVerifyLink' => 'click here to request another',
-    'SendPasswordResetLink' => 'Send Password Reset Link',
+    'SentPasswordLink' => 'Sent password link',
+    'ResetPasswordInfo' => "Enter your email and we'll email you a link to change your password.",
 
     'Camper' => 'Camper',
     'camper' => 'camper',

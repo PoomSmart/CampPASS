@@ -16,11 +16,13 @@
             'label' => trans('account.Email'),
             'type' => 'email',
             'required' => 1,
+            'placeholder' => trans('account.Email')
         ])
         @endcomponent
+        <p class="text-center text-muted mb-0">@lang('account.ResetPasswordInfo')</p>
         <div class="text-center mt-2">
             @component('components.submit', [
-                'label' => trans('account.SendPasswordResetLink'),
+                'label' => trans('account.SentPasswordLink'),
             ])
             @endcomponent
         </div>
