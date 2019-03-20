@@ -72,8 +72,8 @@ class ProfileController extends Controller
         $directory = Common::fileDirectory($user->id);
         if ($request->hasFile('transcript'))
             Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
-        if ($request->hasFile('confirmationletter'))
-            Storage::disk('local')->putFileAs($directory, $request->file('confirmationletter'), 'confirmationletter.pdf');
+        if ($request->hasFile('confirmation_letter'))
+            Storage::disk('local')->putFileAs($directory, $request->file('confirmation_letter'), 'confirmation_letter.pdf');
         if ($request->hasFile('profile')) {
             $name = "profile.{$request->profile->getClientOriginalExtension()}";
             $user->update([

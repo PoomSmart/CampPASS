@@ -49,7 +49,7 @@
                 <p>@lang('profile.Transcript')</p>
             </div>
             <div class="col-4 text-center mb-3">
-                <input type="checkbox" name="confirmationletter">
+                <input type="checkbox" name="confirmation_letter">
             </div>
             <div class="col-8 text-left">
                 <p>@lang('profile.StudentConfirmationLetter')</p>
