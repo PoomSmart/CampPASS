@@ -49,15 +49,15 @@
                 <p>@lang('profile.Transcript')</p>
             </div>
             <div class="col-4 text-center mb-3">
-                <input type="checkbox" name="certificate">
+                <input type="checkbox" name="confirmationletter">
             </div>
             <div class="col-8 text-left">
-                <p>@lang('profile.StudentCertificate')</p>
+                <p>@lang('profile.StudentConfirmationLetter')</p>
             </div>
         </div>
         @component('components.submit', [
             'label' => trans('app.Download'),
-            'class' => 'btn download-btn w-100',
+            'class' => 'btn btn-primary w-100',
             'glyph' => 'fa fa-download',
         ])
         @endcomponent

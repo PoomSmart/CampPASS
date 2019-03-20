@@ -17,7 +17,7 @@
     @if ($readonly)
         <script>
             jQuery(document).ready(function () {
-                jQuery("input:not(#transcript):not(#certificate)").attr("disabled", true);
+                jQuery("input:not(#transcript):not(#confirmationletter)").attr("disabled", true);
                 jQuery("label").removeAttr("required");
             });
         </script>
