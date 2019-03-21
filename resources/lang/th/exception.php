@@ -25,4 +25,6 @@ return [
     'QuestionSetAlreadyFinalize' => 'ชุดคำถามถูกยืนยันไปแล้ว',
     'FileNotFound' => 'ไม่พบไฟล์ที่ต้องการ',
     'AllPassedFormsMustBeChecked' => 'ใบสมัครที่ผ่านการคัดเลือกต้องถูกตรวจทานแล้วทั้งหมด',
+    'NoCandidateResultsToShow' => 'ไม่มีผู้ผ่านการคัดเลือกให้แสดง',
+
 ];
