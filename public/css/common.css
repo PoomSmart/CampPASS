@@ -168,6 +168,10 @@ a:hover {
   max-width: 450px !important;
 }
 
+.text-truncate-250 {
+  max-width: 250px !important;
+}
+
 .btn-fb {
   background-color: #3B5998;
   color: white;
