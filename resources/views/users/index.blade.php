@@ -31,7 +31,7 @@
                 <td>
                     @if (!empty($user->getRoleNames()))
                         @foreach ($user->getRoleNames() as $v)
-                            <label class="badge badge-success">{{ trans("account.{$v}") }}</label>
+                            <h5><span class="badge badge-pill badge-primary font-weight-normal">{{ trans("account.{$v}") }}</span></h5>
                         @endforeach
                     @endif
                 </td>

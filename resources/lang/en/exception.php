@@ -25,4 +25,5 @@ return [
     'QuestionSetAlreadyFinalize' => 'This question set has already been finalized.',
     'FileNotFound' => 'The specified file could not be found.',
     'AllPassedFormsMustBeChecked' => 'All passed forms must be checked',
+    'NoCandidateResultsToShow' => 'No candidate results to show',
 ];

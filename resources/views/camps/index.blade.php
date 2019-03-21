@@ -28,6 +28,11 @@
     <div class="d-flex justify-content-center">
         {!! $camps->links() !!}
     </div>
+    <h5>
+        <span class="badge badge-success font-weight-normal"><i class="fas fa-check fa-xs mr-1"></i>@lang('camp.Approved')</span>
+        <span class="badge badge-success font-weight-normal"><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announced')</span>
+        <span class="badge badge-warning font-weight-normal"><i class="far fa-clock fa-xs mr-1"></i>@lang('camp.ApprovalPending')</span>
+    </h5>
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -60,7 +65,7 @@
             <td><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->getTags() as $glyph => $tag)
-                    <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} fa-xs mr-1"></i>{{ $tag }}</label>
+                    <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
@@ -70,11 +75,11 @@
                 @endforeach
             </td>
             <td class="fit">
-                <label class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} mr-1 fa-xs"></i>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</label>
+                <h3><span class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} fa-xs"></i></span></h3>
             </td>
             <td>
                 @if ($question_set)
-                    <label class="badge badge-{{ $question_set->announced ? 'success' : 'danger' }} font-weight-normal"><i class="{{ $question_set->announced ? 'fas fa-check' : 'fas fa-times' }} mr-1 fa-xs"></i>{{ $question_set->announced ? trans('app.Yes') : trans('app.No') }}</label>
+                <h3><span class="badge badge-{{ $question_set->announced ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $question_set->announced ? 'fas fa-bullhorn' : 'far fa-clock' }} fa-xs"></i></span></h3>
                 @else
                     @lang('app.N/A')
                 @endif
@@ -82,7 +87,7 @@
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
-                        <a class="btn btn-warning" href="{{ route('camps.approve', $camp->id) }}">@lang('app.Approve')</a>
+                        <a class="btn btn-success" href="{{ route('camps.approve', $camp->id) }}">@lang('app.Approve')</a>
                     @endcan
                 @else
                     @can('question-edit')

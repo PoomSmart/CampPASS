@@ -31,7 +31,7 @@ return [
     'TotalPassedFailed' => 'จำนวนทั้งหมด: :total_registrations คน / ผ่าน: :total_candidates คน / ตก: :total_failed คน / สละสิทธิ์: :total_withdrawed คน',
     'ViewProfile' => 'ดูโปรไฟล์',
     'ViewForm' => 'ดูใบสมัคร',
-    'ApproveForm' => 'ยืนยันความถูกต้องของใบสมัคร',
+    'ApproveForm' => 'ยืนยันความถูกต้อง',
     'ViewPaymentSlip' => 'ดูหลักฐานการชำระเงิน',
     'ReturnForm' => 'ส่งกลับ',
     'ReturnFormFull' => 'ส่งใบสมัครกลับในกรณีที่มีความผิดพลาดเกี่ยวกับเอกสารที่จำเป็นจากผู้เข้าค่าย',
