@@ -245,7 +245,7 @@ class Camp extends Model
      */
     public function sameOrganizerCamps()
     {
-        return self::allApproved()->where('organization_id', $this->organization_id);
+        return self::allApproved()->where('organization_id', $this->organization_id)->get()->except($this->id)->all();
     }
 
     /**
