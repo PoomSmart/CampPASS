@@ -31,6 +31,8 @@ class NewCamperApplied extends LocalizableNotification
     {
         return [
             'registration_id' => $this->registration->id,
+            'camper_id' => $this->camper->id,
+            'camp_id' => $this->camp->id,
             'content' => $this->toLocalizedText($this->registration),
             'url' => $this->toURL(),
         ];

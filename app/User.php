@@ -204,7 +204,7 @@ class User extends Authenticatable
     {
         $suffix = $short ? 'Short' : '';
         // An access to unapproved camps should not exist
-        if (!$camp->approved && !$skip_approved)
+        if (!$camp->approved)
             return trans('camp.ApproveFirst'.$suffix);
         // Campers with unacceptable year could not join the camp
         if ($this->program->isBasic() && !in_array(self::$education_level_to_year[$this->education_level], $camp->acceptable_years, false))

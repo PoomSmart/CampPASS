@@ -259,11 +259,12 @@ class DatabaseSeeder extends Seeder
         $camp_maker_notifications = [];
         $registration_id = 0;
         $dummy_payment = UploadedFile::fake()->create('dummy.pdf', 100);
+        $approved_camps = Camp::allApproved()->get();
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
                 continue;
             $done = false;
-            foreach (Camp::all()->filter(function ($camp) use (&$camper) {
+            foreach ($approved_camps->filter(function ($camp) use (&$camper) {
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
@@ -315,9 +316,14 @@ class DatabaseSeeder extends Seeder
             Registration::insert($chunk);
         unset($registrations);
         // Notify all the camp makers about all campers that applied for their camp
-        foreach ($camp_maker_notifications as $camp_id => $registrations) {
-            foreach (Camp::find($camp_id)->camp_makers() as $campmaker) {
-                $campmaker->notify(new NewCamperApplied($registration));
+        $this->log('-> notifying camp makers about application forms coming in');
+        foreach ($camp_maker_notifications as $camp_id => $registration_ids) {
+            $campmakers = Camp::find($camp_id)->camp_makers();
+            foreach ($registration_ids as $registration_id) {
+                $registration = Registration::find($registration_id);
+                foreach ($campmakers as $campmaker) {
+                    $campmaker->notify(new NewCamperApplied($registration));
+                }
             }
         }
         unset($camp_maker_notifications);

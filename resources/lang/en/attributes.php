@@ -1,5 +1,6 @@
 <?php
 
+// This file will only be in lang/en and will translate to the desired language anyway
 return [
     'name_en' => trans('account.EnglishName'),
     'surname_en' => trans('account.EnglishSurname'),

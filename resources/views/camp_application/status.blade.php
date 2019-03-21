@@ -53,7 +53,7 @@
                     <img src="{{ asset('/images/placeholders/Status - Interview.png') }}" alt="Interview" class="pb-3 w-100">
                 </div>
                 <div class="col-md-8">
-                    <h4 class="mb-4"> @lang('status.Interview')</h4>
+                    <h4 class="mb-4">@lang('status.Interview')</h4>
                     @if ($registration->chosen())
                         @if ($registration->interviewed())
                             <p>@lang('qualification.CongratulationsInterview')</p>
