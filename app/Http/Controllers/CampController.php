@@ -131,7 +131,7 @@ class CampController extends Controller
         $this->check($camp);
         View::share('object', $camp);
         $category = CampCategory::find($camp->camp_category_id);
-        $same_camps = $camp->sameOrganizerCamps()->get()->all();
+        $same_camps = $camp->sameOrganizerCamps();
         return view('camps.show', compact('camp', 'category', 'same_camps'));
     }
 
