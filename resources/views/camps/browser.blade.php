@@ -31,7 +31,7 @@
         </div>
         <div class="col-12 px-0">
             <div class="form-group d-inline-flex mt-2 mb-0">
-                <div class="d-inline-block mr-4">
+                <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'year',
                         'label' => trans('camp.CampFor'),
@@ -53,7 +53,7 @@
         </div>
         <div class="col-12 px-0">
             <div class="form-group d-inline-flex mt-2 mb-0">
-                <div class="d-inline-block mr-4">
+                <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'region',
                         'label' => trans('camp.AcceptableRegions'),
