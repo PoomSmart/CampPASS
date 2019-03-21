@@ -59,4 +59,5 @@ return [
     'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',
     'BackupLimit' => 'จำนวนตัวสำรองสูงสุด',
     'Banner' => 'แบนเนอร์',
+    'CampHeldBy' => 'ค่ายอื่นๆ โดยผู้จัดนี้',
 ];

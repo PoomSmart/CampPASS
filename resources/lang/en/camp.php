@@ -59,4 +59,5 @@ return [
     'WaitForApproval' => ':camp is waiting for your approval.',
     'BackupLimit' => 'Backup Limit',
     'Banner' => 'Banner',
+    'CampHeldBy' => 'Camp by this Organizer',
 ];
