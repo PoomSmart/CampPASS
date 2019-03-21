@@ -110,15 +110,15 @@
     @if (sizeof($same_camps))
         <div class="row">
             @component('components.card_carousel', [
-                'id' => 'myCampsCarousel',
+                'id' => 'sameCampsCarousel',
                 'header' => trans('camp.CampHeldBy'),
                 'objects' => $same_camps,
                 'component' => 'components.camp_block',
             ])
             @endcomponent
             <script>
-                jQuery('.next').click(function () { jQuery(this).closest('.carousel').carousel('next'); return false; });
-                jQuery('.prev').click(function () { jQuery(this).closest('.carousel').carousel('prev'); return false; });
+                jQuery(".next").click(function () { jQuery(this).closest(".carousel").carousel("next"); return false; });
+                jQuery(".prev").click(function () { jQuery(this).closest(".carousel").carousel("prev"); return false; });
             </script>
         </div>
     @endif
