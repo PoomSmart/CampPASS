@@ -10,7 +10,7 @@
 
 @section('content')
     <form class="row form" action="{{ route('camps.browser') }}" method="GET">
-        <div class="col-lg-8 px-0">
+        <div class="col-sm-12 col-lg-8 px-0">
             <div class="input-group">
                 @component('components.input', [
                     'name' => 'query',
@@ -20,17 +20,17 @@
                 @endcomponent
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-sm-12 col-lg-4 d-inline-flex mt-2 mt-md-2 mt-lg-0 px-0 px-lg-2 px-md-0">
             @component('components.submit', [
                 'label' => trans('app.Search'),
-                'class' => 'btn btn-primary mr-2',
+                'class' => 'btn btn-primary mr-2 w-50',
                 'glyph' => 'fas fa-search fa-xs ',
             ])
             @endcomponent
-            <a href="{{ route('camps.browser') }}" class="btn btn-secondary"><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</a>
+            <a href="{{ route('camps.browser') }}" class="btn btn-secondary w-50"><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</a>
         </div>
         <div class="col-12 px-0">
-            <div class="form-group d-inline-flex mt-2">
+            <div class="form-group d-inline-flex mt-2 mb-0">
                 <div class="d-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'year',
@@ -51,12 +51,37 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 px-0">
+            <div class="form-group d-inline-flex mt-2 mb-0">
+                <div class="d-inline-block mr-4">
+                    @component('components.label', [
+                        'name' => 'region',
+                        'label' => trans('camp.AcceptableRegions'),
+                        'label_class' => 'py-0 font-weight-bold',
+                    ])
+                    @endcomponent
+                </div>
+                <div class="d-inline-block my-auto">
+                    @component('components.input', [
+                        'name' => 'region',
+                        'input_type' => 'radio',
+                        'objects' => $regions,
+                        'value' => $region,
+                        'nowrapper' => 1,
+                    ])
+                    @endcomponent
+                </div>
+            </div>
+        </div>
     </form>
     @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
         <div class="container-fluid mt-4">
             <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
-            <a target="_blank" class="ml-3 d-inline-block" href="{{ route('camps.by_category_year', ['record' => $category_ids[$category], 'year' => $year]) }}">@lang('app.More')</a>
+            @php $con = $year ? '&' : '?' @endphp
+            <a target="_blank" class="ml-3 d-inline-block0" href="{{ route('camps.by_category', [
+                'record' => $category_ids[$category],
+            ]) }}{{ $year ? "?year={$year}" : '' }}{{ $region ? "{$con}region={$region}" : '' }}">@lang('app.More')</a>
             @component('components.card_columns', [
                 'objects' => $camps,
                 'component' => 'components.camp_block',

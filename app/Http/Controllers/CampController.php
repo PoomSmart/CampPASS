@@ -265,23 +265,38 @@ class CampController extends Controller
                 'acceptable_years', (int)$year, 'whereJsonContains',
             ];
         }
+        $region = Input::get('region', null);
+        if ($region) {
+            $query_pairs[] = [
+                'acceptable_regions', (int)$region, 'whereJsonContains',
+            ];
+        }
         $data = $this->get_camps($query_pairs, $categorized = true);
         $categorized_camps = $data['categorized_camps'];
         $category_ids = $data['category_ids'];
         $years = $this->years;
-        return view('camps.browser', compact('categorized_camps', 'category_ids', 'years', 'year'));
+        $regions = $this->regions;
+        return view('camps.browser', compact('categorized_camps', 'category_ids', 'years', 'year', 'regions', 'region'));
     }
 
-    public function by_category(CampCategory $record, Year $year = null)
+    public function by_category(CampCategory $record)
     {
         $query_pairs = [
             [ 'camp_category_id', $record->id, 'where', ],
         ];
+        $year = Input::get('year', null);
         if ($year) {
             $query_pairs[] = [
-                'acceptable_years', $year->id, 'whereJsonContains',
+                'acceptable_years', (int)$year, 'whereJsonContains',
             ];
-            View::share('year', $year);
+            View::share('year', Year::find($year));
+        }
+        $region = Input::get('region', null);
+        if ($region) {
+            $query_pairs[] = [
+                'acceptable_regions', (int)$region, 'whereJsonContains',
+            ];
+            View::share('region', Region::find($region));
         }
         $camps = $this->get_camps($query_pairs);
         return view('camps.by_category', compact('camps', 'record'));

@@ -4,7 +4,11 @@
     {{ $record->getName() }}
     @if (isset($year))
         - {{ $year }}
-    @elseif (isset($organization))
+    @endif
+    @if (isset($region))
+        - {{ $region }}
+    @endif
+    @if (isset($organization))
         - {{ $organization }}
     @endif
 @endsection
