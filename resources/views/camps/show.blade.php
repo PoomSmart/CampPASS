@@ -12,7 +12,7 @@
     @endif
     <div class="row">
         <div class="col-12 text-center">
-            <p>{{ $category->getName() }}</p>
+            <p><a target="_blank" href="{{ route('camps.by_category', $category->id) }}">{{ $category->getName() }}</a></p>
         </div>
         <div class="col-12 mb-2 text-center">
             <img class="img-fluid" style="height: 400px; max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
@@ -63,6 +63,12 @@
                     <h5>@lang('organization.Organization')</h5>
                     <p class="text-muted">{{ $camp->organization }}</p>
                 </div>
+                @if ($camp->contact_campmaker)
+                    <div class="col-12">
+                        <h5>@lang('camp.CampMakerContactInfo')</h5>
+                        <p class="text-muted">{{ $camp->contact_campmaker }}</p>
+                    </div>
+                @endif
             </div>
             <div class="row">
                 <div class="col-12">
@@ -89,15 +95,6 @@
                         <a class="btn btn-fb w-100 mb-3" target="_blank" href="{{ $camp->fburl }}"><i class="fab fa-facebook fa-sm mr-2"></i>@lang('camp.FBURL')</a>
                     @endif
                 </div>
-                <div class="col-12">
-                    <p>{{ $camp->long_description }}</p>
-                </div>
-                @if ($camp->contact_campmaker)
-                    <div class="col-12">
-                        <h5>@lang('camp.CampMakerContactInfo')</h5>
-                        <p class="text-muted">{{ $camp->contact_campmaker }}</p>
-                    </div>
-                @endif
             </div>
         </div>
         <div class="col-12 col-md-6">
@@ -105,6 +102,9 @@
             <div class="text-center">
                 <img class="img-fluid" src="{{ $camp->getPosterPath($actual = false, $display = true) }}">
             </div>
+        </div>
+        <div class="col-12">
+            <p>{{ $camp->long_description }}</p>
         </div>
     </div>
 @endsection

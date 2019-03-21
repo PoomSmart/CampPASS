@@ -240,6 +240,15 @@ class Camp extends Model
     }
 
     /**
+     * Return all the other camps held by the same organizer as this camp
+     * 
+     */
+    public function similar()
+    {
+        return self::allApproved()->where('organization_id', $this->organization_id);
+    }
+
+    /**
      * Determine the question grading type of the camp whenever possible.
      *
      */
