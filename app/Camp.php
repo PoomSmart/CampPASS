@@ -190,15 +190,15 @@ class Camp extends Model
         $tags = [];
         $camp_procedure = $this->camp_procedure;
         if ($camp_procedure->interview_required)
-            $tags[] = trans('camp_procedure.InterviewTag');
+            $tags['far fa-comment'] = trans('camp_procedure.InterviewTag');
         if ($camp_procedure->deposit_required)
-            $tags[] = trans('camp_procedure.DepositTag');
+            $tags['fas fa-coins'] = trans('camp_procedure.DepositTag');
         if ($this->application_fee)
-            $tags[] = trans('camp_procedure.ApplicationFeeTag');
+            $tags['fas fa-coins'] = trans('camp_procedure.ApplicationFeeTag');
         if ($camp_procedure->candidate_required)
-            $tags[] = trans('camp_procedure.QATag');
+            $tags['far fa-list-alt'] = trans('camp_procedure.QATag');
         if (empty($tags))
-            $tags[] = trans('camp_procedure.Walk-in');
+            $tags['fas fa-walking'] = trans('camp_procedure.Walk-in');
         return $tags;
     }
 

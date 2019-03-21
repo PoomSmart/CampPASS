@@ -59,8 +59,8 @@
             <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             <td><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
-                @foreach ($camp->getTags() as $tag)
-                    <label class="badge badge-secondary font-weight-normal">{{ $tag }}</label>
+                @foreach ($camp->getTags() as $glyph => $tag)
+                    <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} fa-xs mr-1"></i>{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
@@ -74,7 +74,7 @@
             </td>
             <td>
                 @if ($question_set)
-                    <label class="badge badge-{{ $question_set->announced ? 'success' : 'danger' }} font-weight-normal">{{ $question_set->announced ? trans('app.Yes') : trans('app.No') }}</label>
+                    <label class="badge badge-{{ $question_set->announced ? 'success' : 'danger' }} font-weight-normal"><i class="{{ $question_set->announced ? 'fas fa-check' : 'fas fa-times' }} mr-1 fa-xs"></i>{{ $question_set->announced ? trans('app.Yes') : trans('app.No') }}</label>
                 @else
                     @lang('app.N/A')
                 @endif

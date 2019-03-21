@@ -3,8 +3,8 @@
         <img class="card-img-top" src="{{ $object->getBannerPath($actual = false, $display = true) }}" alt="Image of {{ $object }}">
         <div class="card-body">
             <h5 class="card-title text-truncate" title="{{ $object }}">{{ $object }}</h5>
-            @foreach ($object->getTags() as $tag)
-                <label class="badge badge-secondary font-weight-normal">{{ $tag }}</label>
+            @foreach ($object->getTags() as $glyph => $tag)
+                <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} fa-xs mr-1"></i>{{ $tag }}</label>
             @endforeach
             <p class="text-muted text-truncate mb-0" title="{{ $object->organization }}">@lang('app.By') {{ $object->organization }}</p>
             <div class="my-2 list-group">
