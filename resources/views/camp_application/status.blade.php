@@ -42,7 +42,7 @@
                         <p>@lang('qualification.CongratulationsApp')</p>
                     @else
                         <div class="mx-1">
-                            <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-primary w-100 mb-4">@lang('registration.Edit')</a>
+                            <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-warning w-100 mb-4">@lang('registration.Edit')</a>
                         </div>
                     @endif
                 </div>

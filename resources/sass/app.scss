@@ -8,7 +8,7 @@
 $main_color: #FB6B0A;
 
 .btn-primary {
-  @include button-variant($main_color, darken($main_color, 7.5%), darken($main_color, 10%), lighten($main_color,5%), lighten($main_color, 10%), darken($main_color,20%));
+  @include button-variant($main_color, $main_color, darken($main_color, 10%), darken($main_color, 10%), lighten($main_color, 10%), darken($main_color,20%));
 }
 
 .navbar-laravel {

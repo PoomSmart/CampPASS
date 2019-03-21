@@ -37,8 +37,8 @@
                 </td>
                 <td class="text-center{{ $user->isActivated() ? ' table-success text-success' : ' table-danger text-danger' }}">{{ $user->isActivated() ? trans('app.Yes') : trans('app.No') }}</td>
                 <td class="fit">
-                    <a class="btn btn-info" href="{{ route('users.show', $user->id) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('app.View')</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
+                    <a class="btn btn-primary" href="{{ route('users.show', $user->id) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('app.View')</a>
+                    <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
                     {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
                             @component('components.submit', [
                                 'label' => trans('app.Delete'),

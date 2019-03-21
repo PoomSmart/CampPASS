@@ -177,3 +177,7 @@ a:hover {
   color: white;
   background-color: rgb(47, 70, 119); 
 }
+
+.btn-info {
+  color: white !important;
+}

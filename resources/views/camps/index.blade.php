@@ -92,12 +92,12 @@
                 @else
                     @can('question-edit')
                         @if ($camp->camp_procedure->candidate_required)
-                            <a class="btn btn-info" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('question.Questions')</a>
+                            <a class="btn btn-primary" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('question.Questions')</a>
                         @endif
                     @endcan
                 @endif
                 @can('camp-edit')
-                    <a class="btn btn-primary" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
+                    <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
                 @endcan
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
