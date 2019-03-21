@@ -7,6 +7,7 @@ use App\CampProcedure;
 use App\Organization;
 use App\Region;
 use App\Year;
+use App\User;
 
 use Carbon\Carbon;
 
@@ -14,7 +15,7 @@ use Faker\Generator as Faker;
 
 class Camp_Randomizer
 {
-    protected static $programs, $regions, $years;
+    protected static $programs, $regions, $years, $organizations;
 
     public static function programs()
     {
@@ -35,6 +36,13 @@ class Camp_Randomizer
         if (!self::$regions)
             self::$regions = Region::pluck('id')->toArray();
         return array_rand(array_flip(self::$regions), rand(3, count(self::$regions)));
+    }
+
+    public static function organization()
+    {
+        if (!self::$organizations)
+            self::$organizations = User::groupBy('organization_id')->pluck('organization_id', 'organization_id')->toArray();
+        return array_rand(self::$organizations);
     }
 
     public static function date_range_forward($faker, $date, $shift)
@@ -68,7 +76,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'name_th' => "ค่าย {$camp_name}",
         'camp_category_id' => rand(1, CampCategory::count()),
         'camp_procedure_id' => $camp_procedure->id,
-        'organization_id' => Common::randomFrequentHit() ? rand(1, 5) : rand(1, Organization::count()),
+        'organization_id' => Camp_Randomizer::organization(),
         'acceptable_regions' => Camp_Randomizer::regions(),
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 80, $variableNbWords = true),

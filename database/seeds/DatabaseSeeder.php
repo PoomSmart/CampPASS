@@ -271,7 +271,7 @@ class DatabaseSeeder extends Seeder
                     logger()->debug("Camp Eligibility Checking: {$e}");
                     return false;
                 }
-                return Common::randomMediumHit() && !$camp->getRegistrations($camper)->limit(1)->exists();
+                return Common::randomMediumHit();
             }) as $camp) {
                 $done = true;
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
@@ -319,10 +319,12 @@ class DatabaseSeeder extends Seeder
         $this->log('-> notifying camp makers about application forms coming in');
         foreach ($camp_maker_notifications as $camp_id => $registration_ids) {
             $campmakers = Camp::find($camp_id)->camp_makers();
-            foreach ($registration_ids as $registration_id) {
-                $registration = Registration::find($registration_id);
-                foreach ($campmakers as $campmaker) {
-                    $campmaker->notify(new NewCamperApplied($registration));
+            if ($campmakers->isNotEmpty()) {
+                foreach ($registration_ids as $registration_id) {
+                    $registration = Registration::find($registration_id);
+                    foreach ($campmakers as $campmaker) {
+                        $campmaker->notify(new NewCamperApplied($registration));
+                    }
                 }
             }
         }
@@ -638,10 +640,10 @@ class DatabaseSeeder extends Seeder
         $this->camp_procedures();
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
-        $this->log_seed('camps');
-        factory(Camp::class, 120)->create();
         $this->log_seed('users');
         factory(User::class, 450)->create();
+        $this->log_seed('camps');
+        factory(Camp::class, 120)->create();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();
