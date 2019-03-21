@@ -243,7 +243,7 @@ class Camp extends Model
      * Return all the other camps held by the same organizer as this camp
      * 
      */
-    public function similar()
+    public function sameOrganizerCamps()
     {
         return self::allApproved()->where('organization_id', $this->organization_id);
     }
