@@ -197,6 +197,7 @@ class DatabaseSeeder extends Seeder
             Storage::putFileAs($directory, $fake_document, 'transcript.pdf');
             Storage::putFileAs($directory, $fake_document, 'confirmation_letter.pdf');
         }
+        unset($fake_document);
     }
 
     private function randomID($camp_id)
@@ -323,6 +324,7 @@ class DatabaseSeeder extends Seeder
                 $camper->activate();
             }
         }
+        unset($dummy_payment);
         foreach (array_chunk($registrations, 1000) as $chunk)
             Registration::insert($chunk);
         unset($registrations);

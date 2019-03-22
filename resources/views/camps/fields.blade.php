@@ -193,6 +193,7 @@
             'download_route' => null,
         ])
         @endcomponent
+        <small id="banner-desc-inline" class="form-text text-muted">@lang('camp.BannerRecommendedSize')</small>
     </div>
     <div class="col-md-6">
         @component('components.label', [
@@ -209,6 +210,7 @@
             'download_route' => null,
         ])
         @endcomponent
+        <small id="poster-desc-inline" class="form-text text-muted">@lang('camp.PosterRecommendedSize')</small>
     </div>
     <div class="col-md-6">
         @component('components.input', [
@@ -221,7 +223,7 @@
     <div class="col-md-6">
         @component('components.input', [
             'name' => 'fburl',
-            'label' => trans('camp.FBURL'),
+            'label' => trans('camp.FBURLForm'),
             'type' => 'url',
         ])
         @endcomponent

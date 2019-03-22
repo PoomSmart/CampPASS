@@ -7,7 +7,7 @@
     <script>
         jQuery(document).ready(function () {
             jQuery("input[name='min_cgpa'],input[name='quota'],input[name='backup_limit']").inputSpinner();
-            jQuery("[id^=camp_category_id]").attr("disabled", true);
+            jQuery("[id^=camp_category_id],#camp_procedure_id,#organization_id").attr("disabled", true);
         });
     </script>
     <script src="{{ asset('js/check-unsaved.js') }}"></script>

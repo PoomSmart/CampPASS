@@ -59,7 +59,7 @@ class Camp extends Model
      * @var array
      */
     public static $once = [
-        'camp_category_id',
+        'camp_category_id', 'camp_procedure_id', 'organization_id',
     ];
 
     public function registrations()
