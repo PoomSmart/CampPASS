@@ -119,6 +119,7 @@ class CampApplicationController extends Controller
     {
         $text = null;
         $button = false;
+        $passed = true;
         switch ($step) {
             case BlockApplicationStatus::APPLICATION:
                 if ($registration->returned)
@@ -140,8 +141,10 @@ class CampApplicationController extends Controller
                         $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
                 } else if ($registration->rejected())
                     $text = trans('qualification.Rejected');
-                else
+                else {
                     $text = trans('qualification.AckInterview');
+                    $passed = false;
+                }
                 break;
             case BlockApplicationStatus::PAYMENT:
                 if ($registration->approved_to_confirmed())
@@ -162,8 +165,10 @@ class CampApplicationController extends Controller
                             if ($camp_procedure->interview_required)
                                 $button = $registration->interviewed();
                         }
-                    } else
+                    } else {
                         $text = trans('registration.AckSlip');
+                        $passed = false;
+                    }
                 }
                 break;
             case BlockApplicationStatus::APPROVAL:
@@ -172,10 +177,12 @@ class CampApplicationController extends Controller
                     $button = true;
                 } else if ($registration->approved_to_confirmed())
                     $text = trans('qualification.DocumentsApproved');
-                else if ($registration->applied() || $registration->chosen())
+                else if ($registration->chosen())
                     $text = trans('qualification.DocumentsInProcess');
-                else
+                else {
                     $text = trans('qualification.DocumentsWillBeApproved');
+                    $passed = false;
+                }
                 break;
             case BlockApplicationStatus::CONFIRMATION:
                 if ($registration->confirmed())
@@ -187,13 +194,16 @@ class CampApplicationController extends Controller
                     && ($camp->hasPayment() ? $registration->paid() : true)) {
                         $button = true;
                         $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
-                } else
+                } else {
                     $text = trans('qualification.YouNeedToConfirm');
+                    $passed = false;
+                }
                 break;
         }
         return [
             'text' => $text,
             'button' => $button,
+            'passed' => $passed,
         ];
     }
 

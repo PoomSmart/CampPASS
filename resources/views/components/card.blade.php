@@ -1,5 +1,5 @@
 <div class="card card-with-shadow-static">
-    <div class="card-header text-center camppass-orange">{{ $header }}</div>
+    <div class="card-header text-center {{ $data['passed'] ? 'camppass-orange' : 'bg-secondary text-white' }}">{{ $header }}</div>
     <div class="card-body">
         @if (isset($data['text']))
             <p class="card-text">{{ $data['text'] }}</p>
