@@ -98,8 +98,8 @@
                     <div class="text-center mt-4">
                         @component('components.submit', [
                             'label' => trans('app.Update'),
-                            'class' => 'btn btn-primary w-50',
-                            'glyph' => 'fas fa-pencil-alt fa-xs',
+                            'class' => 'btn btn-info w-50',
+                            'glyph' => 'far fa-save fa-xs',
                         ])
                         @endcomponent
                     </div>

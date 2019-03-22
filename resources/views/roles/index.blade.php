@@ -20,7 +20,7 @@
                     <th scope="row">{{ ++$i }}</th>
                     <th>{{ $role->name }}</th>
                     <td class="fit">
-                        <a class="btn btn-primary" href="{{ route('roles.show', $role->id) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('app.View')</a>
+                        <a class="btn btn-secondary" href="{{ route('roles.show', $role->id) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('app.View')</a>
                         @can('role-edit')
                             <a class="btn btn-info" href="{{ route('roles.edit', $role->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
                         @endcan

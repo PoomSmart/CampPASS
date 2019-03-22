@@ -35,4 +35,5 @@ return [
     'UploadPaymentSlip' => 'Upload Payment Slip',
     'UploadPayment' => 'Please upload your payment slip.',
     'PaymentUploaded' => 'The payment slip has been uploaded.',
+    'AckSlip' => 'You need to upload a payment slip to confirm your application.',
 ];

@@ -28,7 +28,7 @@
         <div class="text-center mt-2">
             @component('components.submit', [
                 'label' => trans('app.Submit'),
-                'class' => 'btn btn-primary w-50',
+                'class' => 'btn btn-success w-50',
             ])
             @endcomponent
         </div>

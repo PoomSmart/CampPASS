@@ -10,7 +10,7 @@
 
 @if (auth()->user() && auth()->user()->id == $user->id)
     @section('extra-buttons')
-        <a href="{{ route('profiles.edit', $user->id) }}" class="btn btn-primary w-50"><i class="fas fa-pencil-alt mr-2 fa-xs"></i>@lang('profile.UpdateProfile')</a>
+        <a href="{{ route('profiles.edit', $user->id) }}" class="btn btn-info w-50"><i class="fas fa-pencil-alt mr-2 fa-xs"></i>@lang('profile.UpdateProfile')</a>
     @endsection
 @endif
 

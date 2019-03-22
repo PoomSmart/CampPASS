@@ -19,7 +19,7 @@
 
 @section('card_content')
     @component('components.dialog', [
-        'body' => 'If you withdrawed from this camp, you would no longer be able to apply for this camp. Are you sure you want to withdraw from this camp?',
+        'body' => trans('status.WithdrawConfirm'),
         'confirm_label' => trans('app.Yes'),
         'confirm_type' => 'danger',
     ])
@@ -42,7 +42,7 @@
                         <p>@lang('qualification.CongratulationsApp')</p>
                     @else
                         <div class="mx-1">
-                            <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-warning w-100 mb-4">@lang('registration.Edit')</a>
+                            <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-success w-100 mb-4">@lang('registration.Edit')</a>
                         </div>
                     @endif
                 </div>

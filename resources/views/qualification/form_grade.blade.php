@@ -121,6 +121,7 @@
             @component('components.submit', [
                 'label' => trans('app.Save'),
                 'disabled' => $form_score->finalized,
+                'glyph' => 'far fa-save mr-1 fa-xs',
             ])
             @endcomponent
             <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">{{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}</a>

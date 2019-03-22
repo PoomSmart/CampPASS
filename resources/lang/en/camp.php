@@ -61,4 +61,7 @@ return [
     'BackupLimit' => 'Backup Limit',
     'Banner' => 'Banner',
     'CampHeldBy' => 'Camp by this Organizer',
+    'BannerRecommendedSize' => 'Banner recommended size w:xx h:xx',
+    'PosterRecommendedSize' => 'Poster recommended size w:xx h:xx',
+    'SureDeleteCamp' => 'Are you sure you want to delete this camp?',
 ];

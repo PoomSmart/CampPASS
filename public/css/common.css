@@ -189,3 +189,43 @@ a:hover {
 .btn-success {
   color: white !important;
 }
+
+.btn-secondary {
+  color: white !important;
+}
+
+
+.pagination a {
+  color: #FB6B0A;
+  background-color: whitesmoke;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: none;
+}
+
+.pagination a.active {
+  background-color: #FB6B0A;
+  color: white;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #FB6B0A;
+  border-color: whitesmoke;
+}
+
+.page-item.disabled .page-link {
+  color: #FB6B0A;
+  background-color: whitesmoke;
+  border-color: whitesmoke;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #dddddd;
+  color: #FB6B0A;
+}
+
+
+

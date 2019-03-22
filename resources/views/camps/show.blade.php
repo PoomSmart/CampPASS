@@ -74,7 +74,7 @@
                 <div class="col-12">
                     @if (!$camp->approved)
                         @can('camp-approve')
-                            <a class="btn btn-warning w-100 mb-3" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check"></i>@lang('app.Approve')</a>
+                            <a class="btn btn-success w-100 mb-3" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check"></i>@lang('app.Approve')</a>
                         @endcan
                     @endif
                     @if (!auth()->user() || auth()->user()->isCamper())

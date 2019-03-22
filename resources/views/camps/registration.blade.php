@@ -60,7 +60,7 @@
                             @endif
                             <td class="fit">
                                 @if ($rankable)
-                                    <a target="_blank" class="btn btn-info{{ (!$registration->submitted() && !auth()->user()->isAdmin()) ? ' disabled' : null }}"
+                                    <a target="_blank" class="btn btn-secondary{{ (!$registration->submitted() && !auth()->user()->isAdmin()) ? ' disabled' : null }}"
                                         href="{{ route('qualification.form_grade', [
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,

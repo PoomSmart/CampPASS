@@ -20,7 +20,7 @@
 
 @section('content')
     @component('components.dialog', [
-        'body' => 'Are you sure you want to delete this camp?',
+        'body' => trans('camp.SureDeleteCamp'),
         'confirm_type' => 'danger',
         'method' => 'DELETE',
     ])
@@ -87,7 +87,7 @@
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
-                        <a class="btn btn-success" href="{{ route('camps.approve', $camp->id) }}">@lang('app.Approve')</a>
+                        <a class="btn btn-success" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check mr-1 fa-xs"></i>@lang('app.Approve')</a>
                     @endcan
                 @else
                     @can('question-edit')

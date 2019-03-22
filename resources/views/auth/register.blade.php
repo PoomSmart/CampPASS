@@ -27,7 +27,7 @@
         <div class="mt-4 text-center">
             @component('components.submit', [
                 'label' => trans('account.Register'),
-                'class' => 'w-50',
+                'class' => 'btn btn-primary w-50',
             ])
             @endcomponent
         </div>

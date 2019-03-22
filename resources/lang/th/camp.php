@@ -60,4 +60,7 @@ return [
     'BackupLimit' => 'จำนวนตัวสำรองสูงสุด',
     'Banner' => 'แบนเนอร์',
     'CampHeldBy' => 'ค่ายอื่นๆ โดยผู้จัดนี้',
+    'BannerRecommendedSize' => 'แบนเนอร์ควรมีขนาด กว้าง:xx สูง:xx',
+    'PosterRecommendedSize' => 'โปสเตอร์ควรมีขนาด กว้าง:xx สูง:xx',
+    'SureDeleteCamp' => 'คุณแน่ใจว่าจะลบค่ายนี้ทิ้ง?',
 ];
