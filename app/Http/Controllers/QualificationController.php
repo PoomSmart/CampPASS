@@ -24,7 +24,7 @@ class QualificationController extends Controller
         $this->middleware('permission:camper-list');
         $this->middleware('permission:answer-grade', ['only' => ['form_grade', 'save_manual_grade', 'form_finalize']]);
         $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'show_profile_detailed']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'show_profile_detailed', 'document_approve']]);
     }
 
     /**

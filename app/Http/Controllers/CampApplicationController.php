@@ -436,6 +436,9 @@ class CampApplicationController extends Controller
             if ($prevent)
                 throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         }
+        $camp_procedure = $camp->camp_procedure;
+        if ($registration->status < ApplicationStatus::APPROVED && ($camp_procedure->interview_required || $camp_procedure->candidate_required || $camp_procedure->deposit_required))
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
         ]);

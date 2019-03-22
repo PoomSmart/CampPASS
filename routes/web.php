@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Auth::routes();
 
 Route::resource('camps', 'CampController');
@@ -63,7 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/form-finalize/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
         Route::post('/form-check', 'QualificationController@form_check')->name('qualification.form_check');
+        Route::post('/interview-check', 'CandidateController@interview_check')->name('qualification.interview_check');
         Route::post('/form-pass', 'QualificationController@form_pass')->name('qualification.form_pass');
+        Route::post('/document-approve/{registration}', 'CandidateController@document_approve')->name('qualification.document_approve');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');

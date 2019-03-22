@@ -122,7 +122,7 @@
                                 
                                 @if (!$registration->confirmed() && !$registration->withdrawed())
                                     <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="#" class="btn btn-success w-100" title={{ trans('qualification.ApproveFormFull') }}><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
+                                        <a href="{{ route('qualification.document_approve', $registration->id) }}" class="btn btn-success w-100" title={{ trans('qualification.ApproveFormFull') }}><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
                                     </div>
                                     <div class="col-md-{{ $col }} my-1 px-1">
                                         <button type="button" class="btn btn-warning w-100" title="{{ trans('qualification.ReturnFormFull') }}" data-action="{{ route('qualification.form_return', $form_score->id) }}" data-toggle="modal" data-target="#modal">

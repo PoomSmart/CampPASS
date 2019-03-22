@@ -52,4 +52,6 @@ return [
     'CandidatesAnnounced' => 'Candidates for this camp are already announced.',
     'DownloadData' => 'Download All Documents',
     'FullyQualified' => 'You are fully qualified for :camp',
+    'InterviewPassed' => 'Interview Passed',
+    'DocumentApproved' => 'All the documents have been approved.',
 ];

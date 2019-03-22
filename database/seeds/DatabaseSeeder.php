@@ -566,12 +566,17 @@ class DatabaseSeeder extends Seeder
                     }
                     CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                     if (Common::randomFrequentHit()) {
+                        $camp_procedure = $camp->camp_procedure;
+                        $interview_required = $camp_procedure->interview_required;
                         foreach ($camp->registrations->all() as $registration) {
                             if (Common::randomRareHit())
                                 continue;
-                            if (Common::randomVeryFrequentHit())
+                            if (Common::randomVeryFrequentHit()) {
+                                if ($interview_required)
+                                    CandidateController::interview_check_real($registration, $checked = 'true');
+                                CandidateController::document_approve($registration);
                                 CampApplicationController::confirm($registration, $silent = true);
-                            else
+                            } else
                                 CampApplicationController::withdraw($registration, $silent = true);
                         }
                     }
