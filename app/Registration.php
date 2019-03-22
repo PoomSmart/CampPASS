@@ -79,6 +79,11 @@ class Registration extends Model
         return $this->status == ApplicationStatus::INTERVIEWED;
     }
 
+    public function interviewed_to_confirmed()
+    {
+        return $this->status >= ApplicationStatus::INTERVIEWED;
+    }
+
     public function paid()
     {
         return $this->status == ApplicationStatus::PAID;
@@ -97,6 +102,11 @@ class Registration extends Model
     public function chosen()
     {
         return $this->status == ApplicationStatus::CHOSEN;
+    }
+
+    public function chosen_to_confirmed()
+    {
+        return $this->status >= ApplicationStatus::CHOSEN;
     }
 
     public function approved_to_confirmed()
