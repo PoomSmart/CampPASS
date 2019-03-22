@@ -58,7 +58,7 @@
     @endswitch
     @if ($input_type == 'select')
         @if (isset($desc))
-            <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
+            <small id="{{ $name }}-desc-inline" subvalue="{{ $desc_object->id }}" class="form-text text-muted">{{ $desc }}</small>
         @elseif (isset($desc_objects))
             @foreach ($desc_objects as $desc_object)
                 <small id="{{ $name }}-desc-inline-{{ $desc_object->id }}" subvalue="{{ $desc_object->id }}" class="form-text text-muted">{{ isset($desc_objects_getter) ? $desc_object->{$desc_objects_getter}() : $desc_object }}</small>
