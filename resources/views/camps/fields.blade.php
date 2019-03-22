@@ -144,7 +144,7 @@
             'label' => trans('camp.MinCGPA'),
             'type' => 'number',
             'no_form_control_class' => 1,
-            'attributes' => 'min=1.0 max=4.0 step=0.01 data-decimals=2',
+            'attributes' => 'min=1.0 max=4.0 step=0.05 data-decimals=2',
             'object' => isset($object) ? $object : null,
         ])
         @endcomponent
