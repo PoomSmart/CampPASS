@@ -19,6 +19,7 @@ use App\Http\Controllers\QuestionSetController;
 
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
+use App\Enums\BlockApplicationStatus;
 
 use App\Notifications\NewCamperApplied;
 
@@ -111,6 +112,89 @@ class CampApplicationController extends Controller
             'text' => $apply_text,
             'disabled' => $disabled,
             'route' => $route,
+        ];
+    }
+
+    public static function statusDescription($step, Registration $registration, Camp $camp, $camp_procedure = null)
+    {
+        $text = null;
+        $button = false;
+        switch ($step) {
+            case BlockApplicationStatus::APPLICATION:
+                if ($registration->returned)
+                    $text = trans('qualification.ReturnedApplication');
+                else if ($registration->rejected())
+                    $text = trans('qualification.RejectedApplication');
+                else if ($registration->applied())
+                    $text = trans('qualification.Grading');
+                else if ($registration->chosen() || $registration->approved())
+                    $text = trans('qualification.CongratulationsApp');
+                else
+                    $button = true;
+                break;
+            case BlockApplicationStatus::INTERVIEW:
+                if ($registration->chosen()) {
+                    if ($registration->interviewed())
+                        $text = trans('qualification.CongratulationsInterview');
+                    else if ($camp->interview_information)
+                        $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
+                } else if ($registration->rejected())
+                    $text = trans('qualification.Rejected');
+                else
+                    $text = trans('qualification.AckInterview');
+                break;
+            case BlockApplicationStatus::PAYMENT:
+                if ($registration->approved())
+                    $text = trans('registration.SlipApproved');
+                else {
+                    if ($registration->rejected())
+                        $text = trans('qualification.Rejected');
+                    else if ($registration->paid()) {
+                        if ($registration->returned) {
+                            $text = trans('registration.PleaseRecheckSlip');
+                            $button = true;
+                        } else
+                            $text = trans('registration.SlipUploaded');
+                    } else if ($registration->chosen()) {
+                        $text = trans('registration.UploadPayment');
+                        $button = true;
+                        if ($camp_procedure->deposit_required) {
+                            if ($camp_procedure->interview_required)
+                                $button = $registration->interviewed();
+                        }
+                    }
+                }
+                if (!$button)
+                    $text = trans('registration.AckSlip');
+                break;
+            case BlockApplicationStatus::APPROVAL:
+                if ($registration->returned) {
+                    $text = trans('qualification.DocumentsNeedRecheck');
+                    $button = true;
+                } else if ($registration->approved())
+                    $text = trans('qualification.DocumentsApproved');
+                else if ($registration->applied() || $registration->chosen())
+                    $text = trans('qualification.DocumentsInProcess');
+                else
+                    $text = trans('qualification.DocumentsWillBeApproved');
+                break;
+            case BlockApplicationStatus::CONFIRMATION:
+                if ($registration->confirmed())
+                    $text = trans('qualification.AttendanceConfirmed');
+                else if ($registration->withdrawed() || $registration->rejected())
+                    $text = trans('qualification.NotAllowedToConfirm');
+                else if ($registration->approved_to_confirmed()
+                    && ($camp_procedure->interview_required ? $registration->interviewed() : true)
+                    && ($camp->hasPayment() ? $registration->paid() : true)) {
+                        $button = true;
+                        $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
+                } else
+                    $text = trans('qualification.YouNeedToConfirm');
+                break;
+        }
+        return [
+            'text' => $text,
+            'button' => $button,
         ];
     }
 
