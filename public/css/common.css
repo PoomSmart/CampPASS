@@ -16,10 +16,6 @@
   font-weight: normal;
 }
 
-* {
-  font-family: dbsathornnow;
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
@@ -28,10 +24,17 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  font-family: dbsathornnow;
+}
+
+html, body {
+  background-color: whitesmoke;
+}
+
 #side .nav-link.active, #side .nav-link:hover, #side .nav-link:focus {
   color: #111;
   background-color: lightsalmon;
-
 }
 
 h1, h2, h3, h4 {
@@ -42,12 +45,13 @@ h5, h6 {
   font-weight: 600;
 }
 
-html, body {
-  background-color: whitesmoke;
-}
-
 body, #app {
   min-height: 100vh;
+}
+
+.camppass-orange {
+  background-color: #FB6B0A;
+  color: white;
 }
 
 .navbar {
@@ -70,13 +74,13 @@ main {
   flex: 1;
 }
 
-footer {
-  color: white;
-  background-color: #FB6B0A;
-}
-
 a {
   color: #FB6B0A;
+}
+
+a:hover {
+  color: gray;
+  text-decoration: none;
 }
 
 .footer a {
@@ -110,8 +114,6 @@ label[required]::after {
 }
 
 #header {
-  background-color: #FB6B0A;
-  color: white;
   padding: 30px 0 30px 0;
 }
 
@@ -126,7 +128,7 @@ label[required]::after {
   border: 0;
 }
 
-.card-with-shadow:hover {
+.card-with-shadow:hover, .card-with-shadow-static {
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
 }
 
@@ -142,11 +144,6 @@ label[required]::after {
 
 .prev {
   color: #4e4a45;
-}
-
-a:hover {
-  color: gray;
-  text-decoration: none;
 }
 
 .table {
@@ -179,7 +176,7 @@ a:hover {
 
 .btn-fb:hover {
   color: white;
-  background-color: rgb(47, 70, 119); 
+  background-color: rgb(47, 70, 119);
 }
 
 .btn-info {

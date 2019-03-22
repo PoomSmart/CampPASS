@@ -26,5 +26,5 @@ return [
     'FileNotFound' => 'ไม่พบไฟล์ที่ต้องการ',
     'AllPassedFormsMustBeChecked' => 'ใบสมัครที่ผ่านการคัดเลือกต้องถูกตรวจทานแล้วทั้งหมด',
     'NoCandidateResultsToShow' => 'ไม่มีผู้ผ่านการคัดเลือกให้แสดง',
-
+    'CannotConfirmUnapprovedForm' => 'ไม่สามารถทำการยืนยันใบสมัครที่ยังไม่ผ่านการรับรองได้',
 ];

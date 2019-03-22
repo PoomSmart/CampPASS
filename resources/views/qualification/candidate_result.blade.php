@@ -12,6 +12,35 @@
     <div class="col-12 col-md-9">
 @endsection
 
+@php
+    $interview_required = $camp->camp_procedure->interview_required;
+@endphp
+
+@section('script')
+        @if ($interview_required)
+            <script>
+                jQuery(document).ready(function () {
+                    jQuery("input:checkbox").change(function () {
+                        var self = jQuery(this);
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "{!! route('qualification.interview_check') !!}",
+                            headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
+                            contentType: "json",
+                            processData: false,
+                            data: JSON.stringify({
+                                "registration_id" : self.attr("id"),
+                                "checked" : self.is(":checked")
+                            }),
+                            success: function (data) {}
+                        });
+                    });
+                });
+            </script>
+            <script src="{{ asset('js/check-unsaved.js') }}"></script>
+        @endif
+@endsection
+
 @section('content')
     <h2>@lang('qualification.Candidates')</h2>
     <div class="d-flex">
@@ -24,6 +53,9 @@
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
             <th>@lang('registration.Status')</th>
+            @if ($interview_required)
+                <th>@lang('qualification.InterviewPassed')</th>
+            @endif
             <th>@lang('app.Actions')</th>
         </thead>
         @php
@@ -48,6 +80,18 @@
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
                 <td class="fit">{{ $registration->getStatus() }}</td>
+                @if ($interview_required)
+                    <td class="text-center">
+                        <input type="checkbox" name="checked_{{ $registration->id }}" id="{{ $registration->id }}"
+                            @if ($withdrawed || $confirmed)
+                                disabled
+                            @endif
+                            @if ($registration->interviewed_to_confirmed())
+                                checked
+                            @endif
+                        >
+                    </td>
+                @endif
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                     @role('admin')

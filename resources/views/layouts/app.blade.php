@@ -116,7 +116,7 @@
             </div>
         </nav>
         @if (View::hasSection('header'))
-            <div class="container-fluid text-center" id="header">
+            <div class="container-fluid text-center camppass-orange" id="header">
                 <h2 class="mb-0">@yield('header')
                     @if (View::hasSection('subheader'))
                      <span class="font-weight-normal">- @yield('subheader')</span>
@@ -149,7 +149,7 @@
             </main>
         @endif
     </div>
-    <footer class="footer">
+    <footer class="footer camppass-orange">
         <div class="container pt-4">
             <div class="row">
                 <div class="col-12 col-sm-6">

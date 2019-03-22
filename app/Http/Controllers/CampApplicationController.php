@@ -19,6 +19,7 @@ use App\Http\Controllers\QuestionSetController;
 
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
+use App\Enums\BlockApplicationStatus;
 
 use App\Notifications\NewCamperApplied;
 
@@ -111,6 +112,98 @@ class CampApplicationController extends Controller
             'text' => $apply_text,
             'disabled' => $disabled,
             'route' => $route,
+        ];
+    }
+
+    public static function statusDescription($step, Registration $registration, Camp $camp, $camp_procedure = null)
+    {
+        $text = null;
+        $button = false;
+        $passed = true;
+        switch ($step) {
+            case BlockApplicationStatus::APPLICATION:
+                if ($registration->returned)
+                    $text = trans('qualification.ReturnedApplication');
+                else if ($registration->rejected())
+                    $text = trans('qualification.RejectedApplication');
+                else if ($registration->applied())
+                    $text = trans('qualification.Grading');
+                else if ($registration->chosen() || $registration->approved_to_confirmed())
+                    $text = trans('qualification.CongratulationsApp');
+                else
+                    $button = true;
+                break;
+            case BlockApplicationStatus::INTERVIEW:
+                if ($registration->chosen_to_confirmed()) {
+                    if ($registration->interviewed_to_confirmed())
+                        $text = trans('qualification.CongratulationsInterview');
+                    else if ($camp->interview_information)
+                        $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
+                } else if ($registration->rejected())
+                    $text = trans('qualification.Rejected');
+                else {
+                    $text = trans('qualification.AckInterview');
+                    $passed = false;
+                }
+                break;
+            case BlockApplicationStatus::PAYMENT:
+                if ($registration->approved_to_confirmed())
+                    $text = trans('registration.SlipApproved');
+                else {
+                    if ($registration->rejected())
+                        $text = trans('qualification.Rejected');
+                    else if ($registration->paid()) {
+                        if ($registration->returned) {
+                            $text = trans('registration.PleaseRecheckSlip');
+                            $button = true;
+                        } else
+                            $text = trans('registration.SlipUploaded');
+                    } else if ($registration->chosen()) {
+                        $text = trans('registration.UploadPayment');
+                        $button = true;
+                        if ($camp_procedure->deposit_required) {
+                            if ($camp_procedure->interview_required)
+                                $button = $registration->interviewed();
+                        }
+                    } else {
+                        $text = trans('registration.AckSlip');
+                        $passed = false;
+                    }
+                }
+                break;
+            case BlockApplicationStatus::APPROVAL:
+                if ($registration->returned) {
+                    $text = trans('qualification.DocumentsNeedRecheck');
+                    $button = true;
+                } else if ($registration->approved_to_confirmed())
+                    $text = trans('qualification.DocumentsApproved');
+                else if ($registration->chosen())
+                    $text = trans('qualification.DocumentsInProcess');
+                else {
+                    $text = trans('qualification.DocumentsWillBeApproved');
+                    $passed = false;
+                }
+                break;
+            case BlockApplicationStatus::CONFIRMATION:
+                if ($registration->confirmed())
+                    $text = trans('qualification.AttendanceConfirmed');
+                else if ($registration->withdrawed() || $registration->rejected())
+                    $text = trans('qualification.NotAllowedToConfirm');
+                else if ($registration->approved()
+                    && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)
+                    && ($camp->hasPayment() ? $registration->paid_to_confirmed() : true)) {
+                        $button = true;
+                        $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
+                } else {
+                    $text = trans('qualification.YouNeedToConfirm');
+                    $passed = false;
+                }
+                break;
+        }
+        return [
+            'text' => $text,
+            'button' => $button,
+            'passed' => $passed,
         ];
     }
 
@@ -323,11 +416,11 @@ class CampApplicationController extends Controller
         return view('camp_application.status', compact('registration'));
     }
 
-    public static function confirm(Registration $registration, bool $void = false)
+    public static function confirm(Registration $registration, bool $silent = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp, $silent = $void);
-        self::authenticate_registration($registration, $silent = $void);
+        self::authenticate($camp, $silent = $silent);
+        self::authenticate_registration($registration, $silent = $silent);
         // Campers who withdrawed from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
         if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
@@ -343,19 +436,22 @@ class CampApplicationController extends Controller
             if ($prevent)
                 throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         }
+        $camp_procedure = $camp->camp_procedure;
+        if ($registration->status < ApplicationStatus::APPROVED && ($camp_procedure->interview_required || $camp_procedure->candidate_required || $camp_procedure->deposit_required))
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
-        if (!$void)
+        if (!$silent)
             return redirect()->back()->with('success', trans('qualification.FullyQualified', ['camp' => $camp]));
     }
 
-    public static function withdraw(Registration $registration, bool $void = false)
+    public static function withdraw(Registration $registration, bool $silent = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp, $silent = $void);
-        self::authenticate_registration($registration, $silent = $void);
+        self::authenticate($camp, $silent = $silent);
+        self::authenticate_registration($registration, $silent = $silent);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
@@ -370,7 +466,7 @@ class CampApplicationController extends Controller
                 'passed' => false,
             ]);
         }
-        if (!$void)
+        if (!$silent)
             return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 

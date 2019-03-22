@@ -52,4 +52,6 @@ return [
     'CandidatesAnnounced' => 'ประกาศผู้ผ่านการคัดเลือกของค่ายนี้แล้ว',
     'DownloadData' => 'ดาวน์โหลดเอกสาร',
     'FullyQualified' => 'คุณมีสิทธิ์เข้าค่าย :camp',
+    'InterviewPassed' => 'ผ่านการสัมภาษณ์',
+    'DocumentApproved' => 'เอกสารต่างๆ และหลักฐานการชำระเงินได้รับการยืนยันแล้ว',
 ];

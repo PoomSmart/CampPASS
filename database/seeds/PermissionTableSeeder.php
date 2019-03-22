@@ -55,7 +55,6 @@ class PermissionTableSeeder extends Seeder
             // candidate management
             'candidate-list',
             'candidate-edit',
-            'candidate-delete',
 
             // school management
             'school-list',
@@ -172,7 +171,6 @@ class PermissionTableSeeder extends Seeder
             // camp makers can manage their candidate list
             'candidate-list',
             'candidate-edit',
-            'candidate-delete',
             // camp makers can manage their questions
             'question-list',
             'question-create',

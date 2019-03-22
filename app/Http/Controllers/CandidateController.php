@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Common;
 use App\Candidate;
 use App\FormScore;
+use App\Registration;
 use App\QuestionSet;
 
 use App\Http\Controllers\QualificationController;
@@ -23,6 +24,39 @@ class CandidateController extends Controller
     {
         $this->middleware('permission:camper-list');
         $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export_selection', 'data_download']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['interview_check', 'approve_payment']]);
+    }
+
+    public static function interview_check_real(Registration $registration, $checked)
+    {
+        $registration->update([
+            'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+        ]);
+    }
+
+    public static function interview_check(Request $request)
+    {
+        $success = true;
+        try {
+            $content = json_decode($request->getContent(), true);
+            $registration = Registration::findOrFail($content['registration_id']);
+            self::interview_check_real($registration, $content['checked'] ? 'true' : 'false');
+        } catch (\Exception $e) {
+            $success = false;
+        }
+        return response()->json([
+            'data' => [
+                'success' => $success,
+            ]
+        ]);
+    }
+
+    public static function document_approve(Registration $registration)
+    {
+        $registration->update([
+            'status' => ApplicationStatus::APPROVED,
+        ]);
+        return redirect()->back()->with('info', trans('qualification.DocumentApproved'));
     }
 
     public function data_download(Request $request, QuestionSet $question_set)
