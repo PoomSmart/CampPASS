@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/finalize/{camp}', 'QuestionSetController@finalize')->name('questions.finalize');
     });
     Route::prefix('application')->group(function () {
-        Route::group(['middleware' => ['role:camper']], function () {
+        Route::group(['middleware' => ['permission:answer-edit']], function () {
             Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
             Route::get('/questions/{camp}', 'CampApplicationController@prepare_questions_answers')->name('camp_application.prepare_questions_answers');
             Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
@@ -52,11 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/payment-upload/{registration}', 'CampApplicationController@payment_upload')->name('camp_application.payment_upload');
             Route::get('/payment-delete/{registration}', 'CampApplicationController@payment_delete')->name('camp_application.payment_delete');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
-            Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
-        });
-        Route::group(['middleware' => ['role:admin']], function () {
             Route::get('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
-            Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
+            Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
         });
         Route::get('/payment-download/{registration}', 'CampApplicationController@payment_download')->name('camp_application.payment_download');
         Route::get('/answer-file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');

@@ -190,8 +190,8 @@ class CampApplicationController extends Controller
                 else if ($registration->withdrawed() || $registration->rejected())
                     $text = trans('qualification.NotAllowedToConfirm');
                 else if ($registration->approved()
-                    && ($camp_procedure->interview_required ? $registration->interviewed() : true)
-                    && ($camp->hasPayment() ? $registration->paid() : true)) {
+                    && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)
+                    && ($camp->hasPayment() ? $registration->paid_to_confirmed() : true)) {
                         $button = true;
                         $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
                 } else {
@@ -416,11 +416,11 @@ class CampApplicationController extends Controller
         return view('camp_application.status', compact('registration'));
     }
 
-    public static function confirm(Registration $registration, bool $void = false)
+    public static function confirm(Registration $registration, bool $silent = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp, $silent = $void);
-        self::authenticate_registration($registration, $silent = $void);
+        self::authenticate($camp, $silent = $silent);
+        self::authenticate_registration($registration, $silent = $silent);
         // Campers who withdrawed from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
         if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
@@ -440,15 +440,15 @@ class CampApplicationController extends Controller
             'status' => ApplicationStatus::CONFIRMED,
         ]);
         BadgeController::addBadgeIfNeeded($registration);
-        if (!$void)
+        if (!$silent)
             return redirect()->back()->with('success', trans('qualification.FullyQualified', ['camp' => $camp]));
     }
 
-    public static function withdraw(Registration $registration, bool $void = false)
+    public static function withdraw(Registration $registration, bool $silent = false)
     {
         $camp = $registration->camp;
-        self::authenticate($camp, $silent = $void);
-        self::authenticate_registration($registration, $silent = $void);
+        self::authenticate($camp, $silent = $silent);
+        self::authenticate_registration($registration, $silent = $silent);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
         if ($registration->withdrawed())
@@ -463,7 +463,7 @@ class CampApplicationController extends Controller
                 'passed' => false,
             ]);
         }
-        if (!$void)
+        if (!$silent)
             return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
