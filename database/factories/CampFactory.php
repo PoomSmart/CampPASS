@@ -41,7 +41,7 @@ class Camp_Randomizer
     public static function organization()
     {
         if (!self::$organizations)
-            self::$organizations = User::groupBy('organization_id')->pluck('organization_id', 'organization_id')->toArray();
+            self::$organizations = User::whereNotNull('organization_id')->groupBy('organization_id')->pluck('organization_id', 'organization_id')->toArray();
         return array_rand(self::$organizations);
     }
 

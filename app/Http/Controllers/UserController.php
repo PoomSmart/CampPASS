@@ -84,11 +84,11 @@ class UserController extends Controller
                     $registration = $answer->registration;
                     $camp = $registration->camp;
                     $directory = QuestionManager::questionSetDirectory($camp->id);
-                    Storage::disk('local')->delete("{$directory}/{$question->json_id}/{$user->id}");
+                    Storage::delete("{$directory}/{$question->json_id}/{$user->id}");
                 }
             }
         }
-        Storage::disk('local')->delete(Common::fileDirectory($user->id));
+        Storage::delete(Common::userFileDirectory($user->id));
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }

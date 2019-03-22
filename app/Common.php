@@ -80,7 +80,7 @@ class Common
         return "public/users/{$user_id}";
     }
 
-    public static function fileDirectory(int $user_id)
+    public static function userFileDirectory(int $user_id)
     {
         return self::userDirectory($user_id).'/files';
     }
@@ -116,7 +116,7 @@ class Common
 
     public static function deleteFile($path, $filename = null)
     {
-        if (!$path || !Storage::disk('local')->delete($path)) {
+        if (!$path || !Storage::delete($path)) {
             if (!$filename) $filename = trans('app.SpecifiedDocument');
             throw new \CampPASSExceptionRedirectBack(trans('app.FileNotRemoved', ['filename' => $filename]));
         }

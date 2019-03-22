@@ -268,7 +268,7 @@ class Camp extends Model
     {
         $directory = Common::publicCampDirectory($this->id);
         $path = "{$directory}/{$this->banner}";
-        if (Storage::disk('local')->exists($path))
+        if (Storage::exists($path))
             return $display ? Storage::url($path) : $path;
         return $actual ? null : asset('/images/placeholders/Camp '.Common::randomInt10().'.png');
     }
@@ -277,7 +277,7 @@ class Camp extends Model
     {
         $directory = Common::publicCampDirectory($this->id);
         $path = "{$directory}/{$this->poster}";
-        if (Storage::disk('local')->exists($path))
+        if (Storage::exists($path))
             return $display ? Storage::url($path) : $path;
         return $actual ? null : "http://placehold.it/440x600/".Common::randomString(6);
     }

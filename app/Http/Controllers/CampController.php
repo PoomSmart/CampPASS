@@ -87,14 +87,14 @@ class CampController extends Controller
             $camp->update([
                 'banner' => $name,
             ]);
-            Storage::disk('local')->putFileAs($directory, $request->file('banner'), $name);
+            Storage::putFileAs($directory, $request->file('banner'), $name);
         }
         if ($request->hasFile('poster')) {
             $name = "poster.{$request->poster->getClientOriginalExtension()}";
             $camp->update([
                 'poster' => $name,
             ]);
-            Storage::disk('local')->putFileAs($directory, $request->file('poster'), $name);
+            Storage::putFileAs($directory, $request->file('poster'), $name);
         }
     }
 
@@ -177,8 +177,8 @@ class CampController extends Controller
     public function destroy(Camp $camp)
     {
         auth()->user()->canManageCamp($camp);
-        Storage::disk('local')->delete(Common::campDirectory($camp->id));
-        Storage::disk('local')->delete(Common::publicCampDirectory($camp->id));
+        Storage::delete(Common::campDirectory($camp->id));
+        Storage::delete(Common::publicCampDirectory($camp->id));
         $camp->delete();
         return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
     }

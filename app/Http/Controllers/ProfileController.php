@@ -69,17 +69,17 @@ class ProfileController extends Controller
         $this->authenticate($user, $me = true);
         $input = $request->except(User::$once);
         $user->update($input);
-        $directory = Common::fileDirectory($user->id);
+        $directory = Common::userFileDirectory($user->id);
         if ($request->hasFile('transcript'))
-            Storage::disk('local')->putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
+            Storage::putFileAs($directory, $request->file('transcript'), 'transcript.pdf');
         if ($request->hasFile('confirmation_letter'))
-            Storage::disk('local')->putFileAs($directory, $request->file('confirmation_letter'), 'confirmation_letter.pdf');
+            Storage::putFileAs($directory, $request->file('confirmation_letter'), 'confirmation_letter.pdf');
         if ($request->hasFile('profile')) {
             $name = "profile.{$request->profile->getClientOriginalExtension()}";
             $user->update([
                 'avatar' => $name,
             ]);
-            Storage::disk('local')->putFileAs($directory, $request->file('profile'), $name);
+            Storage::putFileAs($directory, $request->file('profile'), $name);
         }
         auth()->login($user);
         return redirect()->back()->with('success', 'Profile updated successfully.');
@@ -103,23 +103,23 @@ class ProfileController extends Controller
 
     public function document_download(User $user, $type)
     {
-        $directory = Common::fileDirectory($user->id);
+        $directory = Common::userFileDirectory($user->id);
         $path = "{$directory}/{$type}.pdf";
         return Common::downloadFile($path);
     }
 
     public function document_delete(User $user, $type)
     {
-        $directory = Common::fileDirectory($user->id);
+        $directory = Common::userFileDirectory($user->id);
         $path = "{$directory}/{$type}.pdf";
         return Common::deleteFile($path);
     }
 
     public static function profile_picture_path(User $user, bool $actual = false, bool $display = true)
     {
-        $directory = Common::fileDirectory($user->id);
+        $directory = Common::userFileDirectory($user->id);
         $path = "{$directory}/{$user->avatar}";
-        if (Storage::disk('local')->exists($path))
+        if (Storage::exists($path))
             return $display ? Storage::url($path) : $path;
         return $actual ? null : asset('images/profiles/Profile_'.[ 'M', 'F' ][$user->gender % 2].'.jpg');
     }
@@ -127,7 +127,7 @@ class ProfileController extends Controller
     public function profile_picture_delete(User $user)
     {
         $path = $this->profile_picture_path($user, $actual = true, $display = false);
-        if (!Storage::disk('local')->delete($path))
+        if (!Storage::delete($path))
             throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
         return redirect()->back()->with('success', 'The profile picture has been removed.');
     }

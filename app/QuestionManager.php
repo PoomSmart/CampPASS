@@ -35,7 +35,7 @@ class QuestionManager
     {
         $json = json_encode($content, JSON_UNESCAPED_UNICODE);
         $directory = self::questionSetDirectory($camp_id);
-        Storage::disk('local')->put($directory.'/questions.json', $json);
+        Storage::put($directory.'/questions.json', $json);
     }
 
     public static function createOrUpdateQuestionSet(Camp $camp, $content, $score_threshold, $extra_question_set_info = [], &$question_id = null)
@@ -83,9 +83,9 @@ class QuestionManager
     {
         $json_path = self::questionSetDirectory($camp_id).'/questions.json';
         if ($encode)
-            $json = json_encode(Storage::disk('local')->get($json_path), JSON_UNESCAPED_UNICODE);
+            $json = json_encode(Storage::get($json_path), JSON_UNESCAPED_UNICODE);
         else {
-            $json = json_decode(Storage::disk('local')->get($json_path), true);
+            $json = json_decode(Storage::get($json_path), true);
             if (!is_null($graded) && !$graded) {
                 // Remove solutions from the questions before responding back to campers
                 unset($json['radio']);

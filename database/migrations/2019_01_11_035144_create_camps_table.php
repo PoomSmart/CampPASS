@@ -14,7 +14,7 @@ class CreateCampsTable extends Migration
      */
     public function up()
     {
-        Storage::disk('local')->deleteDirectory('camps/'); // TODO: Decide whether this should exist in the future
+        Storage::deleteDirectory('camps/'); // TODO: Decide whether this should exist in the future
         Schema::create('camps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('camp_category_id')->unsigned();

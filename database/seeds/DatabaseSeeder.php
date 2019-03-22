@@ -188,6 +188,17 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
+    private function student_documents()
+    {
+        $this->log_seed('student documents');
+        $fake_document = UploadedFile::fake()->create('document.pdf', 50);
+        foreach (User::campers()->where('status', 1)->cursor() as $camper) {
+            $directory = Common::userFileDirectory($camper->id);
+            Storage::putFileAs($directory, $fake_document, 'transcript.pdf');
+            Storage::putFileAs($directory, $fake_document, 'confirmation_letter.pdf');
+        }
+    }
+
     private function randomID($camp_id)
     {
         return $camp_id.'-'.Common::randomString(10);
@@ -297,7 +308,7 @@ class DatabaseSeeder extends Seeder
                     $camp_maker_notifications[$camp->id][] = $registration_id;
                     if ($camp->hasPayment()) {
                         $payment_directory = Common::paymentDirectory($camp->id);
-                        Storage::disk('local')->putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
+                        Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
                     }
                 }
                 // Camps with registrations must obviously be approved first
@@ -551,15 +562,15 @@ class DatabaseSeeder extends Seeder
                     foreach ($form_scores as $form_score) {
                         QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
                     }
-                    CandidateController::announce($question_set, $void = true, $form_scores = $form_scores);
+                    CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                     if (Common::randomFrequentHit()) {
                         foreach ($camp->registrations->all() as $registration) {
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit())
-                                CampApplicationController::confirm($registration, $void = true);
+                                CampApplicationController::confirm($registration, $silent = true);
                             else
-                                CampApplicationController::withdraw($registration, $void = true);
+                                CampApplicationController::withdraw($registration, $silent = true);
                         }
                     }
                 }
@@ -584,7 +595,6 @@ class DatabaseSeeder extends Seeder
         $candidate->update([
             'username' => 'camper',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
-            'type' => config('const.account.camper'),
         ]);
         $candidate->activate();
     }
@@ -597,7 +607,6 @@ class DatabaseSeeder extends Seeder
         })->first();
         $candidate->update([
             'username' => 'campmaker',
-            'type' => config('const.account.campmaker'),
         ]);
         $candidate->activate();
     }
@@ -644,6 +653,7 @@ class DatabaseSeeder extends Seeder
         factory(User::class, 450)->create();
         $this->log_seed('camps');
         factory(Camp::class, 120)->create();
+        $this->student_documents();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
         $this->alter_campmakers();

@@ -217,7 +217,7 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function announce(QuestionSet $question_set, bool $void = false, $form_scores = null)
+    public static function announce(QuestionSet $question_set, bool $silent = false, $form_scores = null)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -237,7 +237,7 @@ class CandidateController extends Controller
         }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));
-        if (!$void && $no_passed != $no_checked)
+        if (!$silent && $no_passed != $no_checked)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllPassedFormsMustBeChecked'));
         $candidates = [];
         $camp = $question_set->camp;
@@ -278,7 +278,7 @@ class CandidateController extends Controller
         $question_set->update([
             'announced' => true,
         ]);
-        if (!$void)
+        if (!$silent)
             return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', trans('qualification.CandidatesAnnounced'));
     }
 }
