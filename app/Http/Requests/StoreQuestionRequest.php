@@ -12,7 +12,7 @@ class StoreQuestionRequest extends CampPASSFormRequest
     public function true_rules()
     {
         return [
-            'score_threshold' => 'nullable|numeric|between:0.01,1.0',
+            'score_threshold' => 'nullable|numeric|between:0.05,1.0',
         ];
     }
 }

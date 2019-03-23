@@ -487,7 +487,7 @@ class DatabaseSeeder extends Seeder
                 $question_sets[] = [
                     'id' => $question_set_id,
                     'camp_id' => $camp->id,
-                    'score_threshold' => $question_set_has_grade ? rand(1, 75) / 100.0 : null,
+                    'score_threshold' => $question_set_has_grade ? (rand(1, 20) * 5) / 100.0 : null,
                     'manual_required' => $question_set_has_manual_grade,
                     'total_score' => $question_set_total_score,
                     'finalized' => $has_any_answers,
