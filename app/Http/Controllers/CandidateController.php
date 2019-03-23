@@ -30,7 +30,7 @@ class CandidateController extends Controller
     public static function interview_check_real(Registration $registration, $checked)
     {
         $registration->update([
-            'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+            'status' => $checked == 'true' ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
         ]);
     }
 
