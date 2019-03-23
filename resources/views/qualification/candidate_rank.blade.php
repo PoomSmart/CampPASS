@@ -91,7 +91,7 @@
                 @endcomponent
                 @component('components.submit', [
                     'label' => trans('app.Save'),
-                    'class' => 'ml-3',
+                    'class' => 'btn btn-primary ml-3',
                     'glyph' => 'far fa-save mr-1 fa-xs',
                 ])
                 @endcomponent

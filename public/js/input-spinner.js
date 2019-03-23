@@ -53,7 +53,7 @@
 
             var $original = $(this)
             $original[0]["bootstrap-input-spinner"] = true
-            $original.hide()
+            $original.css("opacity", 0).css("width", 0)
 
             var autoDelayHandler = null
             var autoIntervalHandler = null
@@ -65,6 +65,7 @@
             var $buttonIncrement = $inputGroup.find(".btn-increment")
             var $input = $inputGroup.find("input")
             $input.attr("name", $original.attr("name"))
+            $original.attr("name", `${$original.attr("name")}_original`);
             $input.attr("readonly", $original.attr("readonly"))
             $input.attr("disabled", $original.attr("disabled"))
 
