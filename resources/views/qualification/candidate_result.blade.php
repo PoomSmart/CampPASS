@@ -66,11 +66,13 @@
                 $camper = $candidate->camper;
                 $withdrawed = $registration->withdrawed();
                 $confirmed = $registration->confirmed();
+                $interviewed = $registration->interviewed_to_confirmed();
+                $rejected = $registration->rejected();
             @endphp
             <tr
                 @if ($confirmed)
                     class="table-success"
-                @elseif ($withdrawed)
+                @elseif ($withdrawed || $rejected)
                     class="table-danger"
                 @endif
             >
@@ -85,7 +87,7 @@
                             @if ($withdrawed || $confirmed)
                                 disabled
                             @endif
-                            @if ($registration->interviewed_to_confirmed())
+                            @if ($interviewed)
                                 checked
                             @endif
                         >

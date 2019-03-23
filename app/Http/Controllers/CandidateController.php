@@ -187,17 +187,17 @@ class CandidateController extends Controller
                 }
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
-                        'passed' => $form_score->total_score >= $minimum_score && ++$total_candidates,
+                        'passed' => $form_score->total_score >= $minimum_score,
                     ]);
                 }
+                if ($form_score->passed)
+                    ++$total_candidates;
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
             $form_scores_get = $form_scores->get();
         } else {
-            // TODO: We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
-            //$form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
-                //->orderByDesc('registrations.status')->orderBy('registrations.submission_time');
+            // We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
             $form_scores = $form_scores->orderBy('submission_time');
             $form_scores_get = $form_scores->get();
             foreach ($form_scores_get as $form_score) {

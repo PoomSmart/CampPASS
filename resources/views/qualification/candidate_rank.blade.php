@@ -128,7 +128,9 @@
                     ++$passed;
             @endphp
             <tr
-                @if ($withdrawed)
+                @if ($form_score->passed)
+                    class="table-success"
+                @elseif ($withdrawed || !$form_score->passed)
                     class="table-danger"
                 @elseif ($returned)
                     class="table-warning"
@@ -180,5 +182,11 @@
 @endsection
 
 @section('extra-buttons')
-    <button class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('qualification.candidate_announce', $question_set->id) }}">@lang('qualification.Announce')</button>
+    <button
+        class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }}
+        type="button"
+        data-toggle="modal"
+        data-target="#modal"
+        data-action="{{ route('qualification.candidate_announce', $question_set->id) }}"
+    ><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announce')</button>
 @endsection
