@@ -1,7 +1,7 @@
 @php
     $camper = $type == config('const.account.camper') ? 1 : null;
     $campmaker = $type == config('const.account.campmaker') ? 1 : null;
-    $disabled = isset($disabled) && $disabled;
+    $readonly = isset($readonly) && $readonly;
 @endphp
 <h3 class="mt-4">@lang('profile.About', [
         'entity' => !isset($object) || $object->id == auth()->user()->id ? trans('app.You') : $object->getFullName(),
@@ -87,7 +87,7 @@
             ])
             @endcomponent
         </div>
-        @if (isset($camper) || $disabled)
+        @if (isset($camper) || $readonly)
             <div class="col-md-6">
                 @component('components.input', [
                     'name' => 'blood_group',
@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    @if ($camper || $disabled)
+    @if ($camper || $readonly)
         <h3 class="mt-4">@lang('account.Education')</h3>
         <div class="row">
             <div class="col-12">
@@ -164,7 +164,7 @@
             </div>
         </div>
 
-        @if (isset($update) || $disabled)
+        @if (isset($update) || $readonly)
             <h3 class="mt-4">@lang('profile.StudentDocuments')</h3>
             <div class="row">
                 <h4 class="col-12 mt-2">@lang('profile.Transcript')</h4>
@@ -175,9 +175,9 @@
                             'user' => auth()->user()->id,
                             'type' => 'transcript',
                         ],
-                        'upload' => !$disabled,
+                        'upload' => !$readonly,
                         'download_route' => 'camp_application.document_download',
-                        'delete_route' => $disabled ? null : 'camp_application.document_delete',
+                        'delete_route' => $readonly ? null : 'camp_application.document_delete',
                         'full_width' => 1,
                         'name' => 'transcript',
                     ])
@@ -191,9 +191,9 @@
                             'user' => auth()->user()->id,
                             'type' => 'confirmation_letter',
                         ],
-                        'upload' => !$disabled,
+                        'upload' => !$readonly,
                         'download_route' => 'camp_application.document_download',
-                        'delete_route' => $disabled ? null : 'camp_application.document_delete',
+                        'delete_route' => $readonly ? null : 'camp_application.document_delete',
                         'full_width' => 1,
                         'name' => 'confirmation_letter',
                     ])
@@ -261,7 +261,7 @@
         </div>
     </div>
 
-    @if (isset($camper) || $disabled)
+    @if (isset($camper) || $readonly)
         <h3 class="mt-4">@lang('profile.EmergencyContactInformation')</h3>
         <div class="row">
             <div class="col-md-4">
@@ -314,7 +314,7 @@
         </div>
     @endif
 
-    @if (!auth()->user() || auth()->user()->isCamper() || (!auth()->user()->isCamper() && !$disabled))
+    @if (!auth()->user() || auth()->user()->isCamper() || (!auth()->user()->isCamper() && !$readonly))
         <h3 class="mt-4">@lang('account.Account')</h3>
         <div class="row">
             <div class="col-md-6">

@@ -467,7 +467,7 @@ class CampApplicationController extends Controller
             ]);
         }
         if (!$silent)
-            return redirect()->back()->with('info', trans('exception.WithdrawedFrom', ['camp' => $camp]));
+            return redirect()->back()->with('message', trans('exception.WithdrawedFrom', ['camp' => $camp]));
     }
 
     public function canAccessAnswer(Answer $answer)

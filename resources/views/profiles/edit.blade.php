@@ -19,6 +19,7 @@
             jQuery(document).ready(function () {
                 jQuery("#form").find("input,select").attr("disabled", true);
                 jQuery("label").removeAttr("required");
+                jQuery("[id*='desc-inline']").remove();
             });
         </script>
         <script src="{{ asset('js/modal.js') }}"></script>
@@ -116,16 +117,16 @@
                             @if ($col)
                                 @if ($has_payment)
                                     <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="{{ route('camp_application.payment_download', $registration->id) }}" class="btn btn-secondary w-100"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
+                                        <a href="{{ route('camp_application.payment_download', $registration->id) }}" class="btn btn-secondary w-100 h-100"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
                                     </div>
                                 @endif
                                 
                                 @if (!$registration->confirmed() && !$registration->withdrawed())
                                     <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="{{ route('qualification.document_approve', $registration->id) }}" class="btn btn-success w-100" title={{ trans('qualification.ApproveFormFull') }}><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
+                                        <a href="{{ route('qualification.document_approve', $registration->id) }}" class="btn btn-success w-100 h-100{{ $registration->approved() ? ' disabled' : null }}" title={{ trans('qualification.ApproveFormFull') }}><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
                                     </div>
                                     <div class="col-md-{{ $col }} my-1 px-1">
-                                        <button type="button" class="btn btn-warning w-100" title="{{ trans('qualification.ReturnFormFull') }}" data-action="{{ route('qualification.form_return', $form_score->id) }}" data-toggle="modal" data-target="#modal">
+                                        <button type="button" {{ $registration->approved() ? 'disabled' : null }} class="btn btn-warning w-100 h-100" title="{{ trans('qualification.ReturnFormFull') }}" data-action="{{ route('qualification.form_return', $form_score->id) }}" data-toggle="modal" data-target="#modal">
                                             <i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')
                                         </button>
                                     </div>

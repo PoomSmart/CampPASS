@@ -53,10 +53,18 @@ class CandidateController extends Controller
 
     public static function document_approve(Registration $registration)
     {
+        if ($registration->approved())
+            throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::APPROVED,
         ]);
-        return redirect()->back()->with('info', trans('qualification.DocumentApproved'));
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'checked' => true,
+            ]);
+        }
+        return redirect()->back()->with('success', trans('qualification.DocumentApproved'));
     }
 
     public function data_download(Request $request, QuestionSet $question_set)
