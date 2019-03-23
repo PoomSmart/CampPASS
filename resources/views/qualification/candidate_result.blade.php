@@ -37,7 +37,6 @@
                     });
                 });
             </script>
-            <script src="{{ asset('js/check-unsaved.js') }}"></script>
         @endif
 @endsection
 

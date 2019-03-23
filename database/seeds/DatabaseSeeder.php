@@ -572,11 +572,15 @@ class DatabaseSeeder extends Seeder
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit()) {
+                                $proceed = $interview_required ? Common::randomFrequentHit() : true;
                                 if ($interview_required)
-                                    CandidateController::interview_check_real($registration, $checked = 'true');
-                                CandidateController::document_approve($registration);
-                                CampApplicationController::confirm($registration, $silent = true);
-                            } else
+                                    CandidateController::interview_check_real($registration, $checked = $proceed ? 'true' : 'false');
+                                if ($proceed) {
+                                    CandidateController::document_approve($registration);
+                                    if (Common::randomMediumHit())
+                                        CampApplicationController::confirm($registration, $silent = true);
+                                }
+                            } else if (Common::randomRareHit())
                                 CampApplicationController::withdraw($registration, $silent = true);
                         }
                     }

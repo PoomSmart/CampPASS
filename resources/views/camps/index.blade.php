@@ -53,7 +53,7 @@
 	        <td class="text-truncate text-truncate-250"><a target="_blank" href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
-                    $registration_count = $camp->campers()->count();
+                    $registration_count = $camp->registrations_conditional()->count();
                     if ($camp->quota)
                         $registration_count = "{$registration_count} / {$camp->quota}";
                 } else

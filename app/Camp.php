@@ -117,21 +117,16 @@ class Camp extends Model
     }
 
     /**
-     * Return the campers that belong to the given camp, given the status.
+     * Return the registrations that belong to the given camp, given the status.
      *
      * @return array
      */
-    public function campers($status = null, bool $higher = false, int $paginate = 0)
+    public function registrations_conditional($status = null, bool $higher = false)
     {
-        $registrations = $this->registrations()->select('camper_id');
+        $registrations = $this->registrations();
         if (!is_null($status))
             $registrations = $registrations->where('status', $higher ? '>=' : '=', $status);
-        $registrations = $registrations->get();
-        $campers = User::campers();
-        if ($paginate)
-            $campers = $campers->paginate($paginate);
-        $campers = $campers->whereIn('id', $registrations)->get();
-        return $campers;
+        return $registrations;
     }
 
     /**
@@ -182,7 +177,7 @@ class Camp extends Model
      */
     public function isFull()
     {
-        return $this->quota && $this->campers(ApplicationStatus::APPLIED, $higher = true)->count() >= $this->quota;
+        return $this->quota && $this->registrations_conditional(ApplicationStatus::APPLIED, $higher = true)->count() >= $this->quota;
     }
 
     public function getTags()

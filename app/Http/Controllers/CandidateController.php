@@ -281,9 +281,10 @@ class CandidateController extends Controller
             $backup = false;
             $registration = $form_score->registration;
             if ($form_score->passed) {
-                // The application form can be approved now if they do not need to pay the deposit
+                // The application form can be approved now if they do not need to pay anything and have an interview
+                $next_status = !$camp->hasPayment() && !$camp_procedure->interview_required ? ApplicationStatus::APPROVED : ApplicationStatus::CHOSEN;
                 $registration->update([
-                    'status' => $camp_procedure->deposit_required ? ApplicationStatus::CHOSEN : ApplicationStatus::APPROVED,
+                    'status' => $next_status,
                 ]);
             } else {
                 // Otherwise, the application form will be rejected
