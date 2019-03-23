@@ -169,8 +169,10 @@
                     @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                            @if (!$returned)
+                                <a href="{{ route('qualification.form_return', $registration->id) }}" class="btn btn-warning">T Return</a>
+                            @endif
                         @endif
-                        <a href="{{ route('qualification.form_return', $registration->id) }}" class="btn btn-warning">T Return</a>
                     @endrole
                 </td>
             </tr>
