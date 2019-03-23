@@ -53,7 +53,7 @@
 
             var $original = $(this)
             $original[0]["bootstrap-input-spinner"] = true
-            $original.css("opacity", 0).css("width", 0)
+            $original.css("opacity", 0).css("width", 0).css("border", 0)
 
             var autoDelayHandler = null
             var autoIntervalHandler = null

@@ -86,6 +86,7 @@
                             @if ($withdrawed || $confirmed)
                                 disabled
                             @endif
+                            {{-- TODO: This is BUGGY --}}
                             @if ($registration->interviewed_to_confirmed())
                                 checked
                             @endif
