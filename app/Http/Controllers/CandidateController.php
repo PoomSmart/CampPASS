@@ -17,7 +17,6 @@ use App\Notifications\ApplicationStatusUpdated;
 use Chumper\Zipper\Zipper;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class CandidateController extends Controller
 {
@@ -307,21 +306,28 @@ class CandidateController extends Controller
                 $registration->update([
                     'status' => ApplicationStatus::REJECTED,
                 ]);
-                if (++$backup_count <= $camp->backup_limit)
+                if (++$backup_count <= $camp->backup_limit) {
+                    // TODO: Do we do this: Make all form scores of backups passed
+                    $form_score->update([
+                        'passed' => true,
+                    ]);
                     $backup = true;
+                }
             }
-            $camper = $registration->camper;
-            // Let campers know their application status
-            if (!$backup)
-                $camper->notify(new ApplicationStatusUpdated($registration));
-            $candidates[] = [
-                'camper_id' => $camper->id,
-                'camp_id' => $camp->id,
-                'registration_id' => $form_score->registration_id,
-                'form_score_id' => $form_score->id,
-                'total_score' => $form_score->total_score,
-                'backup' => $backup,
-            ];
+            if ($form_score->passed) {
+                $camper = $registration->camper;
+                // Let campers know their application status
+                if (!$backup)
+                    $camper->notify(new ApplicationStatusUpdated($registration));
+                $candidates[] = [
+                    'camper_id' => $camper->id,
+                    'camp_id' => $camp->id,
+                    'registration_id' => $form_score->registration_id,
+                    'form_score_id' => $form_score->id,
+                    'total_score' => $form_score->total_score,
+                    'backup' => $backup,
+                ];
+            }
         }
         Candidate::insert($candidates);
         unset($candidates);
