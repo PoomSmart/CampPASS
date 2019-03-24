@@ -17,6 +17,7 @@ use App\Notifications\ApplicationStatusUpdated;
 use Chumper\Zipper\Zipper;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CandidateController extends Controller
 {
@@ -143,46 +144,44 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups')));
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $with_withdrawed = true, bool $with_returned = true)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
-        $form_scores = FormScore::where('question_set_id', $question_set->id);
-        if ($form_scores->doesntExist()) {
+        $camp = $question_set->camp;
+        $registrations = Registration::where('camp_id', $camp->id);
+        if ($registrations->doesntExist()) {
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         }
-        $form_scores = $form_scores->with('registration')->whereHas('registration', function ($query) use (&$with_withdrawed, &$with_returned) {
-            // These unsubmitted forms by common sense should be rejected from the grading process at all
-            if (!$with_returned)
-                $query->where('registrations.returned', false);
-            $query->where('registrations.status', ApplicationStatus::APPLIED)->orWhere('registrations.status', ApplicationStatus::APPROVED)->orWhere('registrations.status', ApplicationStatus::CHOSEN);
-            if ($with_withdrawed)
-                $query->orWhere('registrations.status', ApplicationStatus::WITHDRAWED);
-        });
-        $total_registrations = $form_scores->count();
-        if ($question_set->manual_required)
-            $form_scores = $form_scores->where('finalized', true); // We would not grade unfinalized answers
-        else {
-            // If the question set can be entirely automatically graded, we say it is finalized
-            $form_scores->update([
-                'finalized' => true,
-            ]);
-        }
+        $registrations = $registrations->where('status', ApplicationStatus::APPLIED);
+        if ($without_returned)
+            $registrations = $registrations->where('registrations.returned', false);
+        if ($without_withdrawed)
+            $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWED);
+        $total_registrations = $registrations->count();
+        $form_scores = $camp->form_scores();
         if ($form_scores->doesntExist()) {
-            if ($list) return null;
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
+            $form_scores = [];
+            foreach ($registrations->get() as $registration) {
+                $form_scores[] = [
+                    'registration_id' => $registration->id,
+                    'question_set_id' => $question_set->id,
+                    'finalized' => !$question_set->manual_required,
+                    'submission_time' => $registration->submission_time,
+                ];
+            }
+            FormScore::insert($form_scores);
+            unset($form_scores);
         }
-        if ($form_scores->count() !== $total_registrations) {
-            if ($list) return null;
-            throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
-        }
+        $finalized = 0;
         $average_score = $total_withdrawed = $total_candidates = 0;
+        $form_scores_get = $form_scores->get();
         if ($question_set->total_score) {
             $minimum_score = $question_set->total_score * $question_set->score_threshold;
-            foreach ($form_scores->get() as $form_score) {
+            foreach ($form_scores_get as $form_score) {
                 $withdrawed = $form_score->registration->withdrawed();
                 if ($withdrawed) {
                     ++$total_withdrawed;
@@ -200,14 +199,14 @@ class CandidateController extends Controller
                 }
                 if ($form_score->passed)
                     ++$total_candidates;
+                if ($form_score->finalized)
+                    ++$finalized;
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
-            $form_scores_get = $form_scores->get();
         } else {
             // We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
             $form_scores = $form_scores->orderBy('submission_time');
-            $form_scores_get = $form_scores->get();
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
                 $withdrawed = $registration->withdrawed();
@@ -227,7 +226,17 @@ class CandidateController extends Controller
                     ++$total_withdrawed;
                 } else if ($form_score->passed)
                     ++$total_candidates;
+                if ($form_score->finalized)
+                    ++$finalized;
             }
+        }
+        if (!$finalized) {
+            if ($list) return null;
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
+        }
+        if ($finalized !== $total_registrations) {
+            if ($list) return null;
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
         // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
         $question_set->update([
@@ -254,7 +263,6 @@ class CandidateController extends Controller
                 'total_failed' => $total_failed,
             ]);
         }
-        $camp = $question_set->camp;
         $form_scores = $form_scores->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
@@ -267,7 +275,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the threshold
         $no_passed = $no_checked = 0;
-        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
+        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
         if ($form_scores) {
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
                 if ($form_score->passed) {

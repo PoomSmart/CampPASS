@@ -559,7 +559,7 @@ class DatabaseSeeder extends Seeder
                 'finalized' => true,
             ]);
             try {
-                $form_scores = CandidateController::rank($question_set, $list = true, $with_withdrawed = false, $with_returned = false);
+                $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
                 if ($form_scores) {
                     foreach ($form_scores as $form_score) {
                         QualificationController::form_check_real($form_score = $form_score, $checked = 'true');

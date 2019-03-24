@@ -44,8 +44,13 @@
                     @foreach ($data as $key => $registration)
                         @php
                             $camper = $registration->camper;
+                            $withdrawed = $registration->withdrawed();
                         @endphp
-                        <tr>
+                        <tr
+                            @if ($withdrawed)
+                                class="table-danger"
+                            @endif
+                        >
                             <th scope="row">{{ $registration->id }}</th>
                             <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                             <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
@@ -66,6 +71,11 @@
                                             'question_set_id' => $question_set->id,
                                         ]) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewForm')</a>
                                 @endif
+                                @role('admin')
+                                    @if (!$withdrawed)
+                                        <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                                    @endif
+                                @endrole
                             </td>
                         </tr>
                     @endforeach

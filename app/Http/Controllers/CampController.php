@@ -141,7 +141,6 @@ class CampController extends Controller
         $question_set = $camp->question_set;
         if ($question_set && $question_set->announced)
             return redirect()->route('qualification.candidate_result', $question_set->id);
-        $max = config('const.app.max_paginate');
         View::share('object', $camp);
         if (auth()->user()->can('camper-list')) {
             $registrations = $camp->registrations();
