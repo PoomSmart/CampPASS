@@ -124,7 +124,12 @@
                 'glyph' => 'far fa-save mr-1 fa-xs',
             ])
             @endcomponent
-            <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}" href="{{ route('qualification.form_finalize', $form_score) }}">{{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}</a>
+            <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}"
+                href="{{ route('qualification.form_finalize', $form_score) }}"
+            >
+                <i class="fas fa-check fa-xs mr-1"></i>
+                {{ $form_score->finalized ? trans('qualification.Finalized') : trans('qualification.Finalize') }}
+            </a>
         </div>
     </form>
     <script>

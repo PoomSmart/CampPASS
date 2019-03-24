@@ -9,10 +9,12 @@
             <div class="col-auto my-auto">
                 <h3 class="my-auto">{{ $header }}</h3>
             </div>
-            <div class="col-auto my-auto text-right">
-                <a class="btn btn-secondary-outline prev" href="#{{ $id }}" role="button" data-slide="prev" title="@lang('app.Back')"><i class="fa fa-lg fa-chevron-left"></i></a>
-                <a class="btn btn-secondary-outline next" href="#{{ $id }}" role="button" data-slide="next" title="@lang('app.Next')"><i class="fa fa-lg fa-chevron-right"></i></a>
-            </div>
+            @if (sizeof($objects) > 3)
+                <div class="col-auto my-auto text-right">
+                    <a class="btn btn-secondary-outline prev" href="#{{ $id }}" role="button" data-slide="prev" title="@lang('app.Back')"><i class="fa fa-lg fa-chevron-left"></i></a>
+                    <a class="btn btn-secondary-outline next" href="#{{ $id }}" role="button" data-slide="next" title="@lang('app.Next')"><i class="fa fa-lg fa-chevron-right"></i></a>
+                </div>
+            @endif
         </div>
     </div>
     <div class="container pt-0 carousel-inner px-2 py-2">

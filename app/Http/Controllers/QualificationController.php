@@ -208,7 +208,7 @@ class QualificationController extends Controller
             'finalized' => true,
         ]);
         if (!$silent)
-            return redirect()->back()->with('success', trans('qualification.FormFinalized', [ 'candidate' => $registration->camper ]));
+            return redirect()->back()->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
     }
 
     public static function form_check_real(FormScore $form_score, $checked)
