@@ -8,6 +8,7 @@ use App\FormScore;
 use App\Registration;
 use App\QuestionSet;
 
+use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\QualificationController;
 
 use App\Enums\ApplicationStatus;
@@ -150,12 +151,11 @@ class CandidateController extends Controller
         if ($question_set->announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $camp = $question_set->camp;
-        $registrations = Registration::where('camp_id', $camp->id);
-        if ($registrations->doesntExist()) {
+        $registrations = $camp->registrations;
+        if ($registrations->isEmpty()) {
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         }
-        $registrations = $registrations->where('status', ApplicationStatus::APPLIED);
         if ($without_returned)
             $registrations = $registrations->where('registrations.returned', false);
         if ($without_withdrawed)
@@ -181,21 +181,26 @@ class CandidateController extends Controller
         if ($question_set->total_score) {
             $minimum_score = $question_set->total_score * $question_set->score_threshold;
             foreach ($form_scores_get as $form_score) {
-                $withdrawed = $form_score->registration->withdrawed();
+                $registration = $form_score->registration;
+                $withdrawed = $registration->withdrawed();
                 if ($withdrawed) {
                     ++$total_withdrawed;
                     continue;
                 }
                 if (is_null($form_score->total_score)) {
                     $form_score->update([
-                        'total_score' => QualificationController::form_grade($registration_id = $form_score->registration_id, $question_set_id = $question_set->id, $silent = true),
+                        'total_score' => QualificationController::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
                     ]);
                 }
+                $paid = $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
-                        'passed' => $form_score->total_score >= $minimum_score,
+                        'passed' => $form_score->total_score >= $minimum_score && $paid,
                     ]);
                 }
+                $form_score->update([
+                    'passed' => $form_score->passed && $paid,
+                ]);
                 if ($form_score->passed)
                     ++$total_candidates;
                 if ($form_score->finalized)
@@ -208,10 +213,11 @@ class CandidateController extends Controller
             $form_scores = $form_scores->orderBy('submission_time');
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
+                $paid = $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
                 $withdrawed = $registration->withdrawed();
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
-                        'passed' => !$withdrawed,
+                        'passed' => !$withdrawed && $paid,
                     ]);
                 }
                 if ($registration->returned) {
@@ -233,7 +239,7 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
         }
-        if ($finalized !== $total_registrations) {
+        if ($finalized !== $total_registrations - $total_withdrawed) {
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
@@ -241,8 +247,14 @@ class CandidateController extends Controller
         $question_set->update([
             'auto_ranked' => true,
         ]);
-        if ($list)
+        if ($list) {
+            if ($camp->application_fee) {
+                $form_scores_get = $form_scores_get->filter(function ($form_score) {
+                    return !is_null(CampApplicationController::get_payment_path($form_score->registration));
+                });
+            }
             return $form_scores_get;
+        }
         if ($question_set->total_score) {
             $average_score = number_format($average_score / $total_registrations, 2);
             $total_failed = $total_registrations - $total_candidates;

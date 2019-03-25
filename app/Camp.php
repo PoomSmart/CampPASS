@@ -64,7 +64,7 @@ class Camp extends Model
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class)->where('status', '!=', ApplicationStatus::DRAFT);
     }
 
     public function candidates()

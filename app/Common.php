@@ -120,7 +120,7 @@ class Common
             if (!$filename) $filename = trans('app.SpecifiedDocument');
             throw new \CampPASSExceptionRedirectBack(trans('app.FileNotRemoved', ['filename' => $filename]));
         }
-        return redirect()->back()->with('success', trans('app.FileRemoved'). ['filename' => $filename]);
+        return redirect()->back()->with('success', trans('app.FileRemoved', ['filename' => $filename]));
     }
 
     public static function getLocalizedName($record, string $attribute = 'name')

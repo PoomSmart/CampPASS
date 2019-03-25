@@ -391,12 +391,18 @@ class CampApplicationController extends Controller
         return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
     }
 
+    public static function get_payment_path(Registration $registration)
+    {
+        $directory = Common::paymentDirectory($registration->camp_id);
+        $path = "{$directory}/payment_{$registration->id}.pdf";
+        return Storage::exists($path) ? $path : null;
+    }
+
     public function payment_download(Registration $registration)
     {
         self::authenticate($registration->camp);
         $this->canAccessPayment($registration);
-        $directory = Common::paymentDirectory($registration->camp_id);
-        $path = "{$directory}/payment_{$registration->id}.pdf";
+        $path = $this->get_payment_path($registration);
         return Common::downloadFile($path);
     }
 
@@ -437,6 +443,7 @@ class CampApplicationController extends Controller
                 throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         }
         $camp_procedure = $camp->camp_procedure;
+        // TODO: What about backups?
         if ($registration->status < ApplicationStatus::APPROVED && ($camp_procedure->interview_required || $camp_procedure->candidate_required || $camp_procedure->deposit_required))
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([

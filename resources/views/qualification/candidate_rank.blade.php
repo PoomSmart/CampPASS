@@ -3,6 +3,7 @@
 @section('script')
     @php
         $rank_by_score = $question_set->total_score;
+        $required_paid = $camp->application_fee;
     @endphp
     <script src="{{ asset('js/modal.js') }}"></script>
     <script>
@@ -114,6 +115,9 @@
                 <th>@lang('qualification.SubmissionTime')</th>
             @endif
             <th>@lang('registration.Status')</th>
+            @if ($camp->application_fee)
+                <th>@lang('qualification.ApplicationFeePaid')</th>
+            @endif
             <th>@lang('qualification.Passed')</th>
             <th>@lang('qualification.Checked')</th>
             <th>@lang('app.Actions')</th>
@@ -124,7 +128,8 @@
                 $camper = $registration->camper;
                 $withdrawed = $registration->withdrawed();
                 $returned = $registration->returned;
-                if ($form_score->passed)
+                $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
+                if ($form_score->passed && !$returned)
                     ++$passed;
             @endphp
             <tr
@@ -144,9 +149,12 @@
                     <td>{{ $registration->submission_time }}</td>
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
+                @if ($camp->application_fee)
+                    <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                @endif
                 <td class="text-center">
                     <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($withdrawed)
+                        @if ($withdrawed || !$paid)
                             disabled
                         @endif
                         @if ($form_score->passed)

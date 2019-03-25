@@ -54,4 +54,5 @@ return [
     'FullyQualified' => 'You are fully qualified for :camp',
     'InterviewPassed' => 'Interview Passed',
     'DocumentApproved' => 'All the documents have been approved.',
+    'ApplicationFeePaid' => 'Application Fee Paid',
 ];

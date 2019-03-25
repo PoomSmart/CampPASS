@@ -54,4 +54,5 @@ return [
     'FullyQualified' => 'คุณมีสิทธิ์เข้าค่าย :camp',
     'InterviewPassed' => 'ผ่านการสัมภาษณ์',
     'DocumentApproved' => 'เอกสารต่างๆ และหลักฐานการชำระเงินได้รับการยืนยันแล้ว',
+    'ApplicationFeePaid' => 'ชำระค่าธรรมเนียมแล้ว',
 ];

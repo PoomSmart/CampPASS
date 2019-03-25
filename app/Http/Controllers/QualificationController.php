@@ -12,6 +12,8 @@ use App\QuestionManager;
 
 use App\Enums\QuestionType;
 
+use App\Http\Controllers\CampApplicationController;
+
 use App\Notifications\ApplicationStatusUpdated;
 
 use Illuminate\Http\Request;
@@ -166,7 +168,11 @@ class QualificationController extends Controller
         View::share('registration', $registration);
         View::share('form_score', $form_score);
         View::share('fields_disabled', true);
-        View::share('has_payment', $registration->camp->hasPayment());
+        $camp = $registration->camp;
+        $question_set = $camp->question_set;
+        $has_payment = $question_set->announced ? $camp->camp_procedure->deposit_required : $camp->application_fee;
+        View::share('has_payment', $has_payment);
+        View::share('payment_exists', $has_payment && CampApplicationController::get_payment_path($registration));
         View::share('return_reasons', [
             'payment' => trans('qualification.PaymentSlipIssue'),
             'document' => trans('qualification.StudentDocumentIssue'),

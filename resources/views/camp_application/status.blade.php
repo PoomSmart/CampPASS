@@ -57,14 +57,15 @@
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(3, $registration, $camp, $camp_procedure),
         ])
         @slot('buttons')
-            <form class="w-100" action="{{ route('camp_application.payment_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
+            <form id="form" name="form" class="w-100" action="{{ route('camp_application.payment_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @component('components.file_upload', [
                     'value' => trans('app.View'),
                     'args' => $registration->id,
                     'upload' => 1,
-                    'download_route' => 'camp_application.payment_download',
+                    'download_route' => \App\Http\Controllers\CampApplicationController::get_payment_path($registration) ? 'camp_application.payment_download' : null,
                     'delete_route' => 'camp_application.payment_delete',
+                    'auto_upload' => 1,
                     'full_width' => 1,
                     'name' => 'pdf',
                 ])
