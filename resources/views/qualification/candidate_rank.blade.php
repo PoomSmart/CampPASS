@@ -137,7 +137,7 @@
                     class="table-success"
                 @elseif ($withdrawed || !$form_score->passed)
                     class="table-danger"
-                @elseif ($returned)
+                @elseif ($returned || !$paid)
                     class="table-warning"
                 @endif
             >

@@ -307,7 +307,7 @@ class DatabaseSeeder extends Seeder
                     if (!isset($camp_maker_notifications[$camp->id]))
                         $camp_maker_notifications[$camp->id] = [];
                     $camp_maker_notifications[$camp->id][] = $registration_id;
-                    if ($camp->hasPayment()) {
+                    if ($camp->application_fee && Common::randomFrequentHit()) {
                         $payment_directory = Common::paymentDirectory($camp->id);
                         Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
                     }
@@ -324,7 +324,6 @@ class DatabaseSeeder extends Seeder
                 $camper->activate();
             }
         }
-        unset($dummy_payment);
         foreach (array_chunk($registrations, 1000) as $chunk)
             Registration::insert($chunk);
         unset($registrations);
@@ -568,7 +567,8 @@ class DatabaseSeeder extends Seeder
                     if (Common::randomFrequentHit()) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
-                        foreach ($camp->registrations->all() as $registration) {
+                        $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
+                        foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit()) {
@@ -576,9 +576,15 @@ class DatabaseSeeder extends Seeder
                                 if ($interview_required)
                                     CandidateController::interview_check_real($registration, $checked = $proceed ? 'true' : 'false');
                                 if ($proceed) {
-                                    CandidateController::document_approve($registration);
-                                    if (Common::randomMediumHit())
-                                        CampApplicationController::confirm($registration, $silent = true);
+                                    // We can seed payment slips for the camps that require deposit here
+                                    // This is because the campers can only do this after they know they are chosen
+                                    if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
+                                        Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
+                                    if (Common::randomVeryFrequentHit()) {
+                                        CandidateController::document_approve($registration);
+                                        if (Common::randomMediumHit())
+                                            CampApplicationController::confirm($registration, $silent = true);
+                                    }
                                 }
                             } else if (Common::randomRareHit())
                                 CampApplicationController::withdraw($registration, $silent = true);
@@ -590,6 +596,7 @@ class DatabaseSeeder extends Seeder
                 continue;
             }
         }
+        unset($dummy_payment);
         // Simulate badges generation
         $this->log('-> simulating badges generation');
         foreach (Registration::all() as $registration) {

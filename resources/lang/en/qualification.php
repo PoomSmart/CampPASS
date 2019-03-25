@@ -55,4 +55,5 @@ return [
     'InterviewPassed' => 'Interview Passed',
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
+    'DepositPaid' => 'Deposit Paid',
 ];

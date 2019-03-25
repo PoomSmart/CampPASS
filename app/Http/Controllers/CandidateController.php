@@ -30,6 +30,8 @@ class CandidateController extends Controller
 
     public static function interview_check_real(Registration $registration, $checked)
     {
+        if ($registration->interviewed_to_confirmed())
+            throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => $checked == 'true' ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
         ]);
@@ -55,6 +57,9 @@ class CandidateController extends Controller
     public static function document_approve(Registration $registration)
     {
         if ($registration->approved())
+            throw new \CampPASSExceptionRedirectBack();
+        // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
+        if ($registration->camp->camp_procedure->deposit_required && !CampApplicationController::get_payment_path($registration))
             throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::APPROVED,
