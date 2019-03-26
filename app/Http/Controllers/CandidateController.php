@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use File;
+
 use App\Camp;
 use App\Common;
 use App\Candidate;
@@ -19,6 +21,7 @@ use App\Notifications\ApplicationStatusUpdated;
 use Chumper\Zipper\Zipper;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
@@ -93,10 +96,34 @@ class CandidateController extends Controller
     public function data_download(Request $request, QuestionSet $question_set)
     {
         $camp = $question_set->camp;
-        $result = $this->result($question_set, $export = true);
         $download_path = public_path("{$camp}_data.zip");
+        File::delete($download_path);
         $zipper = new Zipper;
-        $zipper->make($download_path);
+        $make = $zipper->make($download_path);
+        $root = storage_path('app').'/';
+        if ($request->has('payment')) {
+            $path = $root.Common::paymentDirectory($camp->id).'/*';
+            $glob = glob($path);
+            $make->folder('payment')->add($glob);
+        }
+        if ($request->has('submitted-form')) {
+
+        }
+        $candidates = null;
+        foreach (['transcript', 'confirmation_letter'] as $folder) {
+            if ($request->has($folder)) {
+                if (is_null($candidates)) {
+                    $candidates = $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
+                        return $candidate->registration->chosen_to_confirmed();
+                    });
+                }
+                foreach ($candidates as $candidate) {
+                    $camper_id = $candidate->camper_id;
+                    $path = $root.Common::userFileDirectory($camper_id)."/{$folder}.pdf";
+                    $make->folder($folder)->add($path, "{$folder}_{$camper_id}.pdf");
+                }
+            }
+        }
         $zipper->close();
         return response()->download($download_path);
     }
@@ -108,63 +135,54 @@ class CandidateController extends Controller
         return view('qualification.data_export_selection', compact('question_set', 'camp', 'camp_procedure'));
     }
 
-    public function result(QuestionSet $question_set, bool $export = false)
+    public function result(QuestionSet $question_set)
     {
         $camp = $question_set->camp;
         $candidates = $camp->candidates()->where('backup', false);
-        if ($candidates->doesntExist()) {
-            if ($export) return null;
+        if ($candidates->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
-        }
-        $backups = null;
         $can_get_backups = false;
-        if (!$export) {
-            $total = $candidates->count();
-            $confirmed = $withdrawed = 0;
-            foreach ($candidates->get() as $candidate) {
+        $total = $candidates->count();
+        $confirmed = $withdrawed = 0;
+        foreach ($candidates->get() as $candidate) {
+            $registration = $candidate->registration;
+            if ($registration->confirmed())
+                ++$confirmed;
+            else if ($registration->withdrawed())
+                ++$withdrawed;
+        }
+        $summary = trans('qualification.TotalCandidates', [
+            'total' => $total,
+            'confirmed' => $confirmed,
+            'not_confirmed' => $total - $confirmed - $withdrawed,
+            'withdrawed' => $withdrawed,
+        ]);
+        $rank_by_score = $question_set->total_score;
+        if ($rank_by_score) {
+            $backup_confirmed = $backup_withdrawed = 0;
+            $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
                 $registration = $candidate->registration;
                 if ($registration->confirmed())
-                    ++$confirmed;
+                    ++$backup_confirmed;
                 else if ($registration->withdrawed())
-                    ++$withdrawed;
-            }
-            $summary = trans('qualification.TotalCandidates', [
-                'total' => $total,
-                'confirmed' => $confirmed,
-                'not_confirmed' => $total - $confirmed - $withdrawed,
-                'withdrawed' => $withdrawed,
+                    ++$backup_withdrawed;
+                return $candidate->form_score->total_score;
+            });
+            $backup_total = $backups->count();
+            $backup_summary = trans('qualification.TotalCandidates', [
+                'total' => $backup_total,
+                'confirmed' => $backup_confirmed,
+                'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
+                'withdrawed' => $backup_withdrawed,
             ]);
-            $rank_by_score = $question_set->total_score;
-            if ($rank_by_score) {
-                $backup_confirmed = $backup_withdrawed = 0;
-                $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
-                    $registration = $candidate->registration;
-                    if ($registration->confirmed())
-                        ++$backup_confirmed;
-                    else if ($registration->withdrawed())
-                        ++$backup_withdrawed;
-                    return $candidate->form_score->total_score;
-                });
-                $backup_total = $backups->count();
-                $backup_summary = trans('qualification.TotalCandidates', [
-                    'total' => $backup_total,
-                    'confirmed' => $backup_confirmed,
-                    'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
-                    'withdrawed' => $backup_withdrawed,
-                ]);
-                $can_get_backups = $camp->canGetBackups();
-            } else
-                $backup_summary = null;
+            $can_get_backups = $camp->canGetBackups();
+        } else {
+            $backups = null;
+            $backup_summary = null;
         }
         $locale = app()->getLocale();
         $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
                         ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderByDesc('registrations.status')->orderBy("users.name_{$locale}");
-        if ($export) {
-            return [
-                'candidates' => $candidates->get(),
-                'backups' => $backups,
-            ];
-        }
         $candidates = $candidates->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
     }
