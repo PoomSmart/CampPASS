@@ -34,7 +34,7 @@ class CandidateController extends Controller
         if ($registration->withdrawed())
             return;
         $registration->update([
-            'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+            'status' => $checked == 'true' ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
         ]);
     }
 
@@ -45,12 +45,12 @@ class CandidateController extends Controller
         $candidates = $camp->candidates()->where('backup', false)->get();
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
-            $this->interview_check_real($registration, isset($data[$registration->id]));
+            $this->interview_check_real($registration, isset($data[$registration->id]) ? 'true' : 'false');
         }
         return redirect()->back()->with('success', trans('qualification.InterviewedSaved'));
     }
 
-    public function interview_announce(QuestionSet $question_set)
+    public static function interview_announce(QuestionSet $question_set, bool $silent = false)
     {
         if ($question_set->interview_announced)
             throw new \CampPASSExceptionRedirectBack();
@@ -64,7 +64,8 @@ class CandidateController extends Controller
         $question_set->update([
             'interview_announced' => true,
         ]);
-        return redirect()->back()->with('success', trans('qualification.InterviewedAnnounced'));
+        if (!$silent)
+            return redirect()->back()->with('success', trans('qualification.InterviewedAnnounced'));
     }
 
     public static function document_approve(Registration $registration)
