@@ -29,12 +29,12 @@ class CandidateController extends Controller
         $this->middleware('permission:candidate-edit', ['only' => ['interview_save']]);
     }
 
-    public static function interview_check_real(Registration $registration, $checked)
+    public static function interview_check_real(Registration $registration, string $checked)
     {
         if ($registration->withdrawed())
             return;
         $registration->update([
-            'status' => $checked == 'true' ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+            'status' => strcmp($checked, 'true') == 0 ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
         ]);
     }
 
