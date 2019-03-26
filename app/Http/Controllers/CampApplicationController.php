@@ -432,7 +432,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyConfirmed', ['camp' => $camp]));
-        if ($camp->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($camp->confirmation_date)) < 0) {
+        if ($camp->canGetBackups()) {
             $form_score = $registration->form_score;
             $prevent = true;
             if ($form_score->backup) {

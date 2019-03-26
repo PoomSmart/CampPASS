@@ -24,9 +24,6 @@ class Locale
             else
                 $locale = config('app.locale');
             App::setLocale($locale);
-            // TODO: It requires another page refresh to make Thai localization works
-            // Worse, each refresh will alternate between English and Thai (if Thai has been selected)
-            \Carbon\Carbon::setLocale($locale);
             setlocale(LC_TIME, "{$locale}.utf8");
         }
         return $next($request);

@@ -53,12 +53,12 @@ class Camp_Randomizer
 
 $factory->define(App\Camp::class, function (Faker $faker) {
     $now = Carbon::now()->format('Y-m-d H:i:s');
-    $app_close_date = $faker->dateTimeBetween($startDate = $now.' +10 days', $now.' +6 months');
+    $app_close_date = $faker->dateTimeBetween($startDate = $now.' -1 month', $now.' +3 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
     $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;
     $application_fee = $deposit ? null : Common::randomMediumHit() ? rand(100, 500) : null;
     $has_payment = $deposit || $application_fee;
-    $announcement_date = $camp_procedure->candidate_required ? Camp_Randomizer::date_range_forward($faker, $app_close_date, '+2 months') : null;
+    $announcement_date = $camp_procedure->candidate_required ? Camp_Randomizer::date_range_forward($faker, $app_close_date, '+1 months') : null;
     $interview_date = $camp_procedure->interview_required && $announcement_date ? Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks') : null;
     $confirmation_date = null;
     $interview_information = null;
@@ -67,8 +67,8 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         $interview_information = $faker->sentence($nbWords = 10, $variableNbWords = true);
     } else if ($announcement_date)
         $confirmation_date = Camp_Randomizer::date_range_forward($faker, $announcement_date, '+2 weeks');
-    $event_start_date = Camp_Randomizer::date_range_forward($faker, $confirmation_date ? $confirmation_date : $app_close_date, '+3 months');
-    $event_end_date = Camp_Randomizer::date_range_forward($faker, $event_start_date, '+1 month');
+    $event_start_date = Camp_Randomizer::date_range_forward($faker, $confirmation_date ? $confirmation_date : $app_close_date, '+1 month');
+    $event_end_date = Camp_Randomizer::date_range_forward($faker, $event_start_date, '+2 weeks');
     $camp_name = $faker->unique()->company;
     // TODO: Fake locations
     return [

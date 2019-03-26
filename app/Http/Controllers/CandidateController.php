@@ -100,6 +100,7 @@ class CandidateController extends Controller
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         }
         $backups = null;
+        $can_get_backups = false;
         if (!$export) {
             $total = $candidates->count();
             $confirmed = $withdrawed = 0;
@@ -134,6 +135,7 @@ class CandidateController extends Controller
                     'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
                     'withdrawed' => $backup_withdrawed,
                 ]);
+                $can_get_backups = $camp->canGetBackups();
             } else
                 $backup_summary = null;
         }
@@ -147,7 +149,7 @@ class CandidateController extends Controller
             ];
         }
         $candidates = $candidates->paginate(Common::maxPagination());
-        return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups')));
+        return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
     }
 
     public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false)

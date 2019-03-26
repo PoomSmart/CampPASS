@@ -19,34 +19,34 @@
 @endphp
 
 @section('script')
-        @if ($interview_required)
-            <script>
-                jQuery(document).ready(function () {
-                    jQuery("input:checkbox").change(function () {
-                        var self = jQuery(this);
-                        jQuery.ajax({
-                            type: "POST",
-                            url: "{!! route('qualification.interview_check') !!}",
-                            headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
-                            contentType: "json",
-                            processData: false,
-                            data: JSON.stringify({
-                                "registration_id" : self.attr("id"),
-                                "checked" : self.is(":checked")
-                            }),
-                            success: function (data) {}
-                        });
+    @if ($interview_required)
+        <script>
+            jQuery(document).ready(function () {
+                jQuery("input:checkbox").change(function () {
+                    var self = jQuery(this);
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "{!! route('qualification.interview_check') !!}",
+                        headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
+                        contentType: "json",
+                        processData: false,
+                        data: JSON.stringify({
+                            "registration_id" : self.attr("id"),
+                            "checked" : self.is(":checked")
+                        }),
+                        success: function (data) {}
                     });
                 });
-            </script>
-        @endif
+            });
+        </script>
+    @endif
 @endsection
 
 @section('content')
     <h2>@lang('qualification.Candidates')</h2>
-    <div class="d-flex">
-        <span class="text-muted">{{ $summary }}</span>
-    </div>
+    <span class="text-muted">{{ $summary }}</span>
+    <br/>
+    <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Candidates'), 'date' => $camp->getConfirmationDate() ])</span>
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -128,9 +128,11 @@
         @if ($backups->isEmpty())
             @lang('app.None')
         @else
-            <div class="d-flex">
-                <span class="text-muted">{{ $backup_summary }}</span>
-            </div>
+            <span class="text-muted">{{ $backup_summary }}</span>
+            @if ($can_get_backups)
+                <br/>
+                <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Backups'), 'date' => $camp->getConfirmationDate($backup = true) ])</span>
+            @endif
             <table class="table table-striped">
                 <thead>
                     <th>@lang('app.No_')</th>
@@ -167,7 +169,7 @@
                         <td class="fit">
                             <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                             @role('admin')
-                                @if (!$withdrawed && !$confirmed)
+                                @if ($can_get_backups && !$withdrawed && !$confirmed)
                                     <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                                     <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                                 @endif

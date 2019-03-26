@@ -56,4 +56,5 @@ return [
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
+    'WhoConfirmedWithin' => 'All :who must confirm their attendance by :date',
 ];
