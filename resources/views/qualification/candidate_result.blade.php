@@ -20,25 +20,7 @@
 
 @section('script')
     @if ($interview_required)
-        <script>
-            jQuery(document).ready(function () {
-                jQuery("input:checkbox").change(function () {
-                    var self = jQuery(this);
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "{!! route('qualification.interview_check') !!}",
-                        headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
-                        contentType: "json",
-                        processData: false,
-                        data: JSON.stringify({
-                            "registration_id" : self.attr("id"),
-                            "checked" : self.is(":checked")
-                        }),
-                        success: function (data) {}
-                    });
-                });
-            });
-        </script>
+        <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
 @endsection
 
@@ -47,6 +29,10 @@
     <span class="text-muted">{{ $summary }}</span>
     <br/>
     <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Candidates'), 'date' => $camp->getConfirmationDate() ])</span>
+    @if ($interview_required)
+        <form id="form" method="POST" action="{{ route('qualification.interview_save', $camp->id) }}">
+        @csrf
+    @endif
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -95,7 +81,7 @@
                 @endif
                 @if ($interview_required)
                     <td class="text-center">
-                        <input type="checkbox" name="checked_{{ $registration->id }}" id="{{ $registration->id }}"
+                        <input type="checkbox" name="{{ $registration->id }}"
                             @if ($withdrawed || $approved || $confirmed)
                                 disabled
                             @endif
@@ -122,6 +108,17 @@
     <div class="d-flex justify-content-center">
         {!! $candidates->links() !!}
     </div>
+    @if ($interview_required)
+            <div class="text-center">
+                @component('components.submit', [
+                    'label' => trans('app.Save'),
+                    'class' => 'btn btn-primary w-50',
+                    'glyph' => 'far fa-save mr-1 fa-xs',
+                ])
+                @endcomponent
+            </div>
+        </form>
+    @endif
     @php $question_set = $camp->question_set @endphp
     @if ($question_set->total_score)
         <h2>@lang('qualification.Backups')</h2>

@@ -564,31 +564,29 @@ class DatabaseSeeder extends Seeder
                         QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
                     }
                     CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
-                    if (Common::randomFrequentHit()) {
-                        $camp_procedure = $camp->camp_procedure;
-                        $interview_required = $camp_procedure->interview_required;
-                        $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
-                        foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
-                            if (Common::randomRareHit())
-                                continue;
-                            if (Common::randomVeryFrequentHit()) {
-                                $proceed = $interview_required ? Common::randomFrequentHit() : true;
-                                if ($interview_required)
-                                    CandidateController::interview_check_real($registration, $checked = $proceed ? 'true' : 'false');
-                                if ($proceed) {
-                                    // We can seed payment slips for the camps that require deposit here
-                                    // This is because the campers can only do this after they know they are chosen
-                                    if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
-                                        Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
-                                    if (Common::randomVeryFrequentHit()) {
-                                        CandidateController::document_approve($registration);
-                                        if (Common::randomMediumHit())
-                                            CampApplicationController::confirm($registration, $silent = true);
-                                    }
+                    $camp_procedure = $camp->camp_procedure;
+                    $interview_required = $camp_procedure->interview_required;
+                    $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
+                    foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                        if (Common::randomRareHit())
+                            continue;
+                        if (Common::randomVeryFrequentHit()) {
+                            $proceed = $interview_required ? Common::randomFrequentHit() : true;
+                            if ($interview_required)
+                                CandidateController::interview_check_real($registration, $checked = $proceed);
+                            if ($proceed) {
+                                // We can seed payment slips for the camps that require deposit here
+                                // This is because the campers can only do this after they know they are chosen
+                                if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
+                                    Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
+                                if (Common::randomVeryFrequentHit()) {
+                                    CandidateController::document_approve($registration);
+                                    if (Common::randomMediumHit())
+                                        CampApplicationController::confirm($registration, $silent = true);
                                 }
-                            } else if (Common::randomRareHit())
-                                CampApplicationController::withdraw($registration, $silent = true);
-                        }
+                            }
+                        } else if (Common::randomRareHit())
+                            CampApplicationController::withdraw($registration, $silent = true);
                     }
                 }
             } catch (\Exception $e) {

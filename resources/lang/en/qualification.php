@@ -57,4 +57,5 @@ return [
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
     'WhoConfirmedWithin' => 'All :who must confirm their attendance by :date',
+    'InterviewedSaved' => 'Interview status for each candidate has been saved.',
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Camp;
 use App\Common;
 use App\Candidate;
 use App\FormScore;
@@ -25,33 +26,30 @@ class CandidateController extends Controller
     {
         $this->middleware('permission:camper-list');
         $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export_selection', 'data_download']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['interview_check', 'approve_payment']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['interview_save', 'approve_payment']]);
     }
 
     public static function interview_check_real(Registration $registration, $checked)
     {
-        if ($registration->interviewed_to_confirmed())
-            throw new \CampPASSExceptionRedirectBack();
-        $registration->update([
-            'status' => $checked == 'true' ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
-        ]);
+        if (!$registration->interviewed_to_confirmed()) {
+            $registration->update([
+                'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+            ]);
+        }
     }
 
-    public static function interview_check(Request $request)
+    public function interview_save(Request $request, Camp $camp)
     {
-        $success = true;
-        try {
-            $content = json_decode($request->getContent(), true);
-            $registration = Registration::findOrFail($content['registration_id']);
-            self::interview_check_real($registration, $content['checked'] ? 'true' : 'false');
-        } catch (\Exception $e) {
-            $success = false;
+        $data = $request->all();
+        unset($data['_token']);
+        $candidates = $camp->candidates()->where('backup', false)->get();
+        foreach ($candidates as $candidate) {
+            $registration = $candidate->registration;
+            if ($registration->withdrawed())
+                continue;
+            $this->interview_check_real($registration, isset($data[$registration->id]));
         }
-        return response()->json([
-            'data' => [
-                'success' => $success,
-            ]
-        ]);
+        return redirect()->back()->with('success', trans('qualification.InterviewedSaved'));
     }
 
     public static function document_approve(Registration $registration)
