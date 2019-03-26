@@ -20,6 +20,8 @@ return [
     'CongratulationsApp' => 'Congratulations, your application form has been accepted!',
     'ReturnedApplication' => 'Your application form has been returned, please check the completeness of the form and resubmit it.',
     'RejectedApplication' => 'Sorry, your application form has been rejected.',
+    'CamperInterviewPassed' => 'Congratulations, you passed an interview of :camp',
+    'AnnounceInterview' => 'Announce Interview',
     'AckInterview' => 'Do acknowledge that you will be doing an interview.',
     'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
     'Disqualified' => 'Sorry, you are disqualified from joining :camp',

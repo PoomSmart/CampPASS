@@ -3,9 +3,4 @@
         disabled
     @endif
     {{ isset($attributes) ? $attributes : null }}
->
-    @if (isset($glyph))
-        <i class="mr-1 {{ $glyph }}"></i>
-    @endif
-    {{ isset($label) ? $label : trans('app.Submit') }}
-</button>
+>@if (isset($glyph))<i class="mr-2 {{ $glyph }}"></i>@endif{{ isset($label) ? $label : trans('app.Submit') }}</button>

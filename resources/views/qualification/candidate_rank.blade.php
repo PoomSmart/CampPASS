@@ -93,7 +93,7 @@
                 @component('components.submit', [
                     'label' => trans('app.Save'),
                     'class' => 'btn btn-primary ml-3',
-                    'glyph' => 'far fa-save mr-1 fa-xs',
+                    'glyph' => 'far fa-save fa-xs',
                 ])
                 @endcomponent
             </form>
@@ -193,7 +193,7 @@
 
 @section('extra-buttons')
     <button
-        class="btn btn-danger w-50" {{ (!$passed || $question_set->announced) ? 'disabled' : null }}
+        class="btn btn-danger w-50" {{ (!$passed || $question_set->candidate_announced) ? 'disabled' : null }}
         type="button"
         data-toggle="modal"
         data-target="#modal"

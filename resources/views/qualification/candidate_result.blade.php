@@ -109,13 +109,15 @@
         {!! $candidates->links() !!}
     </div>
     @if ($interview_required)
+        @php $question_set = $camp->question_set @endphp
             <div class="text-center">
                 @component('components.submit', [
                     'label' => trans('app.Save'),
-                    'class' => 'btn btn-primary w-50',
-                    'glyph' => 'far fa-save mr-1 fa-xs',
+                    'class' => 'btn btn-primary w-25',
+                    'glyph' => 'far fa-save fa-xs',
                 ])
                 @endcomponent
+                <a class="btn btn-danger w-25{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
             </div>
         </form>
     @endif

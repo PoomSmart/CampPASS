@@ -23,7 +23,7 @@
     @endcan
     <div class="row">
         @php
-            $manual_grading_required = $question_set && $question_set->manual_required && !$question_set->announced;
+            $manual_grading_required = $question_set && $question_set->manual_required && !$question_set->candidate_announced;
             $candidate_required = $question_set && $question_set->camp->camp_procedure->candidate_required;
         @endphp
         @if ($manual_grading_required)
@@ -97,6 +97,6 @@
 
 @if (isset($rankable) && $rankable && count($data))
     @section('extra-buttons')
-        <a class="btn btn-warning w-50{{ $question_set->announced ? ' disabled' : null }}" href="{{ route('qualification.candidate_rank', $question_set->id) }}">@lang('qualification.Rank')</a>
+        <a class="btn btn-warning w-50{{ $question_set->candidate_announced ? ' disabled' : null }}" href="{{ route('qualification.candidate_rank', $question_set->id) }}">@lang('qualification.Rank')</a>
     @endsection
 @endif

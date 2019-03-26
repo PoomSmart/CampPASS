@@ -51,7 +51,7 @@
         <div class="text-center">
             @component('components.submit', [
                 'label' => trans('app.Save'),
-                'glyph' => 'far fa-save mr-1 fa-xs',
+                'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
             <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}">{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>

@@ -25,6 +25,7 @@ use App\Imports\ProvincesImport;
 
 use App\Notifications\NewCampRegistered;
 use App\Notifications\NewCamperApplied;
+use App\Notifications\ApplicationStatusUpdated;
 
 use App\BadgeController;
 use App\Http\Controllers\CampApplicationController;
@@ -547,16 +548,20 @@ class DatabaseSeeder extends Seeder
         $this->log('-> simulating candidates announcement and attendance confirmation');
         foreach (QuestionSet::all() as $question_set) {
             $camp = $question_set->camp;
-            if (!$question_set->total_score)
+            if (!$question_set->total_score) {
                 $camp->update([
                     'backup_limit' => null,
                 ]);
+            }
             if (Common::randomRareHit())
                 continue;
             // Question sets must be finalized first before the ranking could happen
             $question_set->update([
                 'finalized' => true,
             ]);
+            $lets_interview_announce = null;
+            $camp_procedure = $camp->camp_procedure;
+            $interview_required = $camp_procedure->interview_required;
             try {
                 $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
                 if ($form_scores) {
@@ -564,17 +569,23 @@ class DatabaseSeeder extends Seeder
                         QualificationController::form_check_real($form_score = $form_score, $checked = 'true');
                     }
                     CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
-                    $camp_procedure = $camp->camp_procedure;
-                    $interview_required = $camp_procedure->interview_required;
                     $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
                     foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
                         if (Common::randomRareHit())
                             continue;
                         if (Common::randomVeryFrequentHit()) {
                             $proceed = $interview_required ? Common::randomFrequentHit() : true;
-                            if ($interview_required)
+                            if ($interview_required) {
+                                if (is_null($lets_interview_announce))
+                                    $lets_interview_announce = Common::randomFrequentHit();
                                 CandidateController::interview_check_real($registration, $checked = $proceed);
+                            }
                             if ($proceed) {
+                                if ($interview_required) {
+                                    if (!$lets_interview_announce)
+                                        continue;
+                                    $registration->camper->notify(new ApplicationStatusUpdated($registration));
+                                }
                                 // We can seed payment slips for the camps that require deposit here
                                 // This is because the campers can only do this after they know they are chosen
                                 if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
@@ -591,7 +602,11 @@ class DatabaseSeeder extends Seeder
                 }
             } catch (\Exception $e) {
                 logger()->debug("Announcement/Confirmation Simulation: {$e}");
-                continue;
+            }
+            if ($interview_required && $lets_interview_announce) {
+                $question_set->update([
+                    'interview_announced' => true,
+                ]);
             }
         }
         unset($dummy_payment);

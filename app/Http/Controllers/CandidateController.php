@@ -25,17 +25,17 @@ class CandidateController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export_selection', 'data_download']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['interview_save', 'approve_payment']]);
+        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export_selection', 'data_download', 'interview_announce']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['interview_save']]);
     }
 
     public static function interview_check_real(Registration $registration, $checked)
     {
-        if (!$registration->interviewed_to_confirmed()) {
-            $registration->update([
-                'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
-            ]);
-        }
+        if ($registration->withdrawed())
+            return;
+        $registration->update([
+            'status' => $checked ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
+        ]);
     }
 
     public function interview_save(Request $request, Camp $camp)
@@ -45,11 +45,26 @@ class CandidateController extends Controller
         $candidates = $camp->candidates()->where('backup', false)->get();
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
-            if ($registration->withdrawed())
-                continue;
             $this->interview_check_real($registration, isset($data[$registration->id]));
         }
         return redirect()->back()->with('success', trans('qualification.InterviewedSaved'));
+    }
+
+    public function interview_announce(QuestionSet $question_set)
+    {
+        if ($question_set->interview_announced)
+            throw new \CampPASSExceptionRedirectBack();
+        $candidates = $question_set->camp->candidates()->where('backup', false)->get();
+        foreach ($candidates as $candidate) {
+            $registration = $candidate->registration;
+            if (!$registration->interviewed())
+                continue;
+            $registration->camper->notify(new ApplicationStatusUpdated($registration));
+        }
+        $question_set->update([
+            'interview_announced' => true,
+        ]);
+        return redirect()->back()->with('success', trans('qualification.InterviewedAnnounced'));
     }
 
     public static function document_approve(Registration $registration)
@@ -68,6 +83,7 @@ class CandidateController extends Controller
                 'checked' => true,
             ]);
         }
+        $registration->camper->notify(new ApplicationStatusUpdated($registration));
         return redirect()->back()->with('success', trans('qualification.DocumentApproved'));
     }
 
@@ -154,7 +170,7 @@ class CandidateController extends Controller
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        if ($question_set->announced)
+        if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $camp = $question_set->camp;
         $registrations = $camp->registrations;
@@ -288,7 +304,7 @@ class CandidateController extends Controller
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        if ($question_set->announced)
+        if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the threshold
         $no_passed = $no_checked = 0;
@@ -351,7 +367,7 @@ class CandidateController extends Controller
         unset($candidates);
         // Candidates are finalized, this question set will no longer be editable
         $question_set->update([
-            'announced' => true,
+            'candidate_announced' => true,
         ]);
         if (!$silent)
             return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', trans('qualification.CandidatesAnnounced'));

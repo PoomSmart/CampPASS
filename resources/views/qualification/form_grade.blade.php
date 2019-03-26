@@ -121,7 +121,7 @@
             @component('components.submit', [
                 'label' => trans('app.Save'),
                 'disabled' => $form_score->finalized,
-                'glyph' => 'far fa-save mr-1 fa-xs',
+                'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
             <a class="btn btn-danger{{ $form_score->finalized ? ' disabled' : '' }}"
