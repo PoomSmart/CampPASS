@@ -112,7 +112,7 @@
                                 $counter = $has_payment ? 1 : 0;
                                 if (!$registration->confirmed() && !$registration->withdrawed())
                                     $counter += 2;
-                                $col = 12 / $counter;
+                                $col = $counter ? 12 / $counter : 0;
                             @endphp
                             @if ($col)
                                 @if ($has_payment)

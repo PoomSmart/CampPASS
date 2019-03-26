@@ -108,11 +108,11 @@
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                     @role('admin')
-                        @if (!$withdrawed && !$confirmed && !$approved)
+                        @if (!$withdrawed && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
-                            @if ($paid && $approved)
-                                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
-                            @endif
+                        @endif
+                        @if ($paid && $approved)
+                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                         @endif
                     @endrole
                 </td>
