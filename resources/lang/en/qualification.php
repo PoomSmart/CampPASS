@@ -12,7 +12,7 @@ return [
     'Checked' => 'Checked',
     'Announce' => 'Announce',
     'Grading' => 'Grading',
-    'PassedCampers' => 'Passed Campers',
+    'ChosenCampers' => 'Chosen Campers',
     'Candidates' => 'Candidates',
     'Backups' => 'Backups',
     'Announced' => 'Announced',

@@ -53,7 +53,7 @@
 @endsection
 
 @section('header')
-    @lang('qualification.PassedCampers')
+    @lang('qualification.ChosenCampers')
 @endsection
 
 @section('subheader')
