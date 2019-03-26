@@ -9,7 +9,12 @@
 @endsection
 
 @section('content')
-    <p class="text-center">{{ $category->getName() }} - {{ $camp->camp_procedure }}</p>
+    <div class="text-center">
+        <p class="mb-0">{{ $category->getName() }}</p>
+        @foreach ($camp->getTags() as $glyph => $tag)
+            <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
+        @endforeach
+    </div>
     @can('answer-list')
         @php
             $question_set = $camp->question_set;

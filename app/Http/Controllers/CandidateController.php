@@ -138,7 +138,8 @@ class CandidateController extends Controller
                 $backup_summary = null;
         }
         $locale = app()->getLocale();
-        $candidates = $candidates->leftJoin('users', 'users.id', '=', 'candidates.camper_id')->orderBy("users.name_{$locale}");
+        $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
+                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderByDesc('registrations.status')->orderBy("users.name_{$locale}");
         if ($export) {
             return [
                 'candidates' => $candidates->get(),
