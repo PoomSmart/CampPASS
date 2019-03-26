@@ -40,6 +40,8 @@ class CandidateController extends Controller
 
     public function interview_save(Request $request, Camp $camp)
     {
+        if ($camp->question_set->interview_announced)
+            throw new \CampPASSExceptionRedirectBack();
         $data = $request->all();
         unset($data['_token']);
         $candidates = $camp->candidates()->where('backup', false)->get();

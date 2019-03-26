@@ -82,7 +82,7 @@
                 @if ($interview_required)
                     <td class="text-center">
                         <input type="checkbox" name="{{ $registration->id }}"
-                            @if ($withdrawed || $approved || $confirmed)
+                            @if ($withdrawed || $approved || $confirmed || $question_set->interview_announced)
                                 disabled
                             @endif
                             @if ($interviewed)
@@ -115,13 +115,13 @@
                     'label' => trans('app.Save'),
                     'class' => 'btn btn-primary w-25',
                     'glyph' => 'far fa-save fa-xs',
+                    'disabled' => $question_set->interview_announced,
                 ])
                 @endcomponent
                 <a class="btn btn-danger w-25{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
             </div>
         </form>
     @endif
-    @php $question_set = $camp->question_set @endphp
     @if ($question_set->total_score)
         <h2>@lang('qualification.Backups')</h2>
         @if ($backups->isEmpty())
