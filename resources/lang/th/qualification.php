@@ -62,6 +62,12 @@ return [
     'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์การเข้าค่าย',
     'WhoConfirmedWithin' => ':whoทั้งหมดจะต้องยืนยันเข้าร่วมค่ายภายในวันที่ :date',
     'InterviewedSaved' => 'สถานะการสัมภาษณ์ของผู้เข้าค่ายตัวจริงได้รับการบันทึกแล้ว',
-    'AttendanceConfirmed' => 'ยืนยันเข้าค่าย :camp',
+    'AttendanceConfirmed' => 'คุณยืนยันเข้าค่าย :camp',
     'NotAllowedToConfirm' => 'ไม่สามารถยืนยันได้',
+    'ApplicationFormReturned' => 'อุ๊ย, มีบางอย่างผิดพลาด ใบสมัครสำหรับค่าย:campของคุณถูกตีกลับ กรุณาตรวจสอบใบสมัครค่ายของคุณก่อนที่จะทำการส่งใหม่อีกครั้ง',
+    'CamperInterviewPassed' => 'คุณผ่านรอบสัมภาษณ์ของ :camp',
+    'Disqualified' => 'คุณถูกตัดสิทธิ์จาก :camp',
+    'DocumentsApproved' => 'เอกสารถูกยืนยันเรียบร้อย',
+    'DocumentsInProcess' => 'กำลังดำเนินการตรวจเอกสาร',
+
 ];

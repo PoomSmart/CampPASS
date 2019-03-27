@@ -186,7 +186,7 @@ class CampApplicationController extends Controller
                 break;
             case BlockApplicationStatus::CONFIRMATION:
                 if ($registration->confirmed())
-                    $text = trans('qualification.AttendanceConfirmed');
+                    $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
                 else if ($registration->withdrawed() || $registration->rejected())
                     $text = trans('qualification.NotAllowedToConfirm');
                 else if ($registration->approved()
