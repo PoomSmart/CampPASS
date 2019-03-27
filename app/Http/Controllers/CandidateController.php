@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use File;
-use SnappyPDF;
 
 use App\Camp;
 use App\Common;
@@ -78,7 +77,8 @@ class CandidateController extends Controller
     private static function candidates(Camp $camp)
     {
         return $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
-            return $candidate->registration->chosen_to_confirmed();
+            $registration = $candidate->registration;
+            return !$registration->returned && $registration->chosen_to_confirmed();
         });
     }
 
@@ -104,6 +104,8 @@ class CandidateController extends Controller
 
     public function data_download(Request $request, QuestionSet $question_set)
     {
+        if (sizeof($request->all()) <= 1)
+            return redirect()->back();
         $camp = $question_set->camp;
         $download_path = public_path("{$camp}_data.zip");
         File::delete($download_path);
@@ -120,7 +122,7 @@ class CandidateController extends Controller
                 $user = $candidate->camper;
                 // Try-catch workaround for the buggy Laravel snappy wrapper
                 try {
-                    SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                    \SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
                 } catch (\Exception $e) {}
                 $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
