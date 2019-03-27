@@ -32,6 +32,15 @@ html, body {
   background-color: whitesmoke;
 }
 
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+#notifications.has-notifications {
+  color: #bf5329
+}
+
 #side .nav-link.active, #side .nav-link:hover, #side .nav-link:focus {
   color: #111;
   background-color: lightsalmon;

@@ -28,7 +28,7 @@ class CandidateController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_export_selection', 'data_download', 'interview_announce']]);
+        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce']]);
         $this->middleware('permission:candidate-edit', ['only' => ['interview_save']]);
     }
 
@@ -101,11 +101,8 @@ class CandidateController extends Controller
         $zipper = new Zipper;
         $make = $zipper->make($download_path);
         $root = storage_path('app').'/';
-        if ($request->has('payment')) {
-            $path = $root.Common::paymentDirectory($camp->id).'/*';
-            $glob = glob($path);
-            $make->folder('payment')->add($glob);
-        }
+        if ($request->has('payment'))
+            $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
         if ($request->has('submitted-form')) {
 
         }
@@ -125,14 +122,15 @@ class CandidateController extends Controller
             }
         }
         $zipper->close();
+        unset($zipper);
         return response()->download($download_path);
     }
 
-    public function data_export_selection(QuestionSet $question_set)
+    public function data_download_selection(QuestionSet $question_set)
     {
         $camp = $question_set->camp;
         $camp_procedure = $camp->camp_procedure;
-        return view('qualification.data_export_selection', compact('question_set', 'camp', 'camp_procedure'));
+        return view('qualification.data_download_selection', compact('question_set', 'camp', 'camp_procedure'));
     }
 
     public function result(QuestionSet $question_set)

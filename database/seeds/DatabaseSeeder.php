@@ -271,7 +271,7 @@ class DatabaseSeeder extends Seeder
         $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
-        $dummy_payment = UploadedFile::fake()->create('dummy.pdf', 100);
+        $dummy_payment = UploadedFile::fake()->create('dummy.pdf', 1000);
         $approved_camps = Camp::allApproved()->get();
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all

@@ -180,6 +180,6 @@
         @endif
     @endif
     <div class="text-center mt-4">
-        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_export_selection', $question_set->id) }}">@lang('qualification.DownloadData')</a>
+        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_download_selection', $question_set->id) }}">@lang('qualification.DownloadData')</a>
     </div>
 @endsection
