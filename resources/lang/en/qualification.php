@@ -59,7 +59,7 @@ return [
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
-    'DocumentsWillBeApproved' => 'Documents will be approved.',
+    'DocumentsWillBeApproved' => 'Documents will be approved by the camp makers once it is time.',
     'YouNeedToConfirm' => 'You need to confirm your attendance.',
     'AttendanceConfirmed' => 'You have confirmed attendance for :camp.',
     'NotAllowedToConfirm' => 'Not allowed to confirm.',

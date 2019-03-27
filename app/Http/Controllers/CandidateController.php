@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use File;
-use SnappyPDF as PDF;
-
-// use Knp\Snappy\Pdf as SnappyPDF;
-// use Barryvdh\Snappy\PdfWrapper;
+use SnappyPDF;
 
 use App\Camp;
 use App\Common;
@@ -121,13 +118,10 @@ class CandidateController extends Controller
             $temp_pdf_path = $root."camps/temp.pdf";
             foreach ($candidates as $candidate) {
                 $user = $candidate->camper;
-
+                // Try-catch workaround for the buggy Laravel snappy wrapper
                 try {
-                    PDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
-                } catch (\Exception $e) {
-
-                }
-
+                    SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                } catch (\Exception $e) {}
                 $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
         }
