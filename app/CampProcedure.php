@@ -31,4 +31,9 @@ class CampProcedure extends Model
     {
         return trans("camp_procedure.{$this->description}");
     }
+
+    public function depositOnly()
+    {
+        return $this->deposit_required && !$this->interview_required && !$this->candidate_required;
+    }
 }

@@ -84,7 +84,7 @@
                             $disabled = $info['disabled'];
                             $route = $info['route'];
                         @endphp
-                        <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
+                        <a id="apply" class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
                             href="{{ $route }}"
                         ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
                     @endif

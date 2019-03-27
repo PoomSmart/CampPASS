@@ -77,7 +77,7 @@
     @component('components.padding', [ 'height' => 80 ])@endcomponent
     @component('components.card', [
         'header' => trans('status.Approval'),
-        'data' => \App\Http\Controllers\CampApplicationController::statusDescription(4, $registration, $camp),
+        'data' => \App\Http\Controllers\CampApplicationController::statusDescription(4, $registration, $camp, $camp_procedure),
     ])
     @slot('buttons')
         <a href="{{ route('profiles.edit', auth()->user()->id) }}" class="btn btn-primary w-100"><i class="fas fa-pencil-alt mr-2 fa-xs"></i>@lang('profile.UpdateProfile')</a>
