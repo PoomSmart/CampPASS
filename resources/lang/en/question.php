@@ -25,4 +25,6 @@ return [
     'Title' => 'Title',
     'QuestionsSaved' => 'Questions are saved successfully.',
     'ScoreThresholdChanged' => 'Score threshold has been changed.',
+    'SureFinalizeQuestionSet' => 'Are you sure you want to finalize this question set? You will not be able to edit the questions if it is finalized.',
+
 ];

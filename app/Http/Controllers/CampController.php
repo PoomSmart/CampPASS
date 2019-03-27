@@ -170,7 +170,7 @@ class CampController extends Controller
     public function approve(Camp $camp)
     {
         $camp->approve();
-        return redirect()->back()->with('success', "Camp {$camp} has been approved.");
+        return redirect()->back()->with('success', trans('camp.CampHasBeenApproved', ['camp' => $camp]));
     }
 
     public function destroy(Camp $camp)
@@ -179,7 +179,7 @@ class CampController extends Controller
         Storage::delete(Common::campDirectory($camp->id));
         Storage::delete(Common::publicCampDirectory($camp->id));
         $camp->delete();
-        return redirect()->route('camps.index')->with('success', 'Camp deleted successfully');
+        return redirect()->route('camps.index')->with('success', trans('camp.CampDeletedSuccessfully'));
     }
 
     /**

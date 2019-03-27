@@ -64,4 +64,8 @@ return [
     'BannerRecommendedSize' => 'Banner recommended size w:xx h:xx',
     'PosterRecommendedSize' => 'Poster recommended size w:xx h:xx',
     'SureDeleteCamp' => 'Are you sure you want to delete this camp?',
+    'CampHasBeenApproved' => 'Camp :camp has been approved.',
+    'CampDeletedSuccessfully' => 'Camp deleted successfully',
+    
+
 ];

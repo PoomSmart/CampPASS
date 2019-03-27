@@ -18,7 +18,7 @@
 
 @section('card_content')
     @component('components.dialog', [
-        'body' => 'Are you sure you want to finalize this question set? You will not be able to edit the questions if it is finalized.',
+        'body' => trans('question.SureFinalizeQuestionSet'), 
         'confirm_type' => 'danger',
     ])
     @endcomponent
