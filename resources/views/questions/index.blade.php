@@ -18,7 +18,7 @@
 
 @section('card_content')
     @component('components.dialog', [
-        'body' => 'Are you sure you want to finalize this question set? You will not be able to edit the questions if it is finalized.',
+        'body' => trans('question.SureFinalizeQuestionSet'), 
         'confirm_type' => 'danger',
     ])
     @endcomponent
@@ -54,9 +54,8 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}">{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
+            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}"><i class="fas fa-check mr-2 fa-xs"></i>{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
             <button class="btn btn-success" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" onclick="addQuestion();"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('question.AddMoreQuestion')</button>
-            <a class="btn btn-secondary" href="{{ route('camps.index') }}">@lang('app.Back')</a>
         </div>
     </form>
     @if (isset($object) && $object->finalized)

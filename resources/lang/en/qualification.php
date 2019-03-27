@@ -58,6 +58,8 @@ return [
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
-    'WhoConfirmedWithin' => 'All :who must confirm their attendance by :date',
-    'InterviewedSaved' => 'Interview status for each candidate has been saved.',
+    'DocumentsWillBeApproved' => 'Documents will be approved',
+    'YouNeedToConfirm' => 'You need to confirm',
+
+
 ];

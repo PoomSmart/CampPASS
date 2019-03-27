@@ -58,6 +58,8 @@ return [
     'DocumentApproved' => 'เอกสารต่างๆ และหลักฐานการชำระเงินได้รับการยืนยันแล้ว',
     'ApplicationFeePaid' => 'ชำระค่าธรรมเนียมแล้ว',
     'DepositPaid' => 'ชำระค่ามัดจำแล้ว',
+    'DocumentsWillBeApproved' => 'เอกสารอื่นๆกำลังรอการตรวจสอบ',
+    'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์',
     'WhoConfirmedWithin' => ':whoทั้งหมดจะต้องยืนยันเข้าร่วมค่ายภายในวันที่ :date',
     'InterviewedSaved' => 'สถานะการสัมภาษณ์ของผู้เข้าค่ายตัวจริงได้รับการบันทึกแล้ว',
 ];

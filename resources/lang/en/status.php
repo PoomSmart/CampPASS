@@ -9,4 +9,5 @@ return [
     'Confirmation' => 'Confirmation',
     'Deposit Placeholder' => 'Deposit Placeholder',
     'WithdrawConfirm' => 'If you withdrawed from this camp, you would no longer be able to apply for this camp. Are you sure you want to withdraw from this camp?',
+    'Approval' => 'Approval',
 ];
