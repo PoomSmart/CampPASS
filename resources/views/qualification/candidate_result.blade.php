@@ -60,6 +60,7 @@
                 $confirmed = $registration->confirmed();
                 $interviewed = $registration->interviewed_to_confirmed();
                 $rejected = $registration->rejected();
+                $returned = $registration->returned;
                 $paid = $deposit_required ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
             @endphp
             <tr
@@ -67,7 +68,7 @@
                     class="table-success"
                 @elseif ($withdrawed || $rejected)
                     class="table-danger"
-                @elseif (!$paid)
+                @elseif (!$paid || $returned)
                     class="table-warning"
                 @endif
             >

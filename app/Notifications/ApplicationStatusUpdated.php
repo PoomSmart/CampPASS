@@ -17,7 +17,7 @@ class ApplicationStatusUpdated extends LocalizableNotification
 
     public function toText(Registration $registration)
     {
-        $camp_text = $registration->camp->__toString();
+        $camp_text = Common::getLocalizedName($registration->camp);
         if ($registration->returned)
             return trans('qualification.ApplicationFormReturned', ['camp' => $camp_text]);
         switch ($registration->status) {

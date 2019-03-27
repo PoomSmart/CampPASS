@@ -195,7 +195,10 @@ class CandidateController extends Controller
         }
         $locale = app()->getLocale();
         $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
-                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderByDesc('registrations.status')->orderBy("users.name_{$locale}");
+                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
+                        ->orderByDesc('registrations.status')
+                        ->orderBy('registrations.returned')
+                        ->orderBy("users.name_{$locale}");
         $candidates = $candidates->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
     }
