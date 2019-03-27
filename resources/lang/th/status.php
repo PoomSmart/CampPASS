@@ -6,7 +6,7 @@ return [
     'Interview Placeholder' => 'สถานะสัมภาษณ์',
     'Interview' => 'สัมภาษณ์',
     'Confirmation Placeholder' => 'สถานะยืนยัน',
-    'Confirmation' => 'ยืนยันเข้าค่ายแล้ว',
+    'Confirmation' => 'ยืนยันการเข้าค่าย',
     'Deposit Placeholder' => 'สถานะการชำระเงินมัดจำ',
     'WithdrawConfirm' => 'หากคุณทำการสละสิทธิ์คุณจะไม่สามารถสมัครร่วมค่ายนี้ได้อีก คุณแน่ใจใช่หรือไม่?',
     'Approval' => 'สถานะเอกสารอื่นๆ',

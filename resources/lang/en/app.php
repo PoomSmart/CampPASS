@@ -57,4 +57,5 @@ return [
     'NoNotifications' => 'No Notifications',
     'Download' => 'Download',
     'pdf' => 'Document',
+    'ApplicationFormGrading' => 'Application Form Grading',
 ];

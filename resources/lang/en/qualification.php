@@ -60,6 +60,10 @@ return [
     'DepositPaid' => 'Deposit Paid',
     'DocumentsWillBeApproved' => 'Documents will be approved',
     'YouNeedToConfirm' => 'You need to confirm',
+    'AttendanceConfirmed' => 'Attendance confirmed for :camp',
+    'NotAllowedToConfirm' => 'Not allowed to confirm',
+
+
 
 
 ];

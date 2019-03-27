@@ -79,4 +79,7 @@ return [
 
     'ManageUsers' => 'Manage Users',
     'ManageRoles' => 'Manage Roles',
+
+    'ConfirmPassword' => 'Confirm Password',
+    'Role' => 'Role',
 ];

@@ -9,31 +9,31 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Username:</strong>
+                <strong>@lang('account.Username'):</strong>
                 {!! Form::text('username', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Email:</strong>
+                <strong>@lang('account.Email'):</strong>
                 {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Password:</strong>
-                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                <strong>@lang('account.Password'):</strong>
+                {!! Form::password('password', array('placeholder' => trans('account.Password'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Confirm Password:</strong>
-                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                <strong>@lang('account.ConfirmPassword'):</strong>
+                {!! Form::password('confirm-password', array('placeholder' => trans('account.ConfirmPassword'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Role:</strong>
+                <strong>@lang('account.Role'):</strong>
                 {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control', 'multiple')) !!}
             </div>
         </div>

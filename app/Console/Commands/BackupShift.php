@@ -60,7 +60,7 @@ class BackupShift extends Command
             if ($passed_candidates->isEmpty())
                 continue;
             $no_longer_passed = 0;
-            logger()->info("Rejecting all the passed campers who have not confirmed their attendance for the camp {$camp}");
+            logger()-> info(trans('camper.RejectingCampersNotConfirmedAttendance', ['camp' => $camp]));
             foreach ($passed_candidates as $passed_candidate) {
                 $registration = $passed_candidate->registration;
                 if (!$registration->rejected() && !$registration->confirmed()) {
@@ -72,14 +72,14 @@ class BackupShift extends Command
                         'status' => ApplicationStatus::REJECTED,
                     ]);
                     $camper = $passed_candidate->camper;
-                    logger()->info("Making {$camper->getFullName()} (candidate) rejected");
+                    logger()->info(trans('camper.MakingCandidateRejected', ['camp' => $camp->getFullName()]));
                     $camper->notify(new ApplicationStatusUpdated($registration));
                     ++$no_longer_passed;
                 }
             }
             if (!$no_longer_passed)
                 continue;
-            logger()->info("Shifting the equal amount of backups up");
+            logger()->info(trans('camper.ShiftingEqualBackupsUp'));
             $candidates = $camp->candidates()->where('backup', true)->orderByDesc('total_score')->get();
             if ($camp->backup_limit)
                 $candidates = $candidates->splice(0, min($no_longer_passed, $camp->backup_limit));
@@ -90,7 +90,7 @@ class BackupShift extends Command
                     'status' => ApplicationStatus::CHOSEN,
                 ]);
                 $camper = $candidate->camper;
-                logger()->info("Making {$camper->getFullName()} (backup) passed");
+                logger()->info(trans('camper.MakingBackUp', ['camper' => $camper->getFullName()]));
                 $camper->notify(new ApplicationStatusUpdated($registration));
             }
         }

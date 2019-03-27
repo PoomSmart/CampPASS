@@ -59,7 +59,9 @@ return [
     'ApplicationFeePaid' => 'ชำระค่าธรรมเนียมแล้ว',
     'DepositPaid' => 'ชำระค่ามัดจำแล้ว',
     'DocumentsWillBeApproved' => 'เอกสารอื่นๆกำลังรอการตรวจสอบ',
-    'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์',
+    'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์การเข้าค่าย',
     'WhoConfirmedWithin' => ':whoทั้งหมดจะต้องยืนยันเข้าร่วมค่ายภายในวันที่ :date',
     'InterviewedSaved' => 'สถานะการสัมภาษณ์ของผู้เข้าค่ายตัวจริงได้รับการบันทึกแล้ว',
+    'AttendanceConfirmed' => 'ยืนยันเข้าค่าย :camp',
+    'NotAllowedToConfirm' => 'ไม่สามารถยืนยันได้',
 ];
