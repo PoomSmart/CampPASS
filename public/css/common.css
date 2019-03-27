@@ -200,7 +200,6 @@ label[required]::after {
   color: white !important;
 }
 
-
 .pagination a {
   color: #FB6B0A;
   background-color: whitesmoke;
@@ -232,6 +231,3 @@ label[required]::after {
   background-color: #dddddd;
   color: #FB6B0A;
 }
-
-
-
