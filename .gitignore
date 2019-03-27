@@ -7,3 +7,5 @@
 .phpunit.result.cache
 npm-debug.log
 yarn-error.log
+storage/fonts/*
+public/*.zip
