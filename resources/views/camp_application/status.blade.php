@@ -74,7 +74,9 @@
         @endslot
         @endcomponent
     @endif
-    @component('components.padding', [ 'height' => 80 ])@endcomponent
+    @if (!$camp_procedure->walkIn())
+        @component('components.padding', [ 'height' => 80 ])@endcomponent
+    @endif
     @component('components.card', [
         'header' => trans('status.Approval'),
         'data' => \App\Http\Controllers\CampApplicationController::statusDescription(4, $registration, $camp, $camp_procedure),
