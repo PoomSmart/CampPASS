@@ -259,6 +259,11 @@ class Camp extends Model
         return trans('app.N/A');
     }
 
+    public function canGetBackups()
+    {
+        return $this->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($this->confirmation_date)) < 0;
+    }
+
     public function getBannerPath(bool $actual = false, bool $display = true)
     {
         $directory = Common::publicCampDirectory($this->id);
@@ -279,19 +284,24 @@ class Camp extends Model
 
     public function getEventStartDate()
     {
-        return Carbon::parse($this->event_start_date)->formatLocalized('%d %B %Y');
+        return Common::formattedDate($this->event_start_date);
     }
 
     public function getEventEndDate()
     {
-        return Carbon::parse($this->event_end_date)->formatLocalized('%d %B %Y');
+        return Common::formattedDate($this->event_end_date);
+    }
+
+    public function getConfirmationDate(bool $backup = false)
+    {
+        return Common::formattedDate($this->confirmation_date, $time = true, $backup ? 3 : 0);
     }
 
     public function getCloseDate()
     {
         if (!$this->app_close_date)
             return null;
-        return Carbon::parse($this->app_close_date)->formatLocalized('%d %B %Y');
+        return Common::formattedDate($this->app_close_date);
     }
 
     public function getCloseDateHuman()
@@ -301,12 +311,12 @@ class Camp extends Model
         $date = Carbon::parse($this->app_close_date);
         if (Carbon::now()->diffInDays($date) < 0)
             return trans('camp.AlreadyClosed');
-        return trans('registration.WillClose').' '.$date->formatLocalized('%d %B %Y');
+        return trans('registration.WillClose').' '.Common::formattedDate($date);
     }
 
     public function getInterviewDate()
     {
-        return Carbon::parse($this->interview_date)->formatLocalized('%d %B %Y');
+        return Common::formattedDate($this->interview_date);
     }
 
     public function getAcceptableRegions(bool $string = true)

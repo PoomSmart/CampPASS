@@ -20,7 +20,7 @@ class BackupShift extends Command
      *
      * @var string
      */
-    protected $signature = 'backup:shift';
+    protected $signature = 'backup:shift {--f|force}';
 
     /**
      * The console command description.
@@ -46,22 +46,24 @@ class BackupShift extends Command
      */
     public function handle()
     {
-        // TODO: Test this
         $camps = Camp::allApproved()->with('camp_procedure')->whereHas('camp_procedure', function ($query) {
             $query->where('candidate_required', true);
         })->get();
+        $force = $this->option('force');
         foreach ($camps as $camp) {
             $question_set = $camp->question_set;
             if (!$question_set->total_score || !$camp->confirmation_date)
                 continue;
-            if (Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
+            if (!$force && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
-            logger()->info("Rejecting all the passed campers who have not confirmed their attendance for the camp {$camp}");
-            $passed_candidates = $camp->candidates()->where('backup', false);
+            $passed_candidates = $camp->candidates()->where('backup', false)->get();
+            if ($passed_candidates->isEmpty())
+                continue;
             $no_longer_passed = 0;
+            logger()->info("Rejecting all the passed campers who have not confirmed their attendance for the camp {$camp}");
             foreach ($passed_candidates as $passed_candidate) {
                 $registration = $passed_candidate->registration;
-                if (!$registration->confirmed()) {
+                if (!$registration->rejected() && !$registration->confirmed()) {
                     $form_score = $passed_candidate->form_score;
                     $form_score->update([
                         'passed' => false,
@@ -69,20 +71,27 @@ class BackupShift extends Command
                     $registration->update([
                         'status' => ApplicationStatus::REJECTED,
                     ]);
+                    $camper = $passed_candidate->camper;
+                    logger()->info("Making {$camper->getFullName()} (candidate) rejected");
+                    $camper->notify(new ApplicationStatusUpdated($registration));
                     ++$no_longer_passed;
                 }
             }
+            if (!$no_longer_passed)
+                continue;
             logger()->info("Shifting the equal amount of backups up");
-            $candidates = $camp->candidates()->where('backup', true)->orderByDesc('total_score');
+            $candidates = $camp->candidates()->where('backup', true)->orderByDesc('total_score')->get();
             if ($camp->backup_limit)
-                $candidates = $candidates->limit(min($no_longer_passed, $camp->backup_limit));
+                $candidates = $candidates->splice(0, min($no_longer_passed, $camp->backup_limit));
             foreach ($candidates as $candidate) {
                 $candidate->form_score->makeBackupPassed();
                 $registration = $candidate->registration;
                 $registration->update([
                     'status' => ApplicationStatus::CHOSEN,
                 ]);
-                $candidate->camper->notify(new ApplicationStatusUpdated($registration));
+                $camper = $candidate->camper;
+                logger()->info("Making {$camper->getFullName()} (backup) passed");
+                $camper->notify(new ApplicationStatusUpdated($registration));
             }
         }
     }

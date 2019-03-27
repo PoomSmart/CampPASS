@@ -16,14 +16,3 @@ $edit_color: #00A6ED;
 .btn-info {
   @include button-variant($edit_color, $edit_color, darken($edit_color, 10%), darken($edit_color, 10%), lighten($edit_color, 10%), darken($edit_color,20%));
 }
-
-
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-#notifications.has-notifications {
-  color: #bf5329
-}

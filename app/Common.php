@@ -6,6 +6,8 @@ use App\User;
 
 use App\Enums\QuestionType;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,6 +35,10 @@ class Common
 
     public static $south_region = [
         80, 81, 82, 83, 84, 85, 86, 90, 91, 92, 93, 94, 95, 96,
+    ];
+
+    public static $th_months = [
+        0, 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม',
     ];
 
     public static function randomFrequentHit()
@@ -182,5 +188,20 @@ class Common
     public static function admin()
     {
         return User::where('type', config('const.account.admin'))->limit(1)->first();
+    }
+
+    public static function formattedDate($date, bool $time = false, int $addedDays = 0)
+    {
+        $locale = app()->getLocale();
+        $month = $locale == 'th' ? '[%#m]' : '%B';
+        if (!($date instanceof Carbon))
+            $date = Carbon::parse($date);
+        if ($addedDays)
+            $date = $date->addDays($addedDays);
+        $year = $date->year + ($locale == 'th' ? 543 : 0);
+        $formatted = $date->formatLocalized("%e {$month} {$year}".($time ? ", %H:%m" : ''));
+        if ($locale == 'th')
+            $formatted = str_replace("[$date->month]", self::$th_months[$date->month], $formatted);
+        return $formatted;
     }
 }

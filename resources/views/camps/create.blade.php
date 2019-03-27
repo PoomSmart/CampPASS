@@ -22,7 +22,7 @@
         <div class="text-center mt-4">
             @component('components.submit', [
                 'class' => 'btn btn-primary w-50',
-                'glyph' => 'fas fa-upload mr-2 fa-xs'
+                'glyph' => 'fas fa-upload fa-xs'
             ])
             @endcomponent
         </div>

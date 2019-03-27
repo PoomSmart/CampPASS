@@ -139,7 +139,7 @@ class CampController extends Controller
     {
         $this->check($camp);
         $question_set = $camp->question_set;
-        if ($question_set && $question_set->announced)
+        if ($question_set && $question_set->candidate_announced)
             return redirect()->route('qualification.candidate_result', $question_set->id);
         View::share('object', $camp);
         if (auth()->user()->can('camper-list')) {

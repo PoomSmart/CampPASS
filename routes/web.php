@@ -52,13 +52,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/form-finalize/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
         Route::post('/form-check', 'QualificationController@form_check')->name('qualification.form_check');
-        Route::post('/interview-check', 'CandidateController@interview_check')->name('qualification.interview_check');
+        Route::post('/interview-save/{camp}', 'CandidateController@interview_save')->name('qualification.interview_save');
+        Route::get('/interview-announce/{question_set}', 'CandidateController@interview_announce')->name('qualification.interview_announce');
         Route::post('/form-pass', 'QualificationController@form_pass')->name('qualification.form_pass');
         Route::get('/document-approve/{registration}', 'CandidateController@document_approve')->name('qualification.document_approve');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');
-        Route::get('/data-export-selection/{question_set}', 'CandidateController@data_export_selection')->name('qualification.data_export_selection');
+        Route::get('/data-export-selection/{question_set}', 'CandidateController@data_download_selection')->name('qualification.data_download_selection');
         Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
         Route::post('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');

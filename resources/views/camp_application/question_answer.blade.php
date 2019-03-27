@@ -78,7 +78,7 @@
         <div class="text-center">
             @component('components.submit', [
                 'label' => trans('app.Save'),
-                'glyph' => 'far fa-save mr-1 fa-xs',
+                'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
             <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">@lang('app.Next')</a>

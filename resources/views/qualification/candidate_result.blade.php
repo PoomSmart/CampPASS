@@ -1,7 +1,7 @@
 @extends('layouts.blank')
 
 @section('header')
-    @lang('qualification.PassedCampers')
+    @lang('qualification.ChosenCampers')
 @endsection
 
 @section('subheader')
@@ -19,34 +19,20 @@
 @endphp
 
 @section('script')
-        @if ($interview_required)
-            <script>
-                jQuery(document).ready(function () {
-                    jQuery("input:checkbox").change(function () {
-                        var self = jQuery(this);
-                        jQuery.ajax({
-                            type: "POST",
-                            url: "{!! route('qualification.interview_check') !!}",
-                            headers: { "X-CSRF-TOKEN": window.Laravel.csrfToken },
-                            contentType: "json",
-                            processData: false,
-                            data: JSON.stringify({
-                                "registration_id" : self.attr("id"),
-                                "checked" : self.is(":checked")
-                            }),
-                            success: function (data) {}
-                        });
-                    });
-                });
-            </script>
-        @endif
+    @if ($interview_required)
+        <script src="{{ asset('js/check-unsaved.js') }}"></script>
+    @endif
 @endsection
 
 @section('content')
     <h2>@lang('qualification.Candidates')</h2>
-    <div class="d-flex">
-        <span class="text-muted">{{ $summary }}</span>
-    </div>
+    <span class="text-muted">{{ $summary }}</span>
+    <br/>
+    <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Candidates'), 'date' => $camp->getConfirmationDate() ])</span>
+    @if ($interview_required)
+        <form id="form" method="POST" action="{{ route('qualification.interview_save', $camp->id) }}">
+        @csrf
+    @endif
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -95,8 +81,8 @@
                 @endif
                 @if ($interview_required)
                     <td class="text-center">
-                        <input type="checkbox" name="checked_{{ $registration->id }}" id="{{ $registration->id }}"
-                            @if ($withdrawed || $approved || $confirmed)
+                        <input type="checkbox" name="{{ $registration->id }}"
+                            @if ($withdrawed || $approved || $confirmed || $question_set->interview_announced)
                                 disabled
                             @endif
                             @if ($interviewed)
@@ -108,11 +94,11 @@
                 <td class="fit">
                     <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                     @role('admin')
-                        @if (!$withdrawed && !$confirmed && !$approved)
+                        @if (!$withdrawed && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
-                            @if ($paid && $approved)
-                                <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
-                            @endif
+                        @endif
+                        @if ($paid && $approved)
+                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                         @endif
                     @endrole
                 </td>
@@ -122,15 +108,30 @@
     <div class="d-flex justify-content-center">
         {!! $candidates->links() !!}
     </div>
-    @php $question_set = $camp->question_set @endphp
+    @if ($interview_required)
+        @php $question_set = $camp->question_set @endphp
+            <div class="text-center">
+                @component('components.submit', [
+                    'label' => trans('app.Save'),
+                    'class' => 'btn btn-primary w-25',
+                    'glyph' => 'far fa-save fa-xs',
+                    'disabled' => $question_set->interview_announced,
+                ])
+                @endcomponent
+                <a class="btn btn-danger w-25{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
+            </div>
+        </form>
+    @endif
     @if ($question_set->total_score)
         <h2>@lang('qualification.Backups')</h2>
         @if ($backups->isEmpty())
             @lang('app.None')
         @else
-            <div class="d-flex">
-                <span class="text-muted">{{ $backup_summary }}</span>
-            </div>
+            <span class="text-muted">{{ $backup_summary }}</span>
+            @if ($can_get_backups)
+                <br/>
+                <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Backups'), 'date' => $camp->getConfirmationDate($backup = true) ])</span>
+            @endif
             <table class="table table-striped">
                 <thead>
                     <th>@lang('app.No_')</th>
@@ -167,7 +168,7 @@
                         <td class="fit">
                             <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                             @role('admin')
-                                @if (!$withdrawed && !$confirmed)
+                                @if ($can_get_backups && !$withdrawed && !$confirmed)
                                     <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                                     <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                                 @endif
@@ -179,6 +180,6 @@
         @endif
     @endif
     <div class="text-center mt-4">
-        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_export_selection', $question_set->id) }}">@lang('qualification.DownloadData')</a>
+        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_download_selection', $question_set->id) }}">@lang('qualification.DownloadData')</a>
     </div>
 @endsection

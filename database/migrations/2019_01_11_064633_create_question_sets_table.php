@@ -22,7 +22,8 @@ class CreateQuestionSetsTable extends Migration
             $table->boolean('manual_required')->default(false);
             $table->boolean('auto_ranked')->default(false);
             $table->boolean('finalized')->default(false);
-            $table->boolean('announced')->default(false);
+            $table->boolean('candidate_announced')->default(false);
+            $table->boolean('interview_announced')->default(false);
             $table->timestamps();
         });
     }

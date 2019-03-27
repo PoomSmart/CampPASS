@@ -60,7 +60,7 @@
                     $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
             <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             <td class="fit"><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
@@ -79,7 +79,7 @@
             </td>
             <td>
                 @if ($question_set)
-                <h3><span class="badge badge-{{ $question_set->announced ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $question_set->announced ? 'fas fa-bullhorn' : 'far fa-clock' }} fa-xs"></i></span></h3>
+                    <h3><span class="badge badge-{{ $question_set->candidate_announced ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $question_set->candidate_announced ? 'fas fa-bullhorn' : 'far fa-clock' }} fa-xs"></i></span></h3>
                 @else
                     @lang('app.N/A')
                 @endif
