@@ -138,9 +138,9 @@ class User extends Authenticatable
         return $this->status == 1;
     }
 
-    public function getFullName()
+    public function getFullName($forced_lang = null)
     {
-        return Common::getLocalizedName($this).' '.Common::getLocalizedName($this, 'surname');
+        return Common::getLocalizedName($this, 'name', $forced_lang).' '.Common::getLocalizedName($this, 'surname', $forced_lang);
     }
 
     /**

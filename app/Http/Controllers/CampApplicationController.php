@@ -178,7 +178,7 @@ class CampApplicationController extends Controller
                 } else if ($registration->approved_to_confirmed())
                     $text = trans('qualification.DocumentsApproved');
                 else if ($registration->chosen())
-                    $text = trans('qualification.DocumentsInProcess');
+                    $text = $camp_procedure->depositOnly() ? trans('qualification.DocumentsInProcessDepositOnly') : trans('qualification.DocumentsInProcess');
                 else {
                     $text = trans('qualification.DocumentsWillBeApproved');
                     $passed = false;

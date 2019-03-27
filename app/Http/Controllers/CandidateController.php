@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use File;
+use PDF;
 
 use App\Camp;
 use App\Common;
@@ -10,6 +11,7 @@ use App\Candidate;
 use App\FormScore;
 use App\Registration;
 use App\QuestionSet;
+use App\User;
 
 use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\QualificationController;
@@ -73,6 +75,13 @@ class CandidateController extends Controller
             return redirect()->back()->with('success', trans('qualification.InterviewedAnnounced'));
     }
 
+    private static function candidates(Camp $camp)
+    {
+        return $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
+            return $candidate->registration->chosen_to_confirmed();
+        });
+    }
+
     public static function document_approve(Registration $registration)
     {
         if ($registration->approved())
@@ -103,17 +112,20 @@ class CandidateController extends Controller
         $root = storage_path('app').'/';
         if ($request->has('payment'))
             $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
-        if ($request->has('submitted-form')) {
-
-        }
         $candidates = null;
+        if ($request->has('submitted-form')) {
+            $candidates = $this->candidates($camp);
+            $temp_pdf_path = $root."camps/temp.pdf";
+            foreach ($candidates as $candidate) {
+                $user = $candidate->camper;
+                PDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
+            }
+        }
         foreach (['transcript', 'confirmation_letter'] as $folder) {
             if ($request->has($folder)) {
-                if (is_null($candidates)) {
-                    $candidates = $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
-                        return $candidate->registration->chosen_to_confirmed();
-                    });
-                }
+                if (is_null($candidates))
+                    $candidates = $this->candidates($camp);
                 foreach ($candidates as $candidate) {
                     $camper_id = $candidate->camper_id;
                     $path = $root.Common::userFileDirectory($camper_id)."/{$folder}.pdf";

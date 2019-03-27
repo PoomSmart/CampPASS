@@ -51,12 +51,14 @@
             @endcomponent
         </div>
         <div class="col-md-6">
-            @component('components.input', [
-                'name' => 'citizen_id',
-                'label' => trans('account.CitizenID'),
-                'required' => 1,
-            ])
-            @endcomponent
+            @if (!isset($fields_disabled) || !$fields_disabled)
+                @component('components.input', [
+                    'name' => 'citizen_id',
+                    'label' => trans('account.CitizenID'),
+                    'required' => 1,
+                ])
+                @endcomponent
+            @endif
         </div>
         <div class="col-md-6">
             @component('components.input', [

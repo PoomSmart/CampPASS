@@ -129,8 +129,10 @@ class Common
         return redirect()->back()->with('success', trans('app.FileRemoved', ['filename' => $filename]));
     }
 
-    public static function getLocalizedName($record, string $attribute = 'name')
+    public static function getLocalizedName($record, string $attribute = 'name', string $forced_lang = null)
     {
+        if ($forced_lang && in_array($forced_lang, config('app.locales')))
+            return $record->{"{$attribute}_{$forced_lang}"};
         $th = $record->{"{$attribute}_th"};
         $en = $record->{"{$attribute}_en"};
         if ((\App::getLocale() == 'th' && !is_null($th)) || is_null($en))
