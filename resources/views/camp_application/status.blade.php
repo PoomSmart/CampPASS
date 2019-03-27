@@ -28,6 +28,30 @@
         'confirm_type' => 'danger',
     ])
     @endcomponent
+    @if ($registration->returned)
+        @component('components.card', [
+            'header' => trans('status.Application'),
+            'override_header_color' => 'bg-danger text-white',
+            'data' => [
+                'button' => true,
+            ],
+        ])
+        @slot('extra_body')
+            @if ($registration->returned_reasons)
+                <p class="card-text mb-0">@lang('registration.FormReturned')</p>
+                <ul>
+                    @foreach (json_decode($registration->returned_reasons) as $reason)
+                        <li>{{ $reason }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        @endslot
+        @slot('buttons')
+            <a href="{{ route('camp_application.unreturn', $registration->id) }}" class="btn btn-warning w-100">@lang('registration.ConfirmCorrectionAndUnreturn')</a>
+        @endslot
+        @endcomponent
+        @component('components.padding', [ 'height' => 80 ])@endcomponent
+    @endif
     @if ($camp_procedure->candidate_required)
         @component('components.card', [
             'header' => trans('status.Application'),
@@ -74,7 +98,7 @@
         @endslot
         @endcomponent
     @endif
-    @if (!$camp_procedure->walkIn())
+    @if ($camp->hasPayment() || $camp_procedure->candidate_required || $camp_procedure->interview_required)
         @component('components.padding', [ 'height' => 80 ])@endcomponent
     @endif
     @component('components.card', [

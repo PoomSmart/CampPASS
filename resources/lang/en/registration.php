@@ -36,4 +36,5 @@ return [
     'UploadPayment' => 'Please upload your payment slip.',
     'PaymentUploaded' => 'The payment slip has been uploaded.',
     'AckSlip' => 'You need to upload a payment slip to confirm your application.',
+    'FormReturned' => 'Your application form has been returned due to the following issues:',
 ];

@@ -370,6 +370,8 @@ class CandidateController extends Controller
                 // Otherwise, the application form will be rejected
                 $registration->update([
                     'status' => ApplicationStatus::REJECTED,
+                    'returned' => false,
+                    'returned_reasons' => null,
                 ]);
                 if (++$backup_count <= $camp->backup_limit) {
                     // TODO: Do we do this: Make all form scores of backups passed

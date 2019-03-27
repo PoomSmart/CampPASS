@@ -167,10 +167,21 @@ class CampController extends Controller
         return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
     }
 
-    public function approve(Camp $camp)
+    public static function approve(Camp $camp, bool $silent = false)
     {
+        if ($camp->approved)
+            return;
         $camp->approve();
-        return redirect()->back()->with('success', trans('camp.CampHasBeenApproved', ['camp' => $camp]));
+        // Notify all camp makers in charge that their camp has been approved
+        foreach ($camp->camp_makers() as $campmaker) {
+            $campmaker->notify(new NewCampApproved($camp, false));
+        }
+        // Notify all campers for this newly added camp
+        foreach (User::campers()->where('status', 1)->get() as $camper) {
+            $camper->notify(new NewCampApproved($camp, true));
+        }
+        if (!$silent)
+            return redirect()->back()->with('success', trans('camp.CampHasBeenApproved', ['camp' => $camp]));
     }
 
     public function destroy(Camp $camp)

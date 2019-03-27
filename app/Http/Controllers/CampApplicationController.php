@@ -422,6 +422,19 @@ class CampApplicationController extends Controller
         return view('camp_application.status', compact('registration'));
     }
 
+    public function unreturn(Registration $registration)
+    {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
+        if (!$registration->returned)
+            throw new \CampPASSExceptionRedirectBack();
+        $registration->update([
+            'returned' => false,
+            'returned_reasons' => null,
+        ]);
+        return redirect()->back()->with('success', trans('registration.FormUnreturned'));
+    }
+
     public static function confirm(Registration $registration, bool $silent = false)
     {
         $camp = $registration->camp;
@@ -465,6 +478,8 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
         $registration->update([
             'status' => ApplicationStatus::WITHDRAWED,
+            'returned' => false,
+            'returned_reasons' => null,
         ]);
         // The corresponding registration record will be automatically marked as not passed, as they lost their chance to join the camp
         $form_score = $registration->form_score;

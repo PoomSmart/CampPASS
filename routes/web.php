@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/payment-upload/{registration}', 'CampApplicationController@payment_upload')->name('camp_application.payment_upload');
             Route::get('/payment-delete/{registration}', 'CampApplicationController@payment_delete')->name('camp_application.payment_delete');
             Route::get('/confirm/{registration}', 'CampApplicationController@confirm')->name('camp_application.confirm');
+            Route::get('/unreturn/{registration}', 'CampApplicationController@unreturn')->name('camp_application.unreturn');
             Route::get('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
             Route::post('/withdraw/{registration}', 'CampApplicationController@withdraw')->name('camp_application.withdraw');
         });
@@ -62,7 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/data-export-selection/{question_set}', 'CandidateController@data_download_selection')->name('qualification.data_download_selection');
         Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
-        Route::post('/form-return/{form_score}', 'QualificationController@form_return')->name('qualification.form_return');
+        Route::post('/form-return/{registration}', 'QualificationController@form_return')->name('qualification.form_return');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');

@@ -28,6 +28,7 @@ use App\Notifications\NewCamperApplied;
 use App\Notifications\ApplicationStatusUpdated;
 
 use App\BadgeController;
+use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\QualificationController;
@@ -287,6 +288,7 @@ class DatabaseSeeder extends Seeder
                 return Common::randomMediumHit();
             }) as $camp) {
                 $done = true;
+                CampController::approve($camp, $silent = true);
                 if (Common::randomRareHit()) // Say some campers have yet to apply for some camps
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
@@ -312,12 +314,6 @@ class DatabaseSeeder extends Seeder
                         $payment_directory = Common::paymentDirectory($camp->id);
                         Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
                     }
-                }
-                // Camps with registrations must obviously be approved first
-                if (!$camp->approved) {
-                    $camp->update([
-                        'approved' => true,
-                    ]);
                 }
             }
             if ($done) {

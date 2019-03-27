@@ -15,16 +15,16 @@
             <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
         @endforeach
     </div>
-    @can('answer-list')
-        @php
-            $question_set = $camp->question_set;
-            $rankable = $camp->camp_procedure->candidate_required && !is_null($question_set);
-        @endphp
-    @endcan
+    @php
+        $question_set = $camp->question_set;
+        $camp_procedure = $camp->camp_procedure;
+        $rankable = $camp_procedure->candidate_required && !is_null($question_set);
+        $viewable = $camp->hasPayment();
+    @endphp
     <div class="row">
         @php
             $manual_grading_required = $question_set && $question_set->manual_required && !$question_set->candidate_announced;
-            $candidate_required = $question_set && $question_set->camp->camp_procedure->candidate_required;
+            $candidate_required = $question_set && $camp_procedure->candidate_required;
         @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
@@ -75,6 +75,8 @@
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
                                         ]) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewForm')</a>
+                                @elseif ($viewable)
+                                    <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                                 @endif
                                 @role('admin')
                                     @if (!$withdrawed)

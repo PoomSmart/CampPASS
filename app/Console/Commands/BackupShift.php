@@ -70,6 +70,8 @@ class BackupShift extends Command
                     ]);
                     $registration->update([
                         'status' => ApplicationStatus::REJECTED,
+                        'returned' => false,
+                        'returned_reasons' => null,
                     ]);
                     $camper = $passed_candidate->camper;
                     logger()->info("Making {$camper->getFullName()} (candidate) rejected");

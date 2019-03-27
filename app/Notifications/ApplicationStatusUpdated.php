@@ -17,16 +17,17 @@ class ApplicationStatusUpdated extends LocalizableNotification
 
     public function toText(Registration $registration)
     {
+        $camp_text = $registration->camp->__toString();
         if ($registration->returned)
-            return trans('qualification.ApplicationFormReturned', ['camp' => $registration->camp]);
+            return trans('qualification.ApplicationFormReturned', ['camp' => $camp_text]);
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
             case ApplicationStatus::INTERVIEWED:
-                return trans('qualification.CamperInterviewPassed', ['camp' => $registration->camp]);
+                return trans('qualification.CamperInterviewPassed', ['camp' => $camp_text]);
             case ApplicationStatus::APPROVED:
-                return trans('qualification.AttendanceConfirm', ['camp' => $registration->camp]);
+                return trans('qualification.AttendanceConfirm', ['camp' => $camp_text]);
             case ApplicationStatus::REJECTED:
-                return trans('qualification.Disqualified', ['camp' => $registration->camp]);
+                return trans('qualification.Disqualified', ['camp' => $camp_text]);
             default:
                 return 'Undefined';
         }

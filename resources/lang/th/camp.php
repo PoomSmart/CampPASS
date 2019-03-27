@@ -63,6 +63,7 @@ return [
     'BannerRecommendedSize' => 'แบนเนอร์ควรมีขนาด กว้าง:xx สูง:xx',
     'PosterRecommendedSize' => 'โปสเตอร์ควรมีขนาด กว้าง:xx สูง:xx',
     'SureDeleteCamp' => 'คุณแน่ใจว่าจะลบค่ายนี้ทิ้ง?',
+    'CampAdded' => 'มีค่ายใหม่! : :camp',
     'CampHasBeenApproved' => 'ค่าย :camp ถูกรับรองแล้ว',
     'CampDeletedSuccessfully' => 'ค่ายถูกลบแล้ว',
 

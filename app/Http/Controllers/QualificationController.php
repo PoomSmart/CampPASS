@@ -170,7 +170,8 @@ class QualificationController extends Controller
         View::share('fields_disabled', true);
         $camp = $registration->camp;
         $question_set = $camp->question_set;
-        $has_payment = $question_set->candidate_announced ? $camp->camp_procedure->deposit_required : $camp->application_fee;
+        $camp_procedure = $camp->camp_procedure;
+        $has_payment = $camp_procedure->depositOnly() ? true : $question_set->candidate_announced ? $camp_procedure->deposit_required : $camp->application_fee;
         View::share('has_payment', $has_payment);
         View::share('payment_exists', $has_payment && CampApplicationController::get_payment_path($registration));
         View::share('return_reasons', [
@@ -181,22 +182,25 @@ class QualificationController extends Controller
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }
 
-    public function form_return(Request $request, FormScore $form_score)
+    public function form_return(Request $request, Registration $registration)
     {
         $this->validate($request, [
             'reasons' => 'min:1',
             'reasons.*' => 'in:payment,document,profile',
             'remark' => 'nullable|string',
         ]);
-        $reasons = $request->reasons;
-        $registration = $form_score->registration;
         if ($registration->approved())
             throw new \CampPASSExceptionRedirectBack();
-        $form_score->update([
-            'checked' => false,
-        ]);
+        $reasons = $request->reasons;
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'checked' => false,
+            ]);
+        }
         $registration->update([
             'returned' => true,
+            'returned_reasons' => json_encode($reasons, JSON_UNESCAPED_UNICODE),
         ]);
         $candidate = $registration->camper;
         $candidate->notify(new ApplicationStatusUpdated($registration));

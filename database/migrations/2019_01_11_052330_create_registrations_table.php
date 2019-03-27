@@ -25,6 +25,7 @@ class CreateRegistrationsTable extends Migration
             $table->foreign('approved_by')->references('id')->on('users');
             $table->tinyInteger('status')->default(ApplicationStatus::DRAFT);
             $table->boolean('returned')->default(false);
+            $table->text('returned_reasons')->nullable();
             $table->timestamp('submission_time')->nullable();
             $table->timestamps();
         });
