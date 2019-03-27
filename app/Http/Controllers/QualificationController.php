@@ -162,6 +162,15 @@ class QualificationController extends Controller
         return redirect()->back()->with('success', trans('qualification.ScoresUpdated'));
     }
 
+    public static function form_returned_reasons()
+    {
+        return [
+            'payment' => trans('qualification.PaymentSlipIssue'),
+            'document' => trans('qualification.StudentDocumentIssue'),
+            'profile' => trans('qualification.ProfileIssue'),
+        ];
+    }
+
     public function show_profile_detailed(Registration $registration)
     {
         $form_score = $registration->form_score;
@@ -174,11 +183,7 @@ class QualificationController extends Controller
         $has_payment = $camp_procedure->depositOnly() ? true : $question_set->candidate_announced ? $camp_procedure->deposit_required : $camp->application_fee;
         View::share('has_payment', $has_payment);
         View::share('payment_exists', $has_payment && CampApplicationController::get_payment_path($registration));
-        View::share('return_reasons', [
-            'payment' => trans('qualification.PaymentSlipIssue'),
-            'document' => trans('qualification.StudentDocumentIssue'),
-            'profile' => trans('qualification.ProfileIssue'),
-        ]);
+        View::share('return_reasons', $this->form_returned_reasons());
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }
 
