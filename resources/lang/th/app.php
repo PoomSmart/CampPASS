@@ -57,4 +57,5 @@ return [
     'NoNotifications' => 'ไม่มีแจ้งเตือน',
     'Download' => 'ดาวน์โหลด',
     'pdf' => 'ไฟล์เอกสาร',
+    'ApplicationFormGrading' => 'ให้คะแนนใบสมัคร',
 ];

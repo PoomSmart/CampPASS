@@ -17,10 +17,11 @@ return [
     'Backups' => 'Backups',
     'Announced' => 'Announced',
     'IsAnnounced' => 'Announced',
-    'CongratulationsApp' => 'Congratulations, your application form has been accepted!',
+    'CongratulationsApp' => 'Congratulations! Your application form has been accepted.',
+    'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
     'ReturnedApplication' => 'Your application form has been returned, please check the completeness of the form and resubmit it.',
     'RejectedApplication' => 'Sorry, your application form has been rejected.',
-    'CamperInterviewPassed' => 'Congratulations, you passed an interview of :camp',
+    'CamperInterviewPassed' => 'Congratulations! You passed an interview of :camp.',
     'AnnounceInterview' => 'Announce Interview',
     'AckInterview' => 'Do acknowledge that you will be doing an interview.',
     'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
@@ -58,8 +59,16 @@ return [
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
-    'DocumentsWillBeApproved' => 'Documents will be approved',
-    'YouNeedToConfirm' => 'You need to confirm',
+    'DocumentsWillBeApproved' => 'Documents will be approved.',
+    'YouNeedToConfirm' => 'You need to confirm your attendance.',
+    'AttendanceConfirmed' => 'You have confirmed attendance for :camp.',
+    'NotAllowedToConfirm' => 'Not allowed to confirm.',
+    'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
+    'CamperInterviewPassed' => 'You have passed interview for :camp.',
+    'Disqualified' => 'You are disqualified from :camp.',
+    'DocumentsApproved' => 'Documents Approved.',
+    'DocumentsInProcess' => 'Documents in process.',
+
 
 
 ];

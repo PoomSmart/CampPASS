@@ -13,4 +13,8 @@ return [
     'CamperSince' => 'Camper Since',
     'CampsJoined' => 'Camps Joined',
     'CamperActivities' => 'Camp Activities',
+    'RejectingCampersNotConfirmedAttendance' => 'Rejecting all the passed campers who have not confirmed their attendance for the camp :camp',
+    'ShiftingEqualBackupsUp' => 'Shifting the equal amount of backups up',
+    'MakingBackUp' => 'Making :camper (backup) passed")',
+    'MakingCandidateRejected'=> 'Making :camper (candidate) rejected',
 ];

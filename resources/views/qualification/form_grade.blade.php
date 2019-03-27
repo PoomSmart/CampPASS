@@ -10,7 +10,7 @@
 @endsection
 
 @section('header')
-    Application Form Grading
+    @lang('app.ApplicationFormGrading')
 @endsection
 
 @section('subheader')
