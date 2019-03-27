@@ -104,7 +104,7 @@ class CampApplicationController extends Controller
             $apply_text = trans('registration.Apply');
             $camp_procedure = $camp->camp_procedure;
             if ($camp_procedure->candidate_required)
-                $apply_text = "{$apply_text} (QA)";
+                $apply_text = "{$apply_text} (Q&A)";
         }
         if (!$route)
             $route = route($auth_check ? 'camps.show' : 'camp_application.landing', $camp->id);
