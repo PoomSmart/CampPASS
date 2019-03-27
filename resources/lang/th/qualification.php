@@ -56,4 +56,6 @@ return [
     'DocumentApproved' => 'เอกสารต่างๆ และหลักฐานการชำระเงินได้รับการยืนยันแล้ว',
     'ApplicationFeePaid' => 'ชำระค่าธรรมเนียมแล้ว',
     'DepositPaid' => 'ชำระค่ามัดจำแล้ว',
+    'DocumentsWillBeApproved' => 'เอกสารอื่นๆกำลังรอการตรวจสอบ',
+    'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์',
 ];

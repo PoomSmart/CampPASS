@@ -56,4 +56,8 @@ return [
     'DocumentApproved' => 'All the documents have been approved.',
     'ApplicationFeePaid' => 'Application Fee Paid',
     'DepositPaid' => 'Deposit Paid',
+    'DocumentsWillBeApproved' => 'Documents will be approved',
+    'YouNeedToConfirm' => 'You need to confirm',
+
+
 ];
