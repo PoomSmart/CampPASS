@@ -233,8 +233,8 @@ return [
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'SnappyPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
 
         'CampPASSException' => App\Exceptions\CampPASSException::class,
         'CampPASSExceptionPermission' => App\Exceptions\CampPASSExceptionPermission::class,

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use File;
-use PDF;
+use SnappyPDF as PDF;
+
+// use Knp\Snappy\Pdf as SnappyPDF;
+// use Barryvdh\Snappy\PdfWrapper;
 
 use App\Camp;
 use App\Common;
@@ -118,7 +121,13 @@ class CandidateController extends Controller
             $temp_pdf_path = $root."camps/temp.pdf";
             foreach ($candidates as $candidate) {
                 $user = $candidate->camper;
-                PDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+
+                try {
+                    PDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                } catch (\Exception $e) {
+
+                }
+
                 $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
         }
