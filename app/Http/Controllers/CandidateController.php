@@ -117,9 +117,9 @@ class CandidateController extends Controller
         $candidates = null;
         if ($request->has('submitted-form')) {
             $candidates = $this->candidates($camp);
-            $temp_pdf_path = $root."camps/temp.pdf";
             foreach ($candidates as $candidate) {
                 $user = $candidate->camper;
+                $temp_pdf_path = $root."camps/temp_{$candidate->registration_id}.pdf";
                 // Try-catch workaround for the buggy Laravel snappy wrapper
                 try {
                     \SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);

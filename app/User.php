@@ -113,6 +113,11 @@ class User extends Authenticatable
         return $this->belongsTo(Program::class);
     }
 
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
     public function religion()
     {
         return $this->belongsTo(Religion::class);
@@ -192,7 +197,7 @@ class User extends Authenticatable
         return null;
     }
 
-    private static $education_level_to_year = [ 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
+    public static $education_level_to_year = [ 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
 
     /**
      * Get the reason for why this user cannot apply for the given camp, if any.
