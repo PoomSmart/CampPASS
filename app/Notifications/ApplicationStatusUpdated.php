@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Common;
 use App\Registration;
 
 use App\Enums\ApplicationStatus;
@@ -17,11 +18,12 @@ class ApplicationStatusUpdated extends LocalizableNotification
 
     public function toText(Registration $registration)
     {
-        $camp_text = $registration->camp->__toString();
+        $camp_text = Common::getLocalizedName($registration->camp);
         if ($registration->returned)
             return trans('qualification.ApplicationFormReturned', ['camp' => $camp_text]);
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
+                return trans('qualification.CamperChosen', ['camp' => $camp_text]);
             case ApplicationStatus::INTERVIEWED:
                 return trans('qualification.CamperInterviewPassed', ['camp' => $camp_text]);
             case ApplicationStatus::APPROVED:

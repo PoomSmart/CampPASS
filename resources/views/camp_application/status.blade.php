@@ -38,10 +38,11 @@
         ])
         @slot('extra_body')
             @if ($registration->returned_reasons)
+            @php $dict = \App\Http\Controllers\QualificationController::form_returned_reasons($camp->hasPayment()) @endphp
                 <p class="card-text mb-0">@lang('registration.FormReturned')</p>
                 <ul>
                     @foreach (json_decode($registration->returned_reasons) as $reason)
-                        <li>{{ $reason }}</li>
+                        <li>{{ $dict[$reason] }}</li>
                     @endforeach
                 </ul>
             @endif

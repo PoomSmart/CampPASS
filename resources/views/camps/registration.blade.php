@@ -19,7 +19,7 @@
         $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
         $rankable = $camp_procedure->candidate_required && !is_null($question_set);
-        $viewable = $camp->hasPayment();
+        $required_paid = $camp->application_fee;
     @endphp
     <div class="row">
         @php
@@ -41,6 +41,9 @@
                         <th>@lang('account.School')</th>
                         <th class="fit">@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
+                        @if ($required_paid)
+                            <th>@lang('qualification.ApplicationFeePaid')</th>
+                        @endif
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
                         @endif
@@ -50,6 +53,9 @@
                         @php
                             $camper = $registration->camper;
                             $withdrawed = $registration->withdrawed();
+                            $form_score = $registration->form_score;
+                            $finalized = $form_score ? $form_score->finalized : false;
+                            $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                         @endphp
                         <tr
                             @if ($withdrawed)
@@ -61,10 +67,9 @@
                             <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
-                            @php
-                                $form_score = $registration->form_score;
-                                $finalized = $form_score ? $form_score->finalized : false;
-                            @endphp
+                            @if ($required_paid)
+                                <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                            @endif
                             @if ($candidate_required)
                                 <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
@@ -75,9 +80,8 @@
                                             'registration_id' => $registration->id,
                                             'question_set_id' => $question_set->id,
                                         ]) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewForm')</a>
-                                @elseif ($viewable)
-                                    <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                                 @endif
+                                <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                                 @role('admin')
                                     @if (!$withdrawed)
                                         <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>

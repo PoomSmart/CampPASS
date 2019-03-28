@@ -145,13 +145,12 @@ class Camp extends Model
     }
 
     /**
-     * Get the most current registration record of the camper.
-     * TODO: Is it really okay to not take into account the status of the registration?
+     * Get the current registration record of the camper.
      *
      * @return \App\Registration
      *
      */
-    public function getLatestRegistration(User $user)
+    public function getRegistration(User $user)
     {
         $registrations = $this->getRegistrations($user)->latest();
         return $registrations->exists() ? $registrations->first() : null;

@@ -117,3 +117,10 @@ Route::get('/terms-of-services', function () {
 Route::get('/privacy-policy', function () {
     return view('about.privacy_policy');
 });
+
+// TODO: Soon will be removed
+use App\User;
+
+Route::get('/form-template/{user}', function (User $user) {
+    return view('layouts.submitted_form', compact('user'));
+});

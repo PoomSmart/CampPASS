@@ -240,9 +240,9 @@ class User extends Authenticatable
         return is_null($error);
     }
 
-    public function getLatestRegistrationForCamp(Camp $camp)
+    public function getRegistrationForCamp(Camp $camp)
     {
-        return $camp->getLatestRegistration($this);
+        return $camp->getRegistration($this);
     }
 
     public function activate()

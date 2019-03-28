@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use File;
-use PDF;
 
 use App\Camp;
 use App\Common;
@@ -78,7 +77,8 @@ class CandidateController extends Controller
     private static function candidates(Camp $camp)
     {
         return $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
-            return $candidate->registration->chosen_to_confirmed();
+            $registration = $candidate->registration;
+            return !$registration->returned && $registration->chosen_to_confirmed();
         });
     }
 
@@ -104,6 +104,8 @@ class CandidateController extends Controller
 
     public function data_download(Request $request, QuestionSet $question_set)
     {
+        if (sizeof($request->all()) <= 1)
+            return redirect()->back();
         $camp = $question_set->camp;
         $download_path = public_path("{$camp}_data.zip");
         File::delete($download_path);
@@ -118,7 +120,10 @@ class CandidateController extends Controller
             $temp_pdf_path = $root."camps/temp.pdf";
             foreach ($candidates as $candidate) {
                 $user = $candidate->camper;
-                PDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                // Try-catch workaround for the buggy Laravel snappy wrapper
+                try {
+                    \SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                } catch (\Exception $e) {}
                 $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
         }
@@ -192,7 +197,10 @@ class CandidateController extends Controller
         }
         $locale = app()->getLocale();
         $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
-                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')->orderByDesc('registrations.status')->orderBy("users.name_{$locale}");
+                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
+                        ->orderByDesc('registrations.status')
+                        ->orderBy('registrations.returned')
+                        ->orderBy("users.name_{$locale}");
         $candidates = $candidates->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
     }
@@ -204,6 +212,8 @@ class CandidateController extends Controller
         if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $camp = $question_set->camp;
+        if (!$camp->camp_procedure->candidate_required)
+            throw new \CampPASSException();
         $registrations = $camp->registrations;
         if ($registrations->isEmpty()) {
             if ($list) return null;
@@ -374,7 +384,6 @@ class CandidateController extends Controller
                     'returned_reasons' => null,
                 ]);
                 if (++$backup_count <= $camp->backup_limit) {
-                    // TODO: Do we do this: Make all form scores of backups passed
                     $form_score->update([
                         'passed' => true,
                     ]);
