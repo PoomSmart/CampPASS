@@ -37,4 +37,9 @@ return [
     'PaymentUploaded' => 'The payment slip has been uploaded.',
     'AckSlip' => 'You need to upload a payment slip to confirm your application.',
     'FormReturned' => 'Your application form has been returned due to the following issues:',
+    'ReturnedApplication' => 'Your application form has been returned, please check the completeness of the form and resubmit it.',
+    'RejectedApplication' => 'Sorry, your application form has been rejected.',
+    'Grading' => 'Grading',
+    'CongratulationsApp' => 'Congratulations! Your application form has been accepted.',
+    'SlipApproved' => 'Slip Approved',
 ];

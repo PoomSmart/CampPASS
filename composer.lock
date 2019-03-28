@@ -73,7 +73,8 @@
             "dist": {
                 "type": "path",
                 "url": "app/Vendors/jeroenzwart/laravel-csv-seeder",
-                "reference": "c4a286c5ea66a795b575ce799ca4678edcb22776"
+                "reference": "c4a286c5ea66a795b575ce799ca4678edcb22776",
+                "shasum": null
             },
             "require": {
                 "laravel/framework": ">=5.0.0",

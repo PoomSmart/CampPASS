@@ -11,16 +11,12 @@ return [
     'Finalized' => 'ตรวจแล้ว',
     'Checked' => 'ตรวจทานแล้ว',
     'Announce' => 'ประกาศผล',
-    'Grading' => 'กำลังตรวจใบสมัคร',
     'ChosenCampers' => 'ผู้ที่ผ่านการคัดเลือก',
     'Candidates' => 'ตัวจริง',
     'Backups' => 'ตัวสำรอง',
     'Announced' => 'ประกาศแล้ว',
     'IsAnnounced' => 'ประกาศผล',
-    'CongratulationsApp' => 'ยินดีด้วย! ใบสมัครของคุณผ่านการคัดเลือก คุณได้เข้าค่ายนี้!',
     'CongratulationsInterview' => 'ยินดีด้วย! คุณได้เข้ารอบสัมภาษณ์ของค่าย',
-    'ReturnedApplication' => 'ใบสมัครของคุณโดนตีกลับ กรุณาตรวจสอบใบสมัครของคุณก่อนทำการส่งใหม่อีกครั้ง',
-    'RejectedApplication' => 'ขอแสดงความเสียใจด้วย ใบสมัครของคุณไม่ผ่านการคัดเลือก',
     'CamperInterviewPassed' => 'ยินดีด้วย! คุณผ่านการสัมภาษณ์ของค่าย :camp',
     'AnnounceInterview' => 'ประกาศผลผู้ผ่านสัมภาษณ์',
     'AckInterview' => 'ค่ายนี้มีรอบสัมภาษณ์',
@@ -70,5 +66,4 @@ return [
     'Disqualified' => 'คุณถูกตัดสิทธิ์จาก :camp',
     'DocumentsApproved' => 'เอกสารถูกยืนยันเรียบร้อย',
     'DocumentsInProcess' => 'กำลังดำเนินการตรวจเอกสาร',
-
 ];

@@ -123,13 +123,13 @@ class CampApplicationController extends Controller
         switch ($step) {
             case BlockApplicationStatus::APPLICATION:
                 if ($registration->returned)
-                    $text = trans('qualification.ReturnedApplication');
+                    $text = trans('registration.ReturnedApplication');
                 else if ($registration->rejected())
-                    $text = trans('qualification.RejectedApplication');
+                    $text = trans('registration.RejectedApplication');
                 else if ($registration->applied())
-                    $text = trans('qualification.Grading');
+                    $text = trans('registration.Grading');
                 else if ($registration->chosen() || $registration->approved_to_confirmed())
-                    $text = trans('qualification.CongratulationsApp');
+                    $text = trans('registration.CongratulationsApp');
                 else
                     $button = true;
                 break;
@@ -178,7 +178,7 @@ class CampApplicationController extends Controller
                 } else if ($registration->approved_to_confirmed())
                     $text = trans('qualification.DocumentsApproved');
                 else if ($registration->chosen())
-                    $text = $camp_procedure->depositOnly() ? trans('qualification.DocumentsInProcessDepositOnly') : trans('qualification.DocumentsInProcess');
+                    $text = $camp_procedure->depositOnly() ? trans('registration.AckSlip') : trans('qualification.DocumentsInProcess');
                 else {
                     $text = trans('qualification.DocumentsWillBeApproved');
                     $passed = false;
