@@ -82,7 +82,7 @@ class CandidateController extends Controller
         });
     }
 
-    public static function document_approve(Registration $registration)
+    public static function document_approve(Registration $registration, $approved_by_id = null)
     {
         if ($registration->approved())
             throw new \CampPASSExceptionRedirectBack();
@@ -91,6 +91,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::APPROVED,
+            'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
         ]);
         $form_score = $registration->form_score;
         if ($form_score) {
