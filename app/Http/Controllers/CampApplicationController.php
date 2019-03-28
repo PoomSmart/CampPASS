@@ -302,7 +302,7 @@ class CampApplicationController extends Controller
         $this->authenticate($camp = Camp::find($request['camp_id']));
         $user = auth()->user();
         if (!$user->can('answer-edit') || !$user->can('answer-create'))
-            throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
+            throw new \CampPASSExceptionPermission();
         // A registration record will be created if not already
         $registration = $this->register($camp, $user);
         if ($registration->rejected() || $registration->withdrawed())
@@ -321,7 +321,7 @@ class CampApplicationController extends Controller
                     $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
                     $directory = QuestionManager::questionSetDirectory($camp->id);
-                    Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
+                    Storage::putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
                 }
             } else
                 $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);
@@ -348,19 +348,8 @@ class CampApplicationController extends Controller
         $camp = $question_set->camp;
         $this->authenticate($camp);
         $camper = auth()->user();
-        $pairs = $question_set ? $question_set->pairs()->get() : [];
-        $data = [];
         $json = QuestionManager::getQuestionJSON($question_set->camp_id);
-        $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
-        if ($answers->isEmpty())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
-        foreach ($answers as $answer) {
-            $question = $answer->question;
-            $data[] = [
-                'question' => $question,
-                'answer' => QuestionManager::decodeIfNeeded($answer->answer, $question->type),
-            ];
-        }
+        $data = QuestionManager::getAnswers($question_set, $camper);
         return view('camp_application.answer_view', compact('data', 'json', 'camp'));
     }
 

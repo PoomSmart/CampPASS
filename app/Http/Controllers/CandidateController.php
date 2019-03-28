@@ -10,6 +10,7 @@ use App\Candidate;
 use App\FormScore;
 use App\Registration;
 use App\QuestionSet;
+use App\QuestionManager;
 use App\User;
 
 use App\Http\Controllers\CampApplicationController;
@@ -115,22 +116,24 @@ class CandidateController extends Controller
         $root = storage_path('app').'/';
         if ($request->has('payment'))
             $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
-        $candidates = null;
-        $temp_dir = "{$root}camps/temp_{$question_set->id}";
-        if (!File::exists($temp_dir))
-            File::makeDirectory($temp_dir);
+        $candidates = $temp_dir = null;
         if ($request->has('submitted-form')) {
+            $temp_dir = "{$root}camps/temp_{$question_set->id}";
+            if (!File::exists($temp_dir))
+                File::makeDirectory($temp_dir);
             $candidates = $this->candidates($camp);
             foreach ($candidates as $candidate) {
-                $user = $candidate->camper;
-                $temp_pdf_path = "{$temp_dir}/temp_{$candidate->registration_id}.pdf";
-                // Try-catch workaround for the buggy Laravel snappy wrapper
+                // Try-catch for sanity
                 try {
-                    \SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
+                    $temp_pdf_path = "{$temp_dir}/temp_{$candidate->registration_id}.pdf";
+                    $user = $candidate->camper;
+                    $json = QuestionManager::getQuestionJSON($question_set->camp_id);
+                    $data = QuestionManager::getAnswers($question_set, $user);
+                    \SnappyPDF::loadView('layouts.submitted_form', compact('user', 'data', 'json'))->save($temp_pdf_path, true);
+                    $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
                 } catch (\Exception $e) {
                     logger()->debug($e);
                 }
-                $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
         }
         foreach (['transcript', 'confirmation_letter'] as $folder) {
@@ -145,8 +148,9 @@ class CandidateController extends Controller
             }
         }
         $zipper->close();
+        if ($temp_dir)
+            File::deleteDirectory($temp_dir);
         unset($zipper);
-        File::deleteDirectory($temp_dir);
         return response()->download($download_path);
     }
 

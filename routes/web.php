@@ -119,8 +119,13 @@ Route::get('/privacy-policy', function () {
 });
 
 // TODO: Soon will be removed
-use App\User;
+use App\QuestionSet;
+use App\QuestionManager;
 
-Route::get('/form-template/{user}', function (User $user) {
-    return view('layouts.submitted_form', compact('user'));
+Route::get('/form-template', function () {
+    $question_set = QuestionSet::first();
+    $user = $question_set->answers->first()->camper;
+    $json = QuestionManager::getQuestionJSON($question_set->camp_id);
+    $data = QuestionManager::getAnswers($question_set, $user);
+    return view('layouts.submitted_form', compact('user', 'data', 'json'));
 });
