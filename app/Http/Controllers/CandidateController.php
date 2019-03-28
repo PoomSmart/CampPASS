@@ -116,15 +116,20 @@ class CandidateController extends Controller
         if ($request->has('payment'))
             $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
         $candidates = null;
+        $temp_dir = "{$root}camps/temp_{$question_set->id}";
+        if (!File::exists($temp_dir))
+            File::makeDirectory($temp_dir);
         if ($request->has('submitted-form')) {
             $candidates = $this->candidates($camp);
             foreach ($candidates as $candidate) {
                 $user = $candidate->camper;
-                $temp_pdf_path = $root."camps/temp_{$candidate->registration_id}.pdf";
+                $temp_pdf_path = "{$temp_dir}/temp_{$candidate->registration_id}.pdf";
                 // Try-catch workaround for the buggy Laravel snappy wrapper
                 try {
                     \SnappyPDF::loadView('layouts.submitted_form', compact('user'))->save($temp_pdf_path, true);
-                } catch (\Exception $e) {}
+                } catch (\Exception $e) {
+                    logger()->debug($e);
+                }
                 $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
             }
         }
@@ -141,6 +146,7 @@ class CandidateController extends Controller
         }
         $zipper->close();
         unset($zipper);
+        File::deleteDirectory($temp_dir);
         return response()->download($download_path);
     }
 
