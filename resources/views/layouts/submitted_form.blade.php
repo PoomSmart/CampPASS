@@ -6,10 +6,14 @@
     <style>
         body {
             font-family: "Segoe UI";
+            font-size: 120%;
         }
         .page {
             overflow: hidden;
             page-break-after: always;
+        }
+        .page-last {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -56,7 +60,7 @@
         ])
         @endcomponent
     </div>
-    <div class="page">
+    <div class="page-last">
         <h1>@lang('app.CampApplicationForm')</h1>
         @foreach ($data as $pair)
             @php
