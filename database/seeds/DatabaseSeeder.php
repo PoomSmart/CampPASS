@@ -566,6 +566,7 @@ class DatabaseSeeder extends Seeder
                     }
                     CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                     $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
+                    $campmakers = $camp->camp_makers()->toArray();
                     foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
                         if (Common::randomRareHit())
                             continue;
@@ -584,7 +585,7 @@ class DatabaseSeeder extends Seeder
                                     if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
                                         Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
                                     if (Common::randomVeryFrequentHit()) {
-                                        CandidateController::document_approve($registration);
+                                        CandidateController::document_approve($registration, $approved_by_id = $campmakers[array_rand($campmakers)]->id);
                                         if (Common::randomMediumHit())
                                             CampApplicationController::confirm($registration, $silent = true);
                                     }
