@@ -23,6 +23,7 @@ class ApplicationStatusUpdated extends LocalizableNotification
             return trans('qualification.ApplicationFormReturned', ['camp' => $camp_text]);
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
+                return trans('qualification.CamperChosen', ['camp' => $camp_text]);
             case ApplicationStatus::INTERVIEWED:
                 return trans('qualification.CamperInterviewPassed', ['camp' => $camp_text]);
             case ApplicationStatus::APPROVED:
