@@ -212,6 +212,8 @@ class CandidateController extends Controller
         if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $camp = $question_set->camp;
+        if (!$camp->camp_procedure->candidate_required)
+            throw new \CampPASSException();
         $registrations = $camp->registrations;
         if ($registrations->isEmpty()) {
             if ($list) return null;
@@ -382,7 +384,6 @@ class CandidateController extends Controller
                     'returned_reasons' => null,
                 ]);
                 if (++$backup_count <= $camp->backup_limit) {
-                    // TODO: Do we do this: Make all form scores of backups passed
                     $form_score->update([
                         'passed' => true,
                     ]);

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Common;
 use App\Registration;
 
 use App\Enums\ApplicationStatus;

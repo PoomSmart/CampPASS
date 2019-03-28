@@ -22,6 +22,7 @@ return [
     'OtherConditionsDesc' => 'ระบุเงื่อนไขเพิ่มเติมที่ใช้ในการสมัครค่ายนี้ หากมี',
     'ApplicationFee' => 'ค่าธรรมเนียม',
     'ApplicationFeeDesc' => 'ระบุค่าธรรมเนียมที่ผู้เข้าค่ายต้องจ่ายเมื่อทำการสมัครค่ายนี้',
+    'Expenses' => 'ค่าใช้จ่าย',
     'Deposit' => 'ค่ามัดจำ',
     'URL' => 'URL',
     'FBURL' => 'สอบถามผู้จัดค่ายทาง Facebook',
@@ -66,5 +67,4 @@ return [
     'CampAdded' => 'มีค่ายใหม่! : :camp',
     'CampHasBeenApproved' => 'ค่าย :camp ถูกรับรองแล้ว',
     'CampDeletedSuccessfully' => 'ค่ายถูกลบแล้ว',
-
 ];

@@ -115,7 +115,7 @@
                 <th>@lang('qualification.SubmissionTime')</th>
             @endif
             <th>@lang('registration.Status')</th>
-            @if ($camp->application_fee)
+            @if ($required_paid)
                 <th>@lang('qualification.ApplicationFeePaid')</th>
             @endif
             <th>@lang('qualification.Passed')</th>
@@ -149,7 +149,7 @@
                     <td>{{ $registration->submission_time }}</td>
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
-                @if ($camp->application_fee)
+                @if ($required_paid)
                     <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
                 @endif
                 <td class="text-center">

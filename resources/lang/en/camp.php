@@ -22,6 +22,7 @@ return [
     'OtherConditionsDesc' => 'Provide any other conditions for applying for this camp, if necessary.',
     'ApplicationFee' => 'Application Fee',
     'ApplicationFeeDesc' => 'Specify the amount that campers need to pay at the beginning of the application.',
+    'Expenses' => 'Expenses',
     'Deposit' => 'Deposit',
     'URL' => 'URL',
     'FBURL' => 'Contact via Facebook',
@@ -67,6 +68,4 @@ return [
     'CampAdded' => 'New camp! : :camp',
     'CampHasBeenApproved' => 'Camp :camp has been approved.',
     'CampDeletedSuccessfully' => 'Camp deleted successfully',
-    
-
 ];

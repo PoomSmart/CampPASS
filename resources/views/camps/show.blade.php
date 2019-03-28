@@ -52,8 +52,16 @@
                     <p class="text-muted">{{ $camp->other_conditions ? $camp->other_conditions : trans('app.None') }}</p>
                 </div>
                 <div class="col-12 col-md-6">
-                    <h5>@lang('camp.ApplicationFee')</h5>
-                    <p class="text-muted">{{ $camp->application_fee ? $camp->application_fee : trans('app.None') }}</p>
+                    @if ($camp->deposit)
+                        <h5>@lang('camp.Deposit')</h5>
+                        <p class="text-muted">{{ $camp->deposit }}</p>
+                    @elseif ($camp->application_fee)
+                        <h5>@lang('camp.ApplicationFee')</h5>
+                        <p class="text-muted">{{ $camp->application_fee }}</p>
+                    @else
+                        <h5>@lang('camp.Expenses')</h5>
+                        <p class="text-muted">@lang('app.None')</p>
+                    @endif
                 </div>
                 <div class="col-12 col-md-6">
                     <h5>@lang('camp.CampLocation')</h5>

@@ -93,7 +93,7 @@ class CampApplicationController extends Controller
                 $disabled = true;
                 $apply_text = $ineligible_reason;
             } else if ($user->isCamper()) {
-                $registration = $user->getLatestRegistrationForCamp($camp);
+                $registration = $user->getRegistrationForCamp($camp);
                 if ($registration) {
                     $apply_text = trans('registration.Status');
                     $route = route('camp_application.status', $registration->id);
@@ -217,7 +217,7 @@ class CampApplicationController extends Controller
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
             throw new \CampPASSException($ineligible_reason);
-        $registration = $camp->getLatestRegistration($user);
+        $registration = $camp->getRegistration($user);
         if ($registration) {
             if ($registration->confirmed())
                 throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
@@ -294,7 +294,7 @@ class CampApplicationController extends Controller
             return self::status($registration);
         }
         // Stage: Apply (right away)
-        return self::submit_application_form($camp, $status = ApplicationStatus::CONFIRMED);
+        return self::submit_application_form($camp, $status = ApplicationStatus::CHOSEN);
     }
 
     public function store(Request $request)
@@ -455,9 +455,11 @@ class CampApplicationController extends Controller
             if ($prevent)
                 throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         }
+        if ($camp->hasPayment() && !self::get_payment_path($registration))
+            throw new \CampPASSException();
         $camp_procedure = $camp->camp_procedure;
         // TODO: What about backups?
-        if ($registration->status < ApplicationStatus::APPROVED && ($camp_procedure->interview_required || $camp_procedure->candidate_required || $camp_procedure->deposit_required))
+        if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn())
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
