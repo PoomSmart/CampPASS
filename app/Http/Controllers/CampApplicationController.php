@@ -21,7 +21,7 @@ use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
 use App\Enums\BlockApplicationStatus;
 
-use App\Notifications\NewCamperApplied;
+use App\Notifications\CamperStatusChanged;
 
 use App\Http\Requests\StorePDFRequest;
 
@@ -238,7 +238,7 @@ class CampApplicationController extends Controller
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
             foreach ($camp->camp_makers() as $campmaker) {
-                $campmaker->notify(new NewCamperApplied($registration));
+                $campmaker->notify(new CamperStatusChanged($registration));
             }
         }
         if ($badge_check)
@@ -478,6 +478,10 @@ class CampApplicationController extends Controller
             $form_score->update([
                 'passed' => false,
             ]);
+        }
+        // Notify the camp makers about this withdrawal
+        foreach ($camp->camp_makers() as $campmaker) {
+            $campmaker->notify(new CamperStatusChanged($registration));
         }
         if (!$silent)
             return redirect()->back()->with('message', trans('exception.WithdrawedFrom', ['camp' => $camp]));

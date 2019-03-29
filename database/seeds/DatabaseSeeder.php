@@ -24,7 +24,7 @@ use App\Year;
 use App\Imports\ProvincesImport;
 
 use App\Notifications\NewCampRegistered;
-use App\Notifications\NewCamperApplied;
+use App\Notifications\CamperStatusChanged;
 use App\Notifications\ApplicationStatusUpdated;
 
 use App\BadgeController;
@@ -332,7 +332,7 @@ class DatabaseSeeder extends Seeder
                 foreach ($registration_ids as $registration_id) {
                     $registration = Registration::find($registration_id);
                     foreach ($campmakers as $campmaker) {
-                        $campmaker->notify(new NewCamperApplied($registration));
+                        $campmaker->notify(new CamperStatusChanged($registration));
                     }
                 }
             }

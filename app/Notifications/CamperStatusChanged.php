@@ -2,9 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Common;
 use App\Registration;
 
-class NewCamperApplied extends LocalizableNotification
+use App\Enums\ApplicationStatus;
+
+class CamperStatusChanged extends LocalizableNotification
 {
     protected $registration, $camp, $camper;
 
@@ -17,9 +20,14 @@ class NewCamperApplied extends LocalizableNotification
 
     public function toText(Registration $registration)
     {
-        return trans('camp.NewCamperApplied', [
-            'camper' => $this->camper, 'camp' => $this->camp,
-        ]);
+        $compact = [
+            'camper' => $this->camper->getFullName(), 'camp' => Common::getLocalizedName($this->camp),
+        ];
+        switch ($registration->status) {
+            case ApplicationStatus::WITHDRAWED:
+                return trans('camp.CamperWithdrawed', $compact);
+        }
+        return trans('camp.NewCamperApplied', $compact);
     }
 
     public function toURL()

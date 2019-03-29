@@ -165,11 +165,13 @@ class CandidateController extends Controller
     {
         $camp = $question_set->camp;
         $candidates = $camp->candidates()->where('backup', false);
+        // This can occur when the score threshold is too high and no one passed
         if ($candidates->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         $can_get_backups = false;
         $total = $candidates->count();
         $confirmed = $withdrawed = 0;
+        // Count the numbers for the confirmed and the withdrawed
         foreach ($candidates->get() as $candidate) {
             $registration = $candidate->registration;
             if ($registration->confirmed())
@@ -185,6 +187,7 @@ class CandidateController extends Controller
         ]);
         $rank_by_score = $question_set->total_score;
         if ($rank_by_score) {
+            // Backups only matter for the camps that have gradable question set
             $backup_confirmed = $backup_withdrawed = 0;
             $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
                 $registration = $candidate->registration;
@@ -209,9 +212,9 @@ class CandidateController extends Controller
         $locale = app()->getLocale();
         $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
                         ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
-                        ->orderByDesc('registrations.status')
-                        ->orderBy('registrations.returned')
-                        ->orderBy("users.name_{$locale}");
+                        ->orderByDesc('registrations.status') // "Group" by registration status
+                        ->orderBy('registrations.returned') // Seperated by whether the form has been returned
+                        ->orderBy("users.name_{$locale}"); // Sorted by name at last
         $candidates = $candidates->paginate(Common::maxPagination());
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
     }
@@ -223,6 +226,7 @@ class CandidateController extends Controller
         if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         $camp = $question_set->camp;
+        // We shouldn't be able to rank the forms that have noting to do with scoring
         if (!$camp->camp_procedure->candidate_required)
             throw new \CampPASSException();
         $registrations = $camp->registrations;
