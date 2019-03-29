@@ -78,6 +78,7 @@
                             'name' => 'profile',
                         ])
                         @endcomponent
+                        <small class="form-text text-muted mx-2">{{ trans('profile.PicDesc') }}</small>
                         <script>
                             document.getElementById("profile").onchange = function () {
                                 var reader = new FileReader();
