@@ -85,7 +85,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
         'other_conditions' => Common::randomMediumHit() ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => Common::randomVeryFrequentHit() ? $faker->unique()->url : null,
-        'fburl' => Common::randomMediumHit() ? 'https://facebook.com/'.$faker->unique()->name : null,
+        'fburl' => Common::randomMediumHit() ? 'https://facebook.com/'.preg_replace('/\s+/', '-', $faker->unique()->name) : null,
         'app_close_date' => $app_close_date,
         'announcement_date' => $announcement_date,
         'interview_date' => $interview_date,
