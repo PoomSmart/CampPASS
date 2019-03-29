@@ -5,12 +5,6 @@ window.$ = window.jQuery = require('jquery');
 
 var notifications = [];
 
-const NOTIFICATION_TYPES = {
-    application_status: 'App\\Notifications\\ApplicationStatusUpdated',
-    new_camp: 'App\\Notifications\\NewCampRegistered',
-    new_camper: 'App\\Notifications\\CamperStatusChanged'
-};
-
 jQuery(document).ready(function () {
     if (Laravel.userId) {
         jQuery.get('/notifications/notifications', function (data) {
