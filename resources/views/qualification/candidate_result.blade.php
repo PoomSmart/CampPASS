@@ -22,6 +22,22 @@
     @if ($interview_required)
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover({
+            title: "Bar",
+            content: "<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว<br /> \
+            2.<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว <br  />\
+            3.<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว <br  />\
+            4.<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว <br  />\
+            5.<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว <br  />\
+            6.<b>ยืนยันเข้าค่ายแล้ว</b><br />ผู้สมัครทำการยืนยันเข้าค่ายแล้ว <br  />",
+            html: true
+        });
+    });
+
+        
+    </script>
 @endsection
 
 @section('content')
@@ -39,7 +55,8 @@
             <th>@lang('account.FullName')</th>
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
-            <th>@lang('registration.Status')</th>
+            <th>@lang('registration.Status')
+                <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="popover"></i></th>
             @if ($deposit_required)
                 <th>@lang('qualification.DepositPaid')</th>
             @endif
@@ -68,8 +85,6 @@
                     class="table-success"
                 @elseif ($withdrawed || $rejected)
                     class="table-danger"
-                @elseif (!$paid || $returned)
-                    class="table-warning"
                 @endif
             >
                 <th scope="row">{{ ++$i }}</th>
@@ -78,7 +93,7 @@
                 <td>{{ $camper->program }}</td>
                 <td class="fit">{{ $registration->getStatus() }}</td>
                 @if ($deposit_required)
-                    <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                    <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
                 @endif
                 @if ($interview_required)
                     <td class="text-center">

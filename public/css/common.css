@@ -24,8 +24,8 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: dbsathornnow;
+body, .popover {
+  font-family: dbsathornnow !important;
 }
 
 html, body {
