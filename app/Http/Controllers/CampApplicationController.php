@@ -360,7 +360,7 @@ class CampApplicationController extends Controller
     {
         self::authenticate($camp);
         self::register($camp, $user = auth()->user(), $status = $status, $badge_check = true);
-        return view('camp_application.done');
+        return view('camp_application.done', compact('camp'));
     }
 
     public function canAccessPayment(Registration $registration)
