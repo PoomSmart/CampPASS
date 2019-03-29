@@ -210,6 +210,7 @@
 
             function copyAttributes() {
                 $input.prop("required", $original.prop("required"))
+                $original.removeAttr("required")
                 $input.prop("placeholder", $original.prop("placeholder"))
                 var disabled = $original.prop("disabled")
                 $input.prop("disabled", disabled)
