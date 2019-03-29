@@ -35,7 +35,6 @@ class StoreUserRequest extends CampPASSFormRequest
             'surname_th' => 'nullable|string|max:50|required_without:surname_en',
             'nickname_th' => 'nullable|string|max:50|required_without:nickname_en',
             'nationality' => 'required|integer|min:0|max:1',
-            'gender' => 'required|integer|min:0|max:2',
             'dob' => 'required|date_format:Y-m-d|before:today',
             'street_address' => 'required|string|max:300',
             'allergy' => 'nullable|string|max:200',
@@ -50,7 +49,6 @@ class StoreUserRequest extends CampPASSFormRequest
             'education_level' => [
                 'nullable', "required_if:type,{$CAMPER}", 'integer', Rule::in($education_levels),
             ],
-            'blood_group' => "nullable|integer|required_if:type,{$CAMPER}",
             'guardian_name' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_surname' => "nullable|required_if:type,{$CAMPER}|string",
             'guardian_role' => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
@@ -75,6 +73,8 @@ class StoreUserRequest extends CampPASSFormRequest
                 'citizen_id' => [
                     'required', 'digits:13', "unique:users,citizen_id", new ThaiCitizenID,
                 ],
+                'gender' => 'required|integer|min:0|max:2',
+                'blood_group' => "nullable|integer|required_if:type,{$CAMPER}",
                 'email' => 'required|string|email|max:100|unique:users,email',
                 'password' => 'required|string|min:6|confirmed',
             ];

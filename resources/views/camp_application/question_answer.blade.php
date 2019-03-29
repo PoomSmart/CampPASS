@@ -81,7 +81,7 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success">@lang('app.Next')</a>
+            <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success"><i class="fas fa-arrow-right fa-xs mr-1"></i>@lang('app.Next')</a>
         </div>
     </form>
 @endsection
