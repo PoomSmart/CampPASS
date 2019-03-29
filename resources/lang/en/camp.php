@@ -22,6 +22,7 @@ return [
     'OtherConditionsDesc' => 'Provide any other conditions for applying for this camp, if necessary.',
     'ApplicationFee' => 'Application Fee',
     'ApplicationFeeDesc' => 'Specify the amount that campers need to pay at the beginning of the application.',
+    'DepositDesc' => 'Specify the amount that campers need to pay after they are chosen as candidates.',
     'Expenses' => 'Expenses',
     'Deposit' => 'Deposit',
     'URL' => 'URL',
@@ -73,4 +74,6 @@ return [
     'CampFailedToCreate' => 'Camp failed to create.',
     'CampCreatedSuccessfully' => 'Camp :camp created successfully.',
     'CampUpdatedSuccessfully' => 'Camp :camp has been updated successfully.',
+    'PaymentInfo' => 'Payment Information',
+    'PaymentInfoDesc' => 'Provide the bank account number, PromptPay number or any necessary payment information for campers to transfer the deposit or application fee.',
 ];

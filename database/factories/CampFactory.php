@@ -95,7 +95,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'contact_campmaker' => $faker->address,
         'deposit' => $deposit,
         'application_fee' => $application_fee,
-        'account_no' => $has_payment ? $faker->unique()->bankAccountNumber : null,
+        'payment_information' => $has_payment ? $faker->unique()->bankAccountNumber : null,
         'interview_information' => $interview_information,
         'quota' => Common::randomMediumHit() ? rand(50, 200) : null,
         'backup_limit' => $camp_procedure->candidate_required ? 5 : null,

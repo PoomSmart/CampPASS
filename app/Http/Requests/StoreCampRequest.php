@@ -31,6 +31,7 @@ class StoreCampRequest extends CampPASSFormRequest
             'fburl' => 'nullable|url|max:150',
             'contact_campmaker' => 'required|string|max:65536',
             'interview_information' => 'nullable|string|max:65536',
+            'payment_information' => 'nullable|string|max:65536',
             'app_close_date' => 'nullable|date|after:today',
             'announcement_date' => 'nullable|date|after:app_close_date',
             'interview_date' => 'nullable|date|after:announcement_date',

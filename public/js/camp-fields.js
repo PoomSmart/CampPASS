@@ -24,21 +24,25 @@ function selectionChanged(select) {
         var fee = form.find("#application_fee");
         var interview_date = form.find("#interview_date");
         var interview_info = form.find("#interview_information");
+        var payment_info = form.find("#payment_information");
         var backup_limit = form.find("#backup_limit");
         // Deposit and Application Fee
         switch (value) {
             case CampProcedure.WALK_IN:
                 disable(deposit);
+                disable(payment_info);
                 disable(fee);
                 break;
             case CampProcedure.DEPOSIT:
             case CampProcedure.QA_DEPOSIT:
             case CampProcedure.QA_INTERVIEW_DEPOSIT:
                 enable(deposit);
+                enable(payment_info);
                 disable(fee);
                 break;
             default:
                 disable(deposit);
+                enable(payment_info);
                 enable(fee);
                 break;
         }

@@ -1,5 +1,13 @@
 @section('camp-fields')
 
+@php
+    $camp_procedure = isset($object) ? $object->camp_procedure : null;
+    $candidate_required = isset($camp_procedure) ? $camp_procedure->candidate_required : null;
+    $deposit_required = isset($camp_procedure) ? $camp_procedure->deposit_required : null;
+    $interview_required = isset($camp_procedure) ? $camp_procedure->interview_required : null;
+    $has_payment = isset($object) ? $object->hasPayment() : null;
+@endphp
+
 @component('components.input', [
     'name' => 'name_en',
     'label' => trans('camp.EnglishName'),
@@ -49,20 +57,37 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'camp_procedure_id',
-    'label' => trans('camp_procedure.CampProcedure'),
-    'required' => 1,
-    'attributes' => (!auth()->user()->isAdmin() && isset($update) ? 'disabled' : '').' onchange=selectionChanged(this);',
-    'input_type' => 'select',
-    'objects' => $camp_procedures,
-    'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
-    'desc' => isset($object) && isset($update) ? $object->camp_procedure->getDescription() : null,
-    'desc_object' => isset($object) ? $object->camp_procedure : null,
-    'desc_objects' => $camp_procedures,
-    'desc_objects_getter' => 'getDescription',
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @php $can_list_organization = auth()->user()->can('organization-list'); @endphp
+        @component('components.input', [
+            'name' => 'organization_id',
+            'label' => trans('organization.Organization'),
+            'input_type' => 'select',
+            'objects' => $organizations,
+            'required' => $can_list_organization,
+            'disabled' => !$can_list_organization,
+            'placeholder' => $can_list_organization && !isset($update) ? trans('camp.SelectOrganization') : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'camp_procedure_id',
+            'label' => trans('camp_procedure.CampProcedure'),
+            'required' => 1,
+            'attributes' => (!auth()->user()->isAdmin() && isset($update) ? 'disabled' : '').' onchange=selectionChanged(this);',
+            'input_type' => 'select',
+            'objects' => $camp_procedures,
+            'placeholder' => isset($update) ? null : trans('camp.SelectCampApplication'),
+            'desc' => isset($object) && isset($update) ? $object->camp_procedure->getDescription() : null,
+            'desc_object' => $camp_procedure,
+            'desc_objects' => $camp_procedures,
+            'desc_objects_getter' => 'getDescription',
+        ])
+        @endcomponent
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-4">
@@ -72,7 +97,7 @@
             'type' => 'number',
             'attributes' => "min=1 data-suffix=".trans('app.THB'),
             'no_form_control_class' => 1,
-            'disabled' => isset($object) && $object->camp_procedure->deposit_required ? 1 : null,
+            'disabled' => $deposit_required,
             'desc' => trans('camp.ApplicationFeeDesc'),
         ])
         @endcomponent
@@ -83,8 +108,10 @@
             'label' => trans('camp.Deposit'),
             'type' => 'number',
             'attributes' => "min=1 data-suffix=".trans('app.THB'),
+            'required' => $deposit_required,
             'no_form_control_class' => 1,
-            'disabled' => isset($object) && !$object->camp_procedure->deposit_required ? 1 : null,
+            'disabled' => !is_null($deposit_required) ? !$deposit_required : null,
+            'desc' => trans('camp.DepositDesc'),
         ])
         @endcomponent
     </div>
@@ -95,24 +122,11 @@
             'type' => 'number',
             'no_form_control_class' => 1,
             'attributes' => 'min=0 step=1',
-            'disabled' => isset($object) && !$object->camp_procedure->candidate_required ? 1 : null,
+            'disabled' => !is_null($candidate_required) ? !$candidate_required : null,
         ])
         @endcomponent
     </div>
 </div>
-
-@php $can_list_organization = auth()->user()->can('organization-list'); @endphp
-
-@component('components.input', [
-    'name' => 'organization_id',
-    'label' => trans('organization.Organization'),
-    'input_type' => 'select',
-    'objects' => $organizations,
-    'required' => $can_list_organization,
-    'disabled' => !$can_list_organization,
-    'placeholder' => $can_list_organization && !isset($update) ? trans('camp.SelectOrganization') : null,
-])
-@endcomponent
 
 @component('components.input',[
     'name' => 'acceptable_years',
@@ -173,14 +187,28 @@
 ])
 @endcomponent
 
-@component('components.input', [
-    'name' => 'contact_campmaker',
-    'label' => trans('camp.CampMakerContactInfo'),
-    'textarea' => 1,
-    'required' => 1,
-    'desc' => trans('camp.CampMakerContactInfoDesc'),
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'contact_campmaker',
+            'label' => trans('camp.CampMakerContactInfo'),
+            'textarea' => 1,
+            'required' => 1,
+            'desc' => trans('camp.CampMakerContactInfoDesc'),
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'payment_information',
+            'label' => trans('camp.PaymentInfo'),
+            'textarea' => 1,
+            'required' => $has_payment,
+            'desc' => trans('camp.PaymentInfoDesc'),
+        ])
+        @endcomponent
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-6">
@@ -258,7 +286,7 @@
             'name' => 'interview_date',
             'label' => trans('camp.InterviewDate'),
             'type' => 'datetime-local',
-            'disabled' => isset($object) && !$object->camp_procedure->interview_required ? 1 : null,
+            'disabled' => !is_null($interview_required) ? !$interview_required : null,
         ])
         @endcomponent
     </div>
@@ -267,7 +295,7 @@
             'name' => 'interview_information',
             'label' => trans('camp.InterviewInformation'),
             'textarea' => 1,
-            'disabled' => isset($object) && !$object->camp_procedure->interview_required ? 1 : null,
+            'disabled' => !is_null($interview_required) ? !$interview_required : null,
         ])
         @endcomponent
     </div>
