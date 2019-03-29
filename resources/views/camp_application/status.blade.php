@@ -81,6 +81,9 @@
             'header' => $camp_procedure->deposit_required ? trans('camp.Deposit') : trans('camp.ApplicationFee'),
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(3, $registration, $camp, $camp_procedure),
         ])
+        @slot('extra_body')
+            <p class="card-text"><b>@lang('camp.PaymentInfo'):</b> {{ $camp->payment_information }}</p>
+        @endslot
         @slot('buttons')
             <form id="form" name="form" class="w-100" action="{{ route('camp_application.payment_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
