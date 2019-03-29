@@ -295,7 +295,7 @@ class DatabaseSeeder extends Seeder
                 $camp_procedure = $camp->camp_procedure;
                 if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
                     $status = Common::randomFrequentHit() ? ApplicationStatus::CHOSEN : ApplicationStatus::DRAFT;
-                else if ($camp_procedure->depositOnly()) // Deposit Only
+                else if ($camp->paymentOnly()) // Payment Only
                     $status = ApplicationStatus::CHOSEN;
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
@@ -605,6 +605,26 @@ class DatabaseSeeder extends Seeder
                 $question_set->update([
                     'interview_announced' => true,
                 ]);
+            }
+        }
+        $this->log('-> simulating payment slip uploading for payment-only camps');
+        foreach (Camp::allApproved()->get() as $camp) {
+            if (!$camp->paymentOnly())
+                continue;
+            $payment_directory = Common::paymentDirectory($camp->id);
+            $campmakers = $camp->camp_makers();
+            foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                if (Common::randomVeryFrequentHit())
+                    Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
+                if (Common::randomVeryFrequentHit()) {
+                    try {
+                        CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
+                        if (Common::randomMediumHit())
+                            CampApplicationController::confirm($registration, $silent = true);
+                    } catch (\Exception $e) {
+                        logger()->debug("Payment-onlY Payment Slip Simulation: {$e}");
+                    }
+                }
             }
         }
         unset($dummy_payment);

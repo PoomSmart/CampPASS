@@ -201,6 +201,11 @@ class Camp extends Model
         return $this->camp_procedure->deposit_required || $this->application_fee;
     }
 
+    public function paymentOnly()
+    {
+        return $this->application_fee || $this->camp_procedure->depositOnly();
+    }
+
     public function approve()
     {
         $this->update([

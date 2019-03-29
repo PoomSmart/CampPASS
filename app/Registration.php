@@ -84,16 +84,6 @@ class Registration extends Model
         return $this->status >= ApplicationStatus::INTERVIEWED;
     }
 
-    public function paid()
-    {
-        return $this->status == ApplicationStatus::PAID;
-    }
-
-    public function paid_to_confirmed()
-    {
-        return $this->status >= ApplicationStatus::PAID;
-    }
-
     public function approved()
     {
         return $this->status == ApplicationStatus::APPROVED;

@@ -19,7 +19,7 @@
         $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
         $rankable = $camp_procedure->candidate_required && !is_null($question_set);
-        $required_paid = $camp->application_fee || $camp_procedure->depositOnly();
+        $required_paid = $camp->paymentOnly();
     @endphp
     <div class="row">
         @php
@@ -56,6 +56,7 @@
                     @foreach ($data as $key => $registration)
                         @php
                             $camper = $registration->camper;
+                            $confirmed = $registration->confirmed();
                             $withdrawed = $registration->withdrawed();
                             $form_score = $registration->form_score;
                             $finalized = $form_score ? $form_score->finalized : false;
@@ -64,7 +65,7 @@
                         <tr
                             @if ($withdrawed)
                                 class="table-danger"
-                            @elseif ($required_paid && $paid)
+                            @elseif ($confirmed)
                                 class="table-success"
                             @endif
                         >
