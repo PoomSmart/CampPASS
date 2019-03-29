@@ -8,19 +8,17 @@
     <div class="d-flex justify-content-center">
         {!! $notifications->links() !!}
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-static">
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('notification.Content')</th>
-            <th>@lang('app.Actions')</th>
+            <th>@lang('notification.Type')</th>
         </thead>
 	    @foreach ($notifications as $notification)
             <tr>
                 <th scope="row">{{ ++$i }}</th>
-                <td class="text-truncate"><a href="{{ $notification->data['url'] }}?read={{ $notification->id }}">{{ $notification->data['content'][app()->getLocale()] }}</a></td>
-                <td class="fit">
-
-                </td>
+                <td><a href="{{ $notification->data['url'] }}?read={{ $notification->id }}">{{ $notification->data['content'][app()->getLocale()] }}</a></td>
+                <td>{{ \App\Common::readableNotificationType($notification->type) }}</td>
             </tr>
         @endforeach
     </table>
