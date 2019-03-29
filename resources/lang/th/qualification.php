@@ -57,7 +57,7 @@ return [
     'YouNeedToConfirm' => 'คุณต้องยืนยันสิทธิ์การเข้าค่าย',
     'WhoConfirmedWithin' => ':whoทั้งหมดจะต้องยืนยันเข้าร่วมค่ายภายในวันที่ :date',
     'InterviewedSaved' => 'สถานะการสัมภาษณ์ของผู้เข้าค่ายตัวจริงได้รับการบันทึกแล้ว',
-    'AttendanceConfirmed' => 'คุณยืนยันเข้าค่าย :camp',
+    'AttendanceConfirmed' => 'คุณยืนยันเข้าค่าย :camp แล้ว',
     'NotAllowedToConfirm' => 'ไม่สามารถยืนยันได้',
     'DocumentsApproved' => 'เอกสารถูกยืนยันเรียบร้อย',
     'DocumentsInProcess' => 'กำลังดำเนินการตรวจเอกสาร',
