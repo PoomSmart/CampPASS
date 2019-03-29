@@ -26,7 +26,7 @@ return [
     'FileNotFound' => 'The specified file could not be found.',
     'AllPassedFormsMustBeChecked' => 'All passed forms must be checked.',
     'NoCandidateResultsToShow' => 'No candidate results to show.',
-    'CannotConfirmUnapprovedForm' => 'Cannot confirm the unapproved form.',
+    'CannotConfirmUnapprovedForm' => 'Cannot confirm the form from the unapproved registration.',
     'ProfilePictureCannotRemoved' => 'The profile picture cannot be removed (or already has been removed).',
     'ProfilePictureRemoved' => 'The profile picture has been removed.',
 ];

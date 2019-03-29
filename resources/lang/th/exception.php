@@ -26,7 +26,7 @@ return [
     'FileNotFound' => 'ไม่พบไฟล์ที่ต้องการ',
     'AllPassedFormsMustBeChecked' => 'ใบสมัครที่ผ่านการคัดเลือกต้องถูกตรวจทานแล้วทั้งหมด',
     'NoCandidateResultsToShow' => 'ไม่มีผู้ผ่านการคัดเลือกให้แสดง',
-    'CannotConfirmUnapprovedForm' => 'ไม่สามารถทำการยืนยันใบสมัครที่ยังไม่ผ่านการรับรองได้',
+    'CannotConfirmUnapprovedForm' => 'ไม่สามารถทำการยืนยันใบสมัครที่ยังไม่ผ่านการรับรองจากผู้จัดค่ายได้',
     'ProfilePictureCannotRemoved' => 'ไม่สามารถลบรูปโปรไฟล์ได้ (รูปโปรไฟล์อาจถูกลบไปแล้ว)',
     'ProfilePictureRemoved' => 'รูปโปรไฟล์ถูกลบแล้ว',
 ];
