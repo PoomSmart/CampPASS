@@ -22,11 +22,9 @@ final class ApplicationStatus extends BasicEnum
 			CHOSEN = 5,
 			// The camper has passed the interview of the camp
 			INTERVIEWED = 6,
-			// The camper has uploaded a payment slip as an evidence of paying the deposit
-			PAID = 7,
-			// The camper has been approved as their documents are all correct
-			APPROVED = 8,
+			// The camper has been approved as their documents (including payment slips) are all correct
+			APPROVED = 7,
 			// The camper has confirmed that they will attend the camp
-			CONFIRMED = 9
+			CONFIRMED = 8
     ;
 }

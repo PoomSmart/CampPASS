@@ -9,7 +9,6 @@ return [
     'CHOSEN' => 'Chosen',
     'INTERVIEWED' => 'Interviewed',
     'Returned' => 'Returned',
-    'PAID' => 'Paid',
     'CONFIRMED' => 'Confirmed',
     'CONFIRMEDInfo' => 'The candidates has already confirmed to enter the camp.',
     'INTERVIEWEDInfo' => 'Candidates have passed the interview.',

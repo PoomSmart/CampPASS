@@ -152,7 +152,7 @@ class CampApplicationController extends Controller
                 else {
                     if ($registration->rejected())
                         $text = trans('registration.RejectedApplication');
-                    else if ($registration->paid()) {
+                    else if (self::get_payment_path($registration)) {
                         if ($registration->returned) {
                             $text = trans('registration.PleaseRecheckSlip');
                             $button = true;
@@ -187,11 +187,12 @@ class CampApplicationController extends Controller
             case BlockApplicationStatus::CONFIRMATION:
                 if ($registration->confirmed())
                     $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
-                else if ($registration->withdrawed() || $registration->rejected())
+                else if ($registration->withdrawed() || $registration->rejected()) {
                     $text = trans('qualification.NotAllowedToConfirm');
-                else if ($registration->approved()
+                    $passed = false;
+                } else if ($registration->approved()
                     && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)
-                    && ($camp->hasPayment() ? $registration->paid_to_confirmed() : true)) {
+                    && ($camp->hasPayment() ? $registration->approved_to_confirmed() : true)) {
                         $button = true;
                         $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
                 } else {
