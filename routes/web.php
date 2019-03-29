@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('camps')->group(function () {
         Route::get('/approve/{camp}', 'CampController@approve')->name('camps.approve');
         Route::get('/registration/{camp}', 'CampController@registration')->name('camps.registration');
+        Route::get('/image-download/{camp}/{name}', 'CampController@image_download')->name('camps.image_download');
     });
     Route::prefix('questions')->group(function () {
         Route::post('/save/{camp}', 'QuestionSetController@store')->name('questions.store');
@@ -117,15 +118,3 @@ Route::get('/terms-of-services', function () {
 Route::get('/privacy-policy', function () {
     return view('about.privacy_policy');
 })->name('privacy-policy');
-
-// TODO: Soon will be removed
-use App\QuestionSet;
-use App\QuestionManager;
-
-Route::get('/form-template', function () {
-    $question_set = QuestionSet::first();
-    $user = $question_set->answers->first()->camper;
-    $json = QuestionManager::getQuestionJSON($question_set->camp_id);
-    $data = QuestionManager::getAnswers($question_set, $user);
-    return view('layouts.submitted_form', compact('user', 'data', 'json'));
-});

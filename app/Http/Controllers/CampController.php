@@ -25,7 +25,7 @@ class CampController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index']]);
+        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index', 'image_download']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
@@ -98,12 +98,21 @@ class CampController extends Controller
         }
     }
 
+    public function image_download(Camp $camp, $name)
+    {
+        $directory = Common::publicCampDirectory($camp->id);
+        return Common::downloadFile("{$directory}/{$camp->{$name}}");
+    }
+
     public function store(StoreCampRequest $request)
     {
         try {
             $user = auth()->user();
-            if ($user->isCampMaker())
-                $request->merge(['organization_id' => $user->organization_id]);
+            if ($user->isCampMaker()) {
+                $request->merge([
+                    'organization_id' => $user->organization_id
+                ]);
+            }
             $camp = Camp::create($request->all());
             if ($user->isAdmin())
                 $camp->approve();

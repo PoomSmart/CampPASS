@@ -195,7 +195,11 @@
             'upload' => 1,
             'value' => trans('app.View'),
             'full_width' => 1,
-            'download_route' => null,
+            'download_route' => isset($object) ? 'camps.image_download' : null,
+            'args' => isset($object) ? [
+                'camp' => $object->id,
+                'name' => 'banner',
+            ] : null,
         ])
         @endcomponent
         <small id="banner-desc-inline" class="form-text text-muted">@lang('camp.BannerRecommendedSize')</small>
@@ -212,7 +216,11 @@
             'upload' => 1,
             'value' => trans('app.View'),
             'full_width' => 1,
-            'download_route' => null,
+            'download_route' => isset($object) ? 'camps.image_download' : null,
+            'args' => isset($object) ? [
+                'camp' => $object->id,
+                'name' => 'poster',
+            ] : null,
         ])
         @endcomponent
         <small id="poster-desc-inline" class="form-text text-muted">@lang('camp.PosterRecommendedSize')</small>
