@@ -112,9 +112,10 @@ class CampController extends Controller
             $this->parseFiles($request, $camp);
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', 'Camp failed to create.');
+            return redirect()->back()->with('error', trans('camp.CampFailedToCreate'));
         }
-        return redirect()->route('camps.index')->with('success', "Camp {$camp} created successfully.");
+        $camp_text = Common::getLocalizedName($camp);
+        return redirect()->route('camps.index')->with('success', trans('camp.CampCreatedSuccessfully', ['camp' => $camp_text]));
     }
 
     public function update(StoreCampRequest $request, Camp $camp)

@@ -70,4 +70,7 @@ return [
     'CampDeletedSuccessfully' => 'Camp deleted successfully',
     'NewCamperApplied' => ':camper applied for the camp :camp',
     'CamperWithdrawed' => ':camper withdrawed from the camp :camp',
+    'CampFailedToCreate' => 'Camp failed to create.',
+    'CampCreatedSuccessfully' => 'Camp :camp created successfully.',
+
 ];
