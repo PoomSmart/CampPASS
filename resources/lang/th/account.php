@@ -82,4 +82,7 @@ return [
     'ConfirmPassword' => 'ยืนยันรหัสผ่าน',
     'Role' => 'ตำแหน่งผู้ใช้งาน',
 
+    'UserUpdatedSuccessfully' => 'อัพเดตข้อมูลผู้ใช้งานสำเร็จ',
+    'UserDeletedSuccessfully' => 'ลบผู้ใช้งานสำเร็จ',
+
 ];

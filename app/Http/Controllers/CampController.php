@@ -124,7 +124,8 @@ class CampController extends Controller
         $input = $request->except(Camp::$once);
         $camp->update($input);
         $this->parseFiles($request, $camp);
-        return redirect()->back()->with('success', "Camp {$camp} has been updated successfully.");
+        $camp_text = Common::getLocalizedName($camp);
+        return redirect()->back()->with('success', trans('camp.CampUpdatedSuccessfully', ['camp' => $camp_text]));
     }
 
     public function show(Camp $camp)

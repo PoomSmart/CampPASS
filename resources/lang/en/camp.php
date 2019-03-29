@@ -72,5 +72,5 @@ return [
     'CamperWithdrawed' => ':camper withdrawed from the camp :camp',
     'CampFailedToCreate' => 'Camp failed to create.',
     'CampCreatedSuccessfully' => 'Camp :camp created successfully.',
-
+    'CampUpdatedSuccessfully' => 'Camp :camp has been updated successfully.',
 ];

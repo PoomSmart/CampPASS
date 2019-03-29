@@ -72,7 +72,7 @@ class UserController extends Controller
         $user->update($request->all());
         DB::table('model_has_roles')->where('model_id', $user->id)->delete();
         $user->assignRole($request->input('roles'));
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->route('users.index')->with('success', trans('account.UserUpdatedSuccessfully'));
     }
 
     public function destroy(User $user)
@@ -90,6 +90,6 @@ class UserController extends Controller
         }
         Storage::delete(Common::userFileDirectory($user->id));
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->route('users.index')->with('success', trans('account.UserDeletedSuccessfully'));
     }
 }

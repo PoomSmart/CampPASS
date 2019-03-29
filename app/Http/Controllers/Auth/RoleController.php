@@ -70,12 +70,12 @@ class RoleController extends Controller
             'name' => $request->input('name'),
         ]);
         $role->syncPermissions($request->input('permission'));
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully');
+        return redirect()->route('roles.index')->with('success', trans('role.RoleUpdatedSuccessfully'));
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully');
+        return redirect()->route('roles.index')->with('success', trans('role.RoleDeletedSuccessfully'));
     }
 }

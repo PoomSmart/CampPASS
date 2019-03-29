@@ -83,4 +83,7 @@ return [
 
     'ConfirmPassword' => 'Confirm Password',
     'Role' => 'Role',
+    
+    'UserUpdatedSuccessfully' => 'User updated successfully',
+    'UserDeletedSuccessfully' => 'User deleted successfully',
 ];
