@@ -41,10 +41,12 @@
                         <th>@lang('account.School')</th>
                         <th class="fit">@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
-                        @if ($camp->application_fee)
-                            <th>@lang('qualification.ApplicationFeePaid')</th>
-                        @else
-                            <th>@lang('qualification.DepositPaid')</th>
+                        @if ($required_paid)
+                            @if ($camp->application_fee)
+                                <th>@lang('qualification.ApplicationFeePaid')</th>
+                            @else
+                                <th>@lang('qualification.DepositPaid')</th>
+                            @endif
                         @endif
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
@@ -62,6 +64,8 @@
                         <tr
                             @if ($withdrawed)
                                 class="table-danger"
+                            @elseif ($required_paid && $paid)
+                                class="table-success"
                             @endif
                         >
                             <th scope="row">{{ $registration->id }}</th>
@@ -70,10 +74,10 @@
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @if ($required_paid)
-                                <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                                <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
                             @if ($candidate_required)
-                                <td class="text-center{{ $finalized ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
+                                <td class="text-center{{ $finalized ? ' text-success' : ' text-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
                             <td class="fit">
                                 @if ($rankable)
