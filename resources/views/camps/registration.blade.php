@@ -19,7 +19,7 @@
         $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
         $rankable = $camp_procedure->candidate_required && !is_null($question_set);
-        $required_paid = $camp->application_fee;
+        $required_paid = $camp->application_fee || $camp_procedure->depositOnly();
     @endphp
     <div class="row">
         @php
@@ -41,8 +41,10 @@
                         <th>@lang('account.School')</th>
                         <th class="fit">@lang('camper.Program')</th>
                         <th>@lang('registration.Status')</th>
-                        @if ($required_paid)
+                        @if ($camp->application_fee)
                             <th>@lang('qualification.ApplicationFeePaid')</th>
+                        @else
+                            <th>@lang('qualification.DepositPaid')</th>
                         @endif
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
