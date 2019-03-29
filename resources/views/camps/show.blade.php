@@ -54,10 +54,10 @@
                 <div class="col-12 col-md-6">
                     @if ($camp->deposit)
                         <h5>@lang('camp.Deposit')</h5>
-                        <p class="text-muted">{{ $camp->deposit }}</p>
+                        <p class="text-muted">{{ $camp->deposit }} @lang('app.THB')</p>
                     @elseif ($camp->application_fee)
                         <h5>@lang('camp.ApplicationFee')</h5>
-                        <p class="text-muted">{{ $camp->application_fee }}</p>
+                        <p class="text-muted">{{ $camp->application_fee }} @lang('app.THB')</p>
                     @else
                         <h5>@lang('camp.Expenses')</h5>
                         <p class="text-muted">@lang('app.None')</p>

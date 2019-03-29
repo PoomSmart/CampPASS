@@ -6,7 +6,7 @@
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='min_cgpa'],input[name='quota'],input[name='backup_limit']").inputSpinner();
+            jQuery("input[name='min_cgpa'],input[name='quota'],input[name='backup_limit'],input[name='application_fee'],input[name='deposit']").inputSpinner();
             jQuery("[id^=camp_category_id],#camp_procedure_id,#organization_id").attr("disabled", true);
         });
     </script>

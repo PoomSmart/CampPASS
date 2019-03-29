@@ -49,7 +49,7 @@
                             @lang('campmaker.CampMakerSince')
                         @endif
                     </h5>
-                        <p>{{ strftime('%d %B %Y', date_create($user->email_verified_at)->getTimestamp()) }}</p>
+                        <p>{{ \App\Common::formattedDate($user->email_verified_at) }}</p>
                 </div>
                 <div class="col-md-6">
                     <h5>

@@ -257,11 +257,10 @@ class CampApplicationController extends Controller
         if (!isset($pairs) || $pairs->isEmpty())
             throw new \CampPASSException(trans('exception.NoQuestion'));
         $user = auth()->user();
-        $answers = [];
         $json = QuestionManager::getQuestionJSON($camp->id);
         $json['answer'] = [];
         $json['answer_id'] = [];
-        $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
+        $pre_answers = $question_set->answers()->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
         foreach ($pre_answers as $pre_answer) {
             $question = Question::find($id = $pre_answer->question_id);
             $key = $question->json_id;
@@ -325,7 +324,7 @@ class CampApplicationController extends Controller
                 }
             } else
                 $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);
-            if ($question->type == QuestionType::FILE && !$answer_content)
+            if ($question->type == QuestionType::FILE && is_null($answer_content))
                 continue;
             Answer::updateOrCreate([
                 'question_set_id' => $question_set->id,
@@ -361,7 +360,7 @@ class CampApplicationController extends Controller
     {
         self::authenticate($camp);
         self::register($camp, $user = auth()->user(), $status = $status, $badge_check = true);
-        return view('camp_application.done');
+        return view('camp_application.done', compact('camp'));
     }
 
     public function canAccessPayment(Registration $registration)

@@ -112,11 +112,11 @@ Route::get('/about-us', function () {
 
 Route::get('/terms-of-services', function () {
     return view('about.terms_of_services');
-});
+})->name('terms-of-services');
 
 Route::get('/privacy-policy', function () {
     return view('about.privacy_policy');
-});
+})->name('privacy-policy');
 
 // TODO: Soon will be removed
 use App\QuestionSet;

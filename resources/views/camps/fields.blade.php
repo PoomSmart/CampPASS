@@ -70,6 +70,8 @@
             'name' => 'application_fee',
             'label' => trans('camp.ApplicationFee'),
             'type' => 'number',
+            'attributes' => "min=1 data-suffix=".trans('app.THB'),
+            'no_form_control_class' => 1,
             'disabled' => isset($object) && $object->camp_procedure->deposit_required ? 1 : null,
             'desc' => trans('camp.ApplicationFeeDesc'),
         ])
@@ -80,6 +82,8 @@
             'name' => 'deposit',
             'label' => trans('camp.Deposit'),
             'type' => 'number',
+            'attributes' => "min=1 data-suffix=".trans('app.THB'),
+            'no_form_control_class' => 1,
             'disabled' => isset($object) && !$object->camp_procedure->deposit_required ? 1 : null,
         ])
         @endcomponent
