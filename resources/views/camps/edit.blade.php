@@ -26,7 +26,7 @@
             @component('components.submit', [
                 'label' => trans('app.Update'),
                 'class' => 'btn btn-info w-50',
-                'glyph' => 'far fa-save-alt fa-xs',
+                'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
         </div>
