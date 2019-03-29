@@ -14,4 +14,5 @@ return [
     'SelectYourProvince' => 'เลือกจังหวัดของคุณ...',
     'SelectYourSchool' => 'เลือกโรงเรียนของคุณ...',
     'ProfileUpdatedSuccessfully' => 'อัพเดตโปรไฟล์แล้ว',
+    'PicDesc' => 'ขนาดของรูปโปรไฟล์ไม่ควรเกิน 2 เมกะไบต์',
 ];
