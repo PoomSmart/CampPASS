@@ -324,7 +324,7 @@ class CampApplicationController extends Controller
                 }
             } else
                 $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);
-            if ($question->type == QuestionType::FILE && !$answer_content)
+            if ($question->type == QuestionType::FILE && is_null($answer_content))
                 continue;
             Answer::updateOrCreate([
                 'question_set_id' => $question_set->id,
