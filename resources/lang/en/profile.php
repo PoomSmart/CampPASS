@@ -13,4 +13,5 @@ return [
     'UpdateProfile' => 'Update Profile',
     'SelectYourProvince' => 'Select your province...',
     'SelectYourSchool' => 'Select your school...',
+    'ProfileUpdatedSuccessfully' => 'Profile updated successfully.',
 ];

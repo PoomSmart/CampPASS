@@ -140,7 +140,7 @@ class CampApplicationController extends Controller
                     else if ($camp->interview_information)
                         $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
                 } else if ($registration->rejected())
-                    $text = trans('qualification.Rejected');
+                    $text = trans('registration.RejectedApplication');
                 else {
                     $text = trans('qualification.AckInterview');
                     $passed = false;
@@ -151,7 +151,7 @@ class CampApplicationController extends Controller
                     $text = trans('registration.SlipApproved');
                 else {
                     if ($registration->rejected())
-                        $text = trans('qualification.Rejected');
+                        $text = trans('registration.RejectedApplication');
                     else if (self::get_payment_path($registration)) {
                         if ($registration->returned) {
                             $text = trans('registration.PleaseRecheckSlip');

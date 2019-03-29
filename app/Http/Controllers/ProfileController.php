@@ -82,7 +82,7 @@ class ProfileController extends Controller
             Storage::putFileAs($directory, $request->file('profile'), $name);
         }
         auth()->login($user);
-        return redirect()->back()->with('success', 'Profile updated successfully.');
+        return redirect()->back()->with('success', trans('profile.ProfileUpdatedSuccessfully'));
     }
 
     public function my_camps(User $user)
@@ -128,7 +128,7 @@ class ProfileController extends Controller
     {
         $path = $this->profile_picture_path($user, $actual = true, $display = false);
         if (!Storage::delete($path))
-            throw new \CampPASSExceptionRedirectBack('The profile picture cannot be removed (or already has been removed).');
-        return redirect()->back()->with('success', 'The profile picture has been removed.');
+            throw new \CampPASSExceptionRedirectBack(trans('exception.ProfilePictureCannotRemoved'));
+        return redirect()->back()->with('success', trans('exception.ProfilePictureRemoved'));
     }
 }

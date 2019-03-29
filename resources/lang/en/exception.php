@@ -27,4 +27,6 @@ return [
     'AllPassedFormsMustBeChecked' => 'All passed forms must be checked.',
     'NoCandidateResultsToShow' => 'No candidate results to show.',
     'CannotConfirmUnapprovedForm' => 'Cannot confirm the unapproved form.',
+    'ProfilePictureCannotRemoved' => 'The profile picture cannot be removed (or already has been removed).',
+    'ProfilePictureRemoved' => 'The profile picture has been removed.',
 ];
