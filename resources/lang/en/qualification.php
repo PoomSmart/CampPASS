@@ -58,6 +58,7 @@ return [
     'DepositPaid' => 'Deposit Paid',
     'DocumentsWillBeApproved' => 'Documents will be approved by the camp makers once it is time.',
     'YouNeedToConfirm' => 'You need to confirm your attendance.',
+    'WhoConfirmedWithin' => 'All :who must confirm to join the camp within :date',
     'AttendanceConfirmed' => 'You have confirmed attendance for :camp.',
     'NotAllowedToConfirm' => 'Not allowed to confirm.',
     'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
@@ -65,7 +66,10 @@ return [
     'Disqualified' => 'You are disqualified from :camp.',
     'DocumentsApproved' => 'Documents Approved.',
     'DocumentsInProcess' => 'Documents in process.',
-
-
-
+    'ReturnFormTitle' => 'Return Form',
+    'ReturnFormFieldsDescription' => 'If there are any further issues or additional information, please specify them in the Remark section.',
+    'StudentDocumentIssue' => 'Student Document Issue',
+    'ProfileIssue' => 'Profile Information Issue',
+    'PaymentSlipIssue' => 'Payment Slip Issue',
+    'Remark' => 'Remark',
 ];

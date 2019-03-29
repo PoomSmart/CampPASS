@@ -34,6 +34,7 @@
             'confirm_type' => 'warning',
             'confirm_label' => trans('qualification.ReturnForm'),
             'title' => trans('qualification.ReturnFormTitle'),
+            'glyph' => 'fas fa-undo',
         ])
         @slot('custom_body')
             <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
