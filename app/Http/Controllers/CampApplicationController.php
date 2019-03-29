@@ -136,7 +136,7 @@ class CampApplicationController extends Controller
             case BlockApplicationStatus::INTERVIEW:
                 if ($registration->chosen_to_confirmed()) {
                     if ($registration->interviewed_to_confirmed())
-                        $text = trans('qualification.CongratulationsInterview');
+                        $text = trans('registration.CongratulationsInterview');
                     else if ($camp->interview_information)
                         $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
                 } else if ($registration->rejected())

@@ -17,11 +17,9 @@ return [
     'Backups' => 'Backups',
     'Announced' => 'Announced',
     'IsAnnounced' => 'Announced',
-    'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
     'CamperInterviewPassed' => 'Congratulations! You passed an interview of :camp.',
     'AnnounceInterview' => 'Announce Interview',
     'AckInterview' => 'Do acknowledge that you will be doing an interview.',
-    'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
     'Disqualified' => 'Sorry, you are disqualified from joining :camp',
     'ThankCampApply' => 'Thank you for applying for the camp.',
     'FormSummary' => 'Total :camper_score/:total_score',
@@ -60,12 +58,6 @@ return [
     'YouNeedToConfirm' => 'You need to confirm your attendance.',
     'AttendanceConfirmed' => 'You have confirmed attendance for :camp.',
     'NotAllowedToConfirm' => 'Not allowed to confirm.',
-    'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
-    'CamperInterviewPassed' => 'You have passed interview for :camp.',
-    'Disqualified' => 'You are disqualified from :camp.',
     'DocumentsApproved' => 'Documents Approved.',
     'DocumentsInProcess' => 'Documents in process.',
-
-
-
 ];

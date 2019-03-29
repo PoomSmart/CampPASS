@@ -20,16 +20,16 @@ class ApplicationStatusUpdated extends LocalizableNotification
     {
         $camp_text = Common::getLocalizedName($registration->camp);
         if ($registration->returned)
-            return trans('qualification.ApplicationFormReturned', ['camp' => $camp_text]);
+            return trans('registration.ApplicationFormReturned', ['camp' => $camp_text]);
         switch ($registration->status) {
             case ApplicationStatus::CHOSEN:
-                return trans('qualification.CamperChosen', ['camp' => $camp_text]);
+                return trans('registration.CamperChosen', ['camp' => $camp_text]);
             case ApplicationStatus::INTERVIEWED:
-                return trans('qualification.CamperInterviewPassed', ['camp' => $camp_text]);
+                return trans('registration.CamperInterviewPassed', ['camp' => $camp_text]);
             case ApplicationStatus::APPROVED:
-                return trans('qualification.AttendanceConfirm', ['camp' => $camp_text]);
+                return trans('registration.AttendanceConfirm', ['camp' => $camp_text]);
             case ApplicationStatus::REJECTED:
-                return trans('qualification.Disqualified', ['camp' => $camp_text]);
+                return trans('registration.CamperRejected', ['camp' => $camp_text]);
             default:
                 return 'Undefined';
         }

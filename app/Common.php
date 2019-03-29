@@ -6,6 +6,7 @@ use App\User;
 
 use App\Enums\QuestionType;
 
+use App\Notifications\ApplicationStatusUpdated;
 use App\Notifications\CamperStatusChanged;
 
 use Carbon\Carbon;
@@ -213,6 +214,8 @@ class Common
     {
         if (CamperStatusChanged::class == $type)
             return trans('app.Application');
+        if (ApplicationStatusUpdated::class == $type)
+            return trans('registration.Status');
         return trans('app.Other');
     }
 }
