@@ -4,12 +4,12 @@ namespace App\Http\Requests;
 
 class StoreCampRequest extends CampPASSFormRequest
 {
-    protected static $rules = [
+    protected $rules = [
         'required', 'required_if', 'required_with', 'required_without', 'exists', 'string', 'integer', 'between',
         'numeric', 'before', 'after', 'image', 'email', 'unique', 'in', 'digits', 'date_format', 'mimes',
         'min.numeric', 'min.string', 'max.numeric', 'max.string',
     ];
-    protected static $table = 'camps';
+    protected $table = 'camps';
 
     public function true_rules()
     {
