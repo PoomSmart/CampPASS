@@ -6,6 +6,9 @@ use App\User;
 
 use App\Enums\QuestionType;
 
+use App\Notifications\ApplicationStatusUpdated;
+use App\Notifications\CamperStatusChanged;
+
 use Carbon\Carbon;
 
 use Illuminate\Support\Arr;
@@ -205,5 +208,14 @@ class Common
         if ($locale == 'th')
             $formatted = str_replace("[$date->month]", self::$th_months[$date->month], $formatted);
         return $formatted;
+    }
+
+    public static function readableNotificationType($type)
+    {
+        if (CamperStatusChanged::class == $type)
+            return trans('app.Application');
+        if (ApplicationStatusUpdated::class == $type)
+            return trans('registration.Status');
+        return trans('app.Other');
     }
 }

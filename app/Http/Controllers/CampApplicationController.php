@@ -21,7 +21,7 @@ use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
 use App\Enums\BlockApplicationStatus;
 
-use App\Notifications\NewCamperApplied;
+use App\Notifications\CamperStatusChanged;
 
 use App\Http\Requests\StorePDFRequest;
 
@@ -136,7 +136,7 @@ class CampApplicationController extends Controller
             case BlockApplicationStatus::INTERVIEW:
                 if ($registration->chosen_to_confirmed()) {
                     if ($registration->interviewed_to_confirmed())
-                        $text = trans('qualification.CongratulationsInterview');
+                        $text = trans('registration.CongratulationsInterview');
                     else if ($camp->interview_information)
                         $text = trans('camp.InterviewDate').': '.$camp->getInterviewDate().': '.$camp->interview_information;
                 } else if ($registration->rejected())
@@ -238,7 +238,7 @@ class CampApplicationController extends Controller
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
             foreach ($camp->camp_makers() as $campmaker) {
-                $campmaker->notify(new NewCamperApplied($registration));
+                $campmaker->notify(new CamperStatusChanged($registration));
             }
         }
         if ($badge_check)
@@ -302,7 +302,7 @@ class CampApplicationController extends Controller
         $this->authenticate($camp = Camp::find($request['camp_id']));
         $user = auth()->user();
         if (!$user->can('answer-edit') || !$user->can('answer-create'))
-            throw new \CampPASSExceptionRedirectBack(trans('app.NoPermissionError'));
+            throw new \CampPASSExceptionPermission();
         // A registration record will be created if not already
         $registration = $this->register($camp, $user);
         if ($registration->rejected() || $registration->withdrawed())
@@ -321,7 +321,7 @@ class CampApplicationController extends Controller
                     $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
                     $directory = QuestionManager::questionSetDirectory($camp->id);
-                    Storage::disk('local')->putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
+                    Storage::putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
                 }
             } else
                 $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);
@@ -348,19 +348,8 @@ class CampApplicationController extends Controller
         $camp = $question_set->camp;
         $this->authenticate($camp);
         $camper = auth()->user();
-        $pairs = $question_set ? $question_set->pairs()->get() : [];
-        $data = [];
         $json = QuestionManager::getQuestionJSON($question_set->camp_id);
-        $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
-        if ($answers->isEmpty())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
-        foreach ($answers as $answer) {
-            $question = $answer->question;
-            $data[] = [
-                'question' => $question,
-                'answer' => QuestionManager::decodeIfNeeded($answer->answer, $question->type),
-            ];
-        }
+        $data = QuestionManager::getAnswers($question_set, $camper);
         return view('camp_application.answer_view', compact('data', 'json', 'camp'));
     }
 
@@ -489,6 +478,10 @@ class CampApplicationController extends Controller
             $form_score->update([
                 'passed' => false,
             ]);
+        }
+        // Notify the camp makers about this withdrawal
+        foreach ($camp->camp_makers() as $campmaker) {
+            $campmaker->notify(new CamperStatusChanged($registration));
         }
         if (!$silent)
             return redirect()->back()->with('message', trans('exception.WithdrawedFrom', ['camp' => $camp]));

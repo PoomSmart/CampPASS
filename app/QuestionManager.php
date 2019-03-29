@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Common;
+use App\User;
 use App\QuestionSet;
 use App\QuestionSetQuestionPair;
 
@@ -93,5 +94,20 @@ class QuestionManager
             }
         }
         return $json;
+    }
+
+    public static function getAnswers(QuestionSet $question_set, User $camper)
+    {
+        $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
+        if ($answers->isEmpty())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+            $data[] = [
+                'question' => $question,
+                'answer' => self::decodeIfNeeded($answer->answer, $question->type),
+            ];
+        }
+        return $data;
     }
 }

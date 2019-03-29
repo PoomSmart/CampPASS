@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Common;
 use App\Camp;
 
 class NewCampRegistered extends LocalizableNotification
@@ -15,7 +16,9 @@ class NewCampRegistered extends LocalizableNotification
 
     public function toText(Camp $camp)
     {
-        return trans('camp.WaitForApproval', ['camp' => $camp]);
+        return trans('camp.WaitForApproval', [
+            'camp' => Common::getLocalizedName($camp),
+        ]);
     }
 
     public function toURL(Camp $camp)

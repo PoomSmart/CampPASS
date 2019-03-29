@@ -46,6 +46,7 @@ return [
     'ThaiName' => 'Name in Thai',
     'ThaiSurname' => 'Surname in Thai',
     'ThaiNickname' => 'Nickname in Thai',
+    'Nickname' => 'Nickname',
     'FullName' => 'Full Name',
 
     'Email' => 'E-mail Address',

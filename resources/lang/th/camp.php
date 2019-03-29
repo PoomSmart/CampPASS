@@ -67,4 +67,6 @@ return [
     'CampAdded' => 'มีค่ายใหม่! : :camp',
     'CampHasBeenApproved' => 'ค่าย :camp ถูกรับรองแล้ว',
     'CampDeletedSuccessfully' => 'ค่ายถูกลบแล้ว',
+    'NewCamperApplied' => ':camperได้สมัครเข้าร่วมค่าย :camp',
+    'CamperWithdrawed' => ':camperได้สละสิทธิ์การเข้าร่วมค่าย :camp',
 ];

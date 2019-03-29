@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Common;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -22,9 +24,8 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-        $max = config('const.app.max_paginate');
-        $roles = Role::orderBy('id', 'DESC')->paginate($max);
-        return view('roles.index', compact('roles'))->with('i', ($request->input('page', 1) - 1) * $max);
+        $roles = Role::orderBy('id', 'DESC')->paginate(Common::maxPagination());
+        return Common::withPagination(view('roles.index', compact('roles')));
     }
 
     public function create()

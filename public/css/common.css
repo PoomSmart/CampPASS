@@ -165,7 +165,7 @@ label[required]::after {
   padding-bottom: 0.35rem !important;
 }
 
-.table td.fit, .table th {
+.table:not(.table-static) td.fit, .table:not(.table-static) th {
   white-space: nowrap;
   width: 1%;
 }

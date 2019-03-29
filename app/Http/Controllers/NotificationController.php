@@ -25,7 +25,6 @@ class NotificationController extends Controller
 
     public function index()
     {
-        $max = config('const.app.max_paginate');
         $notifications = $this->db_notifications()->paginate(Common::maxPagination());
         return Common::withPagination(view('notifications.index', compact('notifications')));
     }

@@ -42,4 +42,10 @@ return [
     'Grading' => 'Grading',
     'CongratulationsApp' => 'Congratulations! Your application form has been accepted.',
     'SlipApproved' => 'Slip Approved',
+    'CamperChosen' => 'Congratulations! You are chosen for:camp.',
+    'CamperRejected' => 'Sorry! You are disqualified for:camp.',
+    'CamperInterviewPassed' => 'You have passed interview for :camp.',
+    'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
+    'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
+    'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
 ];

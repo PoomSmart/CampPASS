@@ -46,6 +46,7 @@ return [
     'ThaiName' => 'ชื่อจริง (ภาษาไทย)',
     'ThaiSurname' => 'นามสกุล (ภาษาไทย)',
     'ThaiNickname' => 'ชื่อเล่น (ภาษาไทย)',
+    'Nickname' => 'ชื่อเล่น',
     'FullName' => 'ชื่อเต็ม',
 
     'Email' => 'อีเมล',
