@@ -257,11 +257,10 @@ class CampApplicationController extends Controller
         if (!isset($pairs) || $pairs->isEmpty())
             throw new \CampPASSException(trans('exception.NoQuestion'));
         $user = auth()->user();
-        $answers = [];
         $json = QuestionManager::getQuestionJSON($camp->id);
         $json['answer'] = [];
         $json['answer_id'] = [];
-        $pre_answers = Answer::where('question_set_id', $question_set->id)->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
+        $pre_answers = $question_set->answers()->where('camper_id', $user->id)->get(['id', 'question_id', 'answer']);
         foreach ($pre_answers as $pre_answer) {
             $question = Question::find($id = $pre_answer->question_id);
             $key = $question->json_id;
