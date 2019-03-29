@@ -58,4 +58,5 @@ return [
     'Download' => 'ดาวน์โหลด',
     'pdf' => 'ไฟล์เอกสาร',
     'ApplicationFormGrading' => 'ให้คะแนนใบสมัคร',
+    'THB' => 'บาท',
 ];

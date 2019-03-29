@@ -58,4 +58,5 @@ return [
     'Download' => 'Download',
     'pdf' => 'Document',
     'ApplicationFormGrading' => 'Application Form Grading',
+    'THB' => 'Baht',
 ];
