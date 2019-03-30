@@ -194,7 +194,7 @@ class CampApplicationController extends Controller
                     && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)
                     && ($camp->hasPayment() ? $registration->approved_to_confirmed() : true)) {
                         $button = true;
-                        $text = trans('qualification.AttendanceConfirm', ['camp' => $camp]);
+                        $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
                 } else {
                     $text = trans('qualification.YouNeedToConfirm');
                     $passed = false;
