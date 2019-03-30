@@ -42,9 +42,9 @@ class Camp_Randomizer
     {
         if (!self::$organizations)
             self::$organizations = User::whereNotNull('organization_id')->groupBy('organization_id')->pluck('organization_id', 'organization_id')->toArray();
-        if (!self::$organizations_top)
-            self::$organizations_top = Organization::whereNotNull('image')->pluck('id', 'id')->toArray();
-        return array_rand(Common::randomFrequentHit() ? self::$organizations_top : self::$organizations);
+        if (!self::$organizations_top) // 115 - 127, 137, 142, 152*, 190*
+            self::$organizations_top = Organization::where('image', '!=', '')->pluck('id', 'id')->toArray();
+        return array_rand(array_flip(Common::randomVeryFrequentHit() ? self::$organizations_top : self::$organizations));
     }
 
     public static function date_range_forward($faker, $date, $shift)
