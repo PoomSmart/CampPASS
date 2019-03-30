@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 class Camp_Randomizer
 {
-    protected static $programs, $regions, $years, $organizations;
+    protected static $programs, $regions, $years, $organizations, $organizations_top;
 
     public static function programs()
     {
@@ -42,7 +42,9 @@ class Camp_Randomizer
     {
         if (!self::$organizations)
             self::$organizations = User::whereNotNull('organization_id')->groupBy('organization_id')->pluck('organization_id', 'organization_id')->toArray();
-        return array_rand(self::$organizations);
+        if (!self::$organizations_top)
+            self::$organizations_top = Organization::whereNotNull('image')->pluck('id', 'id')->toArray();
+        return array_rand(Common::randomFrequentHit() ? self::$organizations_top : self::$organizations);
     }
 
     public static function date_range_forward($faker, $date, $shift)
