@@ -210,7 +210,7 @@ class QualificationController extends Controller
         ]);
         $candidate = $registration->camper;
         $candidate->notify(new ApplicationStatusUpdated($registration));
-        return redirect()->back()->with('message', trans('qualification.FormReturned', [ 'candidate' => $candidate ]));
+        return redirect()->back()->with('message', trans('qualification.FormReturned', [ 'candidate' => Common::getLocalizedName($candidate) ]));
     }
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)
