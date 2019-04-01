@@ -48,7 +48,7 @@ return [
     'CampsByUniversity' => 'ค่ายแบ่งตามมหาวิทยาลัย',
     'Camps' => 'ค่ายต่างๆ',
     'OrganizeCamps' => 'จัดการค่าย',
-    'BrowseCamps' => 'ค่ายทั้งหมด',
+    'BrowseCamps' => 'ค้นหาค่าย',
     'CampLocation' => 'สถานที่จัดค่าย',
     'CampFor' => 'ค่ายสำหรับ',
     'GradingType' => 'ประเภทการตรวจคะแนน',
