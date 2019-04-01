@@ -12,7 +12,7 @@
     @php $i = 0 @endphp
     @foreach ($categorized_registrations as $status => $registrations)
         <div class="container-fluid mt-4">
-            <h3 class="mb-4" id="{{ $i++ }}">{{ $status }}</h3>
+            <h3 class="mb-4" id="{{ $i++ }}">{{ $names[$status] }}</h3>
             @component('components.card_columns', [
                 'objects' => $registrations,
                 'getter' => 'camp',
@@ -26,6 +26,6 @@
 @section('sidebar-items')
     @php $i = 0 @endphp
     @foreach ($categorized_registrations as $status => $registrations)
-        <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $status }}</b></a></li>
+        <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $names[$status] }}</b></a></li>
     @endforeach
 @endsection

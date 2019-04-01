@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'GeneralInfo' => 'General Information',
+    'Conditions' => 'Application Conditions',
+    'ContactInfo' => 'Contact Information',
+    'DateTimePlaceInfo' => 'Date, Time and Place',
     'Name' => 'Camp Name',
     'EnglishName' => 'Name in English',
     'ThaiName' => 'Name in Thai',
@@ -76,4 +80,6 @@ return [
     'CampUpdatedSuccessfully' => 'Camp :camp has been updated successfully.',
     'PaymentInfo' => 'Payment Information',
     'PaymentInfoDesc' => 'Provide the bank account number, PromptPay number or any necessary payment information for campers to transfer the deposit or application fee.',
+    'Edit' => 'Edit Camp Info',
+    'EditQuestions' => 'Edit Questions',
 ];

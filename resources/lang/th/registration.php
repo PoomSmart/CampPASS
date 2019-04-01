@@ -35,7 +35,7 @@ return [
     'EmptyRegistration' => 'ยังไม่มีใครสมัครค่ายนี้',
     'WillClose' => 'ปิดรับสมัครวันที่ ',
     'PayDeposit' => 'จ่ายค่าสมัคร',
-    'ApplicationForms' => 'ใบสมัครค่าย',
+    'Applicants' => 'ผู้สมัคร',
     'Status' => 'สถานะใบสมัคร',
     'UploadPaymentSlip' => 'อัพโหลดหลักฐานการชำระเงิน',
     'UploadPayment' => 'กรุณาอัพโหลดหลักฐานการชำระเงินของคุณ',

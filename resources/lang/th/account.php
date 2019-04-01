@@ -55,7 +55,7 @@ return [
     'StreetAddress' => 'ที่อยู่',
     'Province' => 'จังหวัด',
     'ZipCode' => 'รหัสไปรษณีย์',
-    'Allergy' => 'โรคประจำตัว',
+    'Allergy' => 'โรคประจำตัว / ข้อมูลการแพ้ยาหรืออาหาร',
     'CitizenID' => 'เลขบัตรประชาชน',
     'Nationality' => 'สัญชาติ',
     'BloodGroup' => 'หมู่เลือด',

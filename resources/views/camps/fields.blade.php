@@ -8,6 +8,8 @@
     $has_payment = isset($object) ? $object->hasPayment() : null;
 @endphp
 
+<h3 class="mt-4">@lang('camp.GeneralInfo')</h3>
+
 @component('components.input', [
     'name' => 'name_en',
     'label' => trans('camp.EnglishName'),
@@ -90,127 +92,6 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        @component('components.input', [
-            'name' => 'application_fee',
-            'label' => trans('camp.ApplicationFee'),
-            'type' => 'number',
-            'attributes' => "min=1 data-suffix=".trans('app.THB'),
-            'no_form_control_class' => 1,
-            'disabled' => $deposit_required,
-            'desc' => trans('camp.ApplicationFeeDesc'),
-        ])
-        @endcomponent
-    </div>
-    <div class="col-md-4">
-        @component('components.input', [
-            'name' => 'deposit',
-            'label' => trans('camp.Deposit'),
-            'type' => 'number',
-            'attributes' => "min=1 data-suffix=".trans('app.THB'),
-            'required' => $deposit_required,
-            'no_form_control_class' => 1,
-            'disabled' => !is_null($deposit_required) ? !$deposit_required : null,
-            'desc' => trans('camp.DepositDesc'),
-        ])
-        @endcomponent
-    </div>
-    <div class="col-md-4">
-        @component('components.input', [
-            'name' => 'backup_limit',
-            'label' => trans('camp.BackupLimit'),
-            'type' => 'number',
-            'no_form_control_class' => 1,
-            'attributes' => 'min=0 step=1',
-            'disabled' => !is_null($candidate_required) ? !$candidate_required : null,
-        ])
-        @endcomponent
-    </div>
-</div>
-
-@component('components.input',[
-    'name' => 'acceptable_years',
-    'label' => trans('camp.AcceptableYears'),
-    'input_type' => 'checkbox',
-    'objects' => $years,
-    'required' => 1,
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'acceptable_regions',
-    'label' => trans('camp.AcceptableRegions'),
-    'input_type' => 'checkbox',
-    'objects' => $regions,
-    'required' => 1,
-])
-@endcomponent
-
-@component('components.input', [
-    'name' => 'acceptable_programs',
-    'label' => trans('camp.AcceptablePrograms'),
-    'input_type' => 'checkbox',
-    'objects' => $programs,
-    'required' => 1,
-])
-@endcomponent
-
-<div class="row">
-    <div class="col-md-6">
-        @component('components.input', [
-            'name' => 'min_cgpa',
-            'label' => trans('camp.MinCGPA'),
-            'type' => 'number',
-            'no_form_control_class' => 1,
-            'attributes' => 'min=1.0 max=4.0 step=0.05 data-decimals=2',
-            'object' => isset($object) ? $object : null,
-        ])
-        @endcomponent
-    </div>
-    <div class="col-md-6">
-        @component('components.input', [
-            'name' => 'quota',
-            'label' => trans('camp.Quota'),
-            'type' => 'number',
-            'no_form_control_class' => 1,
-            'attributes' => 'min=0 step=1',
-        ])
-        @endcomponent
-    </div>
-</div>
-
-@component('components.input', [
-    'name' => 'other_conditions',
-    'label' => trans('camp.OtherConditions'),
-    'textarea' => 1,
-    'desc' => trans('camp.OtherConditionsDesc'),
-])
-@endcomponent
-
-<div class="row">
-    <div class="col-md-6">
-        @component('components.input', [
-            'name' => 'contact_campmaker',
-            'label' => trans('camp.CampMakerContactInfo'),
-            'textarea' => 1,
-            'required' => 1,
-            'desc' => trans('camp.CampMakerContactInfoDesc'),
-        ])
-        @endcomponent
-    </div>
-    <div class="col-md-6">
-        @component('components.input', [
-            'name' => 'payment_information',
-            'label' => trans('camp.PaymentInfo'),
-            'textarea' => 1,
-            'required' => $has_payment,
-            'desc' => trans('camp.PaymentInfoDesc'),
-        ])
-        @endcomponent
-    </div>
-</div>
-
-<div class="row">
     <div class="col-md-6">
         @component('components.label', [
             'name' => 'banner',
@@ -253,6 +134,123 @@
         @endcomponent
         <small id="poster-desc-inline" class="form-text text-muted">@lang('camp.PosterRecommendedSize')</small>
     </div>
+</div>
+
+<h3 class="mt-4">@lang('camp.Conditions')</h3>
+
+@component('components.input',[
+    'name' => 'acceptable_years',
+    'label' => trans('camp.AcceptableYears'),
+    'input_type' => 'checkbox',
+    'objects' => $years,
+    'required' => 1,
+])
+@endcomponent
+
+@component('components.input', [
+    'name' => 'acceptable_regions',
+    'label' => trans('camp.AcceptableRegions'),
+    'input_type' => 'checkbox',
+    'objects' => $regions,
+    'required' => 1,
+])
+@endcomponent
+
+@component('components.input', [
+    'name' => 'acceptable_programs',
+    'label' => trans('camp.AcceptablePrograms'),
+    'input_type' => 'checkbox',
+    'objects' => $programs,
+    'required' => 1,
+])
+@endcomponent
+
+<div class="row">
+    <div class="col-md-4">
+        @component('components.input', [
+            'name' => 'min_cgpa',
+            'label' => trans('camp.MinCGPA'),
+            'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=1.0 max=4.0 step=0.05 data-decimals=2',
+            'object' => isset($object) ? $object : null,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-4">
+        @component('components.input', [
+            'name' => 'quota',
+            'label' => trans('camp.Quota'),
+            'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=0 step=1',
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-4">
+        @component('components.input', [
+            'name' => 'backup_limit',
+            'label' => trans('camp.BackupLimit'),
+            'type' => 'number',
+            'no_form_control_class' => 1,
+            'attributes' => 'min=0 step=1',
+            'disabled' => !is_null($candidate_required) ? !$candidate_required : null,
+        ])
+        @endcomponent
+    </div>
+</div>
+
+@component('components.input', [
+    'name' => 'other_conditions',
+    'label' => trans('camp.OtherConditions'),
+    'textarea' => 1,
+    'desc' => trans('camp.OtherConditionsDesc'),
+])
+@endcomponent
+
+<h3 class="mt-4">@lang('camp.Expenses')</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'application_fee',
+            'label' => trans('camp.ApplicationFee'),
+            'type' => 'number',
+            'attributes' => "min=1 data-suffix=".trans('app.THB'),
+            'no_form_control_class' => 1,
+            'disabled' => $deposit_required,
+            'desc' => trans('camp.ApplicationFeeDesc'),
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'deposit',
+            'label' => trans('camp.Deposit'),
+            'type' => 'number',
+            'attributes' => "min=1 data-suffix=".trans('app.THB'),
+            'required' => $deposit_required,
+            'no_form_control_class' => 1,
+            'disabled' => !is_null($deposit_required) ? !$deposit_required : null,
+            'desc' => trans('camp.DepositDesc'),
+        ])
+        @endcomponent
+    </div>
+    <div class="col-12">
+        @component('components.input', [
+            'name' => 'payment_information',
+            'label' => trans('camp.PaymentInfo'),
+            'textarea' => 1,
+            'required' => $has_payment,
+            'desc' => trans('camp.PaymentInfoDesc'),
+        ])
+        @endcomponent
+    </div>
+</div>
+
+<h3 class="mt-4">@lang('camp.ContactInfo')</h3>
+
+<div class="row">
     <div class="col-md-6">
         @component('components.input', [
             'name' => 'url',
@@ -269,7 +267,19 @@
         ])
         @endcomponent
     </div>
+    <div class="col-12">
+        @component('components.input', [
+            'name' => 'contact_campmaker',
+            'label' => trans('camp.CampMakerContactInfo'),
+            'textarea' => 1,
+            'required' => 1,
+            'desc' => trans('camp.CampMakerContactInfoDesc'),
+        ])
+        @endcomponent
+    </div>
 </div>
+
+<h3 class="mt-4">@lang('camp.DateTimePlaceInfo')</h3>
 
 <div class="row">
     <div class="col-md-6">

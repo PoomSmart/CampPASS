@@ -20,9 +20,9 @@
   display: none;
 }
 
-html {
+/*html {
   scroll-behavior: smooth;
-}
+}*/
 
 body, .popover {
   font-family: dbsathornnow !important;

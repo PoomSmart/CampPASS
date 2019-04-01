@@ -142,7 +142,7 @@
                 @endif
             >
                 <th scope="row">{{ ++$i }}</th>
-                <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
                     <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                 @else
@@ -173,7 +173,6 @@
                     >
                 </td>
                 <td class="fit">
-                    <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                     @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>

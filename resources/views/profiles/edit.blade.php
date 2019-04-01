@@ -17,7 +17,7 @@
     @if ($readonly)
         <script>
             jQuery(document).ready(function () {
-                jQuery("#form").find("input,select").attr("disabled", true);
+                jQuery("#form").find("input,select,textarea").attr("disabled", true);
                 jQuery("label").removeAttr("required");
                 jQuery("[id*='desc-inline']").remove();
             });

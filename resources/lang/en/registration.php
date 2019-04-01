@@ -36,7 +36,7 @@ return [
     'WillClose' => 'Application Deadline: ',
     'PayDeposit' => 'Pay Deposit',
     'Status' => 'Application Status',
-    'ApplicationForms' => 'Application Forms',
+    'Applicants' => 'Applicants',
     'UploadPaymentSlip' => 'Upload Payment Slip',
     'UploadPayment' => 'Please upload your payment slip.',
     'PaymentUploaded' => 'The payment slip has been uploaded.',

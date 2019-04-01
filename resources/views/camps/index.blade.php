@@ -37,7 +37,7 @@
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('camp.Name')</th>
-            <th>@lang('registration.ApplicationForms')</th>
+            <th>@lang('registration.Applicants')</th>
             <th>@lang('camp.CampMakerCount')</th>
             <th>@lang('camp.Category')</th>
             <th>@lang('camp_procedure.CampProcedure')</th>
@@ -92,12 +92,12 @@
                 @else
                     @can('question-edit')
                         @if ($camp->camp_procedure->candidate_required)
-                            <a class="btn btn-primary" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('question.Questions')</a>
+                            <a class="btn btn-primary" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('camp.EditQuestions')</a>
                         @endif
                     @endcan
                 @endif
                 @can('camp-edit')
-                    <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
+                    <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
                 @endcan
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">

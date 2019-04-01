@@ -33,7 +33,7 @@
         @endif
         <div class="col-12">
             @if ($data && count($data))
-                <h3>@lang('registration.ApplicationForms') ({{ $total_registrations }})</h3>
+                <h3>@lang('registration.Applicants') ({{ $total_registrations }})</h3>
                 <table class="table table-striped">
                     <thead>
                         <th>@lang('registration.ID')</th>

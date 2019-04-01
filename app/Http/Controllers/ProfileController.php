@@ -92,13 +92,16 @@ class ProfileController extends Controller
         $this->authenticate($user, $me = true);
         $categorized_registrations = [];
         foreach ($user->registrations as $registration) {
-            $status = $registration->getStatus();
-            if (!isset($categorized_registrations[$status]))
+            $status = $registration->status;
+            $status_name = $registration->getStatus();
+            if (!isset($categorized_registrations[$status])) {
                 $categorized_registrations[$status] = [];
+                $names[$status] = $status_name;
+            }
             $categorized_registrations[$status][] = $registration;
         }
         ksort($categorized_registrations);
-        return view('profiles.my_camps', compact('categorized_registrations'));
+        return view('profiles.my_camps', compact('categorized_registrations', 'names'));
     }
 
     public function document_download(User $user, $type)

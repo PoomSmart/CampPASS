@@ -55,7 +55,7 @@ return [
     'StreetAddress' => 'Street Address',
     'Province' => 'Province',
     'ZipCode' => 'Zip Code',
-    'Allergy' => 'Allergies',
+    'Allergy' => 'Allergies (Food, Drugs)',
     'CitizenID' => 'Citizen ID',
     'Nationality' => 'Nationality',
     'BloodGroup' => 'Blood Group',
