@@ -165,7 +165,7 @@ class CandidateController extends Controller
     {
         $camp = $question_set->camp;
         $candidates = $camp->candidates()->where('backup', false);
-        // This can occur when the score threshold is too high and no one passed
+        // This can occur when the minimum score is too high and no one passed
         if ($candidates->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
         $can_get_backups = false;
@@ -257,7 +257,7 @@ class CandidateController extends Controller
         $average_score = $total_withdrawed = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
         if ($question_set->total_score) {
-            $minimum_score = $question_set->total_score * $question_set->score_threshold;
+            $minimum_score = $question_set->minimum_score;
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
                 $withdrawed = $registration->withdrawed();
@@ -362,7 +362,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
-        // The qualified campers are those that have form score checked and passing the threshold
+        // The qualified campers are those that have form score checked and passing the minimum score
         $no_passed = $no_checked = 0;
         $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
         if ($form_scores) {

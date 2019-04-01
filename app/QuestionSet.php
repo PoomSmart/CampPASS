@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionSet extends Model
 {
     protected $fillable = [
-        'id', 'camp_id', 'score_threshold', 'total_score',
+        'id', 'camp_id', 'minimum_score', 'total_score',
         'manual_required', 'auto_ranked', 'finalized', 'candidate_announced', 'interview_announced',
     ];
 

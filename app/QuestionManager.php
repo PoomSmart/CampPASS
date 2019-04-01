@@ -39,14 +39,14 @@ class QuestionManager
         Storage::put($directory.'/questions.json', $json);
     }
 
-    public static function createOrUpdateQuestionSet(Camp $camp, $content, $score_threshold, $extra_question_set_info = [], &$question_id = null)
+    public static function createOrUpdateQuestionSet(Camp $camp, $content, $minimum_score, $extra_question_set_info = [], &$question_id = null)
     {
         $question_set = QuestionSet::updateOrCreate([
             'camp_id' => $camp->id,
         ], array_merge(array_merge([
-            'score_threshold' => $score_threshold,
+            'minimum_score' => $minimum_score,
         ], $extra_question_set_info)));
-        // TODO: How much could we allow for camp makers to make changes on the question set beside the score threshold ?
+        // TODO: How much could we allow for camp makers to make changes on the question set beside the minimum score ?
         if (!$question_set->finalized) {
             if (isset($content['type'])) {
                 $questions = $content['type'];

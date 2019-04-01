@@ -29,6 +29,7 @@
                 'value' => $value,
                 'placeholder' => isset($placeholder) ? $placeholder : null,
                 'objects' => $objects,
+                'class' => isset($class) ? $class : null,
                 'attributes' => isset($attributes) ? $attributes : null,
                 'required' => $required,
                 'disabled' => $disabled,

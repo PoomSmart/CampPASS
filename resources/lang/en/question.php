@@ -16,15 +16,13 @@ return [
     'AddMoreQuestion' => 'Add More Question',
     'AddMoreCheckbox' => 'Add More Checkbox',
     'AddMoreChoice' => 'Add More Choice',
-    'ScoreThreshold' => 'Score Threshold',
-    'EnterThreshold' => 'Enter the threshold, if necessary',
-    'EditScoreThreshold' => 'Edit Score Threshold',
+    'MinimumScore' => 'Minimum Score',
+    'EditMinimumScore' => 'Edit Minimum Score',
     'NoFileUploaded'=> 'No file was uploaded.',
     'Finalize' => 'Finalize',
     'Finalized' => 'Finalized',
     'Title' => 'Title',
     'QuestionsSaved' => 'Questions are saved successfully.',
-    'ScoreThresholdChanged' => 'Score threshold has been changed.',
+    'MinimumScoreChanged' => 'Minimum score has been changed.',
     'SureFinalizeQuestionSet' => 'Are you sure you want to finalize this question set? You will not be able to edit the questions if it is finalized.',
-
 ];

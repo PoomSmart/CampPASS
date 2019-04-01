@@ -1,4 +1,4 @@
-<select name="{{ $name }}" id="{{ isset($id) ? $id : $name }}" class="form-control"
+<select name="{{ $name }}" id="{{ isset($id) ? $id : $name }}" class="form-control{{ isset($class) ? ' '.$class : '' }}"
     @if (isset($disabled) && $disabled)
         disabled
     @endif

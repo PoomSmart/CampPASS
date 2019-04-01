@@ -28,11 +28,11 @@ class QuestionSetController extends Controller
     {
         Common::authenticate_camp($camp);
         $content = $request->all();
-        $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('score_threshold'));
+        $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $content, $request->input('minimum_score'));
         $this->question_set_auto_ranked($question_set);
         if (!$question_set->finalized)
             return redirect()->back()->with('success', trans('question.QuestionsSaved'));
-        return redirect()->back()->with('success', trans('question.ScoreThresholdChanged'));
+        return redirect()->back()->with('success', trans('question.MinimumScoreChanged'));
     }
 
     public function show(Camp $camp)

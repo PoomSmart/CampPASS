@@ -45,7 +45,7 @@
         <script src="{{ asset('js/input-spinner.js') }}"></script>
         <script>
             jQuery(document).ready(function () {
-                jQuery("input[name='score_threshold']").inputSpinner();
+                jQuery("input[name='minimum_score']").inputSpinner();
             });
         </script>
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
@@ -77,15 +77,15 @@
     @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
-            <span class="mr-3">@lang('question.ScoreThreshold')</span>
+            <span class="mr-3">@lang('question.MinimumScore')</span>
             <form id="form" class="form-inline" method="POST" action="{{ route('questions.store', $camp->id) }}">
                 @csrf
                 @component('components.input', [
-                    'name' => 'score_threshold',
+                    'name' => 'minimum_score',
                     'type' => 'number',
-                    'placeholder' => trans('question.EnterThreshold'),
+                    'placeholder' => trans('question.EnterMinimumScore'),
                     'no_form_control_class' => 1,
-                    'attributes' => 'min=0.05 max=1.0 step=0.05 data-decimals=2',
+                    'attributes' => "min=0 max={$question_set->total_score} step=1",
                     'object' => $question_set,
                     'nowrapper' => 1,
                 ])

@@ -6,7 +6,7 @@
     <script src="{{ asset('js/input-spinner.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
-            jQuery("input[name='score_threshold']").inputSpinner();
+            jQuery("input[name='minimum_score']").inputSpinner();
         });
     </script>
     <script src="{{ asset('js/check-unsaved.js') }}"></script>
@@ -25,12 +25,12 @@
     <form id="form" method="POST" action="{{ route('questions.store', $camp_id) }}">
         @csrf
         @component('components.input', [
-            'name' => 'score_threshold',
-            'label' => trans('question.ScoreThreshold'),
+            'name' => 'minimum_score',
+            'label' => trans('question.MinimumScore'),
             'type' => 'number',
-            'placeholder' => trans('question.EnterThreshold'),
+            'placeholder' => trans('question.EnterMinimumScore'),
             'no_form_control_class' => 1,
-            'attributes' => 'min=0.01 max=1.0 step=0.05 data-decimals=2',
+            'attributes' => "min=1 max={$object->total_score} step=1",
             'object' => isset($object) ? $object : null,
         ])
         @endcomponent
@@ -60,8 +60,7 @@
     </form>
     @if (isset($object) && $object->finalized)
         <script>
-            jQuery(':radio').attr('disabled', true);
-            jQuery(':checkbox').attr('disabled', true);
+            jQuery(":radio,:checkbox").attr("disabled", true);
         </script>
     @endif
 @endsection

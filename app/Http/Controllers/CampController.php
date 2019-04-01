@@ -50,10 +50,10 @@ class CampController extends Controller
         }
     }
 
-    private function getOrganizationsIfNeeded()
+    private function getOrganizationsIfNeeded(bool $no_perm_check = false)
     {
         if (is_null($this->organizations)) {
-            if (auth()->user()->can('organization-list'))
+            if (auth()->user()->can('organization-list') || $no_perm_check)
                 $this->organizations = Common::values(Organization::class);
             else
                 $this->organizations = array(Organization::find($id = auth()->user()->organization_id));
@@ -293,12 +293,19 @@ class CampController extends Controller
                 'acceptable_regions', (int)$region, 'whereJsonContains',
             ];
         }
+        $organization_id = Input::get('organization_id', null);
+        if ($organization_id) {
+            $query_pairs[] = [
+                'organization_id', (int)$organization_id, 'where',
+            ];
+        }
         $data = $this->get_camps($query_pairs, $categorized = true);
         $categorized_camps = $data['categorized_camps'];
         $category_ids = $data['category_ids'];
         $years = $this->years;
         $regions = $this->regions;
-        return view('camps.browser', compact('categorized_camps', 'category_ids', 'years', 'year', 'regions', 'region'));
+        $organizations = $this->getOrganizationsIfNeeded($no_perm_check = true);
+        return view('camps.browser', compact('categorized_camps', 'category_ids', 'organizations', 'organization_id', 'years', 'year', 'regions', 'region'));
     }
 
     public function by_category(CampCategory $record)
@@ -319,6 +326,13 @@ class CampController extends Controller
                 'acceptable_regions', (int)$region, 'whereJsonContains',
             ];
             View::share('region', Region::find($region));
+        }
+        $organization_id = Input::get('organization_id', null);
+        if ($organization_id) {
+            $query_pairs[] = [
+                'organization_id', (int)$organization_id, 'where',
+            ];
+            View::share('organization_id', Organization::find($organization_id));
         }
         $camps = $this->get_camps($query_pairs);
         return view('camps.by_category', compact('camps', 'record'));

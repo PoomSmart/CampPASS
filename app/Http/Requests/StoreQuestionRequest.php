@@ -7,12 +7,12 @@ class StoreQuestionRequest extends CampPASSFormRequest
     protected $rules = [
         'numeric', 'between',
     ];
-    protected $columns = [ 'score_threshold' ];
+    protected $columns = [ 'minimum_score' ];
 
     public function true_rules()
     {
         return [
-            'score_threshold' => 'nullable|numeric|between:0.05,1.0',
+            'minimum_score' => 'nullable|numeric|min:1',
         ];
     }
 }

@@ -73,15 +73,48 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 px-0">
+            <div class="form-group d-inline-flex mt-2 mb-0">
+                <div class="d-none d-lg-inline-block mr-4">
+                    @component('components.label', [
+                        'name' => 'organization_id',
+                        'label' => trans('organization.Organization'),
+                        'label_class' => 'py-0 font-weight-bold',
+                    ])
+                    @endcomponent
+                </div>
+                <div class="d-inline-block my-auto">
+                    @component('components.input', [
+                        'name' => 'organization_id',
+                        'input_type' => 'select',
+                        'objects' => $organizations,
+                        'value' => $organization_id,
+                        'placeholder' => trans('camp.SelectOrganization'),
+                        'class' => 'form-control-sm',
+                    ])
+                    @endcomponent
+                </div>
+            </div>
+        </div>
     </form>
     @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
         <div class="container-fluid mt-4">
             <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
-            @php $con = $year ? '&' : '?' @endphp
-            <a target="_blank" class="ml-3 d-inline-block0" href="{{ route('camps.by_category', [
+            @php
+                $append = '?';
+                if ($year)
+                    $append = "{$append}&{$year}";
+                if ($region)
+                    $append = "{$append}&{$region}";
+                if ($organization_id)
+                    $append = "{$append}&{$organization_id}";
+                if ($append == '?')
+                    $append = null;
+            @endphp
+            <a target="_blank" class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
                 'record' => $category_ids[$category],
-            ]) }}{{ $year ? "?year={$year}" : '' }}{{ $region ? "{$con}region={$region}" : '' }}">@lang('app.More')</a>
+            ]) }}{{ $append }}">@lang('app.More')</a>
             @component('components.card_columns', [
                 'objects' => $camps,
                 'component' => 'components.camp_block',

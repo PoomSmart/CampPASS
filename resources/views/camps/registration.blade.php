@@ -70,7 +70,7 @@
                             @endif
                         >
                             <th scope="row">{{ $registration->id }}</th>
-                            <th><a href="{{ route('profiles.show', $camper->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                            <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
                             <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
@@ -88,7 +88,6 @@
                                             'question_set_id' => $question_set->id,
                                         ]) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewForm')</a>
                                 @endif
-                                <a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank" class="btn btn-secondary"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewProfile')</a>
                                 @role('admin')
                                     @if (!$withdrawed)
                                         <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>

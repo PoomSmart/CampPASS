@@ -35,7 +35,7 @@ return [
     'organization_id' => trans('campmaker.Organization'),
     'education_level' => trans('account.EducationLevel'),
 
-    'score_threshold' => trans('camp.ScoreThreshold'),
+    'minimum_score' => trans('camp.MinimumScore'),
     'app_close_date' => trans('camp.AppCloseDate'),
     'announcement_date' => trans('camp.AnnouncementDate'),
     'confirmation_date' => trans('camp.ConfirmationDate'),

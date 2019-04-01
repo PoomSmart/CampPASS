@@ -23,20 +23,18 @@
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
     <script>
-        $(document).ready(function(){
-            $('[data-toggle="popover"]').popover({
-            title: "{!! trans('registration.Status') !!}",
-            content: "<b>{!! trans('registration.CONFIRMED') !!}</b><br />{!! trans('registration.CONFIRMEDInfo') !!}<br/>\
-            <b>{!! trans('registration.APPROVED') !!}</b><br/>{!! trans('registration.APPROVEDInfo') !!}<br/>\
-            <b>{!! trans('registration.INTERVIEWED') !!}</b><br/>{!! trans('registration.INTERVIEWEDInfo') !!}<br/>\
-            <b>{!! trans('registration.CHOSEN') !!}</b><br/>{!! trans('registration.CHOSENInfo') !!}<br/>\
-            <b>{!! trans('registration.WITHDRAWED') !!}</b><br/>{!! trans('registration.WITHDRAWEDInfo') !!}<br/>\
-            <b>{!! trans('registration.REJECTED') !!}</b><br/>{!! trans('registration.REJECTEDInfo') !!}<br/>",
-            html: true
+        jQuery(document).ready(function () {
+            jQuery('[data-toggle="popover"]').popover({
+                title: "{!! trans('registration.Status') !!}",
+                content: "<b>{!! trans('registration.CONFIRMED') !!}</b><br />{!! trans('registration.CONFIRMEDInfo') !!}<br/>\
+                <b>{!! trans('registration.APPROVED') !!}</b><br/>{!! trans('registration.APPROVEDInfo') !!}<br/>\
+                <b>{!! trans('registration.INTERVIEWED') !!}</b><br/>{!! trans('registration.INTERVIEWEDInfo') !!}<br/>\
+                <b>{!! trans('registration.CHOSEN') !!}</b><br/>{!! trans('registration.CHOSENInfo') !!}<br/>\
+                <b>{!! trans('registration.WITHDRAWED') !!}</b><br/>{!! trans('registration.WITHDRAWEDInfo') !!}<br/>\
+                <b>{!! trans('registration.REJECTED') !!}</b><br/>{!! trans('registration.REJECTEDInfo') !!}<br/>",
+                html: true
+            });
         });
-    });
-
-        
     </script>
 @endsection
 
@@ -128,12 +126,12 @@
             <div class="text-center">
                 @component('components.submit', [
                     'label' => trans('app.Save'),
-                    'class' => 'btn btn-primary w-25',
+                    'class' => 'btn btn-primary w-50 mb-2',
                     'glyph' => 'far fa-save fa-xs',
                     'disabled' => $question_set->interview_announced,
                 ])
                 @endcomponent
-                <a class="btn btn-danger w-25{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
+                <a class="btn btn-danger w-50{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
             </div>
         </form>
     @endif
