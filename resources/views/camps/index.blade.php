@@ -75,11 +75,11 @@
                 @endforeach
             </td>
             <td class="fit">
-                <h3><span class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} fa-xs"></i></span></h3>
+                <h5><span class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} fa-xs mr-1"></i>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</span></h5>
             </td>
             <td>
                 @if ($question_set)
-                    <h3><span class="badge badge-{{ $question_set->candidate_announced ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $question_set->candidate_announced ? 'fas fa-bullhorn' : 'far fa-clock' }} fa-xs"></i></span></h3>
+                    <h5><span class="badge badge-{{ $question_set->candidate_announced ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $question_set->candidate_announced ? 'fas fa-bullhorn' : 'far fa-clock' }} fa-xs mr-1"></i>{{ $question_set->candidate_announced ? trans('qualification.Announced') : trans('camp.ApprovalPending') }}</span></h5>
                 @else
                     @lang('app.N/A')
                 @endif
