@@ -129,12 +129,14 @@
             <div class="text-center">
                 @component('components.submit', [
                     'label' => trans('app.Save'),
-                    'class' => 'btn btn-primary w-50 mb-2',
+                    'class' => 'btn btn-primary w-50',
                     'glyph' => 'far fa-save fa-xs',
                     'disabled' => $question_set->interview_announced,
                 ])
                 @endcomponent
+                <small class="form-text text-muted mb-2">@lang('qualification.InterviewSaveDesc')</small>
                 <a class="btn btn-danger w-50{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
+                <small class="form-text text-muted">@lang('qualification.InterviewAnnounceDesc')</small>
             </div>
         </form>
     @endif

@@ -70,5 +70,7 @@ return [
     'ApprovedBy' => 'Approved by :who',
     'ConsentUploaded' => 'Consent Uploaded',
     'ViewConsentForm' => 'View Consent Form',
-    'InterviewedAnnounced' => 'The passing-interview candidates has been announced.'
+    'InterviewedAnnounced' => 'The passing-interview candidates has been announced.',
+    'InterviewSaveDesc' => 'Click Save to make the changes to the candidate list persistent.',
+    'InterviewAnnounceDesc' => 'Click Announce Interview to announce the candidates that passed the interview. This operation cannot be undone.',
 ];
