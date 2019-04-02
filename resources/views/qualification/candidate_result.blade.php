@@ -92,8 +92,9 @@
                 <td>{{ $camper->program }}</td>
                 <td class="fit">
                     <div
-                        @if ($registration->approved())
-                            data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => \App\User::find($registration->approved_by)->getFullName() ]) }}"
+                        @php $who = $registration->approved_by ? \App\User::find($registration->approved_by) : null @endphp
+                        @if ($registration->approved() && $who)
+                            data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"
                         @endif
                     >{{ $registration->getStatus() }}
                     </div>
