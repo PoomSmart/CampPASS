@@ -70,6 +70,7 @@
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(2, $registration, $camp),
         ])
         @endcomponent
+        @component('components.padding', [ 'height' => 80 ])@endcomponent
     @endif
     @if ($camp->hasPayment())
         @component('components.card', [

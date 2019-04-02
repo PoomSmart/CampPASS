@@ -68,4 +68,5 @@ return [
     'PaymentSlipIssue' => 'Payment Slip Issue',
     'Remark' => 'Remark',
     'ApprovedBy' => 'Approved by :who',
+    'InterviewedAnnounced' => 'The interview has been announced. '
 ];

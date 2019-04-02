@@ -68,4 +68,5 @@ return [
     'PaymentSlipIssue' => 'ปัญหาเกี่ยวกับหลักฐานการชำระเงิน',
     'Remark' => 'ข้อมูลเพิ่มเติม',
     'ApprovedBy' => 'ยืนยันความถูกต้องโดย :who',
+    'InterviewedAnnounced' => 'ประกาศผู้ผ่านการสัมภาษณ์แล้ว'
 ];
