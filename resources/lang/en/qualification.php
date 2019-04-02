@@ -67,4 +67,5 @@ return [
     'ProfileIssue' => 'Profile Information Issue',
     'PaymentSlipIssue' => 'Payment Slip Issue',
     'Remark' => 'Remark',
+    'ApprovedBy' => 'Approved by :who',
 ];

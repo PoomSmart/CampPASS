@@ -34,6 +34,7 @@
                 <b>{!! trans('registration.REJECTED') !!}</b><br/>{!! trans('registration.REJECTEDInfo') !!}<br/>",
                 html: true
             });
+            jQuery('[data-toggle="status"]').tooltip();
         });
     </script>
 @endsection
@@ -89,7 +90,14 @@
                 <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
-                <td class="fit">{{ $registration->getStatus() }}</td>
+                <td class="fit">
+                    <div
+                        @if ($registration->approved())
+                            data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => \App\User::find($registration->approved_by)->getFullName() ]) }}"
+                        @endif
+                    >{{ $registration->getStatus() }}
+                    </div>
+                </td>
                 @if ($deposit_required)
                     <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
                 @endif
