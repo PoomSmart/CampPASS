@@ -1,5 +1,5 @@
 <div class="card card-with-shadow-static">
-    <div class="card-header text-center {{ isset($override_header_color) ? $override_header_color : ($data['passed'] ? 'camppass-orange' : 'bg-secondary text-white') }}">{{ $header }}</div>
+    <div class="card-header text-center {{ isset($override_header_color) ? $override_header_color : (isset($data['passed']) && $data['passed'] ? 'camppass-orange' : 'bg-secondary text-white') }}">{{ $header }}</div>
     <div class="card-body">
         @if (isset($data['text']))
             <p class="card-text">{{ $data['text'] }}</p>

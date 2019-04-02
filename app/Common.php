@@ -79,6 +79,11 @@ class Common
         return self::campDirectory($camp_id).'/payments';
     }
 
+    public static function consentDirectory(int $camp_id)
+    {
+        return self::campDirectory($camp_id).'/consents';
+    }
+
     public static function publicCampDirectory(int $camp_id)
     {
         return "public/camps/{$camp_id}";

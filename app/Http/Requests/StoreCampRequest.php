@@ -42,6 +42,7 @@ class StoreCampRequest extends CampPASSFormRequest
             'event_location_long' => 'nullable|numeric|between:-180,180',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
             'poster' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
+            'parental_consent' => 'nullable|file|mimes:pdf|max:10000',
             'quota' => 'nullable|integer|min:0',
             'backup_limit' => 'nullable|integer|min:1',
             'approved' => 'nullable|boolean|false', // We prevent camps that try to approve themselves
