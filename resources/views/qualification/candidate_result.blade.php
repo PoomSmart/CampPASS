@@ -23,6 +23,7 @@
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
     <script src="{{ asset('js/status-popover.js') }}"></script>
+    @include('components.status_popover')
 @endsection
 
 @section('content')
@@ -41,7 +42,7 @@
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
             <th>@lang('registration.Status')
-                <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="popover"></i></th>
+                <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
             @if ($deposit_required)
                 <th>@lang('qualification.DepositPaid')</th>
             @endif
