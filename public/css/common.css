@@ -184,6 +184,10 @@ label[required]::after {
   max-width: 450px !important;
 }
 
+.text-truncate-150 {
+  max-width: 150px !important;
+}
+
 .text-truncate-250 {
   max-width: 250px !important;
 }
