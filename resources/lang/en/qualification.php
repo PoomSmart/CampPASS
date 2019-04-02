@@ -48,7 +48,7 @@ return [
     'Documents' => 'Document',
     'Checkbox' => 'Checkbox',
     'CandidatesAnnounced' => 'Candidates for this camp are already announced.',
-    'DownloadData' => 'Download All Documents',
+    'DownloadData' => 'Go to Download All Documents',
     'FullyQualified' => 'You are fully qualified for :camp',
     'InterviewPassed' => 'Interview Passed',
     'DocumentApproved' => 'All the documents have been approved.',
@@ -70,4 +70,5 @@ return [
     'ApprovedBy' => 'Approved by :who',
     'ConsentUploaded' => 'Consent Uploaded',
     'ViewConsentForm' => 'View Consent Form',
+    'InterviewedAnnounced' => 'The passing-interview candidates has been announced.'
 ];

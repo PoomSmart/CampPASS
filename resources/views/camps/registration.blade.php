@@ -1,5 +1,9 @@
 @extends('layouts.blank')
 
+@section('script')
+    <script src="{{ asset('js/status-popover.js') }}"></script>
+@endsection
+
 @section('header')
     {{ $camp }}
 @endsection
@@ -28,7 +32,7 @@
         @endphp
         @if ($manual_grading_required)
             <div class="col-12 text-center">
-                <b class="text-info">** @lang('qualification.ManualGradingRequired') **</b>
+                <b class="text-danger">@lang('qualification.ManualGradingRequired')</b>
             </div>
         @endif
         <div class="col-12">
@@ -40,7 +44,8 @@
                         <th>@lang('account.FullName')</th>
                         <th>@lang('account.School')</th>
                         <th class="fit">@lang('camper.Program')</th>
-                        <th>@lang('registration.Status')</th>
+                        <th>@lang('registration.Status')
+                            <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="popover"></i></th>
                         @if ($required_paid)
                             @if ($camp->application_fee)
                                 <th>@lang('qualification.ApplicationFeePaid')</th>

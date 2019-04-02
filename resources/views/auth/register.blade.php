@@ -28,6 +28,7 @@
             @component('components.submit', [
                 'label' => trans('account.Register'),
                 'class' => 'btn btn-primary w-50',
+                'glyph' => 'fas fa-user-check',
             ])
             @endcomponent
         </div>

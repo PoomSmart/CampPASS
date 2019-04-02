@@ -33,6 +33,7 @@
         <div class="text-center">
             @component('components.submit', [
                 'label' => trans('app.Login'),
+                'glyph' => 'fas fa-sign-in-alt'
             ])
             @endcomponent
             @if (Route::has('password.request'))

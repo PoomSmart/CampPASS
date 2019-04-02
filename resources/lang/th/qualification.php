@@ -40,14 +40,14 @@ return [
     'FormFinalized' => "ใบสมัครของ:candidate ได้รับการยืนยันการตรวจแล้ว",
     'FormReturned' => "แจ้งความผิดพลาดของข้อมูลของ :candidate แล้ว",
     'DataExportInfo' => 'เอกสารที่ถูกเลือกทั้งหมดจะถูกดาวน์โหลดแบบ .zip',
-    'ExportAllDocument' => 'ดาวน์โหลดเอกสาร',
+    'ExportAllDocument' => 'ดาวน์โหลดเอกสารทั้งหมด',
     'ParentConsentForms'=> 'ใบขออนุญาตผู้ปกครอง',
     'SubmittedApplicationForms'=> 'ใบสมัคร',
     'AllPaymentSlip' => 'หลักฐานการชำระเงิน',
     'Documents' => 'รายการเอกสาร',
     'Checkbox' => 'เลือก',
     'CandidatesAnnounced' => 'ประกาศผู้ผ่านการคัดเลือกของค่ายนี้แล้ว',
-    'DownloadData' => 'ดาวน์โหลดเอกสาร',
+    'DownloadData' => 'ไปหน้าดาวน์โหลดเอกสารทั้งหมด',
     'FullyQualified' => 'คุณมีสิทธิ์เข้าค่าย :camp',
     'InterviewPassed' => 'ผ่านการสัมภาษณ์',
     'DocumentApproved' => 'เอกสารต่างๆ และหลักฐานการชำระเงินได้รับการยืนยันแล้ว',
@@ -70,4 +70,5 @@ return [
     'ApprovedBy' => 'ยืนยันความถูกต้องโดย :who',
     'ConsentUploaded' => 'ผู้ปกครองอนุมัติแล้ว',
     'ViewConsentForm' => 'ดูใบขออนุญาตผู้ปกครอง',
+    'InterviewedAnnounced' => 'ประกาศผู้ผ่านการสัมภาษณ์แล้ว'
 ];

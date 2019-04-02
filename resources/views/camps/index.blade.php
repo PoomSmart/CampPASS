@@ -14,7 +14,7 @@
 
 @can('camp-create')
     @section('extra-buttons')
-        <a class="btn btn-success w-50" href="{{ route('camps.create') }}">@lang('camp.CreateCamp')</a>
+        <a class="btn btn-success w-50" href="{{ route('camps.create') }}"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('camp.CreateCamp')</a>
     @endsection
 @endcan
 
