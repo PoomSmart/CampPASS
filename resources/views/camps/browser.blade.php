@@ -112,7 +112,7 @@
                 if ($append == '?')
                     $append = null;
             @endphp
-            <a target="_blank" class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
+            <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
                 'record' => $category_ids[$category],
             ]) }}{{ $append }}">@lang('app.More')</a>
             @component('components.card_columns', [

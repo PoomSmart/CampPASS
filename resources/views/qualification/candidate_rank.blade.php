@@ -146,7 +146,7 @@
                 @endif
             >
                 <th scope="row">{{ ++$i }}</th>
-                <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                 @if ($rank_by_score)
                     <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                 @else

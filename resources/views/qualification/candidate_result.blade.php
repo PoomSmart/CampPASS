@@ -195,6 +195,6 @@
         @endif
     @endif
     <div class="text-center mt-4">
-        <a target="_blank" class="btn btn-primary w-50" href="{{ route('qualification.data_download_selection', $question_set->id) }}"><i class="fa fa-download fa-xs mr-2"></i>@lang('qualification.DownloadData')</a>
+        <a class="btn btn-primary w-50" href="{{ route('qualification.data_download_selection', $question_set->id) }}"><i class="fa fa-download fa-xs mr-2"></i>@lang('qualification.DownloadData')</a>
     </div>
 @endsection

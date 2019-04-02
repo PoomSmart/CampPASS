@@ -42,7 +42,7 @@ function showNotifications(notifications, target) {
 function makeNotification(notification) {
     var to = routeNotification(notification);
     var notificationText = makeNotificationText(notification);
-    return `<li class="nav-link ml-2"><a target="_blank" href="${to}">${notificationText}</a></li>`;
+    return `<li class="nav-link ml-2"><a href="${to}">${notificationText}</a></li>`;
 }
 
 function routeNotification(notification) {
