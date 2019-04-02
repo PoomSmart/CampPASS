@@ -62,6 +62,9 @@
             @if ($interview_required)
                 <th>@lang('qualification.InterviewPassed')</th>
             @endif
+            @if ($camp->parental_consent)
+                <th>@lang('qualification.ConsentUploaded')</th>
+            @endif
             <th>@lang('app.Actions')</th>
         </thead>
         @php
@@ -78,6 +81,8 @@
                 $rejected = $registration->rejected();
                 $returned = $registration->returned;
                 $paid = $deposit_required ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
+                $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
+                $who = $registration->approved_by ? \App\User::find($registration->approved_by) : null;
             @endphp
             <tr
                 @if ($confirmed)
@@ -92,7 +97,6 @@
                 <td>{{ $camper->program }}</td>
                 <td class="fit">
                     <div
-                        @php $who = $registration->approved_by ? \App\User::find($registration->approved_by) : null @endphp
                         @if ($registration->approved() && $who)
                             data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"
                         @endif
@@ -114,12 +118,15 @@
                         >
                     </td>
                 @endif
+                @if ($camp->parental_consent)
+                    <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">{{ $consent ? trans('app.Yes') : trans('app.No') }}</td>
+                @endif
                 <td class="fit">
                     @role('admin')
                         @if (!$withdrawed && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
                         @endif
-                        @if ($paid && $approved)
+                        @if ($paid && $consent && $approved)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                         @endif
                     @endrole

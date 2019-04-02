@@ -118,6 +118,9 @@
             @if ($required_paid)
                 <th>@lang('qualification.ApplicationFeePaid')</th>
             @endif
+            @if ($camp->parental_consent)
+                <th>@lang('qualification.ConsentUploaded')</th>
+            @endif
             <th>@lang('qualification.Passed')</th>
             <th>@lang('qualification.Checked')</th>
             <th>@lang('app.Actions')</th>
@@ -129,6 +132,7 @@
                 $withdrawed = $registration->withdrawed();
                 $returned = $registration->returned;
                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
+                $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
                 if ($form_score->passed && !$returned)
                     ++$passed;
             @endphp
@@ -137,7 +141,7 @@
                     class="table-success"
                 @elseif ($withdrawed || !$form_score->passed)
                     class="table-danger"
-                @elseif ($returned || !$paid)
+                @elseif ($returned || !$paid || !$consent)
                     class="table-warning"
                 @endif
             >
@@ -152,9 +156,12 @@
                 @if ($required_paid)
                     <td class="text-center{{ $paid ? ' text-success table-success' : ' text-danger table-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
                 @endif
+                @if ($camp->parental_consent)
+                    <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">{{ $consent ? trans('app.Yes') : trans('app.No') }}</td>
+                @endif
                 <td class="text-center">
                     <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($withdrawed || !$paid)
+                        @if ($withdrawed || !$paid || !$consent)
                             disabled
                         @endif
                         @if ($form_score->passed)

@@ -68,4 +68,6 @@ return [
     'PaymentSlipIssue' => 'ปัญหาเกี่ยวกับหลักฐานการชำระเงิน',
     'Remark' => 'ข้อมูลเพิ่มเติม',
     'ApprovedBy' => 'ยืนยันความถูกต้องโดย :who',
+    'ConsentUploaded' => 'ผู้ปกครองอนุมัติแล้ว',
+    'ViewConsentForm' => 'ดูใบขออนุญาตผู้ปกครอง',
 ];

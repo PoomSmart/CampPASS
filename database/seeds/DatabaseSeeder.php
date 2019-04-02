@@ -542,56 +542,92 @@ class DatabaseSeeder extends Seeder
         unset($faker);
         // At this point, we simulate candidates announcement and attendance confirmation
         $this->log('-> simulating candidates announcement and attendance confirmation');
-        foreach (QuestionSet::all() as $question_set) {
-            $camp = $question_set->camp;
-            if (!$question_set->total_score) {
+        foreach (Camp::allApproved()->get() as $camp) {
+            if (Common::randomMediumHit()) {
+                $camp_directory = Common::publicCampDirectory($camp->id);
+                Storage::putFileAs($camp_directory, $dummy_file, 'parental_consent.pdf');
                 $camp->update([
-                    'backup_limit' => null,
+                    'parental_consent' => 'parental_consent.pdf',
                 ]);
             }
-            if (Common::randomRareHit())
-                continue;
-            // Question sets must be finalized first before the ranking could happen
-            $question_set->update([
-                'finalized' => true,
-            ]);
+            $question_set = $camp->question_set;
+            $has_question_set = !is_null($question_set);
+            if ($has_question_set) {
+                if (!$question_set->total_score) {
+                    $camp->update([
+                        'backup_limit' => null,
+                    ]);
+                }
+                // Question sets must be finalized first before the ranking could happen
+                $question_set->update([
+                    'finalized' => true,
+                ]);
+            }
             $interview_announce = null;
+            $has_consent = $camp->parental_consent;
+            $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
             try {
-                $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
-                if ($form_scores) {
-                    $camp_procedure = $camp->camp_procedure;
-                    $interview_required = $camp_procedure->interview_required;
-                    foreach ($form_scores as $form_score) {
-                        QualificationController::form_check_real($form_score, $checked = 'true');
-                    }
-                    CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
-                    $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
-                    $campmakers = $camp->camp_makers();
-                    foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
-                        if (Common::randomRareHit())
-                            continue;
-                        if (Common::randomVeryFrequentHit()) {
-                            $proceed = $interview_required ? Common::randomFrequentHit() : true;
-                            if ($interview_required)
-                                CandidateController::interview_check_real($registration, $proceed ? 'true' : 'false');
-                            if ($proceed) {
-                                if ($interview_required && is_null($interview_announce))
-                                    $interview_announce = Common::randomFrequentHit();
-                                if ($interview_announce)
-                                    $registration->camper->notify(new ApplicationStatusUpdated($registration));
-                                // We can seed payment slips for the camps that require deposit here
-                                // This is because the campers can only do this after they know they are chosen
-                                try {
-                                    if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
-                                        Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
-                                    if (Common::randomVeryFrequentHit()) {
-                                        CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
-                                        if (Common::randomMediumHit())
-                                            CampApplicationController::confirm($registration, $silent = true);
+                if ($has_question_set) {
+                    if (Common::randomRareHit())
+                        continue;
+                    $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
+                    if ($form_scores) {
+                        $camp_procedure = $camp->camp_procedure;
+                        $interview_required = $camp_procedure->interview_required;
+                        foreach ($form_scores as $form_score) {
+                            QualificationController::form_check_real($form_score, $checked = 'true');
+                        }
+                        CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
+                        $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
+                        $consent_directory = $camp->parental_consent ? Common::consentDirectory($camp->id) : null;
+                        $campmakers = $camp->camp_makers();
+                        foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                            if (Common::randomRareHit())
+                                continue;
+                            if (Common::randomVeryFrequentHit()) {
+                                $proceed = $interview_required ? Common::randomFrequentHit() : true;
+                                if ($interview_required)
+                                    CandidateController::interview_check_real($registration, $proceed ? 'true' : 'false');
+                                if ($proceed) {
+                                    if ($interview_required && is_null($interview_announce))
+                                        $interview_announce = Common::randomFrequentHit();
+                                    if ($interview_announce)
+                                        $registration->camper->notify(new ApplicationStatusUpdated($registration));
+                                    // We can seed payment slips for the camps that require deposit here
+                                    // This is because the campers can only do this after they know they are chosen
+                                    try {
+                                        if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
+                                            Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
+                                        if ($has_consent && Common::randomVeryFrequentHit())
+                                            Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
+                                        if (Common::randomVeryFrequentHit()) {
+                                            CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
+                                            if (Common::randomMediumHit())
+                                                CampApplicationController::confirm($registration, $silent = true);
+                                        }
+                                    } catch (\Exception $e) {
+                                        logger()->debug("Announcement/Confirmation Simulation Nested: {$e}");
                                     }
-                                } catch (\Exception $e) {
-                                    logger()->debug("Announcement/Confirmation Simulation Nested: {$e}");
                                 }
+                            } else if (Common::randomRareHit())
+                                CampApplicationController::withdraw($registration, $silent = true);
+                        }
+                    }
+                } else {
+                    $has_payment = $camp->paymentOnly();
+                    $payment_directory = $has_payment ? Common::paymentDirectory($camp->id) : null;
+                    foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                        if ($has_payment && Common::randomVeryFrequentHit())
+                            Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
+                        if ($has_consent && Common::randomVeryFrequentHit())
+                            Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
+                        if (Common::randomVeryFrequentHit()) {
+                            try {
+                                CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
+                                if (Common::randomMediumHit())
+                                    CampApplicationController::confirm($registration, $silent = true);
+                            } catch (\Exception $e) {
+                                logger()->debug("Announcement/Confirmation Simulation Nested 2: {$e}");
                             }
                         } else if (Common::randomRareHit())
                             CampApplicationController::withdraw($registration, $silent = true);
@@ -606,35 +642,7 @@ class DatabaseSeeder extends Seeder
                     'interview_announced' => true,
                 ]);
             }
-        }
-        $this->log('-> simulating payment slip uploading for payment-only camps');
-        $this->log('-> generating parental consent forms');
-        foreach (Camp::allApproved()->get() as $camp) {
-            if (Common::randomMediumHit()) {
-                $camp_directory = Common::publicCampDirectory($camp->id);
-                Storage::putFileAs($camp_directory, $dummy_file, 'parental_consent.pdf');
-                $camp->update([
-                    'parental_consent' => 'parental_consent.pdf',
-                ]);
-            }
-            if (!$camp->paymentOnly())
-                continue;
-            $payment_directory = Common::paymentDirectory($camp->id);
-            $campmakers = $camp->camp_makers();
-            foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
-                if (Common::randomVeryFrequentHit())
-                    Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
-                if (Common::randomVeryFrequentHit()) {
-                    try {
-                        CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
-                        if (Common::randomMediumHit())
-                            CampApplicationController::confirm($registration, $silent = true);
-                    } catch (\Exception $e) {
-                        logger()->debug("Payment-only Payment Slip Simulation: {$e}");
-                    }
-                }
-            }
-        }
+        }        
         unset($dummy_file);
         // Simulate badges generation
         $this->log('-> simulating badges generation');

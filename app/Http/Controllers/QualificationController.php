@@ -183,7 +183,9 @@ class QualificationController extends Controller
         $camp_procedure = $camp->camp_procedure;
         $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
         View::share('has_payment', $has_payment);
+        View::share('has_consent', $camp->parental_consent);
         View::share('payment_exists', $has_payment && CampApplicationController::get_payment_path($registration));
+        View::share('consent_exists', $camp->parental_consent && CampApplicationController::get_consent_path($registration));
         View::share('return_reasons', $this->form_returned_reasons($has_payment));
         return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
     }

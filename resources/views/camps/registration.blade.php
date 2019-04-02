@@ -48,6 +48,9 @@
                                 <th>@lang('qualification.DepositPaid')</th>
                             @endif
                         @endif
+                        @if ($camp->parental_consent)
+                            <th>@lang('qualification.ConsentUploaded')</th>
+                        @endif
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
                         @endif
@@ -61,6 +64,7 @@
                             $form_score = $registration->form_score;
                             $finalized = $form_score ? $form_score->finalized : false;
                             $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
+                            $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
                         @endphp
                         <tr
                             @if ($withdrawed)
@@ -70,12 +74,15 @@
                             @endif
                         >
                             <th scope="row">{{ $registration->id }}</th>
-                            <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}" target="_blank">{{ $camper->getFullName() }}</a></th>
+                            <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                             <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @if ($required_paid)
                                 <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                            @endif
+                            @if ($camp->parental_consent)
+                                <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">{{ $consent ? trans('app.Yes') : trans('app.No') }}</td>
                             @endif
                             @if ($candidate_required)
                                 <td class="text-center{{ $finalized ? ' text-success' : ' text-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>

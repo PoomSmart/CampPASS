@@ -68,4 +68,6 @@ return [
     'PaymentSlipIssue' => 'Payment Slip Issue',
     'Remark' => 'Remark',
     'ApprovedBy' => 'Approved by :who',
+    'ConsentUploaded' => 'Consent Uploaded',
+    'ViewConsentForm' => 'View Consent Form',
 ];
