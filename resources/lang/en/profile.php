@@ -11,8 +11,8 @@ return [
     'ContactInformation' => 'Contact Information',
     'EmergencyContactInformation' => 'Emergency Contact Information',
     'UpdateProfile' => 'Update Profile',
-    'SelectYourProvince' => 'Select your province...',
-    'SelectYourSchool' => 'Select your school...',
+    'SelectYourProvince' => 'Select your province',
+    'SelectYourSchool' => 'Select your school',
     'ProfileUpdatedSuccessfully' => 'Profile updated successfully.',
     'PicDesc' => 'The size of the profile picture should not exceed 2 MB.',
 ];

@@ -11,8 +11,8 @@ return [
     'ContactInformation' => 'ข้อมูลการติดต่อ',
     'EmergencyContactInformation' => 'ข้อมูลการติดต่อกรณีฉุกเฉิน',
     'UpdateProfile' => 'แก้ไขโปรไฟล์',
-    'SelectYourProvince' => 'เลือกจังหวัดของคุณ...',
-    'SelectYourSchool' => 'เลือกโรงเรียนของคุณ...',
+    'SelectYourProvince' => 'เลือกจังหวัดของคุณ',
+    'SelectYourSchool' => 'เลือกโรงเรียนของคุณ',
     'ProfileUpdatedSuccessfully' => 'อัพเดตโปรไฟล์แล้ว',
     'PicDesc' => 'ขนาดของรูปโปรไฟล์ไม่ควรเกิน 2 เมกะไบต์',
 ];

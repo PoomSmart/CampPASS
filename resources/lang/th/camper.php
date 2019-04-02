@@ -4,7 +4,7 @@ return [
     'Program' => 'สายการเรียน',
     'GuardianName' => 'ชื่อผู้ปกครอง',
     'GuardianSurname' => 'นามสกุลผู้ปกครอง',
-    'GuardianMobileNo' => 'เบอร์โทรศัพท์ผู้ปกครอง',
+    'GuardianMobileNo' => 'เบอร์โทรศัพท์ผู้ปกครอง (เขียนเลขติดกัน)',
     'GuardianRole' => 'ความสัมพันธ์',
     'GuardianRoleText' => 'ความสัมพันธ์',
     'CGPA' => 'เกรดเฉลี่ยสะสม (CGPA)',
