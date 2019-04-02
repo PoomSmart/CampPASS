@@ -37,9 +37,8 @@ return [
     'PayDeposit' => 'Pay Deposit',
     'Status' => 'Application Status',
     'Applicants' => 'Applicants',
-    'UploadPaymentSlip' => 'Upload Payment Slip',
     'UploadPayment' => 'Please upload your payment slip.',
-    'PaymentUploaded' => 'The payment slip has been uploaded.',
+    'SlipUploaded' => 'The payment slip has been uploaded.',
     'AckSlip' => 'You need to upload a payment slip to confirm your application.',
     'FormReturned' => 'Your application form has been returned due to the following issues:',
     'ReturnedApplication' => 'Your application form has been returned, please check the completeness of the form and resubmit it.',
@@ -53,4 +52,5 @@ return [
     'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
     'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
     'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
+    
 ];

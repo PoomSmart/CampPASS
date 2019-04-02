@@ -29,6 +29,7 @@
             @component('components.submit', [
                 'label' => trans('app.Submit'),
                 'class' => 'btn btn-success w-50',
+                'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
         </div>

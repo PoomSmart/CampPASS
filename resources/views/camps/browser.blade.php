@@ -125,6 +125,7 @@
 @endsection
 
 @section('sidebar-items')
+    <b>@lang('camp.CampsByCategory')</b>
     @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
         <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $category }}</b></a></li>

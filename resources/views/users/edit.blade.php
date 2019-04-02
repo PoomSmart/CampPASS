@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-success w-50">@lang('app.Submit')</button>
+            <button type="submit" class="btn btn-success w-50"><i class="far fa-save mr-2 fa-xs"></i>@lang('app.Submit')</button>
         </div>
     </div>
     {!! Form::close() !!}

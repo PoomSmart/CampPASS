@@ -377,7 +377,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionNoFileUploaded();
         $directory = Common::paymentDirectory($registration->camp_id);
         Storage::disk('local')->putFileAs($directory, $request->file('pdf'), "payment_{$registration->id}.pdf");
-        return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
+        return redirect()->back()->with('success', trans('registration.SlipUploaded'));
     }
 
     public static function get_payment_path(Registration $registration)
