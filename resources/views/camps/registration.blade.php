@@ -1,5 +1,9 @@
 @extends('layouts.blank')
 
+@section('script')
+    <script src="{{ asset('js/status-popover.js') }}"></script>
+@endsection
+
 @section('header')
     {{ $camp }}
 @endsection
@@ -40,7 +44,8 @@
                         <th>@lang('account.FullName')</th>
                         <th>@lang('account.School')</th>
                         <th class="fit">@lang('camper.Program')</th>
-                        <th>@lang('registration.Status')</th>
+                        <th>@lang('registration.Status')
+                            <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="popover"></i></th>
                         @if ($required_paid)
                             @if ($camp->application_fee)
                                 <th>@lang('qualification.ApplicationFeePaid')</th>
