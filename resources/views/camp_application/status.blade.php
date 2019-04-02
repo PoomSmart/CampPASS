@@ -14,7 +14,7 @@
 @endsection
 
 @section('subheader')
-    <a href="{{ route('camps.show', $camp->id) }}" target="_blank">{{ $camp }}</a>
+    <a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a>
 @endsection
 
 @section('custom-width')
