@@ -122,6 +122,8 @@ class CandidateController extends Controller
         $root = storage_path('app').'/';
         if ($request->has('payment'))
             $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
+        if ($request->has('consent-form'))
+            $make->folder('consent-form')->add(glob($root.Common::consentDirectory($camp->id).'/*'));
         $candidates = $temp_dir = null;
         if ($request->has('submitted-form')) {
             $temp_dir = "{$root}camps/temp_{$question_set->id}";

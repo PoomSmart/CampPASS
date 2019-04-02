@@ -32,6 +32,8 @@
                 <div class="col-8 text-left">
                     <p>@lang('qualification.SubmittedApplicationForms')</p>
                 </div>
+            @endif
+            @if ($camp->parental_consent)
                 <div class="col-4 text-center mb-3">
                     <input type="checkbox" name="consent-form">
                 </div>
