@@ -102,16 +102,15 @@
         @component('components.file_upload', [
             'name' => 'banner',
             'upload' => 1,
-            'value' => trans('app.View'),
             'full_width' => 1,
-            'download_route' => isset($object) ? 'camps.image_download' : null,
+            'download_route' => isset($object) ? 'camps.attribute_download' : null,
+            'desc' => trans('camp.BannerRecommendedSize'),
             'args' => isset($object) ? [
                 'camp' => $object->id,
                 'name' => 'banner',
             ] : null,
         ])
         @endcomponent
-        <small id="banner-desc-inline" class="form-text text-muted">@lang('camp.BannerRecommendedSize')</small>
     </div>
     <div class="col-md-6">
         @component('components.label', [
@@ -123,16 +122,15 @@
         @component('components.file_upload', [
             'name' => 'poster',
             'upload' => 1,
-            'value' => trans('app.View'),
             'full_width' => 1,
-            'download_route' => isset($object) ? 'camps.image_download' : null,
+            'download_route' => isset($object) ? 'camps.attribute_download' : null,
+            'desc' => trans('camp.PosterRecommendedSize'),
             'args' => isset($object) ? [
                 'camp' => $object->id,
                 'name' => 'poster',
             ] : null,
         ])
         @endcomponent
-        <small id="poster-desc-inline" class="form-text text-muted">@lang('camp.PosterRecommendedSize')</small>
     </div>
 </div>
 
@@ -200,13 +198,37 @@
     </div>
 </div>
 
-@component('components.input', [
-    'name' => 'other_conditions',
-    'label' => trans('camp.OtherConditions'),
-    'textarea' => 1,
-    'desc' => trans('camp.OtherConditionsDesc'),
-])
-@endcomponent
+<div class="row">
+    <div class="col-md-6">
+        @component('components.input', [
+            'name' => 'other_conditions',
+            'label' => trans('camp.OtherConditions'),
+            'textarea' => 1,
+            'desc' => trans('camp.OtherConditionsDesc'),
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.label', [
+            'name' => 'parental_consent',
+            'label' => trans('camp.ParentalConsent'),
+        ])
+        @endcomponent
+        @component('components.file_upload', [
+            'name' => 'parental_consent',
+            'upload' => 1,
+            'full_width' => 1,
+            'download_route' => isset($object) ? 'camps.attribute_download' : null,
+            'delete_route' => isset($object) ? 'camps.attribute_delete' : null,
+            'desc' => trans('camp.ParentalConsentDesc'),
+            'args' => isset($object) ? [
+                'camp' => $object->id,
+                'name' => 'parental_consent',
+            ] : null,
+        ])
+        @endcomponent
+    </div>
+</div>
 
 <h3 class="mt-4">@lang('camp.Expenses')</h3>
 
@@ -279,7 +301,7 @@
     </div>
 </div>
 
-<h3 class="mt-4">@lang('camp.DateTimePlaceInfo')</h3>
+<h3 class="mt-4">@lang('camp.DateTimeInfo')</h3>
 
 <div class="row">
     <div class="col-md-6">

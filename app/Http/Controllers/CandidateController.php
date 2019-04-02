@@ -64,7 +64,9 @@ class CandidateController extends Controller
         $candidates = $question_set->camp->candidates()->where('backup', false)->get();
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
-            if (!$registration->interviewed())
+            $interviewed = $registration->interviewed();
+            self::interview_check_real($registration, $interviewed ? 'true' : 'false');
+            if (!$interviewed)
                 continue;
             $registration->camper->notify(new ApplicationStatusUpdated($registration));
         }

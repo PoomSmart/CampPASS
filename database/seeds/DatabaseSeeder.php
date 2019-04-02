@@ -272,7 +272,7 @@ class DatabaseSeeder extends Seeder
         $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
-        $dummy_payment = UploadedFile::fake()->create('dummy.pdf', 1000);
+        $dummy_file = UploadedFile::fake()->create('dummy.pdf', 1000);
         $approved_camps = Camp::allApproved()->get();
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
@@ -312,7 +312,7 @@ class DatabaseSeeder extends Seeder
                     $camp_maker_notifications[$camp->id][] = $registration_id;
                     if ($camp->application_fee && Common::randomFrequentHit()) {
                         $payment_directory = Common::paymentDirectory($camp->id);
-                        Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration_id}.pdf");
+                        Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration_id}.pdf");
                     }
                 }
             }
@@ -583,7 +583,7 @@ class DatabaseSeeder extends Seeder
                                 // This is because the campers can only do this after they know they are chosen
                                 try {
                                     if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
-                                        Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
+                                        Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                                     if (Common::randomVeryFrequentHit()) {
                                         CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                         if (Common::randomMediumHit())
@@ -608,26 +608,34 @@ class DatabaseSeeder extends Seeder
             }
         }
         $this->log('-> simulating payment slip uploading for payment-only camps');
+        $this->log('-> generating parental consent forms');
         foreach (Camp::allApproved()->get() as $camp) {
+            if (Common::randomMediumHit()) {
+                $camp_directory = Common::publicCampDirectory($camp->id);
+                Storage::putFileAs($camp_directory, $dummy_file, 'parental_consent.pdf');
+                $camp->update([
+                    'parental_consent' => 'parental_consent.pdf',
+                ]);
+            }
             if (!$camp->paymentOnly())
                 continue;
             $payment_directory = Common::paymentDirectory($camp->id);
             $campmakers = $camp->camp_makers();
             foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
                 if (Common::randomVeryFrequentHit())
-                    Storage::putFileAs($payment_directory, $dummy_payment, "payment_{$registration->id}.pdf");
+                    Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                 if (Common::randomVeryFrequentHit()) {
                     try {
                         CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                         if (Common::randomMediumHit())
                             CampApplicationController::confirm($registration, $silent = true);
                     } catch (\Exception $e) {
-                        logger()->debug("Payment-onlY Payment Slip Simulation: {$e}");
+                        logger()->debug("Payment-only Payment Slip Simulation: {$e}");
                     }
                 }
             }
         }
-        unset($dummy_payment);
+        unset($dummy_file);
         // Simulate badges generation
         $this->log('-> simulating badges generation');
         foreach (Registration::all() as $registration) {

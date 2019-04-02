@@ -25,8 +25,8 @@ class CampController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index', 'image_download']]);
-        $this->middleware('permission:camp-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index', 'attribute_download']]);
+        $this->middleware('permission:camp-edit', ['only' => ['edit', 'update', 'attribute_delete']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
         $this->middleware('permission:camper-list', ['only' => ['registration']]);
@@ -82,26 +82,29 @@ class CampController extends Controller
     public function parseFiles($request, Camp $camp)
     {
         $directory = Common::publicCampDirectory($camp->id);
-        if ($request->hasFile('banner')) {
-            $name = "banner.{$request->banner->getClientOriginalExtension()}";
-            $camp->update([
-                'banner' => $name,
-            ]);
-            Storage::putFileAs($directory, $request->file('banner'), $name);
-        }
-        if ($request->hasFile('poster')) {
-            $name = "poster.{$request->poster->getClientOriginalExtension()}";
-            $camp->update([
-                'poster' => $name,
-            ]);
-            Storage::putFileAs($directory, $request->file('poster'), $name);
+        foreach (['banner', 'poster', 'parental_consent'] as $filename) {
+            if ($request->hasFile($filename)) {
+                $name = "{$filename}.{$request->{$filename}->getClientOriginalExtension()}";
+                $camp->update([
+                    $filename => $name,
+                ]);
+                Storage::putFileAs($directory, $request->file($filename), $name);
+            }
         }
     }
 
-    public function image_download(Camp $camp, $name)
+    public function attribute_download(Camp $camp, $name)
     {
+        $this->check($camp);
         $directory = Common::publicCampDirectory($camp->id);
         return Common::downloadFile("{$directory}/{$camp->{$name}}");
+    }
+
+    public function attribute_delete(Camp $camp, $name)
+    {
+        $this->check($camp);
+        $directory = Common::publicCampDirectory($camp->id);
+        return Common::deleteFile("{$directory}/{$camp->{$name}}");
     }
 
     public function store(StoreCampRequest $request)

@@ -190,7 +190,6 @@
             <h4 class="col-12 mt-2">@lang('profile.Transcript')</h4>
             <div class="col-12">
                 @component('components.file_upload', [
-                    'value' => trans('app.View'),
                     'args' => [
                         'user' => auth()->user()->id,
                         'type' => 'transcript',
@@ -206,7 +205,6 @@
             <h4 class="col-12 mt-2">@lang('profile.StudentConfirmationLetter')</h4>
             <div class="col-12">
                 @component('components.file_upload', [
-                    'value' => trans('app.View'),
                     'args' => [
                         'user' => auth()->user()->id,
                         'type' => 'confirmation_letter',

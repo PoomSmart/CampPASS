@@ -62,11 +62,9 @@
             <a href="{{ route('camp_application.prepare_questions_answers', $camp->id) }}" class="btn btn-warning w-100">@lang('registration.Edit')</a>
         @endslot
         @endcomponent
+        @component('components.padding', [ 'height' => 80 ])@endcomponent
     @endif
     @if ($camp_procedure->interview_required)
-        @if ($camp_procedure->candidate_required)
-            @component('components.padding', [ 'height' => 80 ])@endcomponent
-        @endif
         @component('components.card', [
             'header' => trans('status.Interview'),
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(2, $registration, $camp),
@@ -74,9 +72,6 @@
         @endcomponent
     @endif
     @if ($camp->hasPayment())
-        @if ($camp_procedure->candidate_required || $camp_procedure->interview_required)
-            @component('components.padding', [ 'height' => 80 ])@endcomponent
-        @endif
         @component('components.card', [
             'header' => $camp_procedure->deposit_required ? trans('camp.Deposit') : trans('camp.ApplicationFee'),
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(3, $registration, $camp, $camp_procedure),
@@ -88,7 +83,6 @@
             <form id="form" name="form" class="w-100" action="{{ route('camp_application.payment_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @component('components.file_upload', [
-                    'value' => trans('app.View'),
                     'args' => $registration->id,
                     'upload' => 1,
                     'download_route' => \App\Http\Controllers\CampApplicationController::get_payment_path($registration) ? 'camp_application.payment_download' : null,
@@ -101,8 +95,35 @@
             </form>
         @endslot
         @endcomponent
+        @component('components.padding', [ 'height' => 80 ])@endcomponent
     @endif
-    @if ($camp->hasPayment() || $camp_procedure->candidate_required || $camp_procedure->interview_required)
+    @if ($camp->parental_consent)
+        @component('components.card', [
+            'header' => trans('camp.ParentalConsent'),
+            'data' => [
+                'button' => $registration->chosen_to_confirmed(),
+                'passed' => $registration->chosen_to_confirmed(),
+            ],
+        ])
+        @slot('extra_body')
+            <p class="card-text">@lang('camp.ParentalConsentInfo')</p>
+        @endslot
+        @slot('buttons')
+            <form id="form" name="form" class="w-100" action="{{ route('camp_application.consent_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @component('components.file_upload', [
+                    'args' => $registration->id,
+                    'upload' => 1,
+                    'download_route' => \App\Http\Controllers\CampApplicationController::get_consent_path($registration) ? 'camp_application.consent_download' : null,
+                    'delete_route' => 'camp_application.consent_delete',
+                    'auto_upload' => 1,
+                    'full_width' => 1,
+                    'name' => 'pdf',
+                ])
+                @endcomponent
+            </form>
+        @endslot
+        @endcomponent
         @component('components.padding', [ 'height' => 80 ])@endcomponent
     @endif
     @component('components.card', [
@@ -116,7 +137,7 @@
     @component('components.padding', [ 'height' => 80 ])@endcomponent
     @component('components.card', [
         'header' => trans('status.Confirmation'),
-        'data' => $data = \App\Http\Controllers\CampApplicationController::statusDescription(5, $registration, $camp, $camp_procedure),
+        'data' => \App\Http\Controllers\CampApplicationController::statusDescription(5, $registration, $camp, $camp_procedure),
     ])
     @slot('buttons')
         <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-primary w-100 mx-1">

@@ -51,6 +51,7 @@ return [
     'short_description_th' => trans('camp.ThaiShortDescription'),
     'poster' => trans('camp.Poster'),
     'banner' => trans('camp.Banner'),
+    'parental_consent' => trans('camp.ParentalConsent'),
 
     'pdf' => trans('app.pdf'),
 ];

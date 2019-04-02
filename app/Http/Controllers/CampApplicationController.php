@@ -64,7 +64,7 @@ class CampApplicationController extends Controller
      * Make sure the only resource owner and respective camp makers can access it.
      *
      */
-    public function canAccessResource($resource_owner_id, $camp_id)
+    public static function canAccessResource($resource_owner_id, $camp_id)
     {
         $user = auth()->user();
         if ($user->isAdmin())
@@ -364,9 +364,39 @@ class CampApplicationController extends Controller
         return view('camp_application.done', compact('camp'));
     }
 
-    public function canAccessPayment(Registration $registration)
+    public function consent_upload(StorePDFRequest $request, Registration $registration)
     {
-        return $this->canAccessResource($registration->camper_id, $registration->camp_id);
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
+        if (!$request->hasFile('pdf'))
+            throw new \CampPASSExceptionNoFileUploaded();
+        $directory = Common::consentDirectory($registration->camp_id);
+        Storage::putFileAs($directory, $request->file('pdf'), "consent_{$registration->id}.pdf");
+        return redirect()->back()->with('success', trans('registration.ConsentUploaded'));
+    }
+
+    public static function get_consent_path(Registration $registration)
+    {
+        $directory = Common::consentDirectory($registration->camp_id);
+        $path = "{$directory}/consent_{$registration->id}.pdf";
+        return Storage::exists($path) ? $path : null;
+    }
+
+    public function consent_download(Registration $registration)
+    {
+        self::authenticate($registration->camp);
+        self::canAccessResource($registration->camper_id, $registration->camp_id);
+        $path = $this->get_consent_path($registration);
+        return Common::downloadFile($path);
+    }
+
+    public function consent_delete(Registration $registration)
+    {
+        self::authenticate($registration->camp);
+        self::authenticate_registration($registration);
+        $directory = Common::consentDirectory($registration->camp_id);
+        $path = "{$directory}/consent_{$registration->id}.pdf";
+        return Common::deleteFile($path);
     }
 
     public function payment_upload(StorePDFRequest $request, Registration $registration)
@@ -376,8 +406,8 @@ class CampApplicationController extends Controller
         if (!$request->hasFile('pdf'))
             throw new \CampPASSExceptionNoFileUploaded();
         $directory = Common::paymentDirectory($registration->camp_id);
-        Storage::disk('local')->putFileAs($directory, $request->file('pdf'), "payment_{$registration->id}.pdf");
-        return redirect()->back()->with('success', trans('registration.SlipUploaded'));
+        Storage::putFileAs($directory, $request->file('pdf'), "payment_{$registration->id}.pdf");
+        return redirect()->back()->with('success', trans('registration.PaymentUploaded'));
     }
 
     public static function get_payment_path(Registration $registration)
@@ -390,7 +420,7 @@ class CampApplicationController extends Controller
     public function payment_download(Registration $registration)
     {
         self::authenticate($registration->camp);
-        $this->canAccessPayment($registration);
+        self::canAccessResource($registration->camper_id, $registration->camp_id);
         $path = $this->get_payment_path($registration);
         return Common::downloadFile($path);
     }
