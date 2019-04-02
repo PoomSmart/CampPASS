@@ -52,5 +52,5 @@ return [
     'AttendanceConfirm' => 'Congratulations! You are qualified for :camp. Please also confirm your attendance.',
     'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
     'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
-    
+    'DownloadConsentFormHere' => 'Download parental consent form here',
 ];

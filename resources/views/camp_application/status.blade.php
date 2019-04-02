@@ -108,6 +108,10 @@
         ])
         @slot('extra_body')
             <p class="card-text">@lang('camp.ParentalConsentInfo')</p>
+            <a class="mb-2 font-weight-bold" href="{{ route('camps.attribute_download', [
+                'camp' => $camp->id,
+                'name' => 'parental_consent',
+            ]) }}">@lang('registration.DownloadConsentFormHere')</a>
         @endslot
         @slot('buttons')
             <form id="form" name="form" class="w-100" action="{{ route('camp_application.consent_upload', $registration->id) }}" method="POST" enctype="multipart/form-data">

@@ -25,7 +25,7 @@ class CampController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index', 'attribute_download']]);
+        $this->middleware('permission:camp-create', ['only' => ['create', 'store', 'index']]);
         $this->middleware('permission:camp-edit', ['only' => ['edit', 'update', 'attribute_delete']]);
         $this->middleware('permission:camp-delete', ['only' => ['destroy']]);
         $this->middleware('permission:camp-approve', ['only' => ['approve']]);
