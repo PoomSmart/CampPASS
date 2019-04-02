@@ -496,6 +496,8 @@ class DatabaseSeeder extends Seeder
                 QuestionManager::writeQuestionJSON($camp->id, $json);
                 unset($json);
             }
+            if ($question_set_has_manual_grade)
+                $manual_grade_question_set_ids[] = $question_set_id;
             unset($multiple_radio_map);
             unset($multiple_checkbox_map);
             // We wouldn't normally create a form score record for any draft application forms
@@ -511,8 +513,6 @@ class DatabaseSeeder extends Seeder
                 ];
             }
         }
-        if ($question_set_has_manual_grade && Common::randomVeryFrequentHit())
-            $manual_grade_question_set_ids[] = $question_set_id;
         foreach (array_chunk($questions, 1000) as $chunk)
             Question::insert($chunk);
         unset($questions);
@@ -530,12 +530,13 @@ class DatabaseSeeder extends Seeder
         unset($answers);
         // Now we can mark the application forms with manual grading as finalized
         $this->log('-> finalizing some manually-graded form scores');
-        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->cursor() as $manual_form_score) {
+        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_form_score) {
+            if (Common::randomRareHit())
+                continue;
             try {
                 QualificationController::form_finalize($manual_form_score, $silent = true);
             } catch (\Exception $e) {
                 logger()->debug("Manual Form Marking: {$e}");
-                continue;
             }
         }
         unset($manual_grade_question_set_ids);
@@ -715,9 +716,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
-        factory(User::class, 400)->create();
+        factory(User::class, 200)->create();
         $this->log_seed('camps');
-        factory(Camp::class, 300)->create();
+        factory(Camp::class, 200)->create();
         $this->student_documents();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();

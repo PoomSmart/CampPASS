@@ -81,7 +81,7 @@
                         >
                             <th scope="row">{{ $registration->id }}</th>
                             <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
-                            <td class="text-truncate text-truncate-400" title="{{ $camper->school }}">{{ $camper->school }}</td>
+                            <td class="text-truncate text-truncate-200" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @if ($required_paid)

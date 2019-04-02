@@ -38,7 +38,7 @@ html, body {
   text-align: center;
 }
 
-.popover{
+.popover {
   max-width: 40%;
 }
 
@@ -184,12 +184,16 @@ label[required]::after {
   max-width: 450px !important;
 }
 
-.text-truncate-150 {
-  max-width: 150px !important;
-}
-
 .text-truncate-250 {
   max-width: 250px !important;
+}
+
+.text-truncate-200 {
+  max-width: 200px !important;
+}
+
+.text-truncate-150 {
+  max-width: 150px !important;
 }
 
 .btn-fb {
