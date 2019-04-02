@@ -215,7 +215,8 @@ class QualificationController extends Controller
 
     public static function form_finalize(FormScore $form_score, bool $silent = false)
     {
-        Common::authenticate_camp($form_score->question_set->camp);
+        $camp = $form_score->question_set->camp;
+        Common::authenticate_camp($camp);
         if ($form_score->finalized)
             throw new \CampPASSExceptionRedirectBack();
         if ($form_score->registration->unsubmitted())
@@ -224,7 +225,7 @@ class QualificationController extends Controller
             'finalized' => true,
         ]);
         if (!$silent)
-            return redirect()->back()->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
+            return redirect()->route('camps.registration', $camp->id)->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
     }
 
     public static function form_check_real(FormScore $form_score, $checked)
