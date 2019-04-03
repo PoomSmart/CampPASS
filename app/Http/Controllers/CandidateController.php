@@ -23,6 +23,7 @@ use App\Notifications\ApplicationStatusUpdated;
 use Chumper\Zipper\Zipper;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
@@ -176,6 +177,7 @@ class CandidateController extends Controller
         // This can occur when the minimum score is too high and no one passed
         if ($candidates->doesntExist())
             throw new \CampPASSException(trans('exception.NoCandidateResultsToShow'));
+        $only_true_passed = Input::get('only_true_passed', null);
         $can_get_backups = false;
         $total = $candidates->count();
         $confirmed = $withdrawed = 0;
@@ -218,13 +220,15 @@ class CandidateController extends Controller
             $backup_summary = null;
         }
         $locale = app()->getLocale();
-        $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id')
-                        ->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
+        $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id');
+        if ($only_true_passed)
+            $candidates = $candidates->where('registrations.status', ApplicationStatus::CONFIRMED);
+        $candidates = $candidates->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
                         ->orderBy('registrations.returned') // Seperated by whether the form has been returned
                         ->orderBy("users.name_{$locale}"); // Sorted by name at last
         $candidates = $candidates->paginate(Common::maxPagination());
-        return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups')));
+        return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups', 'only_true_passed')));
     }
 
     public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false)

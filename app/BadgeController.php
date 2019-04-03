@@ -38,9 +38,16 @@ class BadgeController
 
     public static function addBadgeIfNeeded(Registration $registration)
     {
-        // TODO: Add Pioneer Badge
         if ($registration->confirmed()) {
             $camper = $registration->camper;
+            // Be a pioneer user (within 1st year)
+            // TODO: Remove this code after one year has passed
+            Badge::firstOrCreate([
+                'badge_category_id' => self::getPioneerBadgeID(),
+                'camper_id' => $camper->id,
+            ], [
+                'earned_date' => now(),
+            ]);
             // Attended the first camp via CampPASS
             Badge::firstOrCreate([
                 'badge_category_id' => self::getBabyStepBadgeID(),

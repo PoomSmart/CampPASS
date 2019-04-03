@@ -564,7 +564,6 @@ class DatabaseSeeder extends Seeder
                     'finalized' => true,
                 ]);
             }
-            $interview_announce = null;
             $has_consent = $camp->parental_consent;
             $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
             try {
@@ -572,6 +571,7 @@ class DatabaseSeeder extends Seeder
                     if (Common::randomRareHit())
                         continue;
                     $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
+                    $interview_announce = null;
                     if ($form_scores) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
@@ -614,6 +614,12 @@ class DatabaseSeeder extends Seeder
                                 CampApplicationController::withdraw($registration, $silent = true);
                         }
                     }
+                    // TODO: This is not really working
+                    if ($interview_announce) {
+                        $question_set->update([
+                            'interview_announced' => true,
+                        ]);
+                    }
                 } else {
                     $has_payment = $camp->paymentOnly();
                     $payment_directory = $has_payment ? Common::paymentDirectory($camp->id) : null;
@@ -636,12 +642,6 @@ class DatabaseSeeder extends Seeder
                 }
             } catch (\Exception $e) {
                 logger()->debug("Announcement/Confirmation Simulation: {$e}");
-            }
-            // TODO: This is not really working
-            if ($interview_announce) {
-                $question_set->update([
-                    'interview_announced' => true,
-                ]);
             }
         }        
         unset($dummy_file);

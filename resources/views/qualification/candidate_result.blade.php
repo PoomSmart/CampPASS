@@ -27,7 +27,31 @@
 @endsection
 
 @section('content')
-    <h2>@lang('qualification.Candidates')</h2>
+    <div class="d-flex justify-content-between">
+        <h2>@lang('qualification.Candidates')</h2>
+        <form class="form d-inline-flex" method="GET" action="{{ route('qualification.candidate_result', $question_set->id) }}">
+            @component('components.input', [
+                'input_type' => 'checkbox',
+                'radio_class' => 'my-auto',
+                'objects' => [
+                    (object)[
+                        'id' => 1,
+                        'name' => trans('qualification.OnlyTruePassed'),
+                    ]
+                ],
+                'getter' => 'name',
+                'nowrapper' => 1,
+                'name' => 'only_true_passed',
+                'value' => $only_true_passed,
+            ])
+            @endcomponent
+            @component('components.submit', [
+                'label' => trans('app.Update'),
+                'glyph' => 'fas fa-search fa-xs ', // TODO: change icon?
+            ])
+            @endcomponent
+        </form>
+    </div>
     <span class="text-muted">{{ $summary }}</span>
     <br/>
     <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Candidates'), 'date' => $camp->getConfirmationDate() ])</span>
