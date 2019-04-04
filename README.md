@@ -1,15 +1,24 @@
 # CampPASS
-Web-based Thai Student Camp Registration and Management System.
+Web-based CampHUB-inspired Thai Student Camp Application and Management System.
 
-## Configuration
+## Prerequisites
+- PHP 7+
+- Laravel 5.8+
+- MySQL Server
+- Node.js
+
+## Setup
 - Get yourself the `.env` file
 - Use the provided `php.ini` file
-- Install Node.js
+- `cd` to the project root directory
 - `composer install`
-- `composer require phpoffice/phpspreadsheet`
-- `composer require maatwebsite/excel`
-- `composer update`
-- `npm install` (run once)
-- `npm run dev` or `npm run production` for compiling SASS (Do this every time you make changes so)
+- `npm install`
+
+## Compiling Assets
+- `npm run dev` or `npm run production` for compiling app's SASS & JS (Do this every time you make changes to them)
+
+## Data Seeding
 - `php artisan migrate:fresh --seed`
+
+## Testing
 - `./localrun`
