@@ -159,7 +159,7 @@ class CampController extends Controller
         if (auth()->user()->can('camper-list')) {
             $registrations = $camp->registrations();
             $total_registrations = $registrations->count();
-            $data = $registrations->paginate(Common::maxPagination());
+            $data = $registrations->orderBy('submission_time')->paginate(Common::maxPagination());
         } else {
             $data = null;
             $total_registrations = 0;

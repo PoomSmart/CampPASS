@@ -14,8 +14,7 @@ use Faker\Generator as Faker;
 
 class User_Randomizer
 {
-    protected static $CAMPER = null;
-    protected static $CAMPMAKER = null;
+    protected static $CAMPER, $CAMPMAKER, $now;
 
     public static $name_ths = [
         "โยธาณัฐ", "ธนพงษ์", "พสิษฐ์", "ฤทธินันท์", "นงนภัส", "กิตตินันท์", "กัญญาลักษณ์", "สุภัสสรา", "ฐิติวุฒิ", "เกวลี", "พุฒธิชัย", "ณัชชา", "กฤติยา",
@@ -92,6 +91,13 @@ class User_Randomizer
     {
         return $faker->unique()->randomElements($array = range(0, count(self::$name_ths) - 1), $count = 2, $allowDuplicates = true);
     }
+
+    public static function now()
+    {
+        if (!self::$now)
+            self::$now = now();
+        return self::$now;
+    }
 }
 
 $factory->define(App\User::class, function (Faker $faker) {
@@ -119,7 +125,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'mobile_no' => '0'.implode('', $faker->unique()->randomElements($array = range(0, 9), $count = 9, $allowDuplicates = true)),
         'religion_id' => rand(1, Religion::count()),
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
+        'email_verified_at' => User_Randomizer::now(),
         'type' => $type,
         'password' => '123456',
         'remember_token' => str_random(10),

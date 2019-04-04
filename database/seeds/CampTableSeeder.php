@@ -1,25 +1,23 @@
 <?php
 
-use App\Enums\OrganizationType;
-
 use JeroenZwart\CsvSeeder\CsvSeeder;
 
 use Illuminate\Support\Facades\DB;
 
-class OrganizationTableSeeder extends CsvSeeder
+class CampTableSeeder extends CsvSeeder
 {
     public function __construct()
     {
-        $this->file = '/database/seeds/csvs/universities.csv';
-        $this->tablename = 'organizations';
-        $this->type = [ 'name_en', 'name_th', 'subtype', 'image', ];
+        $this->file = '/database/seeds/csvs/camps.csv';
+        $this->tablename = 'camps';
+        $this->type = [ 'name_en', 'name_th', ];
         $this->timestamps = false;
         $this->delimiter = ',';
         $this->defaults = [
-            'type' => OrganizationType::UNIVERSITY,
+            'xx' => 0,
         ];
     }
-    
+
     public function run()
     {
         DB::disableQueryLog();

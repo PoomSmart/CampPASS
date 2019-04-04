@@ -107,6 +107,7 @@
                 @can('camp-edit')
                     <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
                 @endcan
+                <a class="btn btn-outline-primary" href="{{ route('analytic.analytic', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewAnalytic')</a>
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
                         <i class="fas fa-trash-alt mr-1 fa-xs"></i>@lang('app.Delete')

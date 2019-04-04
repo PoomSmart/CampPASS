@@ -44,7 +44,8 @@
                         <th>@lang('registration.ID')</th>
                         <th>@lang('account.FullName')</th>
                         <th>@lang('account.School')</th>
-                        <th class="fit">@lang('camper.Program')</th>
+                        <th>@lang('camper.Program')</th>
+                        <th>@lang('registration.SubmissionTime')</th>
                         <th>@lang('registration.Status')
                             <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
                         @if ($required_paid)
@@ -60,7 +61,7 @@
                         @if ($candidate_required)
                             <th>@lang('qualification.Finalized')</th>
                         @endif
-                        <th class="fit">@lang('app.Actions')</th>
+                        <th>@lang('app.Actions')</th>
                     </thead>
                     @foreach ($data as $key => $registration)
                         @php
@@ -83,6 +84,7 @@
                             <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                             <td class="text-truncate text-truncate-200" title="{{ $camper->school }}">{{ $camper->school }}</td>
                             <td>{{ $camper->program }}</td>
+                            <td>{{ $registration->getSubmissionTime() }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @if ($required_paid)
                                 <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>

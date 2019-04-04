@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 class Camp_Randomizer
 {
-    protected static $programs, $regions, $years, $organizations, $organizations_top;
+    protected static $programs, $regions, $years, $organizations, $organizations_top, $now;
 
     public static function programs()
     {
@@ -51,10 +51,17 @@ class Camp_Randomizer
     {
         return $faker->dateTimeBetween($date, $date->format('Y-m-d H:i:s').' '.$shift);
     }
+
+    public static function now()
+    {
+        if (!self::$now)
+            self::$now = Carbon::now()->toDateString();
+        return self::$now;
+    }
 }
 
 $factory->define(App\Camp::class, function (Faker $faker) {
-    $now = Carbon::now()->format('Y-m-d H:i:s');
+    $now = Camp_Randomizer::now();
     $app_close_date = $faker->dateTimeBetween($startDate = $now.' -1 month', $now.' +3 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
     $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;

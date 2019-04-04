@@ -179,6 +179,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
     ],
 
     /*
@@ -232,6 +233,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
 
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'SnappyPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,

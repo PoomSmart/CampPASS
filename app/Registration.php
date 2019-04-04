@@ -5,6 +5,7 @@ namespace App;
 use App\User;
 use App\Answer;
 use App\Camp;
+use App\Common;
 use App\Candidate;
 use App\Certificate;
 use App\FormScore;
@@ -17,6 +18,10 @@ class Registration extends Model
 {
     protected $fillable = [
         'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time', 'returned', 'returned_reasons',
+    ];
+
+    protected $dates = [
+        'submission_time',
     ];
 
     public function camp()
@@ -112,5 +117,10 @@ class Registration extends Model
     public function confirmed()
     {
         return $this->status == ApplicationStatus::CONFIRMED;
+    }
+
+    public function getSubmissionTime()
+    {
+        return Common::formattedDate($this->submission_time);
     }
 }

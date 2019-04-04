@@ -53,4 +53,5 @@ return [
     'ApplicationFormReturned' => 'Oops, something went wrong. Your application form for :camp has returned. Try correcting and sending the application form again.',
     'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
     'DownloadConsentFormHere' => 'Download parental consent form here',
+    'SubmissionTime' => 'Submission Time',
 ];

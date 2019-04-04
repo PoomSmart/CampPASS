@@ -70,6 +70,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
         Route::post('/form-return/{registration}', 'QualificationController@form_return')->name('qualification.form_return');
     });
+    Route::prefix('analytic')->group(function () {
+        Route::get('/analytic/{camp}', 'AnalyticController@analytic')->name('analytic.analytic');
+    });
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
         Route::get('/document-delete/{user}/{type}', 'ProfileController@document_delete')->name('camp_application.document_delete');

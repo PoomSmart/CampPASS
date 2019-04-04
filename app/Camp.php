@@ -32,7 +32,7 @@ class Camp extends Model
         'quota', 'contact_campmaker', 'backup_limit', 'approved',
     ];
 
-    // These attributes require mutators for user-friendly date display
+    // These attributes require mutators for dealing with browser date format
     protected $appends = [
         'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date',
