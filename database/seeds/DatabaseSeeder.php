@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
+    private static $debug = false;
+
     private function log(string $message)
     {
         $app = config('app.name');
@@ -59,6 +61,12 @@ class DatabaseSeeder extends Seeder
     private function log_alter(string $message)
     {
         $this->log("alter {$message}");
+    }
+
+    private function log_debug(string $message)
+    {
+        if (!self::$debug) return;
+        logger()->debug($message);
     }
 
     private function programs()
@@ -282,7 +290,7 @@ class DatabaseSeeder extends Seeder
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
-                    logger()->debug("Camp Eligibility Checking: {$e}");
+                    $this->log_debug("Camp Eligibility Checking: {$e}");
                     return false;
                 }
                 return Common::randomMediumHit();
@@ -300,7 +308,7 @@ class DatabaseSeeder extends Seeder
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 ++$registration_id;
-                $date = $faker->dateTimeBetween($camp->app_close_date->toDateString().' -10 days', $camp->app_close_date);
+                $date = $faker->dateTimeBetween($camp->app_close_date.' -10 days', $camp->app_close_date);
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
@@ -537,7 +545,7 @@ class DatabaseSeeder extends Seeder
             try {
                 QualificationController::form_finalize($manual_form_score, $silent = true);
             } catch (\Exception $e) {
-                logger()->debug("Manual Form Marking: {$e}");
+                $this->log_debug("Manual Form Marking: {$e}");
             }
         }
         unset($manual_grade_question_set_ids);
@@ -608,7 +616,7 @@ class DatabaseSeeder extends Seeder
                                                 CampApplicationController::confirm($registration, $silent = true);
                                         }
                                     } catch (\Exception $e) {
-                                        logger()->debug("Announcement/Confirmation Simulation Nested: {$e}");
+                                        $this->log_debug("Announcement/Confirmation Simulation Nested: {$e}");
                                     }
                                 }
                             } else if (Common::randomRareHit())
@@ -635,14 +643,14 @@ class DatabaseSeeder extends Seeder
                                 if (Common::randomMediumHit())
                                     CampApplicationController::confirm($registration, $silent = true);
                             } catch (\Exception $e) {
-                                logger()->debug("Announcement/Confirmation Simulation Nested 2: {$e}");
+                                $this->log_debug("Announcement/Confirmation Simulation Nested 2: {$e}");
                             }
                         } else if (Common::randomRareHit())
                             CampApplicationController::withdraw($registration, $silent = true);
                     }
                 }
             } catch (\Exception $e) {
-                logger()->debug("Announcement/Confirmation Simulation: {$e}");
+                $this->log_debug("Announcement/Confirmation Simulation: {$e}");
             }
         }        
         unset($dummy_file);
@@ -717,7 +725,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
-        factory(User::class, 300)->create();
+        factory(User::class, 600)->create();
         $this->log_seed('camps');
         factory(Camp::class, 200)->create();
         $this->student_documents();
