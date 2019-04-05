@@ -85,4 +85,5 @@ return [
     'ParentalConsent' => 'Parental Consent Form',
     'ParentalConsentDesc' => 'Upload the form in PDF format if your camp need parental consent prior to joining the camp.',
     'ParentalConsentInfo' => 'Upload a signed parental consent form to confirm your attendance.',
+    'ViewAnalytic' => 'View Analytic',
 ];
