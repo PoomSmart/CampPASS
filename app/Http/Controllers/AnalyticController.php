@@ -33,8 +33,9 @@ class AnalyticController extends Controller
         $data['total'] = $registrations->count();
         $average_score = 0.0;
         $question_set = $camp->question_set;
-        $has_passed = !is_null($question_set);
-        $by_time = $has_passed && !$question_set->total_score;
+        $has_question_set = !is_null($question_set);
+        $has_interview = $camp->camp_procedure->interview_required;
+        $by_time = $has_question_set && !$question_set->total_score;
         $peak_date = null;
         foreach ($registrations as $registration) {
             $submission_time = $registration->submission_time;
@@ -62,16 +63,18 @@ class AnalyticController extends Controller
             else if ($registration->rejected())
                 ++$rejected;
             else {
-                if ($has_passed) {
+                $is_passed = false;
+                if ($has_question_set) {
                     $form_score = $registration->form_score;
-                    if ($form_score->passed)
-                        ++$passed;
+                    $is_passed = $form_score->passed;
                     $average_score += $form_score->total_score;
                     ++$score_count;
-                } else {
-                    if ($registration->chosen_to_confirmed())
-                        ++$passed;
-                }
+                } else
+                    $is_passed = $registration->chosen_to_confirmed();
+                if ($is_passed && $has_interview)
+                    $is_passed = $registration->interviewed_to_confirmed();
+                if ($is_passed)
+                    ++$passed;
             }
         }
         $data['passed'] = $passed;
