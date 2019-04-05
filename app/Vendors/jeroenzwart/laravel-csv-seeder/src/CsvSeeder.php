@@ -15,22 +15,19 @@ class CsvSeeder extends Seeder
      * @var string
      */
     public $file;
-
     /**
      * Table name of databast, if not set uses filename of CSV
      *
      * @var string
      */
     public $tablename;
-
     /**
      * Truncate table before seeding
      * Default: TRUE
-     *
+     * 
      * @var boolean
      */
     public $truncate = TRUE;
-
     /**
      * If the CSV has headers, set TRUE
      * Default: TRUE
@@ -38,25 +35,22 @@ class CsvSeeder extends Seeder
      * @var boolean
      */
     public $header = TRUE;
-
     /**
      * The character that split the values in the CSV
      * Default: ';'
-     *
+     * 
      * @var string
      */
     public $delimiter = ';';
-
     /**
      * Array of column names used in the CSV
      * Name map the columns of the CSV to the columns in table
      * Mapping can also be used when there are headers in the CSV. The headers will be skipped.
      * Example: ['firstCsvColumn', 'secondCsvColumn']
-     *
+     * 
      * @var array
      */
     public $mapping;
-
     /**
      * Array of columns names as value with header name as index
      * Example: ['csvColumn' => 'tableColumn', 'foo' => 'bar']
@@ -64,7 +58,6 @@ class CsvSeeder extends Seeder
      * @var array
      */
     public $aliases;
-
     /**
      * Array of column names to be hashed before inserting
      * Default: ['password']
@@ -73,7 +66,13 @@ class CsvSeeder extends Seeder
      * @var array
      */
     public $hashable;
-
+    /**
+     * Array with Laravel Validation rules
+     * Example: ['name' => 'required']
+     *
+     * @var array
+     */
+    public $validate;
     /**
      * Array with default value for column(s) in the table
      * Example: ['created_by' => 'seed', 'updated_by' => 'seed]
@@ -81,7 +80,6 @@ class CsvSeeder extends Seeder
      * @var array
      */
     public $defaults;
-
     /**
      * String of prefix used in CSV header, mapping or alias
      * When a CSV column name begins with the string, this column will be skipped to insert
@@ -91,7 +89,6 @@ class CsvSeeder extends Seeder
      * @var string
      */
     public $skipper;
-
     /**
      * Set the Laravel timestamps while seeding data
      * With TRUE the columns 'created_at' and 'updated_at' will be set with current date/time.
@@ -102,30 +99,27 @@ class CsvSeeder extends Seeder
      * @var string
      */
     public $timestamps;
-
     /**
      * Number of rows to skip at the start of the CSV, excluding the header
      * Default: 0
-     *
+     * 
      * @var integer
      */
     public $offset = 0;
-
     /**
      * Insert into SQL database in blocks of CSV data while parsing the CSV file
      * Default: 50
-     *
+     * 
      * @var integer
      */
-    public $chunk       = 50;
-
-
+    public $chunk = 50;
+    
     private $filepath;
     private $csvData;
     private $parsedData;
     private $count = 0;
     private $total = 0;
-
+    
     /**
      * Run the class
      *
@@ -134,14 +128,12 @@ class CsvSeeder extends Seeder
     public function run()
     {
         if( ! $this->checkFile() ) return;
-
+        
         if( ! $this->checkFilepath() ) return;
-
         if( ! $this->checkTablename() ) return;
-
+        
         $this->seeding();
     }
-
     /**
      * Require a CSV file
      *
@@ -150,12 +142,9 @@ class CsvSeeder extends Seeder
     private function checkFile()
     {
         if( $this->file ) return TRUE;
-
         $this->console( 'No CSV file given', 'error' );
-
         return FALSE;
     }
-
     /**
      * Check if the file is accesable
      *
@@ -164,14 +153,10 @@ class CsvSeeder extends Seeder
     private function checkFilepath()
     {
         $this->filepath = base_path() . $this->file;
-
         if( file_exists( $this->filepath ) || is_readable( $this->filepath ) ) return TRUE;
-
         $this->console( 'File "'.$this->file.'" could not be found or is readable', 'error' );
-
         return FALSE;
     }
-
     /**
      * Get the tablename by CSV filename and check if it exists in database
      *
@@ -179,20 +164,15 @@ class CsvSeeder extends Seeder
      */
     private function checkTablename()
     {
-        if( ! isset($this->tablename) )
+        if( ! isset($this->tablename) ) 
         {
             $pathinfo = pathinfo( $this->filepath );
-
             $this->tablename = $pathinfo['filename'];
         }
-
         if( DB::getSchemaBuilder()->hasTable( $this->tablename ) ) return TRUE;
-
-        $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );
-
+        $this->console( 'Table "'.$this->tablename.'" could not be found in database', 'error' );        
         return FALSE;
     }
-
     /**
      * Start with seeding the rows of the CSV
      *
@@ -201,24 +181,16 @@ class CsvSeeder extends Seeder
     private function seeding()
     {
         $this->truncateTable();
-
         $this->setTotal();
-
         $this->openCSV();
-
         $this->setHeader();
-
+        
         $this->setMapping();
-
         $this->parseHeader();
-
         $this->parseCSV();
-
         $this->closeCSV();
-
         $this->outputParsed();
     }
-
     /**
      * Truncate the table
      *
@@ -226,16 +198,14 @@ class CsvSeeder extends Seeder
      * @return void
      */
     private function truncateTable( $foreignKeys = TRUE )
-    {
+    {        
         if( ! $this->truncate ) return;
-
         if( ! $foreignKeys ) DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-
+       
         DB::table( $this->tablename )->truncate();
-
+        
         if( ! $foreignKeys ) DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
-
     /**
      * Set the total of CSV rows
      *
@@ -244,12 +214,9 @@ class CsvSeeder extends Seeder
     private function setTotal()
     {
         $file = file( $this->filepath, FILE_SKIP_EMPTY_LINES );
-
         $this->total = count( $file );
-
         if( $this->header == TRUE )  $this->total --;
     }
-
     /**
      * Open the CSV file
      *
@@ -257,25 +224,22 @@ class CsvSeeder extends Seeder
      */
     private function openCSV()
     {
-        $this->csvData = fopen( $this->filepath, 'r' );
+        $this->csvData = fopen( $this->filepath, 'r' );;
     }
-
     /**
      * Set the header of the CSV file
      *
      * @return void
      */
     private function setHeader()
-    {
+    {           
         if( $this->header == FALSE ) return;
-
+        
         $this->offset += 1;
-
+        
         $this->header = $this->stripUtf8Bom( fgetcsv( $this->csvData, 0, $this->delimiter ) );
-
-        if( count($this->header) == 1 ) $this->console( 'Found only one column in header, maybe a wrong delimiter ('.$this->delimiter.') for the CSV file was set' );
+        if( count($this->header) == 1 ) $this->console( 'Found only one column in header, maybe a wrong delimiter ('.$this->delimiter.') for the CSV file was set' );        
     }
-
     /**
      * Set mapping to headers variable
      *
@@ -284,10 +248,9 @@ class CsvSeeder extends Seeder
     private function setMapping()
     {
         if( empty($this->mapping) ) return;
-
+        
         $this->header = $this->mapping;
     }
-
     /**
      * Parse the header of CSV to required columns
      *
@@ -296,12 +259,9 @@ class CsvSeeder extends Seeder
     private function parseHeader()
     {
         if( empty($this->header) ) return $this->console( 'No CSV headers were parsed' );
-
         $parser = new CsvHeaderParser( $this->tablename, $this->aliases, $this->skipper );
-
         $this->header = $parser->parseHeader( $this->header );
     }
-
     /**
      * Parse each row of the CSV
      *
@@ -310,29 +270,24 @@ class CsvSeeder extends Seeder
     private function parseCSV()
     {
         if( ! $this->csvData || empty($this->header) ) return;
-
-        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable );
-
+        $parser = new CsvRowParser( $this->header, $this->defaults, $this->timestamps, $this->hashable, $this->validate );
         while( ($row = fgetcsv( $this->csvData, 0, $this->delimiter )) !== FALSE )
         {
             $this->offset --;
-
             if( $this->offset > 0 ) continue;
-
+    
             if( empty($row) ) continue;
-
+                    
             $parsed = $parser->parseRow( $row );
-
-            if( $parsed ) $this->parsedData[] = $parsed;
-
+            
+            if( ! $parsed ) continue;
+            
+            $this->parsedData[] = $parsed;
             $this->count ++;
-
             if( $this->count >= $this->chunk ) $this->insertRows();
         }
-
         $this->insertRows();
     }
-
     /**
      * Insert a chunk of rows in the table
      *
@@ -341,25 +296,19 @@ class CsvSeeder extends Seeder
     private function insertRows()
     {
         if( empty($this->parsedData) ) return;
-
-        try
+        try 
         {
             DB::table( $this->tablename )->insert( $this->parsedData );
-
             $this->parsedData = [];
-
             $this->chunk ++;
         }
         catch (\Exception $e)
         {
             $this->console('Rows of the file "'.$this->file.'" has been failed to insert: ' . $e->getMessage(), 'error' );
-
             $this->closeCSV();
-
             die();
-        }
+        }        
     }
-
     /**
      * Close the CSV file
      *
@@ -368,10 +317,9 @@ class CsvSeeder extends Seeder
     private function closeCSV()
     {
         if( ! $this->csvData ) return;
-
+        
         fclose( $this->csvData );
     }
-
     /**
      * Output the result of seeding
      *
@@ -381,9 +329,9 @@ class CsvSeeder extends Seeder
     {
         $this->console( $this->count.' of '.$this->total.' rows has been seeded in table "'.$this->tablename.'"' );
     }
-
+ 
     /**
-     * Strip
+     * Strip 
      *
      * @param [type] $string
      * @return string
@@ -392,10 +340,10 @@ class CsvSeeder extends Seeder
     {
         $bom    = pack('H*', 'EFBBBF');
         $string = preg_replace("/^$bom/", '', $string);
-
+        
         return $string;
     }
-
+    
     /**
      * Logging
      *
@@ -406,8 +354,6 @@ class CsvSeeder extends Seeder
     private function console( $message, $level = FALSE )
     {
         if( $level ) $message = '<'.$level.'>'.$message.'</'.$level.'>';
-
         $this->command->line( '<comment>CsvSeeder: </comment>'.$message );
     }
-
 }

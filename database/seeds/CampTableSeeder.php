@@ -19,10 +19,11 @@ class CampTableSeeder extends CsvSeeder
             'backup_limit', 'contact_campmaker', 'payment_information',
         ];
         $this->validate = [
-            'acceptable_programs' => 'json',
-            'acceptable_regions' => 'json',
+            'acceptable_programs' => 'required|json',
+            'acceptable_regions' => 'required|json',
         ];
         $this->timestamps = false;
+
         $this->delimiter = ',';
     }
 
