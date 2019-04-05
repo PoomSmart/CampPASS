@@ -58,13 +58,14 @@
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->registrations_conditional()->count();
+                    $registration_count_display = $registration_count;
                     if ($camp->quota)
-                        $registration_count = "{$registration_count} / {$camp->quota}";
+                        $$registration_count_display = "{$registration_count} / {$camp->quota}";
                 } else
-                    $registration_count = 0;
+                    $registration_count_display = $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count }}</a></td>
+            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count_display }}</a></td>
             @role('admin')
                 <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             @endrole
@@ -107,7 +108,9 @@
                 @can('camp-edit')
                     <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
                 @endcan
-                <a class="btn btn-outline-primary" href="{{ route('analytic.analytic', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewAnalytic')</a>
+                @if ($registration_count)
+                    <a class="btn btn-outline-primary" href="{{ route('analytic.analytic', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewAnalytic')</a>
+                @endif
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
                         <i class="fas fa-trash-alt mr-1 fa-xs"></i>@lang('app.Delete')
