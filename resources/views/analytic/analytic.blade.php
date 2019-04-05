@@ -1,4 +1,4 @@
-@extends('layouts.blank')
+@extends('layouts.card')
 
 @section('header')
     @lang('analytic.Analytic')
@@ -8,7 +8,7 @@
     {{ $camp }}
 @endsection
 
-@section('content')
+@section('card_content')
     <div class="row mb-2">
         <div class="col-12">
             <h2>@lang('registration.Applicants')</h2>
