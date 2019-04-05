@@ -10,12 +10,20 @@ class CampTableSeeder extends CsvSeeder
     {
         $this->file = '/database/seeds/csvs/camps.csv';
         $this->tablename = 'camps';
-        $this->type = [ 'name_en', 'name_th', ];
+        $this->type = [
+            'name_en', 'name_th', 'camp_category_id', 'camp_procedure_id', 'organization_id',
+            'acceptable_regions', 'acceptable_programs', 'short_description_en', 'short_description_th',
+            'long_description_en', 'long_description_th', 'min_cgpa', 'other_conditions', 'application_fee',
+            'deposit', 'url', 'fburl', 'app_close_date', 'confirmation_date', 'announcement_date',
+            'interview_date', 'interview_information', 'event_start_date', 'event_end_date', 'quota',
+            'backup_limit', 'contact_campmaker', 'payment_information',
+        ];
+        $this->validate = [
+            'acceptable_programs' => 'json',
+            'acceptable_regions' => 'json',
+        ];
         $this->timestamps = false;
         $this->delimiter = ',';
-        $this->defaults = [
-            'xx' => 0,
-        ];
     }
 
     public function run()

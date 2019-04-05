@@ -661,6 +661,12 @@ class DatabaseSeeder extends Seeder
         }
     }
 
+    private function camps()
+    {
+        $this->log_seed('camps');
+        $this->call(CampTableSeeder::class);
+    }
+
     private function alter_campers()
     {
         $this->log_alter('campers');
@@ -726,8 +732,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
         factory(User::class, 600)->create();
-        $this->log_seed('camps');
-        factory(Camp::class, 200)->create();
+        $this->camps();
         $this->student_documents();
         $this->registrations_and_questions_and_answers();
         $this->alter_campers();
