@@ -115,6 +115,7 @@ class AnalyticController extends Controller
         // Genders
         $gender_table = \Lava::DataTable();
         $gender_table->addStringColumn(trans('account.Gender'))->addNumberColumn('GenderCount');
+        // TODO: Gender legend manual sorting is currently possible using Google Chart unless using hacky workaround
         $genders = [
             trans('account.Male'),
             trans('account.Female'),
@@ -131,6 +132,7 @@ class AnalyticController extends Controller
         // Education levels
         $education_table = \Lava::DataTable();
         $education_table->addStringColumn(trans('account.EducationLevel'))->addNumberColumn('EducationLevelCount');
+        // TODO: Education level legend manual sorting is currently possible using Google Chart unless using hacky workaround
         $localized_educations = EducationLevel::getLocalizedConstants('year');
         foreach ($education_freq as $year => $total) {
             $education_table->addRow([
