@@ -249,3 +249,8 @@ label[required]::after {
   background-color: #dddddd;
   color: #FB6B0A;
 }
+
+.card-img-fixed {
+  height: 250px !important;
+  object-fit: cover;
+}

@@ -1,6 +1,6 @@
 <div class="card card-with-shadow">
     <a target="_blank" href="{{ route('camps.show', $object->id) }}">
-        <img class="card-img-top" src="{{ $object->getBannerPath($actual = false, $display = true) }}" alt="Image of {{ $object }}">
+        <img class="card-img-top card-img-fixed" src="{{ $object->getBannerPath($actual = false, $display = true) }}" alt="Image of {{ $object }}">
         <div class="card-body">
             <h5 class="card-title text-truncate" title="{{ $object }}">{{ $object }}</h5>
             @foreach ($object->getTags() as $glyph => $tag)
