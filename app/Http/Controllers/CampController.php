@@ -53,10 +53,11 @@ class CampController extends Controller
     private function getOrganizationsIfNeeded(bool $no_perm_check = false)
     {
         if (is_null($this->organizations)) {
-            if (auth()->user()->can('organization-list') || $no_perm_check)
+            $user = auth()->user();
+            if ($no_perm_check || ($user && $user->can('organization-list')))
                 $this->organizations = Common::values(Organization::class);
             else
-                $this->organizations = array(Organization::find($id = auth()->user()->organization_id));
+                $this->organizations = array(Organization::find($id = $user->organization_id));
         }
         return $this->organizations;
     }

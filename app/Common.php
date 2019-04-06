@@ -143,7 +143,7 @@ class Common
             return $record->{"{$attribute}_{$forced_lang}"};
         $th = $record->{"{$attribute}_th"};
         $en = $record->{"{$attribute}_en"};
-        if ((\App::getLocale() == 'th' && !is_null($th)) || is_null($en))
+        if ((app()->getLocale() == 'th' && !is_null($th)) || is_null($en))
             return $th;
         return $en ? $en : "<blank>";
     }

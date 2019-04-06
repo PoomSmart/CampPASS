@@ -18,6 +18,10 @@ class OrganizationTableSeeder extends CsvSeeder
         $this->defaults = [
             'type' => OrganizationType::UNIVERSITY,
         ];
+        $this->validate = [
+            'name_th' => 'required|string',
+            'name_en' => 'required|string',
+        ];
     }
     
     public function run()

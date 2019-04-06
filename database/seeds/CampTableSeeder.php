@@ -22,8 +22,10 @@ class CampTableSeeder extends CsvSeeder
             'acceptable_programs' => 'required|json',
             'acceptable_regions' => 'required|json',
         ];
+        $this->defaults = [
+            'approved' => 1,
+        ];
         $this->timestamps = false;
-
         $this->delimiter = ',';
     }
 

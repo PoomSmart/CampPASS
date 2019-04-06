@@ -663,7 +663,6 @@ class DatabaseSeeder extends Seeder
 
     private function camps()
     {
-        $this->log_seed('camps');
         $this->call(CampTableSeeder::class);
     }
 
