@@ -664,6 +664,20 @@ class DatabaseSeeder extends Seeder
     private function camps()
     {
         $this->call(CampTableSeeder::class);
+        // Assign the real banner and poster to each camp that has them
+        $camp_resource_directory = base_path().'/database/seeds/camps';
+        foreach (Camp::all() as $camp) {
+            $directory = Common::publicCampDirectory($camp->id);
+            foreach (['banner', 'poster'] as $filename) {
+                try {
+                    $resource = file_get_contents("{$camp_resource_directory}/{$filename}/{$camp->id}.jpg");
+                    $camp->update([
+                        $filename => "{$filename}.jpg",
+                    ]);
+                    Storage::put("$directory/{$filename}.jpg", $resource);
+                } catch (\Exception $e) {}
+            }
+        }
     }
 
     private function alter_campers()
