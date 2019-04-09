@@ -209,8 +209,8 @@ class CampApplicationController extends Controller
     }
 
     /**
-     * Create a registration record given the user and the camp with an optional parameter, registration status,
-     * in case we know exactly the registration status to set.
+     * Create a registration record given the user and the camp with an optional parameter, application status,
+     * in case we know exactly the application status to set.
      *
      */
     public static function register(Camp $camp, User $user, $status = ApplicationStatus::DRAFT, bool $badge_check = false)
