@@ -137,12 +137,12 @@
                     ++$passed;
             @endphp
             <tr
-                @if ($form_score->passed)
-                    class="table-success"
-                @elseif ($withdrawed || !$form_score->passed)
+                @if ($withdrawed || !$form_score->passed)
                     class="table-danger"
                 @elseif ($returned || !$paid || !$consent)
                     class="table-warning"
+                @elseif ($form_score->passed)
+                    class="table-success"
                 @endif
             >
                 <th scope="row">{{ ++$i }}</th>
@@ -183,9 +183,6 @@
                     @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
-                            @if (!$returned)
-                                <a href="{{ route('qualification.form_return', $registration->id) }}" class="btn btn-warning">T Return</a>
-                            @endif
                         @endif
                     @endrole
                 </td>

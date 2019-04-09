@@ -231,7 +231,7 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups', 'only_true_passed')));
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -282,11 +282,11 @@ class CandidateController extends Controller
                         'total_score' => QualificationController::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
                     ]);
                 }
-                $paid = $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                $consent = $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
+                $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
+                $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
-                        'passed' => $form_score->total_score >= $minimum_score && $paid && $consent,
+                        'passed' => $form_score->total_score >= $minimum_score,
                     ]);
                 }
                 $form_score->update([
@@ -304,8 +304,8 @@ class CandidateController extends Controller
             $form_scores = $form_scores->orderBy('submission_time');
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
-                $paid = $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                $consent = $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
+                $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
+                $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
                 $withdrawed = $registration->withdrawed();
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
@@ -378,7 +378,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the minimum score
         $no_passed = $no_checked = 0;
-        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true);
+        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
         if ($form_scores) {
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
                 if ($form_score->passed) {

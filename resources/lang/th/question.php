@@ -16,7 +16,7 @@ return [
     'AddMoreQuestion' => 'เพิ่มคำถาม',
     'AddMoreCheckbox' => 'เพิ่มตัวเลือก',
     'AddMoreChoice' => 'เพิ่มตัวเลือก',
-    'MinimumScore' => 'คะแนนขั้นต่ำ',
+    'MinimumScore' => 'คะแนนผ่านเกณฑ์ขั้นต่ำ',
     'EnterMinimumScore' => 'กำหนดค่าคะแนนขั้นต่ำในการได้รับคัดเลือก',
     'EditMinimumScore' => 'แก้ไขคะแนนขั้นต่ำใหม่',
     'NoFileUploaded'=> 'ไม่มีไฟล์อัพโหลด',

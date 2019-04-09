@@ -16,6 +16,9 @@
     @section('extra-buttons')
         <a class="btn btn-success w-50" href="{{ route('camps.create') }}"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('camp.CreateCamp')</a>
     @endsection
+    @section('extra-buttons-top')
+        <a class="btn btn-success w-50" href="{{ route('camps.create') }}"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('camp.CreateCamp')</a>
+    @endsection
 @endcan
 
 @section('content')
@@ -25,28 +28,25 @@
         'method' => 'DELETE',
     ])
     @endcomponent
-    <div class="d-flex justify-content-center">
-        {!! $camps->links() !!}
-    </div>
-    <h5>
+    {{--<h5>
         <span class="badge badge-success font-weight-normal"><i class="fas fa-check fa-xs mr-1"></i>@lang('camp.Approved')</span>
         <span class="badge badge-success font-weight-normal"><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announced')</span>
         <span class="badge badge-warning font-weight-normal"><i class="far fa-clock fa-xs mr-1"></i>@lang('camp.ApprovalPending')</span>
-    </h5>
+    </h5>--}}
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('camp.Name')</th>
             <th>@lang('registration.Applicants')</th>
-            @role('admin')
+            {{--@role('admin')
                 <th>@lang('camp.CampMakerCount')</th>
-            @endrole
+            @endrole--}}
             <th>@lang('camp.Category')</th>
             <th>@lang('camp_procedure.CampProcedure')</th>
             <th>@lang('camp.GradingType')</th>
-            @role('admin')
+            {{--@role('admin')
                 <th>@lang('camp.AcceptableRegions')</th>
-            @endrole
+            @endrole--}}
             <th>@lang('camp.Status')</th>
             <th>@lang('qualification.IsAnnounced')</th>
             <th>@lang('app.Actions')</th>
@@ -54,7 +54,7 @@
 	    @foreach ($camps as $camp)
 	    <tr>
 	        <th scope="row">{{ ++$i }}</th>
-	        <td class="text-truncate text-truncate-250"><a target="_blank" href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
+	        <td class="text-truncate text-truncate-250"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->registrations_conditional()->count();
@@ -65,24 +65,24 @@
                     $registration_count_display = $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td class="fit"><a target="_blank" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}">{{ $registration_count_display }}</a></td>
-            @role('admin')
+            <td class="fit"><a href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>{{ $registration_count_display }}</a></td>
+            {{--@role('admin')
                 <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
-            @endrole
-            <td class="text-truncate text-truncate-150"><a target="_blank" href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
+            @endrole--}}
+            <td class="text-truncate text-truncate-150"><a href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->getTags() as $glyph => $tag)
                     <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
-            @role('admin')
+            {{--@role('admin')
                 <td>
                     @foreach ($camp->getAcceptableRegions($string = false) as $region)
                         <label class="badge badge-dark font-weight-normal">{{ $region }}</label>
                     @endforeach
                 </td>
-            @endrole
+            @endrole--}}
             <td class="fit">
                 <h5><span class="badge badge-{{ $camp->approved ? 'success' : 'warning' }} font-weight-normal"><i class="{{ $camp->approved ? 'fas fa-check' : 'far fa-clock' }} fa-xs mr-1"></i>{{ $camp->approved ? trans('camp.Approved') : trans('camp.ApprovalPending') }}</span></h5>
             </td>
