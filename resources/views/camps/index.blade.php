@@ -37,7 +37,6 @@
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('camp.Name')</th>
-            <th>@lang('registration.Applicants')</th>
             {{--@role('admin')
                 <th>@lang('camp.CampMakerCount')</th>
             @endrole--}}
@@ -49,12 +48,11 @@
             @endrole--}}
             <th>@lang('camp.Status')</th>
             <th>@lang('qualification.IsAnnounced')</th>
+            <th>@lang('registration.Applicants')</th>
             <th>@lang('app.Actions')</th>
         </thead>
 	    @foreach ($camps as $camp)
 	    <tr>
-	        <th scope="row">{{ ++$i }}</th>
-	        <td class="text-truncate text-truncate-250"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             @php
                 if ($camp->approved) {
                     $registration_count = $camp->registrations_conditional()->count();
@@ -65,7 +63,8 @@
                     $registration_count_display = $registration_count = 0;
                 $question_set = $camp->question_set;
             @endphp
-            <td class="fit"><a href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>{{ $registration_count_display }}</a></td>
+	        <th scope="row">{{ ++$i }}</th>
+	        <td class="text-truncate text-truncate-250"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
             {{--@role('admin')
                 <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             @endrole--}}
@@ -93,6 +92,7 @@
                     @lang('app.N/A')
                 @endif
             </td>
+            <td class="fit"><a href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>{{ $registration_count_display }}</a></td>
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
