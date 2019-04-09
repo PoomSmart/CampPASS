@@ -24,13 +24,13 @@
             @component('components.submit', [
                 'label' => trans('app.Search'),
                 'class' => 'btn btn-primary mr-2 w-50',
-                'glyph' => 'fas fa-search fa-xs ',
+                'glyph' => 'fas fa-search fa-xs',
             ])
             @endcomponent
             <a href="{{ route('camps.browser') }}" class="btn btn-secondary w-50"><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</a>
         </div>
-        <div class="col-12 px-0">
-            <div class="form-group d-inline-flex mt-2 mb-0">
+        <div class="col-12 px-0 mt-2">
+            <div class="form-group d-inline-flex mr-2">
                 <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'year',
@@ -42,17 +42,16 @@
                 <div class="d-inline-block my-auto">
                     @component('components.input', [
                         'name' => 'year',
-                        'input_type' => 'radio',
+                        'input_type' => 'select',
                         'objects' => $years,
                         'value' => $year,
-                        'nowrapper' => 1,
+                        'placeholder' => '---',
+                        'class' => 'form-control-sm',
                     ])
                     @endcomponent
                 </div>
             </div>
-        </div>
-        <div class="col-12 px-0">
-            <div class="form-group d-inline-flex mt-2 mb-0">
+            <div class="form-group d-inline-flex mr-2">
                 <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'region',
@@ -64,17 +63,16 @@
                 <div class="d-inline-block my-auto">
                     @component('components.input', [
                         'name' => 'region',
-                        'input_type' => 'radio',
+                        'input_type' => 'select',
                         'objects' => $regions,
                         'value' => $region,
-                        'nowrapper' => 1,
+                        'placeholder' => '---',
+                        'class' => 'form-control-sm',
                     ])
                     @endcomponent
                 </div>
             </div>
-        </div>
-        <div class="col-12 px-0">
-            <div class="form-group d-inline-flex mt-2 mb-0">
+            <div class="form-group d-inline-flex">
                 <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
                         'name' => 'organization_id',
@@ -89,7 +87,7 @@
                         'input_type' => 'select',
                         'objects' => $organizations,
                         'value' => $organization_id,
-                        'placeholder' => trans('camp.SelectOrganization'),
+                        'placeholder' => '---',
                         'class' => 'form-control-sm',
                     ])
                     @endcomponent

@@ -49,7 +49,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('camps.browser') }}">@lang('camp.BrowseCamps')</a>
+                            <a class="nav-link" href="{{ route('camps.browser') }}"><i class="fas fa-search fa-xs mr-2"></i>@lang('camp.BrowseCamps')</a>
                         </li>
                         @can('camp-create')
                             <li class="nav-item">
