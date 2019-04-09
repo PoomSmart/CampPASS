@@ -111,32 +111,16 @@
                     @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
                         <div class="row text-center mt-4">
                             @php
-                                $counter = $has_payment ? 1 : 0;
-                                if ($has_consent)
-                                    ++$counter;
+                                $counter = 0;
                                 if (!$registration->confirmed() && !$registration->withdrawed())
                                     $counter += 2;
                                 $col = $counter ? ($counter == 4 ? 6 : 12 / $counter) : 0;
                             @endphp
                             @if ($col)
-                                @if ($has_consent)
-                                    <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="{{ route('camp_application.consent_download', $registration->id) }}"
-                                            class="btn btn-secondary w-100 h-100{{ !$consent_exists ? ' disabled' : null }}"
-                                        ><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewConsentForm')</a>
-                                    </div>
-                                @endif
-                                @if ($has_payment)
-                                    <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="{{ route('camp_application.payment_download', $registration->id) }}"
-                                            class="btn btn-secondary w-100 h-100{{ !$payment_exists ? ' disabled' : null }}"
-                                        ><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewPaymentSlip')</a>
-                                    </div>
-                                @endif
                                 @if (!$registration->confirmed() && !$registration->withdrawed())
                                     <div class="col-md-{{ $col }} my-1 px-1">
                                         <a href="{{ route('qualification.document_approve', $registration->id) }}"
-                                            class="btn btn-success w-100 h-100{{ $registration->approved() || ($has_payment && !$payment_exists) || ($has_consent && !$consent_exists) || $registration->returned ? ' disabled' : null }}"
+                                            class="btn btn-success w-100 h-100{{ $registration->approved() || $no_approved || $registration->returned ? ' disabled' : null }}"
                                             title={{ trans('qualification.ApproveFormFull') }}
                                         ><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
                                     </div>

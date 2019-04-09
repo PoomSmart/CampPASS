@@ -115,7 +115,14 @@
                     </div>
                 </td>
                 @if ($deposit_required)
-                    <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">{{ $paid ? trans('app.Yes') : trans('app.No') }}</td>
+                    <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">
+                        @if ($paid)
+                            @lang('app.Yes')
+                            <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
+                        @else
+                            @lang('app.No')
+                        @endif
+                    </td>
                 @endif
                 @if ($interview_required)
                     <td class="text-center">
@@ -130,7 +137,14 @@
                     </td>
                 @endif
                 @if ($camp->parental_consent)
-                    <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">{{ $consent ? trans('app.Yes') : trans('app.No') }}</td>
+                    <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">
+                        @if ($consent)
+                            @lang('app.Yes')
+                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')><i class="far fa-eye fa-xs"></i></a>
+                        @else
+                            @lang('app.No')
+                        @endif
+                    </td>
                 @endif
                 <td class="fit">
                     @role('admin')
