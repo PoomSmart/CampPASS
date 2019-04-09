@@ -225,7 +225,7 @@ class User extends Authenticatable
         if ($region && !in_array($region->id, $camp->acceptable_regions))
             return trans('registration.NotInRequiredRegions'.$suffix);
         $now = Carbon::now();
-        if ($now->diffInDays(Carbon::parse($camp->app_open_date)) > 0)
+        if (Carbon::parse($camp->app_open_date)->diffInDays($now) < 0)
             return trans('registration.EarlyApplication'.$suffix);
         if ($now->diffInDays(Carbon::parse($camp->app_close_date)) < 0)
             return trans('registration.LateApplication'.$suffix);
