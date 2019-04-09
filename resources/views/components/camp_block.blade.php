@@ -25,7 +25,7 @@
                     class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}#apply"><i class="far fa-file-alt mr-2 fa-xs"></i>{{ $apply_text }}</a>
             @endif
             @php
-                $close_date = $object->getCloseDateHuman();
+                $close_date = $object->getAppCloseDateHuman();
             @endphp
             @if ($close_date)
                 <p class="card-text text-center mt-2"><small class="text-muted">{{ $close_date }}</small></p>

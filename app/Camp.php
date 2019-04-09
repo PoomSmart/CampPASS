@@ -25,7 +25,7 @@ class Camp extends Model
     protected $fillable = [
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
         'acceptable_regions', 'acceptable_years', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
-        'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
+        'app_open_date', 'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date', 'interview_information', 'payment_information',
         'event_location_lat', 'event_location_long',
         'banner', 'poster', 'parental_consent',
@@ -34,7 +34,7 @@ class Camp extends Model
 
     // These attributes require mutators for dealing with browser date format
     protected $appends = [
-        'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
+        'app_open_date', 'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date',
     ];
 
@@ -50,7 +50,7 @@ class Camp extends Model
      * @var array
      */
     protected $dates = [
-        'app_close_date', 'event_start_date', 'event_end_date',
+        'app_open_date', 'app_close_date', 'event_start_date', 'event_end_date',
     ];
 
     /**
@@ -301,14 +301,21 @@ class Camp extends Model
         return Common::formattedDate($this->confirmation_date, $time = true, $backup ? 3 : 0);
     }
 
-    public function getCloseDate()
+    public function getAppOpenDate()
+    {
+        if (!$this->app_open_date)
+            return null;
+        return Common::formattedDate($this->app_open_date);
+    }
+
+    public function getAppCloseDate()
     {
         if (!$this->app_close_date)
             return null;
         return Common::formattedDate($this->app_close_date);
     }
 
-    public function getCloseDateHuman()
+    public function getAppCloseDateHuman()
     {
         if (!$this->app_close_date)
             return null;
@@ -371,6 +378,16 @@ class Camp extends Model
     public function setDateValue($value, $attribute)
     {
         $this->attributes[$attribute] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+    }
+
+    public function getAppOpenDateAttribute($value)
+    {
+        return $this->getDateValue($value);
+    }
+
+    public function setAppOpenDateAttribute($value)
+    {
+        $this->setDateValue($value, 'app_open_date');
     }
 
     public function getAppCloseDateAttribute($value)

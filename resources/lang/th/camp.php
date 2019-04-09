@@ -31,6 +31,7 @@ return [
     'Deposit' => 'ค่ามัดจำ',
     'URL' => 'URL',
     'FBURL' => 'สอบถามผู้จัดค่ายทาง Facebook',
+    'AppOpenDate' => 'วันเปิดรับสมัคร',
     'AppCloseDate' => 'วันปิดรับสมัคร',
     'EventStartDate' => 'วันเริ่มการจัดค่าย',
     'EventEndDate' => 'วันสิ้นสุดการจัดค่าย',

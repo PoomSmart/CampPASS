@@ -62,7 +62,8 @@ class Camp_Randomizer
 
 $factory->define(App\Camp::class, function (Faker $faker) {
     $now = Camp_Randomizer::now();
-    $app_close_date = $faker->dateTimeBetween($startDate = $now.' -1 month', $now.' +3 months');
+    $app_open_date = $faker->dateTimeBetween($startDate = $now.' -2 month', $now.' +3 months');
+    $app_close_date = Camp_Randomizer::date_range_forward($faker, $app_open_date, '+1 months');
     $camp_procedure = CampProcedure::find(rand(1, CampProcedure::count()));
     $deposit = $camp_procedure->deposit_required ? rand(100, 200) : null;
     $application_fee = $deposit ? null : Common::randomMediumHit() ? rand(100, 500) : null;
@@ -95,6 +96,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'other_conditions' => Common::randomMediumHit() ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => Common::randomVeryFrequentHit() ? $faker->unique()->url : null,
         'fburl' => Common::randomMediumHit() ? 'https://facebook.com/'.preg_replace('/\s+/', '-', $faker->unique()->name) : null,
+        'app_open_date' => $app_open_date,
         'app_close_date' => $app_close_date,
         'announcement_date' => $announcement_date,
         'interview_date' => $interview_date,

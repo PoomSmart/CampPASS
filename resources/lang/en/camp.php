@@ -32,6 +32,7 @@ return [
     'URL' => 'URL',
     'FBURL' => 'Contact via Facebook',
     'FBURLForm' => 'Facebook URL',
+    'AppOpenDate' => 'Application Open Date',
     'AppCloseDate' => 'Application Close Date',
     'EventStartDate' => 'Event Start Date',
     'EventEndDate' => 'Event End Date',

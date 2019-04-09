@@ -2,6 +2,8 @@
 
 use JeroenZwart\CsvSeeder\CsvSeeder;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\DB;
 
 class CampTableSeeder extends CsvSeeder
@@ -24,6 +26,7 @@ class CampTableSeeder extends CsvSeeder
         ];
         $this->defaults = [
             'approved' => 1,
+            'app_open_date' => Carbon::createFromFormat('Y-m-d', '2018-01-01'),
         ];
         $this->timestamps = false;
         $this->delimiter = ',';

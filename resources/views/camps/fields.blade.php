@@ -306,6 +306,15 @@
 <div class="row">
     <div class="col-md-6">
         @component('components.input', [
+            'name' => 'app_open_date',
+            'label' => trans('camp.AppOpenDate'),
+            'type' => 'datetime-local',
+            'required' => 1,
+        ])
+        @endcomponent
+    </div>
+    <div class="col-md-6">
+        @component('components.input', [
             'name' => 'app_close_date',
             'label' => trans('camp.AppCloseDate'),
             'type' => 'datetime-local',
@@ -322,7 +331,7 @@
         ])
         @endcomponent
     </div>
-    <div class="col-12">
+    <div class="col-md-6">
         @component('components.input', [
             'name' => 'interview_information',
             'label' => trans('camp.InterviewInformation'),

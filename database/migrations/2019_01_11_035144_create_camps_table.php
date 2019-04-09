@@ -37,6 +37,7 @@ class CreateCampsTable extends Migration
             $table->integer('deposit')->unsigned()->nullable();
             $table->string('url', 150)->nullable();
             $table->string('fburl', 150)->nullable();
+            $table->dateTime('app_open_date');
             $table->dateTime('app_close_date');
             $table->dateTime('confirmation_date')->nullable();
             $table->dateTime('announcement_date')->nullable();

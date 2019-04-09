@@ -28,8 +28,12 @@
                     <p class="text-muted">{{ $camp->getEventStartDate() }} -<br>{{ $camp->getEventEndDate() }}</p>
                 </div>
                 <div class="col-12 col-md-6">
+                    <h5>@lang('camp.AppOpenDate')</h5>
+                    <p class="text-muted">{{ $camp->getAppOpenDate() }}</p>
+                </div>
+                <div class="col-12 col-md-6">
                     <h5>@lang('camp.AppCloseDate')</h5>
-                    <p class="text-muted">{{ $camp->getCloseDate() }}</p>
+                    <p class="text-muted">{{ $camp->getAppCloseDate() }}</p>
                 </div>
                 <div class="col-12 col-md-6">
                     <h5>@lang('camp.Quota')</h5>
@@ -72,7 +76,7 @@
                     <p class="text-muted">{{ $camp->organization }}</p>
                 </div>
                 @if ($camp->contact_campmaker)
-                    <div class="col-12">
+                    <div class="col-12 col-md-6">
                         <h5>@lang('camp.CampMakerContactInfo')</h5>
                         <p class="text-muted">{{ $camp->contact_campmaker }}</p>
                     </div>
