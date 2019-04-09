@@ -121,6 +121,6 @@ class Registration extends Model
 
     public function getSubmissionTime()
     {
-        return Common::formattedDate($this->submission_time);
+        return Common::formattedDate($this->submission_time, $time = true);
     }
 }
