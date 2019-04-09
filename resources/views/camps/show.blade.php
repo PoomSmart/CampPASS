@@ -101,11 +101,19 @@
                         ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
                     @endif
                     @if ($camp->url)
-                        <a class="btn btn-secondary w-100 mb-3" target="_blank" href="{{ $camp->url }}"><i class="fas fa-external-link-alt fa-xs mr-2"></i>@lang('camp.URL')</a>
+                        <a class="btn btn-secondary w-100 mb-3" href="{{ $camp->url }}"><i class="fas fa-external-link-alt fa-xs mr-2"></i>@lang('camp.URL')</a>
                     @endif
                     @if ($camp->fburl)
-                        <a class="btn btn-fb w-100 mb-3" target="_blank" href="{{ $camp->fburl }}"><i class="fab fa-facebook fa-sm mr-2"></i>@lang('camp.FBURL')</a>
+                        <a class="btn btn-fb w-100 mb-3" href="{{ $camp->fburl }}"><i class="fab fa-facebook fa-sm mr-2"></i>@lang('camp.FBURL')</a>
                     @endif
+                    @can('camp-edit')
+                        <a class="btn btn-info w-100 mb-3" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt fa-xs mr-1"></i>@lang('camp.Edit')</a>
+                    @endcan
+                    @can('question-edit')
+                        @if ($camp->camp_procedure->candidate_required)
+                            <a class="btn btn-primary w-100 mb-3" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt fa-xs mr-1"></i>@lang('camp.EditQuestions')</a>
+                        @endif
+                    @endcan
                 </div>
             </div>
         </div>
