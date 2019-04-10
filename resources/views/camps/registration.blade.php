@@ -119,7 +119,7 @@
                                 @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                                 <td class="text-center {{ $text_class }}">
                                     @if ($paid)
-                                        {{ $approved ? trans('app.Yes') : trans('app.NotYet') }}
+                                        {{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}
                                         <a class="{{ $text_class }}" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
                                     @else
                                         @lang('app.No')

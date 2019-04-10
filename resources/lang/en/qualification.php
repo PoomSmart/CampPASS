@@ -74,4 +74,5 @@ return [
     'InterviewSaveDesc' => 'Click Save to make the changes to the candidate list persistent.',
     'InterviewAnnounceDesc' => 'Click Announce Interview to announce the candidates that passed the interview. This operation cannot be undone.',
     'OnlyTruePassed' => 'Show only truly qualified campers',
+    'SlipNotYetApproved' => 'Not Approved',
 ];
