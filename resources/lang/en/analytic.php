@@ -14,4 +14,6 @@ return [
     'Demographic' => 'Demographic',
     'TopFiveProvinces' => 'Top 5 Provinces',
     'TopFiveSchools' => 'Top 5 Schools',
+    'AllProvinceTitle' => 'Campers from all Provinces',
+    'AllSchoolTitle' => 'Campers from all Schools',
 ];

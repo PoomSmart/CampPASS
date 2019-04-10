@@ -9,6 +9,32 @@
 @endsection
 
 @section('card_content')
+    @component('components.dialog', [
+        'title' => trans('analytic.AllProvinceTitle'),
+        'id' => 'province-modal',
+        'nofooter' => 1,
+    ])
+    @slot('custom_body')
+        <ol>
+            @foreach ($data['provinces'] as $entry)
+                <li>{{ $entry['province'] }} ({{ $entry['freq'] }})</li>
+            @endforeach
+        </ol>
+    @endslot
+    @endcomponent
+    @component('components.dialog', [
+        'title' => trans('analytic.AllSchoolTitle'),
+        'id' => 'school-modal',
+        'nofooter' => 1,
+    ])
+    @slot('custom_body')
+        <ol>
+            @foreach ($data['schools'] as $entry)
+                <li>{{ $entry['school'] }} ({{ $entry['freq'] }})</li>
+            @endforeach
+        </ol>
+    @endslot
+    @endcomponent
     <div class="row mb-2">
         <div class="col-12">
             <h2>@lang('registration.Applicants')</h2>
@@ -59,7 +85,8 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <h4>@lang('analytic.TopFiveProvinces')</h4>
+            <h4 class="d-inline-block">@lang('analytic.TopFiveProvinces')</h4>
+            <a class="ml-3 d-inline-block" href="#" data-action="" data-toggle="modal" data-target="#province-modal">@lang('app.More')</a>
             <ol>
                 @foreach ($data['top_provinces'] as $entry)
                     <li>{{ $entry['province'] }} ({{ $entry['freq'] }})</li>
@@ -67,7 +94,8 @@
             </ol>
         </div>
         <div class="col-md-6">
-            <h4>@lang('analytic.TopFiveSchools')</h4>
+            <h4 class="d-inline-block">@lang('analytic.TopFiveSchools')</h4>
+            <a class="ml-3 d-inline-block" href="#" data-action="" data-toggle="modal" data-target="#school-modal">@lang('app.More')</a>
             <ol>
                 @foreach ($data['top_schools'] as $entry)
                     <li>{{ $entry['school'] }} ({{ $entry['freq'] }})</li>

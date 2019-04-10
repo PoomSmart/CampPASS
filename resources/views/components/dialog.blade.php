@@ -23,17 +23,19 @@
                         <p>{{ $body }}</p>
                     @endif
                 </div>
-                <div class="modal-footer">
-                    @component('components.submit', [
-                        'label' => isset($confirm_label) ? $confirm_label : trans('app.Confirm'),
-                        'class' => 'btn btn-'.(isset($confirm_type) ? $confirm_type : 'primary'),
-                        'glyph' => (isset($glyph) ? $glyph : 'fas fa-check')." fa-xs",
-                    ])
-                    @endcomponent
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <i class="fas fa-times mr-2 fa-xs"></i>@lang('app.Close')
-                    </button>
-                </div>
+                @if (!isset($nofooter))
+                    <div class="modal-footer">
+                        @component('components.submit', [
+                            'label' => isset($confirm_label) ? $confirm_label : trans('app.Confirm'),
+                            'class' => 'btn btn-'.(isset($confirm_type) ? $confirm_type : 'primary'),
+                            'glyph' => (isset($glyph) ? $glyph : 'fas fa-check')." fa-xs",
+                        ])
+                        @endcomponent
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fas fa-times mr-2 fa-xs"></i>@lang('app.Close')
+                        </button>
+                    </div>
+                @endif
             </form>
         </div>
     </div>

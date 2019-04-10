@@ -14,4 +14,6 @@ return [
     'Demographic' => 'การวิเคราะห์',
     'TopFiveProvinces' => '5 จังหวัดที่มีผู้สมัครสูงสุด',
     'TopFiveSchools' => '5 โรงเรียนที่มีผู้สมัครสูงสุด',
+    'AllProvinceTitle' => 'ผู้สมัครจากทุกจังหวัด',
+    'AllSchoolTitle' => 'ผู้สมัครจากทุกโรงเรียน',
 ];
