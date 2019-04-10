@@ -82,6 +82,16 @@
             <div id="education-chart"></div>
             @piechart('Educations', 'education-chart')
         </div>
+        <div class="col-md-6">
+            <h4>@lang('camper.Program')</h4>
+            <div id="program-chart"></div>
+            @piechart('Programs', 'program-chart')
+        </div>
+        <div class="col-md-6">
+            <h4>@lang('camper.CGPA')</h4>
+            <div id="cgpa-chart"></div>
+            @piechart('CGPAs', 'cgpa-chart')
+        </div>
     </div>
     <div class="row">
         <div class="col-md-6">

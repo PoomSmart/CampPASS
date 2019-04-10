@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Camp;
 use App\Common;
+use App\Program;
 use App\Province;
 use App\School;
 use App\User;
@@ -23,7 +24,7 @@ class AnalyticController extends Controller
 
     public function analytic(Camp $camp)
     {
-        $total_registration_freq = []; $gender_freq = []; $education_freq = []; $province_freq = []; $school_freq = [];
+        $total_registration_freq = []; $gender_freq = []; $education_freq = []; $province_freq = []; $school_freq = []; $program_freq = []; $cgpa_freq = [];
         $passed = $withdrawed = $rejected = $score_count = $peak_date_count = 0;
         $educations = User::$education_level_to_year;
         $data = [];
@@ -40,23 +41,24 @@ class AnalyticController extends Controller
         foreach ($registrations as $registration) {
             $submission_time = $registration->submission_time;
             $slot = $submission_time->toDateString();
-            if (!isset($total_registration_freq[$slot]))
-                $total_registration_freq[$slot] = 0;
+            if (!isset($total_registration_freq[$slot])) $total_registration_freq[$slot] = 0;
             $camper = $registration->camper;
             $gender = $camper->gender;
-            if (!isset($gender_freq[$gender]))
-                $gender_freq[$gender] = 0;
+            if (!isset($gender_freq[$gender])) $gender_freq[$gender] = 0;
             ++$gender_freq[$gender];
             $education_level = $educations[$camper->education_level];
-            if (!isset($education_freq[$education_level]))
-                $education_freq[$education_level] = 0;
+            if (!isset($education_freq[$education_level])) $education_freq[$education_level] = 0;
             ++$education_freq[$education_level];
-            if (!isset($province_freq[$camper->province_id]))
-                $province_freq[$camper->province_id] = 0;
+            if (!isset($province_freq[$camper->province_id])) $province_freq[$camper->province_id] = 0;
             ++$province_freq[$camper->province_id];
-            if (!isset($school_freq[$camper->school_id]))
-                $school_freq[$camper->school_id] = 0;
+            if (!isset($school_freq[$camper->school_id])) $school_freq[$camper->school_id] = 0;
             ++$school_freq[$camper->school_id];
+            if (!isset($program_freq[$camper->program_id])) $program_freq[$camper->program_id] = 0;
+            ++$program_freq[$camper->program_id];
+            // 1.0 - 1.5 / 1.5 - 2.0 / 2.0 - 2.5 / 2.5 - 3.0 / 3.0 - 3.5 / 3.5 - 4.0
+            $cgpa_range = (int)($camper->cgpa * 2 - 1);
+            if (!isset($cgpa_freq[$cgpa_range])) $cgpa_freq[$cgpa_range] = 0;
+            ++$cgpa_freq[$cgpa_range];
             ++$total_registration_freq[$slot];
             if ($registration->withdrawed())
                 ++$withdrawed;
@@ -115,35 +117,13 @@ class AnalyticController extends Controller
             ],
         ]);
         // Genders
-        $gender_table = \Lava::DataTable();
-        $gender_table->addStringColumn(trans('account.Gender'))->addNumberColumn('GenderCount');
-        // TODO: Gender legend manual sorting is currently possible using Google Chart unless using hacky workaround
-        $genders = [
-            trans('account.Male'),
-            trans('account.Female'),
-            trans('account.OtherGender'),
-        ];
-        foreach ($gender_freq as $gender => $total) {
-            $gender_table->addRow([
-                $genders[$gender], $total,
-            ]);
-        }
-        $gender_chart = \Lava::PieChart('Genders', $gender_table, [
-
-        ]);
+        $this->createGenderChart($gender_freq);
         // Education levels
-        $education_table = \Lava::DataTable();
-        $education_table->addStringColumn(trans('account.EducationLevel'))->addNumberColumn('EducationLevelCount');
-        // TODO: Education level legend manual sorting is currently possible using Google Chart unless using hacky workaround
-        $localized_educations = EducationLevel::getLocalizedConstants('year');
-        foreach ($education_freq as $education_level => $total) {
-            $education_table->addRow([
-                $localized_educations[$education_level]->name, $total,
-            ]);
-        }
-        $education_chart = \Lava::PieChart('Educations', $education_table, [
-
-        ]);
+        $this->createEducationLevelChart($education_freq);
+        // Programs
+        $this->createProgramChart($program_freq);
+        // CGPAs
+        $this->createCGPAChart($cgpa_freq);
         // Provinces
         arsort($province_freq);
         $data['provinces'] = $province_freq = array_map(function ($province_id, $freq) {
@@ -163,5 +143,77 @@ class AnalyticController extends Controller
         }, array_keys($school_freq), $school_freq);
         $data['top_schools'] = array_slice($school_freq, 0, 5, true);
         return view('analytic.analytic', compact('camp', 'data'));
+    }
+
+    // TODO: Pie Chart legend manual sorting is currently possible using Google Chart unless using hacky workaround
+
+    public function createGenderChart($gender_freq)
+    {
+        $gender_table = \Lava::DataTable();
+        $gender_table->addStringColumn(trans('account.Gender'))->addNumberColumn('GenderCount');
+        $genders = [
+            trans('account.Male'),
+            trans('account.Female'),
+            trans('account.OtherGender'),
+        ];
+        foreach ($gender_freq as $gender => $total) {
+            $gender_table->addRow([
+                $genders[$gender], $total,
+            ]);
+        }
+        $gender_chart = \Lava::PieChart('Genders', $gender_table, [
+
+        ]);
+    }
+
+    public function createEducationLevelChart($education_freq)
+    {
+        $education_table = \Lava::DataTable();
+        $education_table->addStringColumn(trans('account.EducationLevel'))->addNumberColumn('EducationLevelCount');
+        $localized_educations = EducationLevel::getLocalizedConstants('year');
+        foreach ($education_freq as $education_level => $total) {
+            $education_table->addRow([
+                $localized_educations[$education_level]->name, $total,
+            ]);
+        }
+        $education_chart = \Lava::PieChart('Educations', $education_table, [
+
+        ]);
+    }
+
+    public function createProgramChart($program_freq)
+    {
+        $program_table = \Lava::DataTable();
+        $program_table->addStringColumn(trans('camper.Program'))->addNumberColumn('ProgramCount');
+        foreach ($program_freq as $program_id => $total) {
+            $program_table->addRow([
+                Program::find($program_id)->__toString(), $total,
+            ]);
+        }
+        $program_chart = \Lava::PieChart('Programs', $program_table, [
+
+        ]);
+    }
+
+    public function createCGPAChart($cgpa_freq)
+    {
+        $cgpa_table = \Lava::DataTable();
+        $cgpa_table->addStringColumn(trans('camper.CGPA'))->addNumberColumn('CGPACount');
+        $cgpa_ranges = [
+            '1.0 - 1.5',
+            '1.5 - 2.0',
+            '2.0 - 2.5',
+            '2.5 - 3.0',
+            '3.0 - 3.5',
+            '3.5 - 4.0',
+        ];
+        foreach ($cgpa_freq as $cgpa_range => $total) {
+            $cgpa_table->addRow([
+                $cgpa_ranges[$cgpa_range - 1], $total,
+            ]);
+        }
+        $cgpa_chart = \Lava::PieChart('CGPAs', $cgpa_table, [
+
+        ]);
     }
 }
