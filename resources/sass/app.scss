@@ -6,13 +6,28 @@
 
 /* ------- customize primary buttons -------- */
 $main_color: #FB6B0A;
-
-.btn-primary {
-  @include button-variant($main_color, $main_color, darken($main_color, 10%), darken($main_color, 10%), lighten($main_color, 10%), darken($main_color,20%));
-}
-
 $edit_color: #00A6ED;
 
+.btn-primary {
+  @include button-variant($main_color, $main_color, darken($main_color, 10%), darken($main_color, 10%), lighten($main_color, 10%), darken($main_color, 20%));
+}
+
 .btn-info {
-  @include button-variant($edit_color, $edit_color, darken($edit_color, 10%), darken($edit_color, 10%), lighten($edit_color, 10%), darken($edit_color,20%));
+  @include button-variant($edit_color, $edit_color, darken($edit_color, 10%), darken($edit_color, 10%), lighten($edit_color, 10%), darken($edit_color, 20%));
+}
+
+.popover-header {
+  background: $main_color;
+}
+
+.camppass-orange, .pagination a.active, .page-item.active .page-link {
+  background-color: $main_color;
+}
+
+a, .pagination a, .page-item.disabled .page-link, .pagination a:hover:not(.active) {
+  color: $main_color;
+}
+
+#card-border {
+  border-color: $main_color;
 }

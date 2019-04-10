@@ -31,6 +31,30 @@
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
     <!-- Additional Styles -->
     @yield('style')
+    @can('camp-edit')
+        <style>
+            .popover-header {
+                background: #3366cc;
+            }
+
+            .camppass-orange, .pagination a.active, .page-item.active .page-link {
+                background-color: #3366cc;
+            }
+
+            a, .pagination a, .page-item.disabled .page-link, .pagination a:hover:not(.active) {
+                color: #3366cc;
+            }
+
+            #card-border {
+                border-color: #3366cc;
+            }
+
+            #side .nav-link.active, #side .nav-link:hover, #side .nav-link:focus {
+                color: #111;
+                background-color: lightblue;
+            }
+        </style>
+    @endif
     <!-- Additional Scripts -->
     @yield('script')
 </head>
