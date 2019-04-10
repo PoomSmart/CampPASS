@@ -579,7 +579,12 @@ class DatabaseSeeder extends Seeder
                 if ($has_question_set) {
                     if (Common::randomRareHit())
                         continue;
-                    $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
+                    $form_scores = null;
+                    try {
+                        $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
+                    } catch (\Exception $e) {
+                        $this->log_debug("Announcement/Confirmation Simulation Ranked: {$e}");
+                    }
                     $interview_announce = null;
                     if ($form_scores) {
                         $camp_procedure = $camp->camp_procedure;
@@ -589,7 +594,9 @@ class DatabaseSeeder extends Seeder
                         }
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
-                        } catch (\Exception $e) {}
+                        } catch (\Exception $e) {
+                            $this->log_debug("Announcement/Confirmation Simulation Announced: {$e}");
+                        }
                         $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
                         $campmakers = $camp->camp_makers();
                         foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
