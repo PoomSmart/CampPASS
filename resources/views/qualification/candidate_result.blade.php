@@ -86,7 +86,7 @@
                 $registration = $candidate->registration;
                 $camper = $candidate->camper;
                 $withdrawed = $registration->withdrawed();
-                $approved = $registration->approved();
+                $approved = $registration->approved_to_confirmed();
                 $confirmed = $registration->confirmed();
                 $interviewed = $registration->interviewed_to_confirmed();
                 $rejected = $registration->rejected();
@@ -115,10 +115,13 @@
                     </div>
                 </td>
                 @if ($deposit_required)
-                    <td class="text-center{{ $paid ? $approved ? ' text-success' : ' text-warning' : ' text-danger' }}">
+                    @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
+                    <td class="text-center {{ $text_class }}">
                         @if ($paid)
-                            @lang('app.Yes')
-                            <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
+                            <a class="{{ $text_class }}"
+                                href="{{ route('camp_application.payment_download', $registration->id) }}"
+                                title=@lang('qualification.ViewPaymentSlip')
+                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                         @else
                             @lang('app.No')
                         @endif

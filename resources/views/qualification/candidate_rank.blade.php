@@ -129,6 +129,7 @@
             @php
                 $registration = $form_score->registration;
                 $camper = $registration->camper;
+                $approved = $registration->approved_to_confirmed();
                 $withdrawed = $registration->withdrawed();
                 $returned = $registration->returned;
                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
@@ -154,10 +155,13 @@
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
                 @if ($required_paid)
-                    <td class="text-center{{ $paid ? $approved ? ' text-success' : ' text-warning' : ' text-danger' }}">
+                @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
+                    <td class="text-center {{ $text_class }}">
                         @if ($paid)
-                            @lang('app.Yes')
-                            <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
+                            <a class="{{ $text_class }}"
+                                href="{{ route('camp_application.payment_download', $registration->id) }}"
+                                title=@lang('qualification.ViewPaymentSlip')
+                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                         @else
                             @lang('app.No')
                         @endif

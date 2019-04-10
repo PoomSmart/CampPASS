@@ -119,8 +119,10 @@
                                 @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                                 <td class="text-center {{ $text_class }}">
                                     @if ($paid)
-                                        {{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}
-                                        <a class="{{ $text_class }}" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
+                                        <a class="{{ $text_class }}"
+                                            href="{{ route('camp_application.payment_download', $registration->id) }}"
+                                            title=@lang('qualification.ViewPaymentSlip')
+                                        >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                                     @else
                                         @lang('app.No')
                                     @endif
@@ -129,8 +131,10 @@
                             @if ($camp->parental_consent)
                                 <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">
                                     @if ($consent)
-                                        @lang('app.Yes')
-                                        <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')><i class="far fa-eye fa-xs"></i></a>
+                                        <a class="text-success"
+                                            href="{{ route('camp_application.consent_download', $registration->id) }}"
+                                            title=@lang('qualification.ViewConsentForm')
+                                        >@lang('app.Yes')<i class="far fa-eye fa-xs ml-2"></i></a>
                                     @else
                                         @lang('app.No')
                                     @endif
