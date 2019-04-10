@@ -25,7 +25,7 @@
     @php
         $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
-        $rankable = $camp_procedure->candidate_required && !is_null($question_set);
+        $rankable = $camp_procedure->candidate_required && !is_null($question_set) && $question_set->total_score;
         $required_paid = $camp->paymentOnly();
     @endphp
     <div class="row">
@@ -139,7 +139,7 @@
                                     ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
                                     @if (!$confirmed && !$withdrawed)
                                         <a href="{{ route('qualification.document_approve', $registration->id) }}"
-                                            class="btn btn-success {{ $registration->approved() || $no_approved || $registration->returned ? ' disabled' : null }}"
+                                            class="btn btn-success{{ $approved || $no_approved || $registration->returned ? ' disabled' : null }}"
                                             title={{ trans('qualification.ApproveFormFull') }}
                                         ><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
                                     @endif
