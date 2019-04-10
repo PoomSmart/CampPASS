@@ -61,16 +61,16 @@
         <div class="col-md-6">
             <h4>@lang('analytic.TopFiveProvinces')</h4>
             <ol>
-                @foreach ($data['top_provinces'] as $province)
-                    <li>{{ $province }}</li>
+                @foreach ($data['top_provinces'] as $entry)
+                    <li>{{ $entry['province'] }} ({{ $entry['freq'] }})</li>
                 @endforeach
             </ol>
         </div>
         <div class="col-md-6">
             <h4>@lang('analytic.TopFiveSchools')</h4>
             <ol>
-                @foreach ($data['top_schools'] as $school)
-                    <li>{{ $school }}</li>
+                @foreach ($data['top_schools'] as $entry)
+                    <li>{{ $entry['school'] }} ({{ $entry['freq'] }})</li>
                 @endforeach
             </ol>
         </div>

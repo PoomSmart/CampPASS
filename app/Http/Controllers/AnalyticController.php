@@ -147,15 +147,21 @@ class AnalyticController extends Controller
         // Provinces
         arsort($province_freq);
         $top_province_freq = array_slice($province_freq, 0, 5, true);
-        $data['top_provinces'] = array_map(function ($province_id) {
-            return Province::find($province_id);
-        }, array_keys($top_province_freq));
+        $data['top_provinces'] = array_map(function ($province_id, $freq) {
+            return [
+                'province' => Province::find($province_id),
+                'freq' => $freq,
+            ];
+        }, array_keys($top_province_freq), $top_province_freq);
         // Schools
         arsort($school_freq);
         $top_school_freq = array_slice($school_freq, 0, 5, true);
-        $data['top_schools'] = array_map(function ($school_id) {
-            return School::find($school_id);
-        }, array_keys($top_school_freq));
+        $data['top_schools'] = array_map(function ($school_id, $freq) {
+            return [
+                'school' => School::find($school_id),
+                'freq' => $freq,
+            ];
+        }, array_keys($top_school_freq), $top_school_freq);
         return view('analytic.analytic', compact('camp', 'data'));
     }
 }
