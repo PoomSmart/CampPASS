@@ -18,6 +18,7 @@ use App\Enums\EducationLevel;
 use App\Http\Requests\StoreCampRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
@@ -237,9 +238,9 @@ class CampController extends Controller
                     $result[] = $camp;
                 }
             });
-            // Randomize the order of camps
-            shuffle($result);
-            return $result;
+            return Arr::sort($result, function ($camp) {
+                return $camp->app_close_date;
+            });
         } else {
             $max_fetch = config('const.camp.max_fetch');
             $output_camps = [];
@@ -264,12 +265,14 @@ class CampController extends Controller
             });
             // Sort the camps with their category alphabetically
             ksort($output_camps);
-            // Randomize the order of camps in each category, or remove the category entirely if there is no such camps there
+            // Sort the camps in each category by application close date, or remove the category entirely if there is no such camps there
             foreach ($output_camps as $category_name => &$category) {
                 if (empty($output_camps[$category_name]))
                     unset($output_camps[$category_name]);
                 else
-                    shuffle($category);
+                    $category = Arr::sort($category, function ($camp) {
+                        return $camp->app_close_date;
+                    });
             }
             return [
                 'categorized_camps' => $output_camps,
