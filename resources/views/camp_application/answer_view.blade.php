@@ -8,20 +8,22 @@
     @foreach ($data as $pair)
         @php
             $question = $pair['question'];
+            $type = $question->type;
             $key = $question->json_id;
             $answer = $pair['answer'];
+            $required = isset($json['question_required'][$key]);
         @endphp
         <div class="row">
             <div class="col-12">
-                <h4 id="question-title">{{ $json['question'][$key] }}</h4>
+                <h5><label
+                    id="question-title"
+                    @if ($required)
+                        required
+                    @endif
+                    >{{ $json['question'][$key] }}</label></h5>
             </div>
             <div class="col-12">
                 <div class="mb-4">
-                    @php
-                        $type = $question->type;
-                        $key = $question->json_id;
-                        $required = isset($json['question_required'][$key]);
-                    @endphp
                     @if ($type == \App\Enums\QuestionType::TEXT)
                         @component('components.input', [
                             'name' => $key,

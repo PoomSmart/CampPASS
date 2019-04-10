@@ -20,7 +20,12 @@
             @endphp
             <div class="row">
                 <div class="col-12">
-                    <h5 id="question-title">{{ $text }}</h5>
+                    <h5><label
+                        id="question-title"
+                        @if ($required)
+                            required
+                        @endif
+                    >{{ $text }}</label></h5>
                 </div>
                 <div class="col-12">
                     <div class="mb-4">

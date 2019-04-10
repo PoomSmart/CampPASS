@@ -1,5 +1,5 @@
 <div class="card card-with-shadow">
-    <a target="_blank" href="{{ route('camps.show', $object->id) }}">
+    <a href="{{ route('camps.show', $object->id) }}">
         <img class="card-img-top card-img-fixed" src="{{ $object->getBannerPath($actual = false, $display = true) }}" alt="Image of {{ $object }}">
         <div class="card-body">
             <h5 class="card-title text-truncate" title="{{ $object }}">{{ $object }}</h5>
@@ -18,11 +18,7 @@
                     $disabled = $info['disabled'];
                     $route = $info['route'];
                 @endphp
-                <a
-                    @auth
-                        target="_blank"
-                    @endauth
-                    class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}#apply"><i class="far fa-file-alt mr-2 fa-xs"></i>{{ $apply_text }}</a>
+                <a class="btn btn-primary text-truncate mt-2 w-100{{ $disabled ? ' disabled' : ''}}" href="{{ $route }}#apply"><i class="far fa-file-alt mr-2 fa-xs"></i>{{ $apply_text }}</a>
             @endif
             @php
                 $close_date = $object->getAppCloseDateHuman();
