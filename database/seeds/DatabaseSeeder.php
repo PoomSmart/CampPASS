@@ -587,7 +587,9 @@ class DatabaseSeeder extends Seeder
                         foreach ($form_scores as $form_score) {
                             QualificationController::form_check_real($form_score, $checked = 'true');
                         }
-                        CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
+                        try {
+                            CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
+                        } catch (\Exception $e) {}
                         $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
                         $campmakers = $camp->camp_makers();
                         foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
@@ -609,7 +611,7 @@ class DatabaseSeeder extends Seeder
                                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                                         if ($has_consent && Common::randomVeryFrequentHit())
                                             Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
-                                        if (Common::randomVeryFrequentHit() && $campmakers->count()) {
+                                        if (Common::randomFrequentHit() && $campmakers->count()) {
                                             CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                             if (Common::randomMediumHit())
                                                 CampApplicationController::confirm($registration, $silent = true);
@@ -636,7 +638,7 @@ class DatabaseSeeder extends Seeder
                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                         if ($has_consent && Common::randomVeryFrequentHit())
                             Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
-                        if (Common::randomVeryFrequentHit() && $campmakers->count()) {
+                        if (Common::randomFrequentHit() && $campmakers->count()) {
                             try {
                                 CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                 if (Common::randomMediumHit())
@@ -664,16 +666,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CampTableSeeder::class);
         // Assign the real banner and poster to each camp that has them
-        $camp_resource_directory = base_path().'/database/seeds/camps';
+        $camp_resource_directory = base_path('database/seeds/camps');
         foreach (Camp::all() as $camp) {
-            $payment_directory = Common::paymentDirectory($camp->id);
-            Storage::makeDirectory($payment_directory);
-            $consent_directory = Common::consentDirectory($camp->id);
-            Storage::makeDirectory($consent_directory);
             $directory = Common::publicCampDirectory($camp->id);
             foreach (['banner', 'poster'] as $filename) {
                 try {
-                    $resource = file_get_contents("{$camp_resource_directory}/{$filename}/{$camp->id}.jpg");
+                    $camp_id = $camp->id;
+                    if ($camp_id >= 45 && $camp_id <= 48)
+                        $camp_id = '45-48';
+                    $resource = file_get_contents("{$camp_resource_directory}/{$filename}/{$camp_id}.jpg");
                     $camp->update([
                         $filename => "{$filename}.jpg",
                     ]);
