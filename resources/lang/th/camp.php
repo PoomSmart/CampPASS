@@ -19,7 +19,7 @@ return [
     'AcceptableProgramsShort' => 'สายการเรียนที่เปิดรับ',
     'AcceptablePrograms' => 'สายการเรียนที่เปิดรับ',
     'AcceptableRegions' => 'ภูมิภาคที่เปิดรับ',
-    'AcceptableYears' => 'ปีการศึกษาที่เปิดรับ',
+    'AcceptableEducationLevels' => 'ปีการศึกษาที่เปิดรับ',
     'Category' => 'ประเภทค่าย',
     'MinCGPA' => 'เกรดเฉลี่ยสะสม (CGPA) ขั้นต่ำ ',
     'OtherConditions' => 'เงื่อนไขเพิ่มเติม',

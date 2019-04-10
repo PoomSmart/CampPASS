@@ -19,7 +19,7 @@ return [
     'AcceptableProgramsShort' => 'Acceptable Programs',
     'AcceptablePrograms' => 'Acceptable Programs of Study',
     'AcceptableRegions' => 'Acceptable Regions',
-    'AcceptableYears' => 'Acceptable Years',
+    'AcceptableEducationLevels' => 'Acceptable Education Levels',
     'Category' => 'Category',
     'MinCGPA' => 'Minimum CGPA',
     'OtherConditions' => 'Other Conditions',

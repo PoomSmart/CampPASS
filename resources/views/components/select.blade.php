@@ -10,17 +10,23 @@
     @endif
 >
     @if (isset($placeholder))
-        <option>{{ $placeholder }}</option>
+        <option
+            disabled
+            @if (!isset($value) || !$value)
+                selected
+            @endif
+        >{{ $placeholder }}</option>
     @endif
     @foreach ($objects as $obj)
         <option
             @if (isset($isform) && $isform == 0)
-                value="{{ $obj->value }}">{{ $obj->name }}
+                value="{{ $obj->value }}"
+                >{{ $obj->name }}
             @else
                 @if ($obj->id == old("{{ $name }}") || (isset($value) && $obj->id == $value))
                     selected
                 @endif
-                value="{{ $obj->id }}">{{ $obj }}
+                value="{{ $obj->id }}">{{ isset($getter) ? $obj->{$getter} : $obj }}
             @endif
         </option>
     @endforeach

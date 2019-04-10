@@ -26,11 +26,13 @@
         @case ('select')
             @component('components.select', [
                 'name' => $name,
-                'value' => $value,
+                'value' => isset($value) ? $value : null,
                 'placeholder' => isset($placeholder) ? $placeholder : null,
                 'objects' => $objects,
                 'class' => isset($class) ? $class : null,
                 'attributes' => isset($attributes) ? $attributes : null,
+                'isform' => isset($isform) ? $isform : null,
+                'getter' => isset($getter) ? $getter : null,
                 'required' => $required,
                 'disabled' => $disabled,
             ])

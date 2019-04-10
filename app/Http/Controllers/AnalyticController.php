@@ -47,10 +47,10 @@ class AnalyticController extends Controller
             if (!isset($gender_freq[$gender]))
                 $gender_freq[$gender] = 0;
             ++$gender_freq[$gender];
-            $year = $educations[$camper->education_level];
-            if (!isset($education_freq[$year]))
-                $education_freq[$year] = 0;
-            ++$education_freq[$year];
+            $education_level = $educations[$camper->education_level];
+            if (!isset($education_freq[$education_level]))
+                $education_freq[$education_level] = 0;
+            ++$education_freq[$education_level];
             if (!isset($province_freq[$camper->province_id]))
                 $province_freq[$camper->province_id] = 0;
             ++$province_freq[$camper->province_id];
@@ -134,9 +134,9 @@ class AnalyticController extends Controller
         $education_table->addStringColumn(trans('account.EducationLevel'))->addNumberColumn('EducationLevelCount');
         // TODO: Education level legend manual sorting is currently possible using Google Chart unless using hacky workaround
         $localized_educations = EducationLevel::getLocalizedConstants('year');
-        foreach ($education_freq as $year => $total) {
+        foreach ($education_freq as $education_level => $total) {
             $education_table->addRow([
-                $localized_educations[$year]->name, $total,
+                $localized_educations[$education_level]->name, $total,
             ]);
         }
         $education_chart = \Lava::PieChart('Educations', $education_table, [

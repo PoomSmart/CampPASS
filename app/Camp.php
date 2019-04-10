@@ -14,6 +14,7 @@ use App\Registration;
 use App\User;
 
 use App\Enums\ApplicationStatus;
+use App\Enums\EducationLevel;
 
 use Carbon\Carbon;
 
@@ -24,7 +25,7 @@ class Camp extends Model
 {
     protected $fillable = [
         'camp_category_id', 'organization_id', 'camp_procedure_id', 'name_en', 'name_th', 'short_description_en', 'short_description_th', 'acceptable_programs',
-        'acceptable_regions', 'acceptable_years', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
+        'acceptable_regions', 'acceptable_education_levels', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
         'app_open_date', 'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date', 'interview_information', 'payment_information',
         'event_location_lat', 'event_location_long',
@@ -41,7 +42,7 @@ class Camp extends Model
     protected $casts = [
         'acceptable_regions' => 'array',
         'acceptable_programs' => 'array',
-        'acceptable_years' => 'array',
+        'acceptable_education_levels' => 'array',
     ];
 
     /**
@@ -338,12 +339,13 @@ class Camp extends Model
         return $string ? implode(', ', $regions) : $regions;
     }
 
-    public function getAcceptableYears(bool $string = true)
+    public function getAcceptableEducationLevels(bool $string = true)
     {
-        $years = array_map(function ($year) {
-            return Year::find($year)->getShortName();
-        }, $this->acceptable_years);
-        return $string ? implode(', ', $years) : $years;
+        $constants = EducationLevel::getLocalizedConstants('year');
+        $education_levels = array_map(function ($education_level) use (&$constants) {
+            return $constants[$education_level - 1]->name;
+        }, $this->acceptable_education_levels);
+        return $string ? implode(', ', $education_levels) : $education_levels;
     }
 
     public function getAcceptablePrograms(bool $string = true)
@@ -359,9 +361,9 @@ class Camp extends Model
         $this->attributes['acceptable_programs'] = json_encode(array_map('intval', $value));
     }
 
-    public function setAcceptableYearsAttribute($value)
+    public function setAcceptableEducationLevelsAttribute($value)
     {
-        $this->attributes['acceptable_years'] = json_encode(array_map('intval', $value));
+        $this->attributes['acceptable_education_levels'] = json_encode(array_map('intval', $value));
     }
 
     public function setAcceptableRegionsAttribute($value)

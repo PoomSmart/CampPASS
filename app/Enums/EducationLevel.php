@@ -7,14 +7,14 @@ use App\Enums\BasicEnum;
 final class EducationLevel extends BasicEnum
 {
     const
-        P = 0,
-        S = 1,
-        M1 = 2,
-        M2 = 3,
-        M3 = 4,
-        M4 = 5,
-        M5 = 6,
-        M6 = 7,
-        U = 8
+        P = 1,
+        S = 2,
+        M1 = 3,
+        M2 = 4,
+        M3 = 5,
+        M4 = 6,
+        M5 = 7,
+        M6 = 8,
+        U = 9
     ;
 }

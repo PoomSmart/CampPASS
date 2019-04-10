@@ -59,4 +59,5 @@ return [
     'pdf' => 'ไฟล์เอกสาร',
     'ApplicationFormGrading' => 'ให้คะแนนใบสมัคร',
     'THB' => 'บาท',
+    'NoResultsFound' => 'ไม่มีผลลัพธ์การค้นหา',
 ];

@@ -33,7 +33,7 @@
             <div class="form-group d-inline-flex mr-2">
                 <div class="d-none d-lg-inline-block mr-4">
                     @component('components.label', [
-                        'name' => 'year',
+                        'name' => 'education_level',
                         'label' => trans('camp.CampFor'),
                         'label_class' => 'py-0 font-weight-bold',
                     ])
@@ -41,10 +41,11 @@
                 </div>
                 <div class="d-inline-block my-auto">
                     @component('components.input', [
-                        'name' => 'year',
+                        'name' => 'education_level',
                         'input_type' => 'select',
-                        'objects' => $years,
-                        'value' => $year,
+                        'objects' => $education_levels,
+                        'value' => $education_level,
+                        'getter' => 'name',
                         'placeholder' => '---',
                         'class' => 'form-control-sm',
                     ])
@@ -95,31 +96,37 @@
             </div>
         </div>
     </form>
-    @php $i = 0 @endphp
-    @foreach ($categorized_camps as $category => $camps)
-        <div class="container-fluid mt-4">
-            <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
-            @php
-                $append = '?';
-                if ($year)
-                    $append = "{$append}&{$year}";
-                if ($region)
-                    $append = "{$append}&{$region}";
-                if ($organization_id)
-                    $append = "{$append}&{$organization_id}";
-                if ($append == '?')
-                    $append = null;
-            @endphp
-            <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
-                'record' => $category_ids[$category],
-            ]) }}{{ $append }}">@lang('app.More')</a>
-            @component('components.card_columns', [
-                'objects' => $camps,
-                'component' => 'components.camp_block',
-            ])
-            @endcomponent
+    @if (empty($categorized_camps))
+        <div class="text-center">
+            @lang('app.NoResultsFound')
         </div>
-    @endforeach
+    @else
+        @php $i = 0 @endphp
+        @foreach ($categorized_camps as $category => $camps)
+            <div class="container-fluid mt-4">
+                <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
+                @php
+                    $append = '?';
+                    if ($education_level)
+                        $append = "{$append}&{$education_level}";
+                    if ($region)
+                        $append = "{$append}&{$region}";
+                    if ($organization_id)
+                        $append = "{$append}&{$organization_id}";
+                    if ($append == '?')
+                        $append = null;
+                @endphp
+                <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
+                    'record' => $category_ids[$category],
+                ]) }}{{ $append }}">@lang('app.More')</a>
+                @component('components.card_columns', [
+                    'objects' => $camps,
+                    'component' => 'components.camp_block',
+                ])
+                @endcomponent
+            </div>
+        @endforeach
+    @endif
 @endsection
 
 @section('sidebar-items')

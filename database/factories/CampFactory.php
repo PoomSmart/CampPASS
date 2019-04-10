@@ -6,8 +6,9 @@ use App\CampCategory;
 use App\CampProcedure;
 use App\Organization;
 use App\Region;
-use App\Year;
 use App\User;
+
+use App\Enums\EducationLevel;
 
 use Carbon\Carbon;
 
@@ -15,7 +16,7 @@ use Faker\Generator as Faker;
 
 class Camp_Randomizer
 {
-    protected static $programs, $regions, $years, $organizations, $organizations_top, $now;
+    protected static $programs, $regions, $education_levels, $organizations, $organizations_top, $now;
 
     public static function programs()
     {
@@ -24,11 +25,11 @@ class Camp_Randomizer
         return array_rand(array_flip(self::$programs), rand(2, count(self::$programs)));
     }
 
-    public static function years()
+    public static function education_levels()
     {
-        if (!self::$years)
-            self::$years = Year::pluck('id')->toArray();
-        return array_rand(array_flip(self::$years), rand(2, count(self::$years)));
+        if (!self::$education_levels)
+            self::$education_levels = EducationLevel::getConstants();
+        return array_rand(array_flip(self::$education_levels), rand(2, count(self::$education_levels)));
     }
 
     public static function regions()
@@ -91,7 +92,7 @@ $factory->define(App\Camp::class, function (Faker $faker) {
         'short_description_en' => $faker->sentence($nbWords = 10, $variableNbWords = true),
         'long_description' => $faker->sentence($nbWords = 80, $variableNbWords = true),
         'acceptable_programs' => Camp_Randomizer::programs(),
-        'acceptable_years' => Camp_Randomizer::years(),
+        'acceptable_education_levels' => Camp_Randomizer::education_levels(),
         'min_cgpa' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.0, $max = 3.5),
         'other_conditions' => Common::randomMediumHit() ? null : $faker->sentence($nbWords = 10, $variableNbWords = true),
         'url' => Common::randomVeryFrequentHit() ? $faker->unique()->url : null,

@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h5>@lang('camp.CampFor')</h5>
-                    <p class="text-muted">{{ $camp->getAcceptableYears() }}</p>
+                    <p class="text-muted">{{ $camp->getAcceptableEducationLevels() }}</p>
                 </div>
                 <div class="col-12 col-md-6">
                     <h5>@lang('camp.AcceptableProgramsShort')</h5>

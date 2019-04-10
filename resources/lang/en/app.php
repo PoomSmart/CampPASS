@@ -59,4 +59,5 @@ return [
     'pdf' => 'Document',
     'ApplicationFormGrading' => 'Application Form Grading',
     'THB' => 'Baht',
+    'NoResultsFound' => 'No results found',
 ];

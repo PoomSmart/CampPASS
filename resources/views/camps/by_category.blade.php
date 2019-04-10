@@ -2,8 +2,8 @@
 
 @section('header')
     {{ $record->getName() }}
-    @if (isset($year))
-        - {{ $year }}
+    @if (isset($education_level))
+        - {{ $education_level }}
     @endif
     @if (isset($region))
         - {{ $region }}

@@ -10,9 +10,10 @@ use App\Program;
 use App\Organization;
 use App\Region;
 use App\User;
-use App\Year;
 
 use App\Notifications\NewCampRegistered;
+
+use App\Enums\EducationLevel;
 
 use App\Http\Requests\StoreCampRequest;
 
@@ -35,7 +36,6 @@ class CampController extends Controller
         $this->organizations = null;
         $this->camp_procedures = Common::values(CampProcedure::class);
         $this->regions = Common::values(Region::class);
-        $this->years = Common::unsortedValues(Year::class);
     }
 
     public function check(Camp $camp, bool $skip_check = false)
@@ -76,8 +76,8 @@ class CampController extends Controller
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
-        $years = $this->years;
-        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
+        $education_levels = EducationLevel::getLocalizedConstants('year');
+        return view('camps.create', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'education_levels'));
     }
 
     public function parseFiles($request, Camp $camp)
@@ -178,8 +178,8 @@ class CampController extends Controller
         $organizations = $this->getOrganizationsIfNeeded();
         $camp_procedures = $this->camp_procedures;
         $regions = $this->regions;
-        $years = $this->years;
-        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'years'));
+        $education_levels = EducationLevel::getLocalizedConstants('year');
+        return view('camps.edit', compact('programs', 'categories', 'organizations', 'camp_procedures', 'regions', 'education_levels'));
     }
 
     public static function approve(Camp $camp, bool $silent = false)
@@ -285,10 +285,10 @@ class CampController extends Controller
             [ 'name_en', $query, 'where', 'LIKE', ],
             [ 'name_th', $query, 'orWhere', 'LIKE', ],
         ] : [];
-        $year = Input::get('year', null);
-        if ($year) {
+        $education_level = Input::get('education_level', null);
+        if ($education_level) {
             $query_pairs[] = [
-                'acceptable_years', (int)$year, 'whereJsonContains',
+                'acceptable_education_levels', (int)$education_level, 'whereJsonContains',
             ];
         }
         $region = Input::get('region', null);
@@ -306,10 +306,10 @@ class CampController extends Controller
         $data = $this->get_camps($query_pairs, $categorized = true);
         $categorized_camps = $data['categorized_camps'];
         $category_ids = $data['category_ids'];
-        $years = $this->years;
+        $education_levels = EducationLevel::getLocalizedConstants('year');
         $regions = $this->regions;
         $organizations = $this->getOrganizationsIfNeeded($no_perm_check = true);
-        return view('camps.browser', compact('categorized_camps', 'category_ids', 'organizations', 'organization_id', 'years', 'year', 'regions', 'region'));
+        return view('camps.browser', compact('categorized_camps', 'category_ids', 'organizations', 'organization_id', 'education_levels', 'education_level', 'regions', 'region'));
     }
 
     public function by_category(CampCategory $record)
@@ -317,12 +317,12 @@ class CampController extends Controller
         $query_pairs = [
             [ 'camp_category_id', $record->id, 'where', ],
         ];
-        $year = Input::get('year', null);
-        if ($year) {
+        $education_level = Input::get('education_level', null);
+        if ($education_level) {
             $query_pairs[] = [
-                'acceptable_years', (int)$year, 'whereJsonContains',
+                'acceptable_education_levels', (int)$education_level, 'whereJsonContains',
             ];
-            View::share('year', Year::find($year));
+            View::share('education_level', $education_level);
         }
         $region = Input::get('region', null);
         if ($region) {

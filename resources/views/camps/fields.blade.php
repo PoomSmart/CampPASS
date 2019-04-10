@@ -137,10 +137,11 @@
 <h3 class="mt-4">@lang('camp.Conditions')</h3>
 
 @component('components.input',[
-    'name' => 'acceptable_years',
-    'label' => trans('camp.AcceptableYears'),
+    'name' => 'acceptable_education_levels',
+    'label' => trans('camp.AcceptableEducationLevels'),
     'input_type' => 'checkbox',
-    'objects' => $years,
+    'objects' => $education_levels,
+    'getter' => 'name',
     'required' => 1,
 ])
 @endcomponent

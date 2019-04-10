@@ -25,7 +25,7 @@ class CreateCampsTable extends Migration
             $table->foreign('camp_procedure_id')->references('id')->on('camp_procedures');
             $table->json('acceptable_regions');
             $table->json('acceptable_programs');
-            $table->json('acceptable_years');
+            $table->json('acceptable_education_levels');
             $table->string('name_en', 100)->nullable();
             $table->string('name_th', 100)->nullable();
             $table->string('short_description_en', 200)->nullable();
