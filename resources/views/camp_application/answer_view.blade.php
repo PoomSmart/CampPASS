@@ -1,7 +1,7 @@
 @extends('layouts.card')
 
 @section('header')
-    View Application Form
+    @lang('app.CampApplicationForm')
 @endsection
 
 @section('card_content')
