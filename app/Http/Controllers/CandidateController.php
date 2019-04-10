@@ -233,14 +233,20 @@ class CandidateController extends Controller
 
     public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
-        if (!$question_set->finalized)
+        if (!$question_set->finalized) {
+            if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        if ($question_set->candidate_announced)
+        }
+        if ($question_set->candidate_announced) {
+            if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
+        }
         $camp = $question_set->camp;
-        // We shouldn't be able to rank the forms that have noting to do with scoring
-        if (!$camp->camp_procedure->candidate_required)
+        // We shouldn't be able to rank the forms that have nothing to do with scoring
+        if (!$camp->camp_procedure->candidate_required) {
+            if ($list) return null;
             throw new \CampPASSException();
+        }
         $registrations = $camp->registrations;
         if ($registrations->isEmpty()) {
             if ($list) return null;
@@ -252,13 +258,14 @@ class CandidateController extends Controller
             $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWED);
         $total_registrations = $registrations->count();
         $form_scores = $camp->form_scores();
+        $auto_gradable = !$question_set->manual_required;
         if ($form_scores->doesntExist()) {
             $form_scores = [];
             foreach ($registrations->get() as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set->id,
-                    'finalized' => !$question_set->manual_required,
+                    'finalized' => $auto_gradable,
                     'submission_time' => $registration->submission_time,
                 ];
             }
@@ -291,6 +298,7 @@ class CandidateController extends Controller
                 }
                 $form_score->update([
                     'passed' => $form_score->passed && $paid && $consent,
+                    'finalized' => $form_score->finalized || $auto_gradable,
                 ]);
                 if ($form_score->passed)
                     ++$total_candidates;

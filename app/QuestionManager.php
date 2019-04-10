@@ -65,7 +65,8 @@ class QuestionManager
                         'question_set_id' => $question_set->id,
                         'question_id' => $question->id,
                     ]);
-                    $question_set_total_score += $question->full_score;
+                    if ($graded)
+                        $question_set_total_score += $question->full_score;
                 }
                 $question_set->update([
                     'total_score' => $question_set_total_score,

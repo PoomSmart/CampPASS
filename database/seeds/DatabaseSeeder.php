@@ -482,7 +482,8 @@ class DatabaseSeeder extends Seeder
                         'type' => $question_type,
                         'full_score' => $graded ? $question_full_score : null,
                     ];
-                    $question_set_total_score += $question_full_score;
+                    if ($graded)
+                        $question_set_total_score += $question_full_score;
                     $pairs[] = [
                         'question_set_id' => $question_set_id,
                         'question_id' => $question_id,
