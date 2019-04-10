@@ -115,7 +115,7 @@
                     </div>
                 </td>
                 @if ($deposit_required)
-                    <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">
+                    <td class="text-center{{ $paid ? $approved ? ' text-success' : ' text-warning' : ' text-danger' }}">
                         @if ($paid)
                             @lang('app.Yes')
                             <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
@@ -149,7 +149,7 @@
                 <td class="fit">
                     @role('admin')
                         @if (!$withdrawed && !$confirmed)
-                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                         @endif
                         @if ($paid && $consent && $approved)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
@@ -224,7 +224,7 @@
                         <td class="fit">
                             @role('admin')
                                 @if ($can_get_backups && !$withdrawed && !$confirmed)
-                                    <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                                    <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                                     <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
                                 @endif
                             @endrole

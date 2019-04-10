@@ -12,8 +12,6 @@ use App\QuestionManager;
 
 use App\Enums\QuestionType;
 
-use App\Http\Controllers\CampApplicationController;
-
 use App\Notifications\ApplicationStatusUpdated;
 
 use Illuminate\Http\Request;
@@ -174,20 +172,8 @@ class QualificationController extends Controller
 
     public function show_profile_detailed(Registration $registration)
     {
-        $form_score = $registration->form_score;
-        View::share('registration', $registration);
-        View::share('form_score', $form_score);
         View::share('fields_disabled', true);
-        $camp = $registration->camp;
-        $question_set = $camp->question_set;
-        $camp_procedure = $camp->camp_procedure;
-        $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
-        $has_consent = $camp->parental_consent;
-        $payment_exists = $has_payment && CampApplicationController::get_payment_path($registration);
-        $consent_exists = $has_consent && CampApplicationController::get_consent_path($registration);
-        View::share('no_approved', (($has_payment && !$payment_exists) || ($has_consent && !$consent_exists)));
-        View::share('return_reasons', $this->form_returned_reasons($has_payment));
-        return ProfileController::edit($registration->camper, $me = false, $no_extra_button = $registration->withdrawed());
+        return ProfileController::edit($registration->camper, $me = false);
     }
 
     public function form_return(Request $request, Registration $registration)

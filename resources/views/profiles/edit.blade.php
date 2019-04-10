@@ -22,42 +22,12 @@
                 jQuery("[id*='desc-inline']").remove();
             });
         </script>
-        <script src="{{ asset('js/modal.js') }}"></script>
     @else
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
 @endsection
 
 @section('card_content')
-    @if ($readonly)
-        @component('components.dialog', [
-            'confirm_type' => 'warning',
-            'confirm_label' => trans('qualification.ReturnForm'),
-            'title' => trans('qualification.ReturnFormTitle'),
-            'glyph' => 'fas fa-undo',
-        ])
-        @slot('custom_body')
-            <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
-            @component('components.radio', [
-                'name' => 'reasons',
-                'type' => 'checkbox',
-                'object' => null,
-                'objects' => $return_reasons,
-                'required' => 1,
-                'idx' => 1,
-                'radio_class' => 'w-100',
-            ])
-            @endcomponent
-            @component('components.input', [
-                'name' => 'remark',
-                'label' => trans('qualification.Remark'),
-                'textarea' => 1,
-                'class' => 'h-auto',
-            ])
-            @endcomponent
-        @endslot
-        @endcomponent
-    @endif
     <form id="form" method="POST" action="{{ route('profiles.update', $user) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -107,37 +77,6 @@
                         @endcomponent
                     </div>
                 @endif
-                @can('candidate-edit')
-                    @if ($user->isCamper() && !isset($no_extra_button) || (isset($no_extra_button) && !$no_extra_button))
-                        <div class="row text-center mt-4">
-                            @php
-                                $counter = 0;
-                                if (!$registration->confirmed() && !$registration->withdrawed())
-                                    $counter += 2;
-                                $col = $counter ? ($counter == 4 ? 6 : 12 / $counter) : 0;
-                            @endphp
-                            @if ($col)
-                                @if (!$registration->confirmed() && !$registration->withdrawed())
-                                    <div class="col-md-{{ $col }} my-1 px-1">
-                                        <a href="{{ route('qualification.document_approve', $registration->id) }}"
-                                            class="btn btn-success w-100 h-100{{ $registration->approved() || $no_approved || $registration->returned ? ' disabled' : null }}"
-                                            title={{ trans('qualification.ApproveFormFull') }}
-                                        ><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
-                                    </div>
-                                    <div class="col-md-{{ $col }} my-1 px-1">
-                                        <button type="button"
-                                            {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
-                                            class="btn btn-warning w-100 h-100" title="{{ trans('qualification.ReturnFormFull') }}"
-                                            data-action="{{ route('qualification.form_return', $registration->id) }}"
-                                            data-toggle="modal"
-                                            data-target="#modal"
-                                        ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-                    @endif
-                @endcan
             </div>
         </div>
     </form>

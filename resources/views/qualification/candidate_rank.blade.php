@@ -154,7 +154,7 @@
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
                 @if ($required_paid)
-                    <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">
+                    <td class="text-center{{ $paid ? $approved ? ' text-success' : ' text-warning' : ' text-danger' }}">
                         @if ($paid)
                             @lang('app.Yes')
                             <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
@@ -196,7 +196,7 @@
                 <td class="fit">
                     @role('admin')
                         @if (!$withdrawed)
-                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                         @endif
                     @endrole
                 </td>

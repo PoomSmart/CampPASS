@@ -11,6 +11,9 @@ use App\Organization;
 use App\Region;
 use App\User;
 
+use App\Http\Controllers\CampApplicationController;
+use App\Http\Controllers\QualificationController;
+
 use App\Notifications\NewCampRegistered;
 
 use App\Enums\EducationLevel;
@@ -162,6 +165,11 @@ class CampController extends Controller
             $registrations = $camp->registrations();
             $total_registrations = $registrations->count();
             $data = $registrations->orderBy('submission_time')->paginate(Common::maxPagination());
+            $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
+            $has_consent = $camp->parental_consent;
+            View::share('has_payment', $has_payment);
+            View::share('has_consent', $has_consent);
+            View::share('return_reasons', QualificationController::form_returned_reasons($has_payment));
         } else {
             $data = null;
             $total_registrations = 0;

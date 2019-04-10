@@ -8,7 +8,7 @@ return [
     'Passed' => 'Passed',
     'Pending' => 'Pending',
     'Finalize' => 'Finalize',
-    'Finalized' => 'Finalized',
+    'Finalized' => 'Form Finalized',
     'Checked' => 'Checked',
     'Announce' => 'Announce',
     'Grading' => 'Grading',

@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
             [ 'name' => 'Sci-Math' ],
             [ 'name' => 'Arts-Math' ],
             [ 'name' => 'Vocational/Diploma Cert.' ],
+            [ 'name' => 'Other' ],
         ]);
     }
 

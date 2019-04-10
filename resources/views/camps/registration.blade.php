@@ -2,6 +2,7 @@
 
 @section('script')
     <script src="{{ asset('js/status-popover.js') }}"></script>
+    <script src="{{ asset('js/modal.js') }}"></script>
     @include('components.status_popover')
 @endsection
 
@@ -10,10 +11,37 @@
 @endsection
 
 @section('custom-width')
-    <div class="col-12 col-lg-10">
+    <div class="col-12">
 @endsection
 
 @section('content')
+    @component('components.dialog', [
+        'confirm_type' => 'warning',
+        'confirm_label' => trans('qualification.ReturnForm'),
+        'title' => trans('qualification.ReturnFormTitle'),
+        'glyph' => 'fas fa-undo',
+    ])
+    @slot('custom_body')
+        <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
+        @component('components.radio', [
+            'name' => 'reasons',
+            'type' => 'checkbox',
+            'object' => null,
+            'objects' => $return_reasons,
+            'required' => 1,
+            'idx' => 1,
+            'radio_class' => 'w-100',
+        ])
+        @endcomponent
+        @component('components.input', [
+            'name' => 'remark',
+            'label' => trans('qualification.Remark'),
+            'textarea' => 1,
+            'class' => 'h-auto',
+        ])
+        @endcomponent
+    @endslot
+    @endcomponent
     <div class="text-center">
         <p class="mb-0">{{ $category->getName() }}</p>
         @foreach ($camp->getTags() as $glyph => $tag)
@@ -66,6 +94,7 @@
                     @foreach ($data as $key => $registration)
                         @php
                             $camper = $registration->camper;
+                            $approved = $registration->approved_to_confirmed();
                             $confirmed = $registration->confirmed();
                             $withdrawed = $registration->withdrawed();
                             $form_score = $registration->form_score;
@@ -87,10 +116,11 @@
                             <td>{{ $registration->getSubmissionTime() }}</td>
                             <td class="fit text-center">{{ $registration->getStatus() }}</td>
                             @if ($required_paid)
-                                <td class="text-center{{ $paid ? ' text-success' : ' text-danger' }}">
+                                @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
+                                <td class="text-center {{ $text_class }}">
                                     @if ($paid)
-                                        @lang('app.Yes')
-                                        <a class="text-success" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
+                                        {{ $approved ? trans('app.Yes') : trans('app.NotYet') }}
+                                        <a class="{{ $text_class }}" href="{{ route('camp_application.payment_download', $registration->id) }}" title=@lang('qualification.ViewPaymentSlip')><i class="far fa-eye fa-xs"></i></a>
                                     @else
                                         @lang('app.No')
                                     @endif
@@ -107,19 +137,38 @@
                                 </td>
                             @endif
                             @if ($candidate_required)
-                                <td class="text-center{{ $finalized ? ' text-success' : ' text-danger' }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}</td>
+                                <td class="text-center">
+                                    <a target="_blank" class="{{ $finalized ? 'text-success ' : ' text-danger ' }}{{ (!$registration->submitted() && !auth()->user()->isAdmin()) ? ' disabled' : null }}"
+                                            href="{{ route('qualification.form_grade', [
+                                                'registration_id' => $registration->id,
+                                                'question_set_id' => $question_set->id,
+                                            ]) }}">{{ $finalized ? trans('app.Yes') : trans('app.No') }}<i class="far fa-eye fa-xs ml-2"></i></a>
+                                </td>
                             @endif
                             <td class="fit">
-                                @if ($rankable)
-                                    <a class="btn btn-secondary{{ (!$registration->submitted() && !auth()->user()->isAdmin()) ? ' disabled' : null }}"
-                                        href="{{ route('qualification.form_grade', [
-                                            'registration_id' => $registration->id,
-                                            'question_set_id' => $question_set->id,
-                                        ]) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('qualification.ViewForm')</a>
-                                @endif
+                                @can('candidate-edit')
+                                    @php
+                                        $payment_exists = $has_payment && \App\Http\Controllers\CampApplicationController::get_payment_path($registration);
+                                        $consent_exists = $has_consent && \App\Http\Controllers\CampApplicationController::get_consent_path($registration);
+                                        $no_approved = ($has_payment && !$payment_exists) || ($has_consent && !$consent_exists);
+                                    @endphp
+                                    <button type="button"
+                                        {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
+                                        class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
+                                        data-action="{{ route('qualification.form_return', $registration->id) }}"
+                                        data-toggle="modal"
+                                        data-target="#modal"
+                                    ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
+                                    @if (!$confirmed && !$withdrawed)
+                                        <a href="{{ route('qualification.document_approve', $registration->id) }}"
+                                            class="btn btn-success {{ $registration->approved() || $no_approved || $registration->returned ? ' disabled' : null }}"
+                                            title={{ trans('qualification.ApproveFormFull') }}
+                                        ><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
+                                    @endif
+                                @endcan
                                 @role('admin')
                                     @if (!$withdrawed)
-                                        <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">T Withdraw</a>
+                                        <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                                     @endif
                                 @endrole
                             </td>
