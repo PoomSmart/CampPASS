@@ -16,4 +16,5 @@ return [
     'TopFiveSchools' => 'Top 5 Schools',
     'AllProvinceTitle' => 'Campers from all Provinces',
     'AllSchoolTitle' => 'Campers from all Schools',
+    'ClarifyPassedZero' => 'Candidates have not been announced, leading to zero passed applicants in total. You need to grade all the forms and announce the candidates first.',
 ];

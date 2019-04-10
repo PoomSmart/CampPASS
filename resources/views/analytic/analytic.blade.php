@@ -59,6 +59,11 @@
             <h4>@lang('analytic.Withdrawed')</h4>
             <h4 class="font-weight-normal">{{ $data['withdrawed'] }}</h4>
         </div>
+        @if ($question_set && !$question_set->announced && !$data['passed'])
+            <div class="col-12">
+                <p class="text-muted">@lang('analytic.ClarifyPassedZero')</p>
+            </div>
+        @endif
         <div class="col-12 col-md-6">
             <h4>@lang('analytic.AverageScore')</h4>
             <h4 class="font-weight-normal">{{ $data['average_score'] }}</h4>

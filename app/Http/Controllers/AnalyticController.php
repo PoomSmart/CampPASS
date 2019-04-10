@@ -142,7 +142,7 @@ class AnalyticController extends Controller
             ];
         }, array_keys($school_freq), $school_freq);
         $data['top_schools'] = array_slice($school_freq, 0, 5, true);
-        return view('analytic.analytic', compact('camp', 'data'));
+        return view('analytic.analytic', compact('camp', 'question_set', 'data'));
     }
 
     // TODO: Pie Chart legend manual sorting is currently possible using Google Chart unless using hacky workaround
