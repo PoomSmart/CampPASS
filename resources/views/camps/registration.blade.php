@@ -48,8 +48,7 @@
                         <th>@lang('account.School')</th>
                         <th>@lang('camper.Program')</th>
                         <th>@lang('registration.SubmissionTime')</th>
-                        <th>@lang('registration.Status')
-                            <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
+                        <th>@lang('registration.Status')<i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
                         @if ($required_paid)
                             @if ($camp->application_fee)
                                 <th>@lang('qualification.ApplicationFeePaid')</th>
@@ -125,11 +124,6 @@
                             @endif
                             <td class="fit">
                                 @can('candidate-edit')
-                                    @php
-                                        $payment_exists = $has_payment && \App\Http\Controllers\CampApplicationController::get_payment_path($registration);
-                                        $consent_exists = $has_consent && \App\Http\Controllers\CampApplicationController::get_consent_path($registration);
-                                        $no_approved = ($has_payment && !$payment_exists) || ($has_consent && !$consent_exists);
-                                    @endphp
                                     <button type="button"
                                         {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
                                         class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
@@ -139,7 +133,7 @@
                                     ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
                                     @if (!$confirmed && !$withdrawed)
                                         <a href="{{ route('qualification.document_approve', $registration->id) }}"
-                                            class="btn btn-success{{ $approved || $no_approved || $registration->returned ? ' disabled' : null }}"
+                                            class="btn btn-success{{ $approved || !$paid || !$consent || $registration->returned ? ' disabled' : null }}"
                                             title={{ trans('qualification.ApproveFormFull') }}
                                         ><i class="fas fa-check mr-1 fa-xs"></i>@lang('qualification.ApproveForm')</a>
                                     @endif

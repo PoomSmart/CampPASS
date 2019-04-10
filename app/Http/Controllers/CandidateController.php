@@ -89,11 +89,11 @@ class CandidateController extends Controller
 
     public static function document_approve(Registration $registration, $approved_by_id = null)
     {
-        if ($registration->approved())
+        if ($registration->approved_to_confirmed())
             throw new \CampPASSExceptionRedirectBack();
         $camp = $registration->camp;
         // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
-        if ($camp->camp_procedure->deposit_required && !CampApplicationController::get_payment_path($registration))
+        if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
             throw new \CampPASSExceptionRedirectBack();
         // Similarly, we reject those that have not uploaded a signed parental consent form
         if ($camp->parental_consent && !CampApplicationController::get_consent_path($registration))
@@ -344,14 +344,21 @@ class CandidateController extends Controller
             if ($list) return null;
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
         }
+        $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
+        $has_consent = $camp->parental_consent;
         // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
         $question_set->update([
             'auto_ranked' => true,
         ]);
         if ($list) {
-            if ($camp->application_fee) {
+            if ($has_payment) {
                 $form_scores_get = $form_scores_get->filter(function ($form_score) {
                     return !is_null(CampApplicationController::get_payment_path($form_score->registration));
+                });
+            }
+            if ($has_consent) {
+                $form_scores_get = $form_scores_get->filter(function ($form_score) {
+                    return !is_null(CampApplicationController::get_consent_path($form_score->registration));
                 });
             }
             return $form_scores_get;
@@ -376,8 +383,6 @@ class CandidateController extends Controller
             ]);
         }
         $form_scores = $form_scores->paginate(Common::maxPagination());
-        $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
-        $has_consent = $camp->parental_consent;
         View::share('has_payment', $has_payment);
         View::share('has_consent', $has_consent);
         View::share('return_reasons', QualificationController::form_returned_reasons($has_payment));

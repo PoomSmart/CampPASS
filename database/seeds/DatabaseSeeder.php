@@ -36,9 +36,7 @@ use App\Http\Controllers\QualificationController;
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
 
-use Spatie\Permission\Models\Role;
-
-use Illuminate\Http\UploadedFile;
+use Illuminate\Http\File;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -202,7 +200,7 @@ class DatabaseSeeder extends Seeder
     private function student_documents()
     {
         $this->log_seed('student documents');
-        $fake_document = UploadedFile::fake()->create('document.pdf', 50);
+        $fake_document = new File(base_path('database/seeds/files/pdf.pdf'));
         foreach (User::campers()->where('status', 1)->cursor() as $camper) {
             $directory = Common::userFileDirectory($camper->id);
             Storage::putFileAs($directory, $fake_document, 'transcript.pdf');
@@ -265,8 +263,8 @@ class DatabaseSeeder extends Seeder
 
     private function registrations_and_questions_and_answers()
     {
-        $real_question_sets_seed_path = base_path().'/database/seeds/questions';
-        $real_answers_seed_path = base_path().'/database/seeds/answers';
+        $real_question_sets_seed_path = base_path('database/seeds/questions');
+        $real_answers_seed_path = base_path('database/seeds/answers');
         $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array('..', '.'));
         $minimum_questions = 5;
         $maximum_questions = 10;
@@ -281,7 +279,7 @@ class DatabaseSeeder extends Seeder
         $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
-        $dummy_file = UploadedFile::fake()->create('dummy.pdf', 1000);
+        $dummy_file = new File(base_path('database/seeds/files/pdf.pdf'));
         $approved_camps = Camp::allApproved()->get();
         foreach (User::campers()->cursor() as $camper) {
             if (Common::randomRareHit()) // Say some campers have yet to do anything at all
@@ -591,9 +589,8 @@ class DatabaseSeeder extends Seeder
                         }
                         CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
-                        $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
                         $campmakers = $camp->camp_makers();
-                        foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                        foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit()) {
@@ -612,7 +609,7 @@ class DatabaseSeeder extends Seeder
                                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                                         if ($has_consent && Common::randomVeryFrequentHit())
                                             Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
-                                        if (Common::randomVeryFrequentHit()) {
+                                        if (Common::randomVeryFrequentHit() && $campmakers->count()) {
                                             CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                             if (Common::randomMediumHit())
                                                 CampApplicationController::confirm($registration, $silent = true);
@@ -634,12 +631,12 @@ class DatabaseSeeder extends Seeder
                 } else {
                     $has_payment = $camp->paymentOnly();
                     $payment_directory = $has_payment ? Common::paymentDirectory($camp->id) : null;
-                    foreach ($camp->registrations()->where('status', ApplicationStatus::CHOSEN)->get() as $registration) {
+                    foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
                         if ($has_payment && Common::randomVeryFrequentHit())
                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                         if ($has_consent && Common::randomVeryFrequentHit())
                             Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
-                        if (Common::randomVeryFrequentHit()) {
+                        if (Common::randomVeryFrequentHit() && $campmakers->count()) {
                             try {
                                 CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                 if (Common::randomMediumHit())
@@ -669,6 +666,10 @@ class DatabaseSeeder extends Seeder
         // Assign the real banner and poster to each camp that has them
         $camp_resource_directory = base_path().'/database/seeds/camps';
         foreach (Camp::all() as $camp) {
+            $payment_directory = Common::paymentDirectory($camp->id);
+            Storage::makeDirectory($payment_directory);
+            $consent_directory = Common::consentDirectory($camp->id);
+            Storage::makeDirectory($consent_directory);
             $directory = Common::publicCampDirectory($camp->id);
             foreach (['banner', 'poster'] as $filename) {
                 try {
