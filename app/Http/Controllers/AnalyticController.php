@@ -75,6 +75,8 @@ class AnalyticController extends Controller
                     $is_passed = $registration->interviewed_to_confirmed();
                 if ($is_passed)
                     ++$passed;
+                else
+                    ++$rejected;
             }
         }
         $data['passed'] = $passed;
