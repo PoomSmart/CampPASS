@@ -23,6 +23,7 @@ use App\Notifications\ApplicationStatusUpdated;
 use Chumper\Zipper\Zipper;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
@@ -375,6 +376,11 @@ class CandidateController extends Controller
             ]);
         }
         $form_scores = $form_scores->paginate(Common::maxPagination());
+        $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
+        $has_consent = $camp->parental_consent;
+        View::share('has_payment', $has_payment);
+        View::share('has_consent', $has_consent);
+        View::share('return_reasons', QualificationController::form_returned_reasons($has_payment));
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 

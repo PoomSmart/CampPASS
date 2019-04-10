@@ -15,33 +15,7 @@
 @endsection
 
 @section('content')
-    @component('components.dialog', [
-        'confirm_type' => 'warning',
-        'confirm_label' => trans('qualification.ReturnForm'),
-        'title' => trans('qualification.ReturnFormTitle'),
-        'glyph' => 'fas fa-undo',
-    ])
-    @slot('custom_body')
-        <p>{{ trans('qualification.ReturnFormFieldsDescription') }}</p>
-        @component('components.radio', [
-            'name' => 'reasons',
-            'type' => 'checkbox',
-            'object' => null,
-            'objects' => $return_reasons,
-            'required' => 1,
-            'idx' => 1,
-            'radio_class' => 'w-100',
-        ])
-        @endcomponent
-        @component('components.input', [
-            'name' => 'remark',
-            'label' => trans('qualification.Remark'),
-            'textarea' => 1,
-            'class' => 'h-auto',
-        ])
-        @endcomponent
-    @endslot
-    @endcomponent
+    @include('components.form_return_dialog')
     <div class="text-center">
         <p class="mb-0">{{ $category->getName() }}</p>
         @foreach ($camp->getTags() as $glyph => $tag)
@@ -161,7 +135,7 @@
                                         class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
                                         data-action="{{ route('qualification.form_return', $registration->id) }}"
                                         data-toggle="modal"
-                                        data-target="#modal"
+                                        data-target="#return-modal"
                                     ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
                                     @if (!$confirmed && !$withdrawed)
                                         <a href="{{ route('qualification.document_approve', $registration->id) }}"

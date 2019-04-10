@@ -65,11 +65,13 @@
 @endsection
 
 @section('content')
+    @include('components.form_return_dialog')
     @component('components.dialog', [
         'title' => trans('qualification.CandidatesAnnouncement'),
         'body' => trans('qualification.ContinueAnnounced'),
         'confirm_type' => 'danger',
         'confirm_label' => trans('app.Yes'),
+        'id' => 'announce-modal',
     ])
     @endcomponent
     @php
@@ -198,6 +200,15 @@
                     >
                 </td>
                 <td class="fit">
+                    @can('candidate-edit')
+                        <button type="button"
+                            {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
+                            class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
+                            data-action="{{ route('qualification.form_return', $registration->id) }}"
+                            data-toggle="modal"
+                            data-target="#return-modal"
+                        ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
+                    @endcan
                     @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
@@ -217,7 +228,7 @@
         class="btn btn-danger w-50" {{ (!$passed || $question_set->candidate_announced) ? 'disabled' : null }}
         type="button"
         data-toggle="modal"
-        data-target="#modal"
+        data-target="#announce-modal"
         data-action="{{ route('qualification.candidate_announce', $question_set->id) }}"
     ><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announce')</button>
 @endsection
