@@ -76,4 +76,5 @@ return [
     'SlipNotYetApproved' => 'Not Approved',
     'Reject' => 'Reject',
     'ApplicantRejected' => ':applicant has been rejected.',
+    'FormsPassedSaved' => 'Forms passed statuses have been saved.',
 ];

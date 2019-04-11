@@ -76,4 +76,5 @@ return [
     'SlipNotYetApproved' => 'รอตรวจสอบ',
     'Reject' => 'ตัดสิทธิ์',
     'ApplicantRejected' => 'ตัดสิทธิ์ :applicant แล้ว',
+    'FormsPassedSaved' => 'สถานะผ่านการคัดเลือกของใบสมัครได้ถูกบันทึกแล้ว',
 ];

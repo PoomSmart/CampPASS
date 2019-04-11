@@ -80,7 +80,7 @@
                                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
                             @endphp
                             <tr
-                                @if ($withdrawed)
+                                @if ($withdrawed || $rejected)
                                     class="table-danger"
                                 @elseif ($confirmed)
                                     class="table-success"
@@ -96,8 +96,8 @@
                                     @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                                     <td class="text-center {{ $text_class }}">
                                         @if ($paid)
-                                            <a class="{{ $text_class }}{{ $withdrawed ? ' btn disabled' : '' }}"
-                                                @if (!$withdrawed)
+                                            <a class="{{ $text_class }}{{ $withdrawed || $rejected ? ' btn disabled' : '' }}"
+                                                @if (!$withdrawed && !$rejected)
                                                     href="{{ route('camp_application.payment_download', $registration->id) }}"
                                                 @endif
                                                 title=@lang('qualification.ViewPaymentSlip')
@@ -130,7 +130,7 @@
                                 @endif
                                 <td class="text-center">
                                     <input type="checkbox" name="{{ $registration->id }}"
-                                        @if (!$paid || !$consent || $registration->returned || $withdrawed)
+                                        @if (!$paid || !$consent || $registration->returned || $withdrawed || $rejected)
                                             disabled
                                         @endif
                                         @if ($approved)

@@ -25,7 +25,7 @@ class QualificationController extends Controller
         $this->middleware('permission:camper-list');
         $this->middleware('permission:answer-grade', ['only' => ['form_grade', 'save_manual_grade', 'form_finalize']]);
         $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'form_reject', 'show_profile_detailed']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['form_return', 'form_reject', 'form_pass_save', 'show_profile_detailed']]);
     }
 
     public static function form_reject(Registration $registration)
@@ -34,7 +34,15 @@ class QualificationController extends Controller
             throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::REJECTED,
+            'returned' => false,
+            'returned_reasons' => null,
         ]);
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'passed' => false,
+            ]);
+        }
         return redirect()->back()->with('message', trans('qualification.ApplicantRejected', [
             'applicant' => $registration->camper->getFullName(),
         ]));
@@ -229,33 +237,6 @@ class QualificationController extends Controller
             return redirect()->route('camps.registration', $camp->id)->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
     }
 
-    public static function form_check_real(FormScore $form_score, $checked)
-    {
-        Common::authenticate_camp($form_score->question_set->camp);
-        if ($form_score->registration->returned)
-            throw new \CampPASSExceptionRedirectBack();
-        $form_score->update([
-            'checked' => $checked == 'true',
-        ]);
-    }
-
-    public static function form_check(Request $request)
-    {
-        $success = true;
-        try {
-            $content = json_decode($request->getContent(), true);
-            $form_score = FormScore::findOrFail($content['form_score_id']);
-            self::form_check_real($form_score, $content['checked'] ? 'true' : 'false');
-        } catch (\Exception $e) {
-            $success = false;
-        }
-        return response()->json([
-            'data' => [
-                'success' => $success,
-            ]
-        ]);
-    }
-
     public static function form_pass_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
@@ -266,20 +247,18 @@ class QualificationController extends Controller
         ]);
     }
 
-    public static function form_pass(Request $request)
+    public function form_pass_save(Request $request, Camp $camp)
     {
-        $success = true;
-        try {
-            $content = json_decode($request->getContent(), true);
-            $form_score = FormScore::findOrFail($content['form_score_id']);
-            self::form_pass_real($form_score, $content['passed'] ? 'true' : 'false');
-        } catch (\Exception $e) {
-            $success = false;
+        $data = $request->all();
+        unset($data['_token']);
+        foreach ($camp->form_scores()->get() as $form_score) {
+            $registration = $form_score->registration;
+            if ($registration->rejected() || $registration->withdrawed())
+                continue;
+            try {
+                $this->form_pass_real($form_score, isset($data[$registration->id]) ? 'true' : 'false');
+            } catch (\Exception $e) {}
         }
-        return response()->json([
-            'data' => [
-                'success' => $success,
-            ]
-        ]);
+        return redirect()->back()->with('success', trans('qualification.FormsPassedSaved'));
     }
 }
