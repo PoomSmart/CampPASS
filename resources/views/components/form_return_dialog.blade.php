@@ -2,7 +2,7 @@
     'confirm_type' => 'warning',
     'confirm_label' => trans('qualification.ReturnForm'),
     'title' => trans('qualification.ReturnFormTitle'),
-    'glyph' => 'fas fa-undo',
+    'glyph' => 'fas fa-exclamation-circle',
     'id' => 'return-modal',
 ])
 @slot('custom_body')

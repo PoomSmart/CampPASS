@@ -59,6 +59,7 @@
 
 @section('content')
     @include('components.form_return_dialog')
+    @include('components.no_revert_dialog')
     @component('components.dialog', [
         'title' => trans('qualification.CandidatesAnnouncement'),
         'body' => trans('qualification.ContinueAnnounced'),
@@ -67,9 +68,7 @@
         'id' => 'announce-modal',
     ])
     @endcomponent
-    @php
-        $i = $passed = 0;
-    @endphp
+    @php $i = $passed = 0 @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
             <span class="mr-3">@lang('question.MinimumScore')</span>
@@ -125,6 +124,7 @@
                 $camper = $registration->camper;
                 $approved = $registration->approved_to_confirmed();
                 $withdrawed = $registration->withdrawed();
+                $rejected = $registration->rejected();
                 $returned = $registration->returned;
                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
@@ -186,11 +186,13 @@
                     >
                 </td>
                 <td class="fit">
-                    @role('admin')
-                        @if (!$withdrawed)
-                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
-                        @endif
-                    @endrole
+                    @include('components.applicant_actions', [
+                        'registration' => $registration,
+                        'approved' => $approved,
+                        'returned' => $returned,
+                        'withdrawed' => $withdrawed,
+                        'rejected' => $rejected,
+                    ])
                 </td>
             </tr>
         @endforeach

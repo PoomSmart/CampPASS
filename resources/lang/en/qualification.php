@@ -74,4 +74,6 @@ return [
     'InterviewAnnounceDesc' => 'Click Announce Interview to announce the candidates that passed the interview. This operation cannot be undone.',
     'OnlyTruePassed' => 'Show only truly qualified campers',
     'SlipNotYetApproved' => 'Not Approved',
+    'Reject' => 'Reject',
+    'ApplicantRejected' => ':applicant has been rejected.',
 ];

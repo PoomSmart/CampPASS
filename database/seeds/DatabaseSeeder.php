@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
-    private static $debug = false;
+    private static $debug = true;
 
     private function log(string $message)
     {
@@ -579,7 +579,10 @@ class DatabaseSeeder extends Seeder
                 if ($has_question_set) {
                     if (Common::randomRareHit())
                         continue;
-                    $form_scores = null;
+                    $form_scores = CandidateController::create_form_scores($camp, $question_set, $camp->registrations);
+                    foreach ($form_scores->get() as $form_score) {
+                        QualificationController::form_check_real($form_score, $checked = 'true');
+                    }
                     try {
                         $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
                     } catch (\Exception $e) {
@@ -589,9 +592,6 @@ class DatabaseSeeder extends Seeder
                     if ($form_scores) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
-                        foreach ($form_scores as $form_score) {
-                            QualificationController::form_check_real($form_score, $checked = 'true');
-                        }
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {
@@ -627,8 +627,11 @@ class DatabaseSeeder extends Seeder
                                         $this->log_debug("Announcement/Confirmation Simulation Nested: {$e}");
                                     }
                                 }
-                            } else if (Common::randomRareHit())
-                                CampApplicationController::withdraw($registration, $silent = true);
+                            } else if (Common::randomRareHit()) {
+                                try {
+                                    CampApplicationController::withdraw($registration, $silent = true);
+                                } catch (\Exception $e) {}
+                            }
                         }
                     }
                     // TODO: This is not really working
@@ -653,8 +656,11 @@ class DatabaseSeeder extends Seeder
                             } catch (\Exception $e) {
                                 $this->log_debug("Announcement/Confirmation Simulation Nested 2: {$e}");
                             }
-                        } else if (Common::randomRareHit())
-                            CampApplicationController::withdraw($registration, $silent = true);
+                        } else if (Common::randomRareHit()) {
+                            try {
+                                CampApplicationController::withdraw($registration, $silent = true);
+                            } catch (\Exception $e) {}
+                        }
                     }
                 }
             } catch (\Exception $e) {

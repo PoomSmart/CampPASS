@@ -11,6 +11,7 @@ use App\Registration;
 use App\QuestionManager;
 
 use App\Enums\QuestionType;
+use App\Enums\ApplicationStatus;
 
 use App\Notifications\ApplicationStatusUpdated;
 
@@ -24,7 +25,19 @@ class QualificationController extends Controller
         $this->middleware('permission:camper-list');
         $this->middleware('permission:answer-grade', ['only' => ['form_grade', 'save_manual_grade', 'form_finalize']]);
         $this->middleware('permission:candidate-list', ['only' => ['candidate_rank', 'candidate_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'show_profile_detailed']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['form_check', 'form_return', 'form_reject', 'show_profile_detailed']]);
+    }
+
+    public static function form_reject(Registration $registration)
+    {
+        if ($registration->rejected())
+            throw new \CampPASSExceptionRedirectBack();
+        $registration->update([
+            'status' => ApplicationStatus::REJECTED,
+        ]);
+        return redirect()->back()->with('message', trans('qualification.ApplicantRejected', [
+            'applicant' => $registration->camper->getFullName(),
+        ]));
     }
 
     /**

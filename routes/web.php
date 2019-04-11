@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
         Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
         Route::post('/form-return/{registration}', 'QualificationController@form_return')->name('qualification.form_return');
+        Route::post('/form-reject/{registration}', 'QualificationController@form_reject')->name('qualification.form_reject');
     });
     Route::prefix('analytic')->group(function () {
         Route::get('/analytic/{camp}', 'AnalyticController@analytic')->name('analytic.analytic');

@@ -16,6 +16,7 @@
 
 @section('content')
     @include('components.form_return_dialog')
+    @include('components.no_revert_dialog')
     <div class="text-center">
         <p class="mb-0">{{ $category->getName() }}</p>
         @foreach ($camp->getTags() as $glyph => $tag)
@@ -71,6 +72,8 @@
                                 $approved = $registration->approved_to_confirmed();
                                 $confirmed = $registration->confirmed();
                                 $withdrawed = $registration->withdrawed();
+                                $rejected = $registration->rejected();
+                                $returned = $registration->returned;
                                 $form_score = $registration->form_score;
                                 $finalized = $form_score ? $form_score->finalized : false;
                                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
@@ -136,20 +139,13 @@
                                     >
                                 </td>
                                 <td class="fit">
-                                    @can('candidate-edit')
-                                        <button type="button"
-                                            {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
-                                            class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
-                                            data-action="{{ route('qualification.form_return', $registration->id) }}"
-                                            data-toggle="modal"
-                                            data-target="#return-modal"
-                                        ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
-                                    @endcan
-                                    @role('admin')
-                                        @if (!$withdrawed)
-                                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
-                                        @endif
-                                    @endrole
+                                    @include('components.applicant_actions', [
+                                        'registration' => $registration,
+                                        'approved' => $approved,
+                                        'returned' => $returned,
+                                        'withdrawed' => $withdrawed,
+                                        'rejected' => $rejected,
+                                    ])
                                 </td>
                             </tr>
                         @endforeach

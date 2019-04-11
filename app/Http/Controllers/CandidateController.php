@@ -245,6 +245,31 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups', 'only_true_passed')));
     }
 
+    public static function create_form_scores(Camp $camp, QuestionSet $question_set, $registrations)
+    {
+        $form_scores = $camp->form_scores();
+        if ($form_scores->doesntExist()) {
+            $auto_gradable = !$question_set->manual_required;
+            $data = [];
+            foreach ($registrations as $registration) {
+                $data[] = [
+                    'registration_id' => $registration->id,
+                    'question_set_id' => $question_set->id,
+                    'finalized' => $auto_gradable,
+                    'submission_time' => $registration->submission_time,
+                ];
+            }
+            FormScore::insert($data);
+            unset($data);
+            // This is the first time the ranking occurs, allow auto-grading
+            $question_set->update([
+                'auto_ranked' => false,
+            ]);
+            $form_scores = $camp->form_scores(); // TODO: Do we need this?
+        }
+        return $form_scores;
+    }
+
     public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
         if (!$question_set->finalized) {
@@ -271,25 +296,8 @@ class CandidateController extends Controller
         if ($without_withdrawed)
             $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWED);
         $total_registrations = $registrations->count();
-        $form_scores = $camp->form_scores();
         $auto_gradable = !$question_set->manual_required;
-        if ($form_scores->doesntExist()) {
-            $form_scores = [];
-            foreach ($registrations as $registration) {
-                $form_scores[] = [
-                    'registration_id' => $registration->id,
-                    'question_set_id' => $question_set->id,
-                    'finalized' => $auto_gradable,
-                    'submission_time' => $registration->submission_time,
-                ];
-            }
-            FormScore::insert($form_scores);
-            unset($form_scores);
-            // This is the first time the ranking occurs, allow auto-grading
-            $question_set->update([
-                'auto_ranked' => false,
-            ]);
-        }
+        $form_scores = self::create_form_scores($camp, $question_set, $registrations);
         $finalized = 0;
         $average_score = $total_withdrawed = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
@@ -320,7 +328,7 @@ class CandidateController extends Controller
                 ]);
                 if ($form_score->passed)
                     ++$total_candidates;
-                if ($form_score->finalized)
+                if ($form_score->finalized && $form_score->checked)
                     ++$finalized;
                 $average_score += $form_score->total_score;
             }
@@ -348,7 +356,7 @@ class CandidateController extends Controller
                     ++$total_withdrawed;
                 else if ($form_score->passed)
                     ++$total_candidates;
-                if (!$withdrawed && $form_score->finalized)
+                if (!$withdrawed && $form_score->finalized && $form_score->checked)
                     ++$finalized;
             }
         }

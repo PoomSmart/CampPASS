@@ -60,4 +60,5 @@ return [
     'ApplicationFormGrading' => 'Application Form Grading',
     'THB' => 'Baht',
     'NoResultsFound' => 'No results found',
+    'NoRevertMessage' => 'This action cannot be reverted, please confirm if you are certain about this.',
 ];
