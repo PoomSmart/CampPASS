@@ -154,7 +154,7 @@
                 @if ($rank_by_score)
                     <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
                 @else
-                    <td>{{ $registration->submission_time }}</td>
+                    <td>{{ $registration->getSubmissionTime() }}</td>
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
                 @if ($required_paid)
@@ -206,7 +206,7 @@
                 <td class="fit">
                     @can('candidate-edit')
                         <button type="button"
-                            {{ $registration->approved() || $registration->returned ? 'disabled' : null }}
+                            {{ $registration->approved() || $registration->returned || $withdrawed ? 'disabled' : null }}
                             class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
                             data-action="{{ route('qualification.form_return', $registration->id) }}"
                             data-toggle="modal"

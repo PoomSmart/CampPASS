@@ -156,7 +156,7 @@
                         @if (!$withdrawed && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                         @endif
-                        @if ($paid && $consent && $approved && !$confirmed)
+                        @if ($paid && $consent && $approved && !$confirmed && !$withdrawed)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">TC</a>
                         @endif
                     @endrole

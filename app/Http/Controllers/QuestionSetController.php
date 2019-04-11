@@ -21,7 +21,7 @@ class QuestionSetController extends Controller
     {
         $this->middleware('permission:question-list');
         $this->middleware('permission:question-create', ['only' => ['show', 'store']]);
-        $this->middleware('permission:question-edit', ['only' => ['finalize']]);
+        $this->middleware('permission:question-edit', ['only' => ['finalize', 'question_set_auto_ranked']]);
     }
 
     public function store(StoreQuestionRequest $request, Camp $camp)

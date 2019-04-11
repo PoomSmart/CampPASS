@@ -275,7 +275,7 @@ class CandidateController extends Controller
         $auto_gradable = !$question_set->manual_required;
         if ($form_scores->doesntExist()) {
             $form_scores = [];
-            foreach ($registrations->get() as $registration) {
+            foreach ($registrations as $registration) {
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set->id,
@@ -285,6 +285,10 @@ class CandidateController extends Controller
             }
             FormScore::insert($form_scores);
             unset($form_scores);
+            // This is the first time the ranking occurs, allow auto-grading
+            $question_set->update([
+                'auto_ranked' => false,
+            ]);
         }
         $finalized = 0;
         $average_score = $total_withdrawed = $total_candidates = 0;
@@ -321,9 +325,13 @@ class CandidateController extends Controller
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
+            // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
+            $question_set->update([
+                'auto_ranked' => true,
+            ]);
         } else {
             // We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
-            $form_scores = $form_scores->orderBy('form_scores.submission_time');
+            $form_scores = $form_scores->orderBy('submission_time');
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
@@ -354,10 +362,6 @@ class CandidateController extends Controller
         }
         $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
         $has_consent = $camp->parental_consent;
-        // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
-        $question_set->update([
-            'auto_ranked' => true,
-        ]);
         if ($list) {
             if ($has_payment) {
                 $form_scores_get = $form_scores_get->filter(function ($form_score) {
