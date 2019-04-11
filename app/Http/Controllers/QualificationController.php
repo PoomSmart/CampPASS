@@ -218,13 +218,13 @@ class QualificationController extends Controller
     {
         $camp = $form_score->question_set->camp;
         Common::authenticate_camp($camp);
-        if ($form_score->finalized)
-            throw new \CampPASSExceptionRedirectBack();
-        if ($form_score->registration->unsubmitted())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.CannotFinalizeUnsubmittedForm'));
-        $form_score->update([
-            'finalized' => true,
-        ]);
+        if (!$form_score->finalized) {
+            if ($form_score->registration->unsubmitted())
+                throw new \CampPASSExceptionRedirectBack(trans('exception.CannotFinalizeUnsubmittedForm'));
+            $form_score->update([
+                'finalized' => true,
+            ]);
+        }
         if (!$silent)
             return redirect()->route('camps.registration', $camp->id)->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
     }

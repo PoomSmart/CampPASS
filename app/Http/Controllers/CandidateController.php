@@ -38,8 +38,6 @@ class CandidateController extends Controller
 
     public static function document_approve(Registration $registration, $approved_by_id = null, bool $silent = false)
     {
-        if ($registration->approved_to_confirmed())
-            throw new \CampPASSExceptionRedirectBack();
         $camp = $registration->camp;
         // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
         if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
@@ -272,25 +270,17 @@ class CandidateController extends Controller
 
     public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
-        if (!$question_set->finalized) {
-            if ($list) return null;
+        if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        }
-        if ($question_set->candidate_announced) {
-            if ($list) return null;
+        if ($question_set->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
-        }
         $camp = $question_set->camp;
         // We shouldn't be able to rank the forms that have nothing to do with scoring
-        if (!$camp->camp_procedure->candidate_required) {
-            if ($list) return null;
+        if (!$camp->camp_procedure->candidate_required)
             throw new \CampPASSException();
-        }
         $registrations = $camp->registrations;
-        if ($registrations->isEmpty()) {
-            if ($list) return null;
+        if ($registrations->isEmpty())
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        }
         if ($without_returned)
             $registrations = $registrations->where('registrations.returned', false);
         if ($without_withdrawed)
@@ -360,14 +350,11 @@ class CandidateController extends Controller
                     ++$finalized;
             }
         }
-        if (!$finalized) {
-            if ($list) return null;
+        if (!$finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
-        }
-        if ($finalized !== $total_registrations - $total_withdrawed) {
-            if ($list) return null;
-            throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank'));
-        }
+        $count = $total_registrations - $total_withdrawed;
+        if ($finalized !== $count)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank')." ({$finalized} vs {$count})");
         $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
         $has_consent = $camp->parental_consent;
         if ($list) {
@@ -417,8 +404,8 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
         // The qualified campers are those that have form score checked and passing the minimum score
         $no_passed = $no_checked = 0;
-        $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
-        if ($form_scores) {
+        try {
+            $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
                 if ($form_score->passed) {
                     ++$no_passed;
@@ -426,6 +413,8 @@ class CandidateController extends Controller
                         ++$no_checked;
                 }
             });
+        } catch (\Exception $e) {
+            throw $e;
         }
         if (!$no_passed)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoCamperAnnounced'));

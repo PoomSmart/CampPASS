@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
-    private static $debug = true;
+    private static $debug = false;
 
     private function log(string $message)
     {
@@ -276,7 +276,6 @@ class DatabaseSeeder extends Seeder
         $this->log_seed('registrations');
         $registrations = [];
         $form_scores = [];
-        $manual_grade_question_set_ids = [];
         $camp_maker_notifications = [];
         $registration_id = 0;
         $dummy_file = new File(base_path('database/seeds/files/pdf.pdf'));
@@ -289,7 +288,6 @@ class DatabaseSeeder extends Seeder
                 try {
                     $camper->isEligibleForCamp($camp);
                 } catch (\Exception $e) {
-                    $this->log_debug("Camp Eligibility Checking: {$e}");
                     return false;
                 }
                 return Common::randomMediumHit();
@@ -492,7 +490,7 @@ class DatabaseSeeder extends Seeder
                 $question_sets[] = [
                     'id' => $question_set_id,
                     'camp_id' => $camp->id,
-                    'minimum_score' => $question_set_has_grade ? ($question_set_total_score * (rand(1, 20) * 5) / 100.0) : null,
+                    'minimum_score' => $question_set_has_grade ? ($question_set_total_score * (rand(1, 20) * 3.5) / 100.0) : null,
                     'manual_required' => $question_set_has_manual_grade,
                     'total_score' => $question_set_total_score,
                     'finalized' => $has_any_answers,
@@ -505,8 +503,6 @@ class DatabaseSeeder extends Seeder
                 QuestionManager::writeQuestionJSON($camp->id, $json);
                 unset($json);
             }
-            if ($question_set_has_manual_grade)
-                $manual_grade_question_set_ids[] = $question_set_id;
             unset($multiple_radio_map);
             unset($multiple_checkbox_map);
             // We wouldn't normally create a form score record for any draft application forms
@@ -537,18 +533,6 @@ class DatabaseSeeder extends Seeder
         foreach (array_chunk($answers, 1000) as $chunk)
             Answer::insert($chunk);
         unset($answers);
-        // Now we can mark the application forms with manual grading as finalized
-        $this->log('-> finalizing some manually-graded form scores');
-        foreach (FormScore::whereIn('question_set_id', $manual_grade_question_set_ids)->get() as $manual_form_score) {
-            if (Common::randomRareHit())
-                continue;
-            try {
-                QualificationController::form_finalize($manual_form_score, $silent = true);
-            } catch (\Exception $e) {
-                $this->log_debug("Manual Form Marking: {$e}");
-            }
-        }
-        unset($manual_grade_question_set_ids);
         unset($faker);
         // At this point, we simulate candidates announcement and attendance confirmation
         $this->log('-> simulating candidates announcement and attendance confirmation');
@@ -575,21 +559,38 @@ class DatabaseSeeder extends Seeder
             }
             $has_consent = $camp->parental_consent;
             $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
+            $payment_directory = $camp->hasPayment() ? Common::paymentDirectory($camp->id) : null;
             try {
                 if ($has_question_set) {
-                    if (Common::randomRareHit())
+                    $registrations = $camp->registrations;
+                    if (Common::randomRareHit() || $registrations->isEmpty())
                         continue;
-                    $form_scores = CandidateController::create_form_scores($camp, $question_set, $camp->registrations);
+                    $campmakers = $camp->camp_makers();
+                    $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                     foreach ($form_scores->get() as $form_score) {
-                        QualificationController::form_check_real($form_score, $checked = 'true');
+                        $registration = $form_score->registration;
+                        QualificationController::form_finalize($form_score, $silent = true);
+                        // We can seed payment slips for the camps that require application fee here
+                        // This is because the campers have to do it at the beginning
+                        if ($camp->application_fee && Common::randomVeryFrequentHit())
+                            Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
+                        if ($has_consent && Common::randomVeryFrequentHit())
+                            Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
+                        if ($campmakers->count()) {
+                            try {
+                                CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
+                            } catch (\Exception $e) {}
+                        }
                     }
+                    $no_form_scores_error = true;
                     try {
                         $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
                     } catch (\Exception $e) {
                         $this->log_debug("Announcement/Confirmation Simulation Ranked: {$e}");
+                        $no_form_scores_error = false;
                     }
                     $interview_announce = null;
-                    if ($form_scores) {
+                    if ($no_form_scores_error) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
                         try {
@@ -597,12 +598,11 @@ class DatabaseSeeder extends Seeder
                         } catch (\Exception $e) {
                             $this->log_debug("Announcement/Confirmation Simulation Announced: {$e}");
                         }
-                        $payment_directory = $camp_procedure->deposit_required ? Common::paymentDirectory($camp->id) : null;
-                        $campmakers = $camp->camp_makers();
-                        foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
+                        foreach ($camp->candidates()->where('backup', false)->get() as $candidate) {
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit()) {
+                                $registration = $candidate->registration;
                                 $proceed = $interview_required ? Common::randomFrequentHit() : true;
                                 if ($interview_required)
                                     CandidateController::interview_check_real($registration, $proceed ? 'true' : 'false');
@@ -616,8 +616,6 @@ class DatabaseSeeder extends Seeder
                                     try {
                                         if ($camp_procedure->deposit_required && Common::randomVeryFrequentHit())
                                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
-                                        if ($has_consent && Common::randomVeryFrequentHit())
-                                            Storage::putFileAs($consent_directory, $dummy_file, "consent_{$registration->id}.pdf");
                                         if (Common::randomFrequentHit() && $campmakers->count()) {
                                             CandidateController::document_approve($registration, $approved_by_id = $campmakers->random()->id);
                                             if (Common::randomMediumHit())

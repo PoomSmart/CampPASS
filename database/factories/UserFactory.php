@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 
 class User_Randomizer
 {
-    protected static $CAMPER, $CAMPMAKER, $now;
+    protected static $CAMPER, $CAMPMAKER, $organizations_top, $now;
 
     public static $name_ths = [
         "โยธาณัฐ", "ธนพงษ์", "พสิษฐ์", "ฤทธินันท์", "นงนภัส", "กิตตินันท์", "กัญญาลักษณ์", "สุภัสสรา", "ฐิติวุฒิ", "เกวลี", "พุฒธิชัย", "ณัชชา", "กฤติยา",
@@ -42,7 +42,7 @@ class User_Randomizer
         "เจนจิรวัฒน์", "จารุเกษตรพร", "เจียรมณีงาม", "ไพศาลดวงจันทร์", "จิรโรจน์อังกูร", "จิตติปัญญากุล", "สอิ้งทอง", "รัตนแสงใส", "จงศรีวัฒนพร",
         "ก้อนเงิน", "กังวานรัตนา", "แก้วพวง", "ไคบุตร", "กมลวิทย์", "กมลชัยวานิช", "กังวานวิศิษฏ์", "โชติกวณิชย์", "โกกิลานนท์", "คงสกุลวงศ์", "คนรู้",
         "โคตรสุ", "คราเคโม", "หลิมประเสริฐศิริ", "ยงภูมิพุทธา", "ไมตรีบริรักษ์", "เหล่าสุรสุนทร", "วัฒนะ", "เลิศดำรงรักษ์", "ลิลิตกุลพาณิชย์", "หล่อตจะกูล",
-        "โล่พันธุ์ศิริกุล", "นาคทิม", "มั่นคง", "โอวาทสุวรรณ", "มธุรสพรวัฒนา", "มิตรสันติสุข", "ณ", "นวลละออง", "นนทบงกช", "หนองใหญ่", "นนทลีรักษ์",
+        "โล่พันธุ์ศิริกุล", "นาคทิม", "มั่นคง", "โอวาทสุวรรณ", "มธุรสพรวัฒนา", "มิตรสันติสุข", "ณ สงขลา", "นวลละออง", "นนทบงกช", "หนองใหญ่", "นนทลีรักษ์",
         "ปริญญาสงวน", "พัฒนกูล", "ภัทรกุลทวี", "พันธุ์มงคล", "ปัญญานนทชัย", "เพิ่มผลพัฒนา", "พิพัฒน์นรเศรษฐ์", "ภาวนาวิวัฒน์", "เพชรโลหะกุล",
         "เพ็ชรพรประภาส", "ภควัตโสภณ", "พันพิลา", "พงษ์สีดา", "พิศุทธิ์พัฒนา", "โรจน์ไพรินทร์", "พงษ์สวัสดิ์", "พูลทอง", "พูนประพันธ์", "ชัชวาลย์สายสินธ์",
         "พงศ์ไพจิตร", "ปฤษฎางค์บุตร", "พรหมธิรักษ์", "แขวงแดง", "เบ็ญจรูญ", "รัตน์วิจิตต์เวช", "ภู่ย้อย", "รอดดอน", "แซ่ลี้", "สายทองอินทร์", "ประภาพรชัยกุล",
@@ -57,7 +57,7 @@ class User_Randomizer
     ];
 
     /**
-     * Randomize Thai citizen ID (Only for testing purpose).
+     * Randomize Thai citizen ID (Only for data seeding).
      * http://kiss-hack.blogspot.com/2013/09/random-number-13.html
      *
      */
@@ -98,6 +98,13 @@ class User_Randomizer
             self::$now = now();
         return self::$now;
     }
+
+    public static function organization()
+    {
+        if (!self::$organizations_top)
+            self::$organizations_top = Organization::where('image', '!=', '')->pluck('id', 'id')->toArray();
+        return Common::randomFrequentHit() ? array_rand(array_flip(self::$organizations_top)) : rand(1, Organization::count());
+    }
 }
 
 $factory->define(App\User::class, function (Faker $faker) {
@@ -116,7 +123,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'surname_th' => User_Randomizer::$surname_ths[$token[1]],
         'nickname_en' => $faker->word,
         'nationality' => rand(0, 1),
-        'gender' => Common::randomRareHit() ? Gender::FEMALE : Gender::any(),
+        'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
         'street_address' => $faker->address,
@@ -145,7 +152,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         ];
     } else {
         $data += [
-            'organization_id' => rand(1, Organization::count()),
+            'organization_id' => User_Randomizer::organization(),
         ];
     }
     return $data;

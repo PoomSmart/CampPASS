@@ -474,7 +474,8 @@ class CampApplicationController extends Controller
             if ($form_score->backup) {
                 $extended_confirmation_date = $confirmation_date->addDays(3);
                 $prevent = Carbon::now()->diffInDays($extended_confirmation_date) < 0;
-            }
+            } else
+                $prevent = !$form_score->passed;
             if ($prevent)
                 throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         }
