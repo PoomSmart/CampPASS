@@ -56,7 +56,7 @@ class AnalyticController extends Controller
             if (!isset($program_freq[$camper->program_id])) $program_freq[$camper->program_id] = 0;
             ++$program_freq[$camper->program_id];
             // 1.0 - 1.5 / 1.5 - 2.0 / 2.0 - 2.5 / 2.5 - 3.0 / 3.0 - 3.5 / 3.5 - 4.0
-            $cgpa_range = (int)($camper->cgpa * 2 - 1);
+            $cgpa_range = min((int)($camper->cgpa * 2 - 2), 5);
             if (!isset($cgpa_freq[$cgpa_range])) $cgpa_freq[$cgpa_range] = 0;
             ++$cgpa_freq[$cgpa_range];
             ++$total_registration_freq[$slot];
@@ -209,7 +209,7 @@ class AnalyticController extends Controller
         ];
         foreach ($cgpa_freq as $cgpa_range => $total) {
             $cgpa_table->addRow([
-                $cgpa_ranges[$cgpa_range - 1], $total,
+                $cgpa_ranges[$cgpa_range], $total,
             ]);
         }
         $cgpa_chart = \Lava::PieChart('CGPAs', $cgpa_table, [
