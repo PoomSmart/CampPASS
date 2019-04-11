@@ -208,7 +208,9 @@ class Common
             $date = Carbon::parse($date);
         if ($addedDays)
             $date = $date->addDays($addedDays);
-        $year = $date->year + ($locale == 'th' ? 543 : 0);
+        $year = $date->year;
+        if ($locale == 'th')
+            $year = ($year + 543) % 100;
         $formatted = $date->formatLocalized("%e {$month} {$year}".($time ? ", %H:%m" : ''));
         if ($locale == 'th')
             $formatted = str_replace("[$date->month]", self::$th_months[$date->month], $formatted);
