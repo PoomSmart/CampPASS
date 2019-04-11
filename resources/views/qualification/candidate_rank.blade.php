@@ -15,14 +15,7 @@
                 var name = self.attr("name");
                 var url = "";
                 var data = null;
-                if (name.indexOf("checked") !== -1) {
-                    url = "{!! route('qualification.form_check') !!}";
-                    data = {
-                        "form_score_id" : form_score_id,
-                        "checked" : checked
-                    };
-                }
-                else if (name.indexOf("passed") !== -1) {
+                if (name.indexOf("passed") !== -1) {
                     url = "{!! route('qualification.form_pass') !!}";
                     data = {
                         "form_score_id" : form_score_id,
@@ -124,7 +117,6 @@
                 <th>@lang('qualification.ConsentUploaded')</th>
             @endif
             <th>@lang('qualification.Passed')</th>
-            <th>@lang('qualification.Checked')</th>
             <th>@lang('app.Actions')</th>
         </thead>
         @foreach ($form_scores as $form_score)
@@ -193,26 +185,7 @@
                         @endif
                     >
                 </td>
-                <td class="text-center">
-                    <input type="checkbox" name="checked_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($withdrawed || $returned)
-                            disabled
-                        @endif
-                        @if ($checked)
-                            checked
-                        @endif
-                    >
-                </td>
                 <td class="fit">
-                    @can('candidate-edit')
-                        <button type="button"
-                            {{ $registration->approved() || $registration->returned || $withdrawed ? 'disabled' : null }}
-                            class="btn btn-warning" title="{{ trans('qualification.ReturnFormFull') }}"
-                            data-action="{{ route('qualification.form_return', $registration->id) }}"
-                            data-toggle="modal"
-                            data-target="#return-modal"
-                        ><i class="fas fa-undo mr-1 fa-xs"></i>@lang('qualification.ReturnForm')</button>
-                    @endcan
                     @role('admin')
                         @if (!$withdrawed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>

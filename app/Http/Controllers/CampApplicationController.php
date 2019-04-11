@@ -459,6 +459,10 @@ class CampApplicationController extends Controller
         $camp = $registration->camp;
         self::authenticate($camp, $silent = $silent);
         self::authenticate_registration($registration, $silent = $silent);
+        $camp_procedure = $camp->camp_procedure;
+        $question_set = $camp->question_set;
+        if ($question_set && !$question_set->announced && !$camp_procedure->candidate_required)
+            throw new \CampPASSExpcetionRedirectBack();
         // Campers who withdrawed from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
         if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
@@ -476,7 +480,6 @@ class CampApplicationController extends Controller
         }
         if ($camp->hasPayment() && !self::get_payment_path($registration))
             throw new \CampPASSException();
-        $camp_procedure = $camp->camp_procedure;
         // TODO: What about backups?
         if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn() && !$camp_procedure->qaOnly())
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
