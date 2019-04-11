@@ -33,7 +33,45 @@ class CandidateController extends Controller
     {
         $this->middleware('permission:camper-list');
         $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['interview_save']]);
+        $this->middleware('permission:candidate-edit', ['only' => ['interview_save', 'document_approve_save']]);
+    }
+
+    public static function document_approve(Registration $registration, $approved_by_id = null, bool $silent = false)
+    {
+        if ($registration->approved_to_confirmed())
+            throw new \CampPASSExceptionRedirectBack();
+        $camp = $registration->camp;
+        // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
+        if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
+            throw new \CampPASSExceptionRedirectBack();
+        // Similarly, we reject those that have not uploaded a signed parental consent form
+        if ($camp->parental_consent && !CampApplicationController::get_consent_path($registration))
+            throw new \CampPASSExceptionRedirectBack();
+        $registration->update([
+            'status' => ApplicationStatus::APPROVED,
+            'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
+        ]);
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'checked' => true,
+            ]);
+        }
+    }
+
+    public function document_approve_save(Request $request, Camp $camp)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        foreach ($camp->registrations as $registration) {
+            try {
+                if (isset($data[$registration->id])) {
+                    $this->document_approve($registration, null, true);
+                    $registration->camper->notify(new ApplicationStatusUpdated($registration));
+                }
+            } catch (\Exception $e) {}
+        }
+        return redirect()->back()->with('success', trans('qualification.DocumentsApproved'));
     }
 
     public static function interview_check_real(Registration $registration, string $checked)
@@ -85,31 +123,6 @@ class CandidateController extends Controller
             $registration = $candidate->registration;
             return !$registration->returned && $registration->chosen_to_confirmed();
         });
-    }
-
-    public static function document_approve(Registration $registration, $approved_by_id = null)
-    {
-        if ($registration->approved_to_confirmed())
-            throw new \CampPASSExceptionRedirectBack();
-        $camp = $registration->camp;
-        // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
-        if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
-            throw new \CampPASSExceptionRedirectBack();
-        // Similarly, we reject those that have not uploaded a signed parental consent form
-        if ($camp->parental_consent && !CampApplicationController::get_consent_path($registration))
-            throw new \CampPASSExceptionRedirectBack();
-        $registration->update([
-            'status' => ApplicationStatus::APPROVED,
-            'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
-        ]);
-        $form_score = $registration->form_score;
-        if ($form_score) {
-            $form_score->update([
-                'checked' => true,
-            ]);
-        }
-        $registration->camper->notify(new ApplicationStatusUpdated($registration));
-        return redirect()->back()->with('success', trans('qualification.DocumentApproved'));
     }
 
     public function data_download(Request $request, QuestionSet $question_set)
@@ -310,29 +323,24 @@ class CandidateController extends Controller
             $form_scores = $form_scores->orderByDesc('total_score');
         } else {
             // We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
-            $form_scores = $form_scores->orderBy('submission_time');
+            $form_scores = $form_scores->orderBy('form_scores.submission_time');
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
                 $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
                 $withdrawed = $registration->withdrawed();
-                if (!$question_set->auto_ranked) {
-                    $form_score->update([
-                        'passed' => !$withdrawed && $paid && $consent,
-                    ]);
-                }
+                $form_score->update([
+                    'passed' => !$withdrawed,
+                ]);
                 if ($registration->returned) {
                     $form_score->update([
                         'checked' => false,
                     ]);
-                } else if ($withdrawed) {
-                    $form_score->update([
-                        'checked' => true,
-                    ]);
+                } else if ($withdrawed)
                     ++$total_withdrawed;
-                } else if ($form_score->passed)
+                else if ($form_score->passed)
                     ++$total_candidates;
-                if ($form_score->finalized)
+                if (!$withdrawed && $form_score->finalized)
                     ++$finalized;
             }
         }

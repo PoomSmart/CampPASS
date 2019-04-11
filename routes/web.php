@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/interview-save/{camp}', 'CandidateController@interview_save')->name('qualification.interview_save');
         Route::get('/interview-announce/{question_set}', 'CandidateController@interview_announce')->name('qualification.interview_announce');
         Route::post('/form-pass', 'QualificationController@form_pass')->name('qualification.form_pass');
-        Route::get('/document-approve/{registration}', 'CandidateController@document_approve')->name('qualification.document_approve');
+        Route::post('/document-approve/{camp}', 'CandidateController@document_approve_save')->name('qualification.document_approve_save');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');

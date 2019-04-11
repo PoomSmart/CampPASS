@@ -37,6 +37,11 @@ class CampProcedure extends Model
         return $this->deposit_required && !$this->interview_required && !$this->candidate_required;
     }
 
+    public function qaOnly()
+    {
+        return !$this->deposit_required && !$this->interview_required && $this->candidate_required;
+    }
+
     public function walkIn()
     {
         return !$this->deposit_required && !$this->interview_required && !$this->candidate_required;

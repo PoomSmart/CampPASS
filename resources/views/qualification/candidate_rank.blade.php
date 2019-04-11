@@ -136,6 +136,7 @@
                 $returned = $registration->returned;
                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
+                $checked = $form_score->checked;
                 if ($form_score->passed && !$returned)
                     ++$passed;
             @endphp
@@ -157,13 +158,15 @@
                 @endif
                 <td>{{ $registration->getStatus() }}</td>
                 @if ($required_paid)
-                @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
+                    @php $text_class = $paid ? ($approved || $checked) ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                     <td class="text-center {{ $text_class }}">
                         @if ($paid)
-                            <a class="{{ $text_class }}"
-                                href="{{ route('camp_application.payment_download', $registration->id) }}"
+                            <a class="{{ $text_class }}{{ $withdrawed ? ' btn disabled' : '' }}"
+                                @if (!$withdrawed)
+                                    href="{{ route('camp_application.payment_download', $registration->id) }}"
+                                @endif
                                 title=@lang('qualification.ViewPaymentSlip')
-                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
+                            >{{ ($approved || $checked) ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                         @else
                             @lang('app.No')
                         @endif
@@ -172,8 +175,9 @@
                 @if ($camp->parental_consent)
                     <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">
                         @if ($consent)
-                            @lang('app.Yes')
-                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')><i class="far fa-eye fa-xs"></i></a>
+                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')>
+                                @lang('app.Yes')<i class="far fa-eye fa-xs ml-1"></i>
+                            </a>
                         @else
                             @lang('app.No')
                         @endif
@@ -181,7 +185,7 @@
                 @endif
                 <td class="text-center">
                     <input type="checkbox" name="passed_{{ $form_score->id }}" id="{{ $form_score->id }}"
-                        @if ($withdrawed || !$paid || !$consent)
+                        @if ($withdrawed)
                             disabled
                         @endif
                         @if ($form_score->passed)
@@ -194,7 +198,7 @@
                         @if ($withdrawed || $returned)
                             disabled
                         @endif
-                        @if ($form_score->checked)
+                        @if ($checked)
                             checked
                         @endif
                     >
@@ -225,7 +229,10 @@
 
 @section('extra-buttons')
     <button
-        class="btn btn-danger w-50" {{ (!$passed || $question_set->candidate_announced) ? 'disabled' : null }}
+        class="btn btn-danger w-50"
+        @if (!$passed)
+            disabled
+        @endif
         type="button"
         data-toggle="modal"
         data-target="#announce-modal"

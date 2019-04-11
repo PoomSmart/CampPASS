@@ -78,15 +78,14 @@
             @endif
             <th>@lang('app.Actions')</th>
         </thead>
-        @php
-            $i = 0;
-        @endphp
+        @php $i = 0 @endphp
         @foreach ($candidates as $candidate)
             @php
                 $registration = $candidate->registration;
                 $camper = $candidate->camper;
                 $withdrawed = $registration->withdrawed();
-                $approved = $registration->approved_to_confirmed();
+                $form_score = $registration->form_score;
+                $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
                 $confirmed = $registration->confirmed();
                 $interviewed = $registration->interviewed_to_confirmed();
                 $rejected = $registration->rejected();
@@ -118,8 +117,10 @@
                     @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                     <td class="text-center {{ $text_class }}">
                         @if ($paid)
-                            <a class="{{ $text_class }}"
-                                href="{{ route('camp_application.payment_download', $registration->id) }}"
+                            <a class="{{ $text_class }}{{ $withdrawed ? ' btn disabled' : '' }}"
+                                @if (!$withdrawed)
+                                    href="{{ route('camp_application.payment_download', $registration->id) }}"
+                                @endif
                                 title=@lang('qualification.ViewPaymentSlip')
                             >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                         @else
@@ -142,8 +143,9 @@
                 @if ($camp->parental_consent)
                     <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">
                         @if ($consent)
-                            @lang('app.Yes')
-                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')><i class="far fa-eye fa-xs"></i></a>
+                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')>
+                                @lang('app.Yes')<i class="far fa-eye fa-xs ml-1"></i>
+                            </a>
                         @else
                             @lang('app.No')
                         @endif
@@ -155,7 +157,7 @@
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                         @endif
                         @if ($paid && $consent && $approved && !$confirmed)
-                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
+                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">TC</a>
                         @endif
                     @endrole
                 </td>
@@ -228,7 +230,7 @@
                             @role('admin')
                                 @if ($can_get_backups && !$withdrawed && !$confirmed)
                                     <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
-                                    <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">T Confirm</a>
+                                    <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">TC</a>
                                 @endif
                             @endrole
                         </td>

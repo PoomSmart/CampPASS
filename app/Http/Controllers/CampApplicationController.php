@@ -478,7 +478,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSException();
         $camp_procedure = $camp->camp_procedure;
         // TODO: What about backups?
-        if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn())
+        if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn() && !$camp_procedure->qaOnly())
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,
