@@ -171,7 +171,7 @@
         @php $question_set = $camp->question_set @endphp
             <div class="text-center">
                 @component('components.submit', [
-                    'label' => trans('app.Save'),
+                    'label' => trans('app.SaveChanges'),
                     'class' => 'btn btn-primary w-50',
                     'glyph' => 'far fa-save fa-xs',
                     'disabled' => $question_set->interview_announced,

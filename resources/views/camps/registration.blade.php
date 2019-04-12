@@ -4,6 +4,7 @@
     <script src="{{ asset('js/status-popover.js') }}"></script>
     <script src="{{ asset('js/modal.js') }}"></script>
     @include('components.status_popover')
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
 @section('header')
@@ -155,7 +156,7 @@
                     </div>
                     <div class="text-center">
                         @component('components.submit', [
-                            'label' => trans('app.Save'),
+                            'label' => trans('app.SaveChanges'),
                             'class' => 'btn btn-primary w-50',
                             'glyph' => 'far fa-save fa-xs',
                         ])

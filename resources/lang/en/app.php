@@ -19,6 +19,7 @@ return [
     'Upload' => 'Upload',
     'Submit' => 'Submit',
     'Save' => 'Save',
+    'SaveChanges' => 'Save Changes',
     'Required' => 'Required',
     'Next' => 'Next',
     'Yes' => 'Yes',
