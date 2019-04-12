@@ -78,7 +78,6 @@
             @endif
             <th>@lang('app.Actions')</th>
         </thead>
-        @php $i = 0 @endphp
         @foreach ($candidates as $candidate)
             @php
                 $registration = $candidate->registration;
@@ -205,7 +204,7 @@
                     @endrole
                 </thead>
                 @php
-                    $i = 0;
+                    $j = 0;
                 @endphp
                 @foreach ($backups as $candidate)
                     @php
@@ -221,7 +220,7 @@
                             class="table-danger"
                         @endif
                     >
-                        <th scope="row">{{ ++$i }}</th>
+                        <th scope="row">{{ ++$j }}</th>
                         <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                         <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                         <td>{{ $camper->program }}</td>

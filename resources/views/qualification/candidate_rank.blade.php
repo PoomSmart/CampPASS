@@ -41,7 +41,7 @@
         'id' => 'announce-modal',
     ])
     @endcomponent
-    @php $i = $passed = 0 @endphp
+    @php $passed = 0 @endphp
     @if ($rank_by_score)
         <div class="d-flex align-items-center mb-2">
             <span class="mr-3">@lang('question.MinimumScore')</span>
@@ -116,7 +116,7 @@
                         class="table-success"
                     @endif
                 >
-                    <th scope="row">{{ ++$i + \App\Common::maxPagination() * (Illuminate\Support\Facades\Input::query('page', 1) - 1) }}</th>
+                    <th scope="row">{{ ++$i }}</th>
                     <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                     @if ($rank_by_score)
                         <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
