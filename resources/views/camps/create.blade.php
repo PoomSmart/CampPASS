@@ -9,6 +9,7 @@
             jQuery("input[name='min_cgpa'],input[name='quota'],input[name='backup_limit'],input[name='application_fee'],input[name='deposit']").inputSpinner();
         });
     </script>
+    <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
 @section('header')

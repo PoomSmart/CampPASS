@@ -5,7 +5,7 @@
         </a>
     @endif
     @if (isset($upload) && $upload)
-        <label class="btn btn-primary mb-0 mx-1{{ isset($full_width) && $full_width ? ' w-100' : null }}">
+        <label class="btn btn-primary mb-0 mx-1 my-auto{{ isset($full_width) && $full_width ? ' w-100' : null }}">
             <i class="fas fa-upload mr-2 fa-xs"></i>@lang('app.Upload')
             <input type="file"
                 id="{{ $name }}"
@@ -20,7 +20,7 @@
                 onchange="var t = this.parentElement.nextElementSibling; if (t && t.id == 'filename') { t.innerText=this.files[0].name; t.hidden=false }{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
         </label>
         @if (!isset($value))
-            <label id="filename" class="ml-2 mb-0" hidden></label>
+            <label id="filename" class="ml-2 mb-0 my-auto text-truncate" hidden></label>
         @endif
     @endif
     @if (isset($delete_route) && isset($download_route))
