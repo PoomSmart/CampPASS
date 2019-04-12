@@ -14,9 +14,14 @@
                 @if (isset($required) && $required)
                     required
                 @endif
-                onchange="var t = this.parentElement.nextElementSibling; t.innerText=this.files[0].name; t.hidden=false{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
+                @if (isset($value))
+                    readonly
+                @endif
+                onchange="var t = this.parentElement.nextElementSibling; if (t && t.id == 'filename') { t.innerText=this.files[0].name; t.hidden=false }{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
         </label>
-        <label class="ml-2 mb-0" hidden></label>
+        @if (!isset($value))
+            <label id="filename" class="ml-2 mb-0" hidden></label>
+        @endif
     @endif
     @if (isset($delete_route) && isset($download_route))
         <a class="btn btn-danger mx-1 h-100{{ isset($full_width) && $full_width ? ' w-100' : null }}" href="{{ route($delete_route, $args) }}"><i class="fas fa-trash-alt mr-2 fa-xs"></i>@lang('app.Delete')</a>

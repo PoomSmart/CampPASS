@@ -98,10 +98,7 @@
                 return validate;
             };
             jQuery("#next-page").click(function (e) {
-                var form = jQuery("#form");
-                if (form.isValid())
-                    form.submit();
-                else
+                if (!jQuery("#form").isValid())
                     e.preventDefault();
             });
         </script>
