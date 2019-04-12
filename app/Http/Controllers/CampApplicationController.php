@@ -218,24 +218,15 @@ class CampApplicationController extends Controller
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
             throw new \CampPASSException($ineligible_reason);
-        $registration = $camp->getRegistration($user);
-        if ($registration) {
-            if ($registration->confirmed())
-                throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
-            if ($status != ApplicationStatus::DRAFT) {
-                $registration->update([
-                    'status' => $status,
-                    'submission_time' => now(),
-                ]);
-            }
-        } else {
-            $registration = Registration::create([
-                'camp_id' => $camp->id,
-                'camper_id' => $user->id,
-                'status' => $status,
-                'submission_time' => now(),
-            ]);
-        }
+        $registration = Registration::updateOrCreate([
+            'camp_id' => $camp->id,
+            'camper_id' => $user->id,
+        ], [
+            'status' => $status,
+            'submission_time' => now(),
+        ]);
+        if ($registration->confirmed())
+            throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
             foreach ($camp->camp_makers() as $campmaker) {
@@ -297,9 +288,9 @@ class CampApplicationController extends Controller
         return self::submit_application_form($camp, $status = ApplicationStatus::CHOSEN);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Camp $camp)
     {
-        $this->authenticate($camp = Camp::find($request['camp_id']));
+        $this->authenticate($camp);
         $user = auth()->user();
         if (!$user->can('answer-edit') || !$user->can('answer-create'))
             throw new \CampPASSExceptionPermission();
@@ -308,20 +299,19 @@ class CampApplicationController extends Controller
         if ($registration->rejected() || $registration->withdrawed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
-        $question_set = QuestionSet::where('camp_id', $camp->id)->first();
+        $question_set = $camp->question_set;
         $question_ids = $question_set->pairs()->get(['question_id']);
         $questions = Question::whereIn('id', $question_ids)->get();
+        $directory = QuestionManager::questionSetDirectory($camp->id);
         foreach ($questions as $question) {
             $json_id = $question->json_id;
             $answer_content = null;
             if ($question->type == QuestionType::FILE) {
                 if ($request->hasFile($json_id)) {
                     // We store the file uploaded by a camper to the folder of the camp with the current question set
-                    $file_post = $request->file($json_id);
-                    $answer_content = $file_post->getClientOriginalName();
                     $file = $request->file($json_id);
-                    $directory = QuestionManager::questionSetDirectory($camp->id);
                     Storage::putFileAs("{$directory}/{$json_id}/{$user->id}", $file, "{$json_id}.pdf");
+                    $answer_content = $file->getClientOriginalName();
                 }
             } else
                 $answer_content = QuestionManager::encodeIfNeeded($request[$json_id], $question->type);

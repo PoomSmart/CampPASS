@@ -9,9 +9,8 @@
 @endsection
 
 @section('card_content')
-    <form method="POST" id="form" action="{{ route('camp_application.store') }}" enctype="multipart/form-data">
+    <form method="POST" id="form" action="{{ route('camp_application.store', $camp->id) }}" enctype="multipart/form-data">
         @csrf
-        <input name="camp_id" id="camp_id" type="hidden" value="{{ $camp->id }}">
         @foreach ($json['question'] as $key => $text)
             @php
                 $type = (int)$json['type'][$key];
@@ -33,7 +32,7 @@
                             @component('components.input', [
                                 'name' => $key,
                                 'value' => $value,
-                                'attributes' => $required ? 'required' : '',
+                                'required' => $required,
                             ])
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::PARAGRAPH)
@@ -41,7 +40,7 @@
                                 'name' => $key,
                                 'value' => $value,
                                 'textarea' => 1,
-                                'attributes' => $required ? 'required' : '',
+                                'required' => $required,
                             ])
                             @endcomponent
                         @elseif ($type == \App\Enums\QuestionType::CHOICES)
@@ -50,7 +49,7 @@
                                 'value' => $value,
                                 'objects' => $json['radio_label'][$key],
                                 'idx' => 1,
-                                'required' => $required ? 'required' : '',
+                                'required' => $required,
                                 'radio_class' => 'w-100',
                             ])
                             @endcomponent
@@ -61,7 +60,7 @@
                                 'type' => 'checkbox',
                                 'objects' => $json['checkbox_label'][$key],
                                 'idx' => 1,
-                                'required' => $required ? 'required' : '',
+                                'required' => $required,
                                 'radio_class' => 'w-100',
                             ])
                             @endcomponent
@@ -71,6 +70,7 @@
                                 'value' => $value,
                                 'args' => $value ? $json['answer_id'][$key] : null,
                                 'upload' => 1,
+                                'required' => $required,
                                 'download_route' => $value ? 'camp_application.answer_file_download' : null,
                                 'delete_route' => $value ? 'camp_application.answer_file_delete' : null,
                             ])

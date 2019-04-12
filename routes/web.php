@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['middleware' => ['permission:answer-edit']], function () {
             Route::get('/apply/{camp}', 'CampApplicationController@landing')->name('camp_application.landing');
             Route::get('/questions/{camp}', 'CampApplicationController@prepare_questions_answers')->name('camp_application.prepare_questions_answers');
-            Route::post('/save', 'CampApplicationController@store')->name('camp_application.store');
+            Route::post('/save/{camp}', 'CampApplicationController@store')->name('camp_application.store');
             Route::get('/answers-view/{question_set}', 'CampApplicationController@answer_view')->name('camp_application.answer_view');
             Route::get('/submit/{camp}', 'CampApplicationController@submit_application_form')->name('camp_application.submit_application_form');
             Route::get('/answer-file-delete/{answer}', 'CampApplicationController@answer_file_delete')->name('camp_application.answer_file_delete');
