@@ -47,7 +47,7 @@
             @endcomponent
             @component('components.submit', [
                 'label' => trans('app.Update'),
-                'glyph' => 'fas fa-search fa-xs ', // TODO: change icon?
+                'glyph' => 'fas fa-filter fa-xs ',
             ])
             @endcomponent
         </form>
