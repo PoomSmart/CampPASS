@@ -54,21 +54,21 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/answer-file-download/{answer}', 'CampApplicationController@answer_file_download')->name('camp_application.answer_file_download');
     });
     Route::prefix('qualification')->group(function () {
-        Route::get('/form-grade/{registration}/{question_set}', 'QualificationController@form_grade')->name('qualification.form_grade');
-        Route::post('/manual-grade/{registration}/{question_set}', 'QualificationController@save_manual_grade')->name('qualification.save_manual_grade');
-        Route::get('/form-finalize/{form_score}', 'QualificationController@form_finalize')->name('qualification.form_finalize');
+        Route::get('/form-grade/{registration}/{question_set}', 'CandidateController@form_grade')->name('qualification.form_grade');
+        Route::post('/manual-grade/{registration}/{question_set}', 'CandidateController@save_manual_grade')->name('qualification.save_manual_grade');
+        Route::get('/form-finalize/{form_score}', 'CandidateController@form_finalize')->name('qualification.form_finalize');
         Route::post('/interview-save/{camp}', 'CandidateController@interview_save')->name('qualification.interview_save');
         Route::get('/interview-announce/{question_set}', 'CandidateController@interview_announce')->name('qualification.interview_announce');
-        Route::post('/form-pass-save/{camp}', 'QualificationController@form_pass_save')->name('qualification.form_pass_save');
+        Route::post('/form-pass-save/{camp}', 'CandidateController@form_pass_save')->name('qualification.form_pass_save');
         Route::post('/document-approve/{camp}', 'CandidateController@document_approve_save')->name('qualification.document_approve_save');
         Route::get('/rank/{question_set}', 'CandidateController@rank')->name('qualification.candidate_rank');
         Route::post('/announce/{question_set}', 'CandidateController@announce')->name('qualification.candidate_announce');
         Route::get('/result/{question_set}', 'CandidateController@result')->name('qualification.candidate_result');
         Route::get('/data-export-selection/{question_set}', 'CandidateController@data_download_selection')->name('qualification.data_download_selection');
         Route::get('/data-download/{question_set}', 'CandidateController@data_download')->name('qualification.data_download');
-        Route::get('/profile-qualification/{registration}', 'QualificationController@show_profile_detailed')->name('qualification.show_profile_detailed');
-        Route::post('/form-return/{registration}', 'QualificationController@form_return')->name('qualification.form_return');
-        Route::post('/form-reject/{registration}', 'QualificationController@form_reject')->name('qualification.form_reject');
+        Route::get('/profile-qualification/{registration}', 'CandidateController@show_profile_detailed')->name('qualification.show_profile_detailed');
+        Route::post('/form-return/{registration}', 'CandidateController@form_return')->name('qualification.form_return');
+        Route::post('/form-reject/{registration}', 'CandidateController@form_reject')->name('qualification.form_reject');
     });
     Route::prefix('analytic')->group(function () {
         Route::get('/analytic/{camp}', 'AnalyticController@analytic')->name('analytic.analytic');

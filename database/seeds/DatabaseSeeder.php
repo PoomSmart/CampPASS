@@ -31,7 +31,6 @@ use App\BadgeController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampApplicationController;
 use App\Http\Controllers\CandidateController;
-use App\Http\Controllers\QualificationController;
 
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
@@ -569,7 +568,7 @@ class DatabaseSeeder extends Seeder
                     $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                     foreach ($form_scores->get() as $form_score) {
                         $registration = $form_score->registration;
-                        QualificationController::form_finalize($form_score, $silent = true);
+                        CandidateController::form_finalize($form_score, $silent = true);
                         // We can seed payment slips for the camps that require application fee here
                         // This is because the campers have to do it at the beginning
                         if ($camp->application_fee && Common::randomVeryFrequentHit())

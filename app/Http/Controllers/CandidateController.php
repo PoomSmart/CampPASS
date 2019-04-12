@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use File;
 
+use App\Answer;
 use App\Camp;
 use App\Common;
 use App\Candidate;
@@ -14,8 +15,8 @@ use App\QuestionManager;
 use App\User;
 
 use App\Http\Controllers\CampApplicationController;
-use App\Http\Controllers\QualificationController;
 
+use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
 
 use App\Notifications\ApplicationStatusUpdated;
@@ -32,8 +33,15 @@ class CandidateController extends Controller
     function __construct()
     {
         $this->middleware('permission:camper-list');
-        $this->middleware('permission:candidate-list', ['only' => ['result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce']]);
-        $this->middleware('permission:candidate-edit', ['only' => ['interview_save', 'document_approve_save']]);
+        $this->middleware('permission:answer-grade', ['only' => [
+            'form_grade', 'save_manual_grade', 'form_finalize'
+        ]]);
+        $this->middleware('permission:candidate-list', ['only' => [
+            'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce'
+        ]]);
+        $this->middleware('permission:candidate-edit', ['only' => [
+            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save', 'show_profile_detailed'
+        ]]);
     }
 
     public static function document_approve(Registration $registration, $approved_by_id = null, bool $silent = false)
@@ -308,7 +316,7 @@ class CandidateController extends Controller
                 }
                 if (is_null($form_score->total_score)) {
                     $form_score->update([
-                        'total_score' => QualificationController::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
+                        'total_score' => self::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
                     ]);
                 }
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
@@ -401,7 +409,7 @@ class CandidateController extends Controller
         $form_scores = $form_scores->paginate(Common::maxPagination());
         View::share('has_payment', $has_payment);
         View::share('has_consent', $has_consent);
-        View::share('return_reasons', QualificationController::form_returned_reasons($has_payment));
+        View::share('return_reasons', self::form_returned_reasons($has_payment));
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
@@ -479,5 +487,239 @@ class CandidateController extends Controller
         ]);
         if (!$silent)
             return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', trans('qualification.CandidatesAnnounced'));
+    }
+
+    public static function form_reject(Registration $registration)
+    {
+        if ($registration->rejected())
+            throw new \CampPASSExceptionRedirectBack();
+        $registration->update([
+            'status' => ApplicationStatus::REJECTED,
+            'returned' => false,
+            'returned_reasons' => null,
+        ]);
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'passed' => false,
+            ]);
+        }
+        return redirect()->back()->with('message', trans('qualification.ApplicantRejected', [
+            'applicant' => $registration->camper->getFullName(),
+        ]));
+    }
+
+    /**
+     * Grade an application form from a camper (represented by a registration record) and the respective question set
+     *
+     */
+    public static function form_grade($registration_id, $question_set_id, bool $silent = false)
+    {
+        $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
+        if ($silent) {
+            if ($form_score && isset($form_score->total_score))
+                return $form_score->total_score;
+        }
+        $registration = Registration::findOrFail($registration_id);
+        Common::authenticate_camp($registration->camp);
+        if ($registration->unsubmitted())
+            throw new \CampPASSException(trans('exception.CannotGradeUnsubmittedForm'));
+        $camper = $registration->camper;
+        $question_set = QuestionSet::findOrFail($question_set_id);
+        $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
+        if ($answers->doesntExist()) // This should not happen
+            throw new \CampPASSException(trans('exception.CannotGradeFormWithoutQuestions'));
+        $answers = $answers->get();
+        $data = [];
+        $json = QuestionManager::getQuestionJSON($question_set->camp_id, $encode = false, $graded = true);
+        if (!$silent) {
+            $json['question_scored'] = [];
+            $json['question_lock'] = [];
+            $json['question_full_score'] = [];
+        }
+        $auto_gradable_score = 0;
+        $total_auto_gradable_score = 0;
+        $camper_score = 0;
+        $total_score = 0;
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+            if ($form_score && $form_score->finalized)
+                $json['question_lock'][$question->json_id] = 1;
+            $answer_score = $answer->score;
+            $answer_value = $answer->answer;
+            // Grade the questions that need to be graded and are of choice type
+            if (isset($json['question_graded'][$question->json_id])) {
+                if ($question->type == QuestionType::CHOICES) {
+                    $solution = $json['radio'][$question->json_id];
+                    $score = $solution == $answer_value ? $question->full_score : 0;
+                    if (!$silent) {
+                        $json['question_scored'][$question->json_id] = $score;
+                        $json['question_lock'][$question->json_id] = 1;
+                    }
+                    $auto_gradable_score += $score;
+                    $camper_score += $score;
+                    if (!isset($answer_score)) {
+                        $answer->update([
+                            'score' => $score,
+                        ]);
+                    }
+                    $total_auto_gradable_score += $question->full_score;
+                } else if (isset($answer_score)) {
+                    // If the type is not choice, camp makers have graded it and the score has been saved to the database, so we send this information to the view
+                    $json['question_scored'][$question->json_id] = $answer_score;
+                    $camper_score += $answer_score;
+                }
+                $total_score += $question->full_score;
+            }
+            if (!$silent) {
+                $json['question_full_score'][$question->json_id] = $question->full_score;
+                $data[] = [
+                    'question' => $question,
+                    'answer' => QuestionManager::decodeIfNeeded($answer_value, $question->type),
+                ];
+            }
+        }
+        if (!$form_score) {
+            $form_score = FormScore::updateOrCreate([
+                'registration_id' => $registration_id,
+                'question_set_id' => $question_set_id,
+            ], [
+                'total_score' => $camper_score,
+                'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+                'submission_time' => $registration->submission_time,
+            ]);
+        }
+        if ($silent)
+            return $camper_score;
+        if ($total_score) {
+            if ($question_set->manual_required)
+                $score_report = trans('qualification.FormSummary', [
+                    'camper_score' => $camper_score,
+                    'total_score' => $total_score,
+                ]);
+            else
+                $score_report = $total_auto_gradable_score ? trans('qualification.FormSummaryAuto', [
+                    'auto_gradable' => $auto_gradable_score,
+                    'total_auto_gradable' => $total_auto_gradable_score,
+                    'camper_score' => $camper_score,
+                    'total_score' => $total_score,
+                ]) : null;
+        } else
+            $score_report = null;
+        return view('qualification.form_grade', compact('camper', 'data', 'json', 'score_report', 'form_score'));
+    }
+
+    public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
+    {
+        Common::authenticate_camp($registration->camp);
+        $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
+        if ($form_score->finalized)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.CannotUpdateFinalizedForm'));
+        $form_data = $request->all();
+        // We don't need token
+        unset($form_data['_token']);
+        $camper = $registration->camper;
+        $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
+        if ($answers->doesntExist())
+            throw new \CampPASSException(trans('exception.NoAnswersSaved'));
+        // For all answers given, update all scores of those that will be manually graded
+        $answers = $answers->get();
+        foreach ($form_data as $id => $value) {
+            if (substr($id, 0, 13) === 'manual_score_') {
+                $key = substr($id, 13);
+                $answer = $answers->filter(function ($answer) use (&$key) {
+                    return $answer->question->json_id == $key;
+                })->first();
+                if (!$answer) {
+                    logger()->error('Trying to parse an answer that does not exist.');
+                    continue;
+                }
+                $answer->update([
+                    'score' => (double)$value,
+                ]);
+            }
+        }
+        return redirect()->back()->with('success', trans('qualification.ScoresUpdated'));
+    }
+
+    public static function form_returned_reasons(bool $has_payment = true)
+    {
+        return [
+            'document' => trans('qualification.StudentDocumentIssue'),
+            'profile' => trans('qualification.ProfileIssue'),
+        ] + ($has_payment ? [
+            'payment' => trans('qualification.PaymentSlipIssue'),
+        ] : []);
+    }
+
+    public function show_profile_detailed(Registration $registration)
+    {
+        View::share('fields_disabled', true);
+        return ProfileController::edit($registration->camper, $me = false);
+    }
+
+    public function form_return(Request $request, Registration $registration)
+    {
+        $this->validate($request, [
+            'reasons' => 'min:1',
+            'reasons.*' => 'in:payment,document,profile',
+            'remark' => 'nullable|string',
+        ]);
+        if ($registration->approved())
+            throw new \CampPASSExceptionRedirectBack();
+        $reasons = $request->reasons;
+        $form_score = $registration->form_score;
+        if ($form_score) {
+            $form_score->update([
+                'checked' => false,
+            ]);
+        }
+        $registration->update([
+            'returned' => true,
+            'returned_reasons' => json_encode($reasons, JSON_UNESCAPED_UNICODE),
+        ]);
+        $candidate = $registration->camper;
+        $candidate->notify(new ApplicationStatusUpdated($registration));
+        return redirect()->back()->with('message', trans('qualification.FormReturned', [ 'candidate' => $candidate->getFullName() ]));
+    }
+
+    public static function form_finalize(FormScore $form_score, bool $silent = false)
+    {
+        $camp = $form_score->question_set->camp;
+        Common::authenticate_camp($camp);
+        if (!$form_score->finalized) {
+            if ($form_score->registration->unsubmitted())
+                throw new \CampPASSExceptionRedirectBack(trans('exception.CannotFinalizeUnsubmittedForm'));
+            $form_score->update([
+                'finalized' => true,
+            ]);
+        }
+        if (!$silent)
+            return redirect()->route('camps.registration', $camp->id)->with('success', trans('qualification.FormFinalized', [ 'candidate' => $form_score->registration->camper->getFullName() ]));
+    }
+
+    public static function form_pass_real(FormScore $form_score, $checked)
+    {
+        Common::authenticate_camp($form_score->question_set->camp);
+        if ($form_score->registration->withdrawed())
+            throw new \CampPASSExceptionRedirectBack();
+        $form_score->update([
+            'passed' => $checked == 'true',
+        ]);
+    }
+
+    public function form_pass_save(Request $request, Camp $camp)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        foreach ($camp->form_scores()->get() as $form_score) {
+            $registration = $form_score->registration;
+            if ($registration->rejected() || $registration->withdrawed())
+                continue;
+            try {
+                $this->form_pass_real($form_score, isset($data[$registration->id]) ? 'true' : 'false');
+            } catch (\Exception $e) {}
+        }
+        return redirect()->back()->with('success', trans('qualification.FormsPassedSaved'));
     }
 }

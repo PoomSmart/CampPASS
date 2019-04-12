@@ -12,7 +12,7 @@ use App\Region;
 use App\User;
 
 use App\Http\Controllers\CampApplicationController;
-use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\CandidateController;
 
 use App\Notifications\NewCampRegistered;
 
@@ -169,7 +169,7 @@ class CampController extends Controller
             $has_consent = $camp->parental_consent;
             View::share('has_payment', $has_payment);
             View::share('has_consent', $has_consent);
-            View::share('return_reasons', QualificationController::form_returned_reasons($has_payment));
+            View::share('return_reasons', CandidateController::form_returned_reasons($has_payment));
         } else {
             $data = null;
             $total_registrations = 0;
