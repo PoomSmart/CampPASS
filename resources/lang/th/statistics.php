@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Analytic' => 'สถิติ',
+    'Statistics' => 'สถิติ',
     'Applicants' => 'จำนวนผู้สมัครทั้งหมด',
     'ApplicantsPerDay' => 'จำนวนผู้สมัครทั้งหมดในแต่ละวัน',
     'Date' => 'วันที่',

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Analytic' => 'Analytic',
+    'Statistics' => 'Statistics',
     'Applicants' => 'Total Applicants',
     'ApplicantsPerDay' => 'Total Applicants in each day',
     'Date' => 'Date',

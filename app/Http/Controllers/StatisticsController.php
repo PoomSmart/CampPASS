@@ -15,21 +15,21 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
-class AnalyticController extends Controller
+class StatisticsController extends Controller
 {
     function __construct()
     {
         $this->middleware('permission:camper-list');
     }
 
-    public function analytic(Camp $camp)
+    public function statistics(Camp $camp)
     {
         $total_registration_freq = []; $gender_freq = []; $education_freq = []; $province_freq = []; $school_freq = []; $program_freq = []; $cgpa_freq = [];
         $passed = $withdrawed = $rejected = $score_count = $peak_date_count = 0;
         $educations = User::$education_level_to_year;
         $data = [];
         $registration_table = \Lava::DataTable();
-        $registration_table->addDateColumn(trans('analytic.Date'))->addNumberColumn(trans('analytic.Applicants'));
+        $registration_table->addDateColumn(trans('statistics.Date'))->addNumberColumn(trans('statistics.Applicants'));
         $registrations = $camp->registrations()->orderBy('submission_time')->get();
         $data['total'] = $registrations->count();
         $average_score = 0.0;
@@ -96,19 +96,19 @@ class AnalyticController extends Controller
         }
         $data['peak_date'] = Common::formattedDate($peak_date);
         $registration_chart = \Lava::LineChart('Applicants', $registration_table, [
-            'title' => trans('analytic.ApplicantsPerDay'),
+            'title' => trans('statistics.ApplicantsPerDay'),
             'legend' => [
                 'position' => 'none',
             ],
             'hAxis' => [
-                'title' => trans('analytic.Date'),
+                'title' => trans('statistics.Date'),
                 'format' => 'MMM d',
                 'minorGridlines' => [
                     'count' => 0,
                 ],
             ],
             'vAxis' => [
-                'title' => trans('analytic.Applicants'),
+                'title' => trans('statistics.Applicants'),
                 'format' => '#',
                 'baseline' => 0,
                 'minorGridlines' => [
@@ -142,7 +142,7 @@ class AnalyticController extends Controller
             ];
         }, array_keys($school_freq), $school_freq);
         $data['top_schools'] = array_slice($school_freq, 0, 5, true);
-        return view('analytic.analytic', compact('camp', 'question_set', 'data'));
+        return view('statistics.statistics', compact('camp', 'question_set', 'data'));
     }
 
     // TODO: Pie Chart legend manual sorting is currently possible using Google Chart unless using hacky workaround

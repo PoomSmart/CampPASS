@@ -70,8 +70,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/form-return/{registration}', 'CandidateController@form_return')->name('qualification.form_return');
         Route::post('/form-reject/{registration}', 'CandidateController@form_reject')->name('qualification.form_reject');
     });
-    Route::prefix('analytic')->group(function () {
-        Route::get('/analytic/{camp}', 'AnalyticController@analytic')->name('analytic.analytic');
+    Route::prefix('statistics')->group(function () {
+        Route::get('/statistics/{camp}', 'StatisticsController@statistics')->name('statistics.statistics');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/document-download/{user}/{type}', 'ProfileController@document_download')->name('camp_application.document_download');
