@@ -1,10 +1,15 @@
 @extends('layouts.card')
 
 @section('card_content')
-    <div class="row justify-content-center">
-        <h2>@lang('qualification.ThankCampApply')</h2>
-    </div>
-    <div class="row">
-        <a class="btn btn-primary mx-auto" href="{{ route('camp_application.landing', $camp->id) }}"><i class="far fa-file-alt mr-2 fa-xs"></i>@lang('registration.Status')</a>
+    <div class="row text-center">
+        <div class="col-12">
+            <h2>@lang('qualification.ThankCampApply')</h2>
+        </div>
+        <div class="col-12">
+            <p class="text-muted">{{ $camp }}</p>
+        </div>
+        <div class="col-12">
+            <a class="btn btn-primary" href="{{ route('camp_application.status', $registration->id) }}"><i class="far fa-file-alt mr-2 fa-xs"></i>@lang('registration.Status')</a>
+        </div>
     </div>
 @endsection

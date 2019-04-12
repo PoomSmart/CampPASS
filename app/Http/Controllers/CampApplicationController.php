@@ -350,8 +350,8 @@ class CampApplicationController extends Controller
     public static function submit_application_form(Camp $camp, $status = ApplicationStatus::APPLIED)
     {
         self::authenticate($camp);
-        self::register($camp, $user = auth()->user(), $status = $status, $badge_check = true);
-        return view('camp_application.done', compact('camp'));
+        $registration = self::register($camp, $user = auth()->user(), $status = $status, $badge_check = true);
+        return view('camp_application.done', compact('camp', 'registration'));
     }
 
     public function consent_upload(StorePDFRequest $request, Registration $registration)
