@@ -172,6 +172,6 @@
 
 @if ($candidate_required && count($data))
     @section('extra-buttons')
-        <a class="btn btn-warning w-50" href="{{ route('qualification.candidate_rank', $question_set->id) }}">@lang('qualification.Rank')</a>
+        <a class="btn btn-warning w-50" href="{{ route('qualification.candidate_rank', $question_set->id) }}"><i class="fas fa-sort-amount-up fa-xs mr-2"></i>@lang('qualification.Rank')</a>
     @endsection
 @endif

@@ -31,9 +31,7 @@
                             'glyph' => (isset($glyph) ? $glyph : 'fas fa-check')." fa-xs",
                         ])
                         @endcomponent
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            <i class="fas fa-times mr-2 fa-xs"></i>@lang('app.Close')
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times fa-xs mr-2"></i>@lang('app.Close')</button>
                     </div>
                 @endif
             </form>

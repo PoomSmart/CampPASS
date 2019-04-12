@@ -12,7 +12,7 @@
             data-action="{{ route('qualification.form_reject', $registration->id) }}"
             data-toggle="modal"
             data-target="#no-revert-modal"
-        >@lang('qualification.Reject')</button>
+        ><i class="fas fa-times fa-xs mr-1"></i>@lang('qualification.Reject')</button>
         @role('admin')
             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-outline-danger">TW</a>
         @endrole
