@@ -20,7 +20,7 @@
         <div class="col-12 text-center mb-3">
             <p>{{ $camp->getShortDescription() }}</p>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6" id="apply">
             <h4>@lang('camp.Details')</h4>
             <div class="row">
                 <div class="col-12 col-md-6">
@@ -96,7 +96,7 @@
                             $disabled = $info['disabled'];
                             $route = $info['route'];
                         @endphp
-                        <a id="apply" class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
+                        <a class="btn btn-primary w-100 mb-3{{ $disabled ? ' disabled' : ''}}"
                             href="{{ $route }}"
                         ><i class="far fa-file-alt fa-xs mr-2"></i>{{ $apply_text }}</a>
                     @endif

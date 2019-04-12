@@ -10,7 +10,7 @@
 
 @section('content')
     <form class="row form" action="{{ route('camps.browser') }}" method="GET">
-        <div class="col-sm-12 col-lg-8 px-0">
+        <div class="col-12 px-0">
             <div class="input-group">
                 @component('components.input', [
                     'name' => 'query',
@@ -18,30 +18,26 @@
                     'placeholder' => trans('app.SearchCampByName'),
                 ])
                 @endcomponent
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-4 d-inline-flex mt-2 mt-md-2 mt-lg-0 px-0 px-lg-2 px-md-0">
-            @component('components.submit', [
-                'label' => trans('app.Search'),
-                'class' => 'btn btn-primary mr-2 w-50',
-                'glyph' => 'fas fa-search fa-xs',
-            ])
-            @endcomponent
-            <a href="{{ route('camps.browser') }}" class="btn btn-secondary w-50"><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</a>
-        </div>
-        <div class="col-12 px-0 mt-2">
-            <div class="form-group d-inline-flex mr-2">
-                <div class="d-none d-lg-inline-block mr-4">
-                    @component('components.label', [
-                        'name' => 'education_level',
-                        'label' => trans('camp.CampFor'),
-                        'label_class' => 'py-0 font-weight-bold',
+                <div class="input-group-append">
+                    @component('components.submit', [
+                        'label' => '',
+                        'class' => 'btn btn-secondary',
+                        'glyph' => 'fas fa-search fa-xs mr-0',
                     ])
                     @endcomponent
+                    <button type="button"
+                        class="btn btn-outline-secondary"
+                        onclick="jQuery('#filters select').val('---')"
+                    ><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</button>
                 </div>
-                <div class="d-inline-block my-auto">
+            </div>
+        </div>
+        <div class="col-12 px-0 mt-2" id="filters">
+            <div class="form-row">
+                <div class="col-12 col-md-4">
                     @component('components.input', [
                         'name' => 'education_level',
+                        'label' => trans('camp.CampFor'),
                         'input_type' => 'select',
                         'objects' => $education_levels,
                         'value' => $education_level,
@@ -51,19 +47,10 @@
                     ])
                     @endcomponent
                 </div>
-            </div>
-            <div class="form-group d-inline-flex mr-2">
-                <div class="d-none d-lg-inline-block mr-4">
-                    @component('components.label', [
-                        'name' => 'region',
-                        'label' => trans('camp.AcceptableRegions'),
-                        'label_class' => 'py-0 font-weight-bold',
-                    ])
-                    @endcomponent
-                </div>
-                <div class="d-inline-block my-auto">
+                <div class="col-12 col-md-4">
                     @component('components.input', [
                         'name' => 'region',
+                        'label' => trans('camp.AcceptableRegions'),
                         'input_type' => 'select',
                         'objects' => $regions,
                         'value' => $region,
@@ -72,19 +59,10 @@
                     ])
                     @endcomponent
                 </div>
-            </div>
-            <div class="form-group d-inline-flex">
-                <div class="d-none d-lg-inline-block mr-4">
-                    @component('components.label', [
-                        'name' => 'organization_id',
-                        'label' => trans('organization.Organization'),
-                        'label_class' => 'py-0 font-weight-bold',
-                    ])
-                    @endcomponent
-                </div>
-                <div class="d-inline-block my-auto">
+                <div class="col-12 col-md-4">
                     @component('components.input', [
                         'name' => 'organization_id',
+                        'label' => trans('organization.Organization'),
                         'input_type' => 'select',
                         'objects' => $organizations,
                         'value' => $organization_id,
@@ -106,15 +84,17 @@
             <div class="container-fluid mt-4">
                 <h3 class="mb-4 d-inline-block" id="{{ $i++ }}">{{ $category }}</h3>
                 @php
-                    $append = '?';
+                    $append = '';
                     if ($education_level)
-                        $append = "{$append}&{$education_level}";
+                        $append = "{$append}&education_level{$education_level}";
                     if ($region)
-                        $append = "{$append}&{$region}";
+                        $append = "{$append}&region={$region}";
                     if ($organization_id)
-                        $append = "{$append}&{$organization_id}";
-                    if ($append == '?')
+                        $append = "{$append}&organization_id={$organization_id}";
+                    if ($append == '')
                         $append = null;
+                    else
+                        $append = '?'.substr($append, 1);
                 @endphp
                 <a class="ml-3 d-inline-block" href="{{ route('camps.by_category', [
                     'record' => $category_ids[$category],
@@ -130,7 +110,7 @@
 @endsection
 
 @section('sidebar-items')
-    <b>@lang('camp.CampsByCategory')</b>
+    <li class="nav-item" inactive><div class="nav-link font-weight-bold disabled">@lang('camp.CampsByCategory')</div></li>
     @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
         <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $category }}</b></a></li>

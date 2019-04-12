@@ -11,6 +11,7 @@
 >
     @if (isset($placeholder))
         <option
+            value="---"
             disabled
             @if (!isset($value) || !$value)
                 selected
