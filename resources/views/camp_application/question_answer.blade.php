@@ -86,7 +86,24 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <a href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success"><i class="fas fa-arrow-right fa-xs mr-1"></i>@lang('app.Next')</a>
+            <a id="next-page" href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success"><i class="fas fa-arrow-right fa-xs mr-1"></i>@lang('app.Next')</a>
         </div>
+        <script>
+            jQuery.fn.isValid = function () {
+                var validate = true;
+                this.each(function () {
+                    if (this.checkValidity () == false)
+                        validate = false;
+                });
+                return validate;
+            };
+            jQuery("#next-page").click(function (e) {
+                var form = jQuery("#form");
+                if (form.isValid())
+                    form.submit();
+                else
+                    e.preventDefault();
+            });
+        </script>
     </form>
 @endsection
