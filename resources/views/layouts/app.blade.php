@@ -31,6 +31,13 @@
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
     <!-- Additional Styles -->
     @yield('style')
+    @if (View::hasSection('datetime'))
+        <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/th.js"></script>
+        <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+        <script src="{{ asset('js/datetime.js') }}"></script>
+    @endif
     @can('camp-edit')
         <style>
             .popover-header {

@@ -69,6 +69,14 @@
         @endif
     @endif
 @else
+    @if (isset($group))
+        <div class="input-group {{ isset($input_group_class) ? $input_group_class : '' }}">
+    @endif
+    @if (isset($input_group_prepend))
+        <div class="input-group-prepend">
+            {{ $input_group_prepend }}
+        </div>
+    @endif
     @if ($textarea)
         <textarea
     @else
@@ -103,5 +111,13 @@
         @endif
     @if ($errors->has($name))
         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
+    @endif
+    @if (isset($input_group_append))
+        <div class="input-group-append">
+            {{ $input_group_append }}
+        </div>
+    @endif
+    @if (isset($group))
+        </div>
     @endif
 @endif

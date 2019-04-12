@@ -1,6 +1,8 @@
 @extends('layouts.card')
 @include('camps.fields')
 
+@section('datetime')@endsection
+
 @section('script')
     <script src="{{ asset('js/camp-fields.js') }}"></script>
     <script src="{{ asset('js/input-spinner.js') }}"></script>

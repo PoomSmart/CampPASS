@@ -306,28 +306,25 @@
 
 <div class="row">
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'app_open_date',
             'label' => trans('camp.AppOpenDate'),
-            'type' => 'datetime-local',
             'required' => 1,
         ])
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'app_close_date',
             'label' => trans('camp.AppCloseDate'),
-            'type' => 'datetime-local',
             'required' => 1,
         ])
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'interview_date',
             'label' => trans('camp.InterviewDate'),
-            'type' => 'datetime-local',
             'disabled' => !is_null($interview_required) ? !$interview_required : null,
         ])
         @endcomponent
@@ -342,35 +339,31 @@
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'announcement_date',
             'label' => trans('camp.AnnouncementDate'),
-            'type' => 'datetime-local',
         ])
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'confirmation_date',
             'label' => trans('camp.ConfirmationDate'),
-            'type' => 'datetime-local',
         ])
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'event_start_date',
             'label' => trans('camp.EventStartDate'),
-            'type' => 'datetime-local',
             'required' => 1,
         ])
         @endcomponent
     </div>
     <div class="col-md-6">
-        @component('components.input', [
+        @component('components.datetime_input', [
             'name' => 'event_end_date',
             'label' => trans('camp.EventEndDate'),
-            'type' => 'datetime-local',
             'required' => 1,
         ])
         @endcomponent
