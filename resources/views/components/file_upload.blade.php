@@ -17,7 +17,12 @@
                 @if (isset($value))
                     readonly
                 @endif
-                onchange="var t = this.parentElement.nextElementSibling; if (t && t.id == 'filename') { t.innerText=this.files[0].name; t.hidden=false }{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
+                onchange="var t = this.parentElement.nextElementSibling;
+                            if (t && t.id == 'filename') {
+                                t.innerText = this.files[0].name;
+                                t.title = this.files[0].name;
+                                t.hidden = false;
+                            }{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
         </label>
         @if (!isset($value))
             <label id="filename" class="ml-2 mb-0 my-auto text-truncate" hidden></label>
