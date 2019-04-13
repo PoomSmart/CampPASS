@@ -2467,6 +2467,7 @@
             clear: 'fa fa-trash',
             close: 'fa fa-remove'
         },
+        // TODO: Localization
         tooltips: {
             today: 'Go to today',
             clear: 'Clear selection',

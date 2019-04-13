@@ -61,7 +61,7 @@ return [
     'InterviewInformation' => 'รายละเอียดการสัมภาษณ์',
     'AnnouncementDate' => 'วันประกาศผล',
     'ConfirmationDate' => 'วันยืนยันการเข้าค่าย',
-    'CampDate' => 'วันจัดค่าย',
+    'CampDate' => 'วันที่จัดค่าย',
     'Details' => 'รายละเอียด',
     'Poster' => 'โปสเตอร์',
     'WaitForApproval' => ':camp กำลังรอการอนุมัติจากคุณ',

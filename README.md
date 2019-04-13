@@ -5,7 +5,7 @@ Web-based CampHUB-inspired Thai Student Camp Application and Management System.
 - PHP 7+
 - Laravel 5.8+
 - MySQL Server
-- Node.js
+- Node.js (`npm`)
 
 ## Setup
 - Get yourself the `.env` file
@@ -13,6 +13,7 @@ Web-based CampHUB-inspired Thai Student Camp Application and Management System.
 - `cd` to the project root directory
 - `composer install`
 - `npm install`
+- `php artisan storage:link`
 
 ## Compiling Assets
 - `npm run dev` or `npm run production` for compiling app's SASS & JS (Do this every time you make changes to them)
