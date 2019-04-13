@@ -136,7 +136,7 @@ class CandidateController extends Controller
         if (sizeof($request->all()) <= 1)
             return redirect()->back();
         $camp = $question_set->camp;
-        $download_path = public_path("{$camp}_data.zip");
+        $download_path = public_path("camp_{$camp->id}_data.zip");
         File::delete($download_path);
         $zipper = new Zipper;
         $make = $zipper->make($download_path);
@@ -180,7 +180,7 @@ class CandidateController extends Controller
         if ($temp_dir)
             File::deleteDirectory($temp_dir);
         unset($zipper);
-        return response()->download($download_path)->deleteFileAfterSend(true);
+        return response()->download($download_path)->deleteFileAfterSend();
     }
 
     public function data_download_selection(QuestionSet $question_set)

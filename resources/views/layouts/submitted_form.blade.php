@@ -23,7 +23,7 @@
         @component('components.submitted_form_table', [
             'entries' => [
                 trans('account.Nickname') => $user->nickname_en.($user->nickname_th ? " ({$user->nickname_th})" : ''),
-                trans('account.DOB') => $user->dob,
+                trans('account.DOB') => \App\Common::formattedDate($user->dob),
                 trans('account.Gender') => [ trans('account.Male'), trans('account.Female'), trans('account.OtherGender') ][$user->gender],
                 trans('account.BloodGroup') => [ 'A', 'O', 'B', 'AB' ][$user->blood_group],
                 trans('account.Religion') => $user->religion,

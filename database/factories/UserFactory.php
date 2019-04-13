@@ -114,7 +114,6 @@ $factory->define(App\User::class, function (Faker $faker) {
     $type = Common::randomMediumHit() ? User_Randomizer::camper() : User_Randomizer::campmaker();
     $dob = $type == User_Randomizer::camper() ? $faker->dateTimeBetween($startDate = '-19 years', '-10 years') : $faker->dateTimeBetween($startDate = '-40 years', '-19 years');
     $province = Province::inRandomOrder()->get()->first();
-    $activated = Common::randomVeryFrequentHit();
     $data = [
         'username' => strtolower($name_en),
         'name_en' => $name_en,
@@ -126,6 +125,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'gender' => Gender::any(),
         'citizen_id' => User_Randomizer::citizenID(),
         'dob' => $dob,
+        'allergy' => Common::randomRareHit() ? $faker->text($maxNbChars = 10) : null,
         'street_address' => $faker->address,
         'province_id' => $province->id,
         'zipcode' => $province->zipcode_prefix.implode('', $faker->randomElements($array = range(0, 9), $count = 3, $allowDuplicates = true)),
@@ -136,7 +136,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'type' => $type,
         'password' => '123456',
         'remember_token' => str_random(10),
-        'status' => $activated ? 1 : 0,
+        'status' => Common::randomVeryFrequentHit(),
     ];
     if ($type == User_Randomizer::camper()) {
         $data += [
