@@ -87,4 +87,5 @@ return [
     'ParentalConsentDesc' => 'Upload the form in PDF format if your camp need parental consent prior to joining the camp.',
     'ParentalConsentInfo' => 'Upload a signed parental consent form to confirm your attendance.',
     'ViewStatistics' => 'View Statistics',
+    'SummaryText' => 'Total Application Forms from all camps: :total_registrations / Total Unique Applicants: :total_unique_campers',
 ];

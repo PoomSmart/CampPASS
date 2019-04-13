@@ -34,13 +34,13 @@ class CandidateController extends Controller
     {
         $this->middleware('permission:camper-list');
         $this->middleware('permission:answer-grade', ['only' => [
-            'form_grade', 'save_manual_grade', 'form_finalize'
+            'form_grade', 'save_manual_grade', 'form_finalize',
         ]]);
         $this->middleware('permission:candidate-list', ['only' => [
-            'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce'
+            'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce',
         ]]);
         $this->middleware('permission:candidate-edit', ['only' => [
-            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save', 'show_profile_detailed'
+            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save', 'show_profile_detailed',
         ]]);
     }
 
@@ -180,7 +180,7 @@ class CandidateController extends Controller
         if ($temp_dir)
             File::deleteDirectory($temp_dir);
         unset($zipper);
-        return response()->download($download_path);
+        return response()->download($download_path)->deleteFileAfterSend(true);
     }
 
     public function data_download_selection(QuestionSet $question_set)

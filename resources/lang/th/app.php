@@ -32,7 +32,7 @@ return [
     'Confirmation' => 'การยืนยัน',
     'Unspecified' => 'ไม่ระบุ',
     'None' => 'ไม่มี',
-    'Activated' => 'ยืนยันการเปิดใช้งาน',
+    'Activated' => 'ยืนยันการเปิดใช้งานแล้ว',
     "What's" => 'อะไรคือ :entity ',
     'HowWork' => ':entity ทำงานอย่างไร',
     'Becoming a Camp Maker' => 'สมัครเป็นผู้จัดค่าย',

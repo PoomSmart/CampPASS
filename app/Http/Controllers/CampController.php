@@ -7,6 +7,7 @@ use App\CampCategory;
 use App\CampProcedure;
 use App\Common;
 use App\Program;
+use App\Registration;
 use App\Organization;
 use App\Region;
 use App\User;
@@ -69,8 +70,18 @@ class CampController extends Controller
     public function index()
     {
         $camps = auth()->user()->isAdmin() ? Camp::latest() : auth()->user()->getBelongingCamps()->latest();
+        $registration_counts = [];
+        $total_registrations = 0;
+        foreach ($camps->get() as $camp) {
+            $registration_counts[$camp->id] = $camp->approved ? $camp->registrations_conditional()->count() : 0;
+            $total_registrations += $registration_counts[$camp->id];
+        }
+        $summary = trans('camp.SummaryText', [
+            'total_registrations' => $total_registrations,
+            'total_unique_campers' => Registration::distinct()->count('camper_id'),
+        ]);
         $camps = $camps->paginate(Common::maxPagination());
-        return Common::withPagination(view('camps.index', compact('camps')));
+        return Common::withPagination(view('camps.index', compact('camps', 'registration_counts', 'summary')));
     }
 
     public function create()

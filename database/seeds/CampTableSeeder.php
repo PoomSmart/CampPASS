@@ -14,7 +14,7 @@ class CampTableSeeder extends CsvSeeder
         $this->tablename = 'camps';
         $this->type = [
             'name_en', 'name_th', 'camp_category_id', 'camp_procedure_id', 'organization_id',
-            'acceptable_regions', 'acceptable_programs', 'short_description_en', 'short_description_th',
+            'acceptable_regions', 'acceptable_programs', 'acceptable_education_levels', 'short_description_en', 'short_description_th',
             'long_description_en', 'long_description_th', 'min_cgpa', 'other_conditions', 'application_fee',
             'deposit', 'url', 'fburl', 'app_close_date', 'confirmation_date', 'announcement_date',
             'interview_date', 'interview_information', 'event_start_date', 'event_end_date', 'quota',

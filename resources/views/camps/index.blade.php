@@ -33,6 +33,9 @@
         <span class="badge badge-success font-weight-normal"><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announced')</span>
         <span class="badge badge-warning font-weight-normal"><i class="far fa-clock fa-xs mr-1"></i>@lang('camp.ApprovalPending')</span>
     </h5>--}}
+    <div class="d-flex">
+        <span class="text-muted">{{ $summary }}</span>
+    </div>
     <table class="table table-striped">
         <thead>
             <th>@lang('app.No_')</th>
@@ -54,13 +57,10 @@
 	    @foreach ($camps as $camp)
 	    <tr>
             @php
-                if ($camp->approved) {
-                    $registration_count = $camp->registrations_conditional()->count();
-                    $registration_count_display = $registration_count;
-                    if ($camp->quota)
-                        $$registration_count_display = "{$registration_count} / {$camp->quota}";
-                } else
-                    $registration_count_display = $registration_count = 0;
+                $registration_count = $registration_counts[$camp->id];
+                $registration_count_display = $registration_count;
+                if ($camp->quota)
+                    $$registration_count_display = "{$registration_count} / {$camp->quota}";
                 $question_set = $camp->question_set;
             @endphp
 	        <th scope="row">{{ ++$i }}</th>
@@ -96,23 +96,23 @@
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')
-                        <a class="btn btn-success" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check mr-1 fa-xs"></i>@lang('app.Approve')</a>
+                        <a class="btn btn-success btn-sm" href="{{ route('camps.approve', $camp->id) }}"><i class="fas fa-check mr-1 fa-xs"></i>@lang('app.Approve')</a>
                     @endcan
                 @else
                     @can('question-edit')
                         @if ($camp->camp_procedure->candidate_required)
-                            <a class="btn btn-primary" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('camp.EditQuestions')</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt mr-1 fa-xs"></i>@lang('camp.EditQuestions')</a>
                         @endif
                     @endcan
                 @endif
                 @can('camp-edit')
-                    <a class="btn btn-info" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
+                    <a class="btn btn-info btn-sm" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
                 @endcan
                 @if ($registration_count)
-                    <a class="btn btn-outline-primary" href="{{ route('statistics.statistics', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewStatistics')</a>
+                    <a class="btn btn-outline-primary btn-sm" href="{{ route('statistics.statistics', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewStatistics')</a>
                 @endif
                 @can('camp-delete')
-                    <button type="button" class="btn btn-danger" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
+                    <button type="button" class="btn btn-danger btn-sm" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
                         <i class="fas fa-trash-alt mr-1 fa-xs"></i>@lang('app.Delete')
                     </button>
                 @endcan

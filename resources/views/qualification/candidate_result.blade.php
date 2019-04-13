@@ -153,10 +153,10 @@
                 <td class="fit">
                     @role('admin')
                         @if (!$withdrawed && !$confirmed)
-                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
+                            <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger btn-sm">TW</a>
                         @endif
                         @if ($paid && $consent && $approved && !$confirmed && !$withdrawed)
-                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">TC</a>
+                            <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success btn-sm">TC</a>
                         @endif
                     @endrole
                 </td>

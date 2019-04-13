@@ -4,5 +4,5 @@ return [
     'Arts-Math' => 'ศิลป์-คำนวณ',
     'Sci-Math' => 'วิทย์-คณิต',
     'Vocational/Diploma Cert.' => 'ปวช./ปวส.',
-    'Other' => 'สายการเรียนอื่นๆ',
+    'Other' => 'สายอื่นๆ',
 ];

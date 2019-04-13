@@ -14,7 +14,7 @@ class CreateCampsTable extends Migration
      */
     public function up()
     {
-        Storage::deleteDirectory('camps/'); // TODO: Decide whether this should exist in the future
+        Storage::deleteDirectory('camps/');
         Schema::create('camps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('camp_category_id')->unsigned();
@@ -28,15 +28,15 @@ class CreateCampsTable extends Migration
             $table->json('acceptable_education_levels');
             $table->string('name_en', 100)->nullable();
             $table->string('name_th', 100)->nullable();
-            $table->string('short_description_en', 200)->nullable();
-            $table->string('short_description_th', 200)->nullable();
+            $table->string('short_description_en', 400)->nullable();
+            $table->string('short_description_th', 400)->nullable();
             $table->text('long_description')->nullable();
             $table->double('min_cgpa', 3, 2)->nullable();
             $table->string('other_conditions', 200)->nullable();
             $table->integer('application_fee')->unsigned()->nullable();
             $table->integer('deposit')->unsigned()->nullable();
-            $table->string('url', 150)->nullable();
-            $table->string('fburl', 150)->nullable();
+            $table->string('url', 400)->nullable();
+            $table->string('fburl', 400)->nullable();
             $table->dateTime('app_open_date');
             $table->dateTime('app_close_date');
             $table->dateTime('confirmation_date')->nullable();

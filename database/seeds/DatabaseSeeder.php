@@ -225,10 +225,10 @@ class DatabaseSeeder extends Seeder
             $score = null;
             switch ($question_type) {
                 case QuestionType::TEXT:
-                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->text($maxNbChars = 15);
+                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->text($maxNbChars = 12);
                     break;
                 case QuestionType::PARAGRAPH:
-                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->sentences($nb = rand(2, 4), $asText = true);
+                    $answer = $real_answers_json ? Common::randomElement($real_answers_json[$json_id]) : $faker->sentences($nb = rand(1, 3), $asText = true);
                     break;
                 case QuestionType::CHOICES:
                     // A bit of cheating in hope for seeded campers to get more scores
@@ -454,7 +454,7 @@ class DatabaseSeeder extends Seeder
                             $json['radio_label'][$json_id] = [];
                             for ($i = 1; $i <= $choices_number; ++$i) {
                                 $choice_id = $this->randomID($camp->id);
-                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 30);
+                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 20);
                             }
                             $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
                             $correct_choice = array_rand($json['radio_label'][$json_id]);
@@ -466,7 +466,7 @@ class DatabaseSeeder extends Seeder
                             $json['checkbox_label'][$json_id] = [];
                             for ($i = 1; $i <= $checkboxes_number; ++$i) {
                                 $checkbox_id = $this->randomID($camp->id);
-                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 30);
+                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 20);
                             }
                             $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
                             break;
@@ -758,7 +758,11 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolTableSeeder::class);
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
-        factory(User::class, 600)->create();
+        for ($i = 1; $i <= 3; ++$i) {
+            factory(User::class, 200)->create();
+            $c = $i * 200;
+            $this->log_seed("users: {$c} seeded");
+        }
         $this->camps();
         $this->student_documents();
         $this->registrations_and_questions_and_answers();

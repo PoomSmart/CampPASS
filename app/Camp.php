@@ -236,7 +236,7 @@ class Camp extends Model
     {
         // TODO: This at the moment is done by randomization
         // TODO: We also should filter out camps that the user is not eligible for
-        return self::allApproved()->limit(5);
+        return self::allApproved()->inRandomOrder()->limit(5);
     }
 
     /**
