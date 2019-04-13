@@ -70,12 +70,12 @@
                         @foreach ($data as $key => $registration)
                             @php
                                 $camper = $registration->camper;
-                                $approved = $registration->approved_to_confirmed();
+                                $form_score = $registration->form_score;
+                                $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
                                 $confirmed = $registration->confirmed();
                                 $withdrawed = $registration->withdrawed();
                                 $rejected = $registration->rejected();
                                 $returned = $registration->returned;
-                                $form_score = $registration->form_score;
                                 $finalized = $form_score ? $form_score->finalized : false;
                                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
@@ -97,10 +97,8 @@
                                     @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                                     <td class="text-center {{ $text_class }}">
                                         @if ($paid)
-                                            <a class="{{ $text_class }}{{ $withdrawed || $rejected ? ' btn disabled' : '' }}"
-                                                @if (!$withdrawed && !$rejected)
-                                                    href="{{ route('camp_application.payment_download', $registration->id) }}"
-                                                @endif
+                                            <a class="{{ $text_class }}"
+                                                href="{{ route('camp_application.payment_download', $registration->id) }}"
                                                 title=@lang('qualification.ViewPaymentSlip')
                                             >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                                         @else

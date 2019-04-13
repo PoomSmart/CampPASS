@@ -140,7 +140,7 @@
                         @endguest
                         <li class="nav-item my-auto">
                             @php $lang = app()->getLocale() == 'en' ? 'th' : 'en' @endphp
-                            <a href="{{ route('locale', $lang) }}"><span class="flag-icon flag-icon-{{ $lang == 'en' ? 'us' : $lang }}"></span></a>
+                            <a class="nav-link" href="{{ route('locale', $lang) }}"><span class="flag-icon flag-icon-{{ $lang == 'en' ? 'us' : $lang }}"></span></a>
                         </li>
                     </ul>
                 </div>

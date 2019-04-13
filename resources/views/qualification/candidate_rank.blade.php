@@ -128,10 +128,8 @@
                         @php $text_class = $paid ? ($approved || $checked) ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                         <td class="text-center {{ $text_class }}">
                             @if ($paid)
-                                <a class="{{ $text_class }}{{ $withdrawed || $rejected ? ' btn disabled' : '' }}"
-                                    @if (!$withdrawed && !$rejected)
-                                        href="{{ route('camp_application.payment_download', $registration->id) }}"
-                                    @endif
+                                <a class="{{ $text_class }}"
+                                    href="{{ route('camp_application.payment_download', $registration->id) }}"
                                     title=@lang('qualification.ViewPaymentSlip')
                                 >{{ ($approved || $checked) ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
                             @else

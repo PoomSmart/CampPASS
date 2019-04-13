@@ -1,8 +1,12 @@
 @can('candidate-edit')
     @if (!$withdrawed && !$rejected)
         <button type="button"
-            {{ $approved || $returned ? 'disabled' : null }}
-            class="btn btn-warning btn-sm" title="{{ trans('qualification.ReturnFormFull') }}"
+            @if ($approved || $returned)
+                disabled
+            @else
+                title="{{ trans('qualification.ReturnFormFull') }}"
+            @endif
+            class="btn btn-warning btn-sm"
             data-action="{{ route('qualification.form_return', $registration->id) }}"
             data-toggle="modal"
             data-target="#return-modal"
