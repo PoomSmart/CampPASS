@@ -72,7 +72,7 @@
     @if (isset($group))
         <div class="input-group {{ isset($input_group_class) ? $input_group_class : '' }}">
     @endif
-    @if (isset($input_group_prepend))
+    @if (isset($group) && isset($input_group_prepend))
         <div class="input-group-prepend">
             {{ $input_group_prepend }}
         </div>
@@ -112,7 +112,7 @@
     @if ($errors->has($name))
         <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
     @endif
-    @if (isset($input_group_append))
+    @if (isset($group) && isset($input_group_append))
         <div class="input-group-append">
             {{ $input_group_append }}
         </div>
