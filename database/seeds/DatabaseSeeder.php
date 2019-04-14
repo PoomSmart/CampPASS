@@ -702,6 +702,10 @@ class DatabaseSeeder extends Seeder
         })->first();
         $candidate->update([
             'username' => 'camper',
+            'name_en' => 'Tester',
+            'surname_en' => 'T',
+            'name_th' => 'นักเรียนทดสอบ',
+            'surname_th' => 'ทด',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
         ]);
         $candidate->activate();

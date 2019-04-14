@@ -171,7 +171,7 @@
                     'label' => trans('app.SaveChanges'),
                     'class' => 'btn btn-primary w-50',
                     'glyph' => 'far fa-save fa-xs',
-                    'disabled' => $question_set->interview_announced,
+                    'disabled' => !$question_set->interview_announced,
                 ])
                 @endcomponent
                 <small class="form-text text-muted mb-2">@lang('qualification.InterviewSaveDesc')</small>

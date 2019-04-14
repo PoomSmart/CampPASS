@@ -37,10 +37,10 @@ class CandidateController extends Controller
             'form_grade', 'save_manual_grade', 'form_finalize',
         ]]);
         $this->middleware('permission:candidate-list', ['only' => [
-            'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce',
+            'show_profile_detailed', 'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce',
         ]]);
         $this->middleware('permission:candidate-edit', ['only' => [
-            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save', 'show_profile_detailed',
+            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save',
         ]]);
     }
 
@@ -69,6 +69,8 @@ class CandidateController extends Controller
     {
         $data = $request->all();
         unset($data['_token']);
+        if ($camp->camp_procedure->interview_required && !$camp->question_set->interview_announced)
+            throw new \CampPASSExceptionRedirectBack();
         // TODO: Tell users that this will be un-revertable ?
         foreach ($camp->registrations as $registration) {
             try {
@@ -536,18 +538,18 @@ class CandidateController extends Controller
      */
     public static function form_grade($registration_id, $question_set_id, bool $silent = false)
     {
-        $form_score = FormScore::where('registration_id', $registration_id)->where('question_set_id', $question_set_id)->limit(1)->first();
+        $registration = Registration::findOrFail($registration_id);
+        $form_score = $registration->form_score;
         if ($silent) {
             if ($form_score && isset($form_score->total_score))
                 return $form_score->total_score;
         }
-        $registration = Registration::findOrFail($registration_id);
         Common::authenticate_camp($registration->camp);
         if ($registration->unsubmitted())
             throw new \CampPASSException(trans('exception.CannotGradeUnsubmittedForm'));
         $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
-        $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration_id);
+        $answers = $question_set->answers()->where('camper_id', $camper->id);
         if ($answers->doesntExist()) // This should not happen
             throw new \CampPASSException(trans('exception.CannotGradeFormWithoutQuestions'));
         $answers = $answers->get();
@@ -633,14 +635,15 @@ class CandidateController extends Controller
     public function save_manual_grade(Request $request, Registration $registration, $question_set_id)
     {
         Common::authenticate_camp($registration->camp);
-        $form_score = FormScore::where('registration_id', $registration->id)->where('question_set_id', $question_set_id)->limit(1)->first();
+        $form_score = $registration->form_score;
         if ($form_score->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotUpdateFinalizedForm'));
         $form_data = $request->all();
         // We don't need token
         unset($form_data['_token']);
         $camper = $registration->camper;
-        $answers = Answer::where('question_set_id', $question_set_id)->where('registration_id', $registration->id)->where('camper_id', $camper->id);
+        $question_set = QuestionSet::findOrFail($question_set_id);
+        $answers = $question_set->answers()->where('camper_id', $camper->id);
         if ($answers->doesntExist())
             throw new \CampPASSException(trans('exception.NoAnswersSaved'));
         // For all answers given, update all scores of those that will be manually graded

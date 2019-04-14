@@ -41,8 +41,7 @@ class QuestionSetController extends Controller
         $question_set = $camp->question_set;
         $json = $question_set ? QuestionManager::getQuestionJSON($camp->id, $encode = true) : [];
         View::share('object', $question_set);
-        $question_types = QuestionType::getLocalizedConstants('question');
-        View::share('question_types', $question_types);
+        View::share('question_types', QuestionType::getLocalizedConstants('question'));
         View::share('camp_id', $camp->id);
         return view('questions.index', compact('json'));
     }
