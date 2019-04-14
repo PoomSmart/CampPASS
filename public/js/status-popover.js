@@ -1,6 +1,6 @@
 var title, content;
 
-function readContent(t, c) {
+function readStatus(t, c) {
     title = t;
     content = c;
 }
@@ -11,5 +11,5 @@ jQuery(document).ready(function () {
         content: content,
         html: true
     });
-    jQuery('[data-toggle="status"]').tooltip();
+    jQuery('[data-toggle="status"],[data-toggle="registration-return-info"]').tooltip();
 });

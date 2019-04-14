@@ -26,6 +26,7 @@ class CreateRegistrationsTable extends Migration
             $table->tinyInteger('status')->default(ApplicationStatus::DRAFT);
             $table->boolean('returned')->default(false);
             $table->text('returned_reasons')->nullable();
+            $table->string('remark', 300)->nullable();
             $table->dateTime('submission_time')->nullable();
             $table->timestamps();
         });

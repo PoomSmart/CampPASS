@@ -45,10 +45,13 @@
                         <li>{{ $dict[$reason] }}</li>
                     @endforeach
                 </ul>
+                @if ($registration->remark)
+                    <p class="card-text mb-0">{{ $registration->remark }}</p>
+                @endif
             @endif
         @endslot
         @slot('buttons')
-            <a href="{{ route('camp_application.unreturn', $registration->id) }}" class="btn btn-warning w-100">@lang('registration.ConfirmCorrectionAndUnreturn')</a>
+            <a href="{{ route('camp_application.unreturn', $registration->id) }}" class="btn btn-warning w-100 mt-2">@lang('registration.ConfirmCorrectionAndUnreturn')</a>
         @endslot
         @endcomponent
         @component('components.padding', [ 'height' => 80 ])@endcomponent

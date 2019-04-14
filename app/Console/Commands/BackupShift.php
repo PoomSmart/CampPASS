@@ -72,6 +72,7 @@ class BackupShift extends Command
                         'status' => ApplicationStatus::REJECTED,
                         'returned' => false,
                         'returned_reasons' => null,
+                        'remark' => null,
                     ]);
                     $camper = $passed_candidate->camper;
                     logger()->info(trans('camper.MakingCandidateRejected', ['camp' => $camp->getFullName()]));

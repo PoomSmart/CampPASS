@@ -3,7 +3,7 @@
 @section('body')
     <div class="page">
         <h1>{{ $user->getFullName('en') }} ({{ $user->getFullName('th') }})</h1>
-        @component('components.submitted_form_table', [
+        @component('components.qualification.submitted_form_table', [
             'entries' => [
                 trans('account.Nickname') => $user->nickname_en.($user->nickname_th ? " ({$user->nickname_th})" : ''),
                 trans('account.DOB') => \App\Common::formattedDate($user->dob),
@@ -14,7 +14,7 @@
         ])
         @endcomponent
         <h3>@lang('account.Education')</h3>
-        @component('components.submitted_form_table', [
+        @component('components.qualification.submitted_form_table', [
             'entries' => [
                 trans('account.School') => $user->school,
                 trans('camper.Program') => $user->program,
@@ -24,7 +24,7 @@
         ])
         @endcomponent
         <h3>@lang('profile.ContactInformation')</h3>
-        @component('components.submitted_form_table', [
+        @component('components.qualification.submitted_form_table', [
             'entries' => [
                 trans('account.MobileNo') => $user->mobile_no,
                 trans('account.StreetAddress') => $user->street_address,
@@ -34,7 +34,7 @@
         ])
         @endcomponent
         <h3>@lang('profile.EmergencyContactInformation')</h3>
-        @component('components.submitted_form_table', [
+        @component('components.qualification.submitted_form_table', [
             'entries' => [
                 trans('camper.GuardianName') => "{$user->guardian_name} {$user->guardian_surname}",
                 trans('camper.GuardianMobileNo') => $user->guardian_mobile_no,

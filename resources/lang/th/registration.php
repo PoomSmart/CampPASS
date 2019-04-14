@@ -56,4 +56,5 @@ return [
     'CongratulationsInterview' => 'ยินดีด้วย! คุณได้เข้ารอบสัมภาษณ์ของค่าย',
     'DownloadConsentFormHere' => 'ดาวน์โหลดใบขออนุญาตผู้ปกครองได้ที่นี่',
     'SubmissionTime' => 'เวลาส่งใบสมัคร',
+    'ConfirmCorrectionAndUnreturn' => 'ยืนยันความถูกต้องและส่งใบสมัครใหม่',
 ];

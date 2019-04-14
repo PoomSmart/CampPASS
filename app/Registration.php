@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     protected $fillable = [
-        'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time', 'returned', 'returned_reasons',
+        'camp_id', 'camper_id', 'approved_by', 'status', 'submission_time', 'returned', 'returned_reasons', 'remark',
     ];
 
     protected $dates = [

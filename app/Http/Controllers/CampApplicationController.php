@@ -439,7 +439,6 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'returned' => false,
-            'returned_reasons' => null,
         ]);
         return redirect()->back()->with('success', trans('registration.FormUnreturned'));
     }
@@ -495,6 +494,7 @@ class CampApplicationController extends Controller
             'status' => ApplicationStatus::WITHDRAWED,
             'returned' => false,
             'returned_reasons' => null,
+            'remark' => null,
         ]);
         // The corresponding registration record will be automatically marked as not passed, as they lost their chance to join the camp
         $form_score = $registration->form_score;

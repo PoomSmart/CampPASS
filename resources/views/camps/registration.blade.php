@@ -3,7 +3,7 @@
 @section('script')
     <script src="{{ asset('js/status-popover.js') }}"></script>
     <script src="{{ asset('js/modal.js') }}"></script>
-    @include('components.status_popover')
+    @include('components.qualification.status_popover')
     <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-    @include('components.form_return_dialog')
+    @include('components.qualification.form_return_dialog')
     @include('components.no_revert_dialog')
     <div class="text-center">
         <p class="mb-0">{{ $category->getName() }}</p>
@@ -50,7 +50,7 @@
                             <th>@lang('account.School')</th>
                             <th>@lang('camper.Program')</th>
                             <th>@lang('registration.SubmissionTime')</th>
-                            <th>@lang('registration.Status')<i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
+                            <th>@lang('registration.Status')<i class="fas fa-info-circle ml-1 fa-xs" style="cursor: pointer;" data-toggle="status-popover"></i></th>
                             @if ($required_paid)
                                 @if ($camp->application_fee)
                                     <th>@lang('qualification.ApplicationFeePaid')</th>
@@ -92,7 +92,9 @@
                                 <td class="text-truncate text-truncate-200" title="{{ $camper->school }}">{{ $camper->school }}</td>
                                 <td>{{ $camper->program }}</td>
                                 <td>{{ $registration->getSubmissionTime() }}</td>
-                                <td class="fit text-center">{{ $registration->getStatus() }}</td>
+                                <td class="fit text-center">
+                                    @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
+                                </td>
                                 @if ($required_paid)
                                     @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                                     <td class="text-center {{ $text_class }}">
@@ -138,7 +140,7 @@
                                     >
                                 </td>
                                 <td class="fit">
-                                    @include('components.applicant_actions', [
+                                    @include('components.qualification.applicant_actions', [
                                         'registration' => $registration,
                                         'approved' => $approved,
                                         'returned' => $returned,

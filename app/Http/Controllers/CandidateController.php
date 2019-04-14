@@ -474,6 +474,7 @@ class CandidateController extends Controller
                     'status' => ApplicationStatus::REJECTED,
                     'returned' => false,
                     'returned_reasons' => null,
+                    'remark' => null,
                 ]);
                 if (++$backup_count <= $camp->backup_limit) {
                     $form_score->update([
@@ -515,6 +516,7 @@ class CandidateController extends Controller
             'status' => ApplicationStatus::REJECTED,
             'returned' => false,
             'returned_reasons' => null,
+            'remark' => null,
         ]);
         $form_score = $registration->form_score;
         if ($form_score) {
@@ -681,7 +683,7 @@ class CandidateController extends Controller
         $this->validate($request, [
             'reasons' => 'min:1',
             'reasons.*' => 'in:payment,document,profile',
-            'remark' => 'nullable|string',
+            'remark' => 'nullable|string|max:300',
         ]);
         if ($registration->approved())
             throw new \CampPASSExceptionRedirectBack();
@@ -695,6 +697,7 @@ class CandidateController extends Controller
         $registration->update([
             'returned' => true,
             'returned_reasons' => json_encode($reasons, JSON_UNESCAPED_UNICODE),
+            'remark' => $request->remark,
         ]);
         $candidate = $registration->camper;
         $candidate->notify(new ApplicationStatusUpdated($registration));

@@ -31,7 +31,7 @@
 @endsection
 
 @section('content')
-    @include('components.form_return_dialog')
+    @include('components.qualification.form_return_dialog')
     @include('components.no_revert_dialog')
     @component('components.dialog', [
         'title' => trans('qualification.CandidatesAnnouncement'),
@@ -123,7 +123,9 @@
                     @else
                         <td>{{ $registration->getSubmissionTime() }}</td>
                     @endif
-                    <td>{{ $registration->getStatus() }}</td>
+                    <td class="fit text-center">
+                        @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
+                    </td>
                     @if ($required_paid)
                         @php $text_class = $paid ? ($approved || $checked) ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
                         <td class="text-center {{ $text_class }}">
@@ -159,7 +161,7 @@
                         >
                     </td>
                     <td class="fit">
-                        @include('components.applicant_actions', [
+                        @include('components.qualification.applicant_actions', [
                             'registration' => $registration,
                             'approved' => $approved,
                             'returned' => $returned,

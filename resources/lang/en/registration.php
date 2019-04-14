@@ -56,4 +56,5 @@ return [
     'CongratulationsInterview' => 'Congratulations! You have been selected as interview candidate.',
     'DownloadConsentFormHere' => 'Download parental consent form here',
     'SubmissionTime' => 'Submission Time',
+    'ConfirmCorrectionAndUnreturn' => 'Confirm the correctness and resend',
 ];

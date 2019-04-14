@@ -23,7 +23,7 @@
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
     <script src="{{ asset('js/status-popover.js') }}"></script>
-    @include('components.status_popover')
+    @include('components.qualification.status_popover')
 @endsection
 
 @section('content')
@@ -109,7 +109,7 @@
                         @if ($registration->approved() && $who)
                             data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"
                         @endif
-                    >{{ $registration->getStatus() }}
+                    >
                     </div>
                 </td>
                 @if ($deposit_required)

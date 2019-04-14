@@ -1,5 +1,5 @@
 <script>
-    readContent("{!! trans('registration.Status') !!}", "<b>{!! trans('registration.CONFIRMED') !!}</b><br/>{!! trans('registration.CONFIRMEDInfo') !!}<br/>\
+    readStatus("{!! trans('registration.Status') !!}", "<b>{!! trans('registration.CONFIRMED') !!}</b><br/>{!! trans('registration.CONFIRMEDInfo') !!}<br/>\
     <b>{!! trans('registration.APPROVED') !!}</b><br/>{!! trans('registration.APPROVEDInfo') !!}<br/>\
     <b>{!! trans('registration.INTERVIEWED') !!}</b><br/>{!! trans('registration.INTERVIEWEDInfo') !!}<br/>\
     <b>{!! trans('registration.CHOSEN') !!}</b><br/>{!! trans('registration.CHOSENInfo') !!}<br/>\
