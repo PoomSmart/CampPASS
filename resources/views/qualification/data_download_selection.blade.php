@@ -57,6 +57,15 @@
                 <p>@lang('profile.StudentConfirmationLetter')</p>
             </div>
         </div>
+        <h3 class="ml-2">@lang('account.Allergy')</h3>
+        <div class="row">
+            <div class="col-4 text-center mb-3">
+                <input type="checkbox" name="allergy">
+            </div>
+            <div class="col-8 text-left">
+                <p>@lang('account.Allergy')</p>
+            </div>
+        </div>
         @component('components.submit', [
             'label' => trans('app.Download'),
             'class' => 'btn btn-primary w-100',

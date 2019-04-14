@@ -145,16 +145,16 @@ class CandidateController extends Controller
             $make->folder('payment')->add(glob($root.Common::paymentDirectory($camp->id).'/*'));
         if ($request->has('consent-form'))
             $make->folder('consent-form')->add(glob($root.Common::consentDirectory($camp->id).'/*'));
-        $candidates = $temp_dir = null;
+        $candidates = $temp_dir_form = $temp_dir_allergy = null;
         if ($request->has('submitted-form')) {
-            $temp_dir = "{$root}camps/temp_{$question_set->id}";
-            if (!File::exists($temp_dir))
-                File::makeDirectory($temp_dir);
+            $temp_dir_form = "{$root}camps/temp_{$question_set->id}";
+            if (!File::exists($temp_dir_form))
+                File::makeDirectory($temp_dir_form);
             $candidates = $this->candidates($camp);
             foreach ($candidates as $candidate) {
                 // Try-catch for sanity
                 try {
-                    $temp_pdf_path = "{$temp_dir}/temp_{$candidate->registration_id}.pdf";
+                    $temp_pdf_path = "{$temp_dir_form}/temp_{$candidate->registration_id}.pdf";
                     $user = $candidate->camper;
                     $json = QuestionManager::getQuestionJSON($question_set->camp_id);
                     $data = QuestionManager::getAnswers($question_set, $user);
@@ -176,9 +176,27 @@ class CandidateController extends Controller
                 }
             }
         }
+        if ($request->has('allergy')) {
+            $temp_dir_allergy = "{$root}camps/temp_allergy";
+            $temp_allergy_path = "{$temp_dir_allergy}/allergy.pdf";
+            $allergy_list = [];
+            if (is_null($candidates))
+                $candidates = $this->candidates($camp);
+            $allergic_candidates = $candidates->filter(function ($candidate) {
+                return !is_null($candidate->camper->allergy);
+            });
+            foreach ($allergic_candidates as $candidate) {
+                $camper = $candidate->camper;
+                $allergy_list[$camper->getFullName()] = $camper->allergy;
+            }
+            \SnappyPDF::loadView('layouts.allergy_table', compact('allergy_list'))->save($temp_allergy_path, true);
+            $make->folder('allergy')->add($temp_allergy_path, "allergy_list.pdf");
+        }
         $zipper->close();
-        if ($temp_dir)
-            File::deleteDirectory($temp_dir);
+        if ($temp_dir_form)
+            File::deleteDirectory($temp_dir_form);
+        if ($temp_dir_allergy)
+            File::deleteDirectory($temp_dir_allergy);
         unset($zipper);
         return response()->download($download_path)->deleteFileAfterSend();
     }
