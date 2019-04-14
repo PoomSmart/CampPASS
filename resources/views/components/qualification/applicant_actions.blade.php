@@ -1,5 +1,5 @@
 @can('candidate-edit')
-    @if (!$withdrawed && !$rejected)
+    @if (!$withdrawn && !$rejected)
         <button type="button"
             @if ($approved || $returned)
                 disabled

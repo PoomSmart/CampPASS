@@ -25,7 +25,7 @@ class StatisticsController extends Controller
     public function statistics(Camp $camp)
     {
         $total_registration_freq = []; $gender_freq = []; $education_freq = []; $province_freq = []; $school_freq = []; $program_freq = []; $cgpa_freq = [];
-        $passed = $withdrawed = $rejected = $score_count = $peak_date_count = 0;
+        $passed = $withdrawn = $rejected = $score_count = $peak_date_count = 0;
         $educations = User::$education_level_to_year;
         $data = [];
         $registration_table = \Lava::DataTable();
@@ -60,8 +60,8 @@ class StatisticsController extends Controller
             if (!isset($cgpa_freq[$cgpa_range])) $cgpa_freq[$cgpa_range] = 0;
             ++$cgpa_freq[$cgpa_range];
             ++$total_registration_freq[$slot];
-            if ($registration->withdrawed())
-                ++$withdrawed;
+            if ($registration->withdrawn())
+                ++$withdrawn;
             else if ($registration->rejected())
                 ++$rejected;
             else {
@@ -82,7 +82,7 @@ class StatisticsController extends Controller
             }
         }
         $data['passed'] = $passed;
-        $data['withdrawed'] = $withdrawed;
+        $data['withdrawn'] = $withdrawn;
         $data['rejected'] = $rejected;
         $data['average_score'] = !$by_time && $score_count ? number_format($average_score / $score_count, 2).' / '.$question_set->total_score : '-';
         foreach ($total_registration_freq as $slot => $total) {

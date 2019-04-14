@@ -153,7 +153,7 @@
             {{ $registration->confirmed() ? trans('app.Confirmed') : trans('app.Confirm') }}
         </a>
         <button type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger w-100 mx-1">
-            {{ $registration->withdrawed() ? $registration->getStatus() : trans('registration.Withdraw') }}
+            {{ $registration->withdrawn() ? $registration->getStatus() : trans('registration.Withdraw') }}
         </button>
     @endslot
     @endcomponent

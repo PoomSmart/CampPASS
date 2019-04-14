@@ -583,7 +583,7 @@ class DatabaseSeeder extends Seeder
                     }
                     $no_form_scores_error = true;
                     try {
-                        $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
+                        $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
                     } catch (\Exception $e) {
                         $this->log_debug("Announcement/Confirmation Simulation Ranked: {$e}");
                         $no_form_scores_error = false;

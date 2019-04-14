@@ -83,7 +83,7 @@ class CandidateController extends Controller
 
     public static function interview_check_real(Registration $registration, string $checked)
     {
-        if ($registration->withdrawed())
+        if ($registration->withdrawn())
             return;
         $registration->update([
             'status' => strcmp($checked, 'true') == 0 ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
@@ -219,39 +219,39 @@ class CandidateController extends Controller
         $only_true_passed = Input::get('only_true_passed', null);
         $can_get_backups = false;
         $total = $candidates->count();
-        $confirmed = $withdrawed = 0;
-        // Count the numbers for the confirmed and the withdrawed
+        $confirmed = $withdrawn = 0;
+        // Count the numbers for the confirmed and the withdrawn
         foreach ($candidates->get() as $candidate) {
             $registration = $candidate->registration;
             if ($registration->confirmed())
                 ++$confirmed;
-            else if ($registration->withdrawed())
-                ++$withdrawed;
+            else if ($registration->withdrawn())
+                ++$withdrawn;
         }
         $summary = trans('qualification.TotalCandidates', [
             'total' => $total,
             'confirmed' => $confirmed,
-            'not_confirmed' => $total - $confirmed - $withdrawed,
-            'withdrawed' => $withdrawed,
+            'not_confirmed' => $total - $confirmed - $withdrawn,
+            'withdrawn' => $withdrawn,
         ]);
         $rank_by_score = $question_set->total_score;
         if ($rank_by_score) {
             // Backups only matter for the camps that have gradable question set
-            $backup_confirmed = $backup_withdrawed = 0;
-            $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawed) {
+            $backup_confirmed = $backup_withdrawn = 0;
+            $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawn) {
                 $registration = $candidate->registration;
                 if ($registration->confirmed())
                     ++$backup_confirmed;
-                else if ($registration->withdrawed())
-                    ++$backup_withdrawed;
+                else if ($registration->withdrawn())
+                    ++$backup_withdrawn;
                 return $candidate->form_score->total_score;
             });
             $backup_total = $backups->count();
             $backup_summary = trans('qualification.TotalCandidates', [
                 'total' => $backup_total,
                 'confirmed' => $backup_confirmed,
-                'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawed,
-                'withdrawed' => $backup_withdrawed,
+                'not_confirmed' => $backup_total - $backup_confirmed - $backup_withdrawn,
+                'withdrawn' => $backup_withdrawn,
             ]);
             $can_get_backups = $camp->canGetBackups();
         } else {
@@ -294,7 +294,7 @@ class CandidateController extends Controller
         return $form_scores;
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawed = false, bool $without_returned = false, bool $check_consent_paid = false)
+    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawn = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
         if (!$question_set->finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -309,13 +309,13 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         if ($without_returned)
             $registrations = $registrations->where('registrations.returned', false);
-        if ($without_withdrawed)
-            $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWED);
+        if ($without_withdrawn)
+            $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWN);
         $total_registrations = $registrations->count();
         $auto_gradable = !$question_set->manual_required;
         $form_scores = self::create_form_scores($camp, $question_set, $registrations);
         $finalized = 0;
-        $average_score = $total_withdrawed = $total_rejected = $total_candidates = 0;
+        $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
         $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
@@ -324,10 +324,10 @@ class CandidateController extends Controller
             $minimum_score = $question_set->minimum_score;
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
-                $withdrawed = $registration->withdrawed();
+                $withdrawn = $registration->withdrawn();
                 $rejected = $registration->rejected();
-                if ($withdrawed) {
-                    ++$total_withdrawed;
+                if ($withdrawn) {
+                    ++$total_withdrawn;
                     continue;
                 } else if ($rejected) {
                     ++$total_rejected;
@@ -367,28 +367,28 @@ class CandidateController extends Controller
                 $registration = $form_score->registration;
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
                 $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
-                $withdrawed = $registration->withdrawed();
+                $withdrawn = $registration->withdrawn();
                 $rejected = $registration->rejected();
                 $form_score->update([
-                    'passed' => !$withdrawed,
+                    'passed' => !$withdrawn,
                 ]);
                 if ($registration->returned) {
                     $form_score->update([
                         'checked' => false,
                     ]);
-                } else if ($withdrawed)
-                    ++$total_withdrawed;
+                } else if ($withdrawn)
+                    ++$total_withdrawn;
                 else if ($rejected)
                     ++$total_rejected;
                 else if ($form_score->passed)
                     ++$total_candidates;
-                if (!$withdrawed && $form_score->finalized && $form_score->checked)
+                if (!$withdrawn && $form_score->finalized && $form_score->checked)
                     ++$finalized;
             }
         }
         if (!$finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
-        $count = $total_registrations - $total_withdrawed - $total_rejected;
+        $count = $total_registrations - $total_withdrawn - $total_rejected;
         if ($finalized !== $count)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank')." ({$finalized} vs {$count})");
         $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
@@ -412,16 +412,16 @@ class CandidateController extends Controller
             $summary = trans('qualification.TotalPassedFailedAvgScore', [
                 'total_registrations' => $total_registrations,
                 'total_candidates' => $total_candidates,
-                'total_withdrawed' => $total_withdrawed,
+                'total_withdrawn' => $total_withdrawn,
                 'total_failed' => $total_failed,
                 'average_score' => $average_score,
             ]);
         } else {
-            $total_failed = $total_registrations - $total_candidates - $total_withdrawed;
+            $total_failed = $total_registrations - $total_candidates - $total_withdrawn;
             $summary = trans('qualification.TotalPassedFailed', [
                 'total_registrations' => $total_registrations,
                 'total_candidates' => $total_candidates,
-                'total_withdrawed' => $total_withdrawed,
+                'total_withdrawn' => $total_withdrawn,
                 'total_failed' => $total_failed,
             ]);
         }
@@ -441,7 +441,7 @@ class CandidateController extends Controller
         // The qualified campers are those that have form score checked and passing the minimum score
         $no_passed = $no_checked = 0;
         try {
-            $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawed = true, $without_returned = true, $check_consent_paid = true);
+            $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
             $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
                 if ($form_score->passed) {
                     ++$no_passed;
@@ -723,7 +723,7 @@ class CandidateController extends Controller
     public static function form_pass_real(FormScore $form_score, $checked)
     {
         Common::authenticate_camp($form_score->question_set->camp);
-        if ($form_score->registration->withdrawed())
+        if ($form_score->registration->withdrawn())
             throw new \CampPASSExceptionRedirectBack();
         $form_score->update([
             'passed' => $checked == 'true',
@@ -736,7 +736,7 @@ class CandidateController extends Controller
         unset($data['_token']);
         foreach ($camp->form_scores()->get() as $form_score) {
             $registration = $form_score->registration;
-            if ($registration->rejected() || $registration->withdrawed())
+            if ($registration->rejected() || $registration->withdrawn())
                 continue;
             try {
                 $this->form_pass_real($form_score, isset($data[$registration->id]) ? 'true' : 'false');

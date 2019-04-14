@@ -73,7 +73,7 @@
                                 $form_score = $registration->form_score;
                                 $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
                                 $confirmed = $registration->confirmed();
-                                $withdrawed = $registration->withdrawed();
+                                $withdrawn = $registration->withdrawn();
                                 $rejected = $registration->rejected();
                                 $returned = $registration->returned;
                                 $finalized = $form_score ? $form_score->finalized : false;
@@ -81,7 +81,7 @@
                                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
                             @endphp
                             <tr
-                                @if ($withdrawed || $rejected)
+                                @if ($withdrawn || $rejected)
                                     class="table-danger"
                                 @elseif ($confirmed)
                                     class="table-success"
@@ -132,7 +132,7 @@
                                 <td class="text-center">
                                     <input type="checkbox" name="{{ $registration->id }}"
                                         {{-- TODO: Camp makers won't be allowed to revert the ticking of document approval, for now ($approved) --}}
-                                        @if (!$paid || !$consent || $registration->returned || $withdrawed || $rejected || $approved)
+                                        @if (!$paid || !$consent || $registration->returned || $withdrawn || $rejected || $approved)
                                             disabled
                                         @endif
                                         @if ($approved)
@@ -145,7 +145,7 @@
                                         'registration' => $registration,
                                         'approved' => $approved,
                                         'returned' => $returned,
-                                        'withdrawed' => $withdrawed,
+                                        'withdrawn' => $withdrawn,
                                         'rejected' => $rejected,
                                     ])
                                 </td>

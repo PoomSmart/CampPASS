@@ -56,8 +56,8 @@
             <h4 class="font-weight-normal">{{ $data['rejected'] }}</h4>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <h4>@lang('statistics.Withdrawed')</h4>
-            <h4 class="font-weight-normal">{{ $data['withdrawed'] }}</h4>
+            <h4>@lang('statistics.Withdrawn')</h4>
+            <h4 class="font-weight-normal">{{ $data['withdrawn'] }}</h4>
         </div>
         @if ($question_set && !$question_set->announced && !$data['passed'])
             <div class="col-12">

@@ -187,7 +187,7 @@ class CampApplicationController extends Controller
             case BlockApplicationStatus::CONFIRMATION:
                 if ($registration->confirmed())
                     $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
-                else if ($registration->withdrawed() || $registration->rejected()) {
+                else if ($registration->withdrawn() || $registration->rejected()) {
                     $text = trans('qualification.NotAllowedToConfirm');
                     $passed = false;
                 } else if ($registration->approved()
@@ -296,7 +296,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionPermission();
         // A registration record will be created if not already
         $registration = $this->register($camp, $user);
-        if ($registration->rejected() || $registration->withdrawed())
+        if ($registration->rejected() || $registration->withdrawn())
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = $camp->question_set;
@@ -452,8 +452,8 @@ class CampApplicationController extends Controller
         $question_set = $camp->question_set;
         if ($question_set && !$question_set->announced && !$camp_procedure->candidate_required)
             throw new \CampPASSExpcetionRedirectBack();
-        // Campers who withdrawed from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
-        if ($registration->withdrawed() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
+        // Campers who withdrawn from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
+        if ($registration->withdrawn() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         if ($registration->confirmed())
             throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyConfirmed', ['camp' => $camp]));
@@ -488,10 +488,10 @@ class CampApplicationController extends Controller
         self::authenticate_registration($registration, $silent = $silent);
         if ($registration->confirmed())
             throw new \CampPASSException(trans("exception.WithdrawAttendance"));
-        if ($registration->withdrawed())
-            throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawed', ['camp' => $camp]));
+        if ($registration->withdrawn())
+            throw new \CampPASSExceptionRedirectBack(trans('exception.AlreadyWithdrawn', ['camp' => $camp]));
         $registration->update([
-            'status' => ApplicationStatus::WITHDRAWED,
+            'status' => ApplicationStatus::WITHDRAWN,
             'returned' => false,
             'returned_reasons' => null,
             'remark' => null,
@@ -508,7 +508,7 @@ class CampApplicationController extends Controller
             $campmaker->notify(new CamperStatusChanged($registration));
         }
         if (!$silent)
-            return redirect()->back()->with('message', trans('exception.WithdrawedFrom', ['camp' => $camp]));
+            return redirect()->back()->with('message', trans('exception.WithdrawnFrom', ['camp' => $camp]));
     }
 
     public function canAccessAnswer(Answer $answer)

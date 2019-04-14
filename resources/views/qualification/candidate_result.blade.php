@@ -82,7 +82,7 @@
             @php
                 $registration = $candidate->registration;
                 $camper = $candidate->camper;
-                $withdrawed = $registration->withdrawed();
+                $withdrawn = $registration->withdrawn();
                 $form_score = $registration->form_score;
                 $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
                 $confirmed = $registration->confirmed();
@@ -96,7 +96,7 @@
             <tr
                 @if ($confirmed)
                     class="table-success"
-                @elseif ($withdrawed || $rejected)
+                @elseif ($withdrawn || $rejected)
                     class="table-danger"
                 @endif
             >
@@ -128,7 +128,7 @@
                 @if ($interview_required)
                     <td class="text-center">
                         <input type="checkbox" name="{{ $registration->id }}"
-                            @if ($withdrawed || $approved || $confirmed || $question_set->interview_announced)
+                            @if ($withdrawn || $approved || $confirmed || $question_set->interview_announced)
                                 disabled
                             @endif
                             @if ($interviewed)
@@ -150,10 +150,10 @@
                 @endif
                 <td class="fit">
                     @role('admin')
-                        @if (!$withdrawed && !$confirmed)
+                        @if (!$withdrawn && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger btn-sm">TW</a>
                         @endif
-                        @if ($paid && $consent && $approved && !$confirmed && !$withdrawed)
+                        @if ($paid && $consent && $approved && !$confirmed && !$withdrawn)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success btn-sm">TC</a>
                         @endif
                     @endrole
@@ -208,13 +208,13 @@
                     @php
                         $registration = $candidate->registration;
                         $camper = $candidate->camper;
-                        $withdrawed = $registration->withdrawed();
+                        $withdrawn = $registration->withdrawn();
                         $confirmed = $registration->confirmed();
                     @endphp
                     <tr
                         @if ($confirmed)
                             class="table-success"
-                        @elseif ($withdrawed)
+                        @elseif ($withdrawn)
                             class="table-danger"
                         @endif
                     >
@@ -225,7 +225,7 @@
                         <td class="fit">{{ $registration->getStatus() }}</td>
                         <td class="fit">
                             @role('admin')
-                                @if ($can_get_backups && !$withdrawed && !$confirmed)
+                                @if ($can_get_backups && !$withdrawn && !$confirmed)
                                     <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger">TW</a>
                                     <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success">TC</a>
                                 @endif

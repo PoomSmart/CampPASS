@@ -69,9 +69,9 @@ class Registration extends Model
         return $this->status == ApplicationStatus::REJECTED;
     }
 
-    public function withdrawed()
+    public function withdrawn()
     {
-        return $this->status == ApplicationStatus::WITHDRAWED;
+        return $this->status == ApplicationStatus::WITHDRAWN;
     }
 
     public function applied()

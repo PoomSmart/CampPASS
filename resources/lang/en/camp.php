@@ -75,7 +75,7 @@ return [
     'CampHasBeenApproved' => 'Camp :camp has been approved.',
     'CampDeletedSuccessfully' => 'Camp deleted successfully',
     'NewCamperApplied' => ':camper applied for the camp :camp',
-    'CamperWithdrawed' => ':camper withdrawed from the camp :camp',
+    'CamperWithdrawn' => ':camper withdrawn from the camp :camp',
     'CampFailedToCreate' => 'Camp failed to create.',
     'CampCreatedSuccessfully' => 'Camp :camp created successfully.',
     'CampUpdatedSuccessfully' => 'Camp :camp has been updated successfully.',

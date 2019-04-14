@@ -75,7 +75,7 @@ return [
     'CampHasBeenApproved' => 'ค่าย :camp ถูกรับรองแล้ว',
     'CampDeletedSuccessfully' => 'ค่ายถูกลบแล้ว',
     'NewCamperApplied' => ':camperได้สมัครเข้าร่วมค่าย :camp',
-    'CamperWithdrawed' => ':camperได้สละสิทธิ์การเข้าร่วมค่าย :camp',
+    'CamperWithdrawn' => ':camperได้สละสิทธิ์การเข้าร่วมค่าย :camp',
     'CampFailedToCreate' => 'สร้างค่ายไม่สำเร็จ',
     'CampCreatedSuccessfully' => 'สร้างค่าย :camp สำเร็จแล้ว',
     'CampUpdatedSuccessfully' => 'อัพเดตข้อมูลค่าย :camp สำเร็จแล้ว',

@@ -98,7 +98,7 @@
                     $registration = $form_score->registration;
                     $camper = $registration->camper;
                     $approved = $registration->approved_to_confirmed();
-                    $withdrawed = $registration->withdrawed();
+                    $withdrawn = $registration->withdrawn();
                     $rejected = $registration->rejected();
                     $returned = $registration->returned;
                     $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
@@ -108,7 +108,7 @@
                         ++$passed;
                 @endphp
                 <tr
-                    @if ($withdrawed || !$form_score->passed)
+                    @if ($withdrawn || !$form_score->passed)
                         class="table-danger"
                     @elseif ($returned || !$paid || !$consent)
                         class="table-warning"
@@ -152,7 +152,7 @@
                     @endif
                     <td class="text-center">
                         <input type="checkbox" name="{{ $form_score->id }}" id="{{ $form_score->id }}"
-                            @if ($withdrawed || $rejected)
+                            @if ($withdrawn || $rejected)
                                 disabled
                             @endif
                             @if ($form_score->passed)
@@ -165,7 +165,7 @@
                             'registration' => $registration,
                             'approved' => $approved,
                             'returned' => $returned,
-                            'withdrawed' => $withdrawed,
+                            'withdrawn' => $withdrawn,
                             'rejected' => $rejected,
                         ])
                     </td>

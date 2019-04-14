@@ -8,7 +8,7 @@ return [
     'Total' => 'ทั้งหมด',
     'Passed' => 'ผ่าน',
     'Failed' => 'ตก',
-    'Withdrawed' => 'สละสิทธิ์',
+    'Withdrawn' => 'สละสิทธิ์',
     'AverageScore' => 'คะแนนเฉลี่ย',
     'PeakDate' => 'วันที่ผู้สมัครเยอะที่สุด',
     'Demographic' => 'การวิเคราะห์',

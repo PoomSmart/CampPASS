@@ -24,8 +24,8 @@ class CamperStatusChanged extends LocalizableNotification
             'camper' => $this->camper->getFullName(), 'camp' => Common::getLocalizedName($this->camp),
         ];
         switch ($registration->status) {
-            case ApplicationStatus::WITHDRAWED:
-                return trans('camp.CamperWithdrawed', $compact);
+            case ApplicationStatus::WITHDRAWN:
+                return trans('camp.CamperWithdrawn', $compact);
         }
         return trans('camp.NewCamperApplied', $compact);
     }

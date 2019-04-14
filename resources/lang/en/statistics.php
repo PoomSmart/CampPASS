@@ -8,7 +8,7 @@ return [
     'Total' => 'Total',
     'Passed' => 'Passed',
     'Failed' => 'Failed',
-    'Withdrawed' => 'Withdrawed',
+    'Withdrawn' => 'Withdrawn',
     'AverageScore' => 'Average Score',
     'PeakDate' => 'Peak Date',
     'Demographic' => 'Demographic',
