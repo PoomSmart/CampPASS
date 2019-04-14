@@ -175,6 +175,8 @@ class CampController extends Controller
         if (auth()->user()->can('camper-list')) {
             $registrations = $camp->registrations();
             $total_registrations = $registrations->count();
+            $registrations = $registrations->orderByDesc('registrations.status') // "Group" by registration status
+                                ->orderBy('registrations.returned'); // Seperated by whether the form has been returned
             $data = $registrations->orderBy('submission_time')->paginate(Common::maxPagination());
             $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
             $has_consent = $camp->parental_consent;

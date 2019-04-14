@@ -69,6 +69,7 @@ class CandidateController extends Controller
     {
         $data = $request->all();
         unset($data['_token']);
+        // TODO: Tell users that this will be un-revertable ?
         foreach ($camp->registrations as $registration) {
             try {
                 if (isset($data[$registration->id])) {

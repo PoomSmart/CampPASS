@@ -131,7 +131,8 @@
                                 @endif
                                 <td class="text-center">
                                     <input type="checkbox" name="{{ $registration->id }}"
-                                        @if (!$paid || !$consent || $registration->returned || $withdrawed || $rejected)
+                                        {{-- TODO: Camp makers won't be allowed to revert the ticking of document approval, for now ($approved) --}}
+                                        @if (!$paid || !$consent || $registration->returned || $withdrawed || $rejected || $approved)
                                             disabled
                                         @endif
                                         @if ($approved)
