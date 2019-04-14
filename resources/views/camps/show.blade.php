@@ -17,7 +17,7 @@
         <div class="col-12 mb-2 text-center">
             <img class="img-fluid" style="height: 400px; max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
         </div>
-        <div class="col-12 text-center mb-3">
+        <div class="col-12 text-left mb-3">
             <p>{{ $camp->getShortDescription() }}</p>
         </div>
         <div class="col-12 col-md-6" id="apply">
