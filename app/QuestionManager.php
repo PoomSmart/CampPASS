@@ -99,7 +99,7 @@ class QuestionManager
 
     public static function getAnswers(QuestionSet $question_set, User $camper)
     {
-        $answers = $question_set->answers()->where('camper_id', $camper->id)->get();
+        $answers = $question_set->answers->where('camper_id', $camper->id);
         if ($answers->isEmpty())
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoAnswer'));
         foreach ($answers as $answer) {

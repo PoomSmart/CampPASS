@@ -55,7 +55,7 @@ class BadgeController
             ], [
                 'earned_date' => now(),
             ]);
-            $registrations = $camper->registrations()->where('status', ApplicationStatus::CONFIRMED);
+            $registrations = $camper->registrations->where('status', ApplicationStatus::CONFIRMED);
             if ($registrations->count() == 10) {
                 // Attended 10 camps
                 Badge::firstOrCreate([

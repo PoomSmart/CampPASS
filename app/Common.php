@@ -114,6 +114,11 @@ class Common
         return rand(1, 10);
     }
 
+    public static function floatRand($min, $max)
+    {
+        return round($min + mt_rand() / mt_getrandmax() * ($max - $min), 2);
+    }
+
     public static function randomElement(array $array)
     {
         return $array[array_rand($array)];

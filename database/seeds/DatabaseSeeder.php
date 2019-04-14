@@ -200,7 +200,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_seed('student documents');
         $fake_document = new File(base_path('database/seeds/files/pdf.pdf'));
-        foreach (User::campers()->where('status', 1)->cursor() as $camper) {
+        foreach (User::campers()->where('status', 1)->get() as $camper) {
             $directory = Common::userFileDirectory($camper->id);
             Storage::putFileAs($directory, $fake_document, 'transcript.pdf');
             Storage::putFileAs($directory, $fake_document, 'confirmation_letter.pdf');
@@ -260,15 +260,24 @@ class DatabaseSeeder extends Seeder
         }
     }
 
+    private $has_match_camp_ids = [ 19, 21, 29, 34 ];
+
+    private function hasMatch(Camp $camp)
+    {
+        return in_array($camp->id, $this->has_match_camp_ids);
+    }
+
     private function registrations_and_questions_and_answers()
     {
         $real_question_sets_seed_path = base_path('database/seeds/questions');
         $real_answers_seed_path = base_path('database/seeds/answers');
-        $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array('..', '.'));
+        $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array_merge(array('..', '.'), array_map(function ($v) {
+            return "{$v}.json";
+        }, $this->has_match_camp_ids)));
         $minimum_questions = 5;
-        $maximum_questions = 10;
-        $maximum_choices = 6;
-        $maximum_checkboxes = 6;
+        $maximum_questions = 8;
+        $maximum_choices = 5;
+        $maximum_checkboxes = 5;
         $faker = Faker\Factory::create();
         $campers = User::campers()->get();
         // First, fake registrations of campers who are eligible for
@@ -297,7 +306,7 @@ class DatabaseSeeder extends Seeder
                     continue;
                 // Randomly submit the application forms, taking into account its camp procedure
                 $camp_procedure = $camp->camp_procedure;
-                if (!$camp_procedure->deposit_required && !$camp_procedure->interview_required && !$camp_procedure->candidate_required) // Walk-in
+                if ($camp_procedure->walkIn()) // Walk-in
                     $status = Common::randomFrequentHit() ? ApplicationStatus::CHOSEN : ApplicationStatus::DRAFT;
                 else if ($camp->paymentOnly()) // Payment Only
                     $status = ApplicationStatus::CHOSEN;
@@ -349,23 +358,21 @@ class DatabaseSeeder extends Seeder
         $pairs = [];
         $questions = [];
         $question_sets = [];
-        $question_set_id = 0;
-        $question_id = 0;
+        $question_set_id = $question_id = 0;
         $question_full_score = 10;
         foreach (Camp::allApproved()->cursor() as $camp) {
             if (!$camp->camp_procedure->candidate_required)
                 continue;
             ++$question_set_id;
-            $question_set_has_grade = false;
-            $question_set_has_manual_grade = false;
+            $question_set_has_grade = $question_set_has_manual_grade = $has_any_answers = false;
             $question_set_total_score = 0;
-            $has_any_answers = false;
             $question_set_try_auto = null;
             $multiple_radio_map = [];
             $multiple_checkbox_map = [];
-            if (Common::randomMediumHit()) {
+            $matched = $this->hasMatch($camp);
+            if ($matched || Common::randomMediumHit()) {
                 // Use the real question sets
-                $real_question_set = Common::randomElement($real_question_sets);
+                $real_question_set = $matched ? "{$camp->id}.json" : Common::randomElement($real_question_sets);
                 $json_path = "{$real_question_sets_seed_path}/{$real_question_set}";
                 $json = json_decode(file_get_contents($json_path), true);
                 // Append the camp ID to every question ID
@@ -373,10 +380,13 @@ class DatabaseSeeder extends Seeder
                     if (isset($json[$key])) {
                         if ($key == 'question_graded')
                             $question_set_has_grade = true;
-                        $json[$key] = array_combine(array_map(function($k) use (&$json, &$camp, &$question_set_has_grade, &$question_set_has_manual_grade) {
+                        $json[$key] = array_combine(array_map(function($k) use (&$json, &$camp, &$question_set_has_grade, &$question_set_has_manual_grade, &$question_set_total_score) {
                             $new_k = "{$camp->id}-{$k}";
-                            if ($question_set_has_grade && $json['question'][$new_k] != QuestionType::CHOICES)
-                                $question_set_has_manual_grade = true;
+                            if ($question_set_has_grade) {
+                                if ($json['question'][$new_k] != QuestionType::CHOICES)
+                                    $question_set_has_manual_grade = true;
+                                $question_set_total_score += 10;
+                            }
                             return $new_k;
                         }, array_keys($json[$key])), $json[$key]);
                         if ($key == 'checkbox_label' || $key == 'radio_label') {
@@ -391,7 +401,7 @@ class DatabaseSeeder extends Seeder
                     }
                 }
                 $self_question_id = $question_id;
-                $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? rand(1, 75) / 100.0 : null, $extra_question_set_info = [
+                $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? $question_set_total_score * Common::floatRand(0.5, 0.8) : null, $extra_question_set_info = [
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
                 ], $question_id);
@@ -454,7 +464,7 @@ class DatabaseSeeder extends Seeder
                             $json['radio_label'][$json_id] = [];
                             for ($i = 1; $i <= $choices_number; ++$i) {
                                 $choice_id = $this->randomID($camp->id);
-                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 20);
+                                $json['radio_label'][$json_id][$choice_id] = $faker->text($maxNbChars = 15);
                             }
                             $multiple_radio_map[$json_id] = $json['radio_label'][$json_id];
                             $correct_choice = array_rand($json['radio_label'][$json_id]);
@@ -466,7 +476,7 @@ class DatabaseSeeder extends Seeder
                             $json['checkbox_label'][$json_id] = [];
                             for ($i = 1; $i <= $checkboxes_number; ++$i) {
                                 $checkbox_id = $this->randomID($camp->id);
-                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 20);
+                                $json['checkbox_label'][$json_id][$checkbox_id] = $faker->text($maxNbChars = 15);
                             }
                             $multiple_checkbox_map[$json_id] = $json['checkbox_label'][$json_id];
                             break;
@@ -489,12 +499,12 @@ class DatabaseSeeder extends Seeder
                 $question_sets[] = [
                     'id' => $question_set_id,
                     'camp_id' => $camp->id,
-                    'minimum_score' => $question_set_has_grade ? ($question_set_total_score * (rand(1, 20) * 3.5) / 100.0) : null,
+                    'minimum_score' => $question_set_has_grade && $question_set_total_score ? $question_set_total_score * Common::floatRand(0.5, 0.8) : null,
                     'manual_required' => $question_set_has_manual_grade,
                     'total_score' => $question_set_total_score,
                     'finalized' => $has_any_answers,
                 ];
-                // Empty fields are ruled out the same way the form POST does
+                // Empty fields are ruled out the same way the POST form does
                 foreach ($json as $key => $value) {
                     if (empty($value))
                         unset($json[$key]);
@@ -597,7 +607,7 @@ class DatabaseSeeder extends Seeder
                         } catch (\Exception $e) {
                             $this->log_debug("Announcement/Confirmation Simulation Announced: {$e}");
                         }
-                        foreach ($camp->candidates()->where('backup', false)->get() as $candidate) {
+                        foreach ($camp->candidates->where('backup', false) as $candidate) {
                             if (Common::randomRareHit())
                                 continue;
                             if (Common::randomVeryFrequentHit()) {
@@ -640,7 +650,7 @@ class DatabaseSeeder extends Seeder
                 } else {
                     $has_payment = $camp->paymentOnly();
                     $payment_directory = $has_payment ? Common::paymentDirectory($camp->id) : null;
-                    foreach ($camp->registrations()->where('status', '>=', ApplicationStatus::APPLIED)->get() as $registration) {
+                    foreach ($camp->registrations->where('status', '>=', ApplicationStatus::APPLIED) as $registration) {
                         if ($has_payment && Common::randomVeryFrequentHit())
                             Storage::putFileAs($payment_directory, $dummy_file, "payment_{$registration->id}.pdf");
                         if ($has_consent && Common::randomVeryFrequentHit())

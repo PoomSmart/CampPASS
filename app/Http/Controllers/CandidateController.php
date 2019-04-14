@@ -98,7 +98,7 @@ class CandidateController extends Controller
             throw new \CampPASSExceptionRedirectBack();
         $data = $request->all();
         unset($data['_token']);
-        $candidates = $camp->candidates()->where('backup', false)->get();
+        $candidates = $camp->candidates->where('backup', false);
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
             $this->interview_check_real($registration, isset($data[$registration->id]) ? 'true' : 'false');
@@ -110,7 +110,7 @@ class CandidateController extends Controller
     {
         if ($question_set->interview_announced)
             throw new \CampPASSExceptionRedirectBack();
-        $candidates = $question_set->camp->candidates()->where('backup', false)->get();
+        $candidates = $question_set->camp->candidates->where('backup', false);
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
             $interviewed = $registration->interviewed();
@@ -128,7 +128,7 @@ class CandidateController extends Controller
 
     private static function candidates(Camp $camp)
     {
-        return $camp->candidates()->where('backup', false)->get()->filter(function ($candidate) {
+        return $camp->candidates->where('backup', false)->filter(function ($candidate) {
             $registration = $candidate->registration;
             return !$registration->returned && $registration->chosen_to_confirmed();
         });
@@ -240,7 +240,7 @@ class CandidateController extends Controller
         if ($rank_by_score) {
             // Backups only matter for the camps that have gradable question set
             $backup_confirmed = $backup_withdrawn = 0;
-            $backups = $camp->candidates()->where('backup', true)->get()->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawn) {
+            $backups = $camp->candidates->where('backup', true)->sortByDesc(function ($candidate) use (&$backup_confirmed, &$backup_withdrawn) {
                 $registration = $candidate->registration;
                 if ($registration->confirmed())
                     ++$backup_confirmed;

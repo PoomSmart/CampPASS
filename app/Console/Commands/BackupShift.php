@@ -56,7 +56,7 @@ class BackupShift extends Command
                 continue;
             if (!$force && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
                 continue;
-            $passed_candidates = $camp->candidates()->where('backup', false)->get();
+            $passed_candidates = $camp->candidates->where('backup', false);
             if ($passed_candidates->isEmpty())
                 continue;
             $no_longer_passed = 0;
@@ -83,7 +83,7 @@ class BackupShift extends Command
             if (!$no_longer_passed)
                 continue;
             logger()->info('Shifting the equal amount of backups up');
-            $candidates = $camp->candidates()->where('backup', true)->orderByDesc('total_score')->get();
+            $candidates = $camp->candidates->where('backup', true)->orderByDesc('total_score');
             if ($camp->backup_limit)
                 $candidates = $candidates->splice(0, min($no_longer_passed, $camp->backup_limit));
             foreach ($candidates as $candidate) {
