@@ -28,7 +28,7 @@ class Camp extends Model
         'acceptable_regions', 'acceptable_education_levels', 'min_cgpa', 'other_conditions', 'application_fee', 'deposit', 'url', 'fburl',
         'app_open_date', 'app_close_date', 'confirmation_date', 'announcement_date', 'event_start_date', 'event_end_date',
         'interview_date', 'interview_information', 'payment_information',
-        'event_location_lat', 'event_location_long',
+        /* 'event_location_lat', 'event_location_long', */
         'banner', 'poster', 'parental_consent',
         'quota', 'contact_campmaker', 'backup_limit', 'approved',
     ];

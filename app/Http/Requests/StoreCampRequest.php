@@ -39,8 +39,8 @@ class StoreCampRequest extends CampPASSFormRequest
             'confirmation_date' => 'nullable|date|required_with:announcement_date|after:announcement_date|after:interview_date',
             'event_start_date' => 'nullable|date|after:tomorrow|after:app_close_date|after:confirmation_date',
             'event_end_date' => 'nullable|date|after_or_equal:event_start_date',
-            'event_location_lat' => 'nullable|numeric|between:-90,90', // TODO: Figure out how can they input
-            'event_location_long' => 'nullable|numeric|between:-180,180',
+            /* 'event_location_lat' => 'nullable|numeric|between:-90,90', // TODO: Figure out how can they input
+            'event_location_long' => 'nullable|numeric|between:-180,180', */
             'banner' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
             'poster' => 'nullable|image|mimes:jpeg,png,jpg|max:8192',
             'parental_consent' => 'nullable|file|mimes:pdf|max:10000',

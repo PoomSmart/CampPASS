@@ -45,8 +45,8 @@ class CreateCampsTable extends Migration
             $table->text('interview_information')->nullable();
             $table->dateTime('event_start_date');
             $table->dateTime('event_end_date');
-            $table->double('event_location_lat')->nullable(); // event place may be undecided
-            $table->double('event_location_long')->nullable(); // same as above
+            // $table->double('event_location_lat')->nullable(); // event place may be undecided
+            // $table->double('event_location_long')->nullable(); // same as above
             $table->string('banner', 100)->default('banner.jpg');
             $table->string('poster', 100)->default('poster.jpg');
             $table->string('parental_consent', 100)->nullable();
