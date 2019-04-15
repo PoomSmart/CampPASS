@@ -260,7 +260,7 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private $has_match_camp_ids = [ 19, 21, 29, 34 ];
+    private $has_match_camp_ids = [ 19, 21, 29, 34, 126 ];
 
     private function hasMatch(Camp $camp)
     {
