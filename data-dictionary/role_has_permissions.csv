@@ -1,0 +1,3 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+permission_id,INT(10),Yes,Yes,Yes,,
+role_id,INT(10),Yes,Yes,Yes,,

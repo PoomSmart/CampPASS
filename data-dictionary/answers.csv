@@ -1,0 +1,10 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,INT(10),Yes,Yes,No,,
+question_set_id,INT(10),Yes,No,Yes,,
+question_id,INT(10),Yes,No,Yes,,
+camper_id,INT(10),Yes,No,Yes,,
+registration_id,INT(10),Yes,No,Yes,,
+answer,TEXT,No,No,No,NULL,
+score,DOUBLE,No,No,No,NULL,
+created_at,TIMESTAMP,No,No,No,NULL,
+updated_at,TIMESTAMP,No,No,No,NULL,

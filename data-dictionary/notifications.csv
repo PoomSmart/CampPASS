@@ -1,0 +1,9 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,CHAR(36),Yes,Yes,No,,
+type,VARCHAR(255),Yes,No,No,,
+notifiable_type,VARCHAR(255),Yes,No,No,,
+notifiable_id,BIGINT(20),Yes,No,No,,
+data,TEXT,Yes,No,No,,
+read_at,TIMESTAMP,No,No,No,NULL,
+created_at,TIMESTAMP,No,No,No,NULL,
+updated_at,TIMESTAMP,No,No,No,NULL,

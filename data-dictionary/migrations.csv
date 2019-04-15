@@ -1,0 +1,4 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,INT(10),Yes,Yes,No,,
+migration,VARCHAR(255),Yes,No,No,,
+batch,INT(11),Yes,No,No,,

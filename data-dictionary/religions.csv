@@ -1,0 +1,3 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,INT(10),Yes,Yes,No,,
+name,VARCHAR(255),Yes,No,No,,

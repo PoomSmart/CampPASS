@@ -1,0 +1,7 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,INT(10),Yes,Yes,No,,
+name_en,VARCHAR(255),No,No,No,NULL,
+name_th,VARCHAR(255),No,No,No,NULL,
+address,VARCHAR(255),No,No,No,NULL,
+zipcode,VARCHAR(255),No,No,No,NULL,
+type,TINYINT(3),No,No,No,NULL,

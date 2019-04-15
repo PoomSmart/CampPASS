@@ -1,0 +1,10 @@
+Name,Data Type,Nullable,PK,FK,Default,Comment
+id,INT(10),Yes,Yes,No,,
+camper_id,INT(10),Yes,No,Yes,,
+camp_id,INT(10),Yes,No,Yes,,
+registration_id,INT(10),Yes,No,Yes,,
+form_score_id,INT(10),Yes,No,Yes,,
+total_score,SMALLINT(6),No,No,No,NULL,
+backup,TINYINT(1),Yes,No,No,'0',
+created_at,TIMESTAMP,No,No,No,NULL,
+updated_at,TIMESTAMP,No,No,No,NULL,
