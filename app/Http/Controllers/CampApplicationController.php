@@ -45,7 +45,7 @@ class CampApplicationController extends Controller
         // Campers would not submit the answers to the questions of such non-approved camps
         if (!$camp->approved && !$user->isAdmin())
             throw new \App\Exceptions\ApproveCampException();
-        if (!$user->isAdmin())
+        if ($user->isCamper())
             $user->isEligibleForCamp($camp);
     }
 
