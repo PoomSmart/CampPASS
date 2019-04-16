@@ -66,7 +66,7 @@
             <th>@lang('account.School')</th>
             <th>@lang('camper.Program')</th>
             <th>@lang('registration.Status')
-                <i class="fas fa-info-circle ml-1 fa-xs" data-toggle="status-popover"></i></th>
+                <i class="fas fa-info-circle ml-1 fa-xs" tabindex="0" data-toggle="status-popover" data-trigger="focus"></i></th>
             @if ($deposit_required)
                 <th>@lang('qualification.DepositPaid')</th>
             @endif
