@@ -7,6 +7,7 @@
 /* ------- customize primary buttons -------- */
 $main_color: #FB6B0A;
 $edit_color: #00A6ED;
+$statistic_color:  #751aff;
 
 .btn-primary {
   @include button-variant($main_color, $main_color, darken($main_color, 10%), darken($main_color, 10%), lighten($main_color, 10%), darken($main_color, 20%));
@@ -14,6 +15,10 @@ $edit_color: #00A6ED;
 
 .btn-info {
   @include button-variant($edit_color, $edit_color, darken($edit_color, 10%), darken($edit_color, 10%), lighten($edit_color, 10%), darken($edit_color, 20%));
+}
+
+.btn-statistic {
+  @include button-variant($statistic_color, $statistic_color, darken($statistic_color, 10%), darken($statistic_color, 10%), lighten($statistic_color, 10%), darken($statistic_color, 20%));
 }
 
 .popover-header {
