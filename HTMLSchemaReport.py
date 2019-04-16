@@ -9,7 +9,6 @@ ModuleInfo = DefineModule(name="DBReport", author="Tito Sanchez", version="1.0",
 @ModuleInfo.export(grt.INT, grt.classes.db_Catalog)
 
 def htmlDataDictionary(catalog):
-    # Put plugin contents here
     htmlOut = ""
     filechooser = FileChooser(mforms.SaveFile)
     filechooser.set_extensions("HTML File (*.html)|*.html","html");
