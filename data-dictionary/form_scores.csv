@@ -1,11 +1,11 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-registration_id,"INT(10)",Yes,No,Yes,registrations,,
-question_set_id,"INT(10)",Yes,No,Yes,question_sets,,
-total_score,"DOUBLE",No,No,No,,NULL,
-finalized,"TINYINT(1)",Yes,No,No,,'0',
-checked,"TINYINT(1)",Yes,No,No,,'0',
-passed,"TINYINT(1)",Yes,No,No,,'0',
-submission_time,"TIMESTAMP",No,No,No,,NULL,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of form_score table
+registration_id,INT(10),Yes,No,Yes,registrations,,ID of the registration that the form score belongs
+question_set_id,INT(10),Yes,No,Yes,question_sets,,ID of the question set that the form score belongs
+total_score,DOUBLE,No,No,No,,NULL,Total score of the application form that the camper earns
+finalized,TINYINT(1),Yes,No,No,,'0',Boolean value for whether the application is finalized by the Camp Maker
+checked,TINYINT(1),Yes,No,No,,'0',Boolean value for whether the Camp Maker approved all the documents that are require
+passed,TINYINT(1),Yes,No,No,,'0',Boolean value for whether the Camper is chosen to join the camp
+submission_time,TIMESTAMP,No,No,No,,NULL,Submission time of the application
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the candidates is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the candidates is created
