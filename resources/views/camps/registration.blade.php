@@ -50,7 +50,7 @@
                             <th>@lang('account.School')</th>
                             <th>@lang('camper.Program')</th>
                             <th>@lang('registration.SubmissionTime')</th>
-                            <th>@lang('registration.Status')<i class="fas fa-info-circle ml-1 fa-xs" style="cursor: pointer;" data-toggle="status-popover"></i></th>
+                            <th>@lang('registration.Status')<i class="fas fa-info-circle ml-1 fa-xs" tabindex="0" style="cursor: pointer;" data-toggle="status-popover" data-trigger="focus"></i></th>
                             @if ($required_paid)
                                 @if ($camp->application_fee)
                                     <th>@lang('qualification.ApplicationFeePaid')</th>
