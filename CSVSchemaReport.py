@@ -22,11 +22,20 @@ def csvDataDictionary(catalog):
     schema = catalog.schemata[0]
     for table in schema.tables:
       csvFile = open("%s/%s.csv" % (csvOut, table.name), "w")
-      print >>csvFile, "Name,Data Type,Nullable,PK,FK,Default,Comment"
+      print >>csvFile, "Name,Data Type,Nullable,PK,FK,Reference,Default,Comment"
+      fks = table.foreignKeys
       for column in table.columns:
         pk = ('No', 'Yes')[bool(table.isPrimaryKeyColumn(column))]
-        fk = ('No', 'Yes')[bool(table.isForeignKeyColumn(column))]
+        is_fk = bool(table.isForeignKeyColumn(column))
+        fk = ('No', 'Yes')[is_fk]
+        ref = find_referenced_table(fks, column) if is_fk else ''
         nn = ('No', 'Yes')[bool(column.isNotNull)]
-        print >>csvFile, "%s,%s,%s,%s,%s,%s,%s" % (column.name,column.formattedType,nn,pk,fk,column.defaultValue,column.comment)
+        print >>csvFile, "%s,%s,%s,%s,%s,%s,%s,%s" % (column.name,column.formattedType,nn,pk,fk,ref,column.defaultValue,column.comment)
     Utilities.show_message("Report generated", "CSV Report format from current model generated", "OK","","")
     return 0
+
+def find_referenced_table(fks, column):
+    for fk in fks:
+        if fk.name.endswith("%s_foreign" % column.name):
+            return fk.referencedTable.name
+    return None

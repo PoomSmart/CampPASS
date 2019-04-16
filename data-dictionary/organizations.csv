@@ -1,9 +1,9 @@
-Name,Data Type,Nullable,PK,FK,Default,Comment
-id,INT(10),Yes,Yes,No,,
-name_en,VARCHAR(255),No,No,No,NULL,
-name_th,VARCHAR(255),No,No,No,NULL,
-address,VARCHAR(255),No,No,No,NULL,
-zipcode,VARCHAR(255),No,No,No,NULL,
-type,TINYINT(3),Yes,No,No,,
-subtype,TINYINT(3),No,No,No,NULL,
-image,VARCHAR(10),No,No,No,NULL,
+Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
+id,INT(10),Yes,Yes,No,,,
+name_en,VARCHAR(255),No,No,No,,NULL,
+name_th,VARCHAR(255),No,No,No,,NULL,
+address,VARCHAR(255),No,No,No,,NULL,
+zipcode,VARCHAR(255),No,No,No,,NULL,
+type,TINYINT(3),Yes,No,No,,,
+subtype,TINYINT(3),No,No,No,,NULL,
+image,VARCHAR(10),No,No,No,,NULL,
