@@ -2,8 +2,8 @@ Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
 id,INT(10),Yes,Yes,No,,,Primary key of camp_procedures table
 title,VARCHAR(50),Yes,No,No,,,Title of camp procedure
 description,VARCHAR(255),Yes,No,No,,,Description of camp procedure
-interview_required,TINYINT(1),Yes,No,No,,'0',----
-deposit_required,TINYINT(1),Yes,No,No,,'0',----
-candidate_required,TINYINT(1),Yes,No,No,,'0',----
+interview_required,TINYINT(1),Yes,No,No,,'0',Boolean value whether the camp procedure needs interview
+deposit_required,TINYINT(1),Yes,No,No,,'0',Boolean value whether the camp procedure needs deposit
+candidate_required,TINYINT(1),Yes,No,No,,'0',Boolean value whether the camp procedure needs candidate selection
 created_at,TIMESTAMP,No,No,No,,NULL,The date at which the camp procedure is created
 updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the camp procedure is updated

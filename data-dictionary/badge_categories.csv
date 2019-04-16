@@ -1,6 +1,6 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
 id,INT(10),Yes,Yes,No,,,Primary key of badge_categories table
-name,VARCHAR(255),Yes,No,No,,,Badge's name
-description,VARCHAR(255),Yes,No,No,,,Badge's description
-created_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge is created
-updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge is updated
+name,VARCHAR(255),Yes,No,No,,,Badge category's name
+description,VARCHAR(255),Yes,No,No,,,Badge category's description
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge category is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge category is updated

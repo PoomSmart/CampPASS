@@ -2,4 +2,4 @@ Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
 id,INT(10),Yes,Yes,No,,,Primary key of camp_categories table
 name,VARCHAR(255),Yes,No,No,,,Name of the camp category
 created_at,TIMESTAMP,No,No,No,,NULL,The date at which the camp category is created
-updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the camp category is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the camp category is updated

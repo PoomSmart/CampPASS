@@ -1,7 +1,7 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
 id,INT(10),Yes,Yes,No,,,Primary key of badges table
-badge_category_id,INT(10),Yes,No,Yes,badge_categories,,Badges' id
-camper_id,INT(10),Yes,No,Yes,users,,Camper's id
-earned_date,DATE,Yes,No,No,,,The date at which the question set is earned by camper
-created_at,TIMESTAMP,No,No,No,,NULL,-----
-updated_at,TIMESTAMP,No,No,No,,NULL,-----
+badge_category_id,INT(10),Yes,No,Yes,badge_categories,,Badge category ID of the badge
+camper_id,INT(10),Yes,No,Yes,users,,ID of the camper that earned the badge
+earned_date,DATE,Yes,No,No,,,The date at which the badge is earned
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the badge is updated
