@@ -1,9 +1,9 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"CHAR(36)",Yes,Yes,No,,,
-type,"VARCHAR(255)",Yes,No,No,,,
-notifiable_type,"VARCHAR(255)",Yes,No,No,,,
-notifiable_id,"BIGINT(20)",Yes,No,No,,,
-data,"TEXT",Yes,No,No,,,
-read_at,"TIMESTAMP",No,No,No,,NULL,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,CHAR(36),Yes,Yes,No,,,Primary key of notifications table
+type,VARCHAR(255),Yes,No,No,,,"Type of the notification, as enum"
+notifiable_type,VARCHAR(255),Yes,No,No,,,Internal notification type
+notifiable_id,BIGINT(20),Yes,No,No,,,Internal notification ID
+data,TEXT,Yes,No,No,,,Content of the notification
+read_at,TIMESTAMP,No,No,No,,NULL,The date at which the notification is read
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the notification is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the notification is updated

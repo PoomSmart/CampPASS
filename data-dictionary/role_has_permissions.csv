@@ -1,3 +1,3 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-permission_id,"INT(10)",Yes,Yes,Yes,permissions,,
-role_id,"INT(10)",Yes,Yes,Yes,roles,,
+permission_id,INT(10),Yes,Yes,Yes,permissions,,ID of permission
+role_id,INT(10),Yes,Yes,Yes,roles,,ID of role

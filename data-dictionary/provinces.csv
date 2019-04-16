@@ -1,5 +1,5 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-name_en,"VARCHAR(50)",Yes,No,No,,,
-name_th,"VARCHAR(50)",Yes,No,No,,,
-zipcode_prefix,"TINYINT(4)",Yes,No,No,,,
+id,INT(10),Yes,Yes,No,,,Primary key of provinces table
+name_en,VARCHAR(50),Yes,No,No,,,English name of the province
+name_th,VARCHAR(50),Yes,No,No,,,Thai name of the province
+zipcode_prefix,TINYINT(4),Yes,No,No,,,First two digits of the province's zipcode

@@ -1,9 +1,9 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-name_en,"VARCHAR(255)",No,No,No,,NULL,
-name_th,"VARCHAR(255)",No,No,No,,NULL,
-address,"VARCHAR(255)",No,No,No,,NULL,
-zipcode,"VARCHAR(255)",No,No,No,,NULL,
-type,"TINYINT(3)",Yes,No,No,,,
-subtype,"TINYINT(3)",No,No,No,,NULL,
-image,"VARCHAR(10)",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of organizations table
+name_en,VARCHAR(255),No,No,No,,NULL,English name of the organization
+name_th,VARCHAR(255),No,No,No,,NULL,Thai name of the organization
+address,VARCHAR(255),No,No,No,,NULL,Address of the organization
+zipcode,VARCHAR(255),No,No,No,,NULL,Zipcode of the organization
+type,TINYINT(3),Yes,No,No,,,"Type of the organization, as enum"
+subtype,TINYINT(3),No,No,No,,NULL,"Subtype of the organization, as enum"
+image,VARCHAR(10),No,No,No,,NULL,Image name of the organization

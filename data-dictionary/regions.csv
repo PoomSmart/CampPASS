@@ -1,4 +1,4 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-name,"VARCHAR(30)",Yes,No,No,,,
-short_name,"VARCHAR(10)",Yes,No,No,,,
+id,INT(10),Yes,Yes,No,,,Primary key of regions table
+name,VARCHAR(30),Yes,No,No,,,Name of the region
+short_name,VARCHAR(10),Yes,No,No,,,Short name of the region

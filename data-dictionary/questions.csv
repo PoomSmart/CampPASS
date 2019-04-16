@@ -1,7 +1,7 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-json_id,"VARCHAR(255)",Yes,No,No,,,
-type,"SMALLINT(5)",Yes,No,No,,,
-full_score,"DOUBLE",No,No,No,,NULL,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of questions table
+json_id,VARCHAR(255),Yes,No,No,,,Question ID as identified in the respective JSON file
+type,SMALLINT(5),Yes,No,No,,,"Type of the question, as enum"
+full_score,DOUBLE,No,No,No,,NULL,Full score of the question
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the question is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the question is updated

@@ -1,40 +1,40 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-name_en,"VARCHAR(50)",No,No,No,,NULL,
-name_th,"VARCHAR(50)",No,No,No,,NULL,
-surname_en,"VARCHAR(50)",No,No,No,,NULL,
-surname_th,"VARCHAR(50)",No,No,No,,NULL,
-nickname_en,"VARCHAR(50)",No,No,No,,NULL,
-nickname_th,"VARCHAR(50)",No,No,No,,NULL,
-nationality,"TINYINT(3)",Yes,No,No,,,
-citizen_id,"VARCHAR(255)",Yes,No,No,,,
-gender,"TINYINT(3)",Yes,No,No,,,
-dob,"DATE",Yes,No,No,,,
-street_address,"VARCHAR(300)",Yes,No,No,,,
-province_id,"INT(10)",Yes,No,Yes,provinces,,
-zipcode,"VARCHAR(255)",Yes,No,No,,,
-mobile_no,"VARCHAR(255)",No,No,No,,NULL,
-allergy,"VARCHAR(200)",No,No,No,,NULL,
-email,"VARCHAR(100)",Yes,No,No,,,
-avatar,"VARCHAR(255)",Yes,No,No,,'profile.png',
-username,"VARCHAR(255)",Yes,No,No,,,
-email_verified_at,"TIMESTAMP",No,No,No,,NULL,
-password,"VARCHAR(255)",Yes,No,No,,,
-activation_code,"VARCHAR(255)",No,No,No,,NULL,
-status,"TINYINT(1)",Yes,No,No,,'0',
-remember_token,"VARCHAR(100)",No,No,No,,NULL,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
-type,"TINYINT(4)",Yes,No,No,,,
-religion_id,"INT(10)",Yes,No,Yes,religions,,
-organization_id,"INT(10)",No,No,Yes,organizations,NULL,
-cgpa,"DOUBLE(3,2)",No,No,No,,NULL,
-education_level,"TINYINT(4)",No,No,No,,NULL,
-blood_group,"TINYINT(4)",No,No,No,,NULL,
-guardian_name,"VARCHAR(255)",No,No,No,,NULL,
-guardian_surname,"VARCHAR(255)",No,No,No,,NULL,
-guardian_role,"TINYINT(4)",No,No,No,,NULL,
-guardian_role_text,"VARCHAR(20)",No,No,No,,NULL,
-guardian_mobile_no,"VARCHAR(255)",No,No,No,,NULL,
-school_id,"INT(10)",No,No,Yes,schools,NULL,
-program_id,"INT(10)",No,No,Yes,programs,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of users table
+name_en,VARCHAR(50),No,No,No,,NULL,English first name of the user
+name_th,VARCHAR(50),No,No,No,,NULL,Thai first name of the user
+surname_en,VARCHAR(50),No,No,No,,NULL,English surname of the user
+surname_th,VARCHAR(50),No,No,No,,NULL,Thai surname of the user
+nickname_en,VARCHAR(50),No,No,No,,NULL,English nickname of the user
+nickname_th,VARCHAR(50),No,No,No,,NULL,Thai nickname of the user
+nationality,TINYINT(3),Yes,No,No,,,"Nationality of the user, e.g. Thai"
+citizen_id,VARCHAR(255),Yes,No,No,,,13-digits citizen ID of the user
+gender,TINYINT(3),Yes,No,No,,,Gender of the user
+dob,DATE,Yes,No,No,,,Birth date of the user
+street_address,VARCHAR(300),Yes,No,No,,,Street address of the user
+province_id,INT(10),Yes,No,Yes,provinces,,"Province of the user, as ID"
+zipcode,VARCHAR(255),Yes,No,No,,,Zipcode of the user
+mobile_no,VARCHAR(255),No,No,No,,NULL,Mobile number of the user
+allergy,VARCHAR(200),No,No,No,,NULL,Food or drug allergy of the user
+email,VARCHAR(100),Yes,No,No,,,Email of the user
+avatar,VARCHAR(255),Yes,No,No,,'profile.png',Avatar image name
+username,VARCHAR(255),Yes,No,No,,,Username
+email_verified_at,TIMESTAMP,No,No,No,,NULL,The date at which the email is verified
+password,VARCHAR(255),Yes,No,No,,,Password
+activation_code,VARCHAR(255),No,No,No,,NULL,Code for activating the account
+status,TINYINT(1),Yes,No,No,,'0',"User status; 0 for unactivated, 1 for activated"
+remember_token,VARCHAR(100),No,No,No,,NULL,Token for user auto login
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the account is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the account is updated
+type,TINYINT(4),Yes,No,No,,,"Type of the user; camper is 1, camp maker is 2, admin is 3"
+religion_id,INT(10),Yes,No,Yes,religions,,"Religion of the user, as ID"
+organization_id,INT(10),No,No,Yes,organizations,NULL,"Organization of the user, as ID"
+cgpa,"DOUBLE(3,2)",No,No,No,,NULL,Cumulative GPA of the user
+education_level,TINYINT(4),No,No,No,,NULL,"Education level of the user, as enum"
+blood_group,TINYINT(4),No,No,No,,NULL,Blood group of the user
+guardian_name,VARCHAR(255),No,No,No,,NULL,Name of the user's guardian
+guardian_surname,VARCHAR(255),No,No,No,,NULL,Surname of the user's guardian
+guardian_role,TINYINT(4),No,No,No,,NULL,Role of the user's guardian
+guardian_role_text,VARCHAR(20),No,No,No,,NULL,"Role text, if neither mother nor father"
+guardian_mobile_no,VARCHAR(255),No,No,No,,NULL,Mobile number of the user's guardian
+school_id,INT(10),No,No,Yes,schools,NULL,"School of the user, as ID"
+program_id,INT(10),No,No,Yes,programs,NULL,"Program of study of the user, as ID"

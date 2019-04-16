@@ -1,6 +1,6 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-name,"VARCHAR(255)",Yes,No,No,,,
-guard_name,"VARCHAR(255)",Yes,No,No,,,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of permissions table
+name,VARCHAR(255),Yes,No,No,,,Name of the permission
+guard_name,VARCHAR(255),Yes,No,No,,,
+created_at,TIMESTAMP,No,No,No,,NULL,
+updated_at,TIMESTAMP,No,No,No,,NULL,

@@ -1,12 +1,12 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-camp_id,"INT(10)",Yes,No,Yes,camps,,
-camper_id,"INT(10)",Yes,No,Yes,users,,
-approved_by,"INT(10)",No,No,Yes,users,NULL,
-status,"TINYINT(4)",Yes,No,No,,'1',
-returned,"TINYINT(1)",Yes,No,No,,'0',
-returned_reasons,"TEXT",No,No,No,,NULL,
-remark,"VARCHAR(300)",No,No,No,,NULL,
-submission_time,"DATETIME",No,No,No,,NULL,
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of registrations table
+camp_id,INT(10),Yes,No,Yes,camps,,ID of the camp of the registration
+camper_id,INT(10),Yes,No,Yes,users,,ID of the camper who owns the registration
+approved_by,INT(10),No,No,Yes,users,NULL,ID of the camp maker who approved the registration
+status,TINYINT(4),Yes,No,No,,'1',"Status of the registrations, as enum"
+returned,TINYINT(1),Yes,No,No,,'0',Boolean value for whether the application form is returned
+returned_reasons,TEXT,No,No,No,,NULL,"Reasons of returning the application form, as JSON"
+remark,VARCHAR(300),No,No,No,,NULL,Additional information of the return
+submission_time,DATETIME,No,No,No,,NULL,Submission time of the application
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the registration is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the registration is updated

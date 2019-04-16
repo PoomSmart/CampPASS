@@ -1,12 +1,12 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,"INT(10)",Yes,Yes,No,,,
-camp_id,"INT(10)",Yes,No,Yes,camps,,
-minimum_score,"DOUBLE",No,No,No,,NULL,
-total_score,"DOUBLE",No,No,No,,NULL,
-manual_required,"TINYINT(1)",Yes,No,No,,'0',
-auto_ranked,"TINYINT(1)",Yes,No,No,,'0',
-finalized,"TINYINT(1)",Yes,No,No,,'0',
-candidate_announced,"TINYINT(1)",Yes,No,No,,'0',
-interview_announced,"TINYINT(1)",Yes,No,No,,'0',
-created_at,"TIMESTAMP",No,No,No,,NULL,
-updated_at,"TIMESTAMP",No,No,No,,NULL,
+id,INT(10),Yes,Yes,No,,,Primary key of question_sets table
+camp_id,INT(10),Yes,No,Yes,camps,,ID of the camp that owns the question set
+minimum_score,DOUBLE,No,No,No,,NULL,Minimum score as the passing criteria
+total_score,DOUBLE,No,No,No,,NULL,Total score of the question set
+manual_required,TINYINT(1),Yes,No,No,,'0',Boolean value whether manual grading is required
+auto_ranked,TINYINT(1),Yes,No,No,,'0',Boolean value whether score ranking of the question set should occur
+finalized,TINYINT(1),Yes,No,No,,'0',Boolean value whether the question set is finalized
+candidate_announced,TINYINT(1),Yes,No,No,,'0',Boolean value whether the list of who passed the question set is announced
+interview_announced,TINYINT(1),Yes,No,No,,'0',Boolean value whether the list of who passed the interview is announced
+created_at,TIMESTAMP,No,No,No,,NULL,The date at which the question set is created
+updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the question set is updated
