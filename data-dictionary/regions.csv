@@ -1,4 +1,4 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-id,INT(10),Yes,Yes,No,,,
-name,VARCHAR(30),Yes,No,No,,,
-short_name,VARCHAR(10),Yes,No,No,,,
+id,"INT(10)",Yes,Yes,No,,,
+name,"VARCHAR(30)",Yes,No,No,,,
+short_name,"VARCHAR(10)",Yes,No,No,,,

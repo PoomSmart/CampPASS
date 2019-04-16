@@ -1,4 +1,4 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
-role_id,INT(10),Yes,Yes,Yes,roles,,
-model_type,VARCHAR(255),Yes,Yes,No,,,
-model_id,BIGINT(20),Yes,Yes,No,,,
+role_id,"INT(10)",Yes,Yes,Yes,roles,,
+model_type,"VARCHAR(255)",Yes,Yes,No,,,
+model_id,"BIGINT(20)",Yes,Yes,No,,,

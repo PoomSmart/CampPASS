@@ -30,7 +30,7 @@ def csvDataDictionary(catalog):
         fk = ('No', 'Yes')[is_fk]
         ref = find_referenced_table(fks, column) if is_fk else ''
         nn = ('No', 'Yes')[bool(column.isNotNull)]
-        print >>csvFile, "%s,%s,%s,%s,%s,%s,%s,%s" % (column.name,column.formattedType,nn,pk,fk,ref,column.defaultValue,column.comment)
+        print >>csvFile, "%s,\"%s\",%s,%s,%s,%s,%s,%s" % (column.name,column.formattedType,nn,pk,fk,ref,column.defaultValue,column.comment)
     Utilities.show_message("Report generated", "CSV Report format from current model generated", "OK","","")
     return 0
 
