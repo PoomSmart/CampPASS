@@ -178,7 +178,7 @@
         <div class="text-center">
             @component('components.submit', [
                 'label' => trans('app.SaveChanges'),
-                'class' => 'btn btn-primary w-50',
+                'class' => 'btn btn-primary',
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent

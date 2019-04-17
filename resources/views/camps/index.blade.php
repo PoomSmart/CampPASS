@@ -14,10 +14,24 @@
 
 @can('camp-create')
     @section('extra-buttons')
-        <a class="btn btn-success w-50" href="{{ route('camps.create') }}"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('camp.CreateCamp')</a>
+        @component('components.a', [
+            'class' => 'btn btn-success',
+            'href' => route('camps.create'),
+            'glyph' => 'fas fa-plus fa-xs',
+            'label' => trans('camp.CreateCamp'),
+            'auto_width' => 1,
+        ])
+        @endcomponent
     @endsection
     @section('extra-buttons-top')
-        <a class="btn btn-success w-50" href="{{ route('camps.create') }}"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('camp.CreateCamp')</a>
+        @component('components.a', [
+            'class' => 'btn btn-success',
+            'href' => route('camps.create'),
+            'glyph' => 'fas fa-plus fa-xs',
+            'label' => trans('camp.CreateCamp'),
+            'auto_width' => 1,
+        ])
+        @endcomponent
     @endsection
 @endcan
 

@@ -38,7 +38,11 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-success w-50"><i class="far fa-save mr-2 fa-xs"></i>@lang('app.Submit')</button>
+            @component('components.submit', [
+                'glyph' => 'far fa-save fa-xs',
+                'auto_width' => 1,
+            ])
+            @endcomponent
         </div>
     </div>
     {!! Form::close() !!}

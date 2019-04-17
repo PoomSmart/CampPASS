@@ -27,9 +27,9 @@
         @endcomponent
         <div class="text-center">
             @component('components.submit', [
-                'label' => trans('app.Submit'),
-                'class' => 'btn btn-success w-50 mt-4',
+                'class' => 'btn btn-success mt-4',
                 'glyph' => 'far fa-save fa-xs',
+                'auto_width' => 1,
             ])
             @endcomponent
         </div>

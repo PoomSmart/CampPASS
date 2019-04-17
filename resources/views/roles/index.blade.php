@@ -5,7 +5,13 @@
 @endsection
 
 @section('extra-buttons')
-    <a class="btn btn-success w-50" href="{{ route('roles.create') }}">@lang('account.CreateRole')</a>
+    @component('components.a', [
+        'class' => 'btn btn-success',
+        'href' => route('roles.create'),
+        'label' => trans('account.CreateRole'),
+        'auto_width' => 1,
+    ])
+    @endcomponent
 @endsection
 
 @section('content')
@@ -22,7 +28,7 @@
                     <td class="fit">
                         <a class="btn btn-secondary btn-sm" href="{{ route('roles.show', $role->id) }}"><i class="far fa-eye mr-1 fa-xs"></i>@lang('app.View')</a>
                         @can('role-edit')
-                            <a class="btn btn-info" href="{{ route('roles.edit', $role->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
+                            <a class="btn btn-info btn-sm" href="{{ route('roles.edit', $role->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('app.Edit')</a>
                         @endcan
                         @can('role-delete')
                             {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}
