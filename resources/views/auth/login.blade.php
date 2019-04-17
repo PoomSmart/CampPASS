@@ -26,8 +26,8 @@
             'required' => 1,
         ])
         @endcomponent
-        <div class="form-check form-check-inline mt-2">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+        <div class="form-check form-check-inline mt-2 custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
             <label class="form-check-label" for="remember">@lang('account.RememberMe')</label>
         </div>
         <div class="text-center">

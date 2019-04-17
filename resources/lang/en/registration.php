@@ -57,4 +57,6 @@ return [
     'DownloadConsentFormHere' => 'Download parental consent form here',
     'SubmissionTime' => 'Submission Time',
     'ConfirmCorrectionAndUnreturn' => 'Confirm the correctness and resend',
+    'PleaseCheckFormSave' => 'Please re-check form and save your answer.',
+    'Attention' => 'Attention',
 ];

@@ -57,4 +57,6 @@ return [
     'DownloadConsentFormHere' => 'ดาวน์โหลดใบขออนุญาตผู้ปกครองได้ที่นี่',
     'SubmissionTime' => 'เวลาส่งใบสมัคร',
     'ConfirmCorrectionAndUnreturn' => 'ยืนยันความถูกต้องและส่งใบสมัครใหม่',
+    'PleaseCheckFormSave' => 'กรุณาตรวจสอบและบันทีกคำตอบของคุณก่อนทำการส่ง',
+    'Attention' => 'โปรดทราบ',
 ];
