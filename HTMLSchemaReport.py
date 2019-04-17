@@ -42,7 +42,21 @@ def htmlDataDictionary(catalog):
       </head>
      <body>"""
     print >>htmlFile, "<h1>Schema Report for database: %s</h1>" % (schema.name)
-    for table in schema.tables:
+    masters = [ "badge_categories", "camp_categories", "camp_procedures", "camps", "organizations", "permissions", "programs", "provinces", "regions", "religions", "roles", "schools", "users", "years" ]
+    print >>htmlFile, "<h1>Master</h1><br>"
+    draw(htmlFile, schema, masters, True)
+    print >>htmlFile, "<h1>Transaction</h1><br>"
+    draw(htmlFile, schema, masters, False)
+    print >>htmlFile, "</body></html>"
+    Utilities.show_message("Report generated", "HTML Report format from current model generated", "OK","","")
+    return 0
+
+def draw(htmlFile, schema, masters, mode):
+  for table in schema.tables:
+      if not mode and table.name in masters:
+        continue
+      elif mode and table.name in masters:
+        continue
       print >>htmlFile, table.name
       print >>htmlFile, "<table>"
       print >>htmlFile, "<tr>"
@@ -50,11 +64,8 @@ def htmlDataDictionary(catalog):
         pk = bool(table.isPrimaryKeyColumn(column))
         fk = bool(table.isForeignKeyColumn(column))
         column_name = column.name
-        column_name = "<u>%s</u>" % column.name if pk else column_name
-        column_name = "<i>%s</i>" % column.name if fk else column_name
+        column_name = "<b><u>%s</u></b>" % column.name if pk else column_name
+        column_name = "<i>%s</i>" % column_name if fk else column_name
         print >>htmlFile, "<td>%s</td>" % column_name
       print >> htmlFile, "</tr>"
       print >> htmlFile, "</table><br>"
-    print >>htmlFile, "</body></html>"
-    Utilities.show_message("Report generated", "HTML Report format from current model generated", "OK","","")
-    return 0
