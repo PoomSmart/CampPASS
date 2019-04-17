@@ -102,7 +102,7 @@
                                             <a class="{{ $text_class }}"
                                                 href="{{ route('camp_application.payment_download', $registration->id) }}"
                                                 title=@lang('qualification.ViewPaymentSlip')
-                                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="far fa-eye fa-xs ml-2"></i></a>
+                                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="fas fa-search-dollar fa-sm ml-2"></i></a>
                                         @else
                                             @lang('app.No')
                                         @endif

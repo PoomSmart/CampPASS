@@ -211,6 +211,10 @@ label[required]::after {
   color: white !important;
 }
 
+.btn-statistic {
+  color: white !important;
+}
+
 .pagination a {
   background-color: whitesmoke;
   float: left;

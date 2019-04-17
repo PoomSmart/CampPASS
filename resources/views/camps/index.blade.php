@@ -109,7 +109,7 @@
                     <a class="btn btn-info btn-sm" href="{{ route('camps.edit', $camp->id) }}"><i class="fas fa-pencil-alt mr-1 fa-xs"></i>@lang('camp.Edit')</a>
                 @endcan
                 @if ($registration_count)
-                    <a class="btn btn-outline-primary btn-sm" href="{{ route('statistics.statistics', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewStatistics')</a>
+                    <a class="btn btn-statistic btn-sm" href="{{ route('statistics.statistics', $camp->id) }}"><i class="fas fa-chart-bar mr-1 fa-xs"></i>@lang('camp.ViewStatistics')</a>
                 @endif
                 @can('camp-delete')
                     <button type="button" class="btn btn-danger btn-sm" data-action="{{ route('camps.destroy', $camp->id) }}" data-toggle="modal" data-target="#modal">
