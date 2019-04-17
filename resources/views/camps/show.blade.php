@@ -15,7 +15,7 @@
             <p><a href="{{ route('camps.by_category', $category->id) }}">{{ $category->getName() }}</a></p>
         </div>
         <div class="col-12 mb-2 text-center">
-            <img class="img-fluid" style="height: 400px; max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
+            <img class="img-fluid" style="max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
         </div>
         <div class="col-12 text-left mt-2">
             <p>{{ $camp->getShortDescription() }}</p>
