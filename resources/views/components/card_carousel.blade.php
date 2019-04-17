@@ -5,14 +5,14 @@
 @endphp
 <div id="{{ $id }}" class="carousel slide mt-4 mw-100" data-ride="carousel">
     <div class="container mb-2">
-        <div class="row justify-content-between no-gutters">
-            <div class="col-auto my-auto">
+        <div class="row no-gutters">
+            <div class="col-auto my-auto mr-auto">
                 <h3 class="my-auto">{{ $header }}</h3>
             </div>
             @if (sizeof($objects) > 3)
-                <div class="col-auto my-auto text-right">
-                    <a class="btn btn-secondary-outline prev" href="#{{ $id }}" role="button" data-slide="prev" title="@lang('app.Back')"><i class="fa fa-lg fa-chevron-left"></i></a>
-                    <a class="btn btn-secondary-outline next" href="#{{ $id }}" role="button" data-slide="next" title="@lang('app.Next')"><i class="fa fa-lg fa-chevron-right"></i></a>
+                <div class="col-auto my-auto">
+                    <a class="btn btn-secondary-outline btn-sm prev" href="#{{ $id }}" role="button" data-slide="prev" title="@lang('app.Back')"><i class="fa fa-lg fa-chevron-left"></i></a>
+                    <a class="btn btn-secondary-outline btn-sm next" href="#{{ $id }}" role="button" data-slide="next" title="@lang('app.Next')"><i class="fa fa-lg fa-chevron-right"></i></a>
                 </div>
             @endif
         </div>
