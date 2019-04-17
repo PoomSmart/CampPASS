@@ -15,7 +15,7 @@
             <p><a href="{{ route('camps.by_category', $category->id) }}">{{ $category->getName() }}</a></p>
         </div>
         <div class="col-12 mb-2 text-center">
-            <img class="img-fluid" style="height: 400px; max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
+            <img class="img-fluid" style="max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
         </div>
         <div class="col-12 text-left mt-2">
             <p>{{ $camp->getShortDescription() }}</p>
@@ -114,7 +114,7 @@
                             <a class="btn btn-primary w-100 mb-3" href="{{ route('questions.show', $camp->id) }}"><i class="far fa-file-alt fa-xs mr-1"></i>@lang('camp.EditQuestions')</a>
                         @endif
                         @php $question_set = $camp->question_set @endphp
-                        <a class="btn btn-outline-secondary w-100 mb-3" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>@lang('registration.Applicants')</a>
+                        <a class="btn btn-statistic w-100 mb-3" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>@lang('registration.Applicants')</a>
                     @endcan
                 </div>
             </div>

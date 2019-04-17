@@ -11,7 +11,7 @@
     <table class="table table-striped table-static">
         <thead>
             <th>@lang('app.No_')</th>
-            <th>@lang('notification.Content')</th>
+            <th>@lang('notification.Notifications')</th>
             <th>@lang('notification.Type')</th>
         </thead>
 	    @foreach ($notifications as $notification)
