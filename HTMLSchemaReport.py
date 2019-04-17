@@ -26,55 +26,46 @@ def htmlDataDictionary(catalog):
         td,th {
         text-align:left;
         vertical-align:middle;
-        }
-        table {
-        border-collapse: collapse;
         border: 1px solid;
         }
-        caption, th, td {
-        padding: .2em .8em;
-        border: 1px solid #000000;
-        }
-        caption {
-        background: #D3D3D3;
-        font-weight: bold;
-        font-size: 1.1em;
-        }
-        th {
-        font-weight: bold;
-        background: #000000;
-        color: white;
+        table {
+        border: none;
+        border-collapse: collapse;
         }
         td {
-        background: #FFFFFF;
+        display: block;
+        float: left;
+        padding-left: 5px;
+        padding-right: 5px;
         }
         </style>
       </head>
      <body>"""
     print >>htmlFile, "<h1>Schema Report for database: %s</h1>" % (schema.name)
-    print >>htmlFile, "<a id=\"home\">Table List </a><br /><ul>"
-    for table in schema.tables:
-       print >>htmlFile, "<li><a href=\"#%s\">%s </a></li>" % (table.name,table.name)
-    print >>htmlFile, "</ul>"
-    for table in schema.tables:
-      print >>htmlFile, "<a id=\"%s\"></a><table style=\"width:100%%\"><caption>Table: %s </caption>" % (table.name,table.name)
-      print >>htmlFile, "<tr><td>Table Comments</td><td colspan=\"6\">%s</td></tr>" % (table.comment)
-      print >>htmlFile, """<tr><td colspan=\"7\">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>"""
-      for column in table.columns:
-        pk = ('No', 'Yes')[bool(table.isPrimaryKeyColumn(column))]
-        fk = ('No', 'Yes')[bool(table.isForeignKeyColumn(column))]
-        nn = ('No', 'Yes')[bool(column.isNotNull)]
-        print >>htmlFile, "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" % (column.name,column.formattedType,nn,pk,fk,column.defaultValue,column.comment)
-      print >>htmlFile, "</table><a href=\"#home\">Table List </a></br>"
+    masters = [ "badge_categories", "camp_categories", "camp_procedures", "camps", "organizations", "permissions", "programs", "provinces", "regions", "religions", "roles", "schools", "users", "years" ]
+    print >>htmlFile, "<h1>Master</h1><br>"
+    draw(htmlFile, schema, masters, True)
+    print >>htmlFile, "<h1>Transaction</h1><br>"
+    draw(htmlFile, schema, masters, False)
     print >>htmlFile, "</body></html>"
     Utilities.show_message("Report generated", "HTML Report format from current model generated", "OK","","")
     return 0
+
+def draw(htmlFile, schema, masters, mode):
+  for table in schema.tables:
+      if not mode and table.name in masters:
+        continue
+      elif mode and table.name in masters:
+        continue
+      print >>htmlFile, table.name
+      print >>htmlFile, "<table>"
+      print >>htmlFile, "<tr>"
+      for column in table.columns:
+        pk = bool(table.isPrimaryKeyColumn(column))
+        fk = bool(table.isForeignKeyColumn(column))
+        column_name = column.name
+        column_name = "<b><u>%s</u></b>" % column.name if pk else column_name
+        column_name = "<i>%s</i>" % column_name if fk else column_name
+        print >>htmlFile, "<td>%s</td>" % column_name
+      print >> htmlFile, "</tr>"
+      print >> htmlFile, "</table><br>"

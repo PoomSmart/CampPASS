@@ -4,643 +4,340 @@
         td,th {
         text-align:left;
         vertical-align:middle;
-        }
-        table {
-        border-collapse: collapse;
         border: 1px solid;
         }
-        caption, th, td {
-        padding: .2em .8em;
-        border: 1px solid #000000;
-        }
-        caption {
-        background: #D3D3D3;
-        font-weight: bold;
-        font-size: 1.1em;
-        }
-        th {
-        font-weight: bold;
-        background: #000000;
-        color: white;
+        table {
+        border: none;
+        border-collapse: collapse;
         }
         td {
-        background: #FFFFFF;
+        display: block;
+        float: left;
+        padding-left: 5px;
+        padding-right: 5px;
         }
         </style>
       </head>
      <body>
 <h1>Schema Report for database: camppassdev</h1>
-<a id="home">Table List </a><br /><ul>
-<li><a href="#answers">answers </a></li>
-<li><a href="#badge_categories">badge_categories </a></li>
-<li><a href="#badges">badges </a></li>
-<li><a href="#camp_categories">camp_categories </a></li>
-<li><a href="#camp_procedures">camp_procedures </a></li>
-<li><a href="#camps">camps </a></li>
-<li><a href="#candidates">candidates </a></li>
-<li><a href="#form_scores">form_scores </a></li>
-<li><a href="#migrations">migrations </a></li>
-<li><a href="#model_has_permissions">model_has_permissions </a></li>
-<li><a href="#model_has_roles">model_has_roles </a></li>
-<li><a href="#notifications">notifications </a></li>
-<li><a href="#organizations">organizations </a></li>
-<li><a href="#password_resets">password_resets </a></li>
-<li><a href="#permissions">permissions </a></li>
-<li><a href="#programs">programs </a></li>
-<li><a href="#provinces">provinces </a></li>
-<li><a href="#question_set_question_pairs">question_set_question_pairs </a></li>
-<li><a href="#question_sets">question_sets </a></li>
-<li><a href="#questions">questions </a></li>
-<li><a href="#regions">regions </a></li>
-<li><a href="#registrations">registrations </a></li>
-<li><a href="#religions">religions </a></li>
-<li><a href="#role_has_permissions">role_has_permissions </a></li>
-<li><a href="#roles">roles </a></li>
-<li><a href="#schools">schools </a></li>
-<li><a href="#users">users </a></li>
-<li><a href="#years">years </a></li>
-</ul>
-<a id="answers"></a><table style="width:100%"><caption>Table: answers </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>question_set_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>question_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>camper_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>registration_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>answer</td><td>TEXT</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>score</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="badge_categories"></a><table style="width:100%"><caption>Table: badge_categories </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>description</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="badges"></a><table style="width:100%"><caption>Table: badges </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>badge_category_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>camper_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>earned_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="camp_categories"></a><table style="width:100%"><caption>Table: camp_categories </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="camp_procedures"></a><table style="width:100%"><caption>Table: camp_procedures </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>title</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>description</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>interview_required</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>deposit_required</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>candidate_required</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="camps"></a><table style="width:100%"><caption>Table: camps </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>camp_category_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>organization_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>camp_procedure_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>acceptable_regions</td><td>JSON</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>acceptable_programs</td><td>JSON</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>acceptable_education_levels</td><td>JSON</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_en</td><td>VARCHAR(100)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>name_th</td><td>VARCHAR(100)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>short_description_en</td><td>VARCHAR(400)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>short_description_th</td><td>VARCHAR(400)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>long_description</td><td>TEXT</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>min_cgpa</td><td>DOUBLE(3,2)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>other_conditions</td><td>VARCHAR(200)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>application_fee</td><td>INT(10)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>deposit</td><td>INT(10)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>url</td><td>VARCHAR(400)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>fburl</td><td>VARCHAR(400)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>app_open_date</td><td>DATETIME</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>app_close_date</td><td>DATETIME</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>confirmation_date</td><td>DATETIME</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>announcement_date</td><td>DATETIME</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>interview_date</td><td>DATETIME</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>interview_information</td><td>TEXT</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>event_start_date</td><td>DATETIME</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>event_end_date</td><td>DATETIME</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>banner</td><td>VARCHAR(100)</td><td>Yes</td><td>No</td><td>No</td><td>'banner.jpg'</td><td></td></tr>
-<tr><td>poster</td><td>VARCHAR(100)</td><td>Yes</td><td>No</td><td>No</td><td>'poster.jpg'</td><td></td></tr>
-<tr><td>parental_consent</td><td>VARCHAR(100)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>quota</td><td>SMALLINT(5)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>backup_limit</td><td>TINYINT(3)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>contact_campmaker</td><td>TEXT</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>payment_information</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>approved</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="candidates"></a><table style="width:100%"><caption>Table: candidates </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>camper_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>camp_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>registration_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>form_score_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>total_score</td><td>SMALLINT(6)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>backup</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="form_scores"></a><table style="width:100%"><caption>Table: form_scores </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>registration_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>question_set_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>total_score</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>finalized</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>checked</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>passed</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>submission_time</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="migrations"></a><table style="width:100%"><caption>Table: migrations </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>migration</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>batch</td><td>INT(11)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="model_has_permissions"></a><table style="width:100%"><caption>Table: model_has_permissions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>permission_id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>model_type</td><td>VARCHAR(255)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>model_id</td><td>BIGINT(20)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="model_has_roles"></a><table style="width:100%"><caption>Table: model_has_roles </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>role_id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>model_type</td><td>VARCHAR(255)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>model_id</td><td>BIGINT(20)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="notifications"></a><table style="width:100%"><caption>Table: notifications </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>CHAR(36)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>type</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>notifiable_type</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>notifiable_id</td><td>BIGINT(20)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>data</td><td>TEXT</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>read_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="organizations"></a><table style="width:100%"><caption>Table: organizations </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_en</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>name_th</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>address</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>zipcode</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>type</td><td>TINYINT(3)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>subtype</td><td>TINYINT(3)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>image</td><td>VARCHAR(10)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="password_resets"></a><table style="width:100%"><caption>Table: password_resets </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>email</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>token</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="permissions"></a><table style="width:100%"><caption>Table: permissions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>guard_name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="programs"></a><table style="width:100%"><caption>Table: programs </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="provinces"></a><table style="width:100%"><caption>Table: provinces </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_en</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_th</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>zipcode_prefix</td><td>TINYINT(4)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="question_set_question_pairs"></a><table style="width:100%"><caption>Table: question_set_question_pairs </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>question_set_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>question_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="question_sets"></a><table style="width:100%"><caption>Table: question_sets </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>camp_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>minimum_score</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>total_score</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>manual_required</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>auto_ranked</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>finalized</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>candidate_announced</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>interview_announced</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="questions"></a><table style="width:100%"><caption>Table: questions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>json_id</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>type</td><td>SMALLINT(5)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>full_score</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="regions"></a><table style="width:100%"><caption>Table: regions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(30)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>short_name</td><td>VARCHAR(10)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="registrations"></a><table style="width:100%"><caption>Table: registrations </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>camp_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>camper_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>approved_by</td><td>INT(10)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
-<tr><td>status</td><td>TINYINT(4)</td><td>Yes</td><td>No</td><td>No</td><td>'1'</td><td></td></tr>
-<tr><td>returned</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>returned_reasons</td><td>TEXT</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>remark</td><td>VARCHAR(300)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>submission_time</td><td>DATETIME</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="religions"></a><table style="width:100%"><caption>Table: religions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="role_has_permissions"></a><table style="width:100%"><caption>Table: role_has_permissions </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>permission_id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>role_id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="roles"></a><table style="width:100%"><caption>Table: roles </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>guard_name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="schools"></a><table style="width:100%"><caption>Table: schools </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_en</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>name_th</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>address</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>zipcode</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>type</td><td>TINYINT(3)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="users"></a><table style="width:100%"><caption>Table: users </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name_en</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>name_th</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>surname_en</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>surname_th</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>nickname_en</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>nickname_th</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>nationality</td><td>TINYINT(3)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>citizen_id</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>gender</td><td>TINYINT(3)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>dob</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>street_address</td><td>VARCHAR(300)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>province_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>zipcode</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>mobile_no</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>allergy</td><td>VARCHAR(200)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>email</td><td>VARCHAR(100)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>avatar</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td>'profile.png'</td><td></td></tr>
-<tr><td>username</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>email_verified_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>password</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>activation_code</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>status</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
-<tr><td>remember_token</td><td>VARCHAR(100)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>created_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>updated_at</td><td>TIMESTAMP</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>type</td><td>TINYINT(4)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>religion_id</td><td>INT(10)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>organization_id</td><td>INT(10)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
-<tr><td>cgpa</td><td>DOUBLE(3,2)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>education_level</td><td>TINYINT(4)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>blood_group</td><td>TINYINT(4)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>guardian_name</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>guardian_surname</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>guardian_role</td><td>TINYINT(4)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>guardian_role_text</td><td>VARCHAR(20)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>guardian_mobile_no</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
-<tr><td>school_id</td><td>INT(10)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
-<tr><td>program_id</td><td>INT(10)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
-</table><a href="#home">Table List </a></br>
-<a id="years"></a><table style="width:100%"><caption>Table: years </caption>
-<tr><td>Table Comments</td><td colspan="6"></td></tr>
-<tr><td colspan="7">Columns</td></tr>
-        <tr>
-        <th>Name</th>
-        <th>Data Type</th>
-        <th>Nullable</th>
-        <th>PK</th>
-        <th>FK</th>
-        <th>Default</th>
-        <th>Comment</th>
-        </tr>
-<tr><td>id</td><td>INT(10)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
-<tr><td>name</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>short_name</td><td>VARCHAR(10)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table><a href="#home">Table List </a></br>
+<h1>Master</h1><br>
+answers
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>question_set_id</i></td>
+<td><i>question_id</i></td>
+<td><i>camper_id</i></td>
+<td><i>registration_id</i></td>
+<td>answer</td>
+<td>score</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+badges
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>badge_category_id</i></td>
+<td><i>camper_id</i></td>
+<td>earned_date</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+candidates
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camper_id</i></td>
+<td><i>camp_id</i></td>
+<td><i>registration_id</i></td>
+<td><i>form_score_id</i></td>
+<td>total_score</td>
+<td>backup</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+form_scores
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>registration_id</i></td>
+<td><i>question_set_id</i></td>
+<td>total_score</td>
+<td>finalized</td>
+<td>checked</td>
+<td>passed</td>
+<td>submission_time</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+migrations
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>migration</td>
+<td>batch</td>
+</tr>
+</table><br>
+model_has_permissions
+<table>
+<tr>
+<td><i><b><u>permission_id</u></b></i></td>
+<td><b><u>model_type</u></b></td>
+<td><b><u>model_id</u></b></td>
+</tr>
+</table><br>
+model_has_roles
+<table>
+<tr>
+<td><i><b><u>role_id</u></b></i></td>
+<td><b><u>model_type</u></b></td>
+<td><b><u>model_id</u></b></td>
+</tr>
+</table><br>
+notifications
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>type</td>
+<td>notifiable_type</td>
+<td>notifiable_id</td>
+<td>data</td>
+<td>read_at</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+password_resets
+<table>
+<tr>
+<td>email</td>
+<td>token</td>
+<td>created_at</td>
+</tr>
+</table><br>
+question_set_question_pairs
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>question_set_id</i></td>
+<td><i>question_id</i></td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+question_sets
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camp_id</i></td>
+<td>minimum_score</td>
+<td>total_score</td>
+<td>manual_required</td>
+<td>auto_ranked</td>
+<td>finalized</td>
+<td>candidate_announced</td>
+<td>interview_announced</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+questions
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>json_id</td>
+<td>type</td>
+<td>full_score</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+registrations
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camp_id</i></td>
+<td><i>camper_id</i></td>
+<td><i>approved_by</i></td>
+<td>status</td>
+<td>returned</td>
+<td>returned_reasons</td>
+<td>remark</td>
+<td>submission_time</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+role_has_permissions
+<table>
+<tr>
+<td><i><b><u>permission_id</u></b></i></td>
+<td><i><b><u>role_id</u></b></i></td>
+</tr>
+</table><br>
+<h1>Transaction</h1><br>
+answers
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>question_set_id</i></td>
+<td><i>question_id</i></td>
+<td><i>camper_id</i></td>
+<td><i>registration_id</i></td>
+<td>answer</td>
+<td>score</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+badges
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>badge_category_id</i></td>
+<td><i>camper_id</i></td>
+<td>earned_date</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+candidates
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camper_id</i></td>
+<td><i>camp_id</i></td>
+<td><i>registration_id</i></td>
+<td><i>form_score_id</i></td>
+<td>total_score</td>
+<td>backup</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+form_scores
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>registration_id</i></td>
+<td><i>question_set_id</i></td>
+<td>total_score</td>
+<td>finalized</td>
+<td>checked</td>
+<td>passed</td>
+<td>submission_time</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+migrations
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>migration</td>
+<td>batch</td>
+</tr>
+</table><br>
+model_has_permissions
+<table>
+<tr>
+<td><i><b><u>permission_id</u></b></i></td>
+<td><b><u>model_type</u></b></td>
+<td><b><u>model_id</u></b></td>
+</tr>
+</table><br>
+model_has_roles
+<table>
+<tr>
+<td><i><b><u>role_id</u></b></i></td>
+<td><b><u>model_type</u></b></td>
+<td><b><u>model_id</u></b></td>
+</tr>
+</table><br>
+notifications
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>type</td>
+<td>notifiable_type</td>
+<td>notifiable_id</td>
+<td>data</td>
+<td>read_at</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+password_resets
+<table>
+<tr>
+<td>email</td>
+<td>token</td>
+<td>created_at</td>
+</tr>
+</table><br>
+question_set_question_pairs
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>question_set_id</i></td>
+<td><i>question_id</i></td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+question_sets
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camp_id</i></td>
+<td>minimum_score</td>
+<td>total_score</td>
+<td>manual_required</td>
+<td>auto_ranked</td>
+<td>finalized</td>
+<td>candidate_announced</td>
+<td>interview_announced</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+questions
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td>json_id</td>
+<td>type</td>
+<td>full_score</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+registrations
+<table>
+<tr>
+<td><b><u>id</u></b></td>
+<td><i>camp_id</i></td>
+<td><i>camper_id</i></td>
+<td><i>approved_by</i></td>
+<td>status</td>
+<td>returned</td>
+<td>returned_reasons</td>
+<td>remark</td>
+<td>submission_time</td>
+<td>created_at</td>
+<td>updated_at</td>
+</tr>
+</table><br>
+role_has_permissions
+<table>
+<tr>
+<td><i><b><u>permission_id</u></b></i></td>
+<td><i><b><u>role_id</u></b></i></td>
+</tr>
+</table><br>
 </body></html>
