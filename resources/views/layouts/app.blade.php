@@ -72,7 +72,7 @@
 >
     <div id="app" class="d-flex flex-column">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container" style="max-width: 900px">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}"><img class="img-fluid" style="width: 130px;" src={{ asset("/images/logo.png") }}></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('Toggle navigation')">
                     <span class="navbar-toggler-icon"></span>
