@@ -21,12 +21,12 @@
                 <div class="input-group-append">
                     @component('components.submit', [
                         'label' => '',
-                        'class' => 'btn btn-secondary',
+                        'class' => 'btn btn-primary',
                         'glyph' => 'fas fa-search fa-xs mr-0',
                     ])
                     @endcomponent
                     <button type="button"
-                        class="btn btn-outline-secondary"
+                        class="btn btn-secondary"
                         onclick="jQuery('#filters select').val('---')"
                     ><i class="fas fa-filter fa-xs mr-1"></i>@lang('app.ClearFilters')</button>
                 </div>

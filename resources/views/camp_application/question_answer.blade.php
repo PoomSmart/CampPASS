@@ -9,6 +9,15 @@
 @endsection
 
 @section('card_content')
+    @component('components.dialog', [
+        'confirm_type' => 'warning',
+        'confirm_label' => trans('app.OK'),
+        'title' => trans('registration.Attention'),
+        'body' => trans('registration.PleaseCheckFormSave'),
+        'id' => 'recheck-modal',
+        'nosubmit' => 1,
+    ]) 
+    @endcomponent
     <form method="POST" id="form" action="{{ route('camp_application.store', $camp->id) }}" enctype="multipart/form-data">
         @csrf
         @foreach ($json['question'] as $key => $text)
@@ -98,8 +107,10 @@
                 return validate;
             };
             jQuery("#next-page").click(function (e) {
-                if (!jQuery("#form").isValid())
+                if (!jQuery("#form").isValid()){
                     e.preventDefault();
+                    $('#recheck-modal').modal()
+                }
             });
         </script>
     </form>
