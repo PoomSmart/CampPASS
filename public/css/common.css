@@ -250,3 +250,8 @@ label[required]::after {
   height: 250px !important;
   object-fit: cover;
 }
+
+input[type='radio'], input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+}
