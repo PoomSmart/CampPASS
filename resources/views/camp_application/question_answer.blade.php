@@ -8,6 +8,10 @@
     @lang('app.CampApplicationForm')
 @endsection
 
+@section('subheader')
+    {{ $camp }}
+@endsection
+
 @section('card_content')
     @component('components.dialog', [
         'confirm_type' => 'warning',
@@ -18,6 +22,9 @@
         'nosubmit' => 1,
     ]) 
     @endcomponent
+    <div class="col-12 mb-4 text-center">
+        <img class="img-fluid" style="max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
+    </div>
     <form method="POST" id="form" action="{{ route('camp_application.store', $camp->id) }}" enctype="multipart/form-data">
         @csrf
         @foreach ($json['question'] as $key => $text)

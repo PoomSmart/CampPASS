@@ -1,7 +1,4 @@
-@php
-    if (empty($type))
-        die("An internal error has occurred");
-@endphp
+@php if (empty($type)) die('An internal error has occurred') @endphp
 
 @extends('layouts.card')
 
@@ -17,6 +14,10 @@
 
 @section('header')
     @lang('account.Register')
+@endsection
+
+@section('subheader')
+    {{ [ trans('account.Camper'), trans('account.CampMaker') ][$type - 1] }}
 @endsection
 
 @section('card_content')
