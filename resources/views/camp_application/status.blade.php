@@ -77,7 +77,7 @@
     @endif
     @if ($camp->hasPayment())
         @component('components.card', [
-            'header' => $camp_procedure->deposit_required ? trans('camp.Deposit') : trans('camp.ApplicationFee'),
+            'header' => $camp_procedure->deposit ? trans('camp.Deposit') : trans('camp.ApplicationFee'),
             'data' => \App\Http\Controllers\CampApplicationController::statusDescription(3, $registration, $camp, $camp_procedure),
         ])
         @slot('extra_body')

@@ -727,14 +727,18 @@ class DatabaseSeeder extends Seeder
             'surname_en' => 'Camper',
             'name_th' => 'นักเรียน',
             'surname_th' => 'ทดสอบ',
+            'education_level' => EducationLevel::M5,
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
         ]);
+        // TODO: This is only for demo
+        Registration::where('camper_id', $candidate->id)->whereIn('camp_id', Common::$has_match_camp_ids)->delete();
         $candidate->activate();
     }
 
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
+        // TODO: This is only for demo
         $camp = Camp::whereIn('id', Common::$has_match_camp_ids)->limit(1)->get()->first();
         $candidate = User::campMakers(true)->where('organization_id', $camp->organization_id)->get()->sortByDesc(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();

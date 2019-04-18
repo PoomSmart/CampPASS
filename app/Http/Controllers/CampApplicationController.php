@@ -158,10 +158,10 @@ class CampApplicationController extends Controller
                             $button = true;
                         } else
                             $text = trans('registration.SlipUploaded');
-                    } else if ($registration->chosen()) {
+                    } else if (($registration->chosen() && $camp->deposit) || ($registration->applied() && $camp->application_fee)) {
                         $text = trans('registration.UploadPayment');
                         $button = true;
-                        if ($camp_procedure->deposit_required) {
+                        if ($camp->deposit) {
                             if ($camp_procedure->interview_required)
                                 $button = $registration->interviewed();
                         }
