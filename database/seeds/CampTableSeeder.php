@@ -23,6 +23,7 @@ class CampTableSeeder extends CsvSeeder
         $this->validate = [
             'acceptable_programs' => 'required|json',
             'acceptable_regions' => 'required|json',
+            'camp_category_id' => 'required|number',
         ];
         $this->defaults = [
             'approved' => 1,
