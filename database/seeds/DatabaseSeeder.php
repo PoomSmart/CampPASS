@@ -34,6 +34,7 @@ use App\Http\Controllers\CandidateController;
 
 use App\Enums\QuestionType;
 use App\Enums\ApplicationStatus;
+use App\Enums\EducationLevel;
 
 use Illuminate\Http\File;
 use Illuminate\Database\Seeder;
@@ -789,8 +790,8 @@ class DatabaseSeeder extends Seeder
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
         for ($i = 1; $i <= 3; ++$i) {
-            factory(User::class, 200)->create();
-            $c = $i * 200;
+            factory(User::class, 180)->create();
+            $c = $i * 180;
             $this->log_seed("users: {$c} seeded");
         }
         $this->camps();
