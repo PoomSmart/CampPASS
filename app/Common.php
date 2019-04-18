@@ -230,4 +230,11 @@ class Common
             return trans('registration.Status');
         return trans('app.Other');
     }
+
+    private static $has_match_camp_ids = [ 19, 21, 29, 34, 126 ];
+
+    public static function hasMatch(Camp $camp)
+    {
+        return in_array($camp->id, self::$has_match_camp_ids);
+    }
 }

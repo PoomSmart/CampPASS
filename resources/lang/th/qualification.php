@@ -22,7 +22,7 @@ return [
     'Disqualified' => 'ขอแสดงความเสียใจด้วย คุณไม่ผ่านการคัดเลือกเพื่อเข้าค่าย :camp',
     'ThankCampApply' => 'ขอบคุณที่สมัครค่ายกับเรา',
     'FormSummary' => 'คะแนนรวม :camper_score จาก :total_score คะแนน',
-    'FormSummaryAuto' => 'ตรวจอัตโนมัติ :auto_gradable คะแนน จาก :total_auto_gradable คะแนน - คะแนนรวม :camper_score จาก :total_score คะแนน',
+    'FormSummaryAuto' => 'ตรวจอัตโนมัติ :auto_gradable คะแนน จาก :total_auto_gradable คะแนน - คะแนนรวม :camper_score คะแนน จาก :total_score คะแนน',
     'TotalCandidates' => 'ทั้งหมด: :total คน / ยืนยันแล้ว: :confirmed คน / ยังไม่ยืนยัน: :not_confirmed คน / สละสิทธิ์: :withdrawn คน',
     'TotalPassedFailedAvgScore' => 'จำนวนทั้งหมด: :total_registrations คน / ผ่าน: :total_candidates คน / ตก: :total_failed คน / สละสิทธิ์: :total_withdrawn คน / คะแนนเฉลี่ย: :average_score',
     'TotalPassedFailed' => 'จำนวนทั้งหมด: :total_registrations คน / ผ่าน: :total_candidates คน / ตก: :total_failed คน / สละสิทธิ์: :total_withdrawn คน',

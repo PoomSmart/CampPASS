@@ -260,13 +260,6 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private $has_match_camp_ids = [ 19, 21, 29, 34, 126 ];
-
-    private function hasMatch(Camp $camp)
-    {
-        return in_array($camp->id, $this->has_match_camp_ids);
-    }
-
     private function registrations_and_questions_and_answers()
     {
         $real_question_sets_seed_path = base_path('database/seeds/questions');
@@ -369,7 +362,7 @@ class DatabaseSeeder extends Seeder
             $question_set_try_auto = null;
             $multiple_radio_map = [];
             $multiple_checkbox_map = [];
-            $matched = $this->hasMatch($camp);
+            $matched = Common::hasMatch($camp);
             if ($matched || Common::randomMediumHit()) {
                 // Use the real question sets
                 $real_question_set = $matched ? "{$camp->id}.json" : Common::randomElement($real_question_sets);
