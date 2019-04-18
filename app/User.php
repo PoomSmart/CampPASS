@@ -199,6 +199,8 @@ class User extends Authenticatable
 
     public static $education_level_to_year = [ 0, 1, 2, 3, 3, 3, 4, 4, 4, 4, 5 ];
 
+    public static $year_to_education_level = [ 0, 1, 2, [ 3, 4, 5 ], [6, 7, 8], 9 ];
+
     /**
      * Get the reason for why this user cannot apply for the given camp, if any.
      *

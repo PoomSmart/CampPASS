@@ -686,8 +686,25 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CampTableSeeder::class);
         // Assign the real banner and poster to each camp that has them
+        $this->log('-> assigning banner and poster to each camp');
         $camp_resource_directory = base_path('database/seeds/camps');
         foreach (Camp::all() as $camp) {
+            // Fix up acceptable_education_levels
+            $levels = [];
+            foreach ($camp->acceptable_education_levels as $level) {
+                $mapped = User::$year_to_education_level[$level];
+                if (is_array($mapped)) {
+                    foreach ($mapped as $l) {
+                        if (!in_array($l, $levels))
+                            $levels[] = $l;
+                    }
+                } else if (!in_array($mapped, $levels))
+                    $levels[] = $mapped;
+            }
+            $camp->update([
+                'acceptable_education_levels' => $levels,
+            ]);
+            unset($levels);
             $directory = Common::publicCampDirectory($camp->id);
             foreach (['banner', 'poster'] as $filename) {
                 try {
