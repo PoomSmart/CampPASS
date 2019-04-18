@@ -229,6 +229,7 @@ class CampApplicationController extends Controller
             throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
+            // TODO: Is this really working?
             foreach ($camp->camp_makers() as $campmaker) {
                 $campmaker->notify(new CamperStatusChanged($registration));
             }

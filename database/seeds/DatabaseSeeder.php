@@ -740,7 +740,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->log_alter('campmakers');
         // TODO: This is only for demo
-        $camp = Camp::whereIn('id', Common::$has_match_camp_ids)->limit(1)->get()->first();
+        $camp = Camp::find(29);
         $candidate = User::campMakers(true)->where('organization_id', $camp->organization_id)->get()->sortByDesc(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();
         })->first();
@@ -790,8 +790,8 @@ class DatabaseSeeder extends Seeder
         $this->call(OrganizationTableSeeder::class);
         $this->log_seed('users');
         for ($i = 1; $i <= 3; ++$i) {
-            factory(User::class, 180)->create();
-            $c = $i * 180;
+            factory(User::class, 150)->create();
+            $c = $i * 150;
             $this->log_seed("users: {$c} seeded");
         }
         $this->camps();

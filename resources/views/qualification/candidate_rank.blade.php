@@ -180,10 +180,11 @@
                 'label' => trans('app.SaveChanges'),
                 'class' => 'btn btn-primary',
                 'glyph' => 'far fa-save fa-xs',
+                'auto_width' => 1,
             ])
             @endcomponent
             <button
-                class="btn btn-danger w-50 mt-2"
+                class="btn btn-danger col-12 col-md-6 mt-2"
                 @if (!$passed)
                     disabled
                 @endif

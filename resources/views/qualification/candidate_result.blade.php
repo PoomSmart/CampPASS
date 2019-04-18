@@ -104,7 +104,8 @@
                 <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                 <td>{{ $camper->program }}</td>
-                <td class="fit">
+                <td class="fit text-center">
+                    @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
                     <div
                         @if ($registration->approved() && $who)
                             data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"
@@ -222,7 +223,9 @@
                         <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                         <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                         <td>{{ $camper->program }}</td>
-                        <td class="fit">{{ $registration->getStatus() }}</td>
+                        <td class="fit text-center">
+                            @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
+                        </td>
                         <td class="fit">
                             @role('admin')
                                 @if ($can_get_backups && !$withdrawn && !$confirmed)
