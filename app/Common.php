@@ -231,7 +231,7 @@ class Common
         return trans('app.Other');
     }
 
-    private static $has_match_camp_ids = [ 19, 21, 29, 34, 126 ];
+    public static $has_match_camp_ids = [ 19, 21, 29, 34, 126 ];
 
     public static function hasMatch(Camp $camp)
     {

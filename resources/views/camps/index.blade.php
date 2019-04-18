@@ -78,7 +78,12 @@
                 $question_set = $camp->question_set;
             @endphp
 	        <th scope="row">{{ ++$i }}</th>
-	        <td class="text-truncate text-truncate-250"><a href="{{ route('camps.show', $camp->id) }}">{{ $camp }}</a></th>
+            <td class="text-truncate text-truncate-250"><a href="{{ route('camps.show', $camp->id) }}"
+                {{-- TODO: This is only for demo --}}
+                @if (\App\Common::hasMatch($camp))
+                    class="font-weight-bold"
+                @endif
+            >{{ $camp }}</a></th>
             {{--@role('admin')
                 <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
             @endrole--}}

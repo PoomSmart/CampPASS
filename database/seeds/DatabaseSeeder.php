@@ -266,7 +266,7 @@ class DatabaseSeeder extends Seeder
         $real_answers_seed_path = base_path('database/seeds/answers');
         $real_question_sets = array_diff(scandir($real_question_sets_seed_path), array_merge(array('..', '.'), array_map(function ($v) {
             return "{$v}.json";
-        }, $this->has_match_camp_ids)));
+        }, Common::$has_match_camp_ids)));
         $minimum_questions = 5;
         $maximum_questions = 8;
         $maximum_choices = 5;
@@ -595,6 +595,7 @@ class DatabaseSeeder extends Seeder
                     if ($no_form_scores_error) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
+                        if (Common::hasMatch($camp)) continue; // TODO: This is only for demo
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {
@@ -723,9 +724,9 @@ class DatabaseSeeder extends Seeder
         $candidate->update([
             'username' => 'camper',
             'name_en' => 'Tester',
-            'surname_en' => 'T',
-            'name_th' => 'นักเรียนทดสอบ',
-            'surname_th' => 'ทด',
+            'surname_en' => 'Camper',
+            'name_th' => 'นักเรียน',
+            'surname_th' => 'ทดสอบ',
             'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
         ]);
         $candidate->activate();
@@ -734,7 +735,8 @@ class DatabaseSeeder extends Seeder
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
-        $candidate = User::campMakers(true)->get()->sortByDesc(function ($campmaker) {
+        $camp = Camp::whereIn('id', Common::$has_match_camp_ids)->limit(1)->get()->first();
+        $candidate = User::campMakers(true)->where('organization_id', $camp->organization_id)->get()->sortByDesc(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();
         })->first();
         $candidate->update([
