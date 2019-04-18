@@ -29,6 +29,7 @@
                 'label' => trans('account.Register'),
                 'class' => 'btn btn-primary',
                 'glyph' => 'fas fa-user-check',
+                'auto_width' => 1,
             ])
             @endcomponent
         </div>
