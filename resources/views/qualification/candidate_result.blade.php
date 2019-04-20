@@ -91,7 +91,6 @@
                 $returned = $registration->returned;
                 $paid = $deposit_required ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
-                $who = $registration->approved_by ? \App\User::find($registration->approved_by) : null;
             @endphp
             <tr
                 @if ($confirmed)
@@ -106,12 +105,6 @@
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                 <td class="fit">
                     @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
-                    <div
-                        @if ($registration->approved() && $who)
-                            data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"
-                        @endif
-                    >
-                    </div>
                 </td>
                 @if ($deposit_required)
                     @php $text_class = $paid ? $approved ? 'success' : 'secondary' : 'danger' @endphp
