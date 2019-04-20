@@ -78,6 +78,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <form class="form-inline" action="{{ route('camps.browser') }}" method="GET">
+                        @component('components.input', [
+                            'name' => 'query',
+                            'value' => Request::get('query'),
+                            'placeholder' => trans('app.SearchCampByName'),
+                            'type' => 'search',
+                            'class' => 'form-control-sm my-2 mr-sm-2',
+                        ])
+                        @endcomponent
+                        <button class="btn btn-outline-primary btn-sm my-2 d-md-none d-lg-block" type="submit">@lang('app.Search')</button>
+                    </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('camps.browser') }}"><i class="fas fa-search fa-xs mr-2"></i>@lang('camp.BrowseCamps')</a>
@@ -162,7 +173,7 @@
                         <div class="mb-3" id="side">
                             <ul class="nav flex-md-column flex-row justify-content-between card" id="sidenav">
                                 @yield('sidebar-items')
-                                <li class="nav-item text-center" inactive><a class="rounded font-weight-normal" href="#">@lang('app.ScrollToTop')</a></li>
+                                <li class="nav-item text-center" id="scroll-to-top" inactive><a class="rounded font-weight-normal" href="#">@lang('app.ScrollToTop')</a></li>
                             </ul>
                         </div>
                     </aside>

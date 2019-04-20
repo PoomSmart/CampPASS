@@ -53,6 +53,7 @@ html, body {
 
 .nav-link {
   font-weight: bold;
+  white-space: nowrap;
 }
 
 h1, h2, h3, h4 {
@@ -77,13 +78,21 @@ body, #app {
 
 #sidenav {
   overflow-y: auto;
-  position: fixed;
+  position: relative;
   max-height: 50vh;
+}
+
+#scroll-to-top {
+  display: none;
 }
 
 @media (min-width: 992px) {
   #sidenav {
     flex-wrap: nowrap;
+    position: relative;
+  }
+  #scroll-to-top {
+    display: block;
   }
 }
 
@@ -150,11 +159,7 @@ label[required]::after {
   }
 }
 
-.next {
-  color: #4e4a45;
-}
-
-.prev {
+.next, .prev {
   color: #4e4a45;
 }
 

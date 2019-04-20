@@ -63,8 +63,8 @@
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('account.FullName')</th>
+            <th>@lang('account.Nickname')</th>
             <th>@lang('account.School')</th>
-            <th>@lang('camper.Program')</th>
             <th>@lang('registration.Status')
                 <i class="fas fa-info-circle ml-1 fa-xs" tabindex="0" data-toggle="status-popover" data-trigger="focus"></i></th>
             @if ($deposit_required)
@@ -102,9 +102,9 @@
             >
                 <th scope="row">{{ ++$i }}</th>
                 <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
+                <td class="text-truncate text-truncate-250" title="{{ $camper->getNickname() }}">{{ $camper->getNickname() }}</td>
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
-                <td>{{ $camper->program }}</td>
-                <td class="fit text-center">
+                <td class="fit">
                     @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
                     <div
                         @if ($registration->approved() && $who)

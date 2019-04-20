@@ -29,7 +29,6 @@
             'href' => route('camps.create'),
             'glyph' => 'fas fa-plus fa-xs',
             'label' => trans('camp.CreateCamp'),
-            'auto_width' => 1,
         ])
         @endcomponent
     @endsection
@@ -90,7 +89,7 @@
             <td class="text-truncate text-truncate-150"><a href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->getTags() as $glyph => $tag)
-                    <label class="badge badge-secondary font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
+                    <label class="badge font-weight-normal"><i class="{{ $glyph }} mr-1 fa-xs"></i>{{ $tag }}</label>
                 @endforeach
             </td>
             <td class="text-muted fit">{{ $camp->gradingType() }}</td>
@@ -111,7 +110,7 @@
                     @lang('app.N/A')
                 @endif
             </td>
-            <td class="fit"><a href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>{{ $registration_count_display }}</a></td>
+            <td class="fit"><a class="btn btn-outline-secondary btn-sm" href="{{ $question_set && $question_set->candidate_announced ? route('qualification.candidate_result', $question_set->id) : route('camps.registration', $camp->id) }}"><i class="fas fa-user fa-xs mr-2"></i>{{ $registration_count_display }}</a></td>
             <td class="fit">
                 @if (!$camp->approved)
                     @can('camp-approve')

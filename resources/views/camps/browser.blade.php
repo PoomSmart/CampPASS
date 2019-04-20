@@ -16,11 +16,12 @@
                     'name' => 'query',
                     'value' => Request::get('query'),
                     'placeholder' => trans('app.SearchCampByName'),
+                    'type' => 'search',
                 ])
                 @endcomponent
                 <div class="input-group-append">
                     @component('components.submit', [
-                        'label' => '',
+                        'label' => trans('app.Search'),
                         'class' => 'btn btn-primary',
                         'glyph' => 'fas fa-search fa-xs mr-0',
                     ])
