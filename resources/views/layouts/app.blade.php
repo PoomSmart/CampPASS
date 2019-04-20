@@ -87,11 +87,16 @@
                             'class' => 'form-control-sm my-2 mr-sm-2',
                         ])
                         @endcomponent
-                        <button class="btn btn-outline-primary btn-sm my-2 d-md-none d-lg-block" type="submit">@lang('app.Search')</button>
+                        @component('components.submit', [
+                            'label' => trans('app.Search'),
+                            'class' => 'btn btn-outline-primary btn-sm d-md-none d-lg-block',
+                            'glyph' => 'fas fa-search fa-xs',
+                        ])
+                        @endcomponent
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('camps.browser') }}"><i class="fas fa-search fa-xs mr-2"></i>@lang('camp.BrowseCamps')</a>
+                            <a class="nav-link" href="{{ route('camps.browser') }}">@lang('camp.BrowseCamps')</a>
                         </li>
                         @can('camp-create')
                             <li class="nav-item">
