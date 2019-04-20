@@ -114,10 +114,10 @@
                     </div>
                 </td>
                 @if ($deposit_required)
-                    @php $text_class = $paid ? $approved ? 'text-success' : 'text-secondary' : 'text-danger' @endphp
-                    <td class="text-center {{ $text_class }}">
+                    @php $text_class = $paid ? $approved ? 'success' : 'secondary' : 'danger' @endphp
+                    <td class="text-center text-{{ $text_class }}">
                         @if ($paid)
-                            <a class="{{ $text_class }}"
+                            <a class="btn btn-sm btn-outline-{{ $text_class }}"
                                 href="{{ route('camp_application.payment_download', $registration->id) }}"
                                 title=@lang('qualification.ViewPaymentSlip')
                             >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="fas fa-search-dollar fa-sm ml-2"></i></a>
@@ -141,7 +141,7 @@
                 @if ($camp->parental_consent)
                     <td class="text-center{{ $consent ? ' text-success' : ' text-danger' }}">
                         @if ($consent)
-                            <a class="text-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')>
+                            <a class="btn btn-sm btn-outline-success" href="{{ route('camp_application.consent_download', $registration->id) }}" title=@lang('qualification.ViewConsentForm')>
                                 @lang('app.Yes')<i class="far fa-eye fa-xs ml-1"></i>
                             </a>
                         @else
