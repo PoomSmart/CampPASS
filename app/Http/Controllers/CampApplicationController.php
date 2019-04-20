@@ -472,8 +472,9 @@ class CampApplicationController extends Controller
         }
         if ($camp->hasPayment() && !self::get_payment_path($registration))
             throw new \CampPASSException();
+        // TODO: Do we check consent form submission here?
         // TODO: What about backups?
-        if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn() && !$camp_procedure->qaOnly())
+        if ($registration->status < ApplicationStatus::APPROVED && !$camp_procedure->walkIn() && !($camp_procedure->qaOnly() || $camp->application_fee))
             throw new \CampPASSExceptionRedirectBack(trans('exception.CannotConfirmUnapprovedForm'));
         $registration->update([
             'status' => ApplicationStatus::CONFIRMED,

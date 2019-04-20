@@ -53,9 +53,9 @@
         <thead>
             <th>@lang('app.No_')</th>
             <th>@lang('camp.Name')</th>
-            {{--@role('admin')
+            @role('admin')
                 <th>@lang('camp.CampMakerCount')</th>
-            @endrole--}}
+            @endrole
             <th>@lang('camp.Category')</th>
             <th>@lang('camp_procedure.CampProcedure')</th>
             <th>@lang('camp.GradingType')</th>
@@ -83,9 +83,9 @@
                     class="font-weight-bold"
                 @endif
             >{{ $camp }}</a></th>
-            {{--@role('admin')
+            @role('admin')
                 <td class="text-muted">{{ $camp->camp_makers()->count() }}</td>
-            @endrole--}}
+            @endrole
             <td class="text-truncate text-truncate-150"><a href="{{ route('camps.by_category', $camp->camp_category_id) }}">{{ $camp->camp_category }}</a></td>
             <td class="text-muted">
                 @foreach ($camp->getTags() as $glyph => $tag)
