@@ -53,7 +53,7 @@ class Camp extends Model
     protected $dates = [
         'app_open_date', 'app_close_date', 'event_start_date', 'event_end_date',
     ];
-
+    
     /**
      * The attributes that should be set once.
      *
@@ -266,7 +266,7 @@ class Camp extends Model
 
     public function canGetBackups()
     {
-        return $this->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Carbon::parse($this->confirmation_date)) < 0;
+        return $this->confirmation_date && Carbon::now()->diffInDays($confirmation_date = Common::parseDate($this->confirmation_date)) < 0;
     }
 
     public function getBannerPath(bool $actual = false, bool $display = true)
@@ -320,7 +320,7 @@ class Camp extends Model
     {
         if (!$this->app_close_date)
             return null;
-        $date = Carbon::parse($this->app_close_date);
+        $date = Common::parseDate($this->app_close_date);
         if (Carbon::now()->diffInDays($date) < 0)
             return trans('camp.AlreadyClosed');
         return trans('registration.WillClose').' '.Common::formattedDate($date);
@@ -374,12 +374,12 @@ class Camp extends Model
     public function getDateValue($value)
     {
         if (!$value) return null;
-        return Carbon::parse($value)->format('Y-m-d\TH:i');
+        return Carbon::parse($value)->format('d/m/Y H:i');
     }
 
     public function setDateValue($value, $attribute)
     {
-        $this->attributes[$attribute] = $value ? is_string($value) ? Carbon::parse($value) : $value : null;
+        $this->attributes[$attribute] = $value ? is_string($value) ? Common::parseDate($value) : $value : null;
     }
 
     public function getAppOpenDateAttribute($value)

@@ -205,20 +205,32 @@ class Common
         return User::where('type', config('const.account.admin'))->limit(1)->first();
     }
 
-    public static function formattedDate($date, bool $time = false, int $addedDays = 0)
+    public static function parseDate($date)
+    {
+        $value = null;
+        try {
+            $value = Carbon::createFromFormat('d/m/Y H:i:s', $date);
+        } catch (\Exception $e) {
+            try {
+                $value = Carbon::createFromFormat('d/m/Y H:i', $date);
+            } catch (\Exception $e) {}
+        }
+        return $value ? $value : Carbon::parse($date);
+    }
+
+    public static function formattedDate(string $date, bool $time = false, int $addedDays = 0)
     {
         $locale = app()->getLocale();
         $month = $locale == 'th' ? '[%#m]' : '%B';
-        if (!($date instanceof Carbon))
-            $date = Carbon::parse($date);
+        $date_obj = self::parseDate($date);
         if ($addedDays)
-            $date = $date->addDays($addedDays);
-        $year = $date->year;
+            $date_obj = $date_obj->addDays($addedDays);
+        $year = $date_obj->year;
         if ($locale == 'th')
             $year = ($year + 543) % 100;
-        $formatted = $date->formatLocalized("%e {$month} {$year}".($time ? ", %H:%m" : ''));
+        $formatted = $date_obj->formatLocalized("%e {$month} {$year}".($time ? ", %H:%m" : ''));
         if ($locale == 'th')
-            $formatted = str_replace("[$date->month]", self::$th_months[$date->month], $formatted);
+            $formatted = str_replace("[$date_obj->month]", self::$th_months[$date_obj->month], $formatted);
         return $formatted;
     }
 

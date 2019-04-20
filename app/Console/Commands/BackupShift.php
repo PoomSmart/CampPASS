@@ -54,7 +54,7 @@ class BackupShift extends Command
             $question_set = $camp->question_set;
             if (!$question_set->total_score || !$camp->confirmation_date)
                 continue;
-            if (!$force && Carbon::now()->diffInDays(Carbon::parse($camp->confirmation_date)) >= 0)
+            if (!$force && Carbon::now()->diffInDays(Common::parseDate($camp->confirmation_date)) >= 0)
                 continue;
             $passed_candidates = $camp->candidates->where('backup', false);
             if ($passed_candidates->isEmpty())
