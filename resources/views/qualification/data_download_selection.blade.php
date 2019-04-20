@@ -4,6 +4,10 @@
     @lang('qualification.ExportAllDocument')
 @endsection
 
+@section('subheader')
+    {{ $camp }}
+@endsection
+
 @section('card_content')
     <form method="GET" action="{{ route('qualification.data_download', $question_set->id) }}">
         @csrf
