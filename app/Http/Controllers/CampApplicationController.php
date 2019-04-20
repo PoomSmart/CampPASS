@@ -97,6 +97,7 @@ class CampApplicationController extends Controller
                 if ($registration) {
                     $apply_text = trans('registration.Status');
                     $route = route('camp_application.status', $registration->id);
+                    $disabled = $registration->withdrawn();
                 }
             }
         }
