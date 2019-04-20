@@ -29,7 +29,7 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h2>@lang('qualification.Candidates')</h2>
-        <form class="form d-inline-flex" method="GET" action="{{ route('qualification.candidate_result', $question_set->id) }}">
+        <form id="true-passed-form" class="form d-inline-flex" method="GET" action="{{ route('qualification.candidate_result', $question_set->id) }}">
             @component('components.input', [
                 'input_type' => 'checkbox',
                 'radio_class' => 'my-auto',
@@ -45,11 +45,11 @@
                 'value' => $only_true_passed,
             ])
             @endcomponent
-            @component('components.submit', [
-                'label' => trans('app.Update'),
-                'glyph' => 'fas fa-filter fa-xs ',
-            ])
-            @endcomponent
+            <script>
+                jQuery("#only_true_passed_1").change(function () {
+                    jQuery("#true-passed-form").submit();
+                });
+            </script>
         </form>
     </div>
     <span class="text-muted">{{ $summary }}</span>
