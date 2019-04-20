@@ -129,6 +129,7 @@
                             <li class="nav-item dropdown my-auto">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ auth()->user()->getFullName() }}
+                                    <img class="rounded-circle avatar my-auto ml-1" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path(auth()->user()) }}">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if (!auth()->user()->isAdmin())

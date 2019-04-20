@@ -128,9 +128,8 @@ a:hover {
 
 .avatar {
   vertical-align: middle;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 35px;
+  height: 35px;
 }
 
 label[required]::after {
@@ -207,19 +206,7 @@ label[required]::after {
   background-color: rgb(47, 70, 119);
 }
 
-.btn-info {
-  color: white !important;
-}
-
-.btn-success {
-  color: white !important;
-}
-
-.btn-secondary {
-  color: white !important;
-}
-
-.btn-statistic {
+.btn-info, .btn-success, .btn-secondary, .btn-statistic {
   color: white !important;
 }
 
