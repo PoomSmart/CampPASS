@@ -51,9 +51,12 @@ html, body {
   background-color: lightsalmon;
 }
 
+#nav-header .nav-link {
+  white-space: nowrap;
+}
+
 .nav-link {
   font-weight: bold;
-  white-space: nowrap;
 }
 
 h1, h2, h3, h4 {
@@ -89,7 +92,7 @@ body, #app {
 @media (min-width: 992px) {
   #sidenav {
     flex-wrap: nowrap;
-    position: relative;
+    position: fixed;
   }
   #scroll-to-top {
     display: block;
