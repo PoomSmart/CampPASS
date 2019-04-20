@@ -158,10 +158,11 @@
         @if (View::hasSection('sidebar-items'))
             <div class="container-fluid position-relative" id="content">
                 <div class="row justify-content-center h-100">
-                    <aside class="col-md-2" id="left">
-                        <div class="mt-5 mb-3 sticky-top" id="side">
-                            <ul class="nav flex-md-column flex-row justify-content-between" id="sidenav">
+                    <aside class="col-md-2 mt-4">
+                        <div class="mb-3" id="side">
+                            <ul class="nav flex-md-column flex-row justify-content-between card" id="sidenav">
                                 @yield('sidebar-items')
+                                <li class="nav-item text-center" inactive><a class="rounded font-weight-normal" href="#">@lang('app.ScrollToTop')</a></li>
                             </ul>
                         </div>
                     </aside>

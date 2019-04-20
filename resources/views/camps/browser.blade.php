@@ -113,6 +113,6 @@
     <li class="nav-item" inactive><div class="nav-link font-weight-bold disabled">@lang('camp.CampsByCategory')</div></li>
     @php $i = 0 @endphp
     @foreach ($categorized_camps as $category => $camps)
-        <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $category }}</b></a></li>
+        <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}">{{ $category }}</a></li>
     @endforeach
 @endsection

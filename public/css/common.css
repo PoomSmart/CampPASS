@@ -16,10 +16,6 @@
   font-weight: normal;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 /*html {
   scroll-behavior: smooth;
 }*/
@@ -81,8 +77,8 @@ body, #app {
 
 #sidenav {
   overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 100vh;
+  position: fixed;
+  max-height: 50vh;
 }
 
 @media (min-width: 992px) {

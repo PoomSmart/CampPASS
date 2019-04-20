@@ -17,11 +17,10 @@
     @section('custom-width')
         <div class="col-12 col-xl-10">
     @endsection
-
     @section('sidebar-items')
         @php $i = 0 @endphp
         @foreach ($categorized_camps as $category => $camps)
-            <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}"><b>{{ $category }}</b></a></li>
+            <li class="nav-item"><a class="nav-link rounded{{ $i == 0 ? ' active' : '' }}" data-toggle="scroll" href="#{{ $i++ }}">{{ $category }}</a></li>
         @endforeach
     @endsection
 @endif
