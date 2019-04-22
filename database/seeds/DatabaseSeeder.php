@@ -391,6 +391,10 @@ class DatabaseSeeder extends Seeder
                                 else
                                     $multiple_checkbox_map[$id] = $json[$key][$id];
                             }
+                        } else if ($key == 'radio') {
+                            foreach ($json[$key] as $id => $solution) {
+                                $json[$key][$id] = "{$camp->id}-{$solution}";
+                            }
                         }
                     }
                 }

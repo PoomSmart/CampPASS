@@ -84,14 +84,17 @@
                             'value' => Request::get('query'),
                             'placeholder' => trans('app.SearchCampByName'),
                             'type' => 'search',
-                            'class' => 'form-control-sm my-2 mr-sm-2',
+                            'input_group_class' => 'input-group-sm',
+                            'group' => 1,
                         ])
-                        @endcomponent
-                        @component('components.submit', [
-                            'label' => trans('app.Search'),
-                            'class' => 'btn btn-outline-primary btn-sm d-md-none d-lg-block',
-                            'glyph' => 'fas fa-search fa-xs',
-                        ])
+                        @slot('input_group_append')
+                            @component('components.submit', [
+                                'label' => trans('app.Search'),
+                                'class' => 'btn btn-outline-primary d-md-none d-lg-block',
+                                'glyph' => 'fas fa-search fa-xs',
+                            ])
+                            @endcomponent
+                        @endslot
                         @endcomponent
                     </form>
                     <ul class="navbar-nav ml-auto">

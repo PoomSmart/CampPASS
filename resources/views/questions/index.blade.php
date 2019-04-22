@@ -1,4 +1,4 @@
-@extends('layouts.card')
+@extends('layouts.blank')
 
 @section('script')
     <script src="{{ asset('js/question.js') }}"></script>
@@ -16,24 +16,30 @@
     @lang('question.CreateQuestions')
 @endsection
 
-@section('card_content')
+@section('subheader')
+    {{ $camp }}
+@endsection
+
+@section('content')
     @component('components.dialog', [
         'body' => trans('question.SureFinalizeQuestionSet'), 
         'confirm_type' => 'danger',
     ])
     @endcomponent
-    <form id="form" method="POST" action="{{ route('questions.store', $camp_id) }}">
+    <form id="form" method="POST" action="{{ route('questions.store', $camp->id) }}">
         @csrf
-        @component('components.input', [
-            'name' => 'minimum_score',
-            'label' => trans('question.MinimumScore'),
-            'type' => 'number',
-            'placeholder' => trans('question.EnterMinimumScore'),
-            'no_form_control_class' => 1,
-            'attributes' => "min=1 max={$object->total_score} step=1",
-            'object' => isset($object) ? $object : null,
-        ])
-        @endcomponent
+        <div class="col-12">
+            @component('components.input', [
+                'name' => 'minimum_score',
+                'label' => trans('question.MinimumScore'),
+                'type' => 'number',
+                'placeholder' => trans('question.EnterMinimumScore'),
+                'no_form_control_class' => 1,
+                'attributes' => "min=1 max={$object->total_score} step=1",
+                'object' => isset($object) ? $object : null,
+            ])
+            @endcomponent
+        </div>
         <div id="questions" class="mt-4">
             @component('questions.question', [
                 'title' => trans('question.Title'),
@@ -41,7 +47,7 @@
             ]);
             @endcomponent
         </div>
-        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp_id !!}", {!! isset($object) && $object->finalized !!});</script>
+        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp->id !!}", {!! isset($object) && $object->finalized !!});</script>
         @if (!empty($json))
             <script>
                 var client_json = JSON.parse({!! $json !!});
@@ -54,7 +60,7 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp_id) }}"><i class="fas fa-check mr-2 fa-xs"></i>{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
+            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp->id) }}"><i class="fas fa-check mr-2 fa-xs"></i>{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
             <button class="btn btn-success" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" onclick="addQuestion();"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('question.AddMoreQuestion')</button>
         </div>
     </form>
