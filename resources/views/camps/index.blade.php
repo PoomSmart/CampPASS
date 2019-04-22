@@ -23,6 +23,8 @@
         ])
         @endcomponent
     @endsection
+    {{--
+        TODO: No clue here
     @section('extra-buttons-top')
         @component('components.a', [
             'class' => 'btn btn-success',
@@ -31,7 +33,7 @@
             'label' => trans('camp.CreateCamp'),
         ])
         @endcomponent
-    @endsection
+    @endsection--}}
 @endcan
 
 @section('content')

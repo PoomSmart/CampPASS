@@ -1,3 +1,4 @@
+@php $user = auth()->user() @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -15,7 +16,7 @@
     </script>
     @if (!auth()->guest())
         <script>
-            window.Laravel.userId = {!! auth()->user()->id; !!};
+            window.Laravel.userId = {!! $user->id; !!};
             window.Laravel.no_notification_text = "{!! trans('app.NoNotifications') !!}";
         </script>
     @endif
@@ -71,7 +72,7 @@
     @endif
 >
     <div id="app" class="d-flex flex-column">
-        <nav id="nav-header" class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav id="nav-header" class="navbar navbar-expand-md navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}"><img class="img-fluid" style="width: 130px;" src={{ asset("/images/logo.png") }}></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('Toggle navigation')">
@@ -106,14 +107,14 @@
                                 <a class="nav-link" href="{{ route('camps.index') }}">@lang('camp.OrganizeCamps')</a>
                             </li>
                         @endcan
-                        @if (auth()->user() && auth()->user()->isAdmin())
+                        @role('admin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users.index') }}">@lang('account.ManageUsers')</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('roles.index') }}">@lang('account.ManageRoles')</a>
                             </li>
-                        @endif
+                        @endrole
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">@lang('app.Login')</a>
@@ -126,16 +127,19 @@
                         @else
                             @role('camper')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profiles.my_camps', auth()->user()) }}">@lang('camper.MyCamps')</a>
+                                    <a class="nav-link" href="{{ route('profiles.my_camps', $user->id) }}">@lang('camper.MyCamps')</a>
                                 </li>
                             @endrole
                             <li class="nav-item dropdown my-auto">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ auth()->user()->getFullName() }}
-                                    <img class="rounded-circle avatar my-auto ml-1" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path(auth()->user()) }}">
+                                    <img class="rounded-circle avatar my-auto mr-1" src="{{ \App\Http\Controllers\ProfileController::profile_picture_path($user) }}">
+                                    {{ $user->getFirstName() }}
+                                    @can('camp-edit')
+                                        <span class="font-weight-normal text-danger">({{ [ 0, trans('account.CampMaker'), trans('account.admin') ][$user->type - 1] }})</span>
+                                    @endcan
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if (!auth()->user()->isAdmin())
+                                    @if (!$user->isAdmin())
                                         <a class="dropdown-item" href="{{ route('profiles.index') }}">@lang('account.Profile')</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"

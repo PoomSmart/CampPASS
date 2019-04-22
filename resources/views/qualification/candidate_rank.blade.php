@@ -110,7 +110,7 @@
                 <tr
                     @if ($withdrawn || !$form_score->passed)
                         class="table-danger"
-                    @elseif ($returned || !$paid || !$consent)
+                    @elseif ($returned || !$paid)
                         class="table-warning"
                     @elseif ($form_score->passed)
                         class="table-success"

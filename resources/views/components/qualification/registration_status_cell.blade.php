@@ -3,7 +3,7 @@
     $show_who = $registration->approved_to_confirmed() && $who;
 @endphp
 @if ($show_who)
-    <div data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}"><u>
+    <div data-toggle="status" title="{{ trans('qualification.ApprovedBy', [ 'who' => $who->getFullName() ]) }}, {{ $registration->getLastUpdatedDate() }}"><u>
 @endif
 {{ $registration->getStatus() }}
 @if ($show_who)

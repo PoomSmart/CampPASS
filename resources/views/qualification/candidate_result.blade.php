@@ -16,6 +16,7 @@
     $camp_procedure = $camp->camp_procedure;
     $deposit_required = $camp_procedure->deposit_required;
     $interview_required = $camp_procedure->interview_required;
+    $rank_by_score = $question_set->total_score;
 @endphp
 
 @section('script')
@@ -65,6 +66,9 @@
             <th>@lang('account.FullName')</th>
             <th>@lang('account.Nickname')</th>
             <th>@lang('account.School')</th>
+            @if ($rank_by_score)
+                <th>@lang('qualification.Score')</th>
+            @endif
             <th>@lang('registration.Status')
                 <i class="fas fa-info-circle ml-1 fa-xs" tabindex="0" data-toggle="status-popover" data-trigger="focus"></i></th>
             @if ($deposit_required)
@@ -103,6 +107,9 @@
                 <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                 <td class="text-truncate text-truncate-250" title="{{ $camper->getNickname() }}">{{ $camper->getNickname() }}</td>
                 <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
+                @if ($rank_by_score)
+                    <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+                @endif
                 <td class="fit">
                     @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
                 </td>
@@ -190,6 +197,9 @@
                     <th>@lang('account.FullName')</th>
                     <th>@lang('account.School')</th>
                     <th>@lang('camper.Program')</th>
+                    @if ($rank_by_score)
+                        <th>@lang('qualification.Score')</th>
+                    @endif
                     <th>@lang('registration.Status')</th>
                     @role('admin')
                         <th>@lang('app.Actions')</th>
@@ -201,6 +211,7 @@
                 @foreach ($backups as $candidate)
                     @php
                         $registration = $candidate->registration;
+                        $form_score = $candidate->form_score;
                         $camper = $candidate->camper;
                         $withdrawn = $registration->withdrawn();
                         $confirmed = $registration->confirmed();
@@ -216,6 +227,9 @@
                         <th><a href="{{ route('qualification.show_profile_detailed', $registration->id) }}">{{ $camper->getFullName() }}</a></th>
                         <td class="text-truncate text-truncate-450" title="{{ $camper->school }}">{{ $camper->school }}</td>
                         <td>{{ $camper->program }}</td>
+                        @if ($rank_by_score)
+                            <td class="fit">{{ $form_score->total_score }} / {{ $question_set->total_score }}</td>
+                        @endif
                         <td class="fit text-center">
                             @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
                         </td>

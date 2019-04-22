@@ -143,6 +143,11 @@ class User extends Authenticatable
         return $this->status == 1;
     }
 
+    public function getFirstName()
+    {
+        return Common::getLocalizedName($this, 'name');
+    }
+
     public function getNickname()
     {
         return Common::getLocalizedName($this, 'nickname');

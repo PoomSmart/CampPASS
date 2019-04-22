@@ -123,4 +123,9 @@ class Registration extends Model
     {
         return Common::formattedDate($this->submission_time, $time = true);
     }
+
+    public function getLastUpdatedDate()
+    {
+        return Common::formattedDate($this->updated_at, $time = true);
+    }
 }

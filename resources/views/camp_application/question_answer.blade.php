@@ -13,6 +13,7 @@
 @endsection
 
 @section('card_content')
+    @php $has_any_answers = false @endphp
     @component('components.dialog', [
         'confirm_type' => 'warning',
         'confirm_label' => trans('app.OK'),
@@ -32,6 +33,8 @@
                 $type = (int)$json['type'][$key];
                 $required = isset($json['question_required'][$key]);
                 $value = isset($json['answer'][$key]) ? $json['answer'][$key] : null;
+                if (!is_null($value))
+                    $has_any_answers = true;
             @endphp
             <div class="row">
                 <div class="col-12">
@@ -102,7 +105,15 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <a id="next-page" href="{{ route('camp_application.answer_view', $question_set->id) }}" class="btn btn-success"><i class="fas fa-arrow-right fa-xs mr-1"></i>@lang('app.Next')</a>
+            @component('components.a', [
+                'class' => 'btn btn-success',
+                'id' => 'next-page',
+                'href' => route('camp_application.answer_view', $question_set->id),
+                'glyph' => 'fas fa-arrow-right fa-xs',
+                'label' => trans('app.Next'),
+                'disabled' => !$has_any_answers,
+            ])
+            @endcomponent
         </div>
         <script>
             jQuery.fn.isValid = function () {
@@ -114,7 +125,8 @@
                 return validate;
             };
             jQuery("#next-page").click(function (e) {
-                if (!jQuery("#form").isValid()){
+                var form = jQuery("#form");
+                if (!form.isValid()){
                     e.preventDefault();
                     $('#recheck-modal').modal()
                 }

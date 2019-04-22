@@ -262,7 +262,7 @@ class CandidateController extends Controller
         }
         $locale = app()->getLocale();
         $candidates = $candidates->leftJoin('registrations', 'registrations.id', '=', 'candidates.registration_id');
-        if ($only_true_passed)
+        if ($only_true_passed) // TODO: Check consent uploaded
             $candidates = $candidates->where('registrations.status', ApplicationStatus::CONFIRMED);
         $candidates = $candidates->leftJoin('users', 'users.id', '=', 'registrations.camper_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
@@ -341,14 +341,14 @@ class CandidateController extends Controller
                     ]);
                 }
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
+                // $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
                 if (!$question_set->auto_ranked) {
                     $form_score->update([
                         'passed' => $form_score->total_score >= $minimum_score,
                     ]);
                 }
                 $form_score->update([
-                    'passed' => $form_score->passed && $paid && $consent,
+                    'passed' => $form_score->passed && $paid,
                     'finalized' => $form_score->finalized || $auto_gradable,
                 ]);
                 if ($form_score->passed)
@@ -368,7 +368,7 @@ class CandidateController extends Controller
             foreach ($form_scores_get as $form_score) {
                 $registration = $form_score->registration;
                 $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
+                // $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
                 $withdrawn = $registration->withdrawn();
                 $rejected = $registration->rejected();
                 $form_score->update([
