@@ -133,8 +133,9 @@ a:hover {
 }
 
 label[required]::after {
-  content: " *";
+  content: "*";
   color: red;
+  white-space: pre;
 }
 
 #header {
