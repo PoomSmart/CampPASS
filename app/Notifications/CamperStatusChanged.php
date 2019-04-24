@@ -32,7 +32,7 @@ class CamperStatusChanged extends LocalizableNotification
 
     public function toURL()
     {
-        return route('profiles.show', $this->camper->id);
+        return route('camps.registration', $this->camp->id);
     }
 
     public function toDatabase($notifiable)

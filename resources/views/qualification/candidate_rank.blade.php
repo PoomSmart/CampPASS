@@ -16,6 +16,8 @@
         </script>
         <script src="{{ asset('js/check-unsaved.js') }}"></script>
     @endif
+    <script src="{{ asset('js/status-popover.js') }}"></script>
+    @include('components.qualification.status_popover')
 @endsection
 
 @section('header')

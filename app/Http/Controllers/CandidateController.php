@@ -366,7 +366,7 @@ class CandidateController extends Controller
                 $average_score += $form_score->total_score;
             }
             $form_scores = $form_scores->orderByDesc('total_score');
-            // This question set is marked as auto-graded, so it won't auto-grade the same, allowing the camp makers to manually grade
+            // This question set is marked as auto-graded, so it won't auto-grade again, allowing the camp makers to manually grade
             $question_set->update([
                 'auto_ranked' => true,
             ]);
@@ -409,11 +409,11 @@ class CandidateController extends Controller
                     return !is_null(CampApplicationController::get_payment_path($form_score->registration));
                 });
             }
-            if ($has_consent) {
+            /*if ($has_consent) {
                 $form_scores_get = $form_scores_get->filter(function ($form_score) {
                     return !is_null(CampApplicationController::get_consent_path($form_score->registration));
                 });
-            }
+            }*/
             return $form_scores_get;
         }
         if ($question_set->total_score) {
@@ -610,13 +610,17 @@ class CandidateController extends Controller
                 ];
             }
         }
-        $form_score = FormScore::updateOrCreate([
-            'registration_id' => $registration_id,
-            'question_set_id' => $question_set_id,
-        ], [
+        if (!$form_score) {
+            $form_score = FormScore::create([
+                'registration_id' => $registration_id,
+                'question_set_id' => $question_set_id,
+                'total_score' => $camper_score,
+                'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+                'submission_time' => $registration->submission_time,
+            ]);
+        }
+        $form_score->update([
             'total_score' => $camper_score,
-            'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
-            'submission_time' => $registration->submission_time,
         ]);
         if ($silent)
             return $camper_score;
