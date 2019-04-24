@@ -59,4 +59,5 @@ return [
     'ConfirmCorrectionAndUnreturn' => 'ยืนยันความถูกต้องและส่งใบสมัครใหม่',
     'PleaseCheckFormSave' => 'กรุณาตรวจสอบและบันทีกคำตอบของคุณก่อนทำการส่ง',
     'Attention' => 'โปรดทราบ',
+    'PaymentUploaded' => 'อัพโหลดหลักฐานการชำระเงินแล้ว',
 ];
