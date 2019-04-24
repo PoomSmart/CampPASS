@@ -3,8 +3,8 @@
 return [
     'Badges' => 'Badges',
     'PioneerDescription' => '1st Generation Member',
-    'PremiumDescription' => '',
-    'BabyStepDescription' => '',
+    'PremiumDescription' => 'Joined 10 camps',
+    'BabyStepDescription' => 'Joined First Camp',
     '3StarsEngineerDescription' => '',
     '3StarsScienceDescription' => '',
     '3StarsComputerDescription' => '',
@@ -29,4 +29,6 @@ return [
     '3StarsPoliticalDescription' => '',
     '3StarsYouthrDescription' => '',
     '3StarsPreserveDescription' => '',
+    '3StarsDescription' => 'Joined 3 camps with the same category.',
+    'BadgesDescription' => 'Campers can earn badges to showcase their previous camp experiences.',
 ];
