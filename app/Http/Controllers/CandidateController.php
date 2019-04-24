@@ -50,9 +50,6 @@ class CandidateController extends Controller
         // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
         if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
             throw new \CampPASSExceptionRedirectBack();
-        // Similarly, we reject those that have not uploaded a signed parental consent form
-        if ($camp->parental_consent && !CampApplicationController::get_consent_path($registration))
-            throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::APPROVED,
             'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,

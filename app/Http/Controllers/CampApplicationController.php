@@ -154,11 +154,8 @@ class CampApplicationController extends Controller
                     if ($registration->rejected())
                         $text = trans('registration.RejectedApplication');
                     else if (self::get_payment_path($registration)) {
-                        if ($registration->returned) {
-                            $text = trans('registration.PleaseRecheckSlip');
-                            $button = true;
-                        } else
-                            $text = trans('registration.SlipUploaded');
+                        $button = true;
+                        $text = $registration->returned ? trans('registration.PleaseRecheckSlip') : trans('registration.SlipUploaded');
                     } else if (($registration->chosen() && $camp->deposit) || ($registration->applied() && $camp->application_fee)) {
                         $text = trans('registration.UploadPayment');
                         $button = true;

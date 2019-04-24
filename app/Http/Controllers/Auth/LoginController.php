@@ -31,7 +31,7 @@ class LoginController extends Controller
     {
         $this->validate($request, [
                 'identity' => 'required|string',
-                'password' => 'required|string',
+                'password' => 'required|string|min:6',
             ], [
                 'identity.required' => trans('validation.required', ['attribute' => trans('account.Username').' '.trans('app.Or').' '.trans('account.Email')]),
                 'password.required' => trans('validation.required', ['attribute' => 'password']),
