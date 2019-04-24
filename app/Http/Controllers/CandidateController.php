@@ -40,20 +40,22 @@ class CandidateController extends Controller
             'show_profile_detailed', 'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce',
         ]]);
         $this->middleware('permission:candidate-edit', ['only' => [
-            'interview_save', 'document_approve_save', 'form_return', 'form_reject', 'form_pass_save',
+            'interview_save', 'document_approve_save', 'document_approve_interview_save', 'form_return', 'form_reject', 'form_pass_save',
         ]]);
     }
 
-    public static function document_approve(Registration $registration, $approved_by_id = null, bool $silent = false)
+    public static function document_approve(Registration $registration, $approved_by_id = null, bool $silent = false, bool $force_approved = false)
     {
         $camp = $registration->camp;
-        // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
-        if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
-            throw new \CampPASSExceptionRedirectBack();
-        $registration->update([
-            'status' => ApplicationStatus::APPROVED,
-            'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
-        ]);
+        if ($force_approved || !$camp->application_fee) {
+            // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
+            if ($camp->deposit && !CampApplicationController::get_payment_path($registration))
+                throw new \CampPASSExceptionRedirectBack();
+            $registration->update([
+                'status' => ApplicationStatus::APPROVED,
+                'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
+            ]);
+        }
         $form_score = $registration->form_score;
         if ($form_score) {
             $form_score->update([
@@ -68,13 +70,12 @@ class CandidateController extends Controller
         unset($data['_token']);
         if ($camp->camp_procedure->interview_required && !$camp->question_set->interview_announced)
             throw new \CampPASSExceptionRedirectBack();
-        // TODO: Tell users that this will be un-revertable ?
-        foreach ($camp->registrations as $registration) {
+        // TODO: Tell users that this will be irreversible ?
+        foreach ($data as $registration_id => $value) {
             try {
-                if (isset($data[$registration->id])) {
-                    $this->document_approve($registration, null, true);
-                    $registration->camper->notify(new ApplicationStatusUpdated($registration));
-                }
+                $registration = Registration::find($registration_id);
+                $this->document_approve($registration, null, true);
+                $registration->camper->notify(new ApplicationStatusUpdated($registration));
             } catch (\Exception $e) {}
         }
         return redirect()->back()->with('success', trans('qualification.DocumentsApproved'));
@@ -101,6 +102,32 @@ class CandidateController extends Controller
             $this->interview_check_real($registration, isset($data[$registration->id]) ? 'true' : 'false');
         }
         return redirect()->back()->with('success', trans('qualification.InterviewedSaved'));
+    }
+
+    public function document_approve_interview_save(Request $request, Camp $camp)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        $interview_data = isset($data['interview']) ? $data['interview'] : null;
+        if ($interview_data && !$camp->question_set->interview_announced) {
+            $candidates = $camp->candidates->where('backup', false);
+            foreach ($candidates as $candidate) {
+                $registration = $candidate->registration;
+                $this->interview_check_real($registration, isset($interview_data[$registration->id]) ? 'true' : 'false');
+            }
+        }
+        $consent_data = isset($data['consent']) ? $data['consent'] : null;
+        if ($consent_data && !$camp->camp_procedure->interview_required || $camp->question_set->interview_announced) {
+            // TODO: Tell users that this will be irreversible ?
+            foreach ($consent_data as $registration_id => $value) {
+                try {
+                    $registration = Registration::find($registration_id);
+                    $this->document_approve($registration, null, true, true);
+                    $registration->camper->notify(new ApplicationStatusUpdated($registration));
+                } catch (\Exception $e) {}
+            }
+        }
+        return redirect()->back()->with('success', trans('qualification.StatusSaved'));
     }
 
     public static function interview_announce(QuestionSet $question_set, bool $silent = false)

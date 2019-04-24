@@ -14,7 +14,7 @@
 
 @php
     $camp_procedure = $camp->camp_procedure;
-    $deposit_required = $camp_procedure->deposit_required;
+    $deposit_required = $camp->deposit;
     $interview_required = $camp_procedure->interview_required;
     $rank_by_score = $question_set->total_score;
 @endphp
@@ -56,8 +56,8 @@
     <span class="text-muted">{{ $summary }}</span>
     <br/>
     <span class="text-muted font-weight-bold">@lang('qualification.WhoConfirmedWithin', [ 'who' => trans('qualification.Candidates'), 'date' => $camp->getConfirmationDate() ])</span>
-    @if ($interview_required)
-        <form id="form" method="POST" action="{{ route('qualification.interview_save', $camp->id) }}">
+    @if ($interview_required || $camp->parental_consent)
+        <form id="form" method="POST" action="{{ route('qualification.document_approve_interview_save', $camp->id) }}">
         @csrf
     @endif
     <table class="table table-striped">
@@ -79,10 +79,9 @@
             @endif
             @if ($camp->parental_consent)
                 <th>@lang('qualification.ConsentUploaded')</th>
+                <th>@lang('qualification.Checked')</th>
             @endif
-            @role('admin')
-                <th>@lang('app.Actions')</th>
-            @endrole
+            <th>@lang('app.Actions')</th>
         </thead>
         @foreach ($candidates as $candidate)
             @php
@@ -90,7 +89,7 @@
                 $camper = $candidate->camper;
                 $withdrawn = $registration->withdrawn();
                 $form_score = $registration->form_score;
-                $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
+                $approved = $registration->approved_to_confirmed();
                 $confirmed = $registration->confirmed();
                 $interviewed = $registration->interviewed_to_confirmed();
                 $rejected = $registration->rejected();
@@ -130,7 +129,7 @@
                 @endif
                 @if ($interview_required)
                     <td class="text-center">
-                        <input type="checkbox" name="{{ $registration->id }}"
+                        <input type="checkbox" name="interview[{{ $registration->id }}]"
                             @if ($withdrawn || $approved || $confirmed || $question_set->interview_announced)
                                 disabled
                             @endif
@@ -150,36 +149,49 @@
                             @lang('app.No')
                         @endif
                     </td>
+                    <td class="text-center">
+                        <input type="checkbox" name="consent[{{ $registration->id }}]"
+                            {{-- TODO: Camp makers won't be allowed to revert the ticking of document approval, for now ($approved) --}}
+                            @if (!$consent || $registration->returned || $withdrawn || $rejected || $approved)
+                                disabled
+                            @endif
+                            @if ($approved)
+                                checked
+                            @endif
+                        >
+                    </td>
                 @endif
-                @role('admin')
-                    <td class="fit">
+                <td class="fit">
+                    @role('admin')
                         @if (!$withdrawn && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger btn-sm">TW</a>
                         @endif
                         @if ($paid && $consent && $approved && !$confirmed && !$withdrawn)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success btn-sm">TC</a>
                         @endif
-                    </td>
-                @endrole
+                    @endrole
+                </td>
             </tr>
         @endforeach
     </table>
     <div class="d-flex justify-content-center">
         {!! $candidates->links() !!}
     </div>
-    @if ($interview_required)
+    @if ($interview_required || $camp->parental_consent)
         @php $question_set = $camp->question_set @endphp
             <div class="text-center">
                 @component('components.submit', [
                     'label' => trans('app.SaveChanges'),
                     'class' => 'btn btn-primary',
                     'glyph' => 'far fa-save fa-xs',
-                    'disabled' => !$question_set->interview_announced,
+                    'auto_width' => 1,
                 ])
                 @endcomponent
-                <small class="form-text text-muted mb-2">@lang('qualification.InterviewSaveDesc')</small>
-                <a class="btn btn-danger w-50{{ $question_set->interview_announced ? ' disabled' : null }}" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
-                <small class="form-text text-muted">@lang('qualification.InterviewAnnounceDesc')</small>
+                @if ($interview_required)
+                    <small class="form-text text-muted mb-2">@lang('qualification.InterviewSaveDesc')</small>
+                    <a class="btn btn-danger w-50" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
+                    <small class="form-text text-muted">@lang('qualification.InterviewAnnounceDesc')</small>
+                @endif
             </div>
         </form>
     @endif

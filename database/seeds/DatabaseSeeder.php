@@ -592,6 +592,7 @@ class DatabaseSeeder extends Seeder
                             } catch (\Exception $e) {}
                         }
                     }
+                    if ($matched) continue; // TODO: This is only for demo
                     $no_form_scores_error = true;
                     try {
                         $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
@@ -603,7 +604,6 @@ class DatabaseSeeder extends Seeder
                     if ($no_form_scores_error) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
-                        if ($matched) continue; // TODO: This is only for demo
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {

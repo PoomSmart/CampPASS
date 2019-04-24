@@ -170,10 +170,11 @@ class CampApplicationController extends Controller
                 }
                 break;
             case BlockApplicationStatus::APPROVAL:
+                $form_score = $registration->form_score;
                 if ($registration->returned) {
                     $text = trans('qualification.DocumentsNeedRecheck');
                     $button = true;
-                } else if ($registration->approved_to_confirmed())
+                } else if ($form_score && $form_score->question_set->candidate_announced && $form_score->checked)
                     $text = trans('qualification.DocumentsApproved');
                 else if ($registration->chosen())
                     $text = $camp_procedure->depositOnly() ? trans('registration.AckSlip') : trans('qualification.DocumentsInProcess');

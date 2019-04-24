@@ -78,4 +78,5 @@ return [
     'ApplicantRejected' => ':applicant has been rejected.',
     'FormsPassedSaved' => 'Forms passed statuses have been saved.',
     'DocumentsNeedRecheck' => 'You need to resolve issues with the documents as reported by the camp.',
+    'StatusSaved' => 'Changes to form statuses have been saved.',
 ];

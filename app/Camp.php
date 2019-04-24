@@ -199,12 +199,13 @@ class Camp extends Model
 
     public function hasPayment()
     {
-        return $this->camp_procedure->deposit_required || $this->application_fee;
+        return $this->deposit || $this->application_fee;
     }
 
     public function paymentOnly()
     {
-        return $this->application_fee || $this->camp_procedure->depositOnly();
+        $camp_procedure = $this->camp_procedure;
+        return !$camp_procedure->candidate_required && !$camp_procedure->interview_required && ($this->application_fee || $camp_procedure->depositOnly());
     }
 
     public function approve()
