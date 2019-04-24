@@ -307,12 +307,12 @@ class DatabaseSeeder extends Seeder
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 ++$registration_id;
-                $date = $faker->dateTimeBetween($camp->app_close_date.' -10 days', $camp->app_close_date);
+                $app_close_date = Common::parseDate($camp->app_close_date)->format('Y-m-d H:i:s');
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
                     'status' => $status,
-                    'submission_time' => $date,
+                    'submission_time' => $faker->dateTimeBetween("{$app_close_date} -20 days", $app_close_date),
                 ];
                 if ($status >= ApplicationStatus::APPLIED) {
                     if (!isset($camp_maker_notifications[$camp->id]))
