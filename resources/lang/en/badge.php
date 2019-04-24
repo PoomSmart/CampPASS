@@ -29,6 +29,6 @@ return [
     '3StarsPoliticalDescription' => '',
     '3StarsYouthrDescription' => '',
     '3StarsPreserveDescription' => '',
-    '3StarsDescription' => 'Joined 3 camps with the same category.',
+    '3StarsDescription' => 'Joined 3 camps of the same category.',
     'BadgesDescription' => 'Campers can earn badges to showcase their previous camp experiences.',
 ];
