@@ -29,7 +29,7 @@
         $camp_procedure = $camp->camp_procedure;
         $candidate_required = $question_set && $camp_procedure->candidate_required;
         $rank_by_score = $candidate_required && $question_set->total_score;
-        $required_paid = $camp->paymentOnly();
+        $required_paid = $camp->hasPayment();
         $manual_grading_required = $question_set && $question_set->manual_required;
     @endphp
     <div class="row">
@@ -54,7 +54,7 @@
                             @if ($required_paid)
                                 @if ($camp->application_fee)
                                     <th>@lang('qualification.ApplicationFeePaid')</th>
-                                @else
+                                @elseif (!$candidate_required)
                                     <th>@lang('qualification.DepositPaid')</th>
                                 @endif
                             @endif
