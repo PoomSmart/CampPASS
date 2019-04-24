@@ -60,4 +60,6 @@ return [
     'PleaseCheckFormSave' => 'Please re-check form and save your answer.',
     'Attention' => 'Attention',
     'PaymentUploaded' => 'Payment slip uploaded',
+    'ConsentUploaded' => 'Parental Consent Form uploaded',
+
 ];
