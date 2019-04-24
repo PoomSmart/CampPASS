@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Badges' => 'ประสบการณ์',
+    'Badges' => 'ตราประสบการณ์',
     'PioneerDescription' => 'สมาชิกรุ่นแรก',
     'PremiumDescription' => 'เข้าร่วมค่ายจำนวน 10 ค่าย',
     'BabyStepDescription' => 'เข้าร่วมค่ายครั้งแรกกับ CampPASS',
@@ -29,4 +29,6 @@ return [
     '3StarsPoliticalDescription' => 'เข้าค่ายรัฐศาสตร์ จำนวน 3 ครั้ง',
     '3StarsYouthrDescription' => 'เข้าค่ายพัฒนาเยาวชน จำนวน 3 ครั้ง',
     '3StarsPreserveDescription' => 'เข้าค่ายอนุรักษ์ธรรมชาติ จำนวน 3 ครั้ง',
+    '3StarsDiscription' => 'เข้าค่ายประเภทหนึ่งครบ 3 ครั้ง',
+    'BadgesDiscription' => 'ตราประสบการณ์ คือ ตราที่ผู้สมัครค่ายจะได้รับประดับโชว์ที่หน้าโปรไฟล์ของตัวเองเมื่อเข้าค่ายตามเงื่อนไขต่าง ๆ',
 ];
