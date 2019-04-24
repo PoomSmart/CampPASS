@@ -50,9 +50,6 @@ class CandidateController extends Controller
         // We will not approve this registration if the camper has not uploaded their payment slip for the camps that require deposit
         if ($camp->hasPayment() && !CampApplicationController::get_payment_path($registration))
             throw new \CampPASSExceptionRedirectBack();
-        // Similarly, we reject those that have not uploaded a signed parental consent form
-        if ($camp->parental_consent && !CampApplicationController::get_consent_path($registration))
-            throw new \CampPASSExceptionRedirectBack();
         $registration->update([
             'status' => ApplicationStatus::APPROVED,
             'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
@@ -275,8 +272,8 @@ class CandidateController extends Controller
     public static function create_form_scores(Camp $camp, QuestionSet $question_set, $registrations)
     {
         $form_scores = $camp->form_scores();
+        $auto_gradable = !$question_set->manual_required;
         if ($form_scores->doesntExist()) {
-            $auto_gradable = !$question_set->manual_required;
             $data = [];
             foreach ($registrations as $registration) {
                 $data[] = [
@@ -292,6 +289,18 @@ class CandidateController extends Controller
             $question_set->update([
                 'auto_ranked' => false,
             ]);
+        } else {
+            // For other registration records that may be later added, create form scores for them
+            foreach ($registrations as $registration) {
+                if (is_null($registration->form_score)) {
+                    FormScore::create([
+                        'registration_id' => $registration->id,
+                        'question_set_id' => $question_set->id,
+                        'finalized' => $auto_gradable,
+                        'submission_time' => $registration->submission_time,
+                    ]);
+                }
+            }
         }
         return $form_scores;
     }
@@ -316,8 +325,7 @@ class CandidateController extends Controller
         $total_registrations = $registrations->count();
         $auto_gradable = !$question_set->manual_required;
         $form_scores = self::create_form_scores($camp, $question_set, $registrations);
-        $finalized = 0;
-        $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
+        $finalized = $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
         $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
@@ -602,16 +610,14 @@ class CandidateController extends Controller
                 ];
             }
         }
-        if (!$form_score) {
-            $form_score = FormScore::updateOrCreate([
-                'registration_id' => $registration_id,
-                'question_set_id' => $question_set_id,
-            ], [
-                'total_score' => $camper_score,
-                'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
-                'submission_time' => $registration->submission_time,
-            ]);
-        }
+        $form_score = FormScore::updateOrCreate([
+            'registration_id' => $registration_id,
+            'question_set_id' => $question_set_id,
+        ], [
+            'total_score' => $camper_score,
+            'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+            'submission_time' => $registration->submission_time,
+        ]);
         if ($silent)
             return $camper_score;
         if ($total_score) {

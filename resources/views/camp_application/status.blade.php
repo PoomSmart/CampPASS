@@ -28,6 +28,10 @@
         'confirm_type' => 'danger',
     ])
     @endcomponent
+    <div class="card mb-4">
+        <img class="img-fluid" style="max-height: 400px;" src="{{ $camp->getBannerPath($actual = false, $display = true) }}">
+    </div>
+    @component('components.padding', [ 'height' => 20 ])@endcomponent
     @if ($registration->returned)
         @component('components.card', [
             'header' => trans('status.Application'),

@@ -1,4 +1,4 @@
-<div class="{{ isset($full_width) && $full_width ? 'd-flex' : 'd-inline-flex align-items-center' }}">
+<div id="file-panel" class="{{ isset($full_width) && $full_width ? 'd-flex' : 'd-inline-flex align-items-center' }}">
     @if (isset($download_route))
         <a class="btn btn-secondary mx-1 h-100{{ isset($full_width) && $full_width ? ' w-100' : null }}" href="{{ route($download_route, $args) }}">
             <i class="far fa-eye mr-2 fa-xs"></i>{{ isset($value) ? $value : trans('app.View') }}
@@ -17,12 +17,12 @@
                 @if (isset($value))
                     readonly
                 @endif
-                onchange="var t = this.parentElement.nextElementSibling;
-                            if (t && t.id == 'filename') {
-                                t.innerText = this.files[0].name;
-                                t.title = this.files[0].name;
-                                t.hidden = false;
-                            }{{ isset($auto_upload) && $auto_upload ? ';form.submit()' : null }}">
+                onchange='var t = jQuery(this).closest("#file-panel").find("#filename");
+                            if (t) {
+                                t.text(this.files[0].name);
+                                t.attr("title", this.files[0].name);
+                                t.attr("hidden", false);
+                            }{{ isset($auto_upload) && $auto_upload ? ";form.submit()" : null }}'>
         </label>
         @if (!isset($value))
             <label id="filename" class="ml-2 mb-0 my-auto text-truncate" hidden></label>

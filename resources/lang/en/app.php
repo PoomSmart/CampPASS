@@ -63,4 +63,5 @@ return [
     'NoResultsFound' => 'No results found',
     'NoRevertMessage' => 'This action cannot be reverted, please confirm if you are certain about this.',
     'ScrollToTop' => 'Scroll to Top',
+    'RedirectTo' => 'CampPASS will redirect you to :where page within :seconds seconds.',
 ];

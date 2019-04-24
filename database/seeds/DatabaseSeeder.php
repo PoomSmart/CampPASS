@@ -307,12 +307,12 @@ class DatabaseSeeder extends Seeder
                 else // Anything else with QA
                     $status = Common::randomFrequentHit() ? ApplicationStatus::APPLIED : ApplicationStatus::DRAFT;
                 ++$registration_id;
-                $date = $faker->dateTimeBetween($camp->app_close_date.' -10 days', $camp->app_close_date);
+                $app_close_date = Common::parseDate($camp->app_close_date)->format('Y-m-d H:i:s');
                 $registrations[] = [
                     'camp_id' => $camp->id,
                     'camper_id' => $camper->id,
                     'status' => $status,
-                    'submission_time' => $date,
+                    'submission_time' => $faker->dateTimeBetween("{$app_close_date} -20 days", $app_close_date),
                 ];
                 if ($status >= ApplicationStatus::APPLIED) {
                     if (!isset($camp_maker_notifications[$camp->id]))
@@ -567,16 +567,19 @@ class DatabaseSeeder extends Seeder
             $has_consent = $camp->parental_consent;
             $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
             $payment_directory = $camp->hasPayment() ? Common::paymentDirectory($camp->id) : null;
+            $matched = Common::hasMatch($camp);
             try {
                 if ($has_question_set) {
                     $registrations = $camp->registrations;
-                    if (Common::randomRareHit() || $registrations->isEmpty())
+                    if ((!$matched && Common::randomRareHit()) || $registrations->isEmpty())
                         continue;
                     $campmakers = $camp->camp_makers();
                     $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                     foreach ($form_scores->get() as $form_score) {
                         $registration = $form_score->registration;
-                        CandidateController::form_finalize($form_score, $silent = true);
+                        try {
+                            CandidateController::form_finalize($form_score, $silent = true);
+                        } catch (\Exception $e) {}
                         // We can seed payment slips for the camps that require application fee here
                         // This is because the campers have to do it at the beginning
                         if ($camp->application_fee && Common::randomVeryFrequentHit())
@@ -600,7 +603,7 @@ class DatabaseSeeder extends Seeder
                     if ($no_form_scores_error) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
-                        if (Common::hasMatch($camp)) continue; // TODO: This is only for demo
+                        if ($matched) continue; // TODO: This is only for demo
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {
@@ -640,7 +643,7 @@ class DatabaseSeeder extends Seeder
                             }
                         }
                     }
-                    // TODO: This is not really working
+                    // TODO: This is not really working?
                     if ($interview_announce) {
                         $question_set->update([
                             'interview_announced' => true,
@@ -732,8 +735,9 @@ class DatabaseSeeder extends Seeder
             'surname_en' => 'Rukrian',
             'name_th' => 'ภาคภูมิ',
             'surname_th' => 'รักเรียน',
+            'gender' => 0,
             'education_level' => EducationLevel::M5,
-            'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
+            'cgpa' => 3.6,
         ]);
         // TODO: This is only for demo
         Registration::where('camper_id', $candidate->id)->whereIn('camp_id', Common::$has_match_camp_ids)->delete();
@@ -750,6 +754,7 @@ class DatabaseSeeder extends Seeder
         })->first();
         $candidate->update([
             'username' => 'campmaker',
+            'gender' => 1,
         ]);
         $candidate->activate();
     }
