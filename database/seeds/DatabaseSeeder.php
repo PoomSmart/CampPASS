@@ -735,8 +735,9 @@ class DatabaseSeeder extends Seeder
             'surname_en' => 'Rukrian',
             'name_th' => 'ภาคภูมิ',
             'surname_th' => 'รักเรียน',
+            'gender' => 0,
             'education_level' => EducationLevel::M5,
-            'cgpa' => 3.6, // The candidate will be used to test certain camps so the smartening is needed
+            'cgpa' => 3.6,
         ]);
         // TODO: This is only for demo
         Registration::where('camper_id', $candidate->id)->whereIn('camp_id', Common::$has_match_camp_ids)->delete();
@@ -753,6 +754,7 @@ class DatabaseSeeder extends Seeder
         })->first();
         $candidate->update([
             'username' => 'campmaker',
+            'gender' => 1,
         ]);
         $candidate->activate();
     }
