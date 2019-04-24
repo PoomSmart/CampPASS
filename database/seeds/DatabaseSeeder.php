@@ -577,7 +577,9 @@ class DatabaseSeeder extends Seeder
                     $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                     foreach ($form_scores->get() as $form_score) {
                         $registration = $form_score->registration;
-                        CandidateController::form_finalize($form_score, $silent = true);
+                        try {
+                            CandidateController::form_finalize($form_score, $silent = true);
+                        } catch (\Exception $e) {}
                         // We can seed payment slips for the camps that require application fee here
                         // This is because the campers have to do it at the beginning
                         if ($camp->application_fee && Common::randomVeryFrequentHit())
@@ -601,7 +603,7 @@ class DatabaseSeeder extends Seeder
                     if ($no_form_scores_error) {
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
-                        if (Common::hasMatch($camp)) continue; // TODO: This is only for demo
+                        if ($matched) continue; // TODO: This is only for demo
                         try {
                             CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {
@@ -641,7 +643,7 @@ class DatabaseSeeder extends Seeder
                             }
                         }
                     }
-                    // TODO: This is not really working
+                    // TODO: This is not really working?
                     if ($interview_announce) {
                         $question_set->update([
                             'interview_announced' => true,

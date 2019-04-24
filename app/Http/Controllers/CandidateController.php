@@ -289,16 +289,17 @@ class CandidateController extends Controller
             $question_set->update([
                 'auto_ranked' => false,
             ]);
-        }
-        // For other registration records that may be later added, create form scores for them
-        foreach ($registrations as $registration) {
-            if (is_null($registration->form_score)) {
-                FormScore::create([
-                    'registration_id' => $registration->id,
-                    'question_set_id' => $question_set->id,
-                    'finalized' => $auto_gradable,
-                    'submission_time' => $registration->submission_time,
-                ]);
+        } else {
+            // For other registration records that may be later added, create form scores for them
+            foreach ($registrations as $registration) {
+                if (is_null($registration->form_score)) {
+                    FormScore::create([
+                        'registration_id' => $registration->id,
+                        'question_set_id' => $question_set->id,
+                        'finalized' => $auto_gradable,
+                        'submission_time' => $registration->submission_time,
+                    ]);
+                }
             }
         }
         return $form_scores;
@@ -324,8 +325,7 @@ class CandidateController extends Controller
         $total_registrations = $registrations->count();
         $auto_gradable = !$question_set->manual_required;
         $form_scores = self::create_form_scores($camp, $question_set, $registrations);
-        $finalized = 0;
-        $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
+        $finalized = $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
         $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status

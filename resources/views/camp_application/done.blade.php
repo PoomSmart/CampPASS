@@ -9,7 +9,24 @@
             <p class="text-muted">{{ $camp }}</p>
         </div>
         <div class="col-12">
-            <a class="btn btn-primary" href="{{ route('camp_application.status', $registration->id) }}"><i class="far fa-file-alt mr-2 fa-xs"></i>@lang('registration.Status')</a>
+            @component('components.a', [
+                'class' => 'btn btn-primary',
+                'href' => route('camp_application.status', $registration->id),
+                'glyph' => 'far fa-file-alt fa-xs',
+                'label' => trans('registration.Status'),
+            ])
+            @endcomponent
+        </div>
+        <div class="col-12 mt-2">
+            <p class="text-muted">@lang('app.RedirectTo', [
+                'where' => trans('registration.Status'),
+                'seconds' => 2,
+            ])</p>
         </div>
     </div>
+    <script>
+        setTimeout(function() {
+            window.location = "{!! route('camp_application.status', $registration->id) !!}"
+        }, 2000);
+    </script>
 @endsection

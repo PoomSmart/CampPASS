@@ -63,4 +63,5 @@ return [
     'NoResultsFound' => 'ไม่มีผลลัพธ์การค้นหา',
     'NoRevertMessage' => 'การกระทำนี้ไม่สามารถย้อนกลับได้ กรุณากดปุ่มยืนยันหากคุณต้องการทำต่อ',
     'ScrollToTop' => 'ไปด้านบนสุด',
+    'RedirectTo' => 'CampPASS จะนำคุณไปยังหน้า :where ภายใน :seconds วินาที',
 ];
