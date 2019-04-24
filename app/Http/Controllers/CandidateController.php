@@ -610,16 +610,14 @@ class CandidateController extends Controller
                 ];
             }
         }
-        if (!$form_score) {
-            $form_score = FormScore::updateOrCreate([
-                'registration_id' => $registration_id,
-                'question_set_id' => $question_set_id,
-            ], [
-                'total_score' => $camper_score,
-                'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
-                'submission_time' => $registration->submission_time,
-            ]);
-        }
+        $form_score = FormScore::updateOrCreate([
+            'registration_id' => $registration_id,
+            'question_set_id' => $question_set_id,
+        ], [
+            'total_score' => $camper_score,
+            'finalized' => !$question_set->manual_required, // If there are no gradable questions, the form is finalized and can be ranked
+            'submission_time' => $registration->submission_time,
+        ]);
         if ($silent)
             return $camper_score;
         if ($total_score) {
