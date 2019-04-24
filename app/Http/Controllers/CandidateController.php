@@ -272,8 +272,8 @@ class CandidateController extends Controller
     public static function create_form_scores(Camp $camp, QuestionSet $question_set, $registrations)
     {
         $form_scores = $camp->form_scores();
+        $auto_gradable = !$question_set->manual_required;
         if ($form_scores->doesntExist()) {
-            $auto_gradable = !$question_set->manual_required;
             $data = [];
             foreach ($registrations as $registration) {
                 $data[] = [
@@ -289,6 +289,17 @@ class CandidateController extends Controller
             $question_set->update([
                 'auto_ranked' => false,
             ]);
+        }
+        // For other registration records that may be later added, create form scores for them
+        foreach ($registrations as $registration) {
+            if (is_null($registration->form_score)) {
+                FormScore::create([
+                    'registration_id' => $registration->id,
+                    'question_set_id' => $question_set->id,
+                    'finalized' => $auto_gradable,
+                    'submission_time' => $registration->submission_time,
+                ]);
+            }
         }
         return $form_scores;
     }

@@ -567,10 +567,11 @@ class DatabaseSeeder extends Seeder
             $has_consent = $camp->parental_consent;
             $consent_directory = $has_consent ? Common::consentDirectory($camp->id) : null;
             $payment_directory = $camp->hasPayment() ? Common::paymentDirectory($camp->id) : null;
+            $matched = Common::hasMatch($camp);
             try {
                 if ($has_question_set) {
                     $registrations = $camp->registrations;
-                    if (Common::randomRareHit() || $registrations->isEmpty())
+                    if ((!$matched && Common::randomRareHit()) || $registrations->isEmpty())
                         continue;
                     $campmakers = $camp->camp_makers();
                     $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
