@@ -80,7 +80,9 @@
             @if ($camp->parental_consent)
                 <th>@lang('qualification.ConsentUploaded')</th>
             @endif
-            <th>@lang('app.Actions')</th>
+            @role('admin')
+                <th>@lang('app.Actions')</th>
+            @endrole
         </thead>
         @foreach ($candidates as $candidate)
             @php
@@ -149,16 +151,16 @@
                         @endif
                     </td>
                 @endif
-                <td class="fit">
-                    @role('admin')
+                @role('admin')
+                    <td class="fit">
                         @if (!$withdrawn && !$confirmed)
                             <a href="{{ route('camp_application.withdraw', $registration->id) }}" class="btn btn-danger btn-sm">TW</a>
                         @endif
                         @if ($paid && $consent && $approved && !$confirmed && !$withdrawn)
                             <a href="{{ route('camp_application.confirm', $registration->id) }}" class="btn btn-success btn-sm">TC</a>
                         @endif
-                    @endrole
-                </td>
+                    </td>
+                @endrole
             </tr>
         @endforeach
     </table>
