@@ -121,6 +121,7 @@ class CampApplicationController extends Controller
         $text = null;
         $button = false;
         $passed = true;
+        $form_score = $registration->form_score;
         switch ($step) {
             case BlockApplicationStatus::APPLICATION:
                 if ($registration->returned)
@@ -170,7 +171,6 @@ class CampApplicationController extends Controller
                 }
                 break;
             case BlockApplicationStatus::APPROVAL:
-                $form_score = $registration->form_score;
                 if ($registration->returned) {
                     $text = trans('qualification.DocumentsNeedRecheck');
                     $button = true;
@@ -189,9 +189,8 @@ class CampApplicationController extends Controller
                 else if ($registration->withdrawn() || $registration->rejected()) {
                     $text = trans('qualification.NotAllowedToConfirm');
                     $passed = false;
-                } else if ($registration->approved()
-                    && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)
-                    && ($camp->hasPayment() ? $registration->approved_to_confirmed() : true)) {
+                } else if ($form_score && $form_score->checked
+                    && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)) {
                         $button = true;
                         $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
                 } else {
