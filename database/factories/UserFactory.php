@@ -102,7 +102,7 @@ class User_Randomizer
     public static function organization()
     {
         if (!self::$organizations_top)
-            self::$organizations_top = Organization::where('image', '!=', '')->pluck('id', 'id')->toArray();
+            self::$organizations_top = Organization::where('image', '!=', '')->pluck('id', 'id')->toArray() + [ 125 ];
         return Common::randomFrequentHit() ? array_rand(array_flip(self::$organizations_top)) : rand(1, Organization::count());
     }
 }
