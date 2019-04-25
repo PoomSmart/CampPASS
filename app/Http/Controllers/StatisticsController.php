@@ -65,14 +65,12 @@ class StatisticsController extends Controller
             else if ($registration->rejected())
                 ++$rejected;
             else {
-                $is_passed = false;
+                $form_score = $registration->form_score;
+                $is_passed = $form_score->passed;
                 if ($has_question_set) {
-                    $form_score = $registration->form_score;
-                    $is_passed = $form_score->passed;
                     $average_score += $form_score->total_score;
                     ++$score_count;
-                } else
-                    $is_passed = $registration->chosen_to_confirmed();
+                }
                 if ($is_passed && $has_interview)
                     $is_passed = $registration->interviewed_to_confirmed();
                 if ($is_passed)

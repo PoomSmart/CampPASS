@@ -73,6 +73,11 @@ class Camp extends Model
         return $this->hasMany(Candidate::class);
     }
 
+    public function form_scores()
+    {
+        return $this->hasMany(FormScore::class);
+    }
+
     public function certificate_templates()
     {
         return $this->hasMany(CertificateTemplate::class);
@@ -155,15 +160,6 @@ class Camp extends Model
     {
         $registrations = $this->getRegistrations($user)->latest();
         return $registrations->exists() ? $registrations->first() : null;
-    }
-
-    public function form_scores()
-    {
-        $question_set = $this->question_set;
-        if (!$question_set)
-            return null;
-        $form_scores = FormScore::where('question_set_id', $question_set->id);
-        return $form_scores;
     }
 
     public function isCamperPassed(User $camper)

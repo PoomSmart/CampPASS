@@ -6,6 +6,7 @@ use App\Answer;
 use App\Camp;
 use App\User;
 use App\Common;
+use App\FormScore;
 use App\Registration;
 use App\Question;
 use App\QuestionSet;
@@ -171,10 +172,11 @@ class CampApplicationController extends Controller
                 }
                 break;
             case BlockApplicationStatus::APPROVAL:
+                $question_set = $form_score->question_set;
                 if ($registration->returned) {
                     $text = trans('qualification.DocumentsNeedRecheck');
                     $button = true;
-                } else if ($form_score && $form_score->question_set->candidate_announced && $form_score->checked)
+                } else if ($question_set && $question_set->candidate_announced && $form_score->checked)
                     $text = trans('qualification.DocumentsApproved');
                 else if ($registration->chosen())
                     $text = $camp_procedure->depositOnly() ? trans('registration.AckSlip') : trans('qualification.DocumentsInProcess');
@@ -189,8 +191,7 @@ class CampApplicationController extends Controller
                 else if ($registration->withdrawn() || $registration->rejected()) {
                     $text = trans('qualification.NotAllowedToConfirm');
                     $passed = false;
-                } else if ($form_score && $form_score->checked
-                    && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)) {
+                } else if ($form_score->checked && ($camp_procedure->interview_required ? $registration->interviewed_to_confirmed() : true)) {
                         $button = true;
                         $text = trans('qualification.AttendanceConfirmed', ['camp' => $camp]);
                 } else {
@@ -223,10 +224,17 @@ class CampApplicationController extends Controller
             'status' => $status,
             'submission_time' => now(),
         ]);
-        if ($registration->confirmed())
+        if ($registration->applied_to_confirmed())
             throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
+            FormScore::updateOrCreate([
+                'registration_id' => $registration->id,
+                'camp_id' => $camp->id,
+                'question_set_id' => $camp->question_set->id,
+            ], [
+                'submission_time' => $registration->submission_time,
+            ]);
             // TODO: Is this really working?
             foreach ($camp->camp_makers() as $campmaker) {
                 $campmaker->notify(new CamperStatusChanged($registration));

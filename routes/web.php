@@ -57,7 +57,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/form-grade/{registration}/{question_set}', 'CandidateController@form_grade')->name('qualification.form_grade');
         Route::post('/manual-grade/{registration}/{question_set}', 'CandidateController@save_manual_grade')->name('qualification.save_manual_grade');
         Route::get('/form-finalize/{form_score}', 'CandidateController@form_finalize')->name('qualification.form_finalize');
-        Route::post('/interview-save/{camp}', 'CandidateController@interview_save')->name('qualification.interview_save');
         Route::post('/document-approve-interview-save/{camp}', 'CandidateController@document_approve_interview_save')->name('qualification.document_approve_interview_save');
         Route::get('/interview-announce/{question_set}', 'CandidateController@interview_announce')->name('qualification.interview_announce');
         Route::post('/form-pass-save/{camp}', 'CandidateController@form_pass_save')->name('qualification.form_pass_save');

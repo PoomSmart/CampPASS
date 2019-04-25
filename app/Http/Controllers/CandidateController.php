@@ -40,7 +40,7 @@ class CandidateController extends Controller
             'show_profile_detailed', 'result', 'rank', 'announce', 'data_download_selection', 'data_download', 'interview_announce', 'candidate_rank', 'candidate_announce',
         ]]);
         $this->middleware('permission:candidate-edit', ['only' => [
-            'interview_save', 'document_approve_save', 'document_approve_interview_save', 'form_return', 'form_reject', 'form_pass_save',
+            'document_approve_save', 'document_approve_interview_save', 'form_return', 'form_reject', 'form_pass_save',
         ]]);
     }
 
@@ -56,12 +56,9 @@ class CandidateController extends Controller
                 'approved_by' => $approved_by_id ? $approved_by_id : auth()->user()->id,
             ]);
         }
-        $form_score = $registration->form_score;
-        if ($form_score) {
-            $form_score->update([
-                'checked' => true,
-            ]);
-        }
+        $registration->form_score->update([
+            'checked' => true,
+        ]);
     }
 
     public function document_approve_save(Request $request, Camp $camp)
@@ -88,20 +85,6 @@ class CandidateController extends Controller
         $registration->update([
             'status' => strcmp($checked, 'true') == 0 ? ApplicationStatus::INTERVIEWED : ApplicationStatus::REJECTED,
         ]);
-    }
-
-    public function interview_save(Request $request, Camp $camp)
-    {
-        if ($camp->question_set->interview_announced)
-            throw new \CampPASSExceptionRedirectBack();
-        $data = $request->all();
-        unset($data['_token']);
-        $candidates = $camp->candidates->where('backup', false);
-        foreach ($candidates as $candidate) {
-            $registration = $candidate->registration;
-            $this->interview_check_real($registration, isset($data[$registration->id]) ? 'true' : 'false');
-        }
-        return redirect()->back()->with('success', trans('qualification.InterviewedSaved'));
     }
 
     public function document_approve_interview_save(Request $request, Camp $camp)
@@ -296,26 +279,29 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_result', compact('candidates', 'question_set', 'camp', 'summary', 'backup_summary', 'backups', 'can_get_backups', 'only_true_passed')));
     }
 
-    public static function create_form_scores(Camp $camp, QuestionSet $question_set, $registrations)
+    public static function create_form_scores(Camp $camp, ?QuestionSet $question_set, $registrations)
     {
         $form_scores = $camp->form_scores();
-        $auto_gradable = !$question_set->manual_required;
+        $auto_gradable = $question_set ? !$question_set->manual_required : false;
         if ($form_scores->doesntExist()) {
             $data = [];
             foreach ($registrations as $registration) {
                 $data[] = [
                     'registration_id' => $registration->id,
-                    'question_set_id' => $question_set->id,
+                    'question_set_id' => $question_set ? $question_set->id : null,
+                    'camp_id' => $camp->id,
                     'finalized' => $auto_gradable,
                     'submission_time' => $registration->submission_time,
                 ];
             }
             FormScore::insert($data);
             unset($data);
-            // This is the first time the ranking occurs, allow auto-grading
-            $question_set->update([
-                'auto_ranked' => false,
-            ]);
+            if ($question_set) {
+                // This is the first time the ranking occurs, allow auto-grading
+                $question_set->update([
+                    'auto_ranked' => false,
+                ]);
+            }
         } else {
             // For other registration records that may be later added, create form scores for them
             foreach ($registrations as $registration) {
@@ -323,6 +309,7 @@ class CandidateController extends Controller
                     FormScore::create([
                         'registration_id' => $registration->id,
                         'question_set_id' => $question_set->id,
+                        'camp_id' => $camp->id,
                         'finalized' => $auto_gradable,
                         'submission_time' => $registration->submission_time,
                     ]);
@@ -357,71 +344,46 @@ class CandidateController extends Controller
         $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
                         ->orderBy('registrations.returned'); // Seperated by whether the form has been returned
-        if ($question_set->total_score) {
-            $minimum_score = $question_set->minimum_score;
-            foreach ($form_scores_get as $form_score) {
-                $registration = $form_score->registration;
-                $withdrawn = $registration->withdrawn();
-                $rejected = $registration->rejected();
-                if ($withdrawn) {
-                    ++$total_withdrawn;
-                    continue;
-                } else if ($rejected) {
-                    ++$total_rejected;
-                    continue;
-                }
-                if (is_null($form_score->total_score)) {
-                    $form_score->update([
-                        'total_score' => self::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
-                    ]);
-                }
-                $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                // $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
-                if (!$question_set->auto_ranked) {
-                    $form_score->update([
-                        'passed' => $form_score->total_score >= $minimum_score,
-                    ]);
-                }
+        $rank_by_score = $question_set->total_score;
+        if (!$rank_by_score)
+            $form_scores = $form_scores->orderBy('submission_time');
+        $minimum_score = $rank_by_score ? $question_set->minimum_score : 0;
+        foreach ($form_scores_get as $form_score) {
+            $registration = $form_score->registration;
+            $withdrawn = $registration->withdrawn();
+            $rejected = $registration->rejected();
+            if ($withdrawn)
+                ++$total_withdrawn;
+            else if ($rejected)
+                ++$total_rejected;
+            if ($rank_by_score && is_null($form_score->total_score)) {
                 $form_score->update([
-                    'passed' => $form_score->passed && $paid,
-                    'finalized' => $form_score->finalized || $auto_gradable,
+                    'total_score' => self::form_grade($registration_id = $registration->id, $question_set_id = $question_set->id, $silent = true),
                 ]);
-                if ($form_score->passed)
-                    ++$total_candidates;
-                if ($form_score->finalized && $form_score->checked)
-                    ++$finalized;
-                $average_score += $form_score->total_score;
             }
+            $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
+            // $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
+            if ($rank_by_score && !$question_set->auto_ranked) {
+                $form_score->update([
+                    'passed' => $form_score->total_score >= $minimum_score,
+                ]);
+            }
+            $form_score->update([
+                'passed' => $form_score->passed && !$withdrawn && $paid,
+                'finalized' => $form_score->finalized || $auto_gradable,
+            ]);
+            if ($form_score->passed)
+                ++$total_candidates;
+            if ($form_score->finalized && $form_score->checked)
+                ++$finalized;
+            $average_score += $form_score->total_score;
+        }
+        if ($rank_by_score) {
             $form_scores = $form_scores->orderByDesc('total_score');
             // This question set is marked as auto-graded, so it won't auto-grade again, allowing the camp makers to manually grade
             $question_set->update([
                 'auto_ranked' => true,
             ]);
-        } else {
-            // We have to add `submission_time` attribute to form score to prevent this hacky buggy join clause
-            $form_scores = $form_scores->orderBy('submission_time');
-            foreach ($form_scores_get as $form_score) {
-                $registration = $form_score->registration;
-                $paid = $check_consent_paid && $camp->application_fee ? CampApplicationController::get_payment_path($registration) : true;
-                // $consent = $check_consent_paid && $camp->parental_consent ? CampApplicationController::get_consent_path($registration) : true;
-                $withdrawn = $registration->withdrawn();
-                $rejected = $registration->rejected();
-                $form_score->update([
-                    'passed' => !$withdrawn,
-                ]);
-                if ($registration->returned) {
-                    $form_score->update([
-                        'checked' => false,
-                    ]);
-                } else if ($withdrawn)
-                    ++$total_withdrawn;
-                else if ($rejected)
-                    ++$total_rejected;
-                else if ($form_score->passed)
-                    ++$total_candidates;
-                if (!$withdrawn && $form_score->finalized && $form_score->checked)
-                    ++$finalized;
-            }
         }
         if (!$finalized)
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoFinalApplicationRank'));
@@ -443,7 +405,7 @@ class CandidateController extends Controller
             }*/
             return $form_scores_get;
         }
-        if ($question_set->total_score) {
+        if ($rank_by_score) {
             $average_score = number_format($average_score / $total_registrations, 2);
             $total_failed = $total_registrations - $total_candidates;
             $summary = trans('qualification.TotalPassedFailedAvgScore', [
@@ -556,12 +518,9 @@ class CandidateController extends Controller
             'returned_reasons' => null,
             'remark' => null,
         ]);
-        $form_score = $registration->form_score;
-        if ($form_score) {
-            $form_score->update([
-                'passed' => false,
-            ]);
-        }
+        $registration->form_score->update([
+            'passed' => false,
+        ]);
         return redirect()->back()->with('message', trans('qualification.ApplicantRejected', [
             'applicant' => $registration->camper->getFullName(),
         ]));
@@ -575,10 +534,8 @@ class CandidateController extends Controller
     {
         $registration = Registration::findOrFail($registration_id);
         $form_score = $registration->form_score;
-        if ($silent) {
-            if ($form_score && isset($form_score->total_score))
-                return $form_score->total_score;
-        }
+        if ($silent && isset($form_score->total_score))
+            return $form_score->total_score;
         Common::authenticate_camp($registration->camp);
         if ($registration->unsubmitted())
             throw new \CampPASSException(trans('exception.CannotGradeUnsubmittedForm'));
@@ -601,7 +558,7 @@ class CandidateController extends Controller
         $total_score = 0;
         foreach ($answers as $answer) {
             $question = $answer->question;
-            if ($form_score && $form_score->finalized)
+            if ($form_score->finalized)
                 $json['question_lock'][$question->json_id] = 1;
             $answer_score = $answer->score;
             $answer_value = $answer->answer;
@@ -729,12 +686,9 @@ class CandidateController extends Controller
         if ($registration->approved())
             throw new \CampPASSExceptionRedirectBack();
         $reasons = $request->reasons;
-        $form_score = $registration->form_score;
-        if ($form_score) {
-            $form_score->update([
-                'checked' => false,
-            ]);
-        }
+        $registration->form_score->update([
+            'checked' => false,
+        ]);
         $registration->update([
             'returned' => true,
             'returned_reasons' => json_encode($reasons, JSON_UNESCAPED_UNICODE),

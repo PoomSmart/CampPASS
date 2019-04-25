@@ -399,7 +399,7 @@ class DatabaseSeeder extends Seeder
                     }
                 }
                 $self_question_id = $question_id;
-                $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade ? $question_set_total_score * Common::floatRand(0.5, 0.8) : null, $extra_question_set_info = [
+                $question_set = QuestionManager::createOrUpdateQuestionSet($camp, $json, $question_set_has_grade && $question_set_total_score ? $question_set_total_score * Common::floatRand(0.5, 0.8) : null, $extra_question_set_info = [
                     'id' => $question_set_id,
                     'manual_required' => $question_set_has_manual_grade,
                 ], $question_id);
@@ -517,6 +517,7 @@ class DatabaseSeeder extends Seeder
                 $form_scores[] = [
                     'registration_id' => $registration->id,
                     'question_set_id' => $question_set_id,
+                    'camp_id' => $camp->id,
                     // We cannot calculate the total score right now
                     'total_score' => null,
                     // Form scores are finalized as we say every question can be auto-graded
@@ -569,12 +570,12 @@ class DatabaseSeeder extends Seeder
             $payment_directory = $camp->hasPayment() ? Common::paymentDirectory($camp->id) : null;
             $matched = Common::hasMatch($camp);
             try {
+                $registrations = $camp->registrations;
+                $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                 if ($has_question_set) {
-                    $registrations = $camp->registrations;
                     if ((!$matched && Common::randomRareHit()) || $registrations->isEmpty())
                         continue;
                     $campmakers = $camp->camp_makers();
-                    $form_scores = CandidateController::create_form_scores($camp, $question_set, $registrations);
                     foreach ($form_scores->get() as $form_score) {
                         $registration = $form_score->registration;
                         try {

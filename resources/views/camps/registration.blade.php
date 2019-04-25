@@ -28,7 +28,6 @@
         $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
         $candidate_required = $question_set && $camp_procedure->candidate_required;
-        $rank_by_score = $candidate_required && $question_set->total_score;
         $required_paid = $camp->hasPayment();
         $manual_grading_required = $question_set && $question_set->manual_required;
     @endphp
@@ -71,12 +70,12 @@
                             @php
                                 $camper = $registration->camper;
                                 $form_score = $registration->form_score;
-                                $approved = $registration->approved_to_confirmed() || ($form_score && $form_score->checked);
+                                $form_checked = $form_score->checked;
                                 $confirmed = $registration->confirmed();
                                 $withdrawn = $registration->withdrawn();
                                 $rejected = $registration->rejected();
                                 $returned = $registration->returned;
-                                $finalized = $form_score ? $form_score->finalized : false;
+                                $finalized = $form_score->finalized;
                                 $paid = $required_paid ? \App\Http\Controllers\CampApplicationController::get_payment_path($registration) : true;
                                 $consent = $camp->parental_consent ? \App\Http\Controllers\CampApplicationController::get_consent_path($registration) : true;
                             @endphp
@@ -96,13 +95,13 @@
                                     @include('components.qualification.registration_status_cell', [ 'registration' => $registration ])
                                 </td>
                                 @if ($required_paid)
-                                    @php $text_class = $paid ? $approved ? 'success' : 'secondary' : 'danger' @endphp
+                                    @php $text_class = $paid ? $form_checked ? 'success' : 'secondary' : 'danger' @endphp
                                     <td class="text-center text-{{ $text_class }}">
                                         @if ($paid)
                                             <a class="btn btn-sm btn-outline-{{ $text_class }}"
                                                 href="{{ route('camp_application.payment_download', $registration->id) }}"
                                                 title=@lang('qualification.ViewPaymentSlip')
-                                            >{{ $approved ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="fas fa-search-dollar fa-sm ml-2"></i></a>
+                                            >{{ $form_checked ? trans('app.Yes') : trans('qualification.SlipNotYetApproved') }}<i class="fas fa-search-dollar fa-sm ml-2"></i></a>
                                         @else
                                             @lang('app.No')
                                         @endif
@@ -131,11 +130,10 @@
                                 @endif
                                 <td class="text-center">
                                     <input type="checkbox" name="{{ $registration->id }}"
-                                        {{-- TODO: Camp makers won't be allowed to revert the ticking of document approval, for now ($approved) --}}
-                                        @if (!$paid || $registration->returned || $withdrawn || $rejected || $approved)
+                                        @if (!$paid || $registration->returned || $withdrawn || $rejected || $form_checked)
                                             disabled
                                         @endif
-                                        @if ($approved)
+                                        @if ($form_checked)
                                             checked
                                         @endif
                                     >
@@ -143,7 +141,7 @@
                                 <td class="fit">
                                     @include('components.qualification.applicant_actions', [
                                         'registration' => $registration,
-                                        'approved' => $approved,
+                                        'approved' => $form_checked,
                                         'returned' => $returned,
                                         'withdrawn' => $withdrawn,
                                         'rejected' => $rejected,

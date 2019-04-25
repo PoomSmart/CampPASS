@@ -140,7 +140,7 @@ class CampController extends Controller
             $this->parseFiles($request, $camp);
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', trans('camp.CampFailedToCreate'));
+            throw new \CampPASSExceptionRedirectBack(trans('camp.CampFailedToCreate'));
         }
         $camp_text = Common::getLocalizedName($camp);
         return redirect()->route('camps.index')->with('success', trans('camp.CampCreatedSuccessfully', ['camp' => $camp_text]));
@@ -160,7 +160,7 @@ class CampController extends Controller
     {
         $this->check($camp);
         View::share('object', $camp);
-        $category = CampCategory::find($camp->camp_category_id);
+        $category = $camp->camp_category;
         $same_camps = $camp->sameOrganizerCamps();
         return view('camps.show', compact('camp', 'category', 'same_camps'));
     }
@@ -187,7 +187,7 @@ class CampController extends Controller
             $data = null;
             $total_registrations = 0;
         }
-        $category = CampCategory::find($camp->camp_category_id);
+        $category = $camp->camp_category;
         return Common::withPagination(view('camps.registration', compact('camp', 'category', 'data', 'total_registrations')));
     }
 

@@ -17,7 +17,9 @@ class CreateFormScoresTable extends Migration
             $table->increments('id');
             $table->integer('registration_id')->unsigned();
             $table->foreign('registration_id')->references('id')->on('registrations')->onDelete('cascade');
-            $table->integer('question_set_id')->unsigned();
+            $table->integer('camp_id')->unsigned()->nullable();
+            $table->foreign('camp_id')->references('id')->on('camps')->onDelete('cascade');
+            $table->integer('question_set_id')->unsigned()->nullable();
             $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
             $table->double('total_score')->nullable();
             $table->boolean('finalized')->default(false); // Whether the grading is done
