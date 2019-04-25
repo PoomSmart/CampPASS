@@ -54,8 +54,6 @@ class StoreUserRequest extends CampPASSFormRequest
             'guardian_role' => "nullable|required_if:type,{$CAMPER}|integer|min:0|max:2",
             'guardian_role_text' => "nullable|required_if:guardian_role,2|string|max:20",
             'guardian_mobile_no' => "nullable|required_if:type,{$CAMPER}|string",
-            // camp maker
-            'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
         ];
         $method = $this->method;
         if ($method == 'PUT' || $method == 'PATCH') {
@@ -77,6 +75,8 @@ class StoreUserRequest extends CampPASSFormRequest
                 'blood_group' => "nullable|integer|required_if:type,{$CAMPER}",
                 'email' => 'required|string|email|max:100|unique:users,email',
                 'password' => 'required|string|min:6|confirmed',
+                // camp maker
+                'organization_id' => "nullable|required_if:type,{$CAMPMAKER}|exists:organizations,id",
             ];
         }
         return $rules;
