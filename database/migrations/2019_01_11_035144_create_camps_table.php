@@ -55,6 +55,8 @@ class CreateCampsTable extends Migration
             $table->text('contact_campmaker')->nullable();
             $table->string('payment_information')->nullable();
             $table->boolean('approved')->default(false); // every camp needs approval
+            $table->boolean('candidate_announced')->default(false);
+            $table->boolean('interview_announced')->default(false);
             $table->timestamps();
         });
     }

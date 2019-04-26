@@ -9,7 +9,7 @@
 @endsection
 
 @section('card_content')
-    <form method="GET" action="{{ route('qualification.data_download', $question_set->id) }}">
+    <form method="GET" action="{{ route('qualification.data_download', $camp->id) }}">
         @csrf
         <h3 class="ml-2">@lang('app.CampApplicationForm')</h3>
         <div class="row">

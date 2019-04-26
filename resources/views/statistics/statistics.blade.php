@@ -59,7 +59,7 @@
             <h4>@lang('statistics.Withdrawn')</h4>
             <h4 class="font-weight-normal">{{ $data['withdrawn'] }}</h4>
         </div>
-        @if ($question_set && !$question_set->announced && !$data['passed'])
+        @if (!$camp->candidate_announced && !$data['passed'])
             <div class="col-12">
                 <p class="text-muted">@lang('statistics.ClarifyPassedZero')</p>
             </div>

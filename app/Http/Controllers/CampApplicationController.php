@@ -172,11 +172,10 @@ class CampApplicationController extends Controller
                 }
                 break;
             case BlockApplicationStatus::APPROVAL:
-                $question_set = $form_score->question_set;
                 if ($registration->returned) {
                     $text = trans('qualification.DocumentsNeedRecheck');
                     $button = true;
-                } else if ($question_set && $question_set->candidate_announced && $form_score->checked)
+                } else if ($camp->candidate_announced && $form_score->checked)
                     $text = trans('qualification.DocumentsApproved');
                 else if ($registration->chosen())
                     $text = $camp_procedure->depositOnly() ? trans('registration.AckSlip') : trans('qualification.DocumentsInProcess');
@@ -307,6 +306,8 @@ class CampApplicationController extends Controller
             throw new \CampPASSExceptionRedirectBack(trans('exception.YouAreNoLongerAbleToDoThat'));
         // Get the corresponding question set for this camp, then reference it to creating or updating answers as needed
         $question_set = $camp->question_set;
+        if (!$question_set)
+            throw new \CampPASSException();
         $question_ids = $question_set->pairs()->get(['question_id']);
         $questions = Question::whereIn('id', $question_ids)->get();
         $directory = QuestionManager::questionSetDirectory($camp->id);
@@ -456,8 +457,7 @@ class CampApplicationController extends Controller
         self::authenticate($camp, $silent = $silent);
         self::authenticate_registration($registration, $silent = $silent);
         $camp_procedure = $camp->camp_procedure;
-        $question_set = $camp->question_set;
-        if ($question_set && !$question_set->announced && !$camp_procedure->candidate_required)
+        if ($camp->candidate_announced && !$camp_procedure->candidate_required)
             throw new \CampPASSExpcetionRedirectBack();
         // Campers who withdrawn from the camp and campers who are rejected from the camp and not the backups cannot confirm their attendance
         if ($registration->withdrawn() || ($registration->rejected() && !$camp->isCamperPassed($registration->camper)))

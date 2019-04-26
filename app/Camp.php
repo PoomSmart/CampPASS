@@ -30,6 +30,7 @@ class Camp extends Model
         'interview_date', 'interview_information', 'payment_information',
         /* 'event_location_lat', 'event_location_long', */
         'banner', 'poster', 'parental_consent',
+        'candidate_announced', 'interview_announced',
         'quota', 'contact_campmaker', 'backup_limit', 'approved',
     ];
 
@@ -51,7 +52,7 @@ class Camp extends Model
      * @var array
      */
     protected $dates = [
-        'app_open_date', 'app_close_date', 'event_start_date', 'event_end_date',
+        'app_open_date', 'app_close_date', 'event_start_date', 'event_end_date', 'interview_date',
     ];
     
     /**

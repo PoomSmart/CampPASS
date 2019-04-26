@@ -168,9 +168,8 @@ class CampController extends Controller
     public function registration(Camp $camp)
     {
         $this->check($camp);
-        $question_set = $camp->question_set;
-        if ($question_set && $question_set->candidate_announced)
-            return redirect()->route('qualification.candidate_result', $question_set->id);
+        if ($camp->candidate_announced)
+            return redirect()->route('qualification.candidate_result', $camp->id);
         View::share('object', $camp);
         if (auth()->user()->can('camper-list')) {
             $registrations = $camp->registrations();
@@ -178,7 +177,7 @@ class CampController extends Controller
             $registrations = $registrations->orderBy('registrations.status') // "Group" by registration status
                                 ->orderBy('registrations.returned'); // Seperated by whether the form has been returned
             $data = $registrations->orderBy('submission_time')->paginate(Common::maxPagination());
-            $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
+            $has_payment = $camp->paymentOnly() ? true : $camp->candidate_announced && $camp_procedure->deposit_required;
             $has_consent = $camp->parental_consent;
             View::share('has_payment', $has_payment);
             View::share('has_consent', $has_consent);

@@ -9,6 +9,7 @@
             jQuery("input[name='minimum_score']").inputSpinner();
         });
     </script>
+    <script src="{{ asset('js/checkbox-require.js') }}"></script>
     <script src="{{ asset('js/check-unsaved.js') }}"></script>
 @endsection
 
@@ -35,18 +36,19 @@
                 'type' => 'number',
                 'placeholder' => trans('question.EnterMinimumScore'),
                 'no_form_control_class' => 1,
-                'attributes' => "min=1 max={$object->total_score} step=1",
-                'object' => isset($object) ? $object : null,
+                'attributes' => 'min=1 step=1'.($object ? ' max='.$object->total_score : ''),
+                'object' => $object,
             ])
             @endcomponent
         </div>
         <div id="questions" class="mt-4">
             @component('questions.question', [
                 'label' => trans('question.Question'),
+                'i' => 1,
             ]);
             @endcomponent
         </div>
-        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp->id !!}", {!! isset($object) && $object->finalized !!});</script>
+        <script>getInfo("{!! trans('question.AddMoreChoice') !!}", "{!! trans('question.AddMoreCheckbox') !!}", "{!! $camp->id !!}", {!! $object && $object->finalized !!});</script>
         @if (!empty($json))
             <script>
                 var client_json = JSON.parse({!! $json !!});
@@ -59,11 +61,11 @@
                 'glyph' => 'far fa-save fa-xs',
             ])
             @endcomponent
-            <button class="btn btn-danger" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp->id) }}"><i class="fas fa-check mr-2 fa-xs"></i>{{ isset($object) && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
-            <button class="btn btn-success" {{ isset($object) && $object->finalized ? 'disabled' : null }} type="button" onclick="addQuestion();"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('question.AddMoreQuestion')</button>
+            <button class="btn btn-danger" {{ $object && $object->finalized ? 'disabled' : null }} type="button" data-toggle="modal" data-target="#modal" data-action="{{ route('questions.finalize', $camp->id) }}"><i class="fas fa-check mr-2 fa-xs"></i>{{ $object && $object->finalized ? trans('question.Finalized') : trans('question.Finalize') }}</button>
+            <button class="btn btn-success" {{ $object && $object->finalized ? 'disabled' : null }} type="button" onclick="addQuestion();"><i class="fas fa-plus mr-2 fa-xs"></i>@lang('question.AddMoreQuestion')</button>
         </div>
     </form>
-    @if (isset($object) && $object->finalized)
+    @if ($object && $object->finalized)
         <script>
             jQuery(":radio,:checkbox").attr("disabled", true);
         </script>

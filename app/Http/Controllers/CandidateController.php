@@ -65,7 +65,7 @@ class CandidateController extends Controller
     {
         $data = $request->all();
         unset($data['_token']);
-        if ($camp->camp_procedure->interview_required && !$camp->question_set->interview_announced)
+        if ($camp->camp_procedure->interview_required && !$camp->interview_announced)
             throw new \CampPASSExceptionRedirectBack();
         // TODO: Tell users that this will be irreversible ?
         foreach ($data as $registration_id => $value) {
@@ -92,7 +92,7 @@ class CandidateController extends Controller
         $data = $request->all();
         unset($data['_token']);
         $interview_data = isset($data['interview']) ? $data['interview'] : null;
-        if ($interview_data && !$camp->question_set->interview_announced) {
+        if ($interview_data && !$camp->interview_announced) {
             $candidates = $camp->candidates->where('backup', false);
             foreach ($candidates as $candidate) {
                 $registration = $candidate->registration;
@@ -100,7 +100,7 @@ class CandidateController extends Controller
             }
         }
         $consent_data = isset($data['consent']) ? $data['consent'] : null;
-        if ($consent_data && !$camp->camp_procedure->interview_required || $camp->question_set->interview_announced) {
+        if ($consent_data && !$camp->camp_procedure->interview_required || $camp->interview_announced) {
             // TODO: Tell users that this will be irreversible ?
             foreach ($consent_data as $registration_id => $value) {
                 try {
@@ -113,20 +113,19 @@ class CandidateController extends Controller
         return redirect()->back()->with('success', trans('qualification.StatusSaved'));
     }
 
-    public static function interview_announce(QuestionSet $question_set, bool $silent = false)
+    public static function interview_announce(Camp $camp, bool $silent = false)
     {
-        if ($question_set->interview_announced)
+        if ($camp->interview_announced)
             throw new \CampPASSExceptionRedirectBack();
-        $candidates = $question_set->camp->candidates->where('backup', false);
+        $candidates = $camp->candidates->where('backup', false);
         foreach ($candidates as $candidate) {
             $registration = $candidate->registration;
             $interviewed = $registration->interviewed();
             self::interview_check_real($registration, $interviewed ? 'true' : 'false');
-            if (!$interviewed)
-                continue;
-            $registration->camper->notify(new ApplicationStatusUpdated($registration));
+            if ($interviewed)
+                $registration->camper->notify(new ApplicationStatusUpdated($registration));
         }
-        $question_set->update([
+        $camp->update([
             'interview_announced' => true,
         ]);
         if (!$silent)
@@ -141,7 +140,7 @@ class CandidateController extends Controller
         });
     }
 
-    public function data_download(Request $request, QuestionSet $question_set)
+    public function data_download(Request $request, Camp $camp)
     {
         if (sizeof($request->all()) <= 1)
             return redirect()->back();
@@ -157,21 +156,24 @@ class CandidateController extends Controller
             $make->folder('consent-form')->add(glob($root.Common::consentDirectory($camp->id).'/*'));
         $candidates = $temp_dir_form = $temp_dir_allergy = null;
         if ($request->has('submitted-form')) {
-            $temp_dir_form = "{$root}camps/temp_{$question_set->id}";
-            if (!File::exists($temp_dir_form))
-                File::makeDirectory($temp_dir_form);
-            $candidates = $this->candidates($camp);
-            foreach ($candidates as $candidate) {
-                // Try-catch for sanity
-                try {
-                    $temp_pdf_path = "{$temp_dir_form}/temp_{$candidate->registration_id}.pdf";
-                    $user = $candidate->camper;
-                    $json = QuestionManager::getQuestionJSON($question_set->camp_id);
-                    $data = QuestionManager::getAnswers($question_set, $user);
-                    \SnappyPDF::loadView('layouts.submitted_form', compact('user', 'data', 'json'))->save($temp_pdf_path, true);
-                    $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
-                } catch (\Exception $e) {
-                    logger()->debug($e);
+            $question_set = $camp->question_set;
+            if ($question_set) {
+                $temp_dir_form = "{$root}camps/temp_{$question_set->id}";
+                if (!File::exists($temp_dir_form))
+                    File::makeDirectory($temp_dir_form);
+                $candidates = $this->candidates($camp);
+                foreach ($candidates as $candidate) {
+                    // Try-catch for sanity
+                    try {
+                        $temp_pdf_path = "{$temp_dir_form}/temp_{$candidate->registration_id}.pdf";
+                        $user = $candidate->camper;
+                        $json = QuestionManager::getQuestionJSON($question_set->camp_id);
+                        $data = QuestionManager::getAnswers($question_set, $user);
+                        \SnappyPDF::loadView('layouts.submitted_form', compact('user', 'data', 'json'))->save($temp_pdf_path, true);
+                        $make->folder('submitted-form')->add($temp_pdf_path, "form_{$candidate->registration_id}.pdf");
+                    } catch (\Exception $e) {
+                        logger()->debug($e);
+                    }
                 }
             }
         }
@@ -211,16 +213,15 @@ class CandidateController extends Controller
         return response()->download($download_path)->deleteFileAfterSend();
     }
 
-    public function data_download_selection(QuestionSet $question_set)
+    public function data_download_selection(Camp $camp)
     {
-        $camp = $question_set->camp;
+        $question_set = $camp->question_set;
         $camp_procedure = $camp->camp_procedure;
-        return view('qualification.data_download_selection', compact('question_set', 'camp', 'camp_procedure'));
+        return view('qualification.data_download_selection', compact('camp', 'camp_procedure'));
     }
 
-    public function result(QuestionSet $question_set)
+    public function result(Camp $camp)
     {
-        $camp = $question_set->camp;
         $candidates = $camp->candidates()->where('backup', false);
         // This can occur when the minimum score is too high and no one passed
         if ($candidates->doesntExist())
@@ -243,7 +244,8 @@ class CandidateController extends Controller
             'not_confirmed' => $total - $confirmed - $withdrawn,
             'withdrawn' => $withdrawn,
         ]);
-        $rank_by_score = $question_set->total_score;
+        $question_set = $camp->question_set;
+        $rank_by_score = $question_set && $question_set->total_score;
         if ($rank_by_score) {
             // Backups only matter for the camps that have gradable question set
             $backup_confirmed = $backup_withdrawn = 0;
@@ -319,16 +321,16 @@ class CandidateController extends Controller
         return $form_scores;
     }
 
-    public static function rank(QuestionSet $question_set, bool $list = false, bool $without_withdrawn = false, bool $without_returned = false, bool $check_consent_paid = false)
+    public static function rank(Camp $camp, bool $list = false, bool $without_withdrawn = false, bool $without_returned = false, bool $check_consent_paid = false)
     {
-        if (!$question_set->finalized)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        if ($question_set->candidate_announced)
+        if ($camp->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
-        $camp = $question_set->camp;
         // We shouldn't be able to rank the forms that have nothing to do with scoring
         if (!$camp->camp_procedure->candidate_required)
             throw new \CampPASSException();
+        $question_set = $camp->question_set;
+        if ($question_set && !$question_set->finalized)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         $registrations = $camp->registrations;
         if ($registrations->isEmpty())
             throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
@@ -337,14 +339,14 @@ class CandidateController extends Controller
         if ($without_withdrawn)
             $registrations = $registrations->where('registrations.status', '!=', ApplicationStatus::WITHDRAWN);
         $total_registrations = $registrations->count();
-        $auto_gradable = !$question_set->manual_required;
+        $auto_gradable = $question_set && !$question_set->manual_required;
         $form_scores = self::create_form_scores($camp, $question_set, $registrations);
         $finalized = $average_score = $total_withdrawn = $total_rejected = $total_candidates = 0;
         $form_scores_get = $form_scores->get();
         $form_scores = $form_scores->leftJoin('registrations', 'registrations.id', '=', 'form_scores.registration_id')
                         ->orderByDesc('registrations.status') // "Group" by registration status
                         ->orderBy('registrations.returned'); // Seperated by whether the form has been returned
-        $rank_by_score = $question_set->total_score;
+        $rank_by_score = $question_set && $question_set->total_score;
         if (!$rank_by_score)
             $form_scores = $form_scores->orderBy('submission_time');
         $minimum_score = $rank_by_score ? $question_set->minimum_score : 0;
@@ -390,7 +392,7 @@ class CandidateController extends Controller
         $count = $total_registrations - $total_withdrawn - $total_rejected;
         if ($finalized !== $count)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllApplicationFinalRank')." ({$finalized} vs {$count})");
-        $has_payment = $camp->paymentOnly() ? true : $question_set && $question_set->candidate_announced && $camp_procedure->deposit_required;
+        $has_payment = $camp->paymentOnly() ? true : $camp->candidate_announced && $camp_procedure->deposit_required;
         $has_consent = $camp->parental_consent;
         if ($list) {
             if ($has_payment) {
@@ -431,17 +433,18 @@ class CandidateController extends Controller
         return Common::withPagination(view('qualification.candidate_rank', compact('form_scores', 'question_set', 'camp', 'summary')));
     }
 
-    public static function announce(QuestionSet $question_set, bool $silent = false, $form_scores = null)
+    public static function announce(Camp $camp, bool $silent = false, $form_scores = null)
     {
-        if (!$question_set->finalized)
-            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
-        if ($question_set->candidate_announced)
+        if ($camp->candidate_announced)
             throw new \CampPASSExceptionRedirectBack(trans('qualification.CandidatesAnnounced'));
+        $question_set = $camp->question_set;
+        if ($question_set && !$question_set->finalized)
+            throw new \CampPASSExceptionRedirectBack(trans('exception.NoApplicationRank'));
         // The qualified campers are those that have form score checked and passing the minimum score
         $no_passed = $no_checked = 0;
         try {
-            $form_scores = $form_scores ? $form_scores : self::rank($question_set, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
-            $form_scores->each(function ($form_score) use (&$question_set, &$no_passed, &$no_checked) {
+            $form_scores = $form_scores ? $form_scores : self::rank($camp, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
+            $form_scores->each(function ($form_score) use (&$no_passed, &$no_checked) {
                 if ($form_score->passed) {
                     ++$no_passed;
                     if ($form_score->checked)
@@ -456,7 +459,6 @@ class CandidateController extends Controller
         if (!$silent && $no_passed != $no_checked)
             throw new \CampPASSExceptionRedirectBack(trans('exception.AllPassedFormsMustBeChecked'));
         $candidates = [];
-        $camp = $question_set->camp;
         $camp_procedure = $camp->camp_procedure;
         $backup_count = 0;
         foreach ($form_scores as $form_score) {
@@ -500,12 +502,11 @@ class CandidateController extends Controller
         }
         Candidate::insert($candidates);
         unset($candidates);
-        // Candidates are finalized, this question set will no longer be editable
-        $question_set->update([
+        $camp->update([
             'candidate_announced' => true,
         ]);
         if (!$silent)
-            return redirect()->route('qualification.candidate_result', $question_set->id)->with('success', trans('qualification.CandidatesAnnounced'));
+            return redirect()->route('qualification.candidate_result', $camp->id)->with('success', trans('qualification.CandidatesAnnounced'));
     }
 
     public static function form_reject(Registration $registration)
@@ -635,20 +636,18 @@ class CandidateController extends Controller
         $form_data = $request->all();
         // We don't need token
         unset($form_data['_token']);
-        $camper = $registration->camper;
         $question_set = QuestionSet::findOrFail($question_set_id);
-        $answers = $question_set->answers()->where('camper_id', $camper->id);
-        if ($answers->doesntExist())
+        $answers = $question_set->answers->where('camper_id', $registration->camper_id);
+        if ($answers->isEmpty())
             throw new \CampPASSException(trans('exception.NoAnswersSaved'));
         // For all answers given, update all scores of those that will be manually graded
-        $answers = $answers->get();
         foreach ($form_data as $id => $value) {
             if (substr($id, 0, 13) === 'manual_score_') {
                 $key = substr($id, 13);
                 $answer = $answers->filter(function ($answer) use (&$key) {
                     return $answer->question->json_id == $key;
                 })->first();
-                if (!$answer) {
+                if (is_null($answer)) {
                     logger()->error('Trying to parse an answer that does not exist.');
                     continue;
                 }

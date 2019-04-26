@@ -36,6 +36,7 @@ return [
     'education_level' => trans('account.EducationLevel'),
 
     'minimum_score' => trans('camp.MinimumScore'),
+    'app_open_date' => trans('camp.AppOpenDate'),
     'app_close_date' => trans('camp.AppCloseDate'),
     'announcement_date' => trans('camp.AnnouncementDate'),
     'confirmation_date' => trans('camp.ConfirmationDate'),

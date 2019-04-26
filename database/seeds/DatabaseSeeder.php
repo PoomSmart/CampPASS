@@ -596,7 +596,7 @@ class DatabaseSeeder extends Seeder
                     if ($matched) continue; // TODO: This is only for demo
                     $no_form_scores_error = true;
                     try {
-                        $form_scores = CandidateController::rank($question_set, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
+                        $form_scores = CandidateController::rank($camp, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
                     } catch (\Exception $e) {
                         $this->log_debug("Announcement/Confirmation Simulation Ranked: {$e}");
                         $no_form_scores_error = false;
@@ -606,7 +606,7 @@ class DatabaseSeeder extends Seeder
                         $camp_procedure = $camp->camp_procedure;
                         $interview_required = $camp_procedure->interview_required;
                         try {
-                            CandidateController::announce($question_set, $silent = true, $form_scores = $form_scores);
+                            CandidateController::announce($camp, $silent = true, $form_scores = $form_scores);
                         } catch (\Exception $e) {
                             $this->log_debug("Announcement/Confirmation Simulation Announced: {$e}");
                         }
@@ -646,7 +646,7 @@ class DatabaseSeeder extends Seeder
                     }
                     // TODO: This is not really working?
                     if ($interview_announce) {
-                        $question_set->update([
+                        $camp->update([
                             'interview_announced' => true,
                         ]);
                     }

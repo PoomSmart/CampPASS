@@ -1,7 +1,7 @@
 @extends('layouts.blank')
 
 @php
-    $rank_by_score = $question_set->total_score;
+    $rank_by_score = $question_set && $question_set->total_score;
     $required_paid = $camp->application_fee;
 @endphp
 
@@ -110,7 +110,7 @@
                         ++$passed;
                 @endphp
                 <tr
-                    @if ($withdrawn || !$form_score->passed)
+                    @if ($withdrawn || !$form_score->passed || $rejected)
                         class="table-danger"
                     @elseif ($returned || !$paid)
                         class="table-warning"
@@ -193,7 +193,7 @@
                 type="button"
                 data-toggle="modal"
                 data-target="#announce-modal"
-                data-action="{{ route('qualification.candidate_announce', $question_set->id) }}"
+                data-action="{{ route('qualification.candidate_announce', $camp->id) }}"
             ><i class="fas fa-bullhorn fa-xs mr-1"></i>@lang('qualification.Announce')</button>
         </div>
     </form>

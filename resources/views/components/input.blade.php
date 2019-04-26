@@ -2,18 +2,13 @@
     $textarea = isset($textarea) && $textarea;
     $required = isset($required) && $required;
     $disabled = isset($disabled) && $disabled;
-    if (isset($attributes)) {
-        if (strpos($attributes, 'required') !== false)
-            $required = true;
-        if (strpos($attributes, 'disabled') !== false)
-            $disabled = true;
-    }
     if (!isset($value))
         $value = old($name, isset($object) ? $object->{$name} : '')
 @endphp
 @if (isset($label))
     @component('components.label', [
         'name' => $name,
+        'id' => isset($label_id) ? $label_id : null,
         'required' => $required,
         'label' => $label,
         'label_attributes' => isset($label_attributes) ? $label_attributes : null,
@@ -109,13 +104,13 @@
         @if (isset($desc) && !$disabled)
             <small id="{{ $name }}-desc-inline" class="form-text text-muted">{{ $desc }}</small>
         @endif
-    @if ($errors->has($name))
-        <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
-    @endif
     @if (isset($group) && isset($input_group_append))
         <div class="input-group-append">
             {{ $input_group_append }}
         </div>
+    @endif
+    @if ($errors->has($name))
+        <span class="invalid-feedback"><strong>{{ $errors->first($name) }}</strong></span>
     @endif
     @if (isset($group))
         </div>

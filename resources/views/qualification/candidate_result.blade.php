@@ -30,7 +30,7 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h2>@lang('qualification.Candidates')</h2>
-        <form id="true-passed-form" class="form d-inline-flex" method="GET" action="{{ route('qualification.candidate_result', $question_set->id) }}">
+        <form id="true-passed-form" class="form d-inline-flex" method="GET" action="{{ route('qualification.candidate_result', $camp->id) }}">
             @component('components.input', [
                 'input_type' => 'checkbox',
                 'radio_class' => 'my-auto',
@@ -130,7 +130,7 @@
                 @if ($interview_required)
                     <td class="text-center">
                         <input type="checkbox" name="interview[{{ $registration->id }}]"
-                            @if ($withdrawn || $approved || $confirmed || $question_set->interview_announced)
+                            @if ($withdrawn || $approved || $confirmed || $camp->interview_announced)
                                 disabled
                             @endif
                             @if ($interviewed)
@@ -178,7 +178,6 @@
         {!! $candidates->links() !!}
     </div>
     @if ($interview_required || $camp->parental_consent)
-        @php $question_set = $camp->question_set @endphp
             <div class="text-center">
                 @component('components.submit', [
                     'label' => trans('app.SaveChanges'),
@@ -189,7 +188,7 @@
                 @endcomponent
                 @if ($interview_required)
                     <small class="form-text text-muted mb-2">@lang('qualification.InterviewSaveDesc')</small>
-                    <a class="btn btn-danger w-50" href="{{ route('qualification.interview_announce', $question_set->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
+                    <a class="btn btn-danger w-50" href="{{ route('qualification.interview_announce', $camp->id) }}"><i class="fas fa-bullhorn fa-xs mr-2"></i>@lang('qualification.AnnounceInterview')</a>
                     <small class="form-text text-muted">@lang('qualification.InterviewAnnounceDesc')</small>
                 @endif
             </div>
@@ -233,7 +232,7 @@
                     <tr
                         @if ($confirmed)
                             class="table-success"
-                        @elseif ($withdrawn)
+                        @elseif ($withdrawn || $rejected)
                             class="table-danger"
                         @endif
                     >
@@ -263,7 +262,7 @@
     <div class="text-center mt-4">
         @component('components.a', [
             'class' => 'btn btn-primary',
-            'href' => route('qualification.data_download_selection', $question_set->id),
+            'href' => route('qualification.data_download_selection', $camp->id),
             'glyph' => 'fa fa-download fa-xs',
             'label' => trans('qualification.DownloadData'),
             'auto_width' => 1,

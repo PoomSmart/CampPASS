@@ -15,7 +15,9 @@ var add_choice_HTML = "";
 var add_checkbox_HTML = "";
 
 var campId = -1;
+var no_blocks = 0;
 var finalized = false;
+
 function getInfo(loc_choice_label, loc_checkbox_label, camp_id, is_finalized) {
     campId = camp_id;
     finalized = is_finalized;
@@ -52,6 +54,12 @@ function randId() {
     return `${campId}-${Math.random().toString(36).substr(2, 10)}`;
 }
 
+function setLabelNumber(block, without_no) {
+    var label = block.find("#question-label");
+    var label_text = label.text();
+    label.text(without_no ? label_text.substr(0, label_text.length - 3) : `${label_text} ${++no_blocks} `);
+}
+
 function readJSON(json) {
     if (!json) {
         console.log("Info: JSON is null");
@@ -61,12 +69,15 @@ function readJSON(json) {
         console.log("Error: Camp ID mismatched");
         return;
     }
+    no_blocks = 0;
     var old_block = jQuery(question_block_selector).first();
-    Object.keys(json.question).forEach(function(key) {
+    var questions = Object.keys(json.question);
+    questions.forEach(function(key) {
         var block = old_block.clone();
         var id = key;
         var question_text = json.question[id];
         var question_type = parseInt(json.type[id]);
+        setLabelNumber(block, false);
         block.attr("id", `question-block-${id}`);
         block.find("#question-type").attr("name", `type[${id}]`).val(question_type);
         block.find("#question").attr("name", `question[${id}]`).val(question_text);
@@ -104,6 +115,7 @@ function addQuestion() {
     block.find("#additional-content").empty();
     resetProperties(block);
     forcePropertiesIfNecessary(block, QuestionType.TEXT);
+    setLabelNumber(block, true);
     jQuery("#questions").append(block);
 }
 
@@ -135,7 +147,7 @@ function generateContent(name, value, parentId, i, type) {
                                 <input type="radio" name="${name}[${parentId}]" id="${name}_${i}" value="${i}"/>
                             </div>
                         </div>
-                        <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter choice" value="${value ? value : ""}"}">
+                        <input type="text" autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter choice" value="${value ? value : ""}"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 2);">${delete_label}</a>
                         </div>
@@ -147,7 +159,7 @@ function generateContent(name, value, parentId, i, type) {
             obj = jQuery.parseHTML(`
                 <div class="entry">
                     <div class="input-group mb-2">
-                        <input type="text" required autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter checkbox label" value="${value ? value : ""}"}">
+                        <input type="text" autocomplete="disabled" class="form-control" id="${name}_label_${i}" name="${name}_label[${parentId}][${i}]" placeholder="Enter checkbox label" value="${value ? value : ""}"}">
                         <div class="input-group-append">
                             <a href="#" class="btn btn-danger" onclick="return deleteChoiceOrCheckbox(this, 1);">${delete_label}</a>
                         </div>

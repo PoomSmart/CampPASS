@@ -8,6 +8,7 @@
                 @component('components.input', [
                     'name' => "question[{$camp->id}-00000]",
                     'label' => $label,
+                    'label_id' => 'question-label',
                     'id' => 'question',
                     'textarea' => 1,
                     'required' => 1,

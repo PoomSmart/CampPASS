@@ -11,8 +11,12 @@ function enable(element) {
     element.prop("disabled", false).attr("required", "required");
 }
 
+function unrequire(element) {
+    element.removeAttr("required");
+}
+
 function disable(element) {
-    element.prop("disabled", true).val("").removeAttr("required");
+    unrequire(element.prop("disabled", true).val(""));
 }
 
 function selectionChanged(select) {
@@ -43,6 +47,7 @@ function selectionChanged(select) {
             default:
                 disable(deposit);
                 enable(payment_info);
+                unrequire(payment_info);
                 enable(fee);
                 break;
         }

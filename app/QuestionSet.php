@@ -12,7 +12,7 @@ class QuestionSet extends Model
 {
     protected $fillable = [
         'id', 'camp_id', 'minimum_score', 'total_score',
-        'manual_required', 'auto_ranked', 'finalized', 'candidate_announced', 'interview_announced',
+        'manual_required', 'auto_ranked', 'finalized',
     ];
 
     public function camp()

@@ -173,7 +173,7 @@
     @section('extra-buttons')
         @component('components.a', [
             'class' => 'btn btn-warning',
-            'href' => route('qualification.candidate_rank', $question_set->id),
+            'href' => route('qualification.candidate_rank', $camp->id),
             'glyph' => 'fas fa-sort-amount-up fa-xs',
             'label' => trans('qualification.Rank'),
             'auto_width' => 1,

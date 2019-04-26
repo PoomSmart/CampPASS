@@ -32,7 +32,7 @@ class StoreCampRequest extends CampPASSFormRequest
             'contact_campmaker' => 'required|string|max:65536',
             'interview_information' => 'nullable|string|max:65536',
             'payment_information' => 'nullable|string|max:65536',
-            'app_open_date' => 'required|date|after:today',
+            'app_open_date' => 'required|date|after:now',
             'app_close_date' => 'required|date|after:app_open_date',
             'announcement_date' => 'nullable|date|after:app_close_date',
             'interview_date' => 'nullable|date|after:announcement_date',
