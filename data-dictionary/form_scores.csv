@@ -1,6 +1,7 @@
 Name,Data Type,Nullable,PK,FK,Reference,Default,Comment
 id,INT(10),Yes,Yes,No,,,Primary key of form_score table
 registration_id,INT(10),Yes,No,Yes,registrations,,ID of the registration that the form score belongs
+camp_id,INT(10),No,No,Yes,camps,,ID of the camp that the form score belongs
 question_set_id,INT(10),Yes,No,Yes,question_sets,,ID of the question set that the form score belongs
 total_score,DOUBLE,No,No,No,,NULL,Total score of the application form that the camper earns
 finalized,TINYINT(1),Yes,No,No,,'0',Boolean value for whether the application is finalized by the Camp Maker

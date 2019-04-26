@@ -55,7 +55,7 @@ def draw(htmlFile, schema, masters, mode):
   for table in schema.tables:
       if not mode and table.name in masters:
         continue
-      elif mode and table.name in masters:
+      if mode and table.name not in masters:
         continue
       print >>htmlFile, table.name
       print >>htmlFile, "<table>"

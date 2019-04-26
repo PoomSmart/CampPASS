@@ -33,5 +33,7 @@ backup_limit,TINYINT(3),No,No,No,,NULL,----
 contact_campmaker,TEXT,No,No,No,,NULL,----
 payment_information,VARCHAR(255),No,No,No,,NULL,Description of payment information
 approved,TINYINT(1),Yes,No,No,,'0',----
+candidate_announced,"TINYINT(1)",Yes,No,No,,'0',Boolean value whether the list of who passed the question set is announced
+interview_announced,"TINYINT(1)",Yes,No,No,,'0',Boolean value whether the list of who passed the interview is announced
 created_at,TIMESTAMP,No,No,No,,NULL,The date at which the camps is created
 updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the camps is updated

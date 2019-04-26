@@ -6,7 +6,5 @@ total_score,DOUBLE,No,No,No,,NULL,Total score of the question set
 manual_required,TINYINT(1),Yes,No,No,,'0',Boolean value whether manual grading is required
 auto_ranked,TINYINT(1),Yes,No,No,,'0',Boolean value whether score ranking of the question set should occur
 finalized,TINYINT(1),Yes,No,No,,'0',Boolean value whether the question set is finalized
-candidate_announced,TINYINT(1),Yes,No,No,,'0',Boolean value whether the list of who passed the question set is announced
-interview_announced,TINYINT(1),Yes,No,No,,'0',Boolean value whether the list of who passed the interview is announced
 created_at,TIMESTAMP,No,No,No,,NULL,The date at which the question set is created
 updated_at,TIMESTAMP,No,No,No,,NULL,The date at which the question set is updated

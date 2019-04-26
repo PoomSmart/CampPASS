@@ -17,7 +17,7 @@ class CreateFormScoresTable extends Migration
             $table->increments('id');
             $table->integer('registration_id')->unsigned();
             $table->foreign('registration_id')->references('id')->on('registrations')->onDelete('cascade');
-            $table->integer('camp_id')->unsigned()->nullable();
+            $table->integer('camp_id')->unsigned();
             $table->foreign('camp_id')->references('id')->on('camps')->onDelete('cascade');
             $table->integer('question_set_id')->unsigned()->nullable();
             $table->foreign('question_set_id')->references('id')->on('question_sets')->onDelete('cascade');
