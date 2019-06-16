@@ -207,7 +207,12 @@ class Common
 
     public static function parseDate($date)
     {
-        return Carbon::parse($date);
+        try {
+            $parsedDate = Carbon::parse($date);
+        } catch (\Exception $e) {
+            $parsedDate = Carbon::createFromFormat('d/m/Y H:i', $date);
+        }
+        return $parsedDate;
     }
 
     public static function formattedDate(string $date, bool $time = false, int $addedDays = 0)
