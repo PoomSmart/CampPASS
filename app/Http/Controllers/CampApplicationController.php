@@ -86,6 +86,7 @@ class CampApplicationController extends Controller
         $user = auth()->user();
         $disabled = false;
         $route = null;
+        $registration = null;
         if ($user) {
             $non_campers = $user->isAdmin() || $user->isCampMaker();
             $disabled |= $non_campers;
@@ -95,6 +96,7 @@ class CampApplicationController extends Controller
                 $apply_text = $ineligible_reason;
             } else if ($user->isCamper()) {
                 $registration = $user->getRegistrationForCamp($camp);
+                dd($registration);
                 if ($registration) {
                     $apply_text = trans('registration.Status');
                     $route = route('camp_application.status', $registration->id);
@@ -109,7 +111,10 @@ class CampApplicationController extends Controller
                 $apply_text = "{$apply_text} (Q&A)";
         }
         if (!$route)
-            $route = route($auth_check ? 'camps.show' : 'camp_application.landing', $camp->id);
+            $route = route($auth_check ? 'camps.show' : 'camp_application.landing', [
+                'camp' => $camp,
+                'registration' => $registration,
+            ]);
         return [
             'text' => $apply_text,
             'disabled' => $disabled,
@@ -223,7 +228,7 @@ class CampApplicationController extends Controller
             'status' => $status,
             'submission_time' => now(),
         ]);
-        if ($registration->applied_to_confirmed())
+        if ($registration->submitted())
             throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
