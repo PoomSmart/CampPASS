@@ -220,24 +220,33 @@ class CampApplicationController extends Controller
         $ineligible_reason = $user->getIneligibleReasonForCamp($camp);
         if ($ineligible_reason)
             throw new \CampPASSException($ineligible_reason);
-        $registration = Registration::updateOrCreate([
-            'camp_id' => $camp->id,
-            'camper_id' => $user->id,
-        ], [
-            'status' => $status,
-            'submission_time' => now(),
-        ]);
-        if ($registration->submitted())
-            throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
+        $registration = $user->getRegistrationForCamp($camp);
+        if ($registration) {
+            if ($registration->submitted())
+                throw new \CampPASSException(trans('exception.AlreadyAppliedCamp'));
+            $registration->update([
+                'status' => $status,
+                'submission_time' => now(),
+            ]);
+        } else {
+            $registration = Registration::create([
+                'camp_id' => $camp->id,
+                'camper_id' => $user->id,
+                'status' => $status,
+                'submission_time' => now(),
+            ]);
+        }
         // Notify all camp makers of this camp for this new application
         if ($status >= ApplicationStatus::APPLIED) {
-            FormScore::updateOrCreate([
-                'registration_id' => $registration->id,
-                'camp_id' => $camp->id,
-                'question_set_id' => $camp->question_set->id,
-            ], [
-                'submission_time' => $registration->submission_time,
-            ]);
+            if ($camp->question_set) {
+                FormScore::updateOrCreate([
+                    'registration_id' => $registration->id,
+                    'camp_id' => $camp->id,
+                    'question_set_id' => $camp->question_set->id,
+                ], [
+                    'submission_time' => $registration->submission_time,
+                ]);
+            }
             // TODO: Is this really working?
             foreach ($camp->camp_makers() as $campmaker) {
                 $campmaker->notify(new CamperStatusChanged($registration));
