@@ -96,7 +96,6 @@ class CampApplicationController extends Controller
                 $apply_text = $ineligible_reason;
             } else if ($user->isCamper()) {
                 $registration = $user->getRegistrationForCamp($camp);
-                dd($registration);
                 if ($registration) {
                     $apply_text = trans('registration.Status');
                     $route = route('camp_application.status', $registration->id);

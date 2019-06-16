@@ -593,7 +593,6 @@ class DatabaseSeeder extends Seeder
                             } catch (\Exception $e) {}
                         }
                     }
-                    if ($matched) continue; // TODO: This is only for demo
                     $no_form_scores_error = true;
                     try {
                         $form_scores = CandidateController::rank($camp, $list = true, $without_withdrawn = true, $without_returned = true, $check_consent_paid = true);
@@ -740,17 +739,13 @@ class DatabaseSeeder extends Seeder
             'education_level' => EducationLevel::M5,
             'cgpa' => 3.6,
         ]);
-        // TODO: This is only for demo
-        Registration::where('camper_id', $candidate->id)->whereIn('camp_id', Common::$has_match_camp_ids)->delete();
         $candidate->activate();
     }
 
     private function alter_campmakers()
     {
         $this->log_alter('campmakers');
-        // TODO: This is only for demo
-        $camp = Camp::find(29);
-        $candidate = User::campMakers(true)->where('organization_id', $camp->organization_id)->get()->sortByDesc(function ($campmaker) {
+        $candidate = User::campMakers(true)->get()->sortByDesc(function ($campmaker) {
             return $campmaker->getBelongingCamps()->count();
         })->first();
         $candidate->update([
